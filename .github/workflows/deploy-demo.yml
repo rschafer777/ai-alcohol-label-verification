@@ -1,0 +1,273 @@
+---
+name: Deploy LabelVerify demo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: labelverify-demo
+  cancel-in-progress: false
+
+jobs:
+  quality:
+    name: Validate release
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Check out the immutable revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Install Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7
+        with:
+          version: "0.11.32"
+          enable-cache: true
+
+      - name: Install Node.js
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install locked application dependencies
+        shell: pwsh
+        run: |
+          uv sync --frozen --link-mode copy
+          uv run python ops/fetch_models.py models
+          Push-Location frontend
+          npm ci
+          npx playwright install --with-deps chrome msedge
+          Pop-Location
+
+      - name: Run the complete release gate
+        shell: pwsh
+        run: ./scripts/check.ps1
+
+  deploy:
+    name: Build, deploy, and smoke test
+    needs: quality
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    environment:
+      name: demo
+      url: https://${{ vars.AZURE_CONTAINER_APP_FQDN }}
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+      AZURE_ACR_NAME: ${{ vars.AZURE_ACR_NAME }}
+      AZURE_ACR_LOGIN_SERVER: ${{ vars.AZURE_ACR_LOGIN_SERVER }}
+      AZURE_CONTAINERAPPS_ENVIRONMENT: ${{ vars.AZURE_CONTAINERAPPS_ENVIRONMENT }}
+      AZURE_CONTAINER_APP_NAME: ${{ vars.AZURE_CONTAINER_APP_NAME }}
+      AZURE_CONTAINER_APP_FQDN: ${{ vars.AZURE_CONTAINER_APP_FQDN }}
+      AZURE_ACR_PULL_IDENTITY_ID: ${{ vars.AZURE_ACR_PULL_IDENTITY_ID }}
+      AZURE_IMAGE_NAME: ${{ vars.AZURE_IMAGE_NAME }}
+      AZURE_EXPIRES_ON: ${{ vars.AZURE_EXPIRES_ON }}
+    steps:
+      - name: Check out the validated revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Verify environment configuration is complete
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            AZURE_RESOURCE_GROUP
+            AZURE_LOCATION
+            AZURE_ACR_NAME
+            AZURE_ACR_LOGIN_SERVER
+            AZURE_CONTAINERAPPS_ENVIRONMENT
+            AZURE_CONTAINER_APP_NAME
+            AZURE_CONTAINER_APP_FQDN
+            AZURE_ACR_PULL_IDENTITY_ID
+            AZURE_IMAGE_NAME
+            AZURE_EXPIRES_ON
+          )
+          for name in "${required[@]}"; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "Required demo environment value is missing: ${name}" >&2
+              exit 1
+            fi
+          done
+
+      - name: Authenticate to Azure with GitHub OIDC
+        uses: azure/login@7ddb5af1ef8758cf1353cf3b42f940aee27ba21c # v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Authenticate Docker to the private registry
+        shell: bash
+        run: az acr login --name "$AZURE_ACR_NAME" --only-show-errors
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4
+
+      - name: Build and push the immutable image
+        id: build
+        uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a # v7
+        with:
+          context: .
+          file: Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ vars.AZURE_ACR_LOGIN_SERVER }}/${{ vars.AZURE_IMAGE_NAME }}:${{ github.sha }}
+            ${{ vars.AZURE_ACR_LOGIN_SERVER }}/${{ vars.AZURE_IMAGE_NAME }}:demo
+          build-args: LABELVERIFY_BUILD_ID=${{ github.sha }}
+          provenance: mode=max
+          sbom: true
+
+      - name: Deploy the image digest through ARM
+        shell: bash
+        env:
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          image_reference="${AZURE_ACR_LOGIN_SERVER}/${AZURE_IMAGE_NAME}@${IMAGE_DIGEST}"
+          revision_suffix="sha-${GITHUB_SHA::12}"
+          deployment_name="labelverify-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          az deployment group create \
+            --name "$deployment_name" \
+            --resource-group "$AZURE_RESOURCE_GROUP" \
+            --template-file ops/azure-container-app.json \
+            --parameters \
+              location="$AZURE_LOCATION" \
+              containerAppName="$AZURE_CONTAINER_APP_NAME" \
+              environmentName="$AZURE_CONTAINERAPPS_ENVIRONMENT" \
+              registryServer="$AZURE_ACR_LOGIN_SERVER" \
+              pullIdentityResourceId="$AZURE_ACR_PULL_IDENTITY_ID" \
+              imageReference="$image_reference" \
+              allowedHost="$AZURE_CONTAINER_APP_FQDN" \
+              revisionSuffix="$revision_suffix" \
+              repository="$GITHUB_REPOSITORY" \
+              expiresOn="$AZURE_EXPIRES_ON" \
+            --mode Incremental \
+            --only-show-errors \
+            --output none
+
+      - name: Validate the effective Azure configuration
+        shell: bash
+        env:
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          image_reference="${AZURE_ACR_LOGIN_SERVER}/${AZURE_IMAGE_NAME}@${IMAGE_DIGEST}"
+          app_json="$(az resource show \
+            --resource-group "$AZURE_RESOURCE_GROUP" \
+            --name "$AZURE_CONTAINER_APP_NAME" \
+            --resource-type Microsoft.App/containerApps \
+            --api-version 2026-01-01 \
+            --output json \
+            --only-show-errors)"
+          jq -e \
+            --arg image "$image_reference" \
+            --arg registry "$AZURE_ACR_LOGIN_SERVER" \
+            --arg pull "$AZURE_ACR_PULL_IDENTITY_ID" \
+            --arg host "$AZURE_CONTAINER_APP_FQDN" \
+            '
+              .identity.type == "UserAssigned" and
+              (.identity.userAssignedIdentities | has($pull)) and
+              .properties.configuration.activeRevisionsMode == "Single" and
+              .properties.configuration.ingress.external == true and
+              .properties.configuration.ingress.allowInsecure == false and
+              .properties.configuration.ingress.targetPort == 8080 and
+              (.properties.configuration.ingress.transport | ascii_downcase) == "auto" and
+              (.properties.configuration.registries | length) == 1 and
+              .properties.configuration.registries[0].server == $registry and
+              .properties.configuration.registries[0].identity == $pull and
+              ((.properties.configuration.secrets // []) | length) == 0 and
+              (.properties.template.containers | length) == 1 and
+              .properties.template.containers[0].name == "labelverify" and
+              .properties.template.containers[0].image == $image and
+              .properties.template.containers[0].resources.cpu == 1 and
+              .properties.template.containers[0].resources.memory == "2Gi" and
+              (any(.properties.template.containers[0].env[];
+                .name == "LABELVERIFY_RUNTIME_MODE" and .value == "production")) and
+              (any(.properties.template.containers[0].env[];
+                .name == "LABELVERIFY_ALLOWED_HOST" and .value == $host)) and
+              (.properties.template.containers[0].probes | length) == 3 and
+              (all(.properties.template.containers[0].probes[];
+                .tcpSocket.port == 8080 and (has("httpGet") | not))) and
+              .properties.template.scale.minReplicas == 0 and
+              .properties.template.scale.maxReplicas == 1 and
+              .properties.template.scale.rules[0].http.metadata.concurrentRequests == "1" and
+              ((.properties.template.volumes // []) | length) == 0
+            ' <<<"$app_json" >/dev/null
+          echo "Effective Azure configuration matches the governed demo contract."
+
+      - name: Validate HTTPS, health, metadata, and a complete verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          base_url="https://${AZURE_CONTAINER_APP_FQDN}"
+          work="$(mktemp -d)"
+          trap 'rm -rf "$work"' EXIT
+
+          curl --fail --silent --show-error \
+            --retry 30 --retry-delay 5 --retry-all-errors \
+            --connect-timeout 10 --max-time 40 \
+            "$base_url/health/ready" >"$work/ready.json"
+          jq -e '.ready == true and .profileId == "distilled_spirits_demo_v1"' \
+            "$work/ready.json" >/dev/null
+
+          curl --fail --silent --show-error --max-time 20 \
+            "$base_url/api/v1/meta" >"$work/meta.json"
+          jq -e --arg sha "$GITHUB_SHA" \
+            '.buildId == $sha and .ready == true and .selectedCheckCount == 19' \
+            "$work/meta.json" >/dev/null
+
+          curl --fail --silent --show-error --max-time 20 \
+            "$base_url/api/v1/samples/distilled-spirits-v1" >"$work/sample.json"
+          mapfile -t panel_urls < <(jq -r '.panels[].url' "$work/sample.json")
+          [[ "${#panel_urls[@]}" -ge 1 && "${#panel_urls[@]}" -le 6 ]]
+          panel_args=()
+          for index in "${!panel_urls[@]}"; do
+            panel_path="$work/panel-$((index + 1)).img"
+            curl --fail --silent --show-error --max-time 20 \
+              "$base_url${panel_urls[$index]}" >"$panel_path"
+            panel_args+=(--form "panels=@${panel_path}")
+          done
+          reference="$(jq -c '.reference' "$work/sample.json")"
+          curl --fail --silent --show-error --max-time 40 \
+            --header "Origin: $base_url" \
+            --form-string "reference=$reference" \
+            "${panel_args[@]}" \
+            "$base_url/api/v1/verifications" >"$work/result.json"
+          jq -e --arg sha "$GITHUB_SHA" \
+            '.buildId == $sha and .profileId == "distilled_spirits_demo_v1" and
+             (.checks | length) == 19 and (.summary | type) == "string" and
+             .serverDurationMs < 30000' \
+            "$work/result.json" >/dev/null
+
+          redirect_status="$(curl --silent --show-error --output /dev/null \
+            --write-out '%{http_code}' --max-time 20 \
+            "http://${AZURE_CONTAINER_APP_FQDN}/")"
+          [[ "$redirect_status" == "301" || "$redirect_status" == "308" ]]
+          curl --fail --silent --show-error --dump-header "$work/headers.txt" \
+            --output /dev/null --max-time 20 "$base_url/"
+          tr -d '\r' <"$work/headers.txt" | grep -qi '^strict-transport-security:'
+
+          {
+            echo "## Azure demo deployment"
+            echo
+            echo "- Revision: \`${GITHUB_SHA}\`"
+            echo "- Image digest: \`${{ steps.build.outputs.digest }}\`"
+            echo "- Public URL: ${base_url}"
+            echo "- ARM contract, HTTPS redirect, readiness, build metadata, and full sample verification: PASS"
+          } >>"$GITHUB_STEP_SUMMARY"

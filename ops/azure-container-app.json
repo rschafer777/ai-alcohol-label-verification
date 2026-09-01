@@ -1,0 +1,161 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string"
+    },
+    "containerAppName": {
+      "type": "string"
+    },
+    "environmentName": {
+      "type": "string"
+    },
+    "registryServer": {
+      "type": "string"
+    },
+    "pullIdentityResourceId": {
+      "type": "string"
+    },
+    "imageReference": {
+      "type": "string"
+    },
+    "allowedHost": {
+      "type": "string"
+    },
+    "revisionSuffix": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "repository": {
+      "type": "string"
+    },
+    "expiresOn": {
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.App/containerApps",
+      "apiVersion": "2026-01-01",
+      "name": "[parameters('containerAppName')]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "project": "LabelVerify",
+        "environment": "demo",
+        "purpose": "job-application-take-home",
+        "managed-by": "github-actions",
+        "repository": "[parameters('repository')]",
+        "expires-on": "[parameters('expiresOn')]"
+      },
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[parameters('pullIdentityResourceId')]": {}
+        }
+      },
+      "properties": {
+        "environmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('environmentName'))]",
+        "workloadProfileName": "Consumption",
+        "configuration": {
+          "activeRevisionsMode": "Single",
+          "maxInactiveRevisions": 2,
+          "ingress": {
+            "external": true,
+            "allowInsecure": false,
+            "targetPort": 8080,
+            "transport": "auto"
+          },
+          "registries": [
+            {
+              "server": "[parameters('registryServer')]",
+              "identity": "[parameters('pullIdentityResourceId')]"
+            }
+          ],
+          "secrets": []
+        },
+        "template": {
+          "revisionSuffix": "[parameters('revisionSuffix')]",
+          "terminationGracePeriodSeconds": 30,
+          "containers": [
+            {
+              "name": "labelverify",
+              "image": "[parameters('imageReference')]",
+              "env": [
+                {
+                  "name": "LABELVERIFY_RUNTIME_MODE",
+                  "value": "production"
+                },
+                {
+                  "name": "LABELVERIFY_ALLOWED_HOST",
+                  "value": "[parameters('allowedHost')]"
+                }
+              ],
+              "resources": {
+                "cpu": 1.0,
+                "memory": "2Gi"
+              },
+              "probes": [
+                {
+                  "type": "Startup",
+                  "tcpSocket": {
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 1,
+                  "periodSeconds": 3,
+                  "timeoutSeconds": 1,
+                  "failureThreshold": 10,
+                  "successThreshold": 1
+                },
+                {
+                  "type": "Liveness",
+                  "tcpSocket": {
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 15,
+                  "periodSeconds": 15,
+                  "timeoutSeconds": 2,
+                  "failureThreshold": 3,
+                  "successThreshold": 1
+                },
+                {
+                  "type": "Readiness",
+                  "tcpSocket": {
+                    "port": 8080
+                  },
+                  "initialDelaySeconds": 5,
+                  "periodSeconds": 5,
+                  "timeoutSeconds": 2,
+                  "failureThreshold": 3,
+                  "successThreshold": 1
+                }
+              ]
+            }
+          ],
+          "scale": {
+            "minReplicas": 0,
+            "maxReplicas": 1,
+            "rules": [
+              {
+                "name": "http-concurrency",
+                "http": {
+                  "metadata": {
+                    "concurrentRequests": "1"
+                  }
+                }
+              }
+            ]
+          },
+          "volumes": []
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "containerAppFqdn": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.App/containerApps', parameters('containerAppName')), '2026-01-01', 'Full').properties.configuration.ingress.fqdn]"
+    }
+  }
+}
