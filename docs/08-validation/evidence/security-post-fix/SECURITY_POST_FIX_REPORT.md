@@ -4,7 +4,7 @@ Status: PASS
 
 ## Snapshot binding
 
-Snapshot ID: `bf6c57570a82d8bf8d7b3a554050fe03c85d86d943b62c2ac78fba5edaa66276`
+Snapshot ID: `15996cc878663c5961d7983fa38234967182924910fe377e48e1e0fabb548522`
 
 The evidence hashes the runtime boundary, parser, routes, supervisor, imaging path, focused tests, contracts, lock, and this runner. Hashes are in `lifecycle-matrix.json`.
 
@@ -26,7 +26,7 @@ The evidence hashes the runtime boundary, parser, routes, supervisor, imaging pa
 | `T-029-A-CONTENT-PATH-CANARY` | `FR-029` | PASS | 1 of 1 cases |
 | `T-029-A-RUNTIME-CONTENT-PATH-SCAN` | `FR-029` | PASS | Runtime source and canary scan |
 | `T-029-A-NO-RUNTIME-EGRESS-SOURCE` | `FR-029` | PASS | Source-backed call-path result |
-| `T-029-A-NETWORK-EGRESS-ENFORCEMENT` | `FR-029` | BLOCKED | Deployment proof unavailable |
+| `T-029-A-NETWORK-EGRESS-ENFORCEMENT` | `FR-029` | BLOCKED | Deny-by-default platform policy proof unavailable |
 
 ## Commands
 
@@ -40,4 +40,4 @@ The evidence hashes the runtime boundary, parser, routes, supervisor, imaging pa
 
 ## Disposition
 
-All requested local lifecycle, cleanup, worker recovery, canary, and source-backed no-runtime-egress assertions pass. Network-level deployed egress remains BLOCKED because no deployment or platform policy is authorized. This report does not promote that external control to PASS.
+All requested local lifecycle, cleanup, worker recovery, canary, and source-backed no-runtime-egress assertions pass. Network-level deployed egress remains BLOCKED because the authorized Azure demo does not establish a deny-by-default platform policy. This report does not promote that external control to PASS.

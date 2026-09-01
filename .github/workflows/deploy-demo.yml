@@ -53,6 +53,13 @@ jobs:
         shell: pwsh
         run: ./scripts/check.ps1
 
+      - name: Run the governed 30-case product corpus
+        shell: pwsh
+        run: >-
+          uv run python scripts/validate_product_corpus.py
+          --output "$env:RUNNER_TEMP/product-corpus.json"
+          --build-id "$env:GITHUB_SHA"
+
   deploy:
     name: Build, deploy, and smoke test
     needs: quality
@@ -64,6 +71,11 @@ jobs:
     permissions:
       contents: read
       id-token: write
+    outputs:
+      deployment_started: ${{ steps.mutation.outputs.started }}
+      had_previous: ${{ steps.previous.outputs.exists }}
+      prior_image: ${{ steps.previous.outputs.image }}
+      prior_deployment: ${{ steps.previous.outputs.deployment }}
     env:
       AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
       AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
@@ -109,9 +121,86 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Capture a governed prior deployment for rollback
+        id: previous
+        shell: bash
+        run: |
+          set -euo pipefail
+          error_file="$(mktemp)"
+          set +e
+          app_json="$(az resource show \
+            --resource-group "$AZURE_RESOURCE_GROUP" \
+            --name "$AZURE_CONTAINER_APP_NAME" \
+            --resource-type Microsoft.App/containerApps \
+            --api-version 2026-01-01 \
+            --output json \
+            --only-show-errors 2>"$error_file")"
+          status=$?
+          set -e
+          if [[ "$status" -eq 0 ]]; then
+            previous_image="$(jq -r \
+              '.properties.template.containers[0].image' <<<"$app_json")"
+            expected_prefix="${AZURE_ACR_LOGIN_SERVER}/${AZURE_IMAGE_NAME}@sha256:"
+            digest="${previous_image#"$expected_prefix"}"
+            if [[ "$previous_image" != "${expected_prefix}"* ||
+                  ! "$digest" =~ ^[0-9a-f]{64}$ ]]; then
+              echo "The prior image is not a governed immutable digest." >&2
+              exit 1
+            fi
+            jq -e \
+              --arg pull "$AZURE_ACR_PULL_IDENTITY_ID" \
+              --arg host "$AZURE_CONTAINER_APP_FQDN" \
+              '(.identity.userAssignedIdentities | keys | map(ascii_downcase)) ==
+                 [($pull | ascii_downcase)] and
+               .properties.configuration.ingress.fqdn == $host and
+               (.properties.configuration.identitySettings | length) == 1 and
+               (.properties.configuration.identitySettings[0].identity |
+                 ascii_downcase) == ($pull | ascii_downcase) and
+               .properties.configuration.identitySettings[0].lifecycle == "None"' \
+              <<<"$app_json" >/dev/null
+            prior_deployment="$(az deployment group list \
+              --resource-group "$AZURE_RESOURCE_GROUP" \
+              --query "sort_by([?properties.provisioningState=='Succeeded' && \
+                starts_with(name, 'labelverify-')], &properties.timestamp)[-1].name" \
+              --output tsv \
+              --only-show-errors)"
+            if [[ -z "$prior_deployment" ]]; then
+              echo "No governed successful deployment can restore the prior app." >&2
+              exit 1
+            fi
+            deployment_image="$(az deployment group show \
+              --resource-group "$AZURE_RESOURCE_GROUP" \
+              --name "$prior_deployment" \
+              --query properties.parameters.imageReference.value \
+              --output tsv \
+              --only-show-errors)"
+            if [[ "$deployment_image" != "$previous_image" ]]; then
+              echo "The prior app does not match its governed deployment record." >&2
+              exit 1
+            fi
+            echo "exists=true" >>"$GITHUB_OUTPUT"
+            echo "image=${previous_image}" >>"$GITHUB_OUTPUT"
+            echo "deployment=${prior_deployment}" >>"$GITHUB_OUTPUT"
+          elif grep -Eqi 'ResourceNotFound|could not be found' "$error_file"; then
+            echo "exists=false" >>"$GITHUB_OUTPUT"
+            echo "image=" >>"$GITHUB_OUTPUT"
+            echo "deployment=" >>"$GITHUB_OUTPUT"
+          else
+            cat "$error_file" >&2
+            exit "$status"
+          fi
+
       - name: Authenticate Docker to the private registry
         shell: bash
-        run: az acr login --name "$AZURE_ACR_NAME" --only-show-errors
+        run: |
+          set -euo pipefail
+          arm_audience="$(az acr config authentication-as-arm show \
+            --registry "$AZURE_ACR_NAME" \
+            --query status \
+            --output tsv \
+            --only-show-errors)"
+          [[ "${arm_audience,,}" == "enabled" ]]
+          az acr login --name "$AZURE_ACR_NAME" --only-show-errors
 
       - name: Set up Buildx
         uses: docker/setup-buildx-action@37fe631027851001ddb9b187196cc803df7f5f0e # v4
@@ -124,37 +213,15 @@ jobs:
           file: Dockerfile
           platforms: linux/amd64
           push: true
-          tags: |
-            ${{ vars.AZURE_ACR_LOGIN_SERVER }}/${{ vars.AZURE_IMAGE_NAME }}:${{ github.sha }}
-            ${{ vars.AZURE_ACR_LOGIN_SERVER }}/${{ vars.AZURE_IMAGE_NAME }}:demo
+          tags: ${{ vars.AZURE_ACR_LOGIN_SERVER }}/${{ vars.AZURE_IMAGE_NAME }}:${{ github.sha }}
           build-args: LABELVERIFY_BUILD_ID=${{ github.sha }}
           provenance: mode=max
           sbom: true
 
-      - name: Capture the prior active image for rollback
-        id: previous
+      - name: Mark the deployment mutation boundary
+        id: mutation
         shell: bash
-        run: |
-          set -euo pipefail
-          if az resource show \
-            --resource-group "$AZURE_RESOURCE_GROUP" \
-            --name "$AZURE_CONTAINER_APP_NAME" \
-            --resource-type Microsoft.App/containerApps \
-            --api-version 2026-01-01 \
-            --output none \
-            --only-show-errors 2>/dev/null; then
-            previous_image="$(az resource show \
-              --resource-group "$AZURE_RESOURCE_GROUP" \
-              --name "$AZURE_CONTAINER_APP_NAME" \
-              --resource-type Microsoft.App/containerApps \
-              --api-version 2026-01-01 \
-              --query 'properties.template.containers[0].image' \
-              --output tsv \
-              --only-show-errors)"
-          else
-            previous_image=""
-          fi
-          echo "image=${previous_image}" >>"$GITHUB_OUTPUT"
+        run: echo "started=true" >>"$GITHUB_OUTPUT"
 
       - name: Deploy the image digest through ARM
         id: deploy
@@ -214,11 +281,15 @@ jobs:
               .properties.configuration.ingress.targetPort == 8080 and
               .properties.configuration.ingress.fqdn == $host and
               (.properties.configuration.ingress.transport | ascii_downcase) == "auto" and
+              (.identity.userAssignedIdentities | keys | map(ascii_downcase)) ==
+                [($pull | ascii_downcase)] and
               (.properties.configuration.registries | length) == 1 and
               .properties.configuration.registries[0].server == $registry and
-              .properties.configuration.registries[0].identity == $pull and
+              (.properties.configuration.registries[0].identity |
+                ascii_downcase) == ($pull | ascii_downcase) and
               (.properties.configuration.identitySettings | length) == 1 and
-              .properties.configuration.identitySettings[0].identity == $pull and
+              (.properties.configuration.identitySettings[0].identity |
+                ascii_downcase) == ($pull | ascii_downcase) and
               .properties.configuration.identitySettings[0].lifecycle == "None" and
               ((.properties.configuration.secrets // []) | length) == 0 and
               (.properties.template.containers | length) == 1 and
@@ -329,43 +400,140 @@ jobs:
             echo "- ARM contract, HTTPS redirect, readiness, build metadata, and full sample verification: PASS"
           } >>"$GITHUB_STEP_SUMMARY"
 
-      - name: Roll back to the prior image after a deployment-gate failure
-        if: >-
-          ${{ failure() && steps.deploy.outcome == 'success' &&
-              steps.previous.outputs.image != '' }}
+
+  rollback:
+    name: Restore the last governed deployment
+    needs: deploy
+    if: >-
+      ${{ always() && needs.deploy.result == 'failure' &&
+          needs.deploy.outputs.deployment_started == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment:
+      name: demo
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
+      AZURE_ACR_LOGIN_SERVER: ${{ vars.AZURE_ACR_LOGIN_SERVER }}
+      AZURE_CONTAINERAPPS_ENVIRONMENT: ${{ vars.AZURE_CONTAINERAPPS_ENVIRONMENT }}
+      AZURE_CONTAINER_APP_NAME: ${{ vars.AZURE_CONTAINER_APP_NAME }}
+      AZURE_CONTAINER_APP_FQDN: ${{ vars.AZURE_CONTAINER_APP_FQDN }}
+      AZURE_ACR_PULL_IDENTITY_ID: ${{ vars.AZURE_ACR_PULL_IDENTITY_ID }}
+      AZURE_IMAGE_NAME: ${{ vars.AZURE_IMAGE_NAME }}
+      AZURE_EXPIRES_ON: ${{ vars.AZURE_EXPIRES_ON }}
+      HAD_PREVIOUS: ${{ needs.deploy.outputs.had_previous }}
+      PREVIOUS_IMAGE: ${{ needs.deploy.outputs.prior_image }}
+      PRIOR_DEPLOYMENT: ${{ needs.deploy.outputs.prior_deployment }}
+    steps:
+      - name: Check out the governed rollback template
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Authenticate to Azure with GitHub OIDC
+        uses: azure/login@7ddb5af1ef8758cf1353cf3b42f940aee27ba21c # v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Restore the prior digest or remove the failed first app
         shell: bash
-        env:
-          PREVIOUS_IMAGE: ${{ steps.previous.outputs.image }}
         run: |
           set -euo pipefail
-          revision_suffix="rollback-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          deployment_name="labelverify-rollback-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
-          az deployment group create \
-            --name "$deployment_name" \
-            --resource-group "$AZURE_RESOURCE_GROUP" \
-            --template-file ops/azure-container-app.json \
-            --parameters \
-              location="$AZURE_LOCATION" \
-              containerAppName="$AZURE_CONTAINER_APP_NAME" \
-              environmentName="$AZURE_CONTAINERAPPS_ENVIRONMENT" \
-              registryServer="$AZURE_ACR_LOGIN_SERVER" \
-              pullIdentityResourceId="$AZURE_ACR_PULL_IDENTITY_ID" \
-              imageReference="$PREVIOUS_IMAGE" \
-              allowedHost="$AZURE_CONTAINER_APP_FQDN" \
-              revisionSuffix="$revision_suffix" \
-              repository="$GITHUB_REPOSITORY" \
-              expiresOn="$AZURE_EXPIRES_ON" \
-            --mode Incremental \
-            --only-show-errors \
-            --output none
-          echo "Deployment gate failed. The prior image was restored." \
-            >>"$GITHUB_STEP_SUMMARY"
-
-      - name: Record a first-deployment failure with no rollback target
-        if: >-
-          ${{ failure() && steps.deploy.outcome == 'success' &&
-              steps.previous.outputs.image == '' }}
-        shell: bash
-        run: |
-          echo "Deployment gate failed and no prior image existed for rollback." \
-            >>"$GITHUB_STEP_SUMMARY"
+          if [[ "$HAD_PREVIOUS" == "true" ]]; then
+            expected_prefix="${AZURE_ACR_LOGIN_SERVER}/${AZURE_IMAGE_NAME}@sha256:"
+            digest="${PREVIOUS_IMAGE#"$expected_prefix"}"
+            if [[ "$PREVIOUS_IMAGE" != "${expected_prefix}"* ||
+                  ! "$digest" =~ ^[0-9a-f]{64}$ ]]; then
+              echo "The rollback image is not a governed immutable digest." >&2
+              exit 1
+            fi
+            if [[ -z "$PRIOR_DEPLOYMENT" ||
+                  ! "$PRIOR_DEPLOYMENT" =~ ^labelverify-[0-9A-Za-z-]+$ ]]; then
+              echo "The governed rollback deployment name is invalid." >&2
+              exit 1
+            fi
+            revision_suffix="rollback-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+            deployment_name="labelverify-rollback-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+            prior_template="$(mktemp)"
+            prior_parameters="$(az deployment group show \
+              --resource-group "$AZURE_RESOURCE_GROUP" \
+              --name "$PRIOR_DEPLOYMENT" \
+              --query properties.parameters \
+              --output json \
+              --only-show-errors)"
+            az deployment group export \
+              --resource-group "$AZURE_RESOURCE_GROUP" \
+              --name "$PRIOR_DEPLOYMENT" \
+              --output json \
+              --only-show-errors >"$prior_template"
+            prior_image="$(jq -r '.imageReference.value' <<<"$prior_parameters")"
+            [[ "$prior_image" == "$PREVIOUS_IMAGE" ]]
+            az deployment group create \
+              --name "$deployment_name" \
+              --resource-group "$AZURE_RESOURCE_GROUP" \
+              --template-file "$prior_template" \
+              --parameters \
+                location="$(jq -r '.location.value' <<<"$prior_parameters")" \
+                containerAppName="$(jq -r '.containerAppName.value' <<<"$prior_parameters")" \
+                environmentName="$(jq -r '.environmentName.value' <<<"$prior_parameters")" \
+                registryServer="$(jq -r '.registryServer.value' <<<"$prior_parameters")" \
+                pullIdentityResourceId="$(jq -r '.pullIdentityResourceId.value' \
+                  <<<"$prior_parameters")" \
+                imageReference="$PREVIOUS_IMAGE" \
+                allowedHost="$(jq -r '.allowedHost.value' <<<"$prior_parameters")" \
+                revisionSuffix="$revision_suffix" \
+                repository="$(jq -r '.repository.value' <<<"$prior_parameters")" \
+                expiresOn="$(jq -r '.expiresOn.value' <<<"$prior_parameters")" \
+              --mode Incremental \
+              --only-show-errors \
+              --output none
+            restored_image="$(az resource show \
+              --resource-group "$AZURE_RESOURCE_GROUP" \
+              --name "$AZURE_CONTAINER_APP_NAME" \
+              --resource-type Microsoft.App/containerApps \
+              --api-version 2026-01-01 \
+              --query 'properties.template.containers[0].image' \
+              --output tsv \
+              --only-show-errors)"
+            [[ "$restored_image" == "$PREVIOUS_IMAGE" ]]
+            curl --fail --silent --show-error \
+              --retry 30 --retry-delay 5 --retry-all-errors \
+              --connect-timeout 10 --max-time 40 \
+              "https://${AZURE_CONTAINER_APP_FQDN}/health/ready" >/dev/null
+            echo "Deployment gate failed. The prior digest was restored and verified." \
+              >>"$GITHUB_STEP_SUMMARY"
+          elif [[ "$HAD_PREVIOUS" == "false" ]]; then
+            error_file="$(mktemp)"
+            set +e
+            az resource show \
+              --resource-group "$AZURE_RESOURCE_GROUP" \
+              --name "$AZURE_CONTAINER_APP_NAME" \
+              --resource-type Microsoft.App/containerApps \
+              --api-version 2026-01-01 \
+              --output none \
+              --only-show-errors 2>"$error_file"
+            status=$?
+            set -e
+            if [[ "$status" -eq 0 ]]; then
+              az resource delete \
+                --resource-group "$AZURE_RESOURCE_GROUP" \
+                --name "$AZURE_CONTAINER_APP_NAME" \
+                --resource-type Microsoft.App/containerApps \
+                --api-version 2026-01-01 \
+                --only-show-errors
+              echo "First deployment failed. The new Container App was removed." \
+                >>"$GITHUB_STEP_SUMMARY"
+            elif grep -Eqi 'ResourceNotFound|could not be found' "$error_file"; then
+              echo "First deployment failed before a Container App was retained." \
+                >>"$GITHUB_STEP_SUMMARY"
+            else
+              cat "$error_file" >&2
+              exit "$status"
+            fi
+          else
+            echo "The prior deployment state was not captured." >&2
+            exit 1
+          fi

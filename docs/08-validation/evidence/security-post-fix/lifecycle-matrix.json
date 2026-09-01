@@ -1,15 +1,15 @@
 {
   "schemaVersion": "1.0.0",
   "evidenceId": "T-029-T-041-SECURITY-POST-FIX",
-  "createdAtUtc": "2026-09-01T18:40:52.465734+00:00",
-  "completedAtUtc": "2026-09-01T18:41:36.599762+00:00",
+  "createdAtUtc": "2026-09-01T20:25:33.748512+00:00",
+  "completedAtUtc": "2026-09-01T20:26:17.953738+00:00",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
     "python": "3.12.10",
     "logicalCpuCount": 24
   },
   "snapshot": {
-    "snapshotId": "bf6c57570a82d8bf8d7b3a554050fe03c85d86d943b62c2ac78fba5edaa66276",
+    "snapshotId": "15996cc878663c5961d7983fa38234967182924910fe377e48e1e0fabb548522",
     "files": {
       "backend/labelverify/api/app.py": "466705314eb1a4eecd32722de2b88dad3bbbf37d2de53902ac85aa886c428103",
       "backend/labelverify/api/multipart.py": "ff509d99122721533d2712fb37851bae2af91fbbb2cfc257cd8d76d44e949b57",
@@ -18,20 +18,20 @@
       "backend/labelverify/orchestration/pipeline.py": "9d81005d9069d30acc9fe4a0d5832ee64b2d5d17654c97efe4165c09f2299b8d",
       "backend/labelverify/orchestration/supervisor.py": "fcd4647a938352939377326481256baa3da738d3ef60e3c6ba20e5e8c66a1908",
       "backend/labelverify/security/boundary.py": "6d2268b8699c626536fe4840b118c05a3af6293ad02f3f6217da0993fe6cf7b6",
-      "backend/labelverify/security/identity.py": "8d3ac51b8696cca18e3ee0c783883e427a0390f62132844dc5cbf559868cfaaa",
+      "backend/labelverify/security/identity.py": "fd0bb4adc0f0c4592df98735dcfd8edb5b069c66b08d9c1e24bb164cb0c7ae04",
       "backend/labelverify/security/rate_limit.py": "97f62e717ca7b72a5e04df2419f3c8b117469530c57ff7b622ba20ce74191ed8",
-      "backend/tests/test_api.py": "2eec2e9daf82b0e2d13398baeb86657d565da1e87dd29bca5e47b347a0974589",
+      "backend/tests/test_api.py": "a1811ad32e9ea87cc2d599295295ff5474dbe12aec3e4a38baf0d799d9e27772",
       "backend/tests/test_lifecycle_matrix.py": "137e69b2af075ebd417033c796248bf061beed179a7e9d002214598a5702929a",
       "backend/tests/test_multipart.py": "e6901c9615c7ccf5ed21c43c6dca8d4eb60818290fa564b7deca3ec37ed6c1e2",
-      "backend/tests/test_security.py": "9289f37852188c2251696e50b17696528134c884969cd6b059b4ea1bd797f59f",
+      "backend/tests/test_security.py": "0840ec313cd511ff4454454abeacd26b780714d19959e4a53940b5d0cb44d12b",
       "backend/tests/test_supervisor_boundary.py": "3d3b8864f09ea4b9e553c233a60ccca00a823a51e8e6ebc97d0976dc8e5dafc9",
       "contracts/api-contract-v1.json": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47",
       "contracts/error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
       "frontend/src/api/verification-client.ts": "cfd5279c0864263ade2cba1ca49dc8bed4d2385325566ea04afea2f6e2893843",
       "frontend/src/features/intake/sample-adapter.ts": "5b9de712227fbeb08ef813db25f02d4980deabe3deddd5bac8a8f21ff0d4f8cf",
-      "pyproject.toml": "b18b2efcb6e19d7fb521219b96ea914efd3527d4a845a625c8056165b28e1b91",
-      "scripts/run_security_post_fix_validation.py": "de9c3f574d5e7a0e9d2a0f365ad979c5d21db8c4eede5c69c6e1f241e09963cf",
-      "uv.lock": "c00ceb5c43ed593f9ea6cb06dbbc55524913b65a6b17d3262d5f71c8daf2f606"
+      "pyproject.toml": "5ebc9abcc054f92d3f84226031c2e94f98896c9b406bf5d55cb91287e76d3da1",
+      "scripts/run_security_post_fix_validation.py": "b8c2cfa222fb5cb15a2140050d9ac253b669022c4224cbec48bfe7eb74c3fe48",
+      "uv.lock": "10c5df8d6f51523afa40c38ef7a1f1660330ce8da2a2526d45afe6495aa1cc4c"
     }
   },
   "sourceStableDuringRun": true,
@@ -273,9 +273,9 @@
       "commandId": "focused-security-lifecycle",
       "command": "uv run pytest -q backend/tests/test_lifecycle_matrix.py backend/tests/test_api.py backend/tests/test_multipart.py backend/tests/test_security.py backend/tests/test_supervisor_boundary.py",
       "exitCode": 0,
-      "durationMs": 8615.095,
+      "durationMs": 8477.545,
       "status": "PASS",
-      "stdoutTail": "..............................................                           [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n46 passed, 1 warning in 7.75s",
+      "stdoutTail": "..................................................                       [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n50 passed, 1 warning in 7.60s",
       "stderrTail": "",
       "junit": [
         {
@@ -385,6 +385,11 @@
         },
         {
           "classname": "backend.tests.test_api",
+          "name": "test_azure_production_edge_accepts_only_its_trusted_identity_chain",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_api",
           "name": "test_missing_ready_worker_rejects_before_multipart",
           "status": "PASS"
         },
@@ -401,6 +406,11 @@
         {
           "classname": "backend.tests.test_multipart",
           "name": "test_partial_spool_closes_for_every_exception[error1]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_production_environment_requires_an_explicit_identity_source",
           "status": "PASS"
         },
         {
@@ -431,6 +441,16 @@
         {
           "classname": "backend.tests.test_security",
           "name": "test_production_identity_requires_one_valid_fly_ip",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_azure_identity_uses_only_the_ingress_appended_rightmost_ip",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_unknown_production_identity_source_fails_closed",
           "status": "PASS"
         },
         {
@@ -514,7 +534,7 @@
       "commandId": "ruff-check",
       "command": "uv run ruff check backend tests scripts ops",
       "exitCode": 0,
-      "durationMs": 811.111,
+      "durationMs": 791.183,
       "status": "PASS",
       "stdoutTail": "All checks passed!",
       "stderrTail": ""
@@ -523,7 +543,7 @@
       "commandId": "ruff-format-check",
       "command": "uv run ruff format --check backend/labelverify/orchestration/supervisor.py backend/labelverify/security/rate_limit.py backend/tests/test_lifecycle_matrix.py scripts/run_security_post_fix_validation.py",
       "exitCode": 0,
-      "durationMs": 797.138,
+      "durationMs": 768.673,
       "status": "PASS",
       "stdoutTail": "4 files already formatted",
       "stderrTail": ""
@@ -532,7 +552,7 @@
       "commandId": "strict-mypy",
       "command": "uv run mypy",
       "exitCode": 0,
-      "durationMs": 585.025,
+      "durationMs": 591.019,
       "status": "PASS",
       "stdoutTail": "Success: no issues found in 34 source files",
       "stderrTail": ""
@@ -541,9 +561,9 @@
       "commandId": "full-backend-validation",
       "command": "uv run pytest -q backend/tests tests",
       "exitCode": 0,
-      "durationMs": 33207.065,
+      "durationMs": 33448.437,
       "status": "PASS",
-      "stdoutTail": "........................................................................ [ 39%]\n........................................................................ [ 79%]\n......................................                                   [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n182 passed, 1 warning in 32.35s",
+      "stdoutTail": "........................................................................ [ 38%]\n........................................................................ [ 76%]\n.............................................                            [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n189 passed, 1 warning in 32.56s",
       "stderrTail": ""
     }
   ],
@@ -555,7 +575,7 @@
       "scope": "deployed",
       "status": "BLOCKED",
       "compositeState": "INCOMPLETE",
-      "reason": "No public deployment or network policy is authorized. Source inspection cannot prove platform firewall enforcement or restricted-egress behavior."
+      "reason": "The Azure demo is authorized, but no deny-by-default network policy is selected. Source inspection cannot prove platform firewall enforcement or restricted-egress behavior."
     }
   ],
   "pass": true

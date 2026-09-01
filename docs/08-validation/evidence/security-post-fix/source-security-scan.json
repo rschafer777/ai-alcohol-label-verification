@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0.0",
   "evidenceId": "T-029-SOURCE-SECURITY-SCAN",
-  "createdAtUtc": "2026-09-01T18:41:36.599762+00:00",
-  "snapshotId": "bf6c57570a82d8bf8d7b3a554050fe03c85d86d943b62c2ac78fba5edaa66276",
+  "createdAtUtc": "2026-09-01T20:26:17.953738+00:00",
+  "snapshotId": "15996cc878663c5961d7983fa38234967182924910fe377e48e1e0fabb548522",
   "status": "PASS",
   "scope": [
     "backend/labelverify/__init__.py",
@@ -67,6 +67,6 @@
   },
   "networkLevelDeployedEgress": {
     "status": "BLOCKED",
-    "reason": "No public deployment or network policy is authorized. Source inspection cannot prove platform firewall enforcement or restricted-egress behavior."
+    "reason": "The Azure demo is authorized, but no deny-by-default network policy is selected. Source inspection cannot prove platform firewall enforcement or restricted-egress behavior."
   }
 }

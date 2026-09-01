@@ -99,7 +99,8 @@ The platform can still emit infrastructure logs and the Consumption environment 
 - A build or registry failure leaves the prior revision active.
 - An ARM or readback mismatch fails the run and blocks the release claim.
 - A public smoke failure fails the run and preserves the evidence in GitHub Actions.
-- Before deployment, the workflow captures the prior active image. A post-deployment configuration or smoke failure restores that image through the same governed template when a prior image exists. A first-deployment failure records that no rollback target exists.
+- Before any image push, the workflow accepts a rollback target only when the prior app uses the governed ACR repository plus an immutable SHA256 digest, its FQDN and identity boundary match the governed contract, and the image matches the latest successful governed Azure deployment record. A non-404 read error or drift fails closed.
+- A separate 15-minute rollback job exports that successful Azure deployment template and parameters, restores the prior governed digest with its saved configuration, and verifies the effective image plus public readiness. If no prior app existed, it removes only the newly created failed Container App. The shared environment, registry, and identities remain intact.
 - The resource group and Container App carry lifecycle tags, including the demo expiration date.
 
 ## 9. Verification obligations

@@ -298,14 +298,14 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 122,
+        "backendTests": 189,
         "browserProjects": 2,
-        "frontendTests": 34
+        "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -346,11 +346,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -385,13 +385,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 122,
-        "frontendTests": 34
+        "backendTests": 189,
+        "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -427,12 +427,12 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "frontendTests": 34
+        "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -477,11 +477,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -519,12 +519,12 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "frontendTests": 34
+        "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -565,11 +565,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-performance.json",
-          "sha256": "3db1353d9ed0f84e9d9a8227d2eb644c36d992592cb6d5e0dacde15a25dac905"
+          "sha256": "89c90fd352cc906c52587cd308e8154d61f3fbe147fb59c73bf42a03a7e078d1"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -608,13 +608,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 122,
+        "backendTests": 189,
         "finalOwnedResources": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -658,13 +658,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 122,
+        "backendTests": 189,
         "openSecurityFindings": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -706,12 +706,12 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 122
+        "backendTests": 189
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -754,11 +754,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -806,11 +806,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -857,11 +857,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -910,7 +910,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -955,11 +955,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1008,7 +1008,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1053,11 +1053,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1106,7 +1106,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1151,11 +1151,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1204,7 +1204,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1249,11 +1249,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1302,7 +1302,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1347,11 +1347,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1400,7 +1400,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1445,11 +1445,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1498,7 +1498,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1543,11 +1543,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1596,7 +1596,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1642,11 +1642,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1691,11 +1691,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1740,7 +1740,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1785,11 +1785,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1833,11 +1833,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1874,13 +1874,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 122,
-        "frontendTests": 34
+        "backendTests": 189,
+        "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1917,12 +1917,12 @@
       "durationMs": null,
       "counters": {
         "browserProjects": 2,
-        "frontendTests": 34
+        "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1964,7 +1964,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2002,13 +2002,13 @@
       "compositeState": "INCOMPLETE",
       "durationMs": null,
       "counters": {
-        "backendTests": 122,
+        "backendTests": 189,
         "openSecurityFindings": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -2052,7 +2052,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "INT-LEAD",
@@ -2094,7 +2094,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "INT-LEAD",
@@ -2133,28 +2133,28 @@
         "content canary"
       ],
       "expected": "No user content reaches logs or responses and all owned resources return to zero.",
-      "observed": "Canonical isolated post-fix evidence passed 45 focused lifecycle tests and 121 full Python tests, including success, validation, parser cleanup, upload timeout, near-limit concurrency, cancellation, disconnect, child stall recovery, shutdown races, and content/path canaries.",
+      "observed": "Canonical isolated post-fix evidence passed 50 focused lifecycle tests and 189 full Python tests, including success, validation, parser cleanup, upload timeout, near-limit concurrency, cancellation, disconnect, child stall recovery, shutdown races, and content/path canaries.",
       "status": "PASS",
       "compositeState": "INCOMPLETE",
       "durationMs": null,
       "counters": {
-        "focusedPassed": 45,
-        "fullBackendPassed": 121,
+        "focusedPassed": 50,
+        "fullBackendPassed": 189,
         "failed": 0,
         "finalOwnedResources": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json",
-          "sha256": "48a4be14ec13c1a0137eb078461c745fe2604bbbe756346d505b6c4f9f8fa360"
+          "sha256": "6039667c286d471337f50d5b0fdd2736d2c5fd13bcc8f32c3c1cdf2a91d08d2b"
         },
         {
           "path": "docs/08-validation/evidence/security-post-fix/source-security-scan.json",
-          "sha256": "2362f3db40e4a060d6fcaf89222d2128b225a10eb02444049f59daddcb5e9194"
+          "sha256": "7228369c2aeed1be3fe8e5bc91aa93868f1593ca1e5d9604419dcc731dbb94ad"
         },
         {
           "path": "docs/08-validation/evidence/security-post-fix/SECURITY_POST_FIX_REPORT.md",
-          "sha256": "7e2042ae87aff70319874b3e931742393663fb16c0668db3e9cb53abf334de13"
+          "sha256": "ce22ba442ef263bb9ed9d7bdb23f641f1f0ac80f2e99f8dd9b15bcc275082ea4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2203,7 +2203,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2255,7 +2255,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Independent accessibility reviewer 1",
@@ -2303,7 +2303,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Independent accessibility reviewer 1",
@@ -2349,7 +2349,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Independent accessibility reviewer 1",
@@ -2439,7 +2439,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-performance.json",
-          "sha256": "3db1353d9ed0f84e9d9a8227d2eb644c36d992592cb6d5e0dacde15a25dac905"
+          "sha256": "89c90fd352cc906c52587cd308e8154d61f3fbe147fb59c73bf42a03a7e078d1"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2487,7 +2487,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-performance.json",
-          "sha256": "3db1353d9ed0f84e9d9a8227d2eb644c36d992592cb6d5e0dacde15a25dac905"
+          "sha256": "89c90fd352cc906c52587cd308e8154d61f3fbe147fb59c73bf42a03a7e078d1"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2517,7 +2517,7 @@
         "public URL"
       ],
       "expected": "Deployed page-load p95 is at most 3000 ms.",
-      "observed": "Public deployment is not authorized.",
+      "observed": "Azure deployment is authorized; public execution evidence is pending.",
       "status": "PENDING_REQUESTER_GATE",
       "compositeState": "LOCAL_READY",
       "durationMs": null,
@@ -2527,7 +2527,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Requester-controlled",
@@ -2560,7 +2560,7 @@
         "30 governed requests"
       ],
       "expected": "Thirty of thirty deployed warm requests complete with p95 at or below 5000 ms.",
-      "observed": "Public deployment is not authorized.",
+      "observed": "Azure deployment is authorized; public execution evidence is pending.",
       "status": "PENDING_REQUESTER_GATE",
       "compositeState": "LOCAL_READY",
       "durationMs": null,
@@ -2570,7 +2570,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Requester-controlled",
@@ -2603,7 +2603,7 @@
         "5 restart or cold requests"
       ],
       "expected": "Five of five deployed cold requests complete with p95 below 10000 ms.",
-      "observed": "Public deployment is not authorized.",
+      "observed": "Azure deployment is authorized; public execution evidence is pending.",
       "status": "PENDING_REQUESTER_GATE",
       "compositeState": "LOCAL_READY",
       "durationMs": null,
@@ -2613,7 +2613,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Requester-controlled",
@@ -2646,7 +2646,7 @@
         "near-maximum input"
       ],
       "expected": "Representative and near-maximum requests meet composed terminal budgets.",
-      "observed": "Public deployment and shaped-network proof are not authorized.",
+      "observed": "Azure deployment is authorized; shaped-network execution evidence is pending.",
       "status": "PENDING_REQUESTER_GATE",
       "compositeState": "LOCAL_READY",
       "durationMs": null,
@@ -2656,7 +2656,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Requester-controlled",
@@ -2706,7 +2706,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
-          "sha256": "9f94782f061bcc3190bf42d5532443a183ae08863cfca22f78ed0777893623f8"
+          "sha256": "1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2749,35 +2749,35 @@
         "limitations"
       ],
       "expected": "The local package contains all assignment deliverables and local instructions agree with behavior.",
-      "observed": "Static, test, build, README claim, and documentation inventory checks passed locally. The final root gate passed 122 Python and 34 frontend tests.",
+      "observed": "Static, test, build, README claim, and documentation inventory checks passed locally. The current root gate passed 189 Python and 46 frontend tests.",
       "status": "PASS",
       "compositeState": "INCOMPLETE",
       "durationMs": null,
       "counters": {
-        "backendTests": 122,
+        "backendTests": 189,
         "browserProjects": 2,
-        "frontendTests": 34
+        "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         },
         {
           "path": "README.md",
-          "sha256": "7bce8f79d2482d49c6e7318e19f8cd78dbc6002de644bf51fc3d65efc872be58"
+          "sha256": "75b98693d4a88135f2bc736db38aa04bc945839e4ea5b9b34119a3e7278653ac"
         },
         {
           "path": "docs/08-validation/VALIDATION_PROTOCOL_RESULTS.md",
-          "sha256": "35b5861008700d036da3a51c2d0ff17163cff0480d9383766872bf191f1c47f1"
+          "sha256": "9ac38e4ff64c81d63387aff05182f44be0ff7dae9e6debb746b89977a77d458e"
         },
         {
           "path": "docs/10-release/RELEASE_CANDIDATE_STATUS.md",
-          "sha256": "3ff5f21f35ec42e47469f1d1d1813fe6838bcac3ad789e38a3ec5709c2e6bea8"
+          "sha256": "e7d7c47539ae3384cbc0699553dcfff2395ffbcab9356f85d2b029316472d3d1"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2820,7 +2820,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "INT-LEAD",
@@ -2862,7 +2862,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "INT-LEAD",
@@ -2894,7 +2894,7 @@
         "repository URL"
       ],
       "expected": "A clean checkout runs using only the README.",
-      "observed": "Git repository creation is not authorized.",
+      "observed": "The repository exists; clean-checkout replay for the current Azure candidate is pending push.",
       "status": "PENDING_REQUESTER_GATE",
       "compositeState": "INCOMPLETE",
       "durationMs": null,
@@ -2904,7 +2904,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Requester-controlled",
@@ -2936,7 +2936,7 @@
         "public deployment"
       ],
       "expected": "A working public URL maps to the release provenance.",
-      "observed": "Public deployment is not authorized.",
+      "observed": "Azure deployment is authorized; public execution evidence is pending.",
       "status": "PENDING_REQUESTER_GATE",
       "compositeState": "INCOMPLETE",
       "durationMs": null,
@@ -2946,7 +2946,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Requester-controlled",
@@ -3108,13 +3108,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 122,
-        "frontendTests": 34
+        "backendTests": 189,
+        "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3170,7 +3170,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/governed-coverage-summary.json",
-          "sha256": "6b19fa2985828ac3787fe41b89d91bcaf79db5a67ef6f7cb0989c2b1dcf188db"
+          "sha256": "c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3214,7 +3214,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/repository-neutral-path-scan.txt",
@@ -3222,7 +3222,7 @@
         },
         {
           "path": "docs/08-validation/evidence/total-phase-matrix.json",
-          "sha256": "4b9442d08e05dbbbe605dae2f39ba58b8691415de99ab329613def713b4f8f44"
+          "sha256": "0b67c9a6f0839c7a168fbdb5e82b96aa3995036e4a96b1ac85f78e5e75362a47"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3267,11 +3267,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3326,7 +3326,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Independent UAT reviewers 1 and 2",
@@ -3404,12 +3404,12 @@
       "compositeState": "LOCAL_READY",
       "durationMs": null,
       "counters": {
-        "backendTests": 122
+        "backendTests": 189
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3449,7 +3449,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Requester-controlled",
@@ -3497,11 +3497,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json",
-          "sha256": "48a4be14ec13c1a0137eb078461c745fe2604bbbe756346d505b6c4f9f8fa360"
+          "sha256": "6039667c286d471337f50d5b0fdd2736d2c5fd13bcc8f32c3c1cdf2a91d08d2b"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3555,15 +3555,15 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/browser-privacy-matrix.json",
-          "sha256": "ef166279fd401d076d52266edfef77d7da7bdc56cf9a416c611e16adeccde6e9"
+          "sha256": "0799aa882e012d58ee69bf4bf26c67c77dfbaeb644623533c1cd1a5a6ab235aa"
         },
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Playwright Chrome privacy matrix",
@@ -3606,13 +3606,13 @@
       "compositeState": "LOCAL_READY",
       "durationMs": null,
       "counters": {
-        "backendTests": 122,
+        "backendTests": 189,
         "openSecurityFindings": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -3646,11 +3646,11 @@
       },
       "command": "requester-authorized public edge matrix",
       "inputs": [
-        "public Fly URL",
+        "public Azure Container Apps URL",
         "direct and proxied requests"
       ],
       "expected": "Deployed identity, Host, Origin, headers, no-store, rate isolation, and clean-browser smoke pass.",
-      "observed": "Public deployment is not authorized.",
+      "observed": "Azure deployment is authorized; public execution evidence is pending.",
       "status": "PENDING_REQUESTER_GATE",
       "compositeState": "LOCAL_READY",
       "durationMs": null,
@@ -3660,7 +3660,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "Requester-controlled",
@@ -3698,13 +3698,13 @@
         "browser cancel"
       ],
       "expected": "Implemented lifecycle tests reach typed terminal states and release ownership safely.",
-      "observed": "Canonical isolated evidence passed 45 focused lifecycle tests and 121 full Python tests, including repeated cancellation, disconnect ownership, child stall replacement/recovery, shutdown races, and zero cleanup counters.",
+      "observed": "Canonical isolated evidence passed 50 focused lifecycle tests and 189 full Python tests, including repeated cancellation, disconnect ownership, child stall replacement/recovery, shutdown races, and zero cleanup counters.",
       "status": "PASS",
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "focusedPassed": 45,
-        "fullBackendPassed": 121,
+        "focusedPassed": 50,
+        "fullBackendPassed": 189,
         "repeatedCancellationCases": 3,
         "disconnectCases": 3,
         "failed": 0,
@@ -3713,7 +3713,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json",
-          "sha256": "48a4be14ec13c1a0137eb078461c745fe2604bbbe756346d505b6c4f9f8fa360"
+          "sha256": "6039667c286d471337f50d5b0fdd2736d2c5fd13bcc8f32c3c1cdf2a91d08d2b"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3757,7 +3757,7 @@
         "cancellation, disconnect, shutdown, recovery, and cleanup"
       ],
       "expected": "Every actual asynchronous wait boundary reaches its governed 20, 30, or 35 second terminal outcome. Client validation rejects locally without transport. A complete response commits all rows, focus, and live-region output deterministically. Cancel is within one second, late responses are ignored, ownership remains safe, recovery succeeds, and cleanup reaches zero.",
-      "observed": "Against LV-I2R-002 Revision 1.1, LV-I2R-009 Revision 1.1, LV-FRD-001 Revision 1.1, LV-FRD-002 Revision 1.1, and LV-FRD-003 Revision 1.4, the retained matrix passed every actual asynchronous wait boundary, immediate synchronous client rejection, and one complete synchronous render, focus, and live-region commit. Cancellation, disconnect, shutdown, child recovery, late-result suppression, and cleanup also passed. Backend phase tests passed 16 of 16, frontend phase tests passed 4 of 4, and the final source-bound root gate passed 122 Python, 34 frontend, and the browser suites.",
+      "observed": "Against LV-I2R-002 Revision 1.1, LV-I2R-009 Revision 1.1, LV-FRD-001 Revision 1.1, LV-FRD-002 Revision 1.1, and LV-FRD-003 Revision 1.4, the retained matrix passed every actual asynchronous wait boundary, immediate synchronous client rejection, and one complete synchronous render, focus, and live-region commit. Cancellation, disconnect, shutdown, child recovery, late-result suppression, and cleanup also passed. Backend phase tests passed 16 of 16, frontend phase tests passed 4 of 4, and the current source-bound root gate passed 189 Python, 46 frontend, and the browser suites.",
       "status": "PASS",
       "compositeState": "FINAL_PASS",
       "durationMs": null,
@@ -3765,26 +3765,26 @@
         "phaseGroups": 11,
         "backendPhaseTests": 16,
         "frontendPhaseTests": 4,
-        "backendFullTests": 122,
-        "frontendFullTests": 34,
+        "backendFullTests": 189,
+        "frontendFullTests": 46,
         "failed": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/total-phase-matrix.json",
-          "sha256": "4b9442d08e05dbbbe605dae2f39ba58b8691415de99ab329613def713b4f8f44"
+          "sha256": "0b67c9a6f0839c7a168fbdb5e82b96aa3995036e4a96b1ac85f78e5e75362a47"
         },
         {
           "path": "docs/04-i2r-ae/02_I2R_DATA_INTERFACE_SECURITY.md",
-          "sha256": "068ccdaa991ceb5de99658680aeb15ec3c836c9e60ee971bfcb342ce7ac9b833"
+          "sha256": "fbf36ebde270227c8bea81ab8ce844edcc3b15c3ae0d857c209779682470d258"
         },
         {
           "path": "docs/04-i2r-ae/09_I2R_AS_BUILT_SECURITY_RUNTIME_ADDENDUM.md",
-          "sha256": "cf91c3de794d22bf77eeff80fce47edd8e2f2166deb0c3d00b6391dbc59a1eca"
+          "sha256": "4a41c06df4d26b1bcdaa7d7b7f3872036c90274f8d3e3da458cf4b8eedd40960"
         },
         {
           "path": "docs/05-frd/01_FEATURE_REQUIREMENTS_DOCUMENT.md",
-          "sha256": "7338e368a97e3e789b6cf1c3b481e65e54642a6d0a7d9e603976fd595ebb7dd1"
+          "sha256": "42eb9c09de335249624caa4c4b889bcd0e78954ef37005ba0f2df622683baed6"
         },
         {
           "path": "docs/05-frd/02_FRD_TEST_TRACEABILITY.md",
@@ -3796,15 +3796,15 @@
         },
         {
           "path": "docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json",
-          "sha256": "48a4be14ec13c1a0137eb078461c745fe2604bbbe756346d505b6c4f9f8fa360"
+          "sha256": "6039667c286d471337f50d5b0fdd2736d2c5fd13bcc8f32c3c1cdf2a91d08d2b"
         },
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "a16308b35757414dc369a882d7b96b96685f2dbfe1b509b348bab2d87c73344e"
+          "sha256": "e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "INT-LEAD phase-matrix harness and root gate",
@@ -3849,11 +3849,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json",
-          "sha256": "48a4be14ec13c1a0137eb078461c745fe2604bbbe756346d505b6c4f9f8fa360"
+          "sha256": "6039667c286d471337f50d5b0fdd2736d2c5fd13bcc8f32c3c1cdf2a91d08d2b"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "545e150f87e7f088d5a6c347debfd701d5944dbba502c686a1506fef608a85a4"
+          "sha256": "99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65"
         }
       ],
       "executor": "INT-LEAD security remediation",

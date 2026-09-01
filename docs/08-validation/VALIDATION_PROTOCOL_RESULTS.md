@@ -85,12 +85,12 @@ The accepted local workflow supports:
 
 | Gate | Status | Reason |
 |---|---|---|
-| OCI build and runtime proof | BLOCKED | No Docker, Podman, nerdctl, or Buildah is installed locally |
+| Local OCI build and runtime proof | BLOCKED | No Docker, Podman, nerdctl, or Buildah is installed locally; the authorized GitHub workflow must prove the public image separately |
 | Native 200 percent zoom and live manual Edge | BLOCKED | The permitted browser connection cannot expose this native manual state |
 | NVDA manual journey | BLOCKED | NVDA is not installed and portable execution requires requester confirmation at action time |
-| Deployed network-egress enforcement | BLOCKED | Requires an authorized deployment and platform policy proof |
-| Git repository and clean-checkout replay | PARTIAL | Repository creation and source publication are authorized; clean-checkout replay remains pending |
-| Public deployment and URL | PENDING_REQUESTER_GATE | Deployment has not been authorized |
+| Deployed network-egress enforcement | BLOCKED | The Azure Consumption environment does not establish the final deny-by-default federal egress policy |
+| Git repository and clean-checkout replay | PASS FOR PUBLISHED PRE-AZURE SNAPSHOT | Repository creation, source publication, clean clone, and exact manifest replay passed; the current Azure snapshot must repeat this after push |
+| Public deployment and URL | AUTHORIZED, EXECUTION PENDING | The dispatch-only Azure workflow must build, deploy, read back, and smoke-test the current RT-cleared snapshot |
 | Final official TTB source recheck | PENDING_REQUESTER_GATE | Must occur immediately before public release |
 | Requester code review and UAT | PENDING_REQUESTER_GATE | Follows internal clearance |
 
@@ -99,4 +99,4 @@ The accepted local workflow supports:
 Validation Protocol composite: INCOMPLETE.  
 Governed SDLC ledger assertions: 56 of 56 runnable assertions PASS.  
 Additional user-supplied image recognition gate: FAIL.  
-Next gate: improve automatic clear recognition without false clearances or false deterministic rejections, regenerate one immutable candidate manifest, and obtain three independent final RT verdicts on that same manifest. Blocked and requester-controlled assertions remain explicit until their required environment or authorization exists.
+Next gate: clear the Azure RT findings, regenerate one immutable candidate manifest, configure the governed GitHub environment, and execute the authorized public workflow. Automatic clear recognition remains a separate failed gate that must improve without false clearances or false deterministic rejections, or receive explicit requester acceptance. Blocked and requester-controlled assertions remain explicit until their required environment or approval exists.

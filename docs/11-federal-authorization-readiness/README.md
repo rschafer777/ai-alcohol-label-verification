@@ -101,4 +101,4 @@ All external requirements and guidance in this package use the following primary
 
 ## Immediate next decision
 
-Complete `01_PATH_SCOPE_INTAKE.md` before choosing a certification class, cloud service, or assessor. The existing Fly.io template is current prototype delivery planning. Azure, Azure Government, or any other federal production platform remains a separate pending selection.
+Complete `01_PATH_SCOPE_INTAKE.md` before choosing a certification class, cloud service, or assessor. Azure Container Apps is the selected public demo platform. That demo selection does not choose the eventual federal production boundary, Azure commercial versus Azure Government path, certification class, agency authorization path, or assessor.

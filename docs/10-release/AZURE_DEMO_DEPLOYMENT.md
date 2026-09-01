@@ -46,7 +46,8 @@ The workflow fails before Azure authentication if a required non-secret value is
 - The application resource receives only the ACR pull identity. Its identity lifecycle is `None`, which permits platform image pull without exposing an access token to application code. The GitHub deployment identity is not attached to the runtime.
 - The runtime has no secrets, volumes, database, durable queue, or required external inference endpoint.
 - Platform startup and liveness probes call `/health/live`; readiness calls `/health/ready`. Every internal HTTP probe sends the exact governed Host header, so strict Host validation stays enabled.
-- Before deployment, the workflow captures the prior active image. If effective-configuration or public-smoke validation fails after deployment and a prior image exists, the workflow restores that prior digest through the same governed template.
+- Before any image push, the workflow captures the prior app only when its image is the governed ACR repository plus an immutable SHA256 digest, its FQDN and identity boundary match the governed contract, and the image matches the most recent successful governed Azure deployment record. A non-404 Azure read failure or any drift fails before mutation.
+- The workflow has no mutable demo tag. If effective-configuration or public-smoke validation fails after deployment, a separate 15-minute rollback job exports the last governed Azure deployment template and parameters, restores the prior digest with that saved configuration, and verifies the effective image plus public readiness. If the first deployment fails, the rollback job removes the newly created failed Container App while preserving the shared environment, registry, and identities.
 
 ## 4. Effective runtime contract
 

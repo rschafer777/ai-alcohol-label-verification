@@ -89,10 +89,21 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
     assert "Origin: $base_url" in workflow
     assert "selectedCheckCount == 19" in workflow
     assert '.summary == "Review needed"' in workflow
-    assert 'steps.previous.outputs.image != \'\'' in workflow
+    assert "scripts/validate_product_corpus.py" in workflow
+    assert workflow.index("Capture a governed prior deployment") < workflow.index(
+        "Build and push the immutable image"
+    )
+    assert "${{ vars.AZURE_IMAGE_NAME }}:demo" not in workflow
+    assert "The prior image is not a governed immutable digest." in workflow
+    assert "needs.deploy.outputs.prior_image" in workflow
+    assert "needs.deploy.outputs.prior_deployment" in workflow
+    assert "az deployment group export" in workflow
     assert "labelverify-rollback-" in workflow
+    assert "The prior digest was restored and verified." in workflow
+    assert "The new Container App was removed." in workflow
     assert '.properties.configuration.ingress.fqdn == $host' in workflow
     assert '.properties.configuration.identitySettings[0].lifecycle == "None"' in workflow
+    assert ".identity.userAssignedIdentities | keys | map(ascii_downcase)" in workflow
     assert '.httpGet.path == "/health/ready"' in workflow
     assert "HTTP redirect" not in workflow or "redirect_status" in workflow
 

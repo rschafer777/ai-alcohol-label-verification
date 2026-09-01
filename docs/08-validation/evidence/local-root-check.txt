@@ -7,24 +7,25 @@ configfile: pyproject.toml
 testpaths: backend/tests, tests
 plugins: anyio-4.14.2, asyncio-1.4.0, cov-6.3.0
 asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collected 182 items
+collected 189 items
 
-backend\tests\test_api.py ......                                         [  3%]
+backend\tests\test_api.py .......                                        [  3%]
 backend\tests\test_contracts.py .....                                    [  6%]
 backend\tests\test_domain.py ........................................... [ 29%]
                                                                          [ 29%]
-backend\tests\test_imaging_candidates.py ............................    [ 45%]
-backend\tests\test_lifecycle_matrix.py ................                  [ 53%]
-backend\tests\test_multipart.py ...                                      [ 55%]
-backend\tests\test_pipeline.py .....                                     [ 58%]
-backend\tests\test_rapidocr_adapter.py ..........                        [ 63%]
-backend\tests\test_real_sample_integration.py ..                         [ 64%]
-backend\tests\test_security.py ...........                               [ 70%]
-backend\tests\test_supervisor_boundary.py ..........                     [ 76%]
-tests\validation\test_evidence_sanitization.py .                         [ 76%]
-tests\validation\test_fixture_corpus.py ..........                       [ 82%]
-tests\validation\test_fixture_generator_determinism.py .                 [ 82%]
-tests\validation\test_product_corpus_validator.py ...                    [ 84%]
+backend\tests\test_imaging_candidates.py ............................    [ 43%]
+backend\tests\test_lifecycle_matrix.py ................                  [ 52%]
+backend\tests\test_multipart.py ...                                      [ 53%]
+backend\tests\test_pipeline.py .....                                     [ 56%]
+backend\tests\test_rapidocr_adapter.py ..........                        [ 61%]
+backend\tests\test_real_sample_integration.py ..                         [ 62%]
+backend\tests\test_security.py ..............                            [ 70%]
+backend\tests\test_supervisor_boundary.py ..........                     [ 75%]
+tests\validation\test_azure_deployment_contract.py ...                   [ 77%]
+tests\validation\test_evidence_sanitization.py .                         [ 77%]
+tests\validation\test_fixture_corpus.py ..........                       [ 83%]
+tests\validation\test_fixture_generator_determinism.py .                 [ 83%]
+tests\validation\test_product_corpus_validator.py ...                    [ 85%]
 tests\validation\test_production_oracle_validator.py .......             [ 88%]
 tests\validation\test_release_claims.py ..                               [ 89%]
 tests\validation\test_release_manifest_generator.py .                    [ 90%]
@@ -36,7 +37,7 @@ tests\validation\test_test_images_validator.py ..................        [100%]
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 182 passed, 1 warning in 31.11s =======================
+======================= 189 passed, 1 warning in 31.92s =======================
 
 > labelverify-frontend@0.1.0 lint
 > eslint . --max-warnings 0
@@ -55,8 +56,8 @@ tests\validation\test_test_images_validator.py ..................        [100%]
 
  Test Files  9 passed (9)
       Tests  46 passed (46)
-   Start at  13:52:41
-   Duration  5.37s (transform 994ms, setup 3.76s, import 2.28s, tests 5.07s, environment 17.17s)
+   Start at  15:29:39
+   Duration  5.16s (transform 928ms, setup 3.81s, import 2.12s, tests 4.89s, environment 16.24s)
 
 
 > labelverify-frontend@0.1.0 build
@@ -71,7 +72,7 @@ dist/index.html                   0.48 kB │ gzip:  0.30 kB
 dist/assets/index-DG0b-J5j.css   13.64 kB │ gzip:  4.01 kB
 dist/assets/index-BWuhx4XN.js   298.15 kB │ gzip: 89.43 kB
 
-✓ built in 156ms
+✓ built in 159ms
 
 > labelverify-frontend@0.1.0 test:e2e
 > playwright test
@@ -87,12 +88,12 @@ Running 6 tests using 1 worker
   -  6 [edge] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free
 
   3 skipped
-  3 passed (22.2s)
-[WebServer] INFO:     Started server process [80252]
+  3 passed (22.1s)
+[WebServer] INFO:     Started server process [29008]
 [WebServer] INFO:     Waiting for application startup.
 [WebServer] INFO:     Application startup complete.
 [WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-(node:89944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:49172) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
-(node:53496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:82864) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)

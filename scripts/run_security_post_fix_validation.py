@@ -341,8 +341,9 @@ def scan_runtime_sources() -> dict[str, Any]:
         "networkLevelDeployedEgress": {
             "status": "BLOCKED",
             "reason": (
-                "No public deployment or network policy is authorized. Source inspection cannot "
-                "prove platform firewall enforcement or restricted-egress behavior."
+                "The Azure demo is authorized, but no deny-by-default network policy is selected. "
+                "Source inspection cannot prove platform firewall enforcement or "
+                "restricted-egress behavior."
             ),
         },
     }
@@ -388,7 +389,7 @@ def write_report(lifecycle: dict[str, Any], source_scan: dict[str, Any]) -> None
             "Source-backed call-path result |",
             f"| `T-029-A-NETWORK-EGRESS-ENFORCEMENT` | `FR-029` | "
             f"{source_scan['networkLevelDeployedEgress']['status']} | "
-            "Deployment proof unavailable |",
+            "Deny-by-default platform policy proof unavailable |",
             "",
             "## Commands",
             "",
@@ -405,8 +406,8 @@ def write_report(lifecycle: dict[str, Any], source_scan: dict[str, Any]) -> None
             "",
             "All requested local lifecycle, cleanup, worker recovery, canary, and source-backed "
             "no-runtime-egress assertions pass. Network-level deployed egress remains BLOCKED "
-            "because no deployment or platform policy is authorized. This report does not promote "
-            "that external control to PASS.",
+            "because the authorized Azure demo does not establish a deny-by-default platform "
+            "policy. This report does not promote that external control to PASS.",
             "",
         ]
     )

@@ -50,7 +50,3 @@ The pre-Azure source candidate received three independent RT verdicts. Source pu
 4. Update the README and release evidence to the proven deployment revision, then rerun regression and RT.
 5. Present the deployed candidate to the requester for code review and UAT.
 6. Improve automatic-clear recognition without introducing false clearances or false deterministic rejections, or obtain requester acceptance of the documented review-only limitation before final submission approval.
-5. Replay setup and tests from a clean checkout.
-6. Produce OCI proof when a builder is available.
-7. Obtain deployment authorization, deploy, and validate the public URL.
-8. Record final requester acceptance and release provenance.
