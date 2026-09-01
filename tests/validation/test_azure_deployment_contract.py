@@ -71,9 +71,12 @@ def test_deployment_template_has_the_governed_runtime_shape() -> None:
 
 def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
     workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
+    root_gate = (ROOT / "scripts/check.ps1").read_text(encoding="utf-8")
     assert re.search(r"^  push:", workflow, flags=re.MULTILINE) is None
     assert "workflow_dispatch:" in workflow
     assert "if: github.ref == 'refs/heads/main'" in workflow
+    assert "astral-sh/setup-uv" not in workflow
+    assert 'python -m pip install --disable-pip-version-check "uv==0.11.32"' in workflow
     assert "environment:\n      name: demo" in workflow
     assert "id-token: write" in workflow
     assert "azure/login@" in workflow
@@ -90,6 +93,7 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
     assert "selectedCheckCount == 19" in workflow
     assert '.summary == "Review needed"' in workflow
     assert "scripts/validate_product_corpus.py" in workflow
+    assert "$global:LASTEXITCODE = 0" in root_gate
     assert workflow.index("Capture a governed prior deployment") < workflow.index(
         "Build and push the immutable image"
     )

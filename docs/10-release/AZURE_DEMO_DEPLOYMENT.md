@@ -1,7 +1,7 @@
 # Azure Demo Deployment
 
 **Document ID:** LV-REL-004  
-**Status:** Deployment contract implemented, live evidence pending  
+**Status:** Deployment contract implemented, policy remediation pending live proof  
 **Environment:** GitHub environment `demo`
 
 ## 1. Purpose
@@ -79,3 +79,9 @@ The workflow summary records the deployed revision, image digest, public URL, an
 ## 6. Known boundary
 
 The Consumption environment has no VNet and does not itself prove a deny-by-default outbound network policy. Runtime OCR and comparison remain self-contained and do not require an outbound API. A federal production transition must separately select and test platform egress controls, centralized audit logging, retention, identity, monitoring, and the final authorization boundary.
+
+## 7. Deployment attempt record
+
+GitHub Actions run `33561343127` stopped before any job started because the repository permits only actions owned by `rschafer777` or matching `actions/*`, `azure/*`, and `docker/*`. The rejected dependency was `astral-sh/setup-uv`. No Azure login, image build, registry push, resource update, or public deployment occurred in that run.
+
+The remediation preserves the repository policy. The workflow now installs the pinned `uv==0.11.32` package through the Python runtime established by the allowed, commit-pinned `actions/setup-python` action. A deployment-contract regression test prohibits reintroducing `astral-sh/setup-uv` and requires the pinned package installation command. Live evidence remains pending until the corrected workflow succeeds.

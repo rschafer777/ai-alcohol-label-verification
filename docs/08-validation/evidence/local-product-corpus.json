@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "evidenceId": "T-032-B-LOCAL-PRODUCT-CORPUS",
-  "createdAtUtc": "2026-09-01T20:20:29.566559+00:00",
+  "createdAtUtc": "2026-09-01T21:35:13.367029+00:00",
   "command": "uv run python scripts/validate_product_corpus.py",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
@@ -139,7 +139,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3468.547,
+        "durationMs": 3334.989,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -151,9 +151,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 3468.0,
+          "serverDurationMs": 3328.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -166,7 +166,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2265.97,
+        "durationMs": 2164.406,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -178,9 +178,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2266.0,
+          "serverDurationMs": 2172.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -193,7 +193,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2275.223,
+        "durationMs": 2302.573,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -205,9 +205,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2266.0,
+          "serverDurationMs": 2297.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -220,7 +220,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 1962.81,
+        "durationMs": 1993.862,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -232,9 +232,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 1953.0,
+          "serverDurationMs": 2000.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -247,7 +247,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2025.724,
+        "durationMs": 1875.943,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -259,9 +259,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2032.0,
+          "serverDurationMs": 1875.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -274,7 +274,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 1966.033,
+        "durationMs": 1839.703,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -286,9 +286,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 1968.0,
+          "serverDurationMs": 1844.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -301,7 +301,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2016.721,
+        "durationMs": 1896.414,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -313,9 +313,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2016.0,
+          "serverDurationMs": 1890.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -328,7 +328,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 1987.187,
+        "durationMs": 1898.673,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -340,9 +340,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 1984.0,
+          "serverDurationMs": 1891.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -355,7 +355,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3391.564,
+        "durationMs": 3159.735,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -367,9 +367,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 9,
-          "serverDurationMs": 3375.0,
+          "serverDurationMs": 3156.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -382,7 +382,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2266.183,
+        "durationMs": 2295.1,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -394,9 +394,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 7,
-          "serverDurationMs": 2250.0,
+          "serverDurationMs": 2281.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -409,7 +409,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3289.819,
+        "durationMs": 3277.404,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -423,7 +423,7 @@
           "evidenceCount": 8,
           "serverDurationMs": 3281.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -436,7 +436,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2666.419,
+        "durationMs": 2664.738,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -450,7 +450,7 @@
           "evidenceCount": 8,
           "serverDurationMs": 2656.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -463,7 +463,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2958.19,
+        "durationMs": 2962.593,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -477,7 +477,7 @@
           "evidenceCount": 8,
           "serverDurationMs": 2953.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -490,7 +490,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2156.022,
+        "durationMs": 2139.877,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -504,7 +504,7 @@
           "evidenceCount": 8,
           "serverDurationMs": 2140.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -517,7 +517,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2356.849,
+        "durationMs": 2334.428,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -529,9 +529,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2344.0,
+          "serverDurationMs": 2329.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -544,7 +544,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2835.134,
+        "durationMs": 2758.066,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -556,9 +556,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2828.0,
+          "serverDurationMs": 2750.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -571,7 +571,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2241.783,
+        "durationMs": 2302.421,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -583,9 +583,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 0,
-          "serverDurationMs": 2250.0,
+          "serverDurationMs": 2297.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -598,7 +598,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 1424.867,
+        "durationMs": 1369.448,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -610,9 +610,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 5,
-          "serverDurationMs": 1422.0,
+          "serverDurationMs": 1359.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -625,7 +625,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 70.453,
+        "durationMs": 63.606,
         "expected": {
           "summary": null,
           "errorCode": "invalid_image",
@@ -648,7 +648,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 6.097,
+        "durationMs": 6.006,
         "expected": {
           "summary": null,
           "errorCode": "unsupported_media_type",
@@ -671,7 +671,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 2.858,
+        "durationMs": 2.755,
         "expected": {
           "summary": null,
           "errorCode": "invalid_panel_count",
@@ -694,7 +694,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 8.418,
+        "durationMs": 6.818,
         "expected": {
           "summary": null,
           "errorCode": "multipart_limit_exceeded",
@@ -717,7 +717,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 17.631,
+        "durationMs": 16.927,
         "expected": {
           "summary": null,
           "errorCode": "decoded_pixel_limit",
@@ -740,7 +740,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api_controlled_timeout",
-        "durationMs": 39.753,
+        "durationMs": 42.608,
         "expected": {
           "summary": null,
           "errorCode": "inference_timeout",
@@ -763,7 +763,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4760.095,
+        "durationMs": 4843.184,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -775,9 +775,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 9,
-          "serverDurationMs": 4750.0,
+          "serverDurationMs": 4844.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -790,7 +790,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2984.437,
+        "durationMs": 2965.593,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -802,9 +802,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 7,
-          "serverDurationMs": 2984.0,
+          "serverDurationMs": 2969.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -817,7 +817,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2401.086,
+        "durationMs": 2349.649,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -829,9 +829,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 9,
-          "serverDurationMs": 2406.0,
+          "serverDurationMs": 2343.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -844,7 +844,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2678.228,
+        "durationMs": 2701.429,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -856,9 +856,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2672.0,
+          "serverDurationMs": 2687.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -871,7 +871,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2923.03,
+        "durationMs": 2919.288,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -883,9 +883,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2922.0,
+          "serverDurationMs": 2906.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -898,7 +898,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 1453.667,
+        "durationMs": 1439.679,
         "expected": {
           "summary": "No differences found in checked fields",
           "errorCode": null,
@@ -910,9 +910,9 @@
           "summary": "No differences found in checked fields",
           "checkCount": 19,
           "evidenceCount": 6,
-          "serverDurationMs": 1437.0,
+          "serverDurationMs": 1438.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "azure-rt-correction"
+          "buildId": "vv-product-corpus-v1"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -927,7 +927,7 @@
         "operation": "rename_case_id",
         "target": "caseId",
         "invariant": "Results must not depend on fixture ID.",
-        "durationMs": 1911.33,
+        "durationMs": 1989.247,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [],
@@ -964,7 +964,7 @@
         "operation": "reverse_panels",
         "target": "panels",
         "invariant": "Evidence panel IDs may change but machine states must not.",
-        "durationMs": 3267.659,
+        "durationMs": 3311.243,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [],
@@ -1001,7 +1001,7 @@
         "operation": "replace_label_text",
         "target": "brand",
         "invariant": "A semantic brand mutation must change the brand result.",
-        "durationMs": 2122.851,
+        "durationMs": 2243.613,
         "expectedSummary": "Differences detected",
         "observedSummary": "Differences detected",
         "expectedChangedChecks": [
@@ -1042,7 +1042,7 @@
         "operation": "replace_label_text",
         "target": "warning_heading_uppercase",
         "invariant": "Warning capitalization cannot be inferred from the fixture name.",
-        "durationMs": 2304.448,
+        "durationMs": 2294.67,
         "expectedSummary": "Differences detected",
         "observedSummary": "Differences detected",
         "expectedChangedChecks": [
@@ -1083,7 +1083,7 @@
         "operation": "add_conflicting_candidate",
         "target": "country",
         "invariant": "Reference value cannot choose among conflicting observed candidates.",
-        "durationMs": 3073.787,
+        "durationMs": 3089.853,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [
@@ -1124,7 +1124,7 @@
         "operation": "replace_reference_value",
         "target": "abvPercent",
         "invariant": "Observed OCR must remain unchanged when only reference data changes.",
-        "durationMs": 1931.838,
+        "durationMs": 1941.575,
         "expectedSummary": "Differences detected",
         "observedSummary": "Differences detected",
         "expectedChangedChecks": [
@@ -1167,7 +1167,7 @@
         "operation": "remove_panel",
         "target": "back",
         "invariant": "Missing evidence cannot remain Match or clean.",
-        "durationMs": 1347.835,
+        "durationMs": 1322.467,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [
@@ -1224,7 +1224,7 @@
         "operation": "apply_blur",
         "target": "all_panels",
         "invariant": "Material degradation must affect quality and cannot create a clean result.",
-        "durationMs": 1223.524,
+        "durationMs": 1224.178,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [
@@ -1294,39 +1294,39 @@
     ],
     "workerStartups": [
       {
-        "readyMs": 4701.899,
+        "readyMs": 4178.379,
         "generation": 1,
-        "childPid": 88512,
+        "childPid": 65656,
         "workerDeadlineSeconds": 6.25
       },
       {
-        "readyMs": 4175.511,
+        "readyMs": 4121.831,
         "generation": 1,
-        "childPid": 23284,
+        "childPid": 44604,
         "workerDeadlineSeconds": 6.25
       },
       {
-        "readyMs": 4154.637,
+        "readyMs": 4111.578,
         "generation": 1,
-        "childPid": 65892,
+        "childPid": 66372,
         "workerDeadlineSeconds": 6.25
       },
       {
-        "readyMs": 4054.038,
+        "readyMs": 4022.311,
         "generation": 1,
-        "childPid": 40020,
+        "childPid": 57172,
         "workerDeadlineSeconds": 0.001
       },
       {
-        "readyMs": 4120.95,
+        "readyMs": 4117.881,
         "generation": 1,
-        "childPid": 35192,
+        "childPid": 28244,
         "workerDeadlineSeconds": 6.25
       },
       {
-        "readyMs": 4205.772,
+        "readyMs": 4203.184,
         "generation": 1,
-        "childPid": 14352,
+        "childPid": 15104,
         "workerDeadlineSeconds": 6.25
       }
     ]

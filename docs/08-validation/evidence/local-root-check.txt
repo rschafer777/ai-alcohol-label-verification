@@ -37,7 +37,7 @@ tests\validation\test_test_images_validator.py ..................        [100%]
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 191 passed, 1 warning in 32.01s =======================
+======================= 191 passed, 1 warning in 33.04s =======================
 
 > labelverify-frontend@0.1.0 lint
 > eslint . --max-warnings 0
@@ -56,8 +56,8 @@ tests\validation\test_test_images_validator.py ..................        [100%]
 
  Test Files  9 passed (9)
       Tests  46 passed (46)
-   Start at  16:12:37
-   Duration  4.55s (transform 696ms, setup 2.83s, import 1.83s, tests 4.89s, environment 12.15s)
+   Start at  16:34:19
+   Duration  4.68s (transform 781ms, setup 2.81s, import 1.98s, tests 4.97s, environment 12.22s)
 
 
 > labelverify-frontend@0.1.0 build
@@ -72,28 +72,28 @@ dist/index.html                   0.48 kB │ gzip:  0.30 kB
 dist/assets/index-DG0b-J5j.css   13.64 kB │ gzip:  4.01 kB
 dist/assets/index-BWuhx4XN.js   298.15 kB │ gzip: 89.43 kB
 
-✓ built in 151ms
+✓ built in 146ms
 
 > labelverify-frontend@0.1.0 test:e2e
 > playwright test
 
-[WebServer] INFO:     Started server process [54180]
-[WebServer] INFO:     Waiting for application startup.
-[WebServer] INFO:     Application startup complete.
-[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 
 Running 6 tests using 1 worker
 
-(node:81312) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
   -  1 [chrome] › e2e\batch-capacity.spec.ts:45:1 › governed 300-application browser batch is complete, mixed, cancellable, and exportable
   ok 2 [chrome] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (5.8s)
-  ok 3 [chrome] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free (3.4s)
-(node:86856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
-(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 [chrome] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free (3.3s)
   -  4 [edge] › e2e\batch-capacity.spec.ts:45:1 › governed 300-application browser batch is complete, mixed, cancellable, and exportable
-  ok 5 [edge] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (4.7s)
+  ok 5 [edge] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (4.2s)
   -  6 [edge] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free
 
   3 skipped
-  3 passed (22.6s)
+  3 passed (22.0s)
+[WebServer] INFO:     Started server process [22620]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+(node:95784) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:39112) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

@@ -39,6 +39,7 @@ try {
     if ($LASTEXITCODE -ne 1) {
         throw "Unicode scan failed to execute."
     }
+    $global:LASTEXITCODE = 0
 }
 finally {
     Pop-Location
