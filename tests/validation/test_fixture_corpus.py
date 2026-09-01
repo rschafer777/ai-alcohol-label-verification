@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 
+from ops.fetch_models import make_read_only
 from scripts.generate_frontend_contract import validate_frontend_contract
 from scripts.validate_fixture_corpus import (
     SUMMARY_CLEAN,
@@ -29,12 +31,17 @@ def load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def test_cg001_hashes_counts_and_limits() -> None:
+def test_cg001_hashes_counts_and_limits(tmp_path: Path) -> None:
     errors, contracts = validate_contracts(PROJECT_ROOT)
     assert errors == []
     assert contracts["hashes"] == EXPECTED_HASHES
     assert len(contracts["checkIds"]) == 19
     assert len(contracts["errorCodes"]) == 27
+    model = tmp_path / "model.onnx"
+    model.write_bytes(b"governed model")
+    make_read_only(model)
+    if os.name != "nt":
+        assert model.stat().st_mode & 0o222 == 0
 
 
 def test_corpus_schema_oracles_counts_and_seal() -> None:

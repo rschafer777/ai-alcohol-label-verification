@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import sys
 import urllib.request
 from pathlib import Path
@@ -28,6 +29,7 @@ def sha256_file(path: Path) -> str:
 def fetch_artifact(artifact: Artifact, target_dir: Path) -> None:
     target = target_dir / artifact["filename"]
     if target.exists() and sha256_file(target) == artifact["sha256"]:
+        make_read_only(target)
         return
 
     partial = target.with_suffix(target.suffix + ".partial")
@@ -46,6 +48,14 @@ def fetch_artifact(artifact: Artifact, target_dir: Path) -> None:
             f"Hash mismatch for {artifact['filename']}: expected {artifact['sha256']}, got {actual}"
         )
     partial.replace(target)
+    make_read_only(target)
+
+
+def make_read_only(path: Path) -> None:
+    """Enforce the runtime model-integrity permission contract on POSIX hosts."""
+
+    if os.name != "nt":
+        path.chmod(path.stat().st_mode & ~0o222)
 
 
 def main() -> int:
