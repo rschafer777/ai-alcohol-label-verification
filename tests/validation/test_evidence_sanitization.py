@@ -26,6 +26,15 @@ def _security_runner() -> ModuleType:
     return module
 
 
+def _privacy_runner() -> ModuleType:
+    path = ROOT / "scripts/scan_public_personal_details.py"
+    specification = importlib.util.spec_from_file_location("scan_public_personal_details", path)
+    assert specification is not None and specification.loader is not None
+    module = importlib.util.module_from_spec(specification)
+    specification.loader.exec_module(module)
+    return module
+
+
 def test_total_phase_evidence_sanitizes_project_and_temp_paths() -> None:
     runner = _phase_runner()
     project_path = str(ROOT / "backend/tests/test_lifecycle_matrix.py")
@@ -37,6 +46,12 @@ def test_total_phase_evidence_sanitizes_project_and_temp_paths() -> None:
     assert str(Path(tempfile.gettempdir()).resolve()) not in observed
     assert "<PROJECT_ROOT>" in observed
     assert "<TEMP_ROOT>" in observed
+
+    privacy_runner = _privacy_runner()
+    terms = privacy_runner.parse_terms('["ExamplePerson", "Second Example"]')
+    assert privacy_runner.find_matches("roles only", terms) == []
+    assert privacy_runner.find_matches("ExamplePerson appears", terms) == [0]
+    assert privacy_runner.find_matches("second example appears", terms) == [1]
 
 
 def test_security_snapshot_hash_uses_git_normalized_text(tmp_path: Path) -> None:

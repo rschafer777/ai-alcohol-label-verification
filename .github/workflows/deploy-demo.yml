@@ -51,6 +51,15 @@ jobs:
         shell: pwsh
         run: ./scripts/check.ps1
 
+      - name: Scan the public archive for unnecessary personal details
+        shell: pwsh
+        env:
+          LABELVERIFY_PROHIBITED_PERSONAL_TERMS: >-
+            ${{ secrets.LABELVERIFY_PROHIBITED_PERSONAL_TERMS }}
+        run: >-
+          uv run python scripts/scan_public_personal_details.py
+          --output "$env:RUNNER_TEMP/public-personal-detail-scan.json"
+
       - name: Run the governed 30-case product corpus
         shell: pwsh
         run: >-

@@ -18,6 +18,8 @@ The `demo` environment must contain these encrypted secrets:
 - `AZURE_TENANT_ID`
 - `AZURE_SUBSCRIPTION_ID`
 
+The repository Actions configuration must also contain `LABELVERIFY_PROHIBITED_PERSONAL_TERMS` as a JSON-array secret. It supplies the non-public term list for the exact public-archive privacy scan without embedding omitted identities in source or logs.
+
 It must contain these environment variables:
 
 - `AZURE_RESOURCE_GROUP`

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "evidenceId": "T-035-B-PUBLIC-PERSONAL-DETAIL-SCAN",
+  "createdAtUtc": "2026-09-01T22:00:04.208197+00:00",
+  "sourceTree": "579bfa79eb5614ddedae5eedffc713cdbdcb4328",
+  "termSource": "non-public environment variable LABELVERIFY_PROHIBITED_PERSONAL_TERMS",
+  "termCount": 9,
+  "scannedFileCount": 568,
+  "excludedPaths": [
+    "docs/08-validation/evidence/public-personal-detail-scan.json"
+  ],
+  "findingCount": 0,
+  "findings": [],
+  "pass": true
+}

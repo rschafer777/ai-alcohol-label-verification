@@ -40,19 +40,6 @@ try {
         throw "Unicode scan failed to execute."
     }
 
-    $personalDetailPattern = "\b(Sa" + "rah|Ch" + "en|Mar" + "cus|Will" + "iams|Da" + "ve|Mor" + "rison|Jen" + "ny|Pa" + "rk|Jan" + "et)\b"
-    $personalDetailMatches = rg -n -i $personalDetailPattern . `
-        -g "!.venv/**" `
-        -g "!frontend/node_modules/**" `
-        -g "!research/**" `
-        -g "!*.sha256"
-    if ($LASTEXITCODE -eq 0) {
-        $personalDetailMatches
-        throw "Unnecessary stakeholder personal details found."
-    }
-    if ($LASTEXITCODE -ne 1) {
-        throw "Personal-detail scan failed to execute."
-    }
     $global:LASTEXITCODE = 0
 }
 finally {
