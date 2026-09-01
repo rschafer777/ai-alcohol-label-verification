@@ -273,6 +273,7 @@ dev = [
     { name = "pytest-asyncio" },
     { name = "pytest-cov" },
     { name = "ruff" },
+    { name = "typing-extensions" },
 ]
 
 [package.metadata]
@@ -296,6 +297,7 @@ dev = [
     { name = "pytest-asyncio", specifier = ">=1.1,<2" },
     { name = "pytest-cov", specifier = ">=6.2,<7" },
     { name = "ruff", specifier = ">=0.12,<1" },
+    { name = "typing-extensions", specifier = "==4.16.0" },
 ]
 
 [[package]]

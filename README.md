@@ -44,6 +44,8 @@ Pop-Location
 uv run uvicorn labelverify.api.app:app --app-dir backend --host 127.0.0.1 --port 8000 --no-access-log
 ```
 
+If Windows reports that the `uv` cache cannot create compatible hardlinks, rerun the first command as `uv sync --frozen --link-mode copy`. This changes only the local installation method and preserves the locked dependency versions.
+
 Open `http://127.0.0.1:8000`. Choose **Try the built-in sample** for the fastest single-label evaluation path, or choose **Batch** and **Try a 10-application batch** for the fastest batch path.
 
 The first worker start loads and warms the local OCR models. Readiness is available at `http://127.0.0.1:8000/health/ready`.

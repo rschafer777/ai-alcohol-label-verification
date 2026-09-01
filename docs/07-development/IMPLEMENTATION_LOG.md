@@ -165,18 +165,18 @@ The decisive rerun passed all 30 cases, all 456 expected result rows, and all 8 
 
 ## 13. Validation exit evidence
 
-- Root lint and formatting gate: PASS.
+- Root lint, strict type, test, build, browser, and Unicode gate: PASS.
 - Strict MyPy across 34 source files: PASS.
-- Python tests: 98 passed.
-- Frontend tests: 14 passed.
+- Python tests: 182 passed.
+- Frontend tests: 46 passed.
 - Frontend production build: PASS.
-- Chrome and Edge integrated sample journeys: 2 passed.
+- Chrome and Edge integrated journeys: 3 passed; 3 intentionally duplicated matrix cases skipped.
 - Axe serious and critical findings: zero.
 - Product corpus: 30 of 30 cases and 8 of 8 mutations passed.
-- Warm performance: 30 of 30 complete, p95 1,978.469 ms against 5,000 ms.
-- Cold readiness through first result: 5 of 5 complete, p95 9,537.266 ms against the exclusive 10,000 ms threshold.
-- Peak observed parent plus worker RSS: 1,612,611,584 bytes inside the planned 2 GiB envelope.
+- Warm performance: 30 of 30 complete, p95 2,374.123 ms against 5,000 ms.
+- Cold readiness through first result: 5 of 5 complete, p95 7,531.501 ms against the exclusive 10,000 ms threshold.
+- Peak observed parent plus worker RSS: 1,578,123,264 bytes inside the planned 2 GiB envelope.
 - Python dependency audit: no known vulnerabilities.
 - Production npm audit: zero vulnerabilities.
 
-The local implementation is ready for internal UAT review and final independent RT inspection. OCI, Git, public deployment, final official-source recheck, and requester acceptance remain separate gates.
+The local implementation completed internal UAT and final independent RT inspection with the documented automatic-clear recognition gate. OCI proof, public deployment, and requester acceptance remain separate gates.

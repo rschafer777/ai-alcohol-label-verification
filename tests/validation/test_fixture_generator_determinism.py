@@ -21,3 +21,6 @@ def test_generator_reproduces_every_governed_generated_artifact(tmp_path: Path) 
     generated = tmp_path / "fixtures"
     generate(generated, PROJECT_ROOT)
     assert tree_hashes(generated) == tree_hashes(PROJECT_ROOT / "fixtures")
+    for path in generated.rglob("*"):
+        if path.is_file() and path.suffix in {".json", ".sha256"}:
+            assert b"\r\n" not in path.read_bytes(), path

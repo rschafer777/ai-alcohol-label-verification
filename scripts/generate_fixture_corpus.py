@@ -522,7 +522,11 @@ def sha256(path: Path) -> str:
 
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(value, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
 
 
 def contract_hashes(project_root: Path) -> dict[str, str]:
@@ -959,7 +963,7 @@ def write_holdout_seal(fixtures_root: Path, holdout_records: list[dict[str, Any]
         for path in sorted(paths, key=lambda item: item.as_posix())
     ]
     (fixtures_root / "holdout" / "SEAL.sha256").write_text(
-        "\n".join(lines) + "\n", encoding="ascii"
+        "\n".join(lines) + "\n", encoding="ascii", newline="\n"
     )
 
 
