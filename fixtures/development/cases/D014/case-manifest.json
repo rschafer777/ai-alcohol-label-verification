@@ -1,0 +1,28 @@
+{
+  "caseId": "D014",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D014.json",
+  "panels": [
+    {
+      "bytes": 91877,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D014/panels/panel-1.png",
+      "sha256": "cf4124236ba2a46b356429eb7888980af7d62bb5ba9d946e761e04c101a1b8fd",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D014/reference.json",
+  "scenarioTags": [
+    "warning",
+    "wording",
+    "punctuation",
+    "mismatch"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Warning wording punctuation mutation"
+}

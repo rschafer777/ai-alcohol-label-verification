@@ -1,0 +1,27 @@
+{
+  "caseId": "D012",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D012.json",
+  "panels": [
+    {
+      "bytes": 90062,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D012/panels/panel-1.png",
+      "sha256": "bc2b65c31d2fe60cf9a8fbac46568d2f19acc10f0d5a6ab4618f2909db0ca4a3",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D012/reference.json",
+  "scenarioTags": [
+    "warning",
+    "heading_emphasis",
+    "review"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Warning heading lacks emphasis"
+}

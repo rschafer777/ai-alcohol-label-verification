@@ -1,0 +1,204 @@
+{
+  "authorship": "VV-LEAD independent of production comparison and aggregation",
+  "caseId": "D017",
+  "checks": [
+    {
+      "applicable": true,
+      "checkId": "brand",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "class_type",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "abv",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "proof",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "net_contents",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "producer",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": false,
+      "checkId": "country",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": false,
+      "observedHint": null,
+      "reasonClass": "not_applicable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_applicability",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_wording",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_heading_uppercase",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_heading_emphasis",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_body_not_bold",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_separation",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_continuity",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_contrast",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_legibility",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_physical_size",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "panel_coverage",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "coverage_gap",
+      "state": "Review"
+    },
+    {
+      "applicable": true,
+      "checkId": "image_quality",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unreadable",
+      "state": "Not verified"
+    }
+  ],
+  "notes": [
+    "Expected values are authored in the fixture generator, not imported from production.",
+    "Non-applicable rows remain in the oracle with mustAppear false."
+  ],
+  "oracleId": "oracle_d017",
+  "outcomeKind": "result",
+  "schemaVersion": "1.0.0",
+  "summary": "Review needed"
+}

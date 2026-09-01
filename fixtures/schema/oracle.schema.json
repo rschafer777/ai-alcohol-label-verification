@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labelverify.local/fixtures/schema/oracle.schema.json",
+  "title": "LabelVerify independent expected-outcome oracle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "oracleId", "caseId", "authorship", "outcomeKind"],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "oracleId": {"type": "string", "pattern": "^oracle_[a-z0-9_]+$"},
+    "caseId": {"type": "string", "pattern": "^[DHS][0-9]{3}$"},
+    "authorship": {"const": "VV-LEAD independent of production comparison and aggregation"},
+    "outcomeKind": {"enum": ["result", "error"]},
+    "summary": {
+      "enum": [
+        "No differences found in checked fields",
+        "Review needed",
+        "Differences detected"
+      ]
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 19,
+      "maxItems": 19,
+      "items": {"$ref": "#/$defs/CheckExpectation"}
+    },
+    "error": {"$ref": "#/$defs/ErrorExpectation"},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"outcomeKind": {"const": "result"}}},
+      "then": {"required": ["summary", "checks"], "not": {"required": ["error"]}}
+    },
+    {
+      "if": {"properties": {"outcomeKind": {"const": "error"}}},
+      "then": {"required": ["error"], "not": {"anyOf": [{"required": ["summary"]}, {"required": ["checks"]}]}}
+    }
+  ],
+  "$defs": {
+    "CheckExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkId",
+        "applicable",
+        "mustAppear",
+        "state",
+        "reasonClass",
+        "evidence",
+        "minimumAlternatives"
+      ],
+      "properties": {
+        "checkId": {"type": "string"},
+        "applicable": {"type": "boolean"},
+        "mustAppear": {"type": "boolean"},
+        "state": {"enum": ["Match", "Mismatch", "Review", "Not verified"]},
+        "reasonClass": {
+          "enum": [
+            "exact",
+            "safe_equivalence",
+            "case_variation",
+            "punctuation_variation",
+            "ambiguous",
+            "definite_difference",
+            "missing",
+            "unreadable",
+            "unsupported_measurement",
+            "not_applicable",
+            "quality_degradation",
+            "coverage_gap"
+          ]
+        },
+        "evidence": {"enum": ["required", "optional", "forbidden"]},
+        "minimumAlternatives": {"type": "integer", "minimum": 0},
+        "observedHint": {"type": ["string", "null"]}
+      }
+    },
+    "ErrorExpectation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "resultMustBeAbsent"],
+      "properties": {
+        "code": {"type": "string"},
+        "http": {"type": ["integer", "null"], "minimum": 400, "maximum": 599},
+        "resultMustBeAbsent": {"const": true}
+      }
+    }
+  }
+}

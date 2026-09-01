@@ -1,0 +1,46 @@
+{
+  "caseId": "D009",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D009.json",
+  "panels": [
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D009/panels/panel-1.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 72480,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-2",
+      "path": "fixtures/development/cases/D009/panels/panel-2.png",
+      "sha256": "4e6624bf8de4f6b40ea321f5a24fc7f91bbdf005a7fd3283f34cfa2a560dff9b",
+      "width": 1200
+    },
+    {
+      "bytes": 18384,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-3",
+      "path": "fixtures/development/cases/D009/panels/panel-3.png",
+      "sha256": "5a5a2cc3dbfe43731ea8eb75f9dc3bb6105166d79deb8a0b5b8a0c7a88c174f0",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D009/reference.json",
+  "scenarioTags": [
+    "country",
+    "imported",
+    "multi_panel",
+    "exact"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Imported country exact match"
+}

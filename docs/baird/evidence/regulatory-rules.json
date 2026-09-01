@@ -1,0 +1,26 @@
+{
+  "registry_id": "ttb-distilled-spirits-selected-rules",
+  "registry_version": "1.0.0",
+  "effective_date": "2026-08-31",
+  "beverage_scope": "distilled_spirits",
+  "warning": {
+    "applicability_abv_percent_gte": 0.5,
+    "heading_exact": "GOVERNMENT WARNING:",
+    "body_exact": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "exact_comparison_normalization": "whitespace_and_line_wrap_only",
+    "heading_must_be_uppercase": true,
+    "heading_must_be_bold": true,
+    "body_must_not_be_bold": true
+  },
+  "policy_versions": {
+    "warning_applicability": "27-cfr-part-16-current-2026-08-31",
+    "warning_wording": "27-cfr-16-21-current-2026-08-31",
+    "warning_presentation": "27-cfr-16-22-current-2026-08-31",
+    "selected_fields": "27-cfr-5-63-current-2026-08-31"
+  },
+  "citations": [
+    "https://www.ecfr.gov/current/title-27/chapter-I/subchapter-A/part-16",
+    "https://www.ecfr.gov/current/title-27/chapter-I/subchapter-A/part-5/subpart-E/section-5.63",
+    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/distilled-spirits/ds-labeling-home/ds-health-warning"
+  ]
+}

@@ -1,0 +1,38 @@
+# Copy this file to fly.toml only after the requester authorizes deployment.
+# Replace both placeholders with the application name allocated by Fly.io.
+
+app = "REPLACE_WITH_FLY_APP_NAME"
+primary_region = "ord"
+
+[build]
+  dockerfile = "Dockerfile"
+
+  [build.args]
+    LABELVERIFY_BUILD_ID = "REPLACE_WITH_RELEASE_SNAPSHOT_ID"
+
+[env]
+  LABELVERIFY_RUNTIME_MODE = "production"
+  LABELVERIFY_ALLOWED_HOST = "REPLACE_WITH_FLY_APP_NAME.fly.dev"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[[vm]]
+  memory = "2gb"
+  cpu_kind = "shared"
+  cpus = 2
+
+[[http_service.checks]]
+  interval = "15s"
+  timeout = "3s"
+  grace_period = "30s"
+  method = "GET"
+  path = "/health/ready"
+
+  [http_service.checks.headers]
+    Host = "REPLACE_WITH_FLY_APP_NAME.fly.dev"

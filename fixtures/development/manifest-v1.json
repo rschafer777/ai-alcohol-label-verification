@@ -1,0 +1,739 @@
+{
+  "cases": [
+    {
+      "caseId": "D001",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D001.json",
+      "panels": [
+        {
+          "bytes": 91856,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D001/panels/panel-1.png",
+          "sha256": "585c111b424b110cb92f85e66a669a6c0091e59b4bb015eca6061e80819a25f9",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D001/reference.json",
+      "scenarioTags": [
+        "exact",
+        "single_panel",
+        "clean"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Exact clean domestic label"
+    },
+    {
+      "caseId": "D002",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D002.json",
+      "panels": [
+        {
+          "bytes": 91794,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D002/panels/panel-1.png",
+          "sha256": "f930951e6272cbe94bc8efb14c9c33f8117790bedae463db8e1949c9538d9d3b",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D002/reference.json",
+      "scenarioTags": [
+        "brand",
+        "case_variation",
+        "review"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Brand case variation routes to review"
+    },
+    {
+      "caseId": "D003",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D003.json",
+      "panels": [
+        {
+          "bytes": 88785,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D003/panels/panel-1.png",
+          "sha256": "db39fca5995c0da7a64aed02fd124aa552e85688f8ed97763a74ba0944ac7f16",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D003/reference.json",
+      "scenarioTags": [
+        "brand",
+        "class_type",
+        "punctuation",
+        "ambiguity"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Brand punctuation and class ambiguity"
+    },
+    {
+      "caseId": "D004",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D004.json",
+      "panels": [
+        {
+          "bytes": 92902,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D004/panels/panel-1.png",
+          "sha256": "befe385b14c60344fec0801a5549dfe7ec5e30f05cd1ec27f3e9ed2339a83247",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D004/reference.json",
+      "scenarioTags": [
+        "brand",
+        "mismatch"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Definite brand difference"
+    },
+    {
+      "caseId": "D005",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D005.json",
+      "panels": [
+        {
+          "bytes": 86241,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D005/panels/panel-1.png",
+          "sha256": "5f4a3ab7fc0de053b82bfde865a28fa66781cd3c62d243843acf9b18d4f4f2d0",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D005/reference.json",
+      "scenarioTags": [
+        "class_type",
+        "mismatch"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Definite class type difference"
+    },
+    {
+      "caseId": "D006",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D006.json",
+      "panels": [
+        {
+          "bytes": 91459,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D006/panels/panel-1.png",
+          "sha256": "765f5d5c9d3c96913f17f14b2868858416de9dc542dab044e7799aedb3293157",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D006/reference.json",
+      "scenarioTags": [
+        "abv",
+        "proof",
+        "net_contents",
+        "mismatch"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "ABV proof and net contents differences"
+    },
+    {
+      "caseId": "D007",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D007.json",
+      "panels": [
+        {
+          "bytes": 91525,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D007/panels/panel-1.png",
+          "sha256": "b8ca9ad0ed01aa402dcb766e2b5f0b4e6d1ded46e9b2ab3dfb06ec18f1f6d37a",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D007/reference.json",
+      "scenarioTags": [
+        "net_contents",
+        "safe_equivalence"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Equivalent liter net contents"
+    },
+    {
+      "caseId": "D008",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D008.json",
+      "panels": [
+        {
+          "bytes": 91743,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D008/panels/panel-1.png",
+          "sha256": "1b75b75efe2f1911155a493be47755f32ffd93e6bd847f1ca1a56e1a7c96520a",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D008/reference.json",
+      "scenarioTags": [
+        "producer",
+        "punctuation",
+        "review"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Producer punctuation variation"
+    },
+    {
+      "caseId": "D009",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D009.json",
+      "panels": [
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D009/panels/panel-1.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        },
+        {
+          "bytes": 72480,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-2",
+          "path": "fixtures/development/cases/D009/panels/panel-2.png",
+          "sha256": "4e6624bf8de4f6b40ea321f5a24fc7f91bbdf005a7fd3283f34cfa2a560dff9b",
+          "width": 1200
+        },
+        {
+          "bytes": 18384,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-3",
+          "path": "fixtures/development/cases/D009/panels/panel-3.png",
+          "sha256": "5a5a2cc3dbfe43731ea8eb75f9dc3bb6105166d79deb8a0b5b8a0c7a88c174f0",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D009/reference.json",
+      "scenarioTags": [
+        "country",
+        "imported",
+        "multi_panel",
+        "exact"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Imported country exact match"
+    },
+    {
+      "caseId": "D010",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D010.json",
+      "panels": [
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D010/panels/panel-1.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        },
+        {
+          "bytes": 18384,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-2",
+          "path": "fixtures/development/cases/D010/panels/panel-2.png",
+          "sha256": "5a5a2cc3dbfe43731ea8eb75f9dc3bb6105166d79deb8a0b5b8a0c7a88c174f0",
+          "width": 1200
+        },
+        {
+          "bytes": 19413,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-3",
+          "path": "fixtures/development/cases/D010/panels/panel-3.png",
+          "sha256": "d6330ce580d1c752bd47d8e00dcc57e9da77f854c4fc2e852caf01ee72d6a945",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D010/reference.json",
+      "scenarioTags": [
+        "country",
+        "imported",
+        "ambiguity",
+        "multi_panel"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Conflicting country candidates"
+    },
+    {
+      "caseId": "D011",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D011.json",
+      "panels": [
+        {
+          "bytes": 92490,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D011/panels/panel-1.png",
+          "sha256": "b9cbb471b78d3bbc420c30ac7bfb222a951b09a629f11fc549b1a23d56a37e2b",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D011/reference.json",
+      "scenarioTags": [
+        "warning",
+        "heading_uppercase",
+        "mismatch"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Warning heading uses title case"
+    },
+    {
+      "caseId": "D012",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D012.json",
+      "panels": [
+        {
+          "bytes": 90062,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D012/panels/panel-1.png",
+          "sha256": "bc2b65c31d2fe60cf9a8fbac46568d2f19acc10f0d5a6ab4618f2909db0ca4a3",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D012/reference.json",
+      "scenarioTags": [
+        "warning",
+        "heading_emphasis",
+        "review"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Warning heading lacks emphasis"
+    },
+    {
+      "caseId": "D013",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D013.json",
+      "panels": [
+        {
+          "bytes": 107700,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D013/panels/panel-1.png",
+          "sha256": "4fbc1ca36933b356d278fd804965223f9e9ee230bf6112e8c3fae2f8d75d195f",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D013/reference.json",
+      "scenarioTags": [
+        "warning",
+        "body_emphasis",
+        "review"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Warning body is bold"
+    },
+    {
+      "caseId": "D014",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D014.json",
+      "panels": [
+        {
+          "bytes": 91877,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D014/panels/panel-1.png",
+          "sha256": "cf4124236ba2a46b356429eb7888980af7d62bb5ba9d946e761e04c101a1b8fd",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D014/reference.json",
+      "scenarioTags": [
+        "warning",
+        "wording",
+        "punctuation",
+        "mismatch"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Warning wording punctuation mutation"
+    },
+    {
+      "caseId": "D015",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D015.json",
+      "panels": [
+        {
+          "bytes": 100652,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D015/panels/panel-1.png",
+          "sha256": "6845ef3bd9b1f2cb01ad31228da26ae790faf962830ccbb6c2db26816da6365b",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D015/reference.json",
+      "scenarioTags": [
+        "warning",
+        "continuity",
+        "mismatch"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Warning continuity interruption"
+    },
+    {
+      "caseId": "D016",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D016.json",
+      "panels": [
+        {
+          "bytes": 96433,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D016/panels/panel-1.png",
+          "sha256": "41ed014b900713c2fcec3bf7d585b7cad03c92ba35574cab455caa4853f812b9",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D016/reference.json",
+      "scenarioTags": [
+        "warning",
+        "separation",
+        "review"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Warning separation is uncertain"
+    },
+    {
+      "caseId": "D017",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D017.json",
+      "panels": [
+        {
+          "bytes": 225058,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D017/panels/panel-1.png",
+          "sha256": "e439ea7db04065e71ffc4b04f0b8e25461e4ee39d618193ad3fec631fe467f8d",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D017/reference.json",
+      "scenarioTags": [
+        "image_quality",
+        "glare",
+        "blur",
+        "unreadable",
+        "negative"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Glare and blur make the label unreadable"
+    },
+    {
+      "caseId": "D018",
+      "expectedKind": "result",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D018.json",
+      "panels": [
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D018/panels/panel-1.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D018/reference.json",
+      "scenarioTags": [
+        "panel_coverage",
+        "country",
+        "missing",
+        "warning",
+        "negative"
+      ],
+      "sealed": false,
+      "submissionMode": "ui",
+      "title": "Required back panel is missing"
+    },
+    {
+      "caseId": "D019",
+      "expectedKind": "error",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D019.json",
+      "panels": [
+        {
+          "bytes": 34,
+          "height": null,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D019/panels/panel-1.png",
+          "sha256": "329ead9f923a5c7c806a3486a98be2bb2a16609283884ab0ada865b0d777dd63",
+          "width": null
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D019/reference.json",
+      "scenarioTags": [
+        "invalid_image",
+        "corrupt",
+        "negative"
+      ],
+      "sealed": false,
+      "submissionMode": "api",
+      "title": "Corrupt PNG fails closed"
+    },
+    {
+      "caseId": "D020",
+      "expectedKind": "error",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D020.json",
+      "panels": [
+        {
+          "bytes": 11558,
+          "height": 1600,
+          "mimeType": "image/gif",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D020/panels/panel-1.gif",
+          "sha256": "0a3882130f30de4a7f76733c006ca57cbda3baf6a957e874b044044982ea02f8",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D020/reference.json",
+      "scenarioTags": [
+        "unsupported_media",
+        "negative"
+      ],
+      "sealed": false,
+      "submissionMode": "api",
+      "title": "Unsupported GIF fails closed"
+    },
+    {
+      "caseId": "D021",
+      "expectedKind": "error",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D021.json",
+      "panels": [],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D021/reference.json",
+      "scenarioTags": [
+        "panel_count",
+        "zero",
+        "negative"
+      ],
+      "sealed": false,
+      "submissionMode": "api",
+      "title": "Zero panels fails validation"
+    },
+    {
+      "caseId": "D022",
+      "expectedKind": "error",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D022.json",
+      "panels": [
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D022/panels/panel-1.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        },
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-2",
+          "path": "fixtures/development/cases/D022/panels/panel-2.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        },
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-3",
+          "path": "fixtures/development/cases/D022/panels/panel-3.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        },
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-4",
+          "path": "fixtures/development/cases/D022/panels/panel-4.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        },
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-5",
+          "path": "fixtures/development/cases/D022/panels/panel-5.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        },
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-6",
+          "path": "fixtures/development/cases/D022/panels/panel-6.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        },
+        {
+          "bytes": 34374,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-7",
+          "path": "fixtures/development/cases/D022/panels/panel-7.png",
+          "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D022/reference.json",
+      "scenarioTags": [
+        "panel_count",
+        "maximum",
+        "negative"
+      ],
+      "sealed": false,
+      "submissionMode": "api",
+      "title": "Seven panels exceeds the contract"
+    },
+    {
+      "caseId": "D023",
+      "expectedKind": "error",
+      "fault": null,
+      "oraclePath": "fixtures/oracle/development/D023.json",
+      "panels": [
+        {
+          "bytes": 306888,
+          "height": 3000,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D023/panels/panel-1.png",
+          "sha256": "3565cdb142826101edf001c0553f6cf10f4807dc497cb6c2910b8441b2a2cf2c",
+          "width": 4001
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D023/reference.json",
+      "scenarioTags": [
+        "pixel_limit",
+        "resource_boundary",
+        "negative"
+      ],
+      "sealed": false,
+      "submissionMode": "api",
+      "title": "Decoded pixel limit fails closed"
+    },
+    {
+      "caseId": "D024",
+      "expectedKind": "error",
+      "fault": "inference_timeout",
+      "oraclePath": "fixtures/oracle/development/D024.json",
+      "panels": [
+        {
+          "bytes": 91856,
+          "height": 1600,
+          "mimeType": "image/png",
+          "panelId": "panel-1",
+          "path": "fixtures/development/cases/D024/panels/panel-1.png",
+          "sha256": "585c111b424b110cb92f85e66a669a6c0091e59b4bb015eca6061e80819a25f9",
+          "width": 1200
+        }
+      ],
+      "partition": "development",
+      "referencePath": "fixtures/development/cases/D024/reference.json",
+      "scenarioTags": [
+        "inference_timeout",
+        "fault_injection",
+        "negative"
+      ],
+      "sealed": false,
+      "submissionMode": "fault_injection",
+      "title": "Controlled inference timeout returns no result"
+    }
+  ],
+  "partition": "development",
+  "schemaVersion": "1.0.0"
+}

@@ -1,0 +1,27 @@
+{
+  "caseId": "D023",
+  "expectedKind": "error",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D023.json",
+  "panels": [
+    {
+      "bytes": 306888,
+      "height": 3000,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D023/panels/panel-1.png",
+      "sha256": "3565cdb142826101edf001c0553f6cf10f4807dc497cb6c2910b8441b2a2cf2c",
+      "width": 4001
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D023/reference.json",
+  "scenarioTags": [
+    "pixel_limit",
+    "resource_boundary",
+    "negative"
+  ],
+  "sealed": false,
+  "submissionMode": "api",
+  "title": "Decoded pixel limit fails closed"
+}

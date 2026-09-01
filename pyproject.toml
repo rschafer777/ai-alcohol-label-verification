@@ -1,0 +1,51 @@
+[project]
+name = "labelverify"
+version = "0.1.0"
+description = "AI-assisted distilled-spirits label comparison take-home prototype"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "fastapi==0.141.1",
+  "onnxruntime==1.22.1",
+  "opencv-python-headless==4.12.0.88",
+  "pillow==12.3.0",
+  "pydantic==2.13.5",
+  "python-multipart==0.0.32",
+  "rapidocr==3.4.2",
+  "uvicorn==0.35.0",
+]
+
+[dependency-groups]
+dev = [
+  "httpx>=0.28.1,<0.29",
+  "mypy>=1.17,<2",
+  "psutil==7.0.0",
+  "pytest>=9.0.3,<10",
+  "pytest-asyncio>=1.1,<2",
+  "pytest-cov>=6.2,<7",
+  "ruff>=0.12,<1",
+]
+
+[tool.uv]
+package = false
+exclude-dependencies = [
+  { package = { name = "rapidocr", version = "3.4.2" }, dependencies = ["opencv-python"] },
+]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+pythonpath = ["backend"]
+testpaths = ["backend/tests", "tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "backend"
+packages = ["labelverify"]
+exclude = ["research"]

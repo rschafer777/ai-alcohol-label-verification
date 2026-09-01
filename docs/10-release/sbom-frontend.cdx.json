@@ -1,0 +1,82 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:0c22e154-3e96-4c76-8d8c-0ae0af27a105",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-09-01T00:00:00Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "name": "LabelVerify deterministic npm lock inventory",
+          "version": "1.0"
+        }
+      ]
+    },
+    "component": {
+      "type": "application",
+      "bom-ref": "pkg:npm/labelverify-frontend@0.1.0",
+      "name": "labelverify-frontend",
+      "version": "0.1.0",
+      "purl": "pkg:npm/labelverify-frontend@0.1.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/react@19.2.0",
+      "name": "react",
+      "version": "19.2.0",
+      "scope": "required",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:npm/react@19.2.0",
+      "externalReferences": [{ "type": "distribution", "url": "https://registry.npmjs.org/react/-/react-19.2.0.tgz" }],
+      "properties": [{ "name": "npm:integrity", "value": "sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ==" }]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/react-dom@19.2.0",
+      "name": "react-dom",
+      "version": "19.2.0",
+      "scope": "required",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:npm/react-dom@19.2.0",
+      "externalReferences": [{ "type": "distribution", "url": "https://registry.npmjs.org/react-dom/-/react-dom-19.2.0.tgz" }],
+      "properties": [{ "name": "npm:integrity", "value": "sha512-UlbRu4cAiGaIewkPyiRGJk0imDN2T3JjieT6spoL2UeSf5od4n5LB/mQ4ejmxhCFT1tYe8IvaFulzynWovsEFQ==" }]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/scheduler@0.27.0",
+      "name": "scheduler",
+      "version": "0.27.0",
+      "scope": "required",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:npm/scheduler@0.27.0",
+      "externalReferences": [{ "type": "distribution", "url": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz" }],
+      "properties": [{ "name": "npm:integrity", "value": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==" }]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/zod@4.1.12",
+      "name": "zod",
+      "version": "4.1.12",
+      "scope": "required",
+      "licenses": [{ "license": { "id": "MIT" } }],
+      "purl": "pkg:npm/zod@4.1.12",
+      "externalReferences": [{ "type": "distribution", "url": "https://registry.npmjs.org/zod/-/zod-4.1.12.tgz" }],
+      "properties": [{ "name": "npm:integrity", "value": "sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==" }]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/labelverify-frontend@0.1.0",
+      "dependsOn": ["pkg:npm/react@19.2.0", "pkg:npm/react-dom@19.2.0", "pkg:npm/zod@4.1.12"]
+    },
+    { "ref": "pkg:npm/react@19.2.0", "dependsOn": [] },
+    { "ref": "pkg:npm/react-dom@19.2.0", "dependsOn": ["pkg:npm/react@19.2.0", "pkg:npm/scheduler@0.27.0"] },
+    { "ref": "pkg:npm/scheduler@0.27.0", "dependsOn": [] },
+    { "ref": "pkg:npm/zod@4.1.12", "dependsOn": [] }
+  ]
+}

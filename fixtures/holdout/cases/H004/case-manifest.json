@@ -1,0 +1,28 @@
+{
+  "caseId": "H004",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/holdout/H004.json",
+  "panels": [
+    {
+      "bytes": 81880,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/holdout/cases/H004/panels/panel-1.png",
+      "sha256": "b872454c718b3220115bc1e723029dce9486efda07b3bfc521b49a267b6cc9d9",
+      "width": 1200
+    }
+  ],
+  "partition": "holdout",
+  "referencePath": "fixtures/holdout/cases/H004/reference.json",
+  "scenarioTags": [
+    "warning",
+    "contrast",
+    "legibility",
+    "holdout"
+  ],
+  "sealed": true,
+  "submissionMode": "ui",
+  "title": "Warning has low contrast"
+}

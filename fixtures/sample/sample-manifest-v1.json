@@ -1,0 +1,50 @@
+{
+  "caseId": "S001",
+  "contractHashes": {
+    "api-contract-v1.json": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47",
+    "error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
+    "regulatory-rules-v1.json": "6d1c9866738a1b863ff8572c29881195005861b2198c2e364c4b5ff0fbf2e6c2",
+    "selected-check-registry-v1.json": "521d7a1dbdb3872086083e92a6f37e459c48ad5471a09f3f92c23472b7dc8b13"
+  },
+  "displayName": "Old Tom Distillery synthetic sample",
+  "expectedSummary": "Review needed",
+  "oraclePath": "fixtures/oracle/sample/S001.json",
+  "panels": [
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/sample/panels/panel-1.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 72480,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-2",
+      "path": "fixtures/sample/panels/panel-2.png",
+      "sha256": "4e6624bf8de4f6b40ea321f5a24fc7f91bbdf005a7fd3283f34cfa2a560dff9b",
+      "width": 1200
+    }
+  ],
+  "profileId": "distilled_spirits_demo_v1",
+  "reference": {
+    "abvPercent": 45.0,
+    "brandName": "OLD TOM DISTILLERY",
+    "caseLabel": null,
+    "classType": "Kentucky Straight Bourbon Whiskey",
+    "countryOfOrigin": null,
+    "isImported": false,
+    "netContentsUnit": "mL",
+    "netContentsValue": 750.0,
+    "producerNameAddress": "OLD TOM DISTILLERY LLC\nFRANKFORT, KENTUCKY 40601",
+    "profileId": "distilled_spirits_demo_v1",
+    "proof": 90.0
+  },
+  "referencePath": "fixtures/sample/reference.json",
+  "sampleContractVersion": "1.0.0",
+  "sampleId": "old-tom-distillery-v1",
+  "syntheticOnly": true
+}

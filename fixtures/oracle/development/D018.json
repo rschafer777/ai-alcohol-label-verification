@@ -1,0 +1,204 @@
+{
+  "authorship": "VV-LEAD independent of production comparison and aggregation",
+  "caseId": "D018",
+  "checks": [
+    {
+      "applicable": true,
+      "checkId": "brand",
+      "evidence": "required",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
+    },
+    {
+      "applicable": true,
+      "checkId": "class_type",
+      "evidence": "required",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
+    },
+    {
+      "applicable": true,
+      "checkId": "abv",
+      "evidence": "required",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
+    },
+    {
+      "applicable": true,
+      "checkId": "proof",
+      "evidence": "required",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
+    },
+    {
+      "applicable": true,
+      "checkId": "net_contents",
+      "evidence": "required",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
+    },
+    {
+      "applicable": true,
+      "checkId": "producer",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "country",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_applicability",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_wording",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_heading_uppercase",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_heading_emphasis",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_body_not_bold",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_separation",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_continuity",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_contrast",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_legibility",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "missing",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "warning_physical_size",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "unsupported_measurement",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "panel_coverage",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "coverage_gap",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "image_quality",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
+    }
+  ],
+  "notes": [
+    "Expected values are authored in the fixture generator, not imported from production.",
+    "Non-applicable rows remain in the oracle with mustAppear false."
+  ],
+  "oracleId": "oracle_d018",
+  "outcomeKind": "result",
+  "schemaVersion": "1.0.0",
+  "summary": "Review needed"
+}

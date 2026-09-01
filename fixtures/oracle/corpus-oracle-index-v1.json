@@ -1,0 +1,156 @@
+{
+  "authorship": "VV-LEAD independent of production comparison and aggregation",
+  "oracles": [
+    {
+      "caseId": "D001",
+      "path": "fixtures/oracle/development/D001.json",
+      "sha256": "797668d61f1eb0f45ad576ab2441507406c9a77a3f4646b16956cd0db31b8520"
+    },
+    {
+      "caseId": "D002",
+      "path": "fixtures/oracle/development/D002.json",
+      "sha256": "8e8c16f801ba601363f1187766fad30630b9abe757bdc43b8dc1978fcd1fc7de"
+    },
+    {
+      "caseId": "D003",
+      "path": "fixtures/oracle/development/D003.json",
+      "sha256": "a2804fcf3568a15c9d782c02165df24948d5fd599ec68682590d73a74bdd87b3"
+    },
+    {
+      "caseId": "D004",
+      "path": "fixtures/oracle/development/D004.json",
+      "sha256": "dcee8721b70b3a7d2f17ca099f3142f5e0aed62c5dd650590ab061c32ccbc756"
+    },
+    {
+      "caseId": "D005",
+      "path": "fixtures/oracle/development/D005.json",
+      "sha256": "079ff87d6bee682e9c1e31fd6f321949ae2b0a3af9663d000fa006f13417c670"
+    },
+    {
+      "caseId": "D006",
+      "path": "fixtures/oracle/development/D006.json",
+      "sha256": "58db9f07c569a78461b8a3b807d6b64a88be05ada9347f81ec1cebb839d0ca08"
+    },
+    {
+      "caseId": "D007",
+      "path": "fixtures/oracle/development/D007.json",
+      "sha256": "0b69870c0f15aa32c0fdc3a9393ddab95d0f9b9bd9bd4ebbdde6bbc287994188"
+    },
+    {
+      "caseId": "D008",
+      "path": "fixtures/oracle/development/D008.json",
+      "sha256": "2c78a44ae3de430d7318dfbaf6e3560c1f2a6b605a07f358d4d61362317466f0"
+    },
+    {
+      "caseId": "D009",
+      "path": "fixtures/oracle/development/D009.json",
+      "sha256": "c548f2792d55614740798c1f6194da1ff2e6e77786644126ade8ca021a71c2cf"
+    },
+    {
+      "caseId": "D010",
+      "path": "fixtures/oracle/development/D010.json",
+      "sha256": "006afb17439b2f36ece62623dc9357765e436e7d61372fa6deaa3d7dfec6032e"
+    },
+    {
+      "caseId": "D011",
+      "path": "fixtures/oracle/development/D011.json",
+      "sha256": "9363f814198dc6840158a62871211166c537736f9e7e9783075f819021dad346"
+    },
+    {
+      "caseId": "D012",
+      "path": "fixtures/oracle/development/D012.json",
+      "sha256": "d1656fe5507a23343527417e4693cb466c0a2d2637d2c8832de614556f142350"
+    },
+    {
+      "caseId": "D013",
+      "path": "fixtures/oracle/development/D013.json",
+      "sha256": "db253d74caf6e50fef635196ae6b13d70228d8b7420a453e5e7b7a3f75edcbbc"
+    },
+    {
+      "caseId": "D014",
+      "path": "fixtures/oracle/development/D014.json",
+      "sha256": "6d93ed205f67b9d14aab8a5ba75cf5f7fd074424bff6eaad5d201f945cea5ca4"
+    },
+    {
+      "caseId": "D015",
+      "path": "fixtures/oracle/development/D015.json",
+      "sha256": "693db1a563b1ef6d0dca4c5ff66c7b7411259059fdf2856bbfeeb56749ed1dfb"
+    },
+    {
+      "caseId": "D016",
+      "path": "fixtures/oracle/development/D016.json",
+      "sha256": "aba7a7ae3eba203c46a9aebea921f48492bafe26e16f8af0ff38b8b206605208"
+    },
+    {
+      "caseId": "D017",
+      "path": "fixtures/oracle/development/D017.json",
+      "sha256": "2f59072626c820820a7382e4c5a7d8d8ce99e19dc313165ec38f09b317da5707"
+    },
+    {
+      "caseId": "D018",
+      "path": "fixtures/oracle/development/D018.json",
+      "sha256": "465e14a4bf439ffde55f848b87567aea48073097e60d076fcd96c13f89ea1a6e"
+    },
+    {
+      "caseId": "D019",
+      "path": "fixtures/oracle/development/D019.json",
+      "sha256": "b9ea15ec33c4bdd49f2831f1435032ad57687e299ae57a67ca339ef9e61bb64c"
+    },
+    {
+      "caseId": "D020",
+      "path": "fixtures/oracle/development/D020.json",
+      "sha256": "dfc325c6b9b6488f228bd185e05b901a6427c7b49738501a77d272ce286e8f7e"
+    },
+    {
+      "caseId": "D021",
+      "path": "fixtures/oracle/development/D021.json",
+      "sha256": "e435a840b547002f89ac895e847dac482f8a5a60ec1ee17209e726a61aaf9e02"
+    },
+    {
+      "caseId": "D022",
+      "path": "fixtures/oracle/development/D022.json",
+      "sha256": "959ded3672971563f1bbab734a3563d7b39c9847a2645066c797685774655b12"
+    },
+    {
+      "caseId": "D023",
+      "path": "fixtures/oracle/development/D023.json",
+      "sha256": "5b221e48a32fd23c92ce4c637982254f1dc4dfcf7c42d9c622afb5e710487826"
+    },
+    {
+      "caseId": "D024",
+      "path": "fixtures/oracle/development/D024.json",
+      "sha256": "932106979a57173bd7edd35974b010d2a2b03fb56f9bf06e5885d2d9468c3d69"
+    },
+    {
+      "caseId": "H001",
+      "path": "fixtures/oracle/holdout/H001.json",
+      "sha256": "1a5adff53b4c566884969cabffe79ecb2cfdcb89f914ac2c0cbf557b714ae8fd"
+    },
+    {
+      "caseId": "H002",
+      "path": "fixtures/oracle/holdout/H002.json",
+      "sha256": "724cf45697d2ee8b533e3499c13b56c9a5eb3db4f3038f5abe66dd7bd516ef2c"
+    },
+    {
+      "caseId": "H003",
+      "path": "fixtures/oracle/holdout/H003.json",
+      "sha256": "96c4820a43425ddff68d0c004c962d9c556ff515fadef8b1cfb3bf6a9250e929"
+    },
+    {
+      "caseId": "H004",
+      "path": "fixtures/oracle/holdout/H004.json",
+      "sha256": "6044104e31adef69600b1cc65feea7b1ed98364c25a35b928c56affd33367c9a"
+    },
+    {
+      "caseId": "H005",
+      "path": "fixtures/oracle/holdout/H005.json",
+      "sha256": "3c53b3963af13eab1d8a4753b19c0860e1fb851d4f77fe5bc30ed915a89ad40e"
+    },
+    {
+      "caseId": "H006",
+      "path": "fixtures/oracle/holdout/H006.json",
+      "sha256": "a08bbe1fee975d3904a40642aadb22a2ac5ba0a9c9995ace12540ca7cadfc0a4"
+    }
+  ],
+  "schemaVersion": "1.0.0"
+}

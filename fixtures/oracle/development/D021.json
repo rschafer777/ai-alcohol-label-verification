@@ -1,0 +1,16 @@
+{
+  "authorship": "VV-LEAD independent of production comparison and aggregation",
+  "caseId": "D021",
+  "error": {
+    "code": "invalid_panel_count",
+    "http": 422,
+    "resultMustBeAbsent": true
+  },
+  "notes": [
+    "Expected values are authored in the fixture generator, not imported from production.",
+    "Non-applicable rows remain in the oracle with mustAppear false."
+  ],
+  "oracleId": "oracle_d021",
+  "outcomeKind": "error",
+  "schemaVersion": "1.0.0"
+}

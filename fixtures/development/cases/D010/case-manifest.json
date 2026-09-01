@@ -1,0 +1,46 @@
+{
+  "caseId": "D010",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D010.json",
+  "panels": [
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D010/panels/panel-1.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 18384,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-2",
+      "path": "fixtures/development/cases/D010/panels/panel-2.png",
+      "sha256": "5a5a2cc3dbfe43731ea8eb75f9dc3bb6105166d79deb8a0b5b8a0c7a88c174f0",
+      "width": 1200
+    },
+    {
+      "bytes": 19413,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-3",
+      "path": "fixtures/development/cases/D010/panels/panel-3.png",
+      "sha256": "d6330ce580d1c752bd47d8e00dcc57e9da77f854c4fc2e852caf01ee72d6a945",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D010/reference.json",
+  "scenarioTags": [
+    "country",
+    "imported",
+    "ambiguity",
+    "multi_panel"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Conflicting country candidates"
+}

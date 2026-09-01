@@ -1,0 +1,28 @@
+{
+  "caseId": "D003",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D003.json",
+  "panels": [
+    {
+      "bytes": 88785,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D003/panels/panel-1.png",
+      "sha256": "db39fca5995c0da7a64aed02fd124aa552e85688f8ed97763a74ba0944ac7f16",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D003/reference.json",
+  "scenarioTags": [
+    "brand",
+    "class_type",
+    "punctuation",
+    "ambiguity"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Brand punctuation and class ambiguity"
+}

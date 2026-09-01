@@ -1,0 +1,28 @@
+{
+  "caseId": "H005",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/holdout/H005.json",
+  "panels": [
+    {
+      "bytes": 87804,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/holdout/cases/H005/panels/panel-1.png",
+      "sha256": "f192356fbea1b92c6dbacf70869500ac51735a0b7b8429dd4c18810370c07df6",
+      "width": 1200
+    }
+  ],
+  "partition": "holdout",
+  "referencePath": "fixtures/holdout/cases/H005/reference.json",
+  "scenarioTags": [
+    "warning",
+    "physical_size",
+    "holdout",
+    "human_confirmation"
+  ],
+  "sealed": true,
+  "submissionMode": "ui",
+  "title": "Physical warning size cannot be verified"
+}

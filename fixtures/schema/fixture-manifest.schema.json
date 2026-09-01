@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labelverify.local/fixtures/schema/fixture-manifest.schema.json",
+  "title": "LabelVerify deterministic fixture corpus manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "corpusId",
+    "contractHashes",
+    "developmentCount",
+    "holdoutCount",
+    "cases"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "corpusId": {"const": "labelverify-fixtures-v1"},
+    "contractHashes": {
+      "type": "object",
+      "minProperties": 4,
+      "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+    },
+    "developmentCount": {"type": "integer", "minimum": 18},
+    "holdoutCount": {"type": "integer", "minimum": 6},
+    "cases": {
+      "type": "array",
+      "minItems": 24,
+      "items": {"$ref": "#/$defs/Case"}
+    }
+  },
+  "$defs": {
+    "Panel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["panelId", "path", "mimeType", "sha256", "bytes"],
+      "properties": {
+        "panelId": {"type": "string", "pattern": "^panel-[1-7]$"},
+        "path": {"type": "string"},
+        "mimeType": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "bytes": {"type": "integer", "minimum": 0},
+        "width": {"type": ["integer", "null"], "minimum": 1},
+        "height": {"type": ["integer", "null"], "minimum": 1}
+      }
+    },
+    "Case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "caseId",
+        "partition",
+        "sealed",
+        "title",
+        "scenarioTags",
+        "submissionMode",
+        "expectedKind",
+        "referencePath",
+        "oraclePath",
+        "panels"
+      ],
+      "properties": {
+        "caseId": {"type": "string", "pattern": "^[DH][0-9]{3}$"},
+        "partition": {"enum": ["development", "holdout"]},
+        "sealed": {"type": "boolean"},
+        "title": {"type": "string", "minLength": 1},
+        "scenarioTags": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9_]+$"}
+        },
+        "submissionMode": {"enum": ["ui", "api", "fault_injection"]},
+        "expectedKind": {"enum": ["result", "error"]},
+        "referencePath": {"type": ["string", "null"]},
+        "oraclePath": {"type": "string"},
+        "panels": {"type": "array", "maxItems": 7, "items": {"$ref": "#/$defs/Panel"}},
+        "fault": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

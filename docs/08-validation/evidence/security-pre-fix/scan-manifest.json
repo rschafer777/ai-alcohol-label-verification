@@ -1,0 +1,106 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "696f308bba10a893ba36aca5e7c285eb1919b6e0e076a304852594f7a5f8e403"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "e0346b9bb7e5604fe7079d43c7d281942c38bd7cb46c8cec0994da99f308d68f"
+      }
+    ],
+    "completedAt": "2026-09-01T07:10:17.898576Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "6cb6f418-1e87-4d19-b823-c528be710202",
+    "preservedSources": {
+      "checkpoints/0a905a22f2843161d13172326d90016b8348b5c40894d385f9b1d51c1b32c78a.json": "e8749961bf02ddc245276554d1dffa01650aa88bee51c1de666c9fdd0bee5c3b",
+      "checkpoints/0b7335e603048b1d5448fd5ea3226cad0fa997b63cafddf16a6af5563bbddd58.json": "0b7335e603048b1d5448fd5ea3226cad0fa997b63cafddf16a6af5563bbddd58",
+      "checkpoints/23a3318f4feb8d6e25bf9d79cdd88339628123e9f39b2283973cc34072e3c06a.json": "76838c8eeb56b848fd807851ae52c0de36473ef642fc3870528f7b26990bce94",
+      "checkpoints/3465a6e0319597ff28cf7ba19220954b5e93c4219ffdce158e5e1b4f09f37262.json": "83ad730bf94a750d42accc65984bd3732f414ecd1614f507d9928bfe35114361",
+      "checkpoints/48b4f77e28d0cdedaed2e496cdbba4d36223f8f8bb582724d3cbb4ace469ac4c.json": "538ca4f15207a02ece971c9ccb273156ab95bd468889eea0c6ec2a6b2acb3290"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.22"
+    },
+    "scope": {
+      "artifactsReviewed": [
+        "backend/",
+        "frontend/src/",
+        "contracts/",
+        "Dockerfile",
+        "ops/",
+        "README.md",
+        "docs/04-i2r-ae/",
+        "docs/05-frd/",
+        "docs/09-qa-qc-uat/",
+        "docs/10-release/",
+        "pinned Starlette and Pillow source"
+      ],
+      "context": "Security, privacy, egress, upload, Host and Origin, worker lifecycle, no-persistence, logging, dependencies, and release controls.",
+      "excludePaths": [],
+      "includePaths": [
+        "."
+      ],
+      "limitations": [
+        "No container runtime is installed, so OCI and deployed-runtime controls cannot be observed.",
+        "Dependency advisory databases were not queried offline.",
+        "No Git revision exists yet by requester instruction."
+      ],
+      "runtimeStatus": "Direct local runtime available. OCI and deployed runtime unavailable.",
+      "summary": "Whole-project standard security review of the local LabelVerify take-home release candidate before remediation.",
+      "validationMode": "Three independent source reviews plus parent validation."
+    },
+    "sealedAt": "2026-09-01T07:10:17.898576Z",
+    "startedAt": "2026-09-01T06:45:19.956318Z",
+    "status": "completed",
+    "target": {
+      "displayName": "ai-alcohol-label-verification",
+      "kind": "directory_snapshot",
+      "snapshotDigest": "codex-security-snapshot/v1:sha256:c13c6c8d26e12ae88522d9c5e40f611ef8c9beea406798146be3223754bf88a8",
+      "targetId": "target_sha256_95ba096c90fadbbf1c46095d3891c9d2dd0121b9b3b44da5ff3845cdbd7d3e58"
+    },
+    "threatModel": {
+      "assets": [
+        "Application availability",
+        "Uploaded content and reference data",
+        "Result, contract, and model integrity",
+        "Temporary storage, privacy claims, and release provenance"
+      ],
+      "assumptions": [
+        "Direct mode remains loopback-only.",
+        "Fly proxy supplies authentic production identity.",
+        "OCI, edge, and egress controls require external proof."
+      ],
+      "attackerCapabilities": [
+        "Send malformed multipart requests",
+        "Upload highly compressed images",
+        "Control timing, cancellation, Host, Origin, length, and public identity inputs",
+        "Repeat across identities"
+      ],
+      "securityObjectives": [
+        "Bound resources before expensive work",
+        "Clean request content on every exit",
+        "Make shutdown terminal",
+        "Preserve fair admission",
+        "Reject untrusted production boundary headers",
+        "Avoid persistence, content logs, and required runtime egress"
+      ],
+      "summary": "An unauthenticated user submits reference data and compressed images. Middleware and Starlette parse the request, generated temporary files pass to a spawned OCR worker, and a transient typed result returns to browser memory. The killable worker shares runtime filesystem and network authority.",
+      "trustBoundaries": [
+        "Browser to middleware",
+        "Middleware to multipart parser",
+        "Framework spool to controlled request directory",
+        "Parent to worker",
+        "Worker to image and OCR libraries",
+        "Container to hosting platform"
+      ]
+    }
+  },
+  "schemaVersion": "1.0"
+}

@@ -1,0 +1,81 @@
+{
+  "caseId": "D022",
+  "expectedKind": "error",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D022.json",
+  "panels": [
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D022/panels/panel-1.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-2",
+      "path": "fixtures/development/cases/D022/panels/panel-2.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-3",
+      "path": "fixtures/development/cases/D022/panels/panel-3.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-4",
+      "path": "fixtures/development/cases/D022/panels/panel-4.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-5",
+      "path": "fixtures/development/cases/D022/panels/panel-5.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-6",
+      "path": "fixtures/development/cases/D022/panels/panel-6.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-7",
+      "path": "fixtures/development/cases/D022/panels/panel-7.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D022/reference.json",
+  "scenarioTags": [
+    "panel_count",
+    "maximum",
+    "negative"
+  ],
+  "sealed": false,
+  "submissionMode": "api",
+  "title": "Seven panels exceeds the contract"
+}

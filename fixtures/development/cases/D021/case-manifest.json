@@ -1,0 +1,17 @@
+{
+  "caseId": "D021",
+  "expectedKind": "error",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D021.json",
+  "panels": [],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D021/reference.json",
+  "scenarioTags": [
+    "panel_count",
+    "zero",
+    "negative"
+  ],
+  "sealed": false,
+  "submissionMode": "api",
+  "title": "Zero panels fails validation"
+}

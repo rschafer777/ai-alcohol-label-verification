@@ -1,0 +1,27 @@
+{
+  "caseId": "D011",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D011.json",
+  "panels": [
+    {
+      "bytes": 92490,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D011/panels/panel-1.png",
+      "sha256": "b9cbb471b78d3bbc420c30ac7bfb222a951b09a629f11fc549b1a23d56a37e2b",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D011/reference.json",
+  "scenarioTags": [
+    "warning",
+    "heading_uppercase",
+    "mismatch"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Warning heading uses title case"
+}

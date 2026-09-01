@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://labelverify.local/contracts/api-contract-v1.json",
+  "contractId": "labelverify-api",
+  "contractVersion": "1.0.0",
+  "$defs": {
+    "Point": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y"],
+      "properties": {"x": {"type": "integer", "minimum": 0}, "y": {"type": "integer", "minimum": 0}}
+    },
+    "Reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profileId", "brandName", "classType", "abvPercent", "netContentsValue", "netContentsUnit", "producerNameAddress", "isImported"],
+      "properties": {
+        "profileId": {"const": "distilled_spirits_demo_v1"},
+        "caseLabel": {"type": ["string", "null"], "maxLength": 80},
+        "brandName": {"type": "string", "minLength": 1, "maxLength": 160},
+        "classType": {"type": "string", "minLength": 1, "maxLength": 240},
+        "abvPercent": {"type": "number", "exclusiveMinimum": 0, "maximum": 100},
+        "proof": {"type": ["number", "null"], "minimum": 0},
+        "netContentsValue": {"type": "number", "exclusiveMinimum": 0},
+        "netContentsUnit": {"enum": ["mL", "L"]},
+        "producerNameAddress": {"type": "string", "minLength": 1, "maxLength": 500},
+        "isImported": {"type": "boolean"},
+        "countryOfOrigin": {"type": ["string", "null"], "maxLength": 80}
+      }
+    },
+    "Evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidenceId", "panelId", "polygonOriginalPixels", "sourceView", "transformId", "confidenceProvenance"],
+      "properties": {
+        "evidenceId": {"type": "string", "pattern": "^ev_[a-z0-9_-]+$"},
+        "panelId": {"type": "string", "pattern": "^panel-[1-6]$"},
+        "polygonOriginalPixels": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/Point"}},
+        "sourceView": {"enum": ["original", "derived"]},
+        "transformId": {"type": "string"},
+        "textSnippet": {"type": ["string", "null"]},
+        "confidenceProvenance": {
+          "type": "object",
+          "required": ["source", "signal", "calibratedProbability"],
+          "properties": {
+            "source": {"type": "string"},
+            "signal": {"type": ["number", "null"]},
+            "calibratedProbability": {"const": false}
+          }
+        }
+      }
+    },
+    "Check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkId", "label", "applicable", "state", "reasonCode", "reasonText", "alternatives", "capability", "policyVersion"],
+      "properties": {
+        "checkId": {"type": "string"},
+        "label": {"type": "string"},
+        "applicable": {"type": "boolean"},
+        "referenceDisplay": {"type": ["string", "null"]},
+        "observedDisplay": {"type": ["string", "null"]},
+        "state": {"enum": ["Match", "Mismatch", "Review", "Not verified"]},
+        "reasonCode": {"type": "string"},
+        "reasonText": {"type": "string"},
+        "evidenceRef": {"type": ["string", "null"]},
+        "alternatives": {
+          "type": "array",
+          "items": {"type": "object", "required": ["value", "evidenceRef"], "properties": {"value": {"type": "string"}, "evidenceRef": {"type": "string"}}}
+        },
+        "capability": {"type": "string"},
+        "policyVersion": {"type": "string"}
+      }
+    },
+    "PublicError": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requestId", "code", "message", "retryable", "nextAction"],
+      "properties": {
+        "requestId": {"type": "string"},
+        "code": {"type": "string"},
+        "message": {"type": "string"},
+        "fieldOrPanel": {"type": ["string", "null"]},
+        "retryable": {"type": "boolean"},
+        "nextAction": {"type": "string"}
+      }
+    }
+  },
+  "limits": {
+    "rawRequestBytes": 8650752,
+    "referenceBytes": 32768,
+    "fileBytes": 4194304,
+    "aggregateFileBytes": 8388608,
+    "panelCountMin": 1,
+    "panelCountMax": 6,
+    "pixelsPerImage": 12000000,
+    "pixelsPerRequest": 36000000,
+    "uploadDeadlineSeconds": 20,
+    "serverDeadlineSeconds": 30,
+    "browserDeadlineSeconds": 35,
+    "workerDeadlineSeconds": 6.25
+  }
+}

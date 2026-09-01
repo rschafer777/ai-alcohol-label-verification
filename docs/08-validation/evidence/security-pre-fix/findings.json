@@ -1,0 +1,566 @@
+{
+  "documentType": "codex-security.findings",
+  "findings": [
+    {
+      "attackPath": {
+        "controls": [
+          "Spawned child",
+          "6.25-second worker deadline",
+          "Two-request admission"
+        ],
+        "impact": {
+          "level": "medium",
+          "rationale": "Memory pressure, worker timeouts, restart churn, readiness disruption, or container termination."
+        },
+        "likelihood": {
+          "level": "medium",
+          "rationale": "The input is easy to construct, but admission and rate controls bound parallelism."
+        },
+        "limitations": [
+          "Peak RSS depends on format and allocator."
+        ],
+        "reachability": {
+          "attacker": "Unauthenticated verification client",
+          "entrypoint": "POST /api/v1/verifications",
+          "sink": "Pillow ImageOps.exif_transpose",
+          "summary": "Directly reachable through the unauthenticated verification endpoint."
+        },
+        "steps": [
+          "Submit a supported compressed image within 4 MiB whose dimensions exceed 12 megapixels.",
+          "The child loads and copies or transposes the raster.",
+          "The pixel check runs after allocation."
+        ],
+        "summary": "A compressed public upload reaches a full raster load before decoded-pixel control."
+      },
+      "codeEvidence": [
+        {
+          "code": "with Image.open(path) as source:\n    source.verify()\nwith Image.open(path) as source:\n    normalized = ImageOps.exif_transpose(source)\n    width, height = normalized.size\n    pixels = width * height\n    if width <= 0 or height <= 0:\n        raise InvalidImageError(\"Decoded image dimensions are invalid\")\n    if pixels > max_pixels:\n        raise ImageLimitError(\"Decoded image exceeds the per-image pixel limit\")",
+          "endLine": 53,
+          "explanation": "ImageOps.exif_transpose materializes the raster before pixels is compared with max_pixels.",
+          "id": "decode-before-limit",
+          "label": "Full raster load precedes pixel validation",
+          "language": "python",
+          "path": "backend/labelverify/imaging/decode.py",
+          "role": "sink",
+          "startLine": 44
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "The direct source trace and pinned Pillow 11.3.0 source confirm that ImageOps.exif_transpose begins with image.load()."
+      },
+      "findingId": "csf_d825263136cab13ac6a4de0b",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:dc32679c99fdcacfb37b8c3b632967735b6c0f1a4e7f459b9c709d1e5b4c3973"
+      },
+      "identity": {
+        "anchor": "pillow-decode-before-pixel-limit"
+      },
+      "locations": [
+        {
+          "endLine": 53,
+          "path": "backend/labelverify/imaging/decode.py",
+          "role": "sink",
+          "startLine": 44
+        },
+        {
+          "endLine": 54,
+          "path": "backend/labelverify/orchestration/pipeline.py",
+          "role": "control",
+          "startLine": 44
+        }
+      ],
+      "occurrenceId": "occ_9a52c277724f1b913acd06bb",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Read declared dimensions before full load, reject per-image and remaining cumulative pixels first, configure Pillow decompression-bomb handling to fail closed, and only then reopen and decode.",
+      "remediationTests": [
+        "Reject a compact high-compression oversized image before ImageOps.exif_transpose.",
+        "Reject cumulative dimensions before decoding the over-budget panel.",
+        "Prove worker recovery and cleanup."
+      ],
+      "rootCause": "Dimension and cumulative-budget validation occurs after a Pillow operation that materializes the raster.",
+      "ruleId": "resource-exhaustion.decode-before-pixel-limit",
+      "severity": {
+        "changeConditions": "Reject declared and cumulative dimensions before any pixel load.",
+        "level": "medium",
+        "rationale": "The public path can cause large child allocations and restart churn, while admission and worker isolation reduce concurrency and blast radius."
+      },
+      "summary": "Pillow fully loads and copies or transposes an uploaded raster before the application checks the 12-megapixel limit, so a small compressed file can trigger memory and CPU use above the governed bound.",
+      "taxonomy": {
+        "category": "resource-exhaustion",
+        "cwe": [
+          "CWE-400"
+        ]
+      },
+      "title": "Oversized compressed images are decoded before pixel limits run",
+      "validation": {
+        "counterEvidence": [
+          "Decode runs in a killable child with admission, rate, and time limits."
+        ],
+        "disposition": "reportable",
+        "evidence": [
+          "backend/labelverify/imaging/decode.py:44-53",
+          "Pillow 11.3.0 ImageOps.exif_transpose source"
+        ],
+        "limitations": [
+          "Peak RSS depends on format and allocator."
+        ],
+        "method": "Static source-to-sink validation plus inspection of the pinned Pillow implementation.",
+        "status": "validated"
+      }
+    },
+    {
+      "attackPath": {
+        "controls": [
+          "Lifecycle lock",
+          "Terminate and join old worker",
+          "One-job lock"
+        ],
+        "impact": {
+          "level": "medium",
+          "rationale": "Resurrected child, delayed shutdown, hung deployment, or forced termination."
+        },
+        "likelihood": {
+          "level": "medium",
+          "rationale": "Requires timing a worker timeout with shutdown."
+        },
+        "limitations": [
+          "Interpreter-exit timing is platform dependent."
+        ],
+        "reachability": {
+          "attacker": "Unauthenticated verification client",
+          "entrypoint": "POST /api/v1/verifications",
+          "sink": "WorkerSupervisor._replace_worker",
+          "summary": "A public job can reach timeout while deployment shutdown is expected lifecycle behavior."
+        },
+        "steps": [
+          "Cause a worker deadline.",
+          "The parent launches a replacement thread.",
+          "Concurrent stop returns before replacement or waits behind warm-up."
+        ],
+        "summary": "A worker timeout creates unowned replacement work that can overlap application shutdown."
+      },
+      "codeEvidence": [
+        {
+          "code": "def stop(self, join_timeout: float = 2.0) -> None:\n    with self._lifecycle_lock:\n        self._ready = False\n        if self._commands is not None and self._process and self._process.is_alive():\n            with suppress(queue.Full):\n                self._commands.put_nowait({\"kind\": \"stop\"})\n            self._process.join(timeout=join_timeout)\n        self._terminate_locked()\n\ndef _replace_worker(self) -> None:\n    self._restarts += 1\n    self.start()",
+          "endLine": 175,
+          "explanation": "stop records no terminal state, while separately launched replacement work calls start unconditionally.",
+          "id": "replacement-without-terminal-state",
+          "label": "Stop does not disable later replacement",
+          "language": "python",
+          "path": "backend/labelverify/orchestration/supervisor.py",
+          "role": "sink",
+          "startLine": 164
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Both lifecycle lock orderings are explicit in source and no terminal stopping state exists."
+      },
+      "findingId": "csf_3a2fe85ac5a1f1cfab6b8328",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:5de1186565648dde0699ed2c9dbf63eb1f67aadd8902def71a800b0a03197038"
+      },
+      "identity": {
+        "anchor": "worker-replacement-after-terminal-stop"
+      },
+      "locations": [
+        {
+          "endLine": 151,
+          "path": "backend/labelverify/orchestration/supervisor.py",
+          "role": "source",
+          "startLine": 141
+        },
+        {
+          "endLine": 175,
+          "path": "backend/labelverify/orchestration/supervisor.py",
+          "role": "sink",
+          "startLine": 164
+        }
+      ],
+      "occurrenceId": "occ_245b1e8ee20341451f65e78b",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Add terminal stopping state, reject starts and replacements once stopping begins, track replacement threads, and join them before stop returns.",
+      "remediationTests": [
+        "Prove stop-before-replacement starts no child.",
+        "Prove replacement-before-stop has bounded shutdown and zero live child or replacement activity."
+      ],
+      "rootCause": "Lifecycle state tracks readiness but not terminal stopping, and replacement activity is neither owned nor joined.",
+      "ruleId": "concurrency.worker-replacement-shutdown-race",
+      "severity": {
+        "changeConditions": "Make stopping terminal and join every replacement activity before stop returns.",
+        "level": "medium",
+        "rationale": "The race can violate terminal shutdown and hang deployment, but requires overlap with shutdown."
+      },
+      "summary": "A timeout or job-ID mismatch starts an untracked replacement thread that can create a new OCR child after stop returns or delay stop behind a blocking warm-up.",
+      "taxonomy": {
+        "category": "improper-lifecycle-synchronization",
+        "cwe": [
+          "CWE-362"
+        ]
+      },
+      "title": "Worker replacement can race terminal shutdown",
+      "validation": {
+        "counterEvidence": [
+          "The lifecycle lock serializes each critical section and ordinary replacement succeeds without overlapping stop."
+        ],
+        "disposition": "reportable",
+        "evidence": [
+          "backend/labelverify/orchestration/supervisor.py:86-113",
+          "backend/labelverify/orchestration/supervisor.py:141-175"
+        ],
+        "limitations": [
+          "Interpreter-exit timing is platform dependent."
+        ],
+        "method": "Two-order concurrency analysis of lifecycle locking, replacement, and stop.",
+        "status": "validated"
+      }
+    },
+    {
+      "attackPath": {
+        "controls": [
+          "Per-client ten-minute limit",
+          "One-minute global window",
+          "Admission release"
+        ],
+        "impact": {
+          "level": "medium",
+          "rationale": "Legitimate verification starts receive global_start_rate_limited for a renewable interval."
+        },
+        "likelihood": {
+          "level": "medium",
+          "rationale": "Negligible bandwidth but more than one identity is required."
+        },
+        "limitations": [
+          "External edge throttling is outside this source snapshot."
+        ],
+        "reachability": {
+          "attacker": "Distributed unauthenticated clients",
+          "entrypoint": "POST /api/v1/verifications",
+          "sink": "StartRateLimiter global deque",
+          "summary": "Directly reachable by public clients."
+        },
+        "steps": [
+          "Send valid public boundary headers with oversized Content-Length.",
+          "The limiter records the attempt before pre-body rejection.",
+          "Repeat across identities until the global window is full."
+        ],
+        "summary": "Header-only rejected requests consume the global valid-work budget."
+      },
+      "codeEvidence": [
+        {
+          "code": "client_key = self.identity.resolve(scope, self.settings, request_id)\nrate_error = self.limiter.begin(client_key)\nif rate_error:\n    raise PublicApiError(rate_error, request_id)\nif not self.admissions.acquire():\n    raise PublicApiError(\"verification_capacity_busy\", request_id)\nadmitted = True\ndeclared = self._validate_content_length(scope, request_id)",
+          "endLine": 73,
+          "explanation": "Oversized or malformed length is rejected only after limiter.begin records the start.",
+          "id": "limiter-before-structural-check",
+          "label": "Limiter is charged before Content-Length validation",
+          "language": "python",
+          "path": "backend/labelverify/security/boundary.py",
+          "role": "sink",
+          "startLine": 64
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Middleware ordering and limiter deque mutations are explicit."
+      },
+      "findingId": "csf_deb71cd562f0acacae7831ab",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:ec9ff1dfba36a4e6856a3e9315d056a37aac6285c75bf5dafc04a0572e4809bb"
+      },
+      "identity": {
+        "anchor": "global-start-budget-before-header-validation"
+      },
+      "locations": [
+        {
+          "endLine": 73,
+          "path": "backend/labelverify/security/boundary.py",
+          "role": "source",
+          "startLine": 64
+        },
+        {
+          "endLine": 43,
+          "path": "backend/labelverify/security/rate_limit.py",
+          "role": "sink",
+          "startLine": 18
+        }
+      ],
+      "occurrenceId": "occ_da4eab92a903529e43cc41cf",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Perform cheap structural header checks before charging the shared start limiter and keep malformed-request accounting separate.",
+      "remediationTests": [
+        "More than 30 pre-body 400 or 413 requests do not consume the valid-start bucket.",
+        "Structurally valid starts still enforce the configured global bound."
+      ],
+      "rootCause": "The scarce valid-work start budget is charged before cheap structural checks succeed.",
+      "ruleId": "rate-limit.prevalidation-global-budget-consumption",
+      "severity": {
+        "changeConditions": "Perform structural header validation before charging the valid-work limiter.",
+        "level": "medium",
+        "rationale": "A low-bandwidth public path can deny verification starts, while per-client and one-minute windows bound duration."
+      },
+      "summary": "Global and per-client start windows are charged before Content-Length and transfer-encoding validation, so requests rejected before body consumption can block valid verification starts.",
+      "taxonomy": {
+        "category": "rate-limit-budget-exhaustion",
+        "cwe": [
+          "CWE-400"
+        ]
+      },
+      "title": "Rejected header-only requests can exhaust the shared start budget",
+      "validation": {
+        "counterEvidence": [
+          "One identity is capped at 20 starts per ten minutes and the global window is one minute."
+        ],
+        "disposition": "reportable",
+        "evidence": [
+          "backend/labelverify/security/boundary.py:64-73",
+          "backend/labelverify/security/rate_limit.py:18-43"
+        ],
+        "limitations": [
+          "External edge throttling is outside this source snapshot."
+        ],
+        "method": "Static ordering validation against middleware and limiter state.",
+        "status": "validated"
+      }
+    },
+    {
+      "attackPath": {
+        "controls": [
+          "Raw-body limit",
+          "Two-request admission",
+          "Private tempfile handle"
+        ],
+        "impact": {
+          "level": "low",
+          "rationale": "Spool monitoring, cleanup, access policy, and capacity evidence omit the framework copy."
+        },
+        "likelihood": {
+          "level": "high",
+          "rationale": "The accepted file limit exceeds the framework threshold."
+        },
+        "limitations": [
+          "Hosting platform temporary filesystem quota is external."
+        ],
+        "reachability": {
+          "attacker": "Unauthenticated verification client",
+          "entrypoint": "POST /api/v1/verifications",
+          "sink": "Process-wide OS temporary directory",
+          "summary": "Any accepted large panel follows this path."
+        },
+        "steps": [
+          "Upload a valid panel over one MiB.",
+          "Starlette rolls it under the OS temp root.",
+          "The route later creates a second controlled copy."
+        ],
+        "summary": "Accepted files over one MiB spill outside the configured application spool."
+      },
+      "codeEvidence": [
+        {
+          "code": "async def _parse_form(\n    request: Request, request_id: str\n) -> tuple[ReferenceRecord, list[UploadFile]]:\n    limits = contracts().api[\"limits\"]\n    form: Any | None = None\n    try:\n        form = await request.form(\n            max_files=int(limits[\"panelCountMax\"]),\n            max_fields=1,\n            max_part_size=int(limits[\"fileBytes\"]),\n        )",
+          "endLine": 201,
+          "explanation": "Request.form creates framework spooled files before settings.spool_root is used for generated copies.",
+          "id": "form-before-controlled-copy",
+          "label": "Framework parsing precedes controlled copy",
+          "language": "python",
+          "path": "backend/labelverify/api/routes.py",
+          "role": "sink",
+          "startLine": 191
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "The locked parser calls SpooledTemporaryFile without a directory and the app configures only its later copy."
+      },
+      "findingId": "csf_91c6ea64cbe1e679f5099d21",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:5043fab6d307d76145fd5afc2579e4ad2ada0f5520bf5fc38d5a1fb076bb4212"
+      },
+      "identity": {
+        "anchor": "starlette-spool-outside-configured-root"
+      },
+      "locations": [
+        {
+          "endLine": 201,
+          "path": "backend/labelverify/api/routes.py",
+          "role": "entrypoint",
+          "startLine": 191
+        },
+        {
+          "endLine": 46,
+          "path": "backend/labelverify/settings/config.py",
+          "role": "control",
+          "startLine": 41
+        },
+        {
+          "endLine": 40,
+          "path": "Dockerfile",
+          "role": "deployment",
+          "startLine": 35
+        }
+      ],
+      "occurrenceId": "occ_62327031ba228ed5d22b6566",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Set the process temp directory to a private governed spool before parsing and include all copies in capacity and cleanup evidence.",
+      "remediationTests": [
+        "A file over one MiB rolls under the configured spool root.",
+        "Success and rejection return the complete spool tree to baseline."
+      ],
+      "rootCause": "The framework tempfile factory is not directed to the governed spool root.",
+      "ruleId": "temporary-storage.framework-spool-outside-boundary",
+      "severity": {
+        "changeConditions": "Direct every framework spill into a private governed temporary root and include it in capacity evidence.",
+        "level": "low",
+        "rationale": "The path violates privacy and accounting boundaries, but private tempfile semantics, byte limits, and admission bound scale."
+      },
+      "summary": "Starlette rolls accepted multipart files into the process-wide OS temporary directory rather than LABELVERIFY_SPOOL_ROOT, placing the first disk copy outside the documented controlled spool.",
+      "taxonomy": {
+        "category": "temporary-storage-boundary",
+        "cwe": [
+          "CWE-668"
+        ]
+      },
+      "title": "Framework multipart files bypass the configured spool boundary",
+      "validation": {
+        "counterEvidence": [
+          "Tempfiles are private and raw/admission bounds cap concurrency."
+        ],
+        "disposition": "reportable",
+        "evidence": [
+          "backend/labelverify/api/routes.py:191-201",
+          "Starlette 0.47.3 formparsers.py:125-210",
+          "Dockerfile:35-40"
+        ],
+        "limitations": [
+          "Hosting platform temporary filesystem quota is external."
+        ],
+        "method": "Source trace through Request.form, pinned Starlette, and Docker configuration.",
+        "status": "validated"
+      }
+    },
+    {
+      "attackPath": {
+        "controls": [
+          "Raw-body deadline",
+          "Two-request admission",
+          "Ordinary object finalization"
+        ],
+        "impact": {
+          "level": "low",
+          "rationale": "Temporary bytes or descriptors may outlive the request and weaken retention proof."
+        },
+        "likelihood": {
+          "level": "medium",
+          "rationale": "Exceptional exits are controllable but ordinary object cleanup limits duration."
+        },
+        "limitations": [
+          "Retention duration depends on exception and traceback lifetime."
+        ],
+        "reachability": {
+          "attacker": "Unauthenticated verification client",
+          "entrypoint": "POST /api/v1/verifications",
+          "sink": "Partial SpooledTemporaryFile inside parser state",
+          "summary": "The public upload endpoint lets a client control multipart timing and syntax."
+        },
+        "steps": [
+          "Roll multipart data past one MiB.",
+          "Stall, disconnect, cancel, exceed receive limits, or trigger malformed parser behavior.",
+          "The parser exits without returned FormData or generic finalizer."
+        ],
+        "summary": "A partial rolled upload exits through an exception without explicit tempfile finalization."
+      },
+      "codeEvidence": [
+        {
+          "code": "form: Any | None = None\ntry:\n    form = await request.form(\n        max_files=int(limits[\"panelCountMax\"]),\n        max_fields=1,\n        max_part_size=int(limits[\"fileBytes\"]),\n    )\nexcept PublicApiError:\n    if form is not None:\n        await form.close()\n    raise\nexcept MultiPartException as exc:\n    if form is not None:\n        await form.close()\n    raise PublicApiError(\"multipart_limit_exceeded\", request_id) from exc",
+          "endLine": 235,
+          "explanation": "When Request.form raises before assignment, form remains None and the application has no handle to close partial files.",
+          "id": "partial-parser-cleanup-gap",
+          "label": "Application can close only returned FormData",
+          "language": "python",
+          "path": "backend/labelverify/api/routes.py",
+          "role": "sink",
+          "startLine": 191
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "The exception ownership gap is explicit in application and pinned Starlette source."
+      },
+      "findingId": "csf_9ef2dc5f53ab9731c5f902d3",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:ff08025689e4d38b5f375f377c3e70bafa32d88f87139fdb59c7702a90916173"
+      },
+      "identity": {
+        "anchor": "partial-multipart-files-not-finalized"
+      },
+      "locations": [
+        {
+          "endLine": 235,
+          "path": "backend/labelverify/api/routes.py",
+          "role": "control",
+          "startLine": 191
+        },
+        {
+          "endLine": 171,
+          "path": "backend/labelverify/security/boundary.py",
+          "role": "source",
+          "startLine": 145
+        }
+      ],
+      "occurrenceId": "occ_c93a9958ec7fa05b82d9a1b7",
+      "provenance": {
+        "source": "local_plugin"
+      },
+      "remediation": "Wrap or subclass the multipart parser so every partial file is closed in a BaseException-safe path.",
+      "remediationTests": [
+        "Roll beyond one MiB and exercise timeout, disconnect, cancellation, overflow, and malformed syntax.",
+        "Assert zero handles, bytes, counters, and successful recovery."
+      ],
+      "rootCause": "Partial-file ownership is hidden in a framework parser that closes only its MultiPartException branch.",
+      "ruleId": "temporary-storage.partial-multipart-cleanup",
+      "severity": {
+        "changeConditions": "Own every parser tempfile and close it in a BaseException-safe finalizer.",
+        "level": "low",
+        "rationale": "The retention invariant is not explicit, but CPython cleanup and global resource bounds reduce practical impact."
+      },
+      "summary": "Timeout, disconnect, cancellation, receive-limit errors, or parser errors other than Starlette MultiPartException can interrupt Request.form without returning FormData and without closing partial tempfiles explicitly.",
+      "taxonomy": {
+        "category": "incomplete-temporary-file-cleanup",
+        "cwe": [
+          "CWE-459"
+        ]
+      },
+      "title": "Exceptional multipart exits lack explicit partial-file cleanup",
+      "validation": {
+        "counterEvidence": [
+          "CPython ordinarily releases unreachable tempfiles promptly and Starlette cleans MultiPartException."
+        ],
+        "disposition": "reportable",
+        "evidence": [
+          "backend/labelverify/api/routes.py:191-235",
+          "backend/labelverify/security/boundary.py:145-171",
+          "Starlette 0.47.3 formparsers.py:252-275"
+        ],
+        "limitations": [
+          "Retention duration depends on exception and traceback lifetime."
+        ],
+        "method": "Exception ownership analysis across receive wrapper, Request.form, and pinned Starlette.",
+        "status": "validated"
+      }
+    }
+  ],
+  "scanId": "6cb6f418-1e87-4d19-b823-c528be710202",
+  "schemaVersion": "1.0"
+}

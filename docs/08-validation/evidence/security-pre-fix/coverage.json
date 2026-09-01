@@ -1,0 +1,269 @@
+{
+  "completeness": "partial",
+  "deferred": [
+    {
+      "candidate": {
+        "confidence": "high",
+        "cweIds": [
+          "CWE-400"
+        ],
+        "evidence": [
+          "backend/labelverify/imaging/decode.py:44-53",
+          "backend/labelverify/orchestration/pipeline.py:44-54"
+        ],
+        "severity": "medium",
+        "sink": "Pillow ImageOps.exif_transpose before the application pixel limit",
+        "source": "Unauthenticated image upload",
+        "title": "Decoded-pixel limits are enforced only after image materialization"
+      },
+      "candidateId": "cand-decoded-pixel-precheck",
+      "id": "cand-decoded-pixel-precheck",
+      "reason": "Validated source flow, awaiting final attack-path recording and report assembly."
+    },
+    {
+      "candidate": {
+        "confidence": "high",
+        "cweIds": [
+          "CWE-362"
+        ],
+        "evidence": [
+          "backend/labelverify/orchestration/supervisor.py:141-175",
+          "backend/labelverify/api/app.py:39"
+        ],
+        "severity": "medium",
+        "sink": "Untracked replacement thread calls start after or during stop",
+        "source": "Worker timeout or job-ID mismatch",
+        "title": "Timeout replacement can resurrect a worker after shutdown or delay shutdown behind warm-up"
+      },
+      "candidateId": "cand-worker-shutdown-race",
+      "id": "cand-worker-shutdown-race",
+      "reason": "Independent investigator candidate awaiting parent validation."
+    },
+    {
+      "candidate": {
+        "confidence": "high",
+        "cweIds": [
+          "CWE-400"
+        ],
+        "evidence": [
+          "backend/labelverify/security/boundary.py:64-73",
+          "backend/labelverify/security/rate_limit.py:18-43"
+        ],
+        "severity": "medium",
+        "sink": "StartRateLimiter global deque charged before structural validation",
+        "source": "Oversized or malformed Content-Length",
+        "title": "Header-only oversized requests can exhaust the global start limiter before body validation"
+      },
+      "candidateId": "cand-global-budget-prevalidation",
+      "id": "cand-global-budget-prevalidation",
+      "reason": "Independent investigator candidate awaiting parent validation."
+    },
+    {
+      "candidate": {
+        "confidence": "high",
+        "cweIds": [
+          "CWE-668"
+        ],
+        "evidence": [
+          "backend/labelverify/api/routes.py:191-201",
+          "backend/labelverify/settings/config.py:41-46",
+          "Dockerfile:35-40"
+        ],
+        "severity": "low",
+        "sink": "SpooledTemporaryFile in process-wide OS temp directory",
+        "source": "Multipart file larger than the one MiB framework memory threshold",
+        "title": "Framework multipart files bypass the configured application spool and its accounting boundary"
+      },
+      "candidateId": "cand-framework-spool-boundary",
+      "id": "cand-framework-spool-boundary",
+      "reason": "Independent investigator candidate awaiting parent validation."
+    },
+    {
+      "candidate": {
+        "confidence": "high",
+        "cweIds": [
+          "CWE-459"
+        ],
+        "evidence": [
+          "backend/labelverify/api/routes.py:191-235",
+          "backend/labelverify/security/boundary.py:145-171",
+          "Starlette 0.47.3 formparsers.py cleanup branch"
+        ],
+        "severity": "low",
+        "sink": "Partial SpooledTemporaryFile ownership remains inside parser objects when Request.form does not return",
+        "source": "Timeout, disconnect, cancellation, raw-limit error, or malformed multipart after a file rolls to disk",
+        "title": "Exceptional multipart exits lack deterministic partial-spool cleanup"
+      },
+      "candidateId": "cand-partial-spool-cleanup",
+      "id": "cand-partial-spool-cleanup",
+      "reason": "Independent investigator candidate awaiting parent validation."
+    }
+  ],
+  "documentType": "codex-security.coverage",
+  "excludePaths": [],
+  "explicitExclusions": [
+    {
+      "pattern": ".venv/**",
+      "reason": "Third-party environment except exact pinned Pillow and Starlette source used as evidence."
+    },
+    {
+      "pattern": "frontend/node_modules/**",
+      "reason": "Third-party packages reviewed through locks and manifests."
+    },
+    {
+      "pattern": "frontend/dist/**",
+      "reason": "Generated output covered by build and browser validation."
+    },
+    {
+      "pattern": "docs/08-validation/evidence/**",
+      "reason": "Generated evidence is not a product attack surface."
+    },
+    {
+      "pattern": "research/**",
+      "reason": "Research harness is excluded from production packaging."
+    },
+    {
+      "pattern": ".venv/**",
+      "reason": "Third-party environment, except selected supporting dependency source."
+    },
+    {
+      "pattern": "frontend/node_modules/**",
+      "reason": "Third-party packages, except selected supporting dependency source."
+    },
+    {
+      "pattern": "frontend/dist/**",
+      "reason": "Generated build output."
+    },
+    {
+      "pattern": "docs/08-validation/evidence/**",
+      "reason": "Generated evidence output."
+    },
+    {
+      "pattern": ".venv/**",
+      "reason": "Third-party environment, reviewed through manifests and selected supporting source only."
+    },
+    {
+      "pattern": "frontend/node_modules/**",
+      "reason": "Third-party packages, reviewed through lockfile and selected supporting source only."
+    },
+    {
+      "pattern": ".venv/**",
+      "reason": "Third-party virtual environment, reviewed through dependency manifests rather than vendored source."
+    },
+    {
+      "pattern": "frontend/node_modules/**",
+      "reason": "Third-party packages, reviewed through lockfile and dependency inventory rather than vendored source."
+    }
+  ],
+  "includePaths": [
+    "."
+  ],
+  "inventoryStrategy": "directory",
+  "mode": "repository",
+  "openQuestions": [
+    {
+      "question": "Can an OCI builder be provided for blocked assertions?"
+    },
+    {
+      "question": "What edge and egress policies will be authorized for deployment?"
+    },
+    {
+      "question": "Which dependency versions have known issues in an authoritative online advisory database?"
+    }
+  ],
+  "scanId": "6cb6f418-1e87-4d19-b823-c528be710202",
+  "schemaVersion": "1.0",
+  "surfaces": [
+    {
+      "disposition": "reported",
+      "id": "surface_upload-boundary-and-image-decoding",
+      "label": "Upload boundary and image decoding",
+      "notes": "Three findings reported.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "reported",
+      "id": "surface_worker-lifecycle",
+      "label": "Worker lifecycle",
+      "notes": "Shutdown and replacement race reported.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "reported",
+      "id": "surface_production-boundary-and-admission",
+      "label": "Production boundary and admission",
+      "notes": "Pre-validation limiter charging reported. No Host, Origin, or identity bypass found.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "id": "surface_persistence-browser-storage-and-logging",
+      "label": "Persistence, browser storage, and logging",
+      "notes": "No database, durable queue, browser persistence, analytics, content logger, or unsafe rendering sink found.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "needs_follow_up",
+      "id": "surface_runtime-egress-and-supply-chain",
+      "label": "Runtime egress and supply chain",
+      "notes": "No product runtime external call path found. Advisory freshness, frontend SBOM, egress, and OCI provenance remain release gates.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "no_issue_found",
+      "id": "surface_contracts-models-and-sample-routes",
+      "label": "Contracts, models, and sample routes",
+      "notes": "Fixed paths, hashes, validation, and safe sample resolution found.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "needs_follow_up",
+      "id": "surface_oci-and-deployment-controls",
+      "label": "OCI and deployment controls",
+      "notes": "OCI execution, edge identity, network policy, and runtime readback are unavailable.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "needs_follow_up",
+      "id": "surface_baseline-source-review-3",
+      "label": "Baseline source review",
+      "notes": "One decoded-pixel allocation-order candidate.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "needs_follow_up",
+      "id": "surface_architecture-and-effective-resource-mapping-2",
+      "label": "Architecture and effective-resource mapping",
+      "notes": "Mapped all local and planned deployment boundaries and source-to-resource chains.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "needs_follow_up",
+      "id": "surface_focused-abuse-and-lifecycle-investigation",
+      "label": "Focused abuse and lifecycle investigation",
+      "notes": "Four additional candidates for worker shutdown, limiter charging order, multipart spool placement, and exceptional partial cleanup.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "needs_follow_up",
+      "id": "surface_baseline-source-review-2",
+      "label": "Baseline source review",
+      "notes": "One CWE-400 candidate validated at source level. Host, Origin, identity, persistence, logging, egress, model integrity, frontend sinks, packaging, and dependency evidence were reviewed.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "needs_follow_up",
+      "id": "surface_architecture-and-effective-resource-mapping",
+      "label": "Architecture and effective-resource mapping",
+      "notes": "Mapped direct, Vite, local OCI, and planned Fly paths. Identified non-vulnerability release defects: framework spool not redirected to the controlled root, local Docker instructions conflict with production boundary requirements, frontend SBOM is empty, and OCI/deployed controls remain unproved.",
+      "receiptRefs": []
+    },
+    {
+      "disposition": "needs_follow_up",
+      "id": "surface_baseline-source-review",
+      "label": "Baseline source review",
+      "notes": "Reviewed upload parsing, image preprocessing, worker supervision, Host and Origin controls, persistence, logging, runtime egress, browser storage, model integrity, packaging, and dependency evidence. One resource-exhaustion candidate remains under validation.",
+      "receiptRefs": []
+    }
+  ]
+}

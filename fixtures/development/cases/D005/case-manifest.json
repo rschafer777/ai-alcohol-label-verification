@@ -1,0 +1,26 @@
+{
+  "caseId": "D005",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D005.json",
+  "panels": [
+    {
+      "bytes": 86241,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D005/panels/panel-1.png",
+      "sha256": "5f4a3ab7fc0de053b82bfde865a28fa66781cd3c62d243843acf9b18d4f4f2d0",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D005/reference.json",
+  "scenarioTags": [
+    "class_type",
+    "mismatch"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Definite class type difference"
+}

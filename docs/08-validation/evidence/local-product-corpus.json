@@ -1,0 +1,1351 @@
+{
+  "schemaVersion": "1.0.0",
+  "evidenceId": "T-032-B-LOCAL-PRODUCT-CORPUS",
+  "createdAtUtc": "2026-09-01T18:49:56.253037+00:00",
+  "command": "uv run python scripts/validate_product_corpus.py",
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10"
+  },
+  "snapshot": {
+    "validatorSha256": "c96ec8f52824ecdc3669390ffa2b0fc110d5b7ff5416f7950049d740fe9813e8",
+    "supervisorSha256": "fcd4647a938352939377326481256baa3da738d3ef60e3c6ba20e5e8c66a1908",
+    "pipelineSha256": "9d81005d9069d30acc9fe4a0d5832ee64b2d5d17654c97efe4165c09f2299b8d",
+    "corpusManifestSha256": "853c8ccba768cc83dedefef833b839494e9747070bf5e256f3ac5e44d320dbd7",
+    "holdoutSealSha256": "e478fd00fd6b89243fac070f9470f45693c2125dd6eb2f1d53d837bf91b3a0c5",
+    "modelManifestSha256": "7714d5092c8458c8b2a94975ad6ab1f350b8ff087e5713102c94ea4d0aa6d8dc",
+    "contracts": {
+      "api-contract-v1.json": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47",
+      "error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
+      "regulatory-rules-v1.json": "6d1c9866738a1b863ff8572c29881195005861b2198c2e364c4b5ff0fbf2e6c2",
+      "selected-check-registry-v1.json": "521d7a1dbdb3872086083e92a6f37e459c48ad5471a09f3f92c23472b7dc8b13"
+    },
+    "productionSource": {
+      "backend/labelverify/__init__.py": "c0090d61132dcd5e4a79c5a76fdc49d90cc89e8091499b70fc5dfac9507f9fa5",
+      "backend/labelverify/api/__init__.py": "f8c4e0ec3983f22c9a732ada2528ed6fbcfffaf7771d7e0a55962257324b7da4",
+      "backend/labelverify/api/app.py": "466705314eb1a4eecd32722de2b88dad3bbbf37d2de53902ac85aa886c428103",
+      "backend/labelverify/api/errors.py": "a86cf72d2f47075d4dc4015c121ec4ad81fc161444b391b66f680cd5f844b5f9",
+      "backend/labelverify/api/multipart.py": "ff509d99122721533d2712fb37851bae2af91fbbb2cfc257cd8d76d44e949b57",
+      "backend/labelverify/api/routes.py": "7b236eee1edade30ea1f17b3c9b0c196a15de317812c9ecff78419af3fda1a84",
+      "backend/labelverify/api/static.py": "b9ef0848420bea2ba37c1435dc0d31da0e878e965bc9a243e9dcd98b35a20070",
+      "backend/labelverify/contracts/__init__.py": "1c40411fee5c85bf88938db3d442584780161fcf9c90c914c3a56dc6f6deb07a",
+      "backend/labelverify/contracts/loader.py": "14ee65d85d1228f6b5c70d9caf1d25a5eb249fc03325d150f5b339286b99107c",
+      "backend/labelverify/contracts/models.py": "663cd446a5197f575925417f9d997b4221d23063a562faff5cf9835db3305490",
+      "backend/labelverify/domain/__init__.py": "6fa6e4f579fd0d410c35fdab8a484b53f3bcbd41d2f30aa1e647255a9b190072",
+      "backend/labelverify/domain/aggregation.py": "afa6301c638b2b23593c6da0e67e120e67acf773ea94e89e3787f282dd80e934",
+      "backend/labelverify/domain/comparison.py": "166a37cf1e4761a09881da49442d8f0892b98f78c74ae2c846db5f19c70181f8",
+      "backend/labelverify/domain/engine.py": "9d20f05220140dcdf38cc9386ebe16ef31e722573a38b531cb73aa5f8d01439b",
+      "backend/labelverify/domain/normalize.py": "80531a2c1891db7c50132ef335e9057b26cd3035a546f7968574e77dcf2cc74e",
+      "backend/labelverify/domain/types.py": "1ce049986bc54c1684abef1e0fc05a2c4bd26be1106a88e1eb055f42b3073f41",
+      "backend/labelverify/domain/warnings.py": "e37ea836a120e93c51f530c6b0dec5a81f320d373529e080f5ef1efa6a4fadc1",
+      "backend/labelverify/extraction/__init__.py": "fae7cbfab6eb987a5d8cd1dfdebaaca2a0bbfe527d0f1ec4f27fda0e71d366d8",
+      "backend/labelverify/extraction/candidates.py": "9825a6288e8b88c84e9c696f57c9e0efcff37e86b5b967fcb38e81e22d810c40",
+      "backend/labelverify/extraction/port.py": "e76ff239aa65e8ab9e3aa580205b915a006bc8e5b8faca6fa0e65634c81a221d",
+      "backend/labelverify/extraction/rapidocr_adapter.py": "b968f08fa12e06f92a1039d91b7284617e0d285f341e1bad673d43db8a674e69",
+      "backend/labelverify/imaging/__init__.py": "80133b1eb3bbb463edc17e33de6d31d09d92809a960bbb31d4e35f7e2ed14a78",
+      "backend/labelverify/imaging/decode.py": "117ce27a22f2775f0e14f863793153037d07bcbff615528c6a04c01ad4e677b4",
+      "backend/labelverify/imaging/transforms.py": "877d6e1bebda2c447f0a926eec1e236f9fe1625a75b811663333ea578b03535c",
+      "backend/labelverify/orchestration/__init__.py": "5a288639484369ef060fe3b0c333dba5b47e4d71e7f2291762b61fb13f59f00f",
+      "backend/labelverify/orchestration/pipeline.py": "9d81005d9069d30acc9fe4a0d5832ee64b2d5d17654c97efe4165c09f2299b8d",
+      "backend/labelverify/orchestration/supervisor.py": "fcd4647a938352939377326481256baa3da738d3ef60e3c6ba20e5e8c66a1908",
+      "backend/labelverify/security/__init__.py": "65052a8d57babd7ac651441aadd06ad2d8a8d4565f03bc34bba3e149331a5998",
+      "backend/labelverify/security/boundary.py": "6d2268b8699c626536fe4840b118c05a3af6293ad02f3f6217da0993fe6cf7b6",
+      "backend/labelverify/security/identity.py": "8d3ac51b8696cca18e3ee0c783883e427a0390f62132844dc5cbf559868cfaaa",
+      "backend/labelverify/security/rate_limit.py": "97f62e717ca7b72a5e04df2419f3c8b117469530c57ff7b622ba20ce74191ed8",
+      "backend/labelverify/security/signatures.py": "809b7ad35206d780708c96269d3cbf876cf72f85fb88ce02dd15864ce9068976",
+      "backend/labelverify/settings/__init__.py": "8dbc95fd20a64287250fdf320929193cc89c48fbe532fdde65d9bc2a50a27439",
+      "backend/labelverify/settings/config.py": "29b9cd1ed72fab264de58a2433bfee462195175102958301939d75d40ff764a0",
+      "scripts/generate_fixture_corpus.py": "4427f6f8cf3e4d0908478429711a92a45b7971038e5bca971f42ac8e68510ca8",
+      "scripts/validate_production_oracle.py": "3f9963320ac6e1c779956a438dcc80db987de6bf27b59135ffdb463772722558"
+    },
+    "oracles": {
+      "fixtures/oracle/development/D001.json": "797668d61f1eb0f45ad576ab2441507406c9a77a3f4646b16956cd0db31b8520",
+      "fixtures/oracle/development/D002.json": "8e8c16f801ba601363f1187766fad30630b9abe757bdc43b8dc1978fcd1fc7de",
+      "fixtures/oracle/development/D003.json": "a2804fcf3568a15c9d782c02165df24948d5fd599ec68682590d73a74bdd87b3",
+      "fixtures/oracle/development/D004.json": "dcee8721b70b3a7d2f17ca099f3142f5e0aed62c5dd650590ab061c32ccbc756",
+      "fixtures/oracle/development/D005.json": "079ff87d6bee682e9c1e31fd6f321949ae2b0a3af9663d000fa006f13417c670",
+      "fixtures/oracle/development/D006.json": "58db9f07c569a78461b8a3b807d6b64a88be05ada9347f81ec1cebb839d0ca08",
+      "fixtures/oracle/development/D007.json": "0b69870c0f15aa32c0fdc3a9393ddab95d0f9b9bd9bd4ebbdde6bbc287994188",
+      "fixtures/oracle/development/D008.json": "2c78a44ae3de430d7318dfbaf6e3560c1f2a6b605a07f358d4d61362317466f0",
+      "fixtures/oracle/development/D009.json": "c548f2792d55614740798c1f6194da1ff2e6e77786644126ade8ca021a71c2cf",
+      "fixtures/oracle/development/D010.json": "006afb17439b2f36ece62623dc9357765e436e7d61372fa6deaa3d7dfec6032e",
+      "fixtures/oracle/development/D011.json": "9363f814198dc6840158a62871211166c537736f9e7e9783075f819021dad346",
+      "fixtures/oracle/development/D012.json": "d1656fe5507a23343527417e4693cb466c0a2d2637d2c8832de614556f142350",
+      "fixtures/oracle/development/D013.json": "db253d74caf6e50fef635196ae6b13d70228d8b7420a453e5e7b7a3f75edcbbc",
+      "fixtures/oracle/development/D014.json": "6d93ed205f67b9d14aab8a5ba75cf5f7fd074424bff6eaad5d201f945cea5ca4",
+      "fixtures/oracle/development/D015.json": "693db1a563b1ef6d0dca4c5ff66c7b7411259059fdf2856bbfeeb56749ed1dfb",
+      "fixtures/oracle/development/D016.json": "aba7a7ae3eba203c46a9aebea921f48492bafe26e16f8af0ff38b8b206605208",
+      "fixtures/oracle/development/D017.json": "2f59072626c820820a7382e4c5a7d8d8ce99e19dc313165ec38f09b317da5707",
+      "fixtures/oracle/development/D018.json": "465e14a4bf439ffde55f848b87567aea48073097e60d076fcd96c13f89ea1a6e",
+      "fixtures/oracle/development/D019.json": "b9ea15ec33c4bdd49f2831f1435032ad57687e299ae57a67ca339ef9e61bb64c",
+      "fixtures/oracle/development/D020.json": "dfc325c6b9b6488f228bd185e05b901a6427c7b49738501a77d272ce286e8f7e",
+      "fixtures/oracle/development/D021.json": "e435a840b547002f89ac895e847dac482f8a5a60ec1ee17209e726a61aaf9e02",
+      "fixtures/oracle/development/D022.json": "959ded3672971563f1bbab734a3563d7b39c9847a2645066c797685774655b12",
+      "fixtures/oracle/development/D023.json": "5b221e48a32fd23c92ce4c637982254f1dc4dfcf7c42d9c622afb5e710487826",
+      "fixtures/oracle/development/D024.json": "932106979a57173bd7edd35974b010d2a2b03fb56f9bf06e5885d2d9468c3d69",
+      "fixtures/oracle/holdout/H001.json": "1a5adff53b4c566884969cabffe79ecb2cfdcb89f914ac2c0cbf557b714ae8fd",
+      "fixtures/oracle/holdout/H002.json": "724cf45697d2ee8b533e3499c13b56c9a5eb3db4f3038f5abe66dd7bd516ef2c",
+      "fixtures/oracle/holdout/H003.json": "96c4820a43425ddff68d0c004c962d9c556ff515fadef8b1cfb3bf6a9250e929",
+      "fixtures/oracle/holdout/H004.json": "6044104e31adef69600b1cc65feea7b1ed98364c25a35b928c56affd33367c9a",
+      "fixtures/oracle/holdout/H005.json": "3c53b3963af13eab1d8a4753b19c0860e1fb851d4f77fe5bc30ed915a89ad40e",
+      "fixtures/oracle/holdout/H006.json": "a08bbe1fee975d3904a40642aadb22a2ac5ba0a9c9995ace12540ca7cadfc0a4"
+    },
+    "mutationPlanSha256": "4f39876c2d5062ed3f23af285c13fd5d174e037b6dbe28ef86176daaa9eb686e"
+  },
+  "preflight": {
+    "pass": true,
+    "errors": [],
+    "fixtureMetrics": {
+      "totalCases": 30,
+      "developmentCases": 24,
+      "holdoutCases": 6,
+      "selectedChecks": 19,
+      "scenarioTags": 50,
+      "mutationControls": 8
+    },
+    "modelAssets": [
+      {
+        "filename": "ch_ppocr_mobile_v2.0_cls_infer.onnx",
+        "expectedSha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c",
+        "actualSha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c",
+        "bytes": 585532,
+        "matches": true
+      },
+      {
+        "filename": "en_PP-OCRv3_det_infer.onnx",
+        "expectedSha256": "ea07c15d38ac40cd69da3c493444ec75b44ff23840553ff8ba102c1219ed39c2",
+        "actualSha256": "ea07c15d38ac40cd69da3c493444ec75b44ff23840553ff8ba102c1219ed39c2",
+        "bytes": 2421707,
+        "matches": true
+      },
+      {
+        "filename": "en_PP-OCRv4_rec_infer.onnx",
+        "expectedSha256": "e8770c967605983d1570cdf5352041dfb68fa0c21664f49f47b155abd3e0e318",
+        "actualSha256": "e8770c967605983d1570cdf5352041dfb68fa0c21664f49f47b155abd3e0e318",
+        "bytes": 7653044,
+        "matches": true
+      }
+    ]
+  },
+  "execution": {
+    "serial": true,
+    "worker": "labelverify.orchestration.supervisor.WorkerSupervisor",
+    "workerDeadlineSeconds": 6.25,
+    "controlledTimeoutDeadlineSeconds": 0.001,
+    "cases": [
+      {
+        "caseId": "D001",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 3301.098,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 3297.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D002",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2182.539,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 2171.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D003",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2253.777,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 2250.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D004",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 1929.838,
+        "expected": {
+          "summary": "Differences detected",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Differences detected",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 1922.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D005",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 1953.065,
+        "expected": {
+          "summary": "Differences detected",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Differences detected",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 1953.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D006",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 1883.596,
+        "expected": {
+          "summary": "Differences detected",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Differences detected",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 1891.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D007",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 1941.994,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 1937.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D008",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 1900.909,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 1906.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D009",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 3263.652,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 9,
+          "serverDurationMs": 3266.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D010",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2307.18,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 7,
+          "serverDurationMs": 2297.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D011",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 3335.012,
+        "expected": {
+          "summary": "Differences detected",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Differences detected",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 3328.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D012",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2724.929,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 2718.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D013",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 3024.087,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 3016.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D014",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2255.089,
+        "expected": {
+          "summary": "Differences detected",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Differences detected",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 2250.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D015",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2380.829,
+        "expected": {
+          "summary": "Differences detected",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Differences detected",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 2375.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D016",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2795.851,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 2796.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D017",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2291.347,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 0,
+          "serverDurationMs": 2297.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D018",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 1370.308,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 5,
+          "serverDurationMs": 1375.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D019",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "error",
+        "executionPath": "production_api",
+        "durationMs": 65.619,
+        "expected": {
+          "summary": null,
+          "errorCode": "invalid_image",
+          "checkCount": 0
+        },
+        "observed": {
+          "kind": "error",
+          "httpStatus": 422,
+          "code": "invalid_image",
+          "resultPresent": false
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D020",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "error",
+        "executionPath": "production_api",
+        "durationMs": 6.116,
+        "expected": {
+          "summary": null,
+          "errorCode": "unsupported_media_type",
+          "checkCount": 0
+        },
+        "observed": {
+          "kind": "error",
+          "httpStatus": 415,
+          "code": "unsupported_media_type",
+          "resultPresent": false
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D021",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "error",
+        "executionPath": "production_api",
+        "durationMs": 2.824,
+        "expected": {
+          "summary": null,
+          "errorCode": "invalid_panel_count",
+          "checkCount": 0
+        },
+        "observed": {
+          "kind": "error",
+          "httpStatus": 422,
+          "code": "invalid_panel_count",
+          "resultPresent": false
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D022",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "error",
+        "executionPath": "production_api",
+        "durationMs": 7.03,
+        "expected": {
+          "summary": null,
+          "errorCode": "multipart_limit_exceeded",
+          "checkCount": 0
+        },
+        "observed": {
+          "kind": "error",
+          "httpStatus": 413,
+          "code": "multipart_limit_exceeded",
+          "resultPresent": false
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D023",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "error",
+        "executionPath": "production_api",
+        "durationMs": 15.934,
+        "expected": {
+          "summary": null,
+          "errorCode": "decoded_pixel_limit",
+          "checkCount": 0
+        },
+        "observed": {
+          "kind": "error",
+          "httpStatus": 422,
+          "code": "decoded_pixel_limit",
+          "resultPresent": false
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D024",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "error",
+        "executionPath": "production_api_controlled_timeout",
+        "durationMs": 39.744,
+        "expected": {
+          "summary": null,
+          "errorCode": "inference_timeout",
+          "checkCount": 0
+        },
+        "observed": {
+          "kind": "error",
+          "httpStatus": 504,
+          "code": "inference_timeout",
+          "resultPresent": false
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "H001",
+        "partition": "holdout",
+        "sealed": true,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 4870.951,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 9,
+          "serverDurationMs": 4859.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "H002",
+        "partition": "holdout",
+        "sealed": true,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 3021.235,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 7,
+          "serverDurationMs": 3016.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "H003",
+        "partition": "holdout",
+        "sealed": true,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2425.762,
+        "expected": {
+          "summary": "Differences detected",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Differences detected",
+          "checkCount": 19,
+          "evidenceCount": 9,
+          "serverDurationMs": 2422.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "H004",
+        "partition": "holdout",
+        "sealed": true,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2721.714,
+        "expected": {
+          "summary": "Differences detected",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Differences detected",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 2719.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "H005",
+        "partition": "holdout",
+        "sealed": true,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 2901.333,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 19,
+          "evidenceCount": 8,
+          "serverDurationMs": 2906.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "H006",
+        "partition": "holdout",
+        "sealed": true,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 1478.642,
+        "expected": {
+          "summary": "No differences found in checked fields",
+          "errorCode": null,
+          "checkCount": 19
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "No differences found in checked fields",
+          "checkCount": 19,
+          "evidenceCount": 6,
+          "serverDurationMs": 1469.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "vv-product-corpus-v1"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      }
+    ],
+    "mutations": [
+      {
+        "mutationId": "M001_case_id_rename",
+        "sourceCaseId": "D001",
+        "operation": "rename_case_id",
+        "target": "caseId",
+        "invariant": "Results must not depend on fixture ID.",
+        "durationMs": 1887.369,
+        "expectedSummary": "Review needed",
+        "observedSummary": "Review needed",
+        "expectedChangedChecks": [],
+        "observedChangedChecks": [],
+        "observedReasonCodes": {
+          "brand": "exact_match",
+          "class_type": "exact_match",
+          "abv": "numeric_match",
+          "proof": "numeric_match",
+          "net_contents": "numeric_match",
+          "producer": "safe_whitespace_match",
+          "country": "not_applicable_domestic",
+          "warning_applicability": "warning_required",
+          "warning_wording": "warning_wording_exact",
+          "warning_heading_uppercase": "warning_heading_exact",
+          "warning_heading_emphasis": "presentation_supported",
+          "warning_body_not_bold": "presentation_supported",
+          "warning_separation": "presentation_supported",
+          "warning_continuity": "presentation_supported",
+          "warning_contrast": "presentation_supported",
+          "warning_legibility": "presentation_supported",
+          "warning_physical_size": "reliable_scale_unavailable",
+          "panel_coverage": "panel_coverage_sufficient",
+          "image_quality": "image_quality_sufficient"
+        },
+        "checkCount": 19,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "mutationId": "M002_panel_order",
+        "sourceCaseId": "H001",
+        "operation": "reverse_panels",
+        "target": "panels",
+        "invariant": "Evidence panel IDs may change but machine states must not.",
+        "durationMs": 3344.3,
+        "expectedSummary": "Review needed",
+        "observedSummary": "Review needed",
+        "expectedChangedChecks": [],
+        "observedChangedChecks": [],
+        "observedReasonCodes": {
+          "brand": "exact_match",
+          "class_type": "exact_match",
+          "abv": "numeric_match",
+          "proof": "numeric_match",
+          "net_contents": "numeric_match",
+          "producer": "safe_whitespace_match",
+          "country": "not_applicable_domestic",
+          "warning_applicability": "warning_required",
+          "warning_wording": "ocr_wrap_punctuation_uncertain",
+          "warning_heading_uppercase": "warning_heading_exact",
+          "warning_heading_emphasis": "presentation_supported",
+          "warning_body_not_bold": "presentation_supported",
+          "warning_separation": "presentation_supported",
+          "warning_continuity": "presentation_supported",
+          "warning_contrast": "presentation_supported",
+          "warning_legibility": "presentation_supported",
+          "warning_physical_size": "reliable_scale_unavailable",
+          "panel_coverage": "panel_coverage_sufficient",
+          "image_quality": "image_quality_sufficient"
+        },
+        "checkCount": 19,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "mutationId": "M003_brand_text",
+        "sourceCaseId": "D001",
+        "operation": "replace_label_text",
+        "target": "brand",
+        "invariant": "A semantic brand mutation must change the brand result.",
+        "durationMs": 2234.159,
+        "expectedSummary": "Differences detected",
+        "observedSummary": "Differences detected",
+        "expectedChangedChecks": [
+          "brand"
+        ],
+        "observedChangedChecks": [
+          "brand"
+        ],
+        "observedReasonCodes": {
+          "brand": "definite_difference",
+          "class_type": "exact_match",
+          "abv": "numeric_match",
+          "proof": "numeric_match",
+          "net_contents": "numeric_match",
+          "producer": "safe_whitespace_match",
+          "country": "not_applicable_domestic",
+          "warning_applicability": "warning_required",
+          "warning_wording": "warning_wording_exact",
+          "warning_heading_uppercase": "warning_heading_exact",
+          "warning_heading_emphasis": "presentation_supported",
+          "warning_body_not_bold": "presentation_supported",
+          "warning_separation": "presentation_supported",
+          "warning_continuity": "presentation_supported",
+          "warning_contrast": "presentation_supported",
+          "warning_legibility": "presentation_supported",
+          "warning_physical_size": "reliable_scale_unavailable",
+          "panel_coverage": "panel_coverage_sufficient",
+          "image_quality": "image_quality_sufficient"
+        },
+        "checkCount": 19,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "mutationId": "M004_warning_case",
+        "sourceCaseId": "D001",
+        "operation": "replace_label_text",
+        "target": "warning_heading_uppercase",
+        "invariant": "Warning capitalization cannot be inferred from the fixture name.",
+        "durationMs": 2284.41,
+        "expectedSummary": "Differences detected",
+        "observedSummary": "Differences detected",
+        "expectedChangedChecks": [
+          "warning_heading_uppercase"
+        ],
+        "observedChangedChecks": [
+          "warning_heading_uppercase"
+        ],
+        "observedReasonCodes": {
+          "brand": "exact_match",
+          "class_type": "exact_match",
+          "abv": "numeric_match",
+          "proof": "numeric_match",
+          "net_contents": "numeric_match",
+          "producer": "safe_whitespace_match",
+          "country": "not_applicable_domestic",
+          "warning_applicability": "warning_required",
+          "warning_wording": "warning_wording_exact",
+          "warning_heading_uppercase": "warning_heading_case_or_punctuation",
+          "warning_heading_emphasis": "presentation_supported",
+          "warning_body_not_bold": "presentation_supported",
+          "warning_separation": "presentation_supported",
+          "warning_continuity": "presentation_supported",
+          "warning_contrast": "presentation_supported",
+          "warning_legibility": "presentation_supported",
+          "warning_physical_size": "reliable_scale_unavailable",
+          "panel_coverage": "panel_coverage_sufficient",
+          "image_quality": "image_quality_sufficient"
+        },
+        "checkCount": 19,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "mutationId": "M005_country_conflict",
+        "sourceCaseId": "D009",
+        "operation": "add_conflicting_candidate",
+        "target": "country",
+        "invariant": "Reference value cannot choose among conflicting observed candidates.",
+        "durationMs": 3092.067,
+        "expectedSummary": "Review needed",
+        "observedSummary": "Review needed",
+        "expectedChangedChecks": [
+          "country"
+        ],
+        "observedChangedChecks": [
+          "country"
+        ],
+        "observedReasonCodes": {
+          "brand": "exact_match",
+          "class_type": "exact_match",
+          "abv": "numeric_match",
+          "proof": "numeric_match",
+          "net_contents": "numeric_match",
+          "producer": "safe_whitespace_match",
+          "country": "ambiguous_candidates",
+          "warning_applicability": "warning_required",
+          "warning_wording": "ocr_wrap_punctuation_uncertain",
+          "warning_heading_uppercase": "warning_heading_exact",
+          "warning_heading_emphasis": "presentation_supported",
+          "warning_body_not_bold": "presentation_supported",
+          "warning_separation": "presentation_supported",
+          "warning_continuity": "presentation_supported",
+          "warning_contrast": "presentation_supported",
+          "warning_legibility": "presentation_supported",
+          "warning_physical_size": "reliable_scale_unavailable",
+          "panel_coverage": "panel_coverage_sufficient",
+          "image_quality": "image_quality_sufficient"
+        },
+        "checkCount": 19,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "mutationId": "M006_reference_abv",
+        "sourceCaseId": "D001",
+        "operation": "replace_reference_value",
+        "target": "abvPercent",
+        "invariant": "Observed OCR must remain unchanged when only reference data changes.",
+        "durationMs": 1965.243,
+        "expectedSummary": "Differences detected",
+        "observedSummary": "Differences detected",
+        "expectedChangedChecks": [
+          "abv",
+          "proof"
+        ],
+        "observedChangedChecks": [
+          "abv",
+          "proof"
+        ],
+        "observedReasonCodes": {
+          "brand": "exact_match",
+          "class_type": "exact_match",
+          "abv": "numeric_difference",
+          "proof": "reference_abv_proof_inconsistent",
+          "net_contents": "numeric_match",
+          "producer": "safe_whitespace_match",
+          "country": "not_applicable_domestic",
+          "warning_applicability": "warning_required",
+          "warning_wording": "warning_wording_exact",
+          "warning_heading_uppercase": "warning_heading_exact",
+          "warning_heading_emphasis": "presentation_supported",
+          "warning_body_not_bold": "presentation_supported",
+          "warning_separation": "presentation_supported",
+          "warning_continuity": "presentation_supported",
+          "warning_contrast": "presentation_supported",
+          "warning_legibility": "presentation_supported",
+          "warning_physical_size": "reliable_scale_unavailable",
+          "panel_coverage": "panel_coverage_sufficient",
+          "image_quality": "image_quality_sufficient"
+        },
+        "checkCount": 19,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "mutationId": "M007_remove_warning_panel",
+        "sourceCaseId": "D009",
+        "operation": "remove_panel",
+        "target": "back",
+        "invariant": "Missing evidence cannot remain Match or clean.",
+        "durationMs": 1318.795,
+        "expectedSummary": "Review needed",
+        "observedSummary": "Review needed",
+        "expectedChangedChecks": [
+          "producer",
+          "warning_body_not_bold",
+          "warning_continuity",
+          "warning_contrast",
+          "warning_heading_emphasis",
+          "warning_heading_uppercase",
+          "warning_legibility",
+          "warning_separation",
+          "warning_wording"
+        ],
+        "observedChangedChecks": [
+          "producer",
+          "warning_body_not_bold",
+          "warning_continuity",
+          "warning_contrast",
+          "warning_heading_emphasis",
+          "warning_heading_uppercase",
+          "warning_legibility",
+          "warning_separation",
+          "warning_wording"
+        ],
+        "observedReasonCodes": {
+          "brand": "exact_match",
+          "class_type": "exact_match",
+          "abv": "numeric_match",
+          "proof": "numeric_match",
+          "net_contents": "numeric_match",
+          "producer": "observed_not_found",
+          "country": "exact_match",
+          "warning_applicability": "warning_required",
+          "warning_wording": "warning_not_found",
+          "warning_heading_uppercase": "warning_heading_not_found",
+          "warning_heading_emphasis": "warning_not_found",
+          "warning_body_not_bold": "warning_not_found",
+          "warning_separation": "warning_not_found",
+          "warning_continuity": "warning_not_found",
+          "warning_contrast": "warning_not_found",
+          "warning_legibility": "warning_not_found",
+          "warning_physical_size": "reliable_scale_unavailable",
+          "panel_coverage": "panel_coverage_sufficient",
+          "image_quality": "image_quality_sufficient"
+        },
+        "checkCount": 19,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "mutationId": "M008_image_blur",
+        "sourceCaseId": "D001",
+        "operation": "apply_blur",
+        "target": "all_panels",
+        "invariant": "Material degradation must affect quality and cannot create a clean result.",
+        "durationMs": 1232.632,
+        "expectedSummary": "Review needed",
+        "observedSummary": "Review needed",
+        "expectedChangedChecks": [
+          "abv",
+          "brand",
+          "class_type",
+          "image_quality",
+          "net_contents",
+          "panel_coverage",
+          "producer",
+          "proof",
+          "warning_body_not_bold",
+          "warning_continuity",
+          "warning_contrast",
+          "warning_heading_emphasis",
+          "warning_heading_uppercase",
+          "warning_legibility",
+          "warning_physical_size",
+          "warning_separation",
+          "warning_wording"
+        ],
+        "observedChangedChecks": [
+          "abv",
+          "brand",
+          "class_type",
+          "image_quality",
+          "net_contents",
+          "panel_coverage",
+          "producer",
+          "proof",
+          "warning_body_not_bold",
+          "warning_continuity",
+          "warning_contrast",
+          "warning_heading_emphasis",
+          "warning_heading_uppercase",
+          "warning_legibility",
+          "warning_physical_size",
+          "warning_separation",
+          "warning_wording"
+        ],
+        "observedReasonCodes": {
+          "brand": "observed_unreadable",
+          "class_type": "observed_unreadable",
+          "abv": "observed_unreadable",
+          "proof": "observed_unreadable",
+          "net_contents": "observed_unreadable",
+          "producer": "observed_unreadable",
+          "country": "not_applicable_domestic",
+          "warning_applicability": "warning_required",
+          "warning_wording": "observed_unreadable",
+          "warning_heading_uppercase": "observed_unreadable",
+          "warning_heading_emphasis": "observed_unreadable",
+          "warning_body_not_bold": "observed_unreadable",
+          "warning_separation": "observed_unreadable",
+          "warning_continuity": "observed_unreadable",
+          "warning_contrast": "observed_unreadable",
+          "warning_legibility": "observed_unreadable",
+          "warning_physical_size": "observed_unreadable",
+          "panel_coverage": "panel_coverage_uncertain",
+          "image_quality": "image_unreadable"
+        },
+        "checkCount": 19,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      }
+    ],
+    "workerStartups": [
+      {
+        "readyMs": 4158.433,
+        "generation": 1,
+        "childPid": 25096,
+        "workerDeadlineSeconds": 6.25
+      },
+      {
+        "readyMs": 4193.282,
+        "generation": 1,
+        "childPid": 54652,
+        "workerDeadlineSeconds": 6.25
+      },
+      {
+        "readyMs": 4138.692,
+        "generation": 1,
+        "childPid": 85556,
+        "workerDeadlineSeconds": 6.25
+      },
+      {
+        "readyMs": 4146.829,
+        "generation": 1,
+        "childPid": 51000,
+        "workerDeadlineSeconds": 0.001
+      },
+      {
+        "readyMs": 4071.153,
+        "generation": 1,
+        "childPid": 13812,
+        "workerDeadlineSeconds": 6.25
+      },
+      {
+        "readyMs": 4095.572,
+        "generation": 1,
+        "childPid": 77304,
+        "workerDeadlineSeconds": 6.25
+      }
+    ]
+  },
+  "totals": {
+    "manifestCases": 30,
+    "attemptedCases": 30,
+    "passedCases": 30,
+    "failedCases": 0,
+    "developmentCases": 24,
+    "holdoutCases": 6,
+    "expectedResultCheckRows": 456,
+    "observedResultCheckRows": 456,
+    "mutationControls": 8,
+    "attemptedMutations": 8,
+    "passedMutations": 8,
+    "failedMutations": 0,
+    "falseCleanCount": 0,
+    "failureCount": 0
+  },
+  "pass": true
+}

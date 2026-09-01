@@ -1,0 +1,12 @@
+evidenceId: T-035-A-REPOSITORY-NEUTRAL-PATHS
+executedAtUtc: 2026-09-01T09:40:36Z
+snapshotId: PENDING_FINAL_RELEASE_MANIFEST
+scope: repository files excluding dependency directories and version-control metadata
+command: ripgrep profile-name, project-home, and operating-system user-directory signatures
+expectedUserSpecificAbsolutePathCount: 0
+observedUserSpecificAbsolutePathCount: 0
+rawEvidenceAbsoluteProfilePathCount: 0
+syntheticOrDetectionControlCount: 2
+syntheticOrDetectionControls: backend/tests/test_lifecycle_matrix.py contains a generic private-user canary; scripts/run_security_post_fix_validation.py contains the generic detection expression that verifies profile paths are rejected
+status: PASS
+note: The intentional synthetic canary is test input, not a retained workstation path. Raw evidence uses <PROJECT_ROOT> for the repository root.

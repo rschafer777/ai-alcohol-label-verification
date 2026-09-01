@@ -1,0 +1,122 @@
+{
+  "mutations": [
+    {
+      "expectedChangedChecks": [],
+      "expectedSummary": "Review needed",
+      "invariant": "Results must not depend on fixture ID.",
+      "mutationId": "M001_case_id_rename",
+      "operation": "rename_case_id",
+      "sourceCaseId": "D001",
+      "target": "caseId",
+      "value": "RANDOMIZED_CASE"
+    },
+    {
+      "expectedChangedChecks": [],
+      "expectedSummary": "Review needed",
+      "invariant": "Evidence panel IDs may change but machine states must not.",
+      "mutationId": "M002_panel_order",
+      "operation": "reverse_panels",
+      "sourceCaseId": "H001",
+      "target": "panels",
+      "value": null
+    },
+    {
+      "expectedChangedChecks": [
+        "brand"
+      ],
+      "expectedSummary": "Differences detected",
+      "invariant": "A semantic brand mutation must change the brand result.",
+      "mutationId": "M003_brand_text",
+      "operation": "replace_label_text",
+      "sourceCaseId": "D001",
+      "target": "brand",
+      "value": "RANDOM HARBOR"
+    },
+    {
+      "expectedChangedChecks": [
+        "warning_heading_uppercase"
+      ],
+      "expectedSummary": "Differences detected",
+      "invariant": "Warning capitalization cannot be inferred from the fixture name.",
+      "mutationId": "M004_warning_case",
+      "operation": "replace_label_text",
+      "sourceCaseId": "D001",
+      "target": "warning_heading_uppercase",
+      "value": "Government Warning:"
+    },
+    {
+      "expectedChangedChecks": [
+        "country"
+      ],
+      "expectedSummary": "Review needed",
+      "invariant": "Reference value cannot choose among conflicting observed candidates.",
+      "mutationId": "M005_country_conflict",
+      "operation": "add_conflicting_candidate",
+      "sourceCaseId": "D009",
+      "target": "country",
+      "value": "UNITED STATES"
+    },
+    {
+      "expectedChangedChecks": [
+        "abv",
+        "proof"
+      ],
+      "expectedSummary": "Differences detected",
+      "invariant": "Observed OCR must remain unchanged when only reference data changes.",
+      "mutationId": "M006_reference_abv",
+      "operation": "replace_reference_value",
+      "sourceCaseId": "D001",
+      "target": "abvPercent",
+      "value": 46.0
+    },
+    {
+      "expectedChangedChecks": [
+        "producer",
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility"
+      ],
+      "expectedSummary": "Review needed",
+      "invariant": "Missing evidence cannot remain Match or clean.",
+      "mutationId": "M007_remove_warning_panel",
+      "operation": "remove_panel",
+      "sourceCaseId": "D009",
+      "target": "back",
+      "value": null
+    },
+    {
+      "expectedChangedChecks": [
+        "brand",
+        "class_type",
+        "abv",
+        "proof",
+        "net_contents",
+        "producer",
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility",
+        "warning_physical_size",
+        "panel_coverage",
+        "image_quality"
+      ],
+      "expectedSummary": "Review needed",
+      "invariant": "Material degradation must affect quality and cannot create a clean result.",
+      "mutationId": "M008_image_blur",
+      "operation": "apply_blur",
+      "sourceCaseId": "D001",
+      "target": "all_panels",
+      "value": 6.0
+    }
+  ],
+  "schemaVersion": "1.0.0"
+}

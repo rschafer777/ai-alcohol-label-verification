@@ -1,0 +1,91 @@
+from __future__ import annotations
+
+import hashlib
+import json
+from dataclasses import dataclass
+from functools import cache, lru_cache
+from pathlib import Path
+from typing import Any
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+CONTRACT_ROOT = PROJECT_ROOT / "contracts"
+
+CONTRACT_HASHES = {
+    "api-contract-v1.json": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47",
+    "error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
+    "selected-check-registry-v1.json": (
+        "521d7a1dbdb3872086083e92a6f37e459c48ad5471a09f3f92c23472b7dc8b13"
+    ),
+    "regulatory-rules-v1.json": (
+        "6d1c9866738a1b863ff8572c29881195005861b2198c2e364c4b5ff0fbf2e6c2"
+    ),
+}
+
+
+class ContractIntegrityError(RuntimeError):
+    """Raised when a governed contract is missing, malformed, or changed."""
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+@cache
+def load_contract(name: str) -> dict[str, Any]:
+    expected = CONTRACT_HASHES.get(name)
+    if expected is None:
+        raise ContractIntegrityError(f"Unknown governed contract: {name}")
+    path = CONTRACT_ROOT / name
+    if not path.is_file():
+        raise ContractIntegrityError(f"Governed contract is missing: {name}")
+    if sha256_file(path) != expected:
+        raise ContractIntegrityError(f"Governed contract hash mismatch: {name}")
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ContractIntegrityError(f"Governed contract is invalid: {name}") from exc
+    if not isinstance(value, dict):
+        raise ContractIntegrityError(f"Governed contract root must be an object: {name}")
+    return value
+
+
+@dataclass(frozen=True)
+class ContractBundle:
+    api: dict[str, Any]
+    errors: dict[str, Any]
+    checks: dict[str, Any]
+    rules: dict[str, Any]
+
+    @property
+    def check_ids(self) -> tuple[str, ...]:
+        return tuple(str(item["checkId"]) for item in self.checks["checks"])
+
+    @property
+    def error_codes(self) -> tuple[str, ...]:
+        return tuple(str(item["code"]) for item in self.errors["errors"])
+
+
+@lru_cache(maxsize=1)
+def contracts() -> ContractBundle:
+    bundle = ContractBundle(
+        api=load_contract("api-contract-v1.json"),
+        errors=load_contract("error-registry-v1.json"),
+        checks=load_contract("selected-check-registry-v1.json"),
+        rules=load_contract("regulatory-rules-v1.json"),
+    )
+    check_ids = bundle.check_ids
+    error_codes = bundle.error_codes
+    browser_codes = tuple(str(code) for code in bundle.errors["browserOnly"])
+    if len(check_ids) != 19 or len(set(check_ids)) != 19:
+        raise ContractIntegrityError("Selected-check registry must contain 19 unique checks")
+    if not all(bool(item.get("aggregates")) for item in bundle.checks["checks"]):
+        raise ContractIntegrityError("Every selected check must aggregate")
+    if len(error_codes) != 23 or len(set(error_codes)) != 23:
+        raise ContractIntegrityError("Error registry must contain 23 unique server errors")
+    if len(browser_codes) != 4 or len(set(browser_codes)) != 4:
+        raise ContractIntegrityError("Error registry must contain 4 unique browser errors")
+    return bundle

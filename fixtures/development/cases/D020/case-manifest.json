@@ -1,0 +1,26 @@
+{
+  "caseId": "D020",
+  "expectedKind": "error",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D020.json",
+  "panels": [
+    {
+      "bytes": 11558,
+      "height": 1600,
+      "mimeType": "image/gif",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D020/panels/panel-1.gif",
+      "sha256": "0a3882130f30de4a7f76733c006ca57cbda3baf6a957e874b044044982ea02f8",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D020/reference.json",
+  "scenarioTags": [
+    "unsupported_media",
+    "negative"
+  ],
+  "sealed": false,
+  "submissionMode": "api",
+  "title": "Unsupported GIF fails closed"
+}

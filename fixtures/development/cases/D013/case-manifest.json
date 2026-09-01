@@ -1,0 +1,27 @@
+{
+  "caseId": "D013",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D013.json",
+  "panels": [
+    {
+      "bytes": 107700,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D013/panels/panel-1.png",
+      "sha256": "4fbc1ca36933b356d278fd804965223f9e9ee230bf6112e8c3fae2f8d75d195f",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D013/reference.json",
+  "scenarioTags": [
+    "warning",
+    "body_emphasis",
+    "review"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Warning body is bold"
+}

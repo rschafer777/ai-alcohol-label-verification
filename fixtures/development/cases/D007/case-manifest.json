@@ -1,0 +1,26 @@
+{
+  "caseId": "D007",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D007.json",
+  "panels": [
+    {
+      "bytes": 91525,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D007/panels/panel-1.png",
+      "sha256": "b8ca9ad0ed01aa402dcb766e2b5f0b4e6d1ded46e9b2ab3dfb06ec18f1f6d37a",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D007/reference.json",
+  "scenarioTags": [
+    "net_contents",
+    "safe_equivalence"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Equivalent liter net contents"
+}

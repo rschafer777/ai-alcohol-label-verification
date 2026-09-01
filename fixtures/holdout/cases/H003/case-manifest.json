@@ -1,0 +1,46 @@
+{
+  "caseId": "H003",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/holdout/H003.json",
+  "panels": [
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/holdout/cases/H003/panels/panel-1.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    },
+    {
+      "bytes": 72622,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-2",
+      "path": "fixtures/holdout/cases/H003/panels/panel-2.png",
+      "sha256": "ceb48de180e296e00523a254e495e3cdafb1e9bb2d5bf4081f5735271afb0d76",
+      "width": 1200
+    },
+    {
+      "bytes": 18367,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-3",
+      "path": "fixtures/holdout/cases/H003/panels/panel-3.png",
+      "sha256": "195dd72361c2509ba8cd5b8b7e6e610ee843eaa287a1f35df05a43bc09aa5009",
+      "width": 1200
+    }
+  ],
+  "partition": "holdout",
+  "referencePath": "fixtures/holdout/cases/H003/reference.json",
+  "scenarioTags": [
+    "country",
+    "producer",
+    "mismatch",
+    "holdout"
+  ],
+  "sealed": true,
+  "submissionMode": "ui",
+  "title": "Imported origin and producer differ"
+}

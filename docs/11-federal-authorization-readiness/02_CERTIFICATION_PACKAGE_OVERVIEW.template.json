@@ -1,0 +1,50 @@
+{
+  "$schema": "https://fedramp.gov/schemas/fedramp-certification-package-overview-schema-2026-06-24.json",
+  "_templateStatus": "INCOMPLETE_PREPARATION_DRAFT",
+  "_officialSourcesRetrieved": "2026-09-01",
+  "_completionNote": "Complete all PENDING fields and validate against the linked official schema after provider, class, boundary, deployment, contacts, repositories, and assessor are established.",
+  "serviceIdentification": {
+    "fedRampPackageId": "LabelVerify-LV",
+    "providerName": "PENDING_PROVIDER_LEGAL_NAME",
+    "serviceName": "LabelVerify",
+    "serviceAcronym": "LV",
+    "serviceDescription": "A human-in-the-loop web application that compares manually entered or batch-manifest-supplied distilled-spirits application values with local OCR observations from uploaded label images across nineteen selected checks. The browser manages a session-only ordered queue of 1 to 300 applications, sends sequential same-origin requests, retains row results in memory, and generates local CSV or detailed JSON exports.",
+    "certificationType": "20x"
+  },
+  "serviceProperties": {
+    "serviceType": [
+      "SaaS"
+    ],
+    "businessCategory": [
+      "Legal & Policy"
+    ]
+  },
+  "contactInformation": [
+    {
+      "contactType": "Security",
+      "contactName": "PENDING_SECURITY_CONTACT"
+    },
+    {
+      "contactType": "Sales",
+      "contactName": "PENDING_SALES_OR_ACQUISITION_CONTACT"
+    }
+  ],
+  "thirdPartyInformationResources": {
+    "certified": [],
+    "nonCertified": []
+  },
+  "_pendingSchemaFields": [
+    "serviceIdentification.ueiNumber",
+    "serviceIdentification.website",
+    "serviceIdentification.logo",
+    "serviceProperties.deploymentModel",
+    "serviceProperties.trustCenter",
+    "serviceProperties.secureConfigurationGuidance",
+    "serviceProperties.additionalRepositories",
+    "serviceProperties.nextOngoingCertificationReportDate",
+    "contactInformation contact details",
+    "assessor",
+    "certifiedServices",
+    "thirdPartyInformationResources"
+  ]
+}

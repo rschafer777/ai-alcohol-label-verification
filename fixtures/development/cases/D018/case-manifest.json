@@ -1,0 +1,29 @@
+{
+  "caseId": "D018",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D018.json",
+  "panels": [
+    {
+      "bytes": 34374,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D018/panels/panel-1.png",
+      "sha256": "4df695b8cfb09f436676eb11497e0be2dd4af971941cfa67aa5c04e8ac7da72f",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D018/reference.json",
+  "scenarioTags": [
+    "panel_coverage",
+    "country",
+    "missing",
+    "warning",
+    "negative"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Required back panel is missing"
+}

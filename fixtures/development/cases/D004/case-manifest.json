@@ -1,0 +1,26 @@
+{
+  "caseId": "D004",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D004.json",
+  "panels": [
+    {
+      "bytes": 92902,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D004/panels/panel-1.png",
+      "sha256": "befe385b14c60344fec0801a5549dfe7ec5e30f05cd1ec27f3e9ed2339a83247",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D004/reference.json",
+  "scenarioTags": [
+    "brand",
+    "mismatch"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Definite brand difference"
+}

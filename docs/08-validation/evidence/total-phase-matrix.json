@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "1.0.0",
+  "testId": "T-041",
+  "assertionId": "T-041-A-COMPLETE-PHASE-MATRIX",
+  "createdAtUtc": "2026-09-01T18:42:33.501536+00:00",
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10"
+  },
+  "governedDeadlinesSeconds": {
+    "upload": 20,
+    "server": 30,
+    "browser": 35,
+    "worker": 6.25
+  },
+  "sourceHashes": {
+    "backend/labelverify/security/boundary.py": "6d2268b8699c626536fe4840b118c05a3af6293ad02f3f6217da0993fe6cf7b6",
+    "backend/labelverify/orchestration/supervisor.py": "fcd4647a938352939377326481256baa3da738d3ef60e3c6ba20e5e8c66a1908",
+    "backend/tests/test_lifecycle_matrix.py": "137e69b2af075ebd417033c796248bf061beed179a7e9d002214598a5702929a",
+    "frontend/src/app/App.tsx": "d73e75c4f73fcd39cea2c79066f47531fe08e0636f091adb7bab58ce66644e1a",
+    "frontend/tests/phase-matrix.test.tsx": "495f2c3f95141f40f9eb2b7b7a94fa39c9c4a1d1686e9138225f793afa668b83",
+    "scripts/run_total_phase_matrix.py": "b0caf91c388f063017d15944474c6eff3aee5c3eb9b302fbcf4a669d9959ddf3"
+  },
+  "phases": [
+    {
+      "phase": "synchronousClientValidation",
+      "tests": [
+        "T-041 browser phase and terminal matrix > terminates client validation locally without starting transport"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "upload",
+      "tests": [
+        "test_t029_upload_timeout_closes_partial_spool_and_ownership"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "parentValidation",
+      "tests": [
+        "test_t041_parent_phase_stall_reaches_server_deadline"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "supervisedChildDecodeThroughInference",
+      "tests": [
+        "test_t009_real_worker_timeout_replaces_recovers_and_stops"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "queue",
+      "tests": [
+        "test_t041_two_slow_uploads_hold_capacity_and_third_reads_no_body",
+        "test_t041_full_command_queue_reaches_worker_timeout"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "transfer",
+      "tests": [
+        "test_t041_response_transfer_stall_terminates_and_cleans"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "synchronousRenderFocusAnnouncement",
+      "tests": [
+        "T-041 browser phase and terminal matrix > cancels in under one second and ignores a late result",
+        "T-041 browser phase and terminal matrix > renders and announces a complete response with managed focus"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "cancellation",
+      "tests": [
+        "test_t041_route_cancellation_retains_ownership_until_worker_finishes[127.0.0.16]",
+        "test_t041_route_cancellation_retains_ownership_until_worker_finishes[127.0.0.19]",
+        "test_t041_route_cancellation_retains_ownership_until_worker_finishes[127.0.0.20]",
+        "T-041 browser phase and terminal matrix > cancels in under one second and ignores a late result"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "disconnect",
+      "tests": [
+        "test_t041_disconnect_delivery_failure_keeps_ownership_until_worker_finishes[127.0.0.17]",
+        "test_t041_disconnect_delivery_failure_keeps_ownership_until_worker_finishes[127.0.0.21]",
+        "test_t041_disconnect_delivery_failure_keeps_ownership_until_worker_finishes[127.0.0.22]"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "shutdown",
+      "tests": [
+        "test_t029_shutdown_overlap_interrupts_owned_job_and_reaches_zero",
+        "test_t029_shutdown_interrupts_command_enqueue_race"
+      ],
+      "status": "PASS"
+    },
+    {
+      "phase": "browserDeadline",
+      "tests": [
+        "T-041 browser phase and terminal matrix > applies the 35 second browser terminal deadline to a stalled request"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "commands": [
+    {
+      "command": "uv run pytest -q backend/tests/test_lifecycle_matrix.py --junitxml=<TEMP_ROOT>\\labelverify-phase-matrix-4qpmfhkd\\backend.xml",
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutTail": "................                                                         [100%]\n16 passed in 7.02s\n",
+      "stderrTail": ""
+    },
+    {
+      "command": "C:\\Program Files\\nodejs\\npm.cmd test -- --run tests/phase-matrix.test.tsx --reporter=junit --outputFile=<TEMP_ROOT>\\labelverify-phase-matrix-4qpmfhkd\\frontend.xml",
+      "exitCode": 0,
+      "status": "PASS",
+      "stdoutTail": "\n> labelverify-frontend@0.1.0 test\n> vitest run --run tests/phase-matrix.test.tsx --reporter=junit --outputFile=<TEMP_ROOT>\\labelverify-phase-matrix-4qpmfhkd\\frontend.xml\n\nJUNIT report written to <TEMP_ROOT>/labelverify-phase-matrix-4qpmfhkd/frontend.xml\n",
+      "stderrTail": ""
+    }
+  ],
+  "pass": true
+}

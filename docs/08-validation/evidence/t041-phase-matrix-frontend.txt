@@ -1,0 +1,8 @@
+
+ RUN  v4.1.11 <PROJECT_ROOT>/frontend
+
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  04:25:44
+   Duration  2.53s (transform 174ms, setup 250ms, import 353ms, tests 623ms, environment 1.08s)

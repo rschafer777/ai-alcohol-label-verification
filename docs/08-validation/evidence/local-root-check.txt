@@ -1,0 +1,98 @@
+All checks passed!
+Success: no issues found in 34 source files
+============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.1.1, pluggy-1.6.0
+rootdir: <PROJECT_ROOT>
+configfile: pyproject.toml
+testpaths: backend/tests, tests
+plugins: anyio-4.14.2, asyncio-1.4.0, cov-6.3.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 182 items
+
+backend\tests\test_api.py ......                                         [  3%]
+backend\tests\test_contracts.py .....                                    [  6%]
+backend\tests\test_domain.py ........................................... [ 29%]
+                                                                         [ 29%]
+backend\tests\test_imaging_candidates.py ............................    [ 45%]
+backend\tests\test_lifecycle_matrix.py ................                  [ 53%]
+backend\tests\test_multipart.py ...                                      [ 55%]
+backend\tests\test_pipeline.py .....                                     [ 58%]
+backend\tests\test_rapidocr_adapter.py ..........                        [ 63%]
+backend\tests\test_real_sample_integration.py ..                         [ 64%]
+backend\tests\test_security.py ...........                               [ 70%]
+backend\tests\test_supervisor_boundary.py ..........                     [ 76%]
+tests\validation\test_evidence_sanitization.py .                         [ 76%]
+tests\validation\test_fixture_corpus.py ..........                       [ 82%]
+tests\validation\test_fixture_generator_determinism.py .                 [ 82%]
+tests\validation\test_product_corpus_validator.py ...                    [ 84%]
+tests\validation\test_production_oracle_validator.py .......             [ 88%]
+tests\validation\test_release_claims.py ..                               [ 89%]
+tests\validation\test_release_manifest_generator.py .                    [ 90%]
+tests\validation\test_test_images_validator.py ..................        [100%]
+
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  <PROJECT_ROOT>\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 182 passed, 1 warning in 31.11s =======================
+
+> labelverify-frontend@0.1.0 lint
+> eslint . --max-warnings 0
+
+
+> labelverify-frontend@0.1.0 typecheck
+> tsc -b --pretty false
+
+
+> labelverify-frontend@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 <PROJECT_ROOT>/frontend
+
+
+ Test Files  9 passed (9)
+      Tests  46 passed (46)
+   Start at  13:52:41
+   Duration  5.37s (transform 994ms, setup 3.76s, import 2.28s, tests 5.07s, environment 17.17s)
+
+
+> labelverify-frontend@0.1.0 build
+> tsc -b && vite build
+
+vite v8.2.2 building client environment for production...
+transforming...
+✓ 97 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.48 kB │ gzip:  0.30 kB
+dist/assets/index-DG0b-J5j.css   13.64 kB │ gzip:  4.01 kB
+dist/assets/index-BWuhx4XN.js   298.15 kB │ gzip: 89.43 kB
+
+✓ built in 156ms
+
+> labelverify-frontend@0.1.0 test:e2e
+> playwright test
+
+
+Running 6 tests using 1 worker
+
+  -  1 [chrome] › e2e\batch-capacity.spec.ts:45:1 › governed 300-application browser batch is complete, mixed, cancellable, and exportable
+  ok 2 [chrome] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (5.8s)
+  ok 3 [chrome] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free (3.3s)
+  -  4 [edge] › e2e\batch-capacity.spec.ts:45:1 › governed 300-application browser batch is complete, mixed, cancellable, and exportable
+  ok 5 [edge] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (4.2s)
+  -  6 [edge] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free
+
+  3 skipped
+  3 passed (22.2s)
+[WebServer] INFO:     Started server process [80252]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+(node:89944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:53496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

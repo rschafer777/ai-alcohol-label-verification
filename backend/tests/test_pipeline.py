@@ -1,0 +1,161 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+import numpy as np
+import pytest
+from labelverify.contracts.models import (
+    CheckResult,
+    OcrLine,
+    OriginalDimensions,
+    PanelResult,
+    Point,
+)
+from labelverify.imaging.decode import DecodedPanel
+from labelverify.orchestration import pipeline as pipeline_module
+from labelverify.orchestration.pipeline import (
+    PipelineFailure,
+    PipelineJob,
+    execute_pipeline,
+    validate_result_integrity,
+)
+
+from .helpers import evidence, jpeg_bytes, reference
+
+
+class FakeAdapter:
+    model_identity = "fake-reference-blind"
+
+    def initialize(self) -> None:
+        return None
+
+    def extract(self, views: object) -> list[OcrLine]:
+        texts = [
+            "OLD TOM DISTILLERY",
+            "Kentucky Straight Bourbon Whiskey",
+            "45% Alc./Vol. 90 Proof",
+            "750 mL",
+            "GOVERNMENT WARNING:",
+            (
+                "(1) According to the Surgeon General, women should not drink "
+                "alcoholic beverages during pregnancy because of the risk of birth defects."
+            ),
+            (
+                "(2) Consumption of alcoholic beverages impairs your ability to drive a "
+                "car or operate machinery, and may cause health problems."
+            ),
+            "BOTTLED BY: OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY",
+        ]
+        return [
+            OcrLine(
+                panelId="panel-1",
+                text=text,
+                polygon=[
+                    Point(x=20, y=20 + index * 50),
+                    Point(x=600, y=20 + index * 50),
+                    Point(x=600, y=50 + index * 50),
+                    Point(x=20, y=50 + index * 50),
+                ],
+                confidence=0.95,
+                readingOrder=index,
+                sourceView="original",
+                transformId="transform-panel-1-v1",
+            )
+            for index, text in enumerate(texts)
+        ]
+
+
+def test_c008_pipeline_returns_complete_ordered_result(tmp_path: Path) -> None:
+    path = tmp_path / "panel.jpg"
+    path.write_bytes(jpeg_bytes())
+    result = execute_pipeline(PipelineJob("request", "build", reference(), (path,)), FakeAdapter())
+    assert result.request_id == "request"
+    assert result.model_identity == "fake-reference-blind"
+    assert len(result.checks) == 19
+    assert result.stage_timings.decode_ms >= 0
+    assert result.stage_timings.ocr_ms >= 0
+    assert result.summary in {"Differences detected", "Review needed"}
+    assert all(item.check_id for item in result.checks)
+
+
+def test_pipeline_invalid_image_is_typed_and_result_free(tmp_path: Path) -> None:
+    path = tmp_path / "bad.img"
+    path.write_bytes(b"not an image")
+    with pytest.raises(PipelineFailure) as caught:
+        execute_pipeline(PipelineJob("request", "build", reference(), (path,)), FakeAdapter())
+    assert caught.value.code == "invalid_image"
+    assert caught.value.field_or_panel == "panel-1"
+
+
+def test_cumulative_pixel_budget_is_passed_before_fourth_decode(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    limits_seen: list[int] = []
+
+    def fake_decode(path: Path, panel_id: str, max_pixels: int) -> DecodedPanel:
+        del path
+        limits_seen.append(max_pixels)
+        return DecodedPanel(
+            panel_id=panel_id,
+            rgb=np.zeros((1, 1, 3), dtype=np.uint8),
+            width=4_000,
+            height=3_000,
+            pixels=12_000_000,
+            quality_signals={"qualityClass": "Sufficient"},
+            coverage_state="Sufficient",
+        )
+
+    monkeypatch.setattr(pipeline_module, "decode_panel", fake_decode)
+    paths = tuple(tmp_path / f"panel-{index}.img" for index in range(1, 5))
+    with pytest.raises(PipelineFailure) as caught:
+        execute_pipeline(PipelineJob("request", "build", reference(), paths), FakeAdapter())
+    assert caught.value.code == "decoded_pixel_limit"
+    assert caught.value.field_or_panel == "panel-4"
+    assert limits_seen == [12_000_000, 12_000_000, 12_000_000]
+
+
+def test_integrity_rejects_out_of_bounds_evidence() -> None:
+    panel = PanelResult(
+        panelId="panel-1",
+        originalDimensions=OriginalDimensions(width=100, height=100),
+        qualitySignals={},
+        coverageState="Sufficient",
+    )
+    invalid = evidence("bad", x=50, y=90)
+    check = CheckResult(
+        checkId="brand",
+        label="Brand",
+        applicable=True,
+        state="Match",
+        reasonCode="x",
+        reasonText="x",
+        evidenceRef=invalid.evidence_id,
+        alternatives=[],
+        capability="test",
+        policyVersion="1",
+    )
+    with pytest.raises(PipelineFailure):
+        validate_result_integrity([panel], [invalid], [check])
+
+
+def test_integrity_rejects_missing_evidence_reference() -> None:
+    panel = PanelResult(
+        panelId="panel-1",
+        originalDimensions=OriginalDimensions(width=200, height=200),
+        qualitySignals={},
+        coverageState="Sufficient",
+    )
+    check = CheckResult(
+        checkId="brand",
+        label="Brand",
+        applicable=True,
+        state="Match",
+        reasonCode="x",
+        reasonText="x",
+        evidenceRef="ev_missing_panel-1_01",
+        alternatives=[],
+        capability="test",
+        policyVersion="1",
+    )
+    with pytest.raises(PipelineFailure):
+        validate_result_integrity([panel], [], [check])

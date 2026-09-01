@@ -1,0 +1,35 @@
+{
+  "registryId": "labelverify-public-errors",
+  "registryVersion": "1.0.0",
+  "errors": [
+    {"http": 400, "code": "invalid_host", "retryable": false, "action": "Reopen the application URL", "logClass": "security_validation"},
+    {"http": 400, "code": "invalid_client_identity", "retryable": true, "action": "Reload and retry", "logClass": "security_validation"},
+    {"http": 400, "code": "invalid_content_length", "retryable": false, "action": "Reload and select the files again", "logClass": "request_validation"},
+    {"http": 400, "code": "content_length_mismatch", "retryable": true, "action": "Retry the upload", "logClass": "request_validation"},
+    {"http": 400, "code": "invalid_multipart", "retryable": true, "action": "Retry the upload", "logClass": "request_validation"},
+    {"http": 403, "code": "origin_not_allowed", "retryable": false, "action": "Use the application from its configured URL", "logClass": "security_validation"},
+    {"http": 408, "code": "upload_timeout", "retryable": true, "action": "Retry on a stable connection or use smaller files", "logClass": "request_timeout"},
+    {"http": 413, "code": "request_too_large", "retryable": false, "action": "Use smaller files", "logClass": "request_validation"},
+    {"http": 413, "code": "multipart_limit_exceeded", "retryable": false, "action": "Reduce files or fields to the supported limits", "logClass": "request_validation"},
+    {"http": 415, "code": "unsupported_media_type", "retryable": false, "action": "Use JPEG, PNG, or WebP", "logClass": "input_validation", "locatorAllowed": true},
+    {"http": 422, "code": "invalid_reference", "retryable": false, "action": "Correct the identified reference field", "logClass": "input_validation", "locatorAllowed": true},
+    {"http": 422, "code": "invalid_panel_count", "retryable": false, "action": "Add 1 to 6 label panels", "logClass": "input_validation", "locatorAllowed": true},
+    {"http": 422, "code": "invalid_image", "retryable": false, "action": "Replace the identified corrupt or unreadable image", "logClass": "input_validation", "locatorAllowed": true},
+    {"http": 422, "code": "decoded_pixel_limit", "retryable": false, "action": "Reduce image dimensions", "logClass": "input_validation", "locatorAllowed": true},
+    {"http": 429, "code": "client_rate_limited", "retryable": true, "action": "Wait and retry", "logClass": "capacity"},
+    {"http": 503, "code": "global_start_rate_limited", "retryable": true, "action": "Wait and retry", "logClass": "capacity"},
+    {"http": 503, "code": "verification_capacity_busy", "retryable": true, "action": "Retry shortly", "logClass": "capacity"},
+    {"http": 503, "code": "worker_queue_busy", "retryable": true, "action": "Retry shortly", "logClass": "capacity"},
+    {"http": 503, "code": "not_ready", "retryable": true, "action": "Wait for initialization and retry", "logClass": "readiness"},
+    {"http": 500, "code": "inference_failed", "retryable": true, "action": "Retry once or use a clearer image", "logClass": "inference"},
+    {"http": 500, "code": "internal_error", "retryable": true, "action": "Retry and report the request ID if repeated", "logClass": "internal"},
+    {"http": 504, "code": "inference_timeout", "retryable": true, "action": "Retry with clearer or fewer panels", "logClass": "inference_timeout"},
+    {"http": 504, "code": "request_deadline_exceeded", "retryable": true, "action": "Retry with smaller files", "logClass": "request_timeout"}
+  ],
+  "browserOnly": [
+    "verification_cancelled",
+    "client_deadline_exceeded",
+    "response_contract_invalid",
+    "network_unavailable"
+  ]
+}

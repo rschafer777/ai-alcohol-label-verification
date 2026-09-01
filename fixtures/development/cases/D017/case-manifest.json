@@ -1,0 +1,29 @@
+{
+  "caseId": "D017",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D017.json",
+  "panels": [
+    {
+      "bytes": 225058,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D017/panels/panel-1.png",
+      "sha256": "e439ea7db04065e71ffc4b04f0b8e25461e4ee39d618193ad3fec631fe467f8d",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D017/reference.json",
+  "scenarioTags": [
+    "image_quality",
+    "glare",
+    "blur",
+    "unreadable",
+    "negative"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Glare and blur make the label unreadable"
+}

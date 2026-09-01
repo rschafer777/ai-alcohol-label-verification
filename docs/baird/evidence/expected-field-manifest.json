@@ -1,0 +1,198 @@
+{
+  "manifest_id": "baird-architecture-field-oracle",
+  "manifest_version": "4.0.0",
+  "authorship": "Expected states are source-derived test data and are not imported from comparison functions.",
+  "base_fields": {
+    "brand": {"applicable": true, "state": "Match", "reason_code": "exact_match", "evidence_required": true},
+    "class_type": {"applicable": true, "state": "Match", "reason_code": "exact_match", "evidence_required": true},
+    "abv": {"applicable": true, "state": "Match", "reason_code": "numeric_match", "evidence_required": true},
+    "proof": {"applicable": true, "state": "Match", "reason_code": "proof_match", "evidence_required": true},
+    "net_contents": {"applicable": true, "state": "Match", "reason_code": "volume_match", "evidence_required": true},
+    "producer": {"applicable": true, "state": "Match", "reason_code": "exact_match", "evidence_required": true},
+    "country": {"applicable": false, "state": "Not verified", "reason_code": "country_not_applicable", "evidence_required": false},
+    "warning_applicability": {"applicable": true, "state": "Match", "reason_code": "warning_required_present", "evidence_required": true},
+    "warning_wording": {"applicable": true, "state": "Match", "reason_code": "warning_wording_exact", "evidence_required": true},
+    "warning_heading_uppercase": {"applicable": true, "state": "Match", "reason_code": "warning_heading_exact", "evidence_required": true},
+    "warning_heading_emphasis": {"applicable": true, "state": "Match", "reason_code": "heading_emphasis_match", "evidence_required": true},
+    "warning_body_not_bold": {"applicable": true, "state": "Match", "reason_code": "body_regular_match", "evidence_required": true},
+    "warning_separation": {"applicable": true, "state": "Match", "reason_code": "layout_separation", "evidence_required": true},
+    "warning_continuity": {"applicable": true, "state": "Match", "reason_code": "layout_continuity", "evidence_required": true},
+    "warning_contrast_legibility": {"applicable": true, "state": "Match", "reason_code": "contrast_legibility", "evidence_required": true},
+    "panel_coverage": {"applicable": true, "state": "Match", "reason_code": "panel_coverage", "evidence_required": false},
+    "image_quality": {"applicable": true, "state": "Match", "reason_code": "image_quality_match", "evidence_required": false}
+  },
+  "cases": {
+    "S01_clean_one": {"summary": "No differences found in checked fields", "overrides": {}},
+    "S02_title_case": {"summary": "Differences detected", "overrides": {
+      "warning_heading_uppercase": {"state": "Mismatch", "reason_code": "warning_heading_altered"},
+      "warning_heading_emphasis": {"state": "Review", "reason_code": "heading_emphasis_not_comparable"}
+    }},
+    "S03_abv_difference": {"summary": "Differences detected", "overrides": {
+      "abv": {"state": "Mismatch", "reason_code": "numeric_difference"},
+      "proof": {"state": "Mismatch", "reason_code": "proof_difference"}
+    }},
+    "S04_missing_warning": {"summary": "Differences detected", "overrides": {
+      "warning_applicability": {"state": "Mismatch", "reason_code": "warning_required_missing"},
+      "warning_wording": {"state": "Not verified", "reason_code": "warning_wording_missing", "evidence_required": false},
+      "warning_heading_uppercase": {"state": "Not verified", "reason_code": "warning_heading_missing", "evidence_required": false},
+      "warning_heading_emphasis": {"state": "Not verified", "reason_code": "warning_not_found", "evidence_required": false},
+      "warning_body_not_bold": {"state": "Not verified", "reason_code": "warning_not_found", "evidence_required": false},
+      "warning_separation": {"state": "Not verified", "reason_code": "warning_not_found", "evidence_required": false},
+      "warning_continuity": {"state": "Not verified", "reason_code": "warning_not_found", "evidence_required": false},
+      "warning_contrast_legibility": {"state": "Not verified", "reason_code": "warning_not_found", "evidence_required": false},
+      "panel_coverage": {"state": "Review", "reason_code": "panel_coverage"}
+    }},
+    "S05_glare_blur": {"summary": "Review needed", "overrides": {
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"},
+      "warning_heading_emphasis": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_body_not_bold": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_separation": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_continuity": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_contrast_legibility": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "image_quality": {"state": "Review", "reason_code": "image_quality_review"}
+    }},
+    "S06_decoy_abv": {"summary": "Differences detected", "overrides": {
+      "abv": {"state": "Mismatch", "reason_code": "numeric_difference"},
+      "proof": {"state": "Mismatch", "reason_code": "proof_difference"}
+    }},
+    "S07_three_panel": {"summary": "No differences found in checked fields", "overrides": {}},
+    "S08_six_panel": {"summary": "No differences found in checked fields", "overrides": {}},
+    "S09_high_resolution": {"summary": "Review needed", "overrides": {
+      "class_type": {"state": "Review", "reason_code": "punctuation_difference"},
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"},
+      "warning_wording": {"state": "Review", "reason_code": "warning_wording_uncertain"}
+    }},
+    "S10_import_origin": {"summary": "No differences found in checked fields", "overrides": {
+      "country": {"applicable": true, "state": "Match", "reason_code": "country_match", "evidence_required": true}
+    }},
+    "S11_producer_difference": {"summary": "Differences detected", "overrides": {
+      "producer": {"state": "Mismatch", "reason_code": "observed_value_differs"},
+      "warning_wording": {"state": "Review", "reason_code": "warning_wording_uncertain"}
+    }},
+    "S12_warning_typography": {"summary": "Differences detected", "overrides": {
+      "warning_heading_emphasis": {"state": "Mismatch", "reason_code": "heading_emphasis_difference"},
+      "warning_body_not_bold": {"state": "Mismatch", "reason_code": "body_weight_difference"}
+    }},
+    "S13_warning_uncertain": {"summary": "Review needed", "overrides": {
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"},
+      "warning_wording": {"state": "Review", "reason_code": "warning_wording_uncertain"},
+      "warning_heading_emphasis": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_body_not_bold": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_separation": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_continuity": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_contrast_legibility": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "image_quality": {"state": "Review", "reason_code": "image_quality_review"}
+    }},
+    "S14_brand_case": {"summary": "Review needed", "overrides": {
+      "brand": {"state": "Review", "reason_code": "case_difference"}
+    }},
+    "S15_proof_difference": {"summary": "Differences detected", "overrides": {
+      "proof": {"state": "Mismatch", "reason_code": "proof_difference"}
+    }},
+    "S16_proof_missing": {"summary": "Review needed", "overrides": {
+      "proof": {"state": "Not verified", "reason_code": "proof_missing", "evidence_required": false},
+      "panel_coverage": {"state": "Review", "reason_code": "panel_coverage"}
+    }},
+    "S17_proof_ambiguous": {"summary": "Review needed", "overrides": {
+      "proof": {"state": "Review", "reason_code": "proof_ambiguous"},
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"},
+      "warning_wording": {"state": "Review", "reason_code": "warning_wording_uncertain"}
+    }},
+    "S18_applicability_below": {"summary": "No differences found in checked fields", "overrides": {
+      "warning_applicability": {"state": "Match", "reason_code": "warning_not_required"},
+      "warning_wording": {"applicable": false, "state": "Not verified", "reason_code": "warning_not_applicable", "evidence_required": false},
+      "warning_heading_uppercase": {"applicable": false, "state": "Not verified", "reason_code": "warning_not_applicable", "evidence_required": false},
+      "warning_heading_emphasis": {"applicable": false, "state": "Not verified", "reason_code": "warning_not_applicable", "evidence_required": false},
+      "warning_body_not_bold": {"applicable": false, "state": "Not verified", "reason_code": "warning_not_applicable", "evidence_required": false},
+      "warning_separation": {"applicable": false, "state": "Not verified", "reason_code": "warning_not_applicable", "evidence_required": false},
+      "warning_continuity": {"applicable": false, "state": "Not verified", "reason_code": "warning_not_applicable", "evidence_required": false},
+      "warning_contrast_legibility": {"applicable": false, "state": "Not verified", "reason_code": "warning_not_applicable", "evidence_required": false}
+    }},
+    "S19_applicability_threshold": {"summary": "No differences found in checked fields", "overrides": {}},
+    "S20_applicability_unparseable": {"summary": "Review needed", "overrides": {
+      "abv": {"state": "Not verified", "reason_code": "abv_missing", "evidence_required": false},
+      "proof": {"state": "Review", "reason_code": "proof_relationship_uncertain"},
+      "warning_wording": {"state": "Review", "reason_code": "warning_wording_uncertain"},
+      "warning_applicability": {"state": "Review", "reason_code": "warning_applicability_uncertain", "evidence_required": false},
+      "panel_coverage": {"state": "Review", "reason_code": "panel_coverage"}
+    }},
+    "S21_warning_missing_colon": {"summary": "Differences detected", "overrides": {
+      "warning_heading_uppercase": {"state": "Mismatch", "reason_code": "warning_heading_punctuation"},
+      "warning_heading_emphasis": {"state": "Review", "reason_code": "heading_emphasis_not_comparable"}
+    }},
+    "S22_warning_altered_heading": {"summary": "Differences detected", "overrides": {
+      "warning_heading_uppercase": {"state": "Mismatch", "reason_code": "warning_heading_altered"},
+      "warning_wording": {"state": "Review", "reason_code": "warning_wording_uncertain"},
+      "warning_heading_emphasis": {"state": "Review", "reason_code": "heading_emphasis_not_comparable"},
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"}
+    }},
+    "S23_warning_bold_body": {"summary": "Differences detected", "overrides": {
+      "warning_body_not_bold": {"state": "Mismatch", "reason_code": "body_weight_difference"}
+    }},
+    "S24_warning_regular_heading": {"summary": "Differences detected", "overrides": {
+      "warning_heading_emphasis": {"state": "Mismatch", "reason_code": "heading_emphasis_difference"}
+    }},
+    "S25_producer_punctuation": {"summary": "Review needed", "overrides": {
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"}
+    }},
+    "S26_producer_missing": {"summary": "Review needed", "overrides": {
+      "producer": {"state": "Not verified", "reason_code": "candidate_missing", "evidence_required": false},
+      "panel_coverage": {"state": "Review", "reason_code": "panel_coverage"}
+    }},
+    "S27_producer_case": {"summary": "Review needed", "overrides": {
+      "producer": {"state": "Review", "reason_code": "case_difference"}
+    }},
+    "S28_warning_heading_extra_period": {"summary": "Differences detected", "overrides": {
+      "warning_heading_uppercase": {"state": "Mismatch", "reason_code": "warning_heading_altered"},
+      "warning_heading_emphasis": {"state": "Review", "reason_code": "heading_emphasis_not_comparable"}
+    }},
+    "S29_warning_body_added_period": {"summary": "Differences detected", "overrides": {
+      "warning_wording": {"state": "Mismatch", "reason_code": "warning_wording_difference"}
+    }},
+    "S30_warning_body_duplicate_punctuation": {"summary": "Differences detected", "overrides": {
+      "warning_wording": {"state": "Mismatch", "reason_code": "warning_wording_difference"}
+    }},
+    "S31_warning_punctuation_uncertain": {"summary": "Review needed", "overrides": {
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"},
+      "warning_wording": {"state": "Review", "reason_code": "warning_wording_uncertain"},
+      "warning_heading_emphasis": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_body_not_bold": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_separation": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_continuity": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_contrast_legibility": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "image_quality": {"state": "Review", "reason_code": "image_quality_review"}
+    }},
+    "S32_country_duplicate_same": {"summary": "Review needed", "overrides": {
+      "class_type": {"state": "Review", "reason_code": "punctuation_difference"},
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"},
+      "country": {"applicable": true, "state": "Match", "reason_code": "country_match", "evidence_required": true}
+    }},
+    "S33_country_conflicting": {"summary": "Review needed", "overrides": {
+      "class_type": {"state": "Review", "reason_code": "punctuation_difference"},
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"},
+      "country": {"applicable": true, "state": "Review", "reason_code": "country_ambiguous", "evidence_required": true, "expected_alternatives": ["CANADA", "USA"], "alternative_evidence_required": true, "distinct_alternative_evidence": true}
+    }},
+    "S34_country_missing": {"summary": "Review needed", "overrides": {
+      "country": {"applicable": true, "state": "Not verified", "reason_code": "country_missing", "evidence_required": false},
+      "panel_coverage": {"state": "Review", "reason_code": "panel_coverage"}
+    }},
+    "S35_country_unreadable": {"summary": "Review needed", "overrides": {
+      "country": {"applicable": true, "state": "Not verified", "reason_code": "country_missing", "evidence_required": false},
+      "warning_wording": {"state": "Review", "reason_code": "warning_wording_uncertain"},
+      "panel_coverage": {"state": "Review", "reason_code": "panel_coverage"},
+      "warning_heading_emphasis": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_body_not_bold": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_separation": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_continuity": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "warning_contrast_legibility": {"state": "Review", "reason_code": "image_quality_insufficient"},
+      "image_quality": {"state": "Review", "reason_code": "image_quality_review"}
+    }},
+    "S36_country_decoy": {"summary": "Review needed", "overrides": {
+      "producer": {"state": "Review", "reason_code": "punctuation_difference"},
+      "country": {"applicable": true, "state": "Match", "reason_code": "country_match", "evidence_required": true}
+    }},
+    "S37_country_mismatch": {"summary": "Differences detected", "overrides": {
+      "country": {"applicable": true, "state": "Mismatch", "reason_code": "country_difference", "evidence_required": true}
+    }}
+  }
+}

@@ -1,0 +1,804 @@
+[
+  {
+    "case_id": "S01_clean_one",
+    "paths": [
+      "fixtures/S01_clean_one/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "No differences found in checked fields",
+    "tags": [
+      "one-panel",
+      "clean",
+      "warning-presentation",
+      "proof-match",
+      "applicability-above"
+    ]
+  },
+  {
+    "case_id": "S02_title_case",
+    "paths": [
+      "fixtures/S02_title_case/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "capitalization",
+      "warning"
+    ]
+  },
+  {
+    "case_id": "S03_abv_difference",
+    "paths": [
+      "fixtures/S03_abv_difference/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "deterministic-mismatch",
+      "abv",
+      "proof"
+    ]
+  },
+  {
+    "case_id": "S04_missing_warning",
+    "paths": [
+      "fixtures/S04_missing_warning/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "missing-warning",
+      "applicability"
+    ]
+  },
+  {
+    "case_id": "S05_glare_blur",
+    "paths": [
+      "fixtures/S05_glare_blur/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "degradation",
+      "glare",
+      "blur"
+    ]
+  },
+  {
+    "case_id": "S06_decoy_abv",
+    "paths": [
+      "fixtures/S06_decoy_abv/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "decoy",
+      "reference-blind"
+    ]
+  },
+  {
+    "case_id": "S07_three_panel",
+    "paths": [
+      "fixtures/S07_three_panel/panel-1.jpg",
+      "fixtures/S07_three_panel/panel-2.jpg",
+      "fixtures/S07_three_panel/panel-3.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "No differences found in checked fields",
+    "tags": [
+      "three-panel",
+      "split-fields"
+    ]
+  },
+  {
+    "case_id": "S08_six_panel",
+    "paths": [
+      "fixtures/S08_six_panel/panel-1.jpg",
+      "fixtures/S08_six_panel/panel-2.jpg",
+      "fixtures/S08_six_panel/panel-3.jpg",
+      "fixtures/S08_six_panel/panel-4.jpg",
+      "fixtures/S08_six_panel/panel-5.jpg",
+      "fixtures/S08_six_panel/panel-6.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "No differences found in checked fields",
+    "tags": [
+      "six-panel",
+      "split-fields",
+      "warning-presentation"
+    ]
+  },
+  {
+    "case_id": "S09_high_resolution",
+    "paths": [
+      "fixtures/S09_high_resolution/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "twelve-megapixel",
+      "boundary",
+      "safe-ocr-uncertainty"
+    ]
+  },
+  {
+    "case_id": "S10_import_origin",
+    "paths": [
+      "fixtures/S10_import_origin/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": "CANADA",
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "No differences found in checked fields",
+    "tags": [
+      "conditional-origin",
+      "country-evidence"
+    ]
+  },
+  {
+    "case_id": "S11_producer_difference",
+    "paths": [
+      "fixtures/S11_producer_difference/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "producer",
+      "deterministic-mismatch"
+    ]
+  },
+  {
+    "case_id": "S12_warning_typography",
+    "paths": [
+      "fixtures/S12_warning_typography/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "warning-presentation",
+      "regular-heading-bold-body"
+    ]
+  },
+  {
+    "case_id": "S13_warning_uncertain",
+    "paths": [
+      "fixtures/S13_warning_uncertain/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "warning-presentation",
+      "low-contrast"
+    ]
+  },
+  {
+    "case_id": "S14_brand_case",
+    "paths": [
+      "fixtures/S14_brand_case/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "Stone's Throw",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "brand",
+      "case-only",
+      "punctuation-preserved"
+    ]
+  },
+  {
+    "case_id": "S15_proof_difference",
+    "paths": [
+      "fixtures/S15_proof_difference/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "proof",
+      "mismatch",
+      "abv-proof-relationship"
+    ]
+  },
+  {
+    "case_id": "S16_proof_missing",
+    "paths": [
+      "fixtures/S16_proof_missing/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "proof",
+      "missing"
+    ]
+  },
+  {
+    "case_id": "S17_proof_ambiguous",
+    "paths": [
+      "fixtures/S17_proof_ambiguous/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "proof",
+      "ambiguous"
+    ]
+  },
+  {
+    "case_id": "S18_applicability_below",
+    "paths": [
+      "fixtures/S18_applicability_below/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "0.4%",
+      "proof": "0.8",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "No differences found in checked fields",
+    "tags": [
+      "warning-applicability",
+      "below-threshold"
+    ]
+  },
+  {
+    "case_id": "S19_applicability_threshold",
+    "paths": [
+      "fixtures/S19_applicability_threshold/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "0.5%",
+      "proof": "1",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "No differences found in checked fields",
+    "tags": [
+      "warning-applicability",
+      "at-threshold"
+    ]
+  },
+  {
+    "case_id": "S20_applicability_unparseable",
+    "paths": [
+      "fixtures/S20_applicability_unparseable/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "warning-applicability",
+      "unparseable"
+    ]
+  },
+  {
+    "case_id": "S21_warning_missing_colon",
+    "paths": [
+      "fixtures/S21_warning_missing_colon/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "warning",
+      "missing-colon"
+    ]
+  },
+  {
+    "case_id": "S22_warning_altered_heading",
+    "paths": [
+      "fixtures/S22_warning_altered_heading/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "warning",
+      "altered-heading"
+    ]
+  },
+  {
+    "case_id": "S23_warning_bold_body",
+    "paths": [
+      "fixtures/S23_warning_bold_body/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "warning-presentation",
+      "bold-heading-bold-body"
+    ]
+  },
+  {
+    "case_id": "S24_warning_regular_heading",
+    "paths": [
+      "fixtures/S24_warning_regular_heading/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "warning-presentation",
+      "regular-heading-regular-body"
+    ]
+  },
+  {
+    "case_id": "S25_producer_punctuation",
+    "paths": [
+      "fixtures/S25_producer_punctuation/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY LLC FRANKFORT KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "producer",
+      "punctuation-only"
+    ]
+  },
+  {
+    "case_id": "S26_producer_missing",
+    "paths": [
+      "fixtures/S26_producer_missing/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "producer",
+      "missing"
+    ]
+  },
+  {
+    "case_id": "S27_producer_case",
+    "paths": [
+      "fixtures/S27_producer_case/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "Old Heritage Distillery, LLC Frankfort, Kentucky 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "producer",
+      "case-only"
+    ]
+  },
+  {
+    "case_id": "S28_warning_heading_extra_period",
+    "paths": [
+      "fixtures/S28_warning_heading_extra_period/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "warning",
+      "punctuation",
+      "extra-period"
+    ]
+  },
+  {
+    "case_id": "S29_warning_body_added_period",
+    "paths": [
+      "fixtures/S29_warning_body_added_period/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "warning",
+      "punctuation",
+      "body-added-period"
+    ]
+  },
+  {
+    "case_id": "S30_warning_body_duplicate_punctuation",
+    "paths": [
+      "fixtures/S30_warning_body_duplicate_punctuation/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "warning",
+      "punctuation",
+      "duplicate-period"
+    ]
+  },
+  {
+    "case_id": "S31_warning_punctuation_uncertain",
+    "paths": [
+      "fixtures/S31_warning_punctuation_uncertain/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": null,
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "warning",
+      "punctuation",
+      "low-evidence"
+    ]
+  },
+  {
+    "case_id": "S32_country_duplicate_same",
+    "paths": [
+      "fixtures/S32_country_duplicate_same/panel-1.jpg",
+      "fixtures/S32_country_duplicate_same/panel-2.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": "CANADA",
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "country",
+      "duplicate-same"
+    ]
+  },
+  {
+    "case_id": "S33_country_conflicting",
+    "paths": [
+      "fixtures/S33_country_conflicting/panel-1.jpg",
+      "fixtures/S33_country_conflicting/panel-2.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": "CANADA",
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "country",
+      "conflicting-candidates"
+    ]
+  },
+  {
+    "case_id": "S34_country_missing",
+    "paths": [
+      "fixtures/S34_country_missing/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": "CANADA",
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "country",
+      "missing"
+    ]
+  },
+  {
+    "case_id": "S35_country_unreadable",
+    "paths": [
+      "fixtures/S35_country_unreadable/panel-1.jpg",
+      "fixtures/S35_country_unreadable/panel-2.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": "CANADA",
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "country",
+      "unreadable",
+      "two-panel"
+    ]
+  },
+  {
+    "case_id": "S36_country_decoy",
+    "paths": [
+      "fixtures/S36_country_decoy/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": "CANADA",
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Review needed",
+    "tags": [
+      "country",
+      "decoy",
+      "reference-blind"
+    ]
+  },
+  {
+    "case_id": "S37_country_mismatch",
+    "paths": [
+      "fixtures/S37_country_mismatch/panel-1.jpg"
+    ],
+    "reference": {
+      "brand": "OLD TOM DISTILLERY",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv": "45%",
+      "proof": "90",
+      "net_contents": "750 mL",
+      "producer": "OLD HERITAGE DISTILLERY, LLC FRANKFORT, KENTUCKY 40601",
+      "country": "CANADA",
+      "warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems."
+    },
+    "expected_summary": "Differences detected",
+    "tags": [
+      "country",
+      "mismatch"
+    ]
+  }
+]

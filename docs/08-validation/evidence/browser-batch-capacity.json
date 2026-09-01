@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "measuredAtUtc": "2026-09-01T14:25:08.666Z",
+  "browserProject": "chrome",
+  "requestedCount": 300,
+  "completedCount": 300,
+  "uniqueCaseIdCount": 300,
+  "uniqueRequestIdCount": 300,
+  "expectedAndObservedStatusCounts": {
+    "difference": 100,
+    "match": 100,
+    "review": 100
+  },
+  "falseCleanCount": 0,
+  "checkRows": 5700,
+  "csvRowCountIncludingHeader": 301,
+  "detailedJsonApplicationCount": 300,
+  "cancellationObserved": true,
+  "retryObserved": true,
+  "browserStorageState": {
+    "cacheKeys": [],
+    "indexedDatabases": [],
+    "localStorageKeys": [],
+    "sessionStorageKeys": []
+  },
+  "elapsedSeconds": 616.114,
+  "thresholdSeconds": 1500,
+  "pass": true
+}

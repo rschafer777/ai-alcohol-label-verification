@@ -1,0 +1,27 @@
+{
+  "caseId": "D002",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D002.json",
+  "panels": [
+    {
+      "bytes": 91794,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D002/panels/panel-1.png",
+      "sha256": "f930951e6272cbe94bc8efb14c9c33f8117790bedae463db8e1949c9538d9d3b",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D002/reference.json",
+  "scenarioTags": [
+    "brand",
+    "case_variation",
+    "review"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Brand case variation routes to review"
+}

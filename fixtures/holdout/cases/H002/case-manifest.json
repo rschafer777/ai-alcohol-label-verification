@@ -1,0 +1,27 @@
+{
+  "caseId": "H002",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/holdout/H002.json",
+  "panels": [
+    {
+      "bytes": 89431,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/holdout/cases/H002/panels/panel-1.png",
+      "sha256": "0612c359f423230870fd81e00ee32d7ad15ed757a6acd57ce5518b60428f998f",
+      "width": 1200
+    }
+  ],
+  "partition": "holdout",
+  "referencePath": "fixtures/holdout/cases/H002/reference.json",
+  "scenarioTags": [
+    "proof",
+    "missing",
+    "holdout"
+  ],
+  "sealed": true,
+  "submissionMode": "ui",
+  "title": "Expected proof is missing"
+}

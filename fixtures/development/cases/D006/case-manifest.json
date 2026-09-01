@@ -1,0 +1,28 @@
+{
+  "caseId": "D006",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D006.json",
+  "panels": [
+    {
+      "bytes": 91459,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D006/panels/panel-1.png",
+      "sha256": "765f5d5c9d3c96913f17f14b2868858416de9dc542dab044e7799aedb3293157",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D006/reference.json",
+  "scenarioTags": [
+    "abv",
+    "proof",
+    "net_contents",
+    "mismatch"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "ABV proof and net contents differences"
+}

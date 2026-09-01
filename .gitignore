@@ -1,0 +1,56 @@
+# Local environments and downloaded model artifacts
+.venv/
+models/
+
+# Python caches and reports
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage/
+coverage.xml
+htmlcov/
+docs/08-validation/evidence/python-coverage.json
+docs/08-validation/evidence/python-coverage.txt
+docs/08-validation/evidence/frontend-coverage-detail.txt
+docs/08-validation/evidence/frontend-coverage.txt
+docs/08-validation/evidence/frontend-coverage-json/
+test-results/
+playwright-report/
+
+# Frontend dependencies and generated output
+frontend/node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+*.tsbuildinfo
+frontend/vite.config.js
+frontend/vite.config.d.ts
+frontend/vitest.config.js
+frontend/vitest.config.d.ts
+
+# Local configuration and editor files
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local agent controls and non-redistributable validation images
+AGENTS.md
+tests/Test_Images/*.jpg
+tests/Test_Images/*.jpeg
+tests/Test_Images/*.png
+tests/Test_Images/*.webp
+
+# Temporary files
+*.tmp
+*.partial
+*.log
+*.bak
+*.swp
+*~

@@ -1,0 +1,324 @@
+{
+  "schemaVersion": "1.0",
+  "oracleMethod": "Independent original-detail visual review by three agents using visible pixel evidence only; disagreements were re-reviewed against explicit image-quality, exact-wording, contrast, and font-weight rules; classifications did not use machine outcomes",
+  "reviewerRole": "Three independent Codex visual review agents with adjudication",
+  "reviewProcedureId": "TEST-IMAGES-VISUAL-ORACLE-V1",
+  "reviewProcedureVersion": "2.0",
+  "reviewedAtUtc": "2026-09-01T15:32:07.3824097Z",
+  "machineOutcomesAvailableDuringReview": true,
+  "amendedAtUtc": "2026-09-01T15:32:07.3824097Z",
+  "amendmentReason": "Rebuilt the full 50-image visual oracle through three independent reviews and a documented disagreement-resolution loop after direct pixel inspection disproved earlier classifications",
+  "machineOutcomesUsedForClassification": false,
+  "authorityVersion": "contracts/regulatory-rules-v1.json",
+  "corpusInventorySha256": "84287db2c8e5b84947c876967e982a44750dfebf2d90da6df13832f724e99a01",
+  "corpusUseApproval": "User supplied for local project validation and retention in this project workspace",
+  "limitations": [
+    "No independent COLA application records were supplied with the images",
+    "Physical warning type size is not scored without reliable scale",
+    "PASS means the visible, image-supported checks have no identified defect",
+    "NEEDS_REVIEW means the image does not provide enough reliable evidence for a compliance finding",
+    "DO_NOT_PASS is reserved for a visible deterministic label defect"
+  ],
+  "cases": [
+    {
+      "filename": "0wLM9.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable front and back labels with complete exact warning text and no visible presentation defect",
+      "scenarioTags": ["happy_path", "wine", "front_back_bottles"]
+    },
+    {
+      "filename": "3urY2.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable wine labels with exact uppercase warning heading and complete warning body",
+      "scenarioTags": ["happy_path", "wine", "front_back_bottles"]
+    },
+    {
+      "filename": "AnMXl.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable imported tequila label with common fields, origin, and complete warning",
+      "scenarioTags": ["happy_path", "distilled_spirits", "imported"]
+    },
+    {
+      "filename": "BMgMY.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The image is sharp, but the warning is printed in faint gray-gold against frosted white glass with visibly inadequate contrast",
+      "scenarioTags": ["incorrect_label", "warning_contrast", "wine"]
+    },
+    {
+      "filename": "bsxs4.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable sparkling wine label with complete warning and clear common fields",
+      "scenarioTags": ["happy_path", "wine", "dark_scene"]
+    },
+    {
+      "filename": "coTpD.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The image is sharp, but dark pink warning text is printed directly against the pink bottle with visibly inadequate contrast",
+      "scenarioTags": ["incorrect_label", "warning_contrast", "wine"]
+    },
+    {
+      "filename": "DDqT2.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The image is sharp, but the warning is printed in very light gray against frosted white glass with visibly inadequate contrast",
+      "scenarioTags": ["incorrect_label", "warning_contrast", "distilled_spirits"]
+    },
+    {
+      "filename": "EqTB7.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The warning body appears bold and all-capitalized rather than reserving bold emphasis for the required heading",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "distilled_spirits"]
+    },
+    {
+      "filename": "GuCzO.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable imported rum label with complete warning and common fields",
+      "scenarioTags": ["happy_path", "distilled_spirits", "imported"]
+    },
+    {
+      "filename": "leTeL.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable wine labels with complete exact warning, visibly emphasized heading, and narrow regular-weight uppercase body",
+      "scenarioTags": ["happy_path", "wine", "dark_scene"]
+    },
+    {
+      "filename": "MXteB.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The warning body uses prominent bold display type instead of non-bold body text",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "beer"]
+    },
+    {
+      "filename": "Test_TTB_Image_0001.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable happy-path label art with exact warning text and a brand capitalization example suitable for human judgment",
+      "scenarioTags": ["happy_path", "wine", "brand_case_judgment"]
+    },
+    {
+      "filename": "Test_TTB_Image_0002.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The required GOVERNMENT WARNING heading is title case instead of exact uppercase",
+      "scenarioTags": ["incorrect_label", "warning_heading_case", "distilled_spirits"]
+    },
+    {
+      "filename": "Test_TTB_Image_0003.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The warning omits the complete second required sentence",
+      "scenarioTags": ["incorrect_label", "warning_wording", "distilled_spirits"]
+    },
+    {
+      "filename": "Test_TTB_Image_0004.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable 1.75 L vodka label with complete warning and common fields",
+      "scenarioTags": ["happy_path", "distilled_spirits", "large_container"]
+    },
+    {
+      "filename": "Test_TTB_Image_0005.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable gin label art with exact warning and common fields",
+      "scenarioTags": ["happy_path", "distilled_spirits", "one_liter"]
+    },
+    {
+      "filename": "Test_TTB_Image_0006.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable gin label art with complete exact warning, bold uppercase heading, and regular-weight body",
+      "scenarioTags": ["happy_path", "distilled_spirits", "one_liter"]
+    },
+    {
+      "filename": "Test_TTB_Image_0007.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable beer label art with complete exact warning, markedly heavier heading, and regular condensed body",
+      "scenarioTags": ["happy_path", "beer"]
+    },
+    {
+      "filename": "Test_TTB_Image_0008.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable imported wine label with complete exact warning, including the required or operate machinery wording, and country of origin",
+      "scenarioTags": ["happy_path", "wine", "imported"]
+    },
+    {
+      "filename": "Test_TTB_Image_0009.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable beer label art with exact warning and common fields",
+      "scenarioTags": ["happy_path", "beer"]
+    },
+    {
+      "filename": "Test_TTB_Image_0010.jpeg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable bourbon bottle with complete warning; the compact warning remains visually legible in the supplied high-resolution image",
+      "scenarioTags": ["happy_path", "distilled_spirits", "small_text"]
+    },
+    {
+      "filename": "Test_TTB_Image_0011.jpeg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The entire warning body is bold and all-capitalized",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "distilled_spirits"]
+    },
+    {
+      "filename": "Test_TTB_Image_0013.jpeg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The entire warning body is bold and all-capitalized",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "beer"]
+    },
+    {
+      "filename": "Test_TTB_Image_0014.jpeg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable vodka bottle with complete exact warning, bold uppercase heading, and regular-weight body",
+      "scenarioTags": ["happy_path", "distilled_spirits", "reflective_surface"]
+    },
+    {
+      "filename": "Test_TTB_Image_0015.jpeg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The side-oriented warning contains visibly corrupted and extraneous generated words, so the mandatory wording is not exact",
+      "scenarioTags": ["incorrect_label", "beer", "warning_wording", "rotated_text"]
+    },
+    {
+      "filename": "Test_TTB_Image_0016.jpeg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable wine label with exact warning and common fields at two useful scales",
+      "scenarioTags": ["happy_path", "wine", "mixed_scale"]
+    },
+    {
+      "filename": "Test_TTB_Image_0017.jpeg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The entire warning body is bold and all-capitalized",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "wine"]
+    },
+    {
+      "filename": "Test_TTB_Image_0018.jpeg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The warning body is visibly bold and heavy throughout rather than reserving bold emphasis for the heading",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "beer"]
+    },
+    {
+      "filename": "Test_TTB_Image_0021.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable bourbon label art with exact warning and common fields",
+      "scenarioTags": ["happy_path", "distilled_spirits"]
+    },
+    {
+      "filename": "Test_TTB_Image_0022.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable Blackbird Reserve label art with complete exact warning, bold uppercase heading, and regular-weight body",
+      "scenarioTags": ["happy_path", "distilled_spirits"]
+    },
+    {
+      "filename": "Test_TTB_Image_0023.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable sparkling wine label art with exact warning and common fields",
+      "scenarioTags": ["happy_path", "wine"]
+    },
+    {
+      "filename": "Test_TTB_Image_0024.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable wine label art with complete exact warning, bold uppercase heading, and regular-weight body",
+      "scenarioTags": ["happy_path", "wine"]
+    },
+    {
+      "filename": "Test_TTB_Image_0025.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The warning body appears bold throughout",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "beer"]
+    },
+    {
+      "filename": "Test_TTB_Image_0026.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The warning body appears bold throughout",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "beer"]
+    },
+    {
+      "filename": "Test_TTB_Image_0027.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable imported tequila label art with exact warning and origin",
+      "scenarioTags": ["happy_path", "distilled_spirits", "imported"]
+    },
+    {
+      "filename": "Test_TTB_Image_0028.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable beer bottle with exact warning and common fields",
+      "scenarioTags": ["happy_path", "beer", "dark_scene"]
+    },
+    {
+      "filename": "Test_TTB_Image_0029.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable wine label art with exact warning and common fields",
+      "scenarioTags": ["happy_path", "wine"]
+    },
+    {
+      "filename": "Test_TTB_Image_0030.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable wine bottle with complete warning and common fields",
+      "scenarioTags": ["happy_path", "wine", "small_text"]
+    },
+    {
+      "filename": "Test_TTB_Image_0031.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The warning body appears bold rather than reserving bold emphasis for the heading",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "beer"]
+    },
+    {
+      "filename": "Test_TTB_Image_0032.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable gin bottles with exact warning and common fields",
+      "scenarioTags": ["happy_path", "distilled_spirits"]
+    },
+    {
+      "filename": "Test_TTB_Image_0033.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Complete warning and common fields are present on an angled side label",
+      "scenarioTags": ["edge", "wine", "perspective", "side_label"]
+    },
+    {
+      "filename": "Test_TTB_Image_0034.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable wine label art with exact warning and common fields",
+      "scenarioTags": ["happy_path", "wine"]
+    },
+    {
+      "filename": "Test_TTB_Image_0035.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable wine label art with exact warning and common fields",
+      "scenarioTags": ["happy_path", "wine"]
+    },
+    {
+      "filename": "Test_TTB_Image_0036.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable imported tequila label art with exact warning and origin",
+      "scenarioTags": ["happy_path", "distilled_spirits", "imported"]
+    },
+    {
+      "filename": "Test_TTB_Image_0037.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The warning body uses bold display text instead of non-bold body text",
+      "scenarioTags": ["incorrect_label", "warning_presentation", "distilled_spirits"]
+    },
+    {
+      "filename": "Test_TTB_Image_0038.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Complete warning and common fields remain readable in a dark bottle scene",
+      "scenarioTags": ["edge", "beer", "dark_scene"]
+    },
+    {
+      "filename": "Test_TTB_Image_0039.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable wine bottles with exact warning and common fields",
+      "scenarioTags": ["happy_path", "wine"]
+    },
+    {
+      "filename": "Test_TTB_Image_0040.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable imported tequila bottles with exact warning and origin",
+      "scenarioTags": ["happy_path", "distilled_spirits", "imported"]
+    },
+    {
+      "filename": "Test_TTB_Image_0041.jpg",
+      "expectedDisposition": "PASS",
+      "reason": "Readable 1.75 L vodka label art with exact warning and common fields",
+      "scenarioTags": ["happy_path", "distilled_spirits", "large_container"]
+    },
+    {
+      "filename": "Test_TTB_Image_0042.jpg",
+      "expectedDisposition": "DO_NOT_PASS",
+      "reason": "The warning body is replacement language and does not match the mandatory statement",
+      "scenarioTags": ["incorrect_label", "warning_wording", "distilled_spirits"]
+    }
+  ]
+}

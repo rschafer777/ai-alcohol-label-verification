@@ -1,0 +1,562 @@
+{
+  "schemaVersion": "1.0.0",
+  "evidenceId": "T-029-T-041-SECURITY-POST-FIX",
+  "createdAtUtc": "2026-09-01T18:40:52.465734+00:00",
+  "completedAtUtc": "2026-09-01T18:41:36.599762+00:00",
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10",
+    "logicalCpuCount": 24
+  },
+  "snapshot": {
+    "snapshotId": "bf6c57570a82d8bf8d7b3a554050fe03c85d86d943b62c2ac78fba5edaa66276",
+    "files": {
+      "backend/labelverify/api/app.py": "466705314eb1a4eecd32722de2b88dad3bbbf37d2de53902ac85aa886c428103",
+      "backend/labelverify/api/multipart.py": "ff509d99122721533d2712fb37851bae2af91fbbb2cfc257cd8d76d44e949b57",
+      "backend/labelverify/api/routes.py": "7b236eee1edade30ea1f17b3c9b0c196a15de317812c9ecff78419af3fda1a84",
+      "backend/labelverify/imaging/decode.py": "117ce27a22f2775f0e14f863793153037d07bcbff615528c6a04c01ad4e677b4",
+      "backend/labelverify/orchestration/pipeline.py": "9d81005d9069d30acc9fe4a0d5832ee64b2d5d17654c97efe4165c09f2299b8d",
+      "backend/labelverify/orchestration/supervisor.py": "fcd4647a938352939377326481256baa3da738d3ef60e3c6ba20e5e8c66a1908",
+      "backend/labelverify/security/boundary.py": "6d2268b8699c626536fe4840b118c05a3af6293ad02f3f6217da0993fe6cf7b6",
+      "backend/labelverify/security/identity.py": "8d3ac51b8696cca18e3ee0c783883e427a0390f62132844dc5cbf559868cfaaa",
+      "backend/labelverify/security/rate_limit.py": "97f62e717ca7b72a5e04df2419f3c8b117469530c57ff7b622ba20ce74191ed8",
+      "backend/tests/test_api.py": "2eec2e9daf82b0e2d13398baeb86657d565da1e87dd29bca5e47b347a0974589",
+      "backend/tests/test_lifecycle_matrix.py": "137e69b2af075ebd417033c796248bf061beed179a7e9d002214598a5702929a",
+      "backend/tests/test_multipart.py": "e6901c9615c7ccf5ed21c43c6dca8d4eb60818290fa564b7deca3ec37ed6c1e2",
+      "backend/tests/test_security.py": "9289f37852188c2251696e50b17696528134c884969cd6b059b4ea1bd797f59f",
+      "backend/tests/test_supervisor_boundary.py": "3d3b8864f09ea4b9e553c233a60ccca00a823a51e8e6ebc97d0976dc8e5dafc9",
+      "contracts/api-contract-v1.json": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47",
+      "contracts/error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
+      "frontend/src/api/verification-client.ts": "cfd5279c0864263ade2cba1ca49dc8bed4d2385325566ea04afea2f6e2893843",
+      "frontend/src/features/intake/sample-adapter.ts": "5b9de712227fbeb08ef813db25f02d4980deabe3deddd5bac8a8f21ff0d4f8cf",
+      "pyproject.toml": "b18b2efcb6e19d7fb521219b96ea914efd3527d4a845a625c8056165b28e1b91",
+      "scripts/run_security_post_fix_validation.py": "de9c3f574d5e7a0e9d2a0f365ad979c5d21db8c4eede5c69c6e1f241e09963cf",
+      "uv.lock": "c00ceb5c43ed593f9ea6cb06dbbc55524913b65a6b17d3262d5f71c8daf2f606"
+    }
+  },
+  "sourceStableDuringRun": true,
+  "governedLimits": {
+    "rawRequestBytes": 8650752,
+    "fileBytes": 4194304,
+    "aggregateFileBytes": 8388608,
+    "uploadDeadlineSeconds": 20.0,
+    "serverDeadlineSeconds": 30.0,
+    "workerDeadlineSeconds": 6.25,
+    "admissions": 2,
+    "reservationBytesPerAdmission": 17301504
+  },
+  "controlledFaults": {
+    "uploadTimeoutTestSeconds": 0.05,
+    "workerTimeoutTestSeconds": 0.2,
+    "note": "Fault-injection deadlines apply only to isolated test instances. Production contract limits and defaults are unchanged."
+  },
+  "assertions": [
+    {
+      "testId": "T-029",
+      "featureRequirement": "FR-029",
+      "assertionId": "T-029-A-SUCCESS-CLEANUP",
+      "scope": "local",
+      "expected": "Successful verification closes uploads and removes the request spool.",
+      "observed": {
+        "matchedCases": 1,
+        "passedCases": 1,
+        "minimumRequired": 1,
+        "testName": "test_valid_verification_is_complete_no_store_and_cleans_spool"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-029",
+      "featureRequirement": "FR-029",
+      "assertionId": "T-029-A-VALIDATION-CLEANUP",
+      "scope": "local",
+      "expected": "Validation rejection is result-free and leaves no request ownership.",
+      "observed": {
+        "matchedCases": 1,
+        "passedCases": 1,
+        "minimumRequired": 1,
+        "testName": "test_invalid_reference_is_result_free_and_does_not_run_worker"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-029",
+      "featureRequirement": "FR-029",
+      "assertionId": "T-029-A-PARTIAL-PARSER-CLEANUP",
+      "scope": "local",
+      "expected": "Parser-owned rolled files close on ordinary failure and cancellation.",
+      "observed": {
+        "matchedCases": 2,
+        "passedCases": 2,
+        "minimumRequired": 2,
+        "testName": "test_partial_spool_closes_for_every_exception"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-008",
+      "featureRequirement": "FR-008",
+      "assertionId": "T-008-A-UPLOAD-TIMEOUT-CLEANUP",
+      "scope": "local",
+      "expected": "A controlled upload timeout closes the partial spool and releases counters.",
+      "observed": {
+        "matchedCases": 1,
+        "passedCases": 1,
+        "minimumRequired": 1,
+        "testName": "test_t029_upload_timeout_closes_partial_spool_and_ownership"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-008",
+      "featureRequirement": "FR-008",
+      "assertionId": "T-008-A-CONCURRENT-SLOW-ADMISSION",
+      "scope": "local",
+      "expected": "Two slow uploads hold both admissions and a third is rejected before body read.",
+      "observed": {
+        "matchedCases": 1,
+        "passedCases": 1,
+        "minimumRequired": 1,
+        "testName": "test_t041_two_slow_uploads_hold_capacity_and_third_reads_no_body"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-008",
+      "featureRequirement": "FR-008",
+      "assertionId": "T-008-A-NEAR-LIMIT-SPOOL",
+      "scope": "local",
+      "expected": "Two concurrent exact per-file and aggregate-limit requests clean all spool state.",
+      "observed": {
+        "matchedCases": 1,
+        "passedCases": 1,
+        "minimumRequired": 1,
+        "testName": "test_t029_near_limit_requests_cleanup_files_handles_and_reservations"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-041",
+      "featureRequirement": "FR-041",
+      "assertionId": "T-041-A-REPEATED-ROUTE-CANCELLATION",
+      "scope": "local",
+      "expected": "Repeated route cancellation retains ownership until worker completion.",
+      "observed": {
+        "matchedCases": 3,
+        "passedCases": 3,
+        "minimumRequired": 3,
+        "testName": "test_t041_route_cancellation_retains_ownership_until_worker_finishes"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-041",
+      "featureRequirement": "FR-041",
+      "assertionId": "T-041-A-DISCONNECT-OWNERSHIP",
+      "scope": "local",
+      "expected": "Repeated response delivery failure retains ownership until worker completion.",
+      "observed": {
+        "matchedCases": 3,
+        "passedCases": 3,
+        "minimumRequired": 3,
+        "testName": "test_t041_disconnect_delivery_failure_keeps_ownership_until_worker_finishes"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-009",
+      "featureRequirement": "FR-009",
+      "assertionId": "T-009-A-REAL-CHILD-STALL-RECOVERY",
+      "scope": "local",
+      "expected": "A real spawned child stall is terminated, replaced, readied, and recovered.",
+      "observed": {
+        "matchedCases": 1,
+        "passedCases": 1,
+        "minimumRequired": 1,
+        "testName": "test_t009_real_worker_timeout_replaces_recovers_and_stops"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-029",
+      "featureRequirement": "FR-029",
+      "assertionId": "T-029-A-SHUTDOWN-OWNERSHIP",
+      "scope": "local",
+      "expected": "Shutdown overlap interrupts the owned job and returns with zero child ownership.",
+      "observed": {
+        "matchedCases": 1,
+        "passedCases": 1,
+        "minimumRequired": 1,
+        "testName": "test_t029_shutdown_overlap_interrupts_owned_job_and_reaches_zero"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-029",
+      "featureRequirement": "FR-029",
+      "assertionId": "T-029-A-SHUTDOWN-ENQUEUE-RACE",
+      "scope": "local",
+      "expected": "Shutdown interrupts a blocked command enqueue and releases all job ownership.",
+      "observed": {
+        "matchedCases": 1,
+        "passedCases": 1,
+        "minimumRequired": 1,
+        "testName": "test_t029_shutdown_interrupts_command_enqueue_race"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    },
+    {
+      "testId": "T-029",
+      "featureRequirement": "FR-029",
+      "assertionId": "T-029-A-CONTENT-PATH-CANARY",
+      "scope": "local",
+      "expected": "User content and local path canaries reach neither response nor captured logs.",
+      "observed": {
+        "matchedCases": 1,
+        "passedCases": 1,
+        "minimumRequired": 1,
+        "testName": "test_t029_content_and_path_canaries_never_reach_response_or_logs"
+      },
+      "status": "PASS",
+      "compositeState": "FINAL_PASS",
+      "executorRole": "INT-LEAD security remediation",
+      "reviewerRole": "independent final RT re-review required",
+      "linkedDefect": "RT2-F002"
+    }
+  ],
+  "commands": [
+    {
+      "commandId": "focused-security-lifecycle",
+      "command": "uv run pytest -q backend/tests/test_lifecycle_matrix.py backend/tests/test_api.py backend/tests/test_multipart.py backend/tests/test_security.py backend/tests/test_supervisor_boundary.py",
+      "exitCode": 0,
+      "durationMs": 8615.095,
+      "status": "PASS",
+      "stdoutTail": "..............................................                           [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n46 passed, 1 warning in 7.75s",
+      "stderrTail": "",
+      "junit": [
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t029_upload_timeout_closes_partial_spool_and_ownership",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_two_slow_uploads_hold_capacity_and_third_reads_no_body",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t029_near_limit_requests_cleanup_files_handles_and_reservations",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_route_cancellation_retains_ownership_until_worker_finishes[127.0.0.16]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_route_cancellation_retains_ownership_until_worker_finishes[127.0.0.19]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_route_cancellation_retains_ownership_until_worker_finishes[127.0.0.20]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_disconnect_delivery_failure_keeps_ownership_until_worker_finishes[127.0.0.17]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_disconnect_delivery_failure_keeps_ownership_until_worker_finishes[127.0.0.21]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_disconnect_delivery_failure_keeps_ownership_until_worker_finishes[127.0.0.22]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t009_real_worker_timeout_replaces_recovers_and_stops",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t029_shutdown_overlap_interrupts_owned_job_and_reaches_zero",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t029_shutdown_interrupts_command_enqueue_race",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_full_command_queue_reaches_worker_timeout",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_parent_phase_stall_reaches_server_deadline",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t041_response_transfer_stall_terminates_and_cleans",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_lifecycle_matrix",
+          "name": "test_t029_content_and_path_canaries_never_reach_response_or_logs",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_api",
+          "name": "test_health_meta_sample_static_and_spa_same_origin",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_api",
+          "name": "test_valid_verification_is_complete_no_store_and_cleans_spool",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_api",
+          "name": "test_invalid_reference_is_result_free_and_does_not_run_worker",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_api",
+          "name": "test_signature_not_extension_controls_media_type",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_api",
+          "name": "test_production_edge_requires_exact_identity_host_and_origin",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_api",
+          "name": "test_missing_ready_worker_rejects_before_multipart",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_multipart",
+          "name": "test_framework_spool_uses_governed_root",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_multipart",
+          "name": "test_partial_spool_closes_for_every_exception[error0]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_multipart",
+          "name": "test_partial_spool_closes_for_every_exception[error1]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_signature_sniff[\\xff\\xd8\\xff\\xe0-image/jpeg]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_signature_sniff[\\x89PNG\\r\\n\\x1a\\n-image/png]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_signature_sniff[RIFF\\x00\\x00\\x00\\x00WEBP-image/webp]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_signature_sniff[GIF89a-None]",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_direct_identity_ignores_forwarding_headers",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_production_identity_requires_one_valid_fly_ip",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_rate_limits_and_active_isolation",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_default_rate_limit_supports_one_sequential_peak_batch",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_admission_reservation_returns_to_zero",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_host_normalization_is_exact_and_safe",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_security",
+          "name": "test_security_headers_apply_no_store_and_html_csp",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_adapter_fails_closed_for_missing_assets",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_supervisor_not_ready_never_accepts_job",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_oversize_content_length_rejects_before_body",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_duplicate_content_length_rejects_before_body",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_streaming_raw_count_and_content_length_match",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_understated_content_length_is_result_free_error",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_invalid_length_does_not_charge_shared_start_budget",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_rejected_start_does_not_release_another_request_owner",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_terminal_stop_prevents_late_replacement",
+          "status": "PASS"
+        },
+        {
+          "classname": "backend.tests.test_supervisor_boundary",
+          "name": "test_stop_interrupts_replacement_warmup",
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "commandId": "ruff-check",
+      "command": "uv run ruff check backend tests scripts ops",
+      "exitCode": 0,
+      "durationMs": 811.111,
+      "status": "PASS",
+      "stdoutTail": "All checks passed!",
+      "stderrTail": ""
+    },
+    {
+      "commandId": "ruff-format-check",
+      "command": "uv run ruff format --check backend/labelverify/orchestration/supervisor.py backend/labelverify/security/rate_limit.py backend/tests/test_lifecycle_matrix.py scripts/run_security_post_fix_validation.py",
+      "exitCode": 0,
+      "durationMs": 797.138,
+      "status": "PASS",
+      "stdoutTail": "4 files already formatted",
+      "stderrTail": ""
+    },
+    {
+      "commandId": "strict-mypy",
+      "command": "uv run mypy",
+      "exitCode": 0,
+      "durationMs": 585.025,
+      "status": "PASS",
+      "stdoutTail": "Success: no issues found in 34 source files",
+      "stderrTail": ""
+    },
+    {
+      "commandId": "full-backend-validation",
+      "command": "uv run pytest -q backend/tests tests",
+      "exitCode": 0,
+      "durationMs": 33207.065,
+      "status": "PASS",
+      "stdoutTail": "........................................................................ [ 39%]\n........................................................................ [ 79%]\n......................................                                   [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n182 passed, 1 warning in 32.35s",
+      "stderrTail": ""
+    }
+  ],
+  "blockedAssertions": [
+    {
+      "testId": "T-029",
+      "featureRequirement": "FR-029",
+      "assertionId": "T-029-A-NETWORK-EGRESS-ENFORCEMENT",
+      "scope": "deployed",
+      "status": "BLOCKED",
+      "compositeState": "INCOMPLETE",
+      "reason": "No public deployment or network policy is authorized. Source inspection cannot prove platform firewall enforcement or restricted-egress behavior."
+    }
+  ],
+  "pass": true
+}

@@ -1,0 +1,27 @@
+{
+  "caseId": "D019",
+  "expectedKind": "error",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D019.json",
+  "panels": [
+    {
+      "bytes": 34,
+      "height": null,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D019/panels/panel-1.png",
+      "sha256": "329ead9f923a5c7c806a3486a98be2bb2a16609283884ab0ada865b0d777dd63",
+      "width": null
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D019/reference.json",
+  "scenarioTags": [
+    "invalid_image",
+    "corrupt",
+    "negative"
+  ],
+  "sealed": false,
+  "submissionMode": "api",
+  "title": "Corrupt PNG fails closed"
+}

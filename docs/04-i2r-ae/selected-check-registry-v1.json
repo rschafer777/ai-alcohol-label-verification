@@ -1,0 +1,25 @@
+{
+  "registryId": "distilled-spirits-demo",
+  "registryVersion": "1.0.0",
+  "checks": [
+    {"checkId":"brand","activation":"always","aggregates":true},
+    {"checkId":"class_type","activation":"always","aggregates":true},
+    {"checkId":"abv","activation":"always","aggregates":true},
+    {"checkId":"proof","activation":"reference_or_label_presents_proof","aggregates":true},
+    {"checkId":"net_contents","activation":"always","aggregates":true},
+    {"checkId":"producer","activation":"always","aggregates":true},
+    {"checkId":"country","activation":"reference_marks_imported","aggregates":true},
+    {"checkId":"warning_applicability","activation":"always","aggregates":true},
+    {"checkId":"warning_wording","activation":"warning_required_or_applicability_uncertain","aggregates":true},
+    {"checkId":"warning_heading_uppercase","activation":"warning_required_or_applicability_uncertain","aggregates":true},
+    {"checkId":"warning_heading_emphasis","activation":"warning_required_or_applicability_uncertain","aggregates":true},
+    {"checkId":"warning_body_not_bold","activation":"warning_required_or_applicability_uncertain","aggregates":true},
+    {"checkId":"warning_separation","activation":"warning_required_or_applicability_uncertain","aggregates":true},
+    {"checkId":"warning_continuity","activation":"warning_required_or_applicability_uncertain","aggregates":true},
+    {"checkId":"warning_contrast","activation":"warning_required_or_applicability_uncertain","aggregates":true},
+    {"checkId":"warning_legibility","activation":"warning_required_or_applicability_uncertain","aggregates":true},
+    {"checkId":"warning_physical_size","activation":"warning_required_or_applicability_uncertain","aggregates":true,"defaultCapability":"human_confirmation"},
+    {"checkId":"panel_coverage","activation":"always","aggregates":true},
+    {"checkId":"image_quality","activation":"always","aggregates":true}
+  ]
+}

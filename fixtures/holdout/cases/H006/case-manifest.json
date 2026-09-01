@@ -1,0 +1,27 @@
+{
+  "caseId": "H006",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/holdout/H006.json",
+  "panels": [
+    {
+      "bytes": 46615,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/holdout/cases/H006/panels/panel-1.png",
+      "sha256": "083f2ba27c7fa70fdf52747ae8462aeaf9a8a45518a96547b8d8f0f20627e9f4",
+      "width": 1200
+    }
+  ],
+  "partition": "holdout",
+  "referencePath": "fixtures/holdout/cases/H006/reference.json",
+  "scenarioTags": [
+    "warning_applicability",
+    "not_applicable",
+    "holdout"
+  ],
+  "sealed": true,
+  "submissionMode": "ui",
+  "title": "Warning is not applicable below threshold"
+}

@@ -1,0 +1,27 @@
+{
+  "caseId": "D008",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D008.json",
+  "panels": [
+    {
+      "bytes": 91743,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D008/panels/panel-1.png",
+      "sha256": "1b75b75efe2f1911155a493be47755f32ffd93e6bd847f1ca1a56e1a7c96520a",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D008/reference.json",
+  "scenarioTags": [
+    "producer",
+    "punctuation",
+    "review"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Producer punctuation variation"
+}

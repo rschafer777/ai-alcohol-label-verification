@@ -1,0 +1,27 @@
+{
+  "caseId": "D001",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D001.json",
+  "panels": [
+    {
+      "bytes": 91856,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D001/panels/panel-1.png",
+      "sha256": "585c111b424b110cb92f85e66a669a6c0091e59b4bb015eca6061e80819a25f9",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D001/reference.json",
+  "scenarioTags": [
+    "exact",
+    "single_panel",
+    "clean"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Exact clean domestic label"
+}

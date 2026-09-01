@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "measuredAtUtc": "2026-09-01T18:29:11.251301+00:00",
+  "environment": {
+    "platform": "Windows",
+    "python": "3.12.10",
+    "logicalCpuCount": 24
+  },
+  "executionModel": "one warmed local OCR worker; sequential applications",
+  "result": {
+    "requestedCount": 300,
+    "completedCount": 300,
+    "uniqueRequestIdCount": 300,
+    "scenarioCaseIds": [
+      "H006",
+      "D001",
+      "D004"
+    ],
+    "expectedSummaryCounts": {
+      "No differences found in checked fields": 100,
+      "Review needed": 100,
+      "Differences detected": 100
+    },
+    "summaryCounts": {
+      "No differences found in checked fields": 100,
+      "Review needed": 100,
+      "Differences detected": 100
+    },
+    "falseCleanCount": 0,
+    "elapsedSeconds": 522.028,
+    "totalIncludingReadinessSeconds": 525.865,
+    "averageItemMs": 1739.864,
+    "maximumItemMs": 2724.635,
+    "peakParentAndWorkerRssBytes": 847986688,
+    "peakParentRssBytes": 61857792,
+    "peakWorkerRssBytes": 786161664,
+    "rssThresholdBytesExclusive": 2147483648,
+    "initialSupervisorSnapshot": {
+      "ready": true,
+      "generation": 1,
+      "active_jobs": 0,
+      "timeouts": 0,
+      "restarts": 0,
+      "child_pid": 55960
+    },
+    "finalSupervisorSnapshot": {
+      "ready": true,
+      "generation": 1,
+      "active_jobs": 0,
+      "timeouts": 0,
+      "restarts": 0,
+      "child_pid": 55960
+    },
+    "checkpoints": {
+      "10": {
+        "elapsedSeconds": 18.665,
+        "thresholdSeconds": 50.0,
+        "pass": true
+      },
+      "20": {
+        "elapsedSeconds": 36.301,
+        "thresholdSeconds": 100.0,
+        "pass": true
+      },
+      "300": {
+        "elapsedSeconds": 521.963,
+        "thresholdSeconds": 1500.0,
+        "pass": true
+      }
+    },
+    "pass": true
+  },
+  "pass": true
+}

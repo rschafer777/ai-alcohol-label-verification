@@ -1,0 +1,27 @@
+{
+  "caseId": "D024",
+  "expectedKind": "error",
+  "fault": "inference_timeout",
+  "oraclePath": "fixtures/oracle/development/D024.json",
+  "panels": [
+    {
+      "bytes": 91856,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D024/panels/panel-1.png",
+      "sha256": "585c111b424b110cb92f85e66a669a6c0091e59b4bb015eca6061e80819a25f9",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D024/reference.json",
+  "scenarioTags": [
+    "inference_timeout",
+    "fault_injection",
+    "negative"
+  ],
+  "sealed": false,
+  "submissionMode": "fault_injection",
+  "title": "Controlled inference timeout returns no result"
+}

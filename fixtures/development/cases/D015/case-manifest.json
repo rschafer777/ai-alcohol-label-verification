@@ -1,0 +1,27 @@
+{
+  "caseId": "D015",
+  "expectedKind": "result",
+  "fault": null,
+  "oraclePath": "fixtures/oracle/development/D015.json",
+  "panels": [
+    {
+      "bytes": 100652,
+      "height": 1600,
+      "mimeType": "image/png",
+      "panelId": "panel-1",
+      "path": "fixtures/development/cases/D015/panels/panel-1.png",
+      "sha256": "6845ef3bd9b1f2cb01ad31228da26ae790faf962830ccbb6c2db26816da6365b",
+      "width": 1200
+    }
+  ],
+  "partition": "development",
+  "referencePath": "fixtures/development/cases/D015/reference.json",
+  "scenarioTags": [
+    "warning",
+    "continuity",
+    "mismatch"
+  ],
+  "sealed": false,
+  "submissionMode": "ui",
+  "title": "Warning continuity interruption"
+}
