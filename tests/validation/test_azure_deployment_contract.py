@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -47,9 +48,9 @@ def test_deployment_template_has_the_governed_runtime_shape() -> None:
     container = runtime["containers"][0]
     assert container["name"] == "labelverify"
     assert container["resources"] == {"cpu": 1.0, "memory": "2Gi"}
-    assert {
-        item["name"]: item["value"] for item in container["env"]
-    }["LABELVERIFY_CLIENT_IDENTITY_SOURCE"] == "azure_container_apps"
+    assert {item["name"]: item["value"] for item in container["env"]}[
+        "LABELVERIFY_CLIENT_IDENTITY_SOURCE"
+    ] == "azure_container_apps"
     assert {probe["type"] for probe in container["probes"]} == {
         "Startup",
         "Liveness",
@@ -62,14 +63,15 @@ def test_deployment_template_has_the_governed_runtime_shape() -> None:
     assert all(probe["port"] == 8080 for probe in probes.values())
     assert all(probe["scheme"] == "HTTP" for probe in probes.values())
     assert all(
-        probe["httpHeaders"]
-        == [{"name": "Host", "value": "[parameters('allowedHost')]"}]
+        probe["httpHeaders"] == [{"name": "Host", "value": "[parameters('allowedHost')]"}]
         for probe in probes.values()
     )
     assert all("tcpSocket" not in probe for probe in container["probes"])
 
 
-def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
+def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
+    tmp_path: Path,
+) -> None:
     workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
     root_gate = (ROOT / "scripts/check.ps1").read_text(encoding="utf-8")
     assert re.search(r"^  push:", workflow, flags=re.MULTILINE) is None
@@ -96,6 +98,7 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
     assert "$global:LASTEXITCODE = 0" in root_gate
     assert "git grep -n -I -P" in root_gate
     assert "rg -n" not in root_gate
+    assert ":(exclude)" not in root_gate
     assert "scripts/scan_public_personal_details.py" in workflow
     assert "secrets.LABELVERIFY_PROHIBITED_PERSONAL_TERMS" in workflow
     assert workflow.index("Capture a governed prior deployment") < workflow.index(
@@ -109,7 +112,7 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
     assert "labelverify-rollback-" in workflow
     assert "The prior digest was restored and verified." in workflow
     assert "The new Container App was removed." in workflow
-    assert '.properties.configuration.ingress.fqdn == $host' in workflow
+    assert ".properties.configuration.ingress.fqdn == $host" in workflow
     assert '.properties.configuration.identitySettings[0].lifecycle == "None"' in workflow
     assert ".identity.userAssignedIdentities | keys | map(ascii_downcase)" in workflow
     assert '.httpGet.path == "/health/ready"' in workflow
@@ -118,6 +121,30 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
     uses = re.findall(r"^\s*uses:\s*([^\s#]+)", workflow, flags=re.MULTILINE)
     assert uses
     assert all(re.fullmatch(r"[^@]+@[0-9a-f]{40}", use) for use in uses)
+
+    subprocess.run(["git", "init", "--quiet"], cwd=tmp_path, check=True, capture_output=True)
+    research_path = tmp_path / "research" / "candidate.md"
+    research_path.parent.mkdir()
+    research_path.write_text(f"copied source {chr(0x2014)} blocked\n", encoding="utf-8")
+    checksum_path = tmp_path / "release.sha256"
+    checksum_path.write_text(f"snapshot {chr(0x2013)} blocked\n", encoding="utf-8")
+    subprocess.run(
+        ["git", "add", "research/candidate.md", "release.sha256"],
+        cwd=tmp_path,
+        check=True,
+        capture_output=True,
+    )
+    positive = subprocess.run(
+        ["git", "grep", "-n", "-I", "-P", r"[\x{2010}-\x{2015}]", "--", "."],
+        cwd=tmp_path,
+        check=False,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
+    assert positive.returncode == 0
+    assert "research/candidate.md" in positive.stdout
+    assert "release.sha256" in positive.stdout
 
 
 def test_public_source_contains_no_effective_azure_identifiers() -> None:

@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0.0",
   "documentControlId": "LV-VAL-AEL-001",
-  "revision": "0.7",
-  "compiledAtUtc": "2026-09-01T23:02:03.641207Z",
+  "revision": "0.8",
+  "compiledAtUtc": "2026-09-01T23:11:32.351114Z",
   "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
   "overallState": "INCOMPLETE",
   "assertionCount": 75,
@@ -277,7 +277,7 @@
       "frId": "FR-001",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -305,7 +305,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -319,7 +319,7 @@
       "frId": "FR-002",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -346,7 +346,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -364,7 +364,7 @@
       "frId": "FR-003",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -391,7 +391,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -405,7 +405,7 @@
       "frId": "FR-004",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -432,7 +432,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -446,7 +446,7 @@
       "frId": "FR-005",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -477,7 +477,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -497,7 +497,7 @@
       "frId": "FR-006",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -524,7 +524,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -538,7 +538,7 @@
       "frId": "FR-007",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -565,7 +565,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-performance.json",
@@ -585,7 +585,7 @@
       "frId": "FR-008",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -614,7 +614,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -633,7 +633,7 @@
       "frId": "FR-009",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -664,7 +664,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -685,7 +685,7 @@
       "frId": "FR-010",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -711,7 +711,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -725,7 +725,7 @@
       "frId": "FR-011",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -754,7 +754,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -776,7 +776,7 @@
       "frId": "FR-012",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -806,7 +806,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -828,7 +828,7 @@
       "frId": "FR-013",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -857,7 +857,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -926,7 +926,7 @@
       "frId": "FR-014",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -955,7 +955,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1024,7 +1024,7 @@
       "frId": "FR-015",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1053,7 +1053,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1122,7 +1122,7 @@
       "frId": "FR-016",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1151,7 +1151,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1220,7 +1220,7 @@
       "frId": "FR-017",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1249,7 +1249,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1318,7 +1318,7 @@
       "frId": "FR-018",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1347,7 +1347,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1416,7 +1416,7 @@
       "frId": "FR-019",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1445,7 +1445,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1514,7 +1514,7 @@
       "frId": "FR-020",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1543,7 +1543,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1612,7 +1612,7 @@
       "frId": "FR-021",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1642,7 +1642,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1662,7 +1662,7 @@
       "frId": "FR-022",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1691,7 +1691,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1756,7 +1756,7 @@
       "frId": "FR-023",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1785,7 +1785,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1807,7 +1807,7 @@
       "frId": "FR-024",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1833,7 +1833,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1851,7 +1851,7 @@
       "frId": "FR-025",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1880,7 +1880,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1894,7 +1894,7 @@
       "frId": "FR-026",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1922,7 +1922,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1936,7 +1936,7 @@
       "frId": "FR-027",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -1964,7 +1964,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1978,7 +1978,7 @@
       "frId": "FR-028",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -2008,7 +2008,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -2174,7 +2174,7 @@
       "frId": "FR-030",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -2203,7 +2203,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2726,7 +2726,7 @@
       "frId": "FR-033",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -2761,7 +2761,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
@@ -2777,7 +2777,7 @@
         },
         {
           "path": "docs/10-release/RELEASE_CANDIDATE_STATUS.md",
-          "sha256": "eb8dc34cc7ff5c6ce06bcb3530e9fcf2a2c3fd607d3cd22719862d6c3f0c4294"
+          "sha256": "2a9f97ef634d34c89a82a854adbdd2a6ebff613779a334bd5ab9cd5ae6cf1ee3"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3084,7 +3084,7 @@
       "frId": "FR-034",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -3114,7 +3114,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3186,7 +3186,7 @@
       "frId": "FR-035",
       "scope": "repository",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:55.399983Z",
+      "executedAtUtc": "2026-09-01T23:11:32.220659Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -3215,11 +3215,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/public-personal-detail-scan.json",
-          "sha256": "57243e5d1d520df46cba7ce02edac997bbc5c54d8ef6bd52e411339030c32324"
+          "sha256": "4419abd4b7fd015f8fce70fdce8b0716966aa472f6cea18af10a8d0cf3b37a08"
         },
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/repository-neutral-path-scan.txt",
@@ -3243,7 +3243,7 @@
       "frId": "FR-036",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -3272,7 +3272,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
@@ -3387,7 +3387,7 @@
       "frId": "FR-038",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -3414,7 +3414,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3470,7 +3470,7 @@
       "frId": "FR-039",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -3502,7 +3502,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json",
@@ -3522,7 +3522,7 @@
       "frId": "FR-039",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -3560,11 +3560,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/browser-privacy-matrix.json",
-          "sha256": "17af6f82db99f1e611bd53e05d14703682f7b482f9fcdcbc8e8debd2973c2ea1"
+          "sha256": "5a0aa11f6ec718d9b2bad29d2398612281d2eacdd39b6e766bba5bb8f4dacf9a"
         },
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
@@ -3584,7 +3584,7 @@
       "frId": "FR-040",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -3617,7 +3617,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -3738,7 +3738,7 @@
       "frId": "FR-041",
       "scope": "local",
       "snapshotId": "PENDING_FINAL_RELEASE_MANIFEST",
-      "executedAtUtc": "2026-09-01T23:01:40.283809Z",
+      "executedAtUtc": "2026-09-01T23:11:14.370015Z",
       "environment": {
         "host": "local Windows workstation",
         "shell": "PowerShell",
@@ -3805,7 +3805,7 @@
         },
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "e984048a6260c31be3c2f1e7c06e878e95a20bdaa0511c7dc1676adf52b427ec"
+          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",

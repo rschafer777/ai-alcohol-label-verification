@@ -27,9 +27,7 @@ try {
         Pop-Location
     }
 
-    $dashMatches = git grep -n -I -P "[\x{2010}-\x{2015}]" -- . `
-        ":(exclude)research/**" `
-        ":(exclude)*.sha256"
+    $dashMatches = git grep -n -I -P "[\x{2010}-\x{2015}]" -- .
     if ($LASTEXITCODE -eq 0) {
         $dashMatches
         throw "Prohibited Unicode dash characters found."
