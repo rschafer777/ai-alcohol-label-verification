@@ -1,7 +1,7 @@
 # Azure Demo Deployment
 
 **Document ID:** LV-REL-004  
-**Status:** Deployment contract implemented, policy remediation pending live proof  
+**Status:** Deployment contract implemented, container packaging correction pending live proof  
 **Environment:** GitHub environment `demo`
 
 ## 1. Purpose
@@ -95,3 +95,7 @@ Model acquisition now removes POSIX write bits after both cache hits and downloa
 Run `33568696374` passed dependency installation, all 191 Python tests, all 46 frontend tests, the production build, and all three required browser journeys. The final tracked-source Unicode scan then failed because the Ubuntu runner does not include `rg`. The scan now uses Git's checkout-provided grep implementation against tracked source, with the same prohibited character range and governed exclusions. A deployment-contract regression assertion prevents reintroducing the unavailable command. Privacy, product-corpus, OIDC, image build, registry push, and Azure mutation steps did not run in `33568696374`.
 
 The first portability correction retained exclusions for `research/` and checksum files. Adversarial RT rejected that control because those tracked files are part of the public deliverable. The final scan has no path exclusions. Its behavioral regression creates prohibited characters inside both formerly excluded path classes and requires Git to detect both before the candidate can pass.
+
+Run `33570716009` passed the complete release gate, privacy scan, and 30-case product corpus. Azure OIDC authentication then rejected the original classic repository subject because GitHub presented its immutable organization-and-repository identity form. No image build, registry push, or Azure resource mutation occurred. The existing environment-scoped federated credential was corrected in place and read back through Azure before another dispatch.
+
+Run `33572176211` proved the corrected OIDC exchange, governed prior-state check, and private-registry authentication. The multi-stage image build then exposed that the frontend stage copied `frontend/` but not the root `contracts/` registry imported during TypeScript compilation. The build stopped before image push completion and before the workflow's Azure mutation boundary. The Dockerfile now copies the root contracts into the frontend build context before compilation, and a deployment-contract regression test enforces that order. The corrected local gate passed 192 Python tests, 46 frontend tests, the production build, and the required browser journeys.

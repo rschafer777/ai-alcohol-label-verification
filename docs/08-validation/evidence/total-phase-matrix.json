@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "testId": "T-041",
   "assertionId": "T-041-A-COMPLETE-PHASE-MATRIX",
-  "createdAtUtc": "2026-09-01T18:42:33.501536+00:00",
+  "createdAtUtc": "2026-09-01T23:52:49.848894+00:00",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
     "python": "3.12.10"
@@ -110,17 +110,17 @@
   ],
   "commands": [
     {
-      "command": "uv run pytest -q backend/tests/test_lifecycle_matrix.py --junitxml=<TEMP_ROOT>\\labelverify-phase-matrix-4qpmfhkd\\backend.xml",
+      "command": "uv run pytest -q backend/tests/test_lifecycle_matrix.py --junitxml=<TEMP_ROOT>\\labelverify-phase-matrix-86xowz4r\\backend.xml",
       "exitCode": 0,
       "status": "PASS",
-      "stdoutTail": "................                                                         [100%]\n16 passed in 7.02s\n",
+      "stdoutTail": "................                                                         [100%]\n16 passed in 8.62s\n",
       "stderrTail": ""
     },
     {
-      "command": "C:\\Program Files\\nodejs\\npm.cmd test -- --run tests/phase-matrix.test.tsx --reporter=junit --outputFile=<TEMP_ROOT>\\labelverify-phase-matrix-4qpmfhkd\\frontend.xml",
+      "command": "C:\\Program Files\\nodejs\\npm.cmd test -- --run tests/phase-matrix.test.tsx --reporter=junit --outputFile=<TEMP_ROOT>\\labelverify-phase-matrix-86xowz4r\\frontend.xml",
       "exitCode": 0,
       "status": "PASS",
-      "stdoutTail": "\n> labelverify-frontend@0.1.0 test\n> vitest run --run tests/phase-matrix.test.tsx --reporter=junit --outputFile=<TEMP_ROOT>\\labelverify-phase-matrix-4qpmfhkd\\frontend.xml\n\nJUNIT report written to <TEMP_ROOT>/labelverify-phase-matrix-4qpmfhkd/frontend.xml\n",
+      "stdoutTail": "\n> labelverify-frontend@0.1.0 test\n> vitest run --run tests/phase-matrix.test.tsx --reporter=junit --outputFile=<TEMP_ROOT>\\labelverify-phase-matrix-86xowz4r\\frontend.xml\n\nJUNIT report written to <TEMP_ROOT>/labelverify-phase-matrix-86xowz4r/frontend.xml\n",
       "stderrTail": ""
     }
   ],

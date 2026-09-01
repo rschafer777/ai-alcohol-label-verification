@@ -8,6 +8,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW_PATH = ROOT / ".github/workflows/deploy-demo.yml"
 TEMPLATE_PATH = ROOT / "ops/azure-container-app.json"
+DOCKERFILE_PATH = ROOT / "Dockerfile"
+
+
+def test_container_frontend_build_includes_the_root_contract_registry() -> None:
+    dockerfile = DOCKERFILE_PATH.read_text(encoding="utf-8")
+    contract_copy = "COPY contracts/ ../contracts/"
+    frontend_build = "RUN npm run build"
+    assert contract_copy in dockerfile
+    assert dockerfile.index(contract_copy) < dockerfile.index(frontend_build)
 
 
 def test_deployment_template_has_the_governed_runtime_shape() -> None:

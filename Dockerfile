@@ -2,6 +2,7 @@ FROM node:24.14.0-alpine@sha256:7fddd9ddeae8196abf4a3ef2de34e11f7b1a722119f91f28
 WORKDIR /build/frontend
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
+COPY contracts/ ../contracts/
 COPY frontend/ ./
 RUN npm run build
 

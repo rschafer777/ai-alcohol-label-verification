@@ -92,7 +92,7 @@ Coverage was calculated only across the governed business-module subsets, not in
 
 | Evidence | Result | SHA-256 |
 |---|---|---|
-| `docs/08-validation/evidence/local-root-check.txt` | Ruff, strict MyPy, 191 Python tests, ESLint, strict TypeScript, 46 frontend tests, production build, Chrome and Edge core E2E, Chrome privacy E2E, and Unicode scan PASS | `41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0` |
+| `docs/08-validation/evidence/local-root-check.txt` | Ruff, strict MyPy, 192 Python tests, ESLint, strict TypeScript, 46 frontend tests, production build, Chrome and Edge core E2E, Chrome privacy E2E, and Unicode scan PASS | `53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67` |
 | `docs/08-validation/evidence/public-personal-detail-scan.json` | All 568 staged public files except the report itself scanned against nine non-public personal-detail terms with zero findings | `4419abd4b7fd015f8fce70fdce8b0716966aa472f6cea18af10a8d0cf3b37a08` |
 | `docs/08-validation/evidence/governed-coverage-summary.json` | All four governed coverage scopes PASS | `c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351` |
 | `docs/08-validation/evidence/local-product-corpus.json` | 30 of 30 cases, 456 of 456 rows, 8 of 8 mutations, zero false clean | `e09093bcd581923159983ca8dd34b6b284d1a17120299a546b35f726b67ee9cf` |
@@ -101,12 +101,12 @@ Coverage was calculated only across the governed business-module subsets, not in
 | `docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json` | 50 focused and 191 full Python tests PASS with cleanup/canary evidence and current source hashes | `30cad5953bd0fc6d787dbfb7e76c1050f83af4b56eb5cbe3a1f45b18db36b97b` |
 | `docs/08-validation/evidence/security-post-fix/source-security-scan.json` | Runtime content, path, and no-required-egress source checks PASS; deployed deny-policy enforcement remains BLOCKED | `dc4037c19c4151218ea58fa877dfb7a092b22e91bf06c31f4b2c1024e53c22e7` |
 | `docs/08-validation/evidence/security-post-fix/SECURITY_POST_FIX_REPORT.md` | Security lifecycle and source evidence summary; all local assertions PASS | `0bd0c7462ce8446965a8d6df4b6448a5df076758963e664837090bd7f10f8d7e` |
-| `docs/08-validation/evidence/browser-privacy-matrix.json` | Complete required Chrome browser lifecycle and storage matrix PASS | `5a0aa11f6ec718d9b2bad29d2398612281d2eacdd39b6e766bba5bb8f4dacf9a` |
-| `docs/08-validation/evidence/total-phase-matrix.json` | All 11 recorded phase groups PASS, all current source hashes match, and project/temp paths are sanitized | `cfd061312724cbfb295a1b27decf4baa030ebf88da10179e39c28300926158bc` |
-| `README.md` | Setup, architecture, Azure path, assumptions, trade-offs, limitations, and evidence claims are current | `3c4cb8148a4dfd280e7baaa50e7aac0b97700d1431fa19812d2a5130acc9bb12` |
+| `docs/08-validation/evidence/browser-privacy-matrix.json` | Complete required Chrome browser lifecycle and storage matrix PASS | `2a5b72e4e3870f9b9b0fea7ddcb9cda52145d3430b3be1602081de40c273d7fb` |
+| `docs/08-validation/evidence/total-phase-matrix.json` | All 11 recorded phase groups PASS, all current source hashes match, and project/temp paths are sanitized | `b0f51fdad319139c6816ab0642387618a8b000de991cd376d9ddaaa98665fe0c` |
+| `README.md` | Setup, architecture, Azure path, assumptions, trade-offs, limitations, and evidence claims are current | `e1c1627589699d305eddf3ae90c28b05d667a967b8870f1a7ef63437779c2759` |
 | `docs/09-qa-qc-uat/DEFECT_LEDGER.md` | Current defect dispositions retain no open stop-ship, high, or medium local defect | `99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65` |
 | `docs/08-validation/VALIDATION_PROTOCOL_RESULTS.md` | Revision 2.0 records the 191-test root gate and the unchanged incomplete composite | `ecb3ec146a8498b4aa4b7b1c4d5560dba42790f2106f22df93051f1b10c82bce` |
-| `docs/10-release/RELEASE_CANDIDATE_STATUS.md` | Revision 2.4 records the authorized Azure sequence without promoting live gates | `2a9f97ef634d34c89a82a854adbdd2a6ebff613779a334bd5ab9cd5ae6cf1ee3` |
+| `docs/10-release/RELEASE_CANDIDATE_STATUS.md` | Revision 2.5 records the authorized Azure sequence without promoting live gates | `bc607fb9dc1f2ac5e68bb7ba420f5970315b4af5497dc6a3cccfea7555426294` |
 | `docs/04-i2r-ae/02_I2R_DATA_INTERFACE_SECURITY.md` | LV-I2R-002 controls timing, phase, Azure identity, and public-edge behavior | `fbf36ebde270227c8bea81ab8ce844edcc3b15c3ae0d857c209779682470d258` |
 | `docs/04-i2r-ae/09_I2R_AS_BUILT_SECURITY_RUNTIME_ADDENDUM.md` | LV-I2R-009 remains the active as-built runtime interpretation | `4a41c06df4d26b1bcdaa7d7b7f3872036c90274f8d3e3da458cf4b8eedd40960` |
 | `docs/05-frd/01_FEATURE_REQUIREMENTS_DOCUMENT.md` | LV-FRD-001 includes the selected-edge FR-040 acceptance baseline | `42eb9c09de335249624caa4c4b889bcd0e78954ef37005ba0f2df622683baed6` |

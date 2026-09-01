@@ -298,14 +298,14 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 191,
+        "backendTests": 192,
         "browserProjects": 2,
         "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -346,7 +346,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -385,13 +385,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 191,
+        "backendTests": 192,
         "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -432,7 +432,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -477,7 +477,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -524,7 +524,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -565,7 +565,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-performance.json",
@@ -608,13 +608,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 191,
+        "backendTests": 192,
         "finalOwnedResources": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -658,13 +658,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 191,
+        "backendTests": 192,
         "openSecurityFindings": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -706,12 +706,12 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 191
+        "backendTests": 192
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -754,7 +754,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -806,7 +806,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -857,7 +857,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -955,7 +955,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1053,7 +1053,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1151,7 +1151,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1249,7 +1249,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1347,7 +1347,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1445,7 +1445,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1543,7 +1543,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1642,7 +1642,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1691,7 +1691,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1785,7 +1785,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1833,7 +1833,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/local-product-corpus.json",
@@ -1874,13 +1874,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 191,
+        "backendTests": 192,
         "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1922,7 +1922,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -1964,7 +1964,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2002,13 +2002,13 @@
       "compositeState": "INCOMPLETE",
       "durationMs": null,
       "counters": {
-        "backendTests": 191,
+        "backendTests": 192,
         "openSecurityFindings": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -2203,7 +2203,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2749,19 +2749,19 @@
         "limitations"
       ],
       "expected": "The local package contains all assignment deliverables and local instructions agree with behavior.",
-      "observed": "Static, test, build, README claim, and documentation inventory checks passed locally. The current root gate passed 191 Python and 46 frontend tests.",
+      "observed": "Static, test, build, README claim, and documentation inventory checks passed locally. The current root gate passed 192 Python and 46 frontend tests.",
       "status": "PASS",
       "compositeState": "INCOMPLETE",
       "durationMs": null,
       "counters": {
-        "backendTests": 191,
+        "backendTests": 192,
         "browserProjects": 2,
         "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
@@ -2769,7 +2769,7 @@
         },
         {
           "path": "README.md",
-          "sha256": "3c4cb8148a4dfd280e7baaa50e7aac0b97700d1431fa19812d2a5130acc9bb12"
+          "sha256": "e1c1627589699d305eddf3ae90c28b05d667a967b8870f1a7ef63437779c2759"
         },
         {
           "path": "docs/08-validation/VALIDATION_PROTOCOL_RESULTS.md",
@@ -2777,7 +2777,7 @@
         },
         {
           "path": "docs/10-release/RELEASE_CANDIDATE_STATUS.md",
-          "sha256": "2a9f97ef634d34c89a82a854adbdd2a6ebff613779a334bd5ab9cd5ae6cf1ee3"
+          "sha256": "bc607fb9dc1f2ac5e68bb7ba420f5970315b4af5497dc6a3cccfea7555426294"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3108,13 +3108,13 @@
       "compositeState": "FINAL_PASS",
       "durationMs": null,
       "counters": {
-        "backendTests": 191,
+        "backendTests": 192,
         "frontendTests": 46
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3219,7 +3219,7 @@
         },
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/repository-neutral-path-scan.txt",
@@ -3227,7 +3227,7 @@
         },
         {
           "path": "docs/08-validation/evidence/total-phase-matrix.json",
-          "sha256": "cfd061312724cbfb295a1b27decf4baa030ebf88da10179e39c28300926158bc"
+          "sha256": "b0f51fdad319139c6816ab0642387618a8b000de991cd376d9ddaaa98665fe0c"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3272,7 +3272,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
@@ -3409,12 +3409,12 @@
       "compositeState": "LOCAL_READY",
       "durationMs": null,
       "counters": {
-        "backendTests": 191
+        "backendTests": 192
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3502,7 +3502,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json",
@@ -3560,11 +3560,11 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/browser-privacy-matrix.json",
-          "sha256": "5a0aa11f6ec718d9b2bad29d2398612281d2eacdd39b6e766bba5bb8f4dacf9a"
+          "sha256": "2a5b72e4e3870f9b9b0fea7ddcb9cda52145d3430b3be1602081de40c273d7fb"
         },
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
@@ -3611,13 +3611,13 @@
       "compositeState": "LOCAL_READY",
       "durationMs": null,
       "counters": {
-        "backendTests": 191,
+        "backendTests": 192,
         "openSecurityFindings": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/08-validation/SECURITY_VALIDATION.md",
@@ -3762,7 +3762,7 @@
         "cancellation, disconnect, shutdown, recovery, and cleanup"
       ],
       "expected": "Every actual asynchronous wait boundary reaches its governed 20, 30, or 35 second terminal outcome. Client validation rejects locally without transport. A complete response commits all rows, focus, and live-region output deterministically. Cancel is within one second, late responses are ignored, ownership remains safe, recovery succeeds, and cleanup reaches zero.",
-      "observed": "Against LV-I2R-002 Revision 1.1, LV-I2R-009 Revision 1.1, LV-FRD-001 Revision 1.1, LV-FRD-002 Revision 1.1, and LV-FRD-003 Revision 1.4, the retained matrix passed every actual asynchronous wait boundary, immediate synchronous client rejection, and one complete synchronous render, focus, and live-region commit. Cancellation, disconnect, shutdown, child recovery, late-result suppression, and cleanup also passed. Backend phase tests passed 16 of 16, frontend phase tests passed 4 of 4, and the current source-bound root gate passed 191 Python, 46 frontend, and the browser suites.",
+      "observed": "Against LV-I2R-002 Revision 1.1, LV-I2R-009 Revision 1.1, LV-FRD-001 Revision 1.1, LV-FRD-002 Revision 1.1, and LV-FRD-003 Revision 1.4, the retained matrix passed every actual asynchronous wait boundary, immediate synchronous client rejection, and one complete synchronous render, focus, and live-region commit. Cancellation, disconnect, shutdown, child recovery, late-result suppression, and cleanup also passed. Backend phase tests passed 16 of 16, frontend phase tests passed 4 of 4, and the current source-bound root gate passed 192 Python, 46 frontend, and the browser suites.",
       "status": "PASS",
       "compositeState": "FINAL_PASS",
       "durationMs": null,
@@ -3770,14 +3770,14 @@
         "phaseGroups": 11,
         "backendPhaseTests": 16,
         "frontendPhaseTests": 4,
-        "backendFullTests": 191,
+        "backendFullTests": 192,
         "frontendFullTests": 46,
         "failed": 0
       },
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/total-phase-matrix.json",
-          "sha256": "cfd061312724cbfb295a1b27decf4baa030ebf88da10179e39c28300926158bc"
+          "sha256": "b0f51fdad319139c6816ab0642387618a8b000de991cd376d9ddaaa98665fe0c"
         },
         {
           "path": "docs/04-i2r-ae/02_I2R_DATA_INTERFACE_SECURITY.md",
@@ -3805,7 +3805,7 @@
         },
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
-          "sha256": "41e1882e8fc1ed8bdcb41f05b68e5c1fc7e8036fc4e0f1c1886349aa7677f3b0"
+          "sha256": "53ff48277aca793ec4f1304c2d1c492b20744781aaf366527c545687b32d1d67"
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
