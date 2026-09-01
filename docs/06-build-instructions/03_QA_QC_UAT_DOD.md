@@ -114,7 +114,7 @@ These cannot be claimed complete before requester authorization permits GitHub a
 - `T-031-A-DEPLOYED-WARM`: deployed 30-run warmed verification proof;
 - `T-031-A-DEPLOYED-COLD`: deployed 5-run cold/restart proof;
 - `T-031-A-SHAPED-NETWORK`: deployed representative and near-maximum shaped-network proof;
-- `T-040-A-PUBLIC-EDGE`: deployed Fly identity, Host, Origin, security-header, no-store, and clean-browser smoke;
+- `T-040-A-PUBLIC-EDGE`: deployed selected-edge identity, Host, Origin, security-header, no-store, and clean-browser smoke;
 - `T-038-A-RELEASE-RECHECK`: final regulatory source recheck immediately before release;
 - `T-033-A-REQUESTER-CODE-REVIEW`: requester code review result;
 - `T-033-A-REQUESTER-FUNCTIONAL-TEST`: requester functional test result;

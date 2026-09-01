@@ -27,7 +27,7 @@ The implemented product remains a standalone, human-in-the-loop verification ass
 | Independent fixture integrity | PASS | 30 cases, 24 development, 6 sealed holdout, 8 mutations, 50 tags, 19-check coverage, 20 tests |
 | Product corpus | PASS | 30 of 30 cases, 456 of 456 expected result rows, 8 of 8 mutations, 0 failures, 0 false-clean results |
 | Assertion evidence | INCOMPLETE composite | 75 assertions: 56 PASS, 7 BLOCKED, 12 requester-gated, zero FAIL, zero NOT_RUN |
-| Python quality | PASS | Ruff, strict MyPy on 34 source files, 182 tests |
+| Python quality | PASS | Ruff, strict MyPy on 34 source files, 189 tests |
 | Frontend quality | PASS | ESLint, strict TypeScript, 46 Vitest tests, production Vite build |
 | Integrated browser | PASS for runnable matrix | Three Playwright journeys passed: Chrome core, Chrome full privacy, and Edge core. One intentional duplicate Edge privacy run was skipped. Axe found no serious or critical violations. |
 | Privacy | PASS locally | Full success, error, cancel, refresh, reopen, and Start over browser matrix remained content-free; API responses were no-store; request-scoped server resources cleaned |
@@ -36,7 +36,7 @@ The implemented product remains a standalone, human-in-the-loop verification ass
 | Batch capacity and elapsed time | PASS | One warmed worker completed 10 in 18.665 seconds, 20 in 36.301 seconds, and 300 in 521.963 seconds; average 1,739.864 ms; zero false-clean results |
 | User-supplied 50-image diagnostic | FAIL for automatic-clear recognition | Human oracle 33 pass and 17 do not pass; harness 0 pass, 45 review, and 5 do not pass; all 17 defects contained; zero false clearances; zero false deterministic rejections; selected-profile clear recognition 0 of 14 |
 | Resource envelope | PASS locally | Warm peak parent plus worker RSS 1,466,724,352 bytes, cold peak 1,578,123,264 bytes, and batch peak 847,986,688 bytes inside the 2 GiB plan |
-| Security correction | PASS locally | Local lifecycle and security assertions passed; 46 focused tests and the 182-test canonical Python regression passed |
+| Security correction | PASS locally | Local lifecycle and security assertions passed; the canonical Python regression now contains 189 passing tests, including Azure identity and deployment contracts |
 | Independent UAT | PASS locally | Two non-UI implementers passed both no-help timed journeys within the 3-minute and 7-minute limits |
 | Accessibility | INCOMPLETE | Automated Chrome/Edge and manual keyboard/focus evidence pass; native 200 percent zoom/manual Edge and NVDA are BLOCKED by the current environment |
 | Python dependency audit | PASS | No known vulnerabilities |

@@ -40,7 +40,12 @@ class FakeSupervisor:
         return fake_result(request_id)
 
 
-def runtime(tmp_path: Path, *, production: bool = False) -> Settings:
+def runtime(
+    tmp_path: Path,
+    *,
+    production: bool = False,
+    client_identity_source: str = "fly",
+) -> Settings:
     sample_root = tmp_path / "fixtures" / "sample"
     panel_root = sample_root / "panels"
     panel_root.mkdir(parents=True)
@@ -79,6 +84,7 @@ def runtime(tmp_path: Path, *, production: bool = False) -> Settings:
         sample_manifest=sample,
         static_root=static_root,
         build_id="test-build",
+        client_identity_source=client_identity_source,
     )
 
 
@@ -198,6 +204,45 @@ def test_production_edge_requires_exact_identity_host_and_origin(tmp_path: Path)
             headers={
                 "Origin": "https://verify.example.gov",
                 "Fly-Client-IP": "203.0.113.7",
+            },
+            data={"reference": multipart_reference()},
+            files=files,
+        )
+        assert valid.status_code == 200, valid.text
+        assert valid.headers["strict-transport-security"].startswith("max-age=")
+
+
+def test_azure_production_edge_accepts_only_its_trusted_identity_chain(tmp_path: Path) -> None:
+    supervisor = FakeSupervisor()
+    app = create_app(
+        settings=runtime(
+            tmp_path,
+            production=True,
+            client_identity_source="azure_container_apps",
+        ),
+        supervisor=supervisor,  # type: ignore[arg-type]
+    )
+    files = {"panels": ("label.jpg", jpeg_bytes(), "image/jpeg")}
+    with TestClient(
+        app, client=("127.0.0.1", 50000), base_url="https://verify.example.gov"
+    ) as client:
+        fly_only = client.post(
+            "/api/v1/verifications",
+            headers={
+                "Origin": "https://verify.example.gov",
+                "Fly-Client-IP": "203.0.113.7",
+            },
+            data={"reference": multipart_reference()},
+            files=files,
+        )
+        assert fly_only.status_code == 400
+        assert fly_only.json()["code"] == "invalid_client_identity"
+
+        valid = client.post(
+            "/api/v1/verifications",
+            headers={
+                "Origin": "https://verify.example.gov",
+                "X-Forwarded-For": "198.51.100.99, 203.0.113.7",
             },
             data={"reference": multipart_reference()},
             files=files,

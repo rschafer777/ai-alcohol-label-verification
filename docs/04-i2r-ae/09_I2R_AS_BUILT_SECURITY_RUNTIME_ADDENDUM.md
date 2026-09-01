@@ -24,7 +24,7 @@ This addendum records the implemented architecture after development, independen
 | Runtime filesystem | The OCI source declares UID and GID 10001 and makes governed model files non-writable. A read-only root filesystem and a single writable mount are not established until OCI runtime proof exists. | Source partial; OCI proof BLOCKED |
 | Runtime egress | Production source has no required external inference, analytics, model download, or other outbound application path. Repository configuration does not itself enforce denied egress. | Source PASS for no required call path; network denial NOT ESTABLISHED |
 | Logging | Application source emits no content-bearing structured logs and documented launches disable Uvicorn access logs. Platform and framework logging retention are deployment concerns. | Source PASS; platform readback PENDING |
-| Direct local container mode | The documented local container command explicitly selects direct mode and binds to `127.0.0.1`. Production Host, Origin, and Fly client-identity controls apply only in production mode. | Documentation and source PASS; OCI execution BLOCKED |
+| Direct local container mode | The documented local container command explicitly selects direct mode and binds to `127.0.0.1`. Production Host, Origin, and explicitly selected edge client-identity controls apply only in production mode. | Documentation and source PASS; OCI execution BLOCKED |
 | Dependency posture | Frozen production dependencies use FastAPI 0.141.1, Starlette 1.6.0, Pillow 12.3.0, and python-multipart 0.0.32. The complete synchronized Python environment and npm production graph had zero known audit findings on 2026-09-01. | Local audit PASS; release recheck REQUIRED |
 
 ## 3. Effective request lifecycle

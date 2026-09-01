@@ -15,6 +15,7 @@ class Settings:
     sample_manifest: Path
     static_root: Path
     build_id: str
+    client_identity_source: str = "fly"
 
     @property
     def production(self) -> bool:
@@ -29,6 +30,17 @@ class Settings:
         allowed_host = os.environ.get("LABELVERIFY_ALLOWED_HOST")
         if mode == "production" and not allowed_host:
             raise ValueError("LABELVERIFY_ALLOWED_HOST is required in production")
+        identity_source = os.environ.get(
+            "LABELVERIFY_CLIENT_IDENTITY_SOURCE",
+            "direct" if mode == "direct" else "",
+        ).strip().casefold()
+        if mode == "production" and identity_source not in {"fly", "azure_container_apps"}:
+            raise ValueError(
+                "LABELVERIFY_CLIENT_IDENTITY_SOURCE must be fly or azure_container_apps "
+                "in production"
+            )
+        if mode == "direct":
+            identity_source = "direct"
         return cls(
             runtime_mode=mode,
             allowed_host=allowed_host,
@@ -54,4 +66,5 @@ class Settings:
                 os.environ.get("LABELVERIFY_STATIC_ROOT", str(root / "frontend" / "dist"))
             ),
             build_id=os.environ.get("LABELVERIFY_BUILD_ID", "development"),
+            client_identity_source=identity_source,
         )

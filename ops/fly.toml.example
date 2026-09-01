@@ -13,6 +13,7 @@ primary_region = "ord"
 [env]
   LABELVERIFY_RUNTIME_MODE = "production"
   LABELVERIFY_ALLOWED_HOST = "REPLACE_WITH_FLY_APP_NAME.fly.dev"
+  LABELVERIFY_CLIENT_IDENTITY_SOURCE = "fly"
 
 [http_service]
   internal_port = 8080

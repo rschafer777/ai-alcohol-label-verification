@@ -102,7 +102,7 @@ npm run test
 npm run build
 ```
 
-The deterministic test corpus contains 24 development cases, 6 sealed holdouts, and a separate two-panel built-in sample. It covers all 19 selected checks and includes ambiguity, warning, bad-image, input-limit, error, and anti-hard-coding controls. The decisive local run passed all 30 cases, all 456 expected result rows, and all 8 mutation controls with zero false-clean results. The current full regression contains 182 passing Python tests and 46 passing frontend tests.
+The deterministic test corpus contains 24 development cases, 6 sealed holdouts, and a separate two-panel built-in sample. It covers all 19 selected checks and includes ambiguity, warning, bad-image, input-limit, error, and anti-hard-coding controls. The decisive local run passed all 30 cases, all 456 expected result rows, and all 8 mutation controls with zero false-clean results. The current full regression contains 189 passing Python tests and 46 passing frontend tests.
 
 Measured on the documented Windows development host, Warm p95 was 2.374 seconds across 30 two-panel verification runs. Cold readiness through first result was 7.532 seconds across 5 runs. A single warmed worker processed 10 applications in 18.665 seconds, 20 in 36.301 seconds, and all 300 in 521.963 seconds. Peak parent-plus-worker RSS was 1,578,123,264 bytes during the cold run and 847,986,688 bytes during the batch run, both below the selected 2 GiB limit. The machine-readable evidence is in `docs/08-validation/evidence/local-performance.json` and `docs/08-validation/evidence/local-batch-performance.json`. These are local measurements, not guarantees for different hardware or image complexity.
 
@@ -119,7 +119,7 @@ Then open `http://127.0.0.1:8080`.
 
 The current development host did not have an OCI builder installed. Container construction and runtime proof therefore remain explicitly blocked until a builder is available. They are not recorded as passed based on file inspection alone.
 
-`ops/fly.toml.example` is a deployment template only. The source repository is [rschafer777/ai-alcohol-label-verification](https://github.com/rschafer777/ai-alcohol-label-verification). No Fly application, public application URL, or deployment has been created. Deployment remains under requester control.
+`ops/azure-container-app.json` and `.github/workflows/deploy-demo.yml` define the selected Azure demo deployment. The workflow uses GitHub OIDC, a private registry, an immutable image digest, a pull-only managed identity, application-aware health probes, effective-configuration readback, and public smoke tests. `ops/fly.toml.example` remains a non-active portability example. The source repository is [rschafer777/ai-alcohol-label-verification](https://github.com/rschafer777/ai-alcohol-label-verification). Live deployment evidence is not claimed until the authorized workflow completes.
 
 ## Architecture and engineering approach
 
@@ -191,7 +191,7 @@ These boundaries are part of the product contract and are not hidden future-work
 - The prototype has no database, account system, durable queue, automatic browser persistence, analytics, or content logging. Server request files are temporary and browser state disappears on refresh or Start over. User-initiated CSV and detailed JSON exports are durable downloaded files under the user's browser and filesystem control; they can contain application values, panel paths, findings, evidence text, timings, and errors.
 - Evaluation should use synthetic or sanitized inputs. Production data categories, PII analysis, records schedules, retention, legal hold, and audit requirements depend on the selected agency workflow.
 - The legacy COLA system is .NET. This standalone prototype uses React, TypeScript, Python, FastAPI, RapidOCR, ONNX Runtime, OpenCV, and Pillow because that stack is implemented and measured here. The versioned API boundary permits a later .NET adapter or reimplementation after an actual integration and procurement decision.
-- A container definition and deployment template are included, but this development host has not yet produced OCI runtime evidence and no public deployment has been created.
+- A container definition, governed Azure template, and OIDC deployment workflow are included. Local OCI proof remains blocked because this development host has no OCI builder. The GitHub workflow must build, deploy, read back, and smoke-test the exact public revision before deployed evidence can pass.
 - [`docs/11-federal-authorization-readiness/`](docs/11-federal-authorization-readiness/) provides current starter materials for choosing and beginning an agency RMF/ATO or FedRAMP 20x path. Production boundary, impact, Azure services, identity, logging, retention, assessor, and operating evidence remain inputs to that process.
 
 ## Resource and privacy boundaries

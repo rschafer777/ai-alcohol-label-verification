@@ -73,6 +73,12 @@
               "identity": "[parameters('pullIdentityResourceId')]"
             }
           ],
+          "identitySettings": [
+            {
+              "identity": "[parameters('pullIdentityResourceId')]",
+              "lifecycle": "None"
+            }
+          ],
           "secrets": []
         },
         "template": {
@@ -90,6 +96,10 @@
                 {
                   "name": "LABELVERIFY_ALLOWED_HOST",
                   "value": "[parameters('allowedHost')]"
+                },
+                {
+                  "name": "LABELVERIFY_CLIENT_IDENTITY_SOURCE",
+                  "value": "azure_container_apps"
                 }
               ],
               "resources": {
@@ -99,8 +109,16 @@
               "probes": [
                 {
                   "type": "Startup",
-                  "tcpSocket": {
-                    "port": 8080
+                  "httpGet": {
+                    "path": "/health/live",
+                    "port": 8080,
+                    "scheme": "HTTP",
+                    "httpHeaders": [
+                      {
+                        "name": "Host",
+                        "value": "[parameters('allowedHost')]"
+                      }
+                    ]
                   },
                   "initialDelaySeconds": 1,
                   "periodSeconds": 3,
@@ -110,8 +128,16 @@
                 },
                 {
                   "type": "Liveness",
-                  "tcpSocket": {
-                    "port": 8080
+                  "httpGet": {
+                    "path": "/health/live",
+                    "port": 8080,
+                    "scheme": "HTTP",
+                    "httpHeaders": [
+                      {
+                        "name": "Host",
+                        "value": "[parameters('allowedHost')]"
+                      }
+                    ]
                   },
                   "initialDelaySeconds": 15,
                   "periodSeconds": 15,
@@ -121,8 +147,16 @@
                 },
                 {
                   "type": "Readiness",
-                  "tcpSocket": {
-                    "port": 8080
+                  "httpGet": {
+                    "path": "/health/ready",
+                    "port": 8080,
+                    "scheme": "HTTP",
+                    "httpHeaders": [
+                      {
+                        "name": "Host",
+                        "value": "[parameters('allowedHost')]"
+                      }
+                    ]
                   },
                   "initialDelaySeconds": 5,
                   "periodSeconds": 5,

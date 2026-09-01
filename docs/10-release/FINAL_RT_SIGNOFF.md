@@ -1,13 +1,13 @@
-# Final Red-Team Signoff
+# Pre-Azure Final Red-Team Signoff
 
 Document control ID: LV-REL-003  
 Revision: 2.5  
 Date: 2026-09-01  
-Status: Unanimous APPROVED_WITH_KNOWN_GATE; composite INCOMPLETE
+Status: Historical signoff for the pre-Azure source snapshot; superseded for deployment changes
 
 ## 1. Candidate under review
 
-This record supersedes the pre-batch signoff. The current candidate includes single-label verification, client-managed batch verification for 1 to 300 applications, conservative warning analysis, bounded image recovery, current federal-readiness starter documents, and updated validation evidence.
+This record superseded the pre-batch signoff and remains evidence for the pre-Azure source snapshot. Its file and test counts are historical, not claims about the later Azure deployment snapshot. The Azure workflow, trusted-edge identity, probe, rollback, and deployment-documentation changes require their own immutable RT signoff.
 
 The release manifest was regenerated from the exact staged Git tree after every actionable finding from the three independent RT reviews was corrected and regressed. Automatic-clear recognition remains failed and prevents corpus-UAT completion.
 

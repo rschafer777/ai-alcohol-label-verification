@@ -5,7 +5,7 @@ Revision: 1.1
 Date: 2026-08-31  
 Status: Controlled as-built baseline
 
-As-built precedence: `09_I2R_AS_BUILT_SECURITY_RUNTIME_ADDENDUM.md` controls when an implementation mechanism differs from this design-stage record.
+As-built precedence: `09_I2R_AS_BUILT_SECURITY_RUNTIME_ADDENDUM.md` and `11_I2R_AZURE_DEPLOYMENT_ADDENDUM.md` control when an implementation mechanism differs from this design-stage record.
 
 ## 1. Ingress contract
 
@@ -223,14 +223,14 @@ Performance profiles are separate from maximum accepted input:
 
 ## 10. Public edge identity and response security
 
-Production Fly mode has no proxy in front of Fly Proxy:
+Production client identity is selected explicitly by deployment configuration:
 
-- Uvicorn proxy-header trust is disabled. The application never uses `X-Forwarded-For`, `X-Real-IP`, or a client-supplied forwarded header for rate identity.
-- `Fly-Client-IP` is the sole production client identity because the official Fly HTTP handler sets it to the client address observed by Fly Proxy.
-- Exactly one `Fly-Client-IP` value must parse as one IPv4 or IPv6 address. Missing, duplicate, comma-delimited, malformed, or zone-qualified values return `400 invalid_client_identity` before body consumption.
+- Uvicorn proxy-header trust is disabled. The application does not allow Uvicorn to rewrite the ASGI peer from forwarding headers.
+- Azure Container Apps mode requires exactly one `X-Forwarded-For` header and uses only its rightmost comma-separated item. Azure documents that it appends the address it observed as that rightmost value. Earlier items are treated as untrusted caller or intermediary input and are ignored.
+- Missing, duplicate, empty, malformed, non-ASCII, or zone-qualified Azure identity values return `400 invalid_client_identity` before body consumption.
+- Fly mode remains implemented for portability and accepts exactly one parseable `Fly-Client-IP` value. Missing, duplicate, comma-delimited, malformed, or zone-qualified values fail closed.
+- An unknown production identity source fails closed. Direct local/test mode ignores forwarding headers and uses the ASGI peer address.
 - The normalized compressed address is HMAC-SHA256 digested with a random per-process secret and the raw address is discarded. Logs and limiter keys contain only the digest.
-- Direct local/test mode ignores all forwarding headers and uses the ASGI peer address. It is disabled in the production image configuration.
-- Azure is not an active deployment fallback until a new ADR defines and tests its trusted identity chain.
 
 Production request validation:
 
@@ -254,10 +254,12 @@ Response headers:
 - Multi-stage build: Node builds static UI; Python runtime receives only production Python dependencies, UI output, rules, sample assets, and OCR models.
 - Runtime user is non-root with a read-only application filesystem and one writable request spool.
 - Static UI and API share one origin.
-- One Fly.io Machine runs continuously for evaluator readiness. Official Fly configuration permits autostop off, or a minimum running Machine when autostop is used. Release readback must prove the actual setting.
-- Fly service routes only when `/health/ready` passes.
+- Azure Container Apps Consumption runs one 1 vCPU, 2 GiB non-root container with zero to one replicas and single-revision ingress.
+- Startup and liveness probes call `/health/live`; readiness calls `/health/ready`. Each internal HTTP probe supplies the governed Host value so production Host validation remains enabled.
+- The ACR pull identity is available to the platform for image pull but is configured with identity lifecycle `None`, so application code cannot obtain its access token.
+- GitHub Actions authenticates through the environment-scoped OIDC federation and deploys an immutable image digest. No client secret, registry password, or publishing profile is used.
 - The release manifest records source revision, lockfile hashes, base image digest, OCI digest, model hashes, rule/profile hashes, fixture manifest hash, build ID, deployment ID, and rollback image digest.
-- Azure Container Apps with one minimum replica is the fallback if Fly cost, capability, policy, or performance proof fails.
+- Scale to zero is a demo cost trade-off and does not waive the cold-start performance gate.
 
 ## 12. Observability
 
@@ -282,7 +284,7 @@ Every log call uses an allowlisted structured schema. Tests fail if prohibited c
 - worker hang, timeout, replacement, readiness, recovery, repeated cancellation, disconnect storm, and shutdown ownership;
 - egress-blocked core or bounded non-clean outcome;
 - normal and shaped-network upload/terminal timing at the declared network profiles;
-- Fly-Client-IP identity, direct-mode isolation, spoofed forwarding header, Host, Origin, security header, and no-store tests;
+- Azure rightmost forwarded identity, Fly portability identity, direct-mode isolation, spoofed/duplicate/malformed forwarding header, Host, Origin, security header, and no-store tests;
 - secret, dependency, license, container, and content-log scans;
 - deployed configuration readback and clean-browser smoke;
 - all acceptance tests defined in the FRD.

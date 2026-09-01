@@ -128,7 +128,7 @@ Independent source review found six packaging issues. All six are closed at sour
 - the Debian runtime artifact has an exact version and SHA256;
 - the model directory is root-owned and read-only before the runtime user starts;
 - the runtime user owns only the spool directory;
-- strict Host validation is used by the runtime and Fly health checks;
+- strict Host validation is used by the runtime and Azure application-aware health probes;
 - the governed sample contract and panels are packaged and constrained to their governed directory;
 - the build context uses a deny-all allowlist;
 - a unique build identifier is mandatory; and
@@ -167,7 +167,7 @@ The decisive rerun passed all 30 cases, all 456 expected result rows, and all 8 
 
 - Root lint, strict type, test, build, browser, and Unicode gate: PASS.
 - Strict MyPy across 34 source files: PASS.
-- Python tests: 182 passed.
+- Python tests: 189 passed after the Azure deployment contract and identity-boundary additions.
 - Frontend tests: 46 passed.
 - Frontend production build: PASS.
 - Chrome and Edge integrated journeys: 3 passed; 3 intentionally duplicated matrix cases skipped.

@@ -30,6 +30,12 @@ def test_deployment_template_has_the_governed_runtime_shape() -> None:
     }
     assert len(configuration["registries"]) == 1
     assert configuration["registries"][0]["identity"] == "[parameters('pullIdentityResourceId')]"
+    assert configuration["identitySettings"] == [
+        {
+            "identity": "[parameters('pullIdentityResourceId')]",
+            "lifecycle": "None",
+        }
+    ]
 
     runtime = properties["template"]
     assert runtime["volumes"] == []
@@ -41,17 +47,33 @@ def test_deployment_template_has_the_governed_runtime_shape() -> None:
     container = runtime["containers"][0]
     assert container["name"] == "labelverify"
     assert container["resources"] == {"cpu": 1.0, "memory": "2Gi"}
+    assert {
+        item["name"]: item["value"] for item in container["env"]
+    }["LABELVERIFY_CLIENT_IDENTITY_SOURCE"] == "azure_container_apps"
     assert {probe["type"] for probe in container["probes"]} == {
         "Startup",
         "Liveness",
         "Readiness",
     }
-    assert all(probe["tcpSocket"] == {"port": 8080} for probe in container["probes"])
-    assert all("httpGet" not in probe for probe in container["probes"])
+    probes = {probe["type"]: probe["httpGet"] for probe in container["probes"]}
+    assert probes["Startup"]["path"] == "/health/live"
+    assert probes["Liveness"]["path"] == "/health/live"
+    assert probes["Readiness"]["path"] == "/health/ready"
+    assert all(probe["port"] == 8080 for probe in probes.values())
+    assert all(probe["scheme"] == "HTTP" for probe in probes.values())
+    assert all(
+        probe["httpHeaders"]
+        == [{"name": "Host", "value": "[parameters('allowedHost')]"}]
+        for probe in probes.values()
+    )
+    assert all("tcpSocket" not in probe for probe in container["probes"])
 
 
 def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
     workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
+    assert re.search(r"^  push:", workflow, flags=re.MULTILINE) is None
+    assert "workflow_dispatch:" in workflow
+    assert "if: github.ref == 'refs/heads/main'" in workflow
     assert "environment:\n      name: demo" in workflow
     assert "id-token: write" in workflow
     assert "azure/login@" in workflow
@@ -66,6 +88,12 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
     assert "/api/v1/verifications" in workflow
     assert "Origin: $base_url" in workflow
     assert "selectedCheckCount == 19" in workflow
+    assert '.summary == "Review needed"' in workflow
+    assert 'steps.previous.outputs.image != \'\'' in workflow
+    assert "labelverify-rollback-" in workflow
+    assert '.properties.configuration.ingress.fqdn == $host' in workflow
+    assert '.properties.configuration.identitySettings[0].lifecycle == "None"' in workflow
+    assert '.httpGet.path == "/health/ready"' in workflow
     assert "HTTP redirect" not in workflow or "redirect_status" in workflow
 
     uses = re.findall(r"^\s*uses:\s*([^\s#]+)", workflow, flags=re.MULTILINE)

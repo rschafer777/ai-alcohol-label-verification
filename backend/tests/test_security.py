@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -25,6 +26,20 @@ def settings(tmp_path: Path, *, production: bool = False) -> Settings:
 
 def scope(headers: list[tuple[bytes, bytes]], client: str = "127.0.0.1") -> dict[str, object]:
     return {"headers": headers, "client": (client, 1234)}
+
+
+def test_production_environment_requires_an_explicit_identity_source(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("LABELVERIFY_RUNTIME_MODE", "production")
+    monkeypatch.setenv("LABELVERIFY_ALLOWED_HOST", "verify.example.gov")
+    monkeypatch.delenv("LABELVERIFY_CLIENT_IDENTITY_SOURCE", raising=False)
+    with pytest.raises(ValueError, match="LABELVERIFY_CLIENT_IDENTITY_SOURCE"):
+        Settings.from_environment()
+
+    monkeypatch.setenv("LABELVERIFY_CLIENT_IDENTITY_SOURCE", "azure_container_apps")
+    resolved = Settings.from_environment()
+    assert resolved.client_identity_source == "azure_container_apps"
 
 
 @pytest.mark.parametrize(
@@ -62,6 +77,44 @@ def test_production_identity_requires_one_valid_fly_ip(tmp_path: Path) -> None:
         with pytest.raises(PublicApiError) as caught:
             resolver.resolve(scope(value), production, "r")
         assert caught.value.code == "invalid_client_identity"
+
+
+def test_azure_identity_uses_only_the_ingress_appended_rightmost_ip(tmp_path: Path) -> None:
+    resolver = ClientIdentity(secret=b"x" * 32)
+    azure = replace(
+        settings(tmp_path, production=True),
+        client_identity_source="azure_container_apps",
+    )
+    expected = resolver.resolve(
+        scope([(b"x-forwarded-for", b"203.0.113.7")]), azure, "request"
+    )
+    spoofed_prefix = resolver.resolve(
+        scope([(b"x-forwarded-for", b"198.51.100.99, 203.0.113.7")]),
+        azure,
+        "request",
+    )
+    assert expected == spoofed_prefix
+    assert len(expected) == 64
+
+    rejected = (
+        [],
+        [(b"x-forwarded-for", b"bad")],
+        [(b"x-forwarded-for", b"198.51.100.1,")],
+        [(b"x-forwarded-for", b"fe80::1%eth0")],
+        [(b"x-forwarded-for", b"203.0.113.7"), (b"x-forwarded-for", b"203.0.113.8")],
+    )
+    for headers in rejected:
+        with pytest.raises(PublicApiError) as caught:
+            resolver.resolve(scope(headers), azure, "request")
+        assert caught.value.code == "invalid_client_identity"
+
+
+def test_unknown_production_identity_source_fails_closed(tmp_path: Path) -> None:
+    resolver = ClientIdentity(secret=b"x" * 32)
+    unknown = replace(settings(tmp_path, production=True), client_identity_source="unknown")
+    with pytest.raises(PublicApiError) as caught:
+        resolver.resolve(scope([(b"x-forwarded-for", b"203.0.113.7")]), unknown, "request")
+    assert caught.value.code == "invalid_client_identity"
 
 
 def test_rate_limits_and_active_isolation() -> None:
