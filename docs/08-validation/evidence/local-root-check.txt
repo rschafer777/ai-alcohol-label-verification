@@ -37,7 +37,7 @@ tests\validation\test_test_images_validator.py ..................        [100%]
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 191 passed, 1 warning in 35.77s =======================
+======================= 191 passed, 1 warning in 44.02s =======================
 
 > labelverify-frontend@0.1.0 lint
 > eslint . --max-warnings 0
@@ -56,8 +56,8 @@ tests\validation\test_test_images_validator.py ..................        [100%]
 
  Test Files  9 passed (9)
       Tests  46 passed (46)
-   Start at  17:20:09
-   Duration  4.67s (transform 775ms, setup 2.85s, import 1.97s, tests 4.94s, environment 12.70s)
+   Start at  17:37:33
+   Duration  4.61s (transform 835ms, setup 2.97s, import 2.00s, tests 4.89s, environment 12.55s)
 
 
 > labelverify-frontend@0.1.0 build
@@ -82,18 +82,18 @@ Running 6 tests using 1 worker
 
   -  1 [chrome] › e2e\batch-capacity.spec.ts:45:1 › governed 300-application browser batch is complete, mixed, cancellable, and exportable
   ok 2 [chrome] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (5.9s)
-  ok 3 [chrome] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free (3.7s)
+  ok 3 [chrome] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free (3.6s)
   -  4 [edge] › e2e\batch-capacity.spec.ts:45:1 › governed 300-application browser batch is complete, mixed, cancellable, and exportable
-  ok 5 [edge] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (4.9s)
+  ok 5 [edge] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (4.8s)
   -  6 [edge] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free
 
   3 skipped
-  3 passed (23.2s)
-[WebServer] INFO:     Started server process [87828]
+  3 passed (23.0s)
+[WebServer] INFO:     Started server process [75904]
 [WebServer] INFO:     Waiting for application startup.
 [WebServer] INFO:     Application startup complete.
 [WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-(node:43032) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:9384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
-(node:63980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:65424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
