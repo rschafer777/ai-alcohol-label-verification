@@ -102,7 +102,7 @@ npm run test
 npm run build
 ```
 
-The deterministic test corpus contains 24 development cases, 6 sealed holdouts, and a separate two-panel built-in sample. It covers all 19 selected checks and includes ambiguity, warning, bad-image, input-limit, error, and anti-hard-coding controls. The decisive local run passed all 30 cases, all 456 expected result rows, and all 8 mutation controls with zero false-clean results. The current full regression contains 189 passing Python tests and 46 passing frontend tests.
+The deterministic test corpus contains 24 development cases, 6 sealed holdouts, and a separate two-panel built-in sample. It covers all 19 selected checks and includes ambiguity, warning, bad-image, input-limit, error, and anti-hard-coding controls. The decisive local run passed all 30 cases, all 456 expected result rows, and all 8 mutation controls with zero false-clean results. The current full regression contains 191 passing Python tests and 46 passing frontend tests.
 
 Measured on the documented Windows development host, Warm p95 was 2.374 seconds across 30 two-panel verification runs. Cold readiness through first result was 7.532 seconds across 5 runs. A single warmed worker processed 10 applications in 18.665 seconds, 20 in 36.301 seconds, and all 300 in 521.963 seconds. Peak parent-plus-worker RSS was 1,578,123,264 bytes during the cold run and 847,986,688 bytes during the batch run, both below the selected 2 GiB limit. The machine-readable evidence is in `docs/08-validation/evidence/local-performance.json` and `docs/08-validation/evidence/local-batch-performance.json`. These are local measurements, not guarantees for different hardware or image complexity.
 

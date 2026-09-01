@@ -144,16 +144,20 @@ ASSERTION_TESTS: tuple[tuple[str, str, str, str, int], ...] = (
 )
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(block)
-    return digest.hexdigest()
+def sha256_repository_text(path: Path) -> str:
+    """Hash text using Git's canonical LF representation.
+
+    The governed snapshot contains repository text files only. Normalizing CRLF
+    before hashing keeps evidence identical to the Git blob that reviewers and
+    CI receive, even when a Windows checkout presents CRLF working-tree bytes.
+    """
+
+    payload = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(payload).hexdigest()
 
 
 def source_snapshot() -> dict[str, Any]:
-    files = {relative: sha256_file(ROOT / relative) for relative in SNAPSHOT_PATHS}
+    files = {relative: sha256_repository_text(ROOT / relative) for relative in SNAPSHOT_PATHS}
     identity = hashlib.sha256(
         "".join(f"{path}:{digest}\n" for path, digest in files.items()).encode()
     ).hexdigest()

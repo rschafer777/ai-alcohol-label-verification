@@ -1,13 +1,13 @@
 # Local Release Candidate Status
 
 Document control ID: LV-REL-002  
-Revision: 2.0  
+Revision: 2.1  
 Date: 2026-09-01  
 Status: Azure deployment candidate under renewed RT; composite INCOMPLETE
 
 ## 1. Current conclusion
 
-The source, README, numbered lifecycle documentation, governed fixtures, validation evidence, lockfiles, SBOMs, model manifest, container source, and deployment template form a complete local review package. Single-label and client-managed batch workflows are implemented. Current local gates include 189 passing Python tests, 46 passing frontend tests, 30 of 30 product-corpus cases, 456 of 456 expected check rows, 8 of 8 mutations, zero false-clean results, and a successful 300-application sequential capacity run. The later user-supplied 50-image automatic-clear recognition gate remains failed at 0 of 14 selected-profile visual passes, despite containing all 17 known defects with zero false clearances and zero false deterministic rejections. Three independent final RTs returned APPROVED_WITH_KNOWN_GATE after the active release records, public index, and staged-byte manifest were corrected. The Azure deployment change requires a new immutable RT snapshot, public workflow proof, and requester-controlled gates before final submission status can pass.
+The source, README, numbered lifecycle documentation, governed fixtures, validation evidence, lockfiles, SBOMs, model manifest, container source, and deployment template form a complete local review package. Single-label and client-managed batch workflows are implemented. Current local gates include 191 passing Python tests, 46 passing frontend tests, 30 of 30 product-corpus cases, 456 of 456 expected check rows, 8 of 8 mutations, zero false-clean results, and a successful 300-application sequential capacity run. The later user-supplied 50-image automatic-clear recognition gate remains failed at 0 of 14 selected-profile visual passes, despite containing all 17 known defects with zero false clearances and zero false deterministic rejections. Three independent final RTs returned APPROVED_WITH_KNOWN_GATE after the active release records, public index, and staged-byte manifest were corrected. The Azure deployment change requires a new immutable RT snapshot, public workflow proof, and requester-controlled gates before final submission status can pass.
 
 The pre-Azure source candidate received three independent RT verdicts. Source publication and clean-checkout replay are complete. The authorized Azure change must receive a new three-reviewer RT decision, then the dispatch-only workflow must prove OCI construction, effective configuration, and public behavior. Requester UAT and final submission approval remain separate. The local official-source release recheck passed on 2026-09-01.
 

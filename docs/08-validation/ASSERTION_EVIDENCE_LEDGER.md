@@ -1,7 +1,7 @@
 # Assertion Evidence Ledger
 
 Document control ID: LV-VAL-AEL-001  
-Revision: 0.3  
+Revision: 0.4  
 Date: 2026-09-01  
 Product snapshot: `PENDING_FINAL_RELEASE_MANIFEST`  
 Overall state: INCOMPLETE
@@ -92,20 +92,20 @@ Coverage was calculated only across the governed business-module subsets, not in
 
 | Evidence | Result | SHA-256 |
 |---|---|---|
-| `docs/08-validation/evidence/local-root-check.txt` | Ruff, strict MyPy, 189 Python tests, ESLint, strict TypeScript, 46 frontend tests, production build, Chrome and Edge core E2E, Chrome privacy E2E, and Unicode scan PASS | `e34f06f1b308f98da4338c8d4f01a371105ae5fe2f384c30860dac6e99edd4c4` |
+| `docs/08-validation/evidence/local-root-check.txt` | Ruff, strict MyPy, 191 Python tests, ESLint, strict TypeScript, 46 frontend tests, production build, Chrome and Edge core E2E, Chrome privacy E2E, and Unicode scan PASS | `83ed399c35e3dede0fa1072d0630462a2f89fd05f8f478b84240460e3395345f` |
 | `docs/08-validation/evidence/governed-coverage-summary.json` | All four governed coverage scopes PASS | `c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351` |
-| `docs/08-validation/evidence/local-product-corpus.json` | 30 of 30 cases, 456 of 456 rows, 8 of 8 mutations, zero false clean | `1ba32fa5dfee5f355f390594881a1e2766ab88c3ab957380b07107d2e6800f84` |
-| `docs/08-validation/evidence/local-performance.json` | Warm 30 of 30 at 2,374.123 ms p95; cold 5 of 5 at 7,531.501 ms p95 | `89c90fd352cc906c52587cd308e8154d61f3fbe147fb59c73bf42a03a7e078d1` |
-| `docs/08-validation/evidence/local-page-load.json` | Five of five loads; 113.052 ms p95 | `ce30bd63f8d659a8821dd2bd151dfa241bfa0627f156aedb2fbc5ef9b1e130de` |
-| `docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json` | 50 focused and 189 full Python tests PASS with cleanup/canary evidence and current source hashes | `6039667c286d471337f50d5b0fdd2736d2c5fd13bcc8f32c3c1cdf2a91d08d2b` |
-| `docs/08-validation/evidence/security-post-fix/source-security-scan.json` | Runtime content, path, and no-required-egress source checks PASS; deployed deny-policy enforcement remains BLOCKED | `7228369c2aeed1be3fe8e5bc91aa93868f1593ca1e5d9604419dcc731dbb94ad` |
-| `docs/08-validation/evidence/security-post-fix/SECURITY_POST_FIX_REPORT.md` | Security lifecycle and source evidence summary; all local assertions PASS | `ce22ba442ef263bb9ed9d7bdb23f641f1f0ac80f2e99f8dd9b15bcc275082ea4` |
-| `docs/08-validation/evidence/browser-privacy-matrix.json` | Complete required Chrome browser lifecycle and storage matrix PASS | `0799aa882e012d58ee69bf4bf26c67c77dfbaeb644623533c1cd1a5a6ab235aa` |
-| `docs/08-validation/evidence/total-phase-matrix.json` | All 11 recorded phase groups PASS, all current source hashes match, and project/temp paths are sanitized | `0b67c9a6f0839c7a168fbdb5e82b96aa3995036e4a96b1ac85f78e5e75362a47` |
-| `README.md` | Setup, architecture, Azure path, assumptions, trade-offs, limitations, and evidence claims are current | `75b98693d4a88135f2bc736db38aa04bc945839e4ea5b9b34119a3e7278653ac` |
+| `docs/08-validation/evidence/local-product-corpus.json` | 30 of 30 cases, 456 of 456 rows, 8 of 8 mutations, zero false clean | `e58baf5e041a8311c72f8e79b244f1b19ba52df240ff233c646691a978293187` |
+| `docs/08-validation/evidence/local-performance.json` | Warm 30 of 30 at 2,374.123 ms p95; cold 5 of 5 at 7,531.501 ms p95 | `c349e8465ecd40c30941176ab0e12f63ee0c32d437dc1920430a76dca3ee0119` |
+| `docs/08-validation/evidence/local-page-load.json` | Five of five loads; 113.052 ms p95 | `d1a1d53097c47729e509634771dd0edaefef38f550ffd0dba025e22bbc203ee5` |
+| `docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json` | 50 focused and 191 full Python tests PASS with cleanup/canary evidence and current source hashes | `30cad5953bd0fc6d787dbfb7e76c1050f83af4b56eb5cbe3a1f45b18db36b97b` |
+| `docs/08-validation/evidence/security-post-fix/source-security-scan.json` | Runtime content, path, and no-required-egress source checks PASS; deployed deny-policy enforcement remains BLOCKED | `dc4037c19c4151218ea58fa877dfb7a092b22e91bf06c31f4b2c1024e53c22e7` |
+| `docs/08-validation/evidence/security-post-fix/SECURITY_POST_FIX_REPORT.md` | Security lifecycle and source evidence summary; all local assertions PASS | `0bd0c7462ce8446965a8d6df4b6448a5df076758963e664837090bd7f10f8d7e` |
+| `docs/08-validation/evidence/browser-privacy-matrix.json` | Complete required Chrome browser lifecycle and storage matrix PASS | `89c8c5100f6913a59d58a8c7cf1602be952e5a25bda3f6da941030243d3b6679` |
+| `docs/08-validation/evidence/total-phase-matrix.json` | All 11 recorded phase groups PASS, all current source hashes match, and project/temp paths are sanitized | `cfd061312724cbfb295a1b27decf4baa030ebf88da10179e39c28300926158bc` |
+| `README.md` | Setup, architecture, Azure path, assumptions, trade-offs, limitations, and evidence claims are current | `3c4cb8148a4dfd280e7baaa50e7aac0b97700d1431fa19812d2a5130acc9bb12` |
 | `docs/09-qa-qc-uat/DEFECT_LEDGER.md` | Current defect dispositions retain no open stop-ship, high, or medium local defect | `99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65` |
-| `docs/08-validation/VALIDATION_PROTOCOL_RESULTS.md` | Revision 1.9 records the 189-test root gate and the unchanged incomplete composite | `9ac38e4ff64c81d63387aff05182f44be0ff7dae9e6debb746b89977a77d458e` |
-| `docs/10-release/RELEASE_CANDIDATE_STATUS.md` | Revision 2.0 records the authorized Azure sequence without promoting live gates | `e7d7c47539ae3384cbc0699553dcfff2395ffbcab9356f85d2b029316472d3d1` |
+| `docs/08-validation/VALIDATION_PROTOCOL_RESULTS.md` | Revision 2.0 records the 191-test root gate and the unchanged incomplete composite | `ecb3ec146a8498b4aa4b7b1c4d5560dba42790f2106f22df93051f1b10c82bce` |
+| `docs/10-release/RELEASE_CANDIDATE_STATUS.md` | Revision 2.0 records the authorized Azure sequence without promoting live gates | `ca56bd7225b48ee7eb5221e7a7c2da89efda10b0ca89af3ca6d6e0a652859056` |
 | `docs/04-i2r-ae/02_I2R_DATA_INTERFACE_SECURITY.md` | LV-I2R-002 controls timing, phase, Azure identity, and public-edge behavior | `fbf36ebde270227c8bea81ab8ce844edcc3b15c3ae0d857c209779682470d258` |
 | `docs/04-i2r-ae/09_I2R_AS_BUILT_SECURITY_RUNTIME_ADDENDUM.md` | LV-I2R-009 remains the active as-built runtime interpretation | `4a41c06df4d26b1bcdaa7d7b7f3872036c90274f8d3e3da458cf4b8eedd40960` |
 | `docs/05-frd/01_FEATURE_REQUIREMENTS_DOCUMENT.md` | LV-FRD-001 includes the selected-edge FR-040 acceptance baseline | `42eb9c09de335249624caa4c4b889bcd0e78954ef37005ba0f2df622683baed6` |
@@ -113,8 +113,8 @@ Coverage was calculated only across the governed business-module subsets, not in
 | `docs/05-frd/I2R_FRD_RT_REMEDIATION.md` | LV-FRD-003 Revision 1.4 controlled change record | `04ad1dfb73558e1904c9272429662d84837173279d3eec7800b2d7256458ea66` |
 | `docs/09-qa-qc-uat/evidence/UAT_REVIEWER_1.md` | UAT-001 and UAT-002 PASS | `a53607f716b213ea99eb6eada76fcee2c484aff8ecba46b86f37636d9fc545bf` |
 | `docs/09-qa-qc-uat/evidence/UAT_REVIEWER_2.md` | UAT-001 and UAT-002 PASS | `001181b61ba6810417127cfb1881b084d5d8ce865ce49806ec268d1180034b49` |
-| `docs/08-validation/evidence/pip-audit.json` | 57 synchronized packages, zero known vulnerabilities | `2586ffbfd9a72cd00e2f8b975e925a360e56521c528383872675095c1a9335da` |
-| `docs/08-validation/evidence/npm-audit-production.json` | Zero production vulnerabilities | `4bf7808ba7730114a719cd9f15cb3ae5aa39c1fe0fcda99f22df22a7d3cd2065` |
+| `docs/08-validation/evidence/pip-audit.json` | 57 synchronized packages, zero known vulnerabilities | `d3b4d17ec0f481ec738f98472137305f087e61dc79db769a47fc1e168708db43` |
+| `docs/08-validation/evidence/npm-audit-production.json` | Zero production vulnerabilities | `58333c4428ab2d49db9b94a5f56fae89c945cd81c0cb6e71247642d59beede33` |
 | `docs/08-validation/evidence/repository-neutral-path-scan.txt` | Zero requester-specific absolute paths and zero raw-evidence profile paths | `5ebf59d3bed335ac6e15edd1015e36252ffccb03d09712691fcc3629c5203fa4` |
 
 ## 5. Blocked assertions
@@ -151,7 +151,7 @@ The following 12 assertions are the only records using `PENDING_REQUESTER_GATE`:
 ## 7. Defect-ledger cross-check
 
 - `QA-002`, governed coverage, is CLOSED and linked to the passing coverage assertions.
-- `QA-003`, lifecycle and privacy evidence, is CLOSED and linked to the current 50-focused and 189-full-test post-fix matrix assertions.
+- `QA-003`, lifecycle and privacy evidence, is CLOSED and linked to the current 50-focused and 191-full-test post-fix matrix assertions.
 - `A11Y-001`, hidden duplicate keyboard focus, is CLOSED and linked to the manual keyboard retest.
 - `QA-004`, two independent timed UAT reviewers, is CLOSED and linked to both signed reviewer records.
 - `QA-001`, the missing assertion-level evidence ledger, is CLOSED by this independently reconciled human and machine package.

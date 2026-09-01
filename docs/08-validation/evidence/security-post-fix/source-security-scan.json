@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0.0",
   "evidenceId": "T-029-SOURCE-SECURITY-SCAN",
-  "createdAtUtc": "2026-09-01T20:26:17.953738+00:00",
-  "snapshotId": "15996cc878663c5961d7983fa38234967182924910fe377e48e1e0fabb548522",
+  "createdAtUtc": "2026-09-01T20:58:06.890310+00:00",
+  "snapshotId": "639d44283e0f97f0a08672d27de5087bb20b3090a8b0295b930589f759c49baa",
   "status": "PASS",
   "scope": [
     "backend/labelverify/__init__.py",
