@@ -27,17 +27,15 @@ try {
         Pop-Location
     }
 
-    $dashMatches = rg -n -P "[\x{2010}-\x{2015}]" . `
-        -g "!.venv/**" `
-        -g "!frontend/node_modules/**" `
-        -g "!research/**" `
-        -g "!*.sha256"
+    $dashMatches = git grep -n -I -P "[\x{2010}-\x{2015}]" -- . `
+        ":(exclude)research/**" `
+        ":(exclude)*.sha256"
     if ($LASTEXITCODE -eq 0) {
         $dashMatches
         throw "Prohibited Unicode dash characters found."
     }
     if ($LASTEXITCODE -ne 1) {
-        throw "Unicode scan failed to execute."
+        throw "Tracked-source Unicode scan failed to execute."
     }
 
     $global:LASTEXITCODE = 0

@@ -94,6 +94,8 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate() -> None:
     assert '.summary == "Review needed"' in workflow
     assert "scripts/validate_product_corpus.py" in workflow
     assert "$global:LASTEXITCODE = 0" in root_gate
+    assert "git grep -n -I -P" in root_gate
+    assert "rg -n" not in root_gate
     assert "scripts/scan_public_personal_details.py" in workflow
     assert "secrets.LABELVERIFY_PROHIBITED_PERSONAL_TERMS" in workflow
     assert workflow.index("Capture a governed prior deployment") < workflow.index(
