@@ -92,7 +92,7 @@ Coverage was calculated only across the governed business-module subsets, not in
 
 | Evidence | Result | SHA-256 |
 |---|---|---|
-| `docs/08-validation/evidence/local-root-check.txt` | Ruff, strict MyPy, 191 Python tests, ESLint, strict TypeScript, 46 frontend tests, production build, Chrome and Edge core E2E, Chrome privacy E2E, and Unicode scan PASS | `83ed399c35e3dede0fa1072d0630462a2f89fd05f8f478b84240460e3395345f` |
+| `docs/08-validation/evidence/local-root-check.txt` | Ruff, strict MyPy, 191 Python tests, ESLint, strict TypeScript, 46 frontend tests, production build, Chrome and Edge core E2E, Chrome privacy E2E, and Unicode scan PASS | `06ea5e260ead45ad68654dcd5007d921b7752b9fd6debbc9f11d389522d1b945` |
 | `docs/08-validation/evidence/governed-coverage-summary.json` | All four governed coverage scopes PASS | `c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351` |
 | `docs/08-validation/evidence/local-product-corpus.json` | 30 of 30 cases, 456 of 456 rows, 8 of 8 mutations, zero false clean | `e58baf5e041a8311c72f8e79b244f1b19ba52df240ff233c646691a978293187` |
 | `docs/08-validation/evidence/local-performance.json` | Warm 30 of 30 at 2,374.123 ms p95; cold 5 of 5 at 7,531.501 ms p95 | `c349e8465ecd40c30941176ab0e12f63ee0c32d437dc1920430a76dca3ee0119` |
@@ -100,7 +100,7 @@ Coverage was calculated only across the governed business-module subsets, not in
 | `docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json` | 50 focused and 191 full Python tests PASS with cleanup/canary evidence and current source hashes | `30cad5953bd0fc6d787dbfb7e76c1050f83af4b56eb5cbe3a1f45b18db36b97b` |
 | `docs/08-validation/evidence/security-post-fix/source-security-scan.json` | Runtime content, path, and no-required-egress source checks PASS; deployed deny-policy enforcement remains BLOCKED | `dc4037c19c4151218ea58fa877dfb7a092b22e91bf06c31f4b2c1024e53c22e7` |
 | `docs/08-validation/evidence/security-post-fix/SECURITY_POST_FIX_REPORT.md` | Security lifecycle and source evidence summary; all local assertions PASS | `0bd0c7462ce8446965a8d6df4b6448a5df076758963e664837090bd7f10f8d7e` |
-| `docs/08-validation/evidence/browser-privacy-matrix.json` | Complete required Chrome browser lifecycle and storage matrix PASS | `89c8c5100f6913a59d58a8c7cf1602be952e5a25bda3f6da941030243d3b6679` |
+| `docs/08-validation/evidence/browser-privacy-matrix.json` | Complete required Chrome browser lifecycle and storage matrix PASS | `467d181bdcd361aece05b6fc9e1877d8342db13fff8cf17fa5f37034333ec1cf` |
 | `docs/08-validation/evidence/total-phase-matrix.json` | All 11 recorded phase groups PASS, all current source hashes match, and project/temp paths are sanitized | `cfd061312724cbfb295a1b27decf4baa030ebf88da10179e39c28300926158bc` |
 | `README.md` | Setup, architecture, Azure path, assumptions, trade-offs, limitations, and evidence claims are current | `3c4cb8148a4dfd280e7baaa50e7aac0b97700d1431fa19812d2a5130acc9bb12` |
 | `docs/09-qa-qc-uat/DEFECT_LEDGER.md` | Current defect dispositions retain no open stop-ship, high, or medium local defect | `99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65` |

@@ -48,7 +48,7 @@ def test_public_manifest_excludes_local_controls_and_nonredistributable_images(
 
     attributes = tmp_path / ".gitattributes"
     evidence = tmp_path / "evidence.json"
-    attributes.write_text("*.json text eol=lf\n", encoding="utf-8")
+    attributes.write_text("* text=auto eol=lf\n*.ps1 text eol=crlf\n", encoding="utf-8")
     evidence.write_bytes(b'{"result":"pass"}\r\n')
 
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
@@ -58,7 +58,13 @@ def test_public_manifest_excludes_local_controls_and_nonredistributable_images(
         check=True,
     )
 
-    entries = dict(staged_file_hashes(tmp_path, output))
+    subprocess.run(["git", "config", "core.autocrlf", "true"], cwd=tmp_path, check=True)
+    crlf_native_entries = dict(staged_file_hashes(tmp_path, output))
+    subprocess.run(["git", "config", "core.autocrlf", "input"], cwd=tmp_path, check=True)
+    lf_native_entries = dict(staged_file_hashes(tmp_path, output))
 
-    assert entries["evidence.json"] == hashlib.sha256(b'{"result":"pass"}\n').hexdigest()
-    assert entries["evidence.json"] != hashlib.sha256(evidence.read_bytes()).hexdigest()
+    assert crlf_native_entries == lf_native_entries
+    assert (
+        crlf_native_entries["evidence.json"] == hashlib.sha256(b'{"result":"pass"}\n').hexdigest()
+    )
+    assert crlf_native_entries["evidence.json"] != hashlib.sha256(evidence.read_bytes()).hexdigest()
