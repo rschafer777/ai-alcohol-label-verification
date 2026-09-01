@@ -241,7 +241,7 @@ The package promises `source -> decision -> requirement -> component -> test -> 
 
 **Required correction**
 
-- Add a sanitized assignment baseline or atomic source-statement register that preserves every relevant statement with stable locators such as `S-001 Deliverables`, `S-001 Sarah/latency`, and `S-001 Jenny/image-quality`.
+- Add a sanitized assignment baseline or atomic source-statement register that preserves every relevant statement with stable locators such as `S-001 Deliverables`, `S-001 Deputy-Director/latency`, and `S-001 Junior-Agent/image-quality`.
 - Add explicit source locator columns to every `SRC-NNN` row.
 - Add source records for requester follow-ups, including repository contents, generated-design treatment, and the no-em-dash rule.
 - Split `SRC-019`: capitalization variation is STATED; punctuation normalization is a reconstructed comparison-policy candidate pending field-specific validation.

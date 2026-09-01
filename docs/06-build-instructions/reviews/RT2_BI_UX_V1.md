@@ -19,7 +19,7 @@ No material UX, stakeholder, or assignment-fit finding remains. The BI package i
 
 ### First-time and low-tech journey
 
-`WP-005` assigns the neutral first-load notice, typed form, conditional origin, 1-panel and 6-panel intake, validation focus, Try sample, and guarded Start over behavior. `WP-006` carries the processing, result, evidence, recovery, and session-only reviewer states. `WP-011` requires two independent Try sample sessions and two independent manual sessions. `UAT-001` and `UAT-002` make no-help completion, time, error correction, evidence inspection, and reset binary. This preserves the Sarah, Dave, and evaluator usability objective without adding navigation or workflow complexity.
+`WP-005` assigns the neutral first-load notice, typed form, conditional origin, 1-panel and 6-panel intake, validation focus, Try sample, and guarded Start over behavior. `WP-006` carries the processing, result, evidence, recovery, and session-only reviewer states. `WP-011` requires two independent Try sample sessions and two independent manual sessions. `UAT-001` and `UAT-002` make no-help completion, time, error correction, evidence inspection, and reset binary. This preserves the deputy-director, senior-agent, and evaluator usability objective without adding navigation or workflow complexity.
 
 ### Complete result, evidence, warning, and human judgment
 

@@ -158,7 +158,7 @@ Required remediation:
 - The option comparison now avoids unsupported scoring and gives architecture-reopening fallbacks rather than silent scope loss.
 - The warmed browser path includes client, upload, server, transfer, render, and live-region completion. The 42-attempt distribution is complete and does not replace failures with retries.
 - Cold performance is reported honestly as not closed locally. Always-on deployment, readiness, and deployed release gates prevent the local miss from being mislabeled as a pass.
-- Brand capitalization and punctuation fixtures now preserve Dave's judgment example as Review.
+- Brand capitalization and punctuation fixtures now preserve the senior agent's judgment example as Review.
 - Batch remains gated after the core rather than becoming an unsupported assignment blocker.
 - Input, memory, worker ownership, cleanup, proxy identity, no-store, egress, release tuple, model integrity, and accessibility responsibilities are substantially more precise than in the initial BAIRD draft.
 

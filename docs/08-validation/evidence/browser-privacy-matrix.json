@@ -61,7 +61,7 @@
       "serviceWorkerScopes": [],
       "sessionStorageKeys": []
     },
-    "cancelElapsedMs": 88
+    "cancelElapsedMs": 104
   },
   "pass": true
 }

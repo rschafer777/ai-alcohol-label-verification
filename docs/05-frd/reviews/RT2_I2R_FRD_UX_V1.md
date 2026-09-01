@@ -17,7 +17,7 @@ The approved BAIRD requires a first-time evaluator to complete both Try sample a
 
 The FRD decomposes the workflow into technical feature checks in `FR-002` through `FR-007`, `FR-023`, and `FR-027`, but none has binary acceptance for a first-time, low-tech evaluator completing the full manual journey without outside instruction. `FR-002` tests only Try sample. The remaining rows test schema, conditional fields, panel mechanics, error focus, request status, result rendering, and clearing state in isolation. `T-001` through `T-007` are described as UI and primary-journey tests at `docs/05-frd/02_FRD_TEST_TRACEABILITY.md:10`, but no feature acceptance requires the first-time usability script that the I2R trace promises.
 
-This is material because an implementation can pass every current FRD row while remaining confusing in the actual agent workflow. Sarah's clean-and-obvious requirement and the V4 BAIRD correction are therefore not fully protected downstream.
+This is material because an implementation can pass every current FRD row while remaining confusing in the actual agent workflow. The deputy director's clean-and-obvious requirement and the V4 BAIRD correction are therefore not fully protected downstream.
 
 Required remediation:
 
@@ -42,7 +42,7 @@ Required remediation:
 
 ## Unaffected review areas
 
-The selected architecture is a bounded modular monolith with batch excluded from the required release. No material architecture overbuild was found. The five-second warmed goal, cold-start limitation, blocked-egress behavior, privacy lifecycle, neutral branding, human authority, false-clean prevention, evidence focus, accessibility, plain recovery states, public evaluator path, and Grok/Gemini adopt-or-reject disposition remain aligned with Sarah, Dave, Jenny, IT, and the assignment.
+The selected architecture is a bounded modular monolith with batch excluded from the required release. No material architecture overbuild was found. The five-second warmed goal, cold-start limitation, blocked-egress behavior, privacy lifecycle, neutral branding, human authority, false-clean prevention, evidence focus, accessibility, plain recovery states, public evaluator path, and Grok/Gemini adopt-or-reject disposition remain aligned with the deputy director, senior agent, junior agent, IT administrator, and the assignment.
 
 The FRD contains 36 contiguous `FR-NNN` requirements and 36 contiguous `T-NNN` identifiers, and all 31 BAIRD requirements appear in FRD upstream mappings. Those structural counts do not close the two missing or contradictory user-visible acceptance contracts above.
 

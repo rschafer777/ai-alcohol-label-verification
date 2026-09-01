@@ -150,7 +150,7 @@ The omission also weakens stakeholder trust. An agent sees alcohol content Match
 
 #### Impact
 
-A clear label with `GOVERNMENT WARNING` and no colon can receive Match for the heading. If the body and other fields match, the submission can receive `No differences found`. An altered heading such as `GOVERNMENT WARNING EXTRA:` can follow the same false-Match path. This is precisely the warning exactness that Jenny emphasized and that the assignment asks the prototype to demonstrate.
+A clear label with `GOVERNMENT WARNING` and no colon can receive Match for the heading. If the body and other fields match, the submission can receive `No differences found`. An altered heading such as `GOVERNMENT WARNING EXTRA:` can follow the same false-Match path. This is precisely the warning exactness that the junior agent emphasized and that the assignment asks the prototype to demonstrate.
 
 Current primary sources reinforce the internal BAIRD contract. [27 CFR 16.21](https://www.ecfr.gov/current/title-27/chapter-I/subchapter-A/part-16/subpart-C/section-16.21) prints the required statement beginning with `GOVERNMENT WARNING:`. [TTB health-warning guidance](https://www.ttb.gov/regulated-commodities/beverage-alcohol/distilled-spirits/ds-labeling-home/ds-health-warning) likewise includes the colon and states that the warning must appear as prescribed.
 

@@ -67,7 +67,7 @@ The authoritative assertion records are in `docs/08-validation/evidence/assertio
 | `T-032` | `FR-032` | FINAL_PASS | 30 cases, 456 checks, 8 mutations, and zero false clean PASS |
 | `T-033` | `FR-033` | INCOMPLETE | Local delivery package PASS; two OCI assertions BLOCKED; five requester assertions pending |
 | `T-034` | `FR-034` | FINAL_PASS | Static architecture and all governed coverage thresholds PASS |
-| `T-035` | `FR-035` | FINAL_PASS | Unicode and repository-neutral path scans PASS |
+| `T-035` | `FR-035` | FINAL_PASS | Unicode, unnecessary-personal-detail, and repository-neutral path scans PASS |
 | `T-036` | `FR-036` | FINAL_PASS | Batch no-go assertion PASS |
 | `T-037` | `FR-037` | LOCAL_READY | Two independent timed local UAT reviewers PASS; requester UAT pending |
 | `T-038` | `FR-038` | LOCAL_READY | Local rule provenance PASS; release source recheck pending |
@@ -92,7 +92,7 @@ Coverage was calculated only across the governed business-module subsets, not in
 
 | Evidence | Result | SHA-256 |
 |---|---|---|
-| `docs/08-validation/evidence/local-root-check.txt` | Ruff, strict MyPy, 191 Python tests, ESLint, strict TypeScript, 46 frontend tests, production build, Chrome and Edge core E2E, Chrome privacy E2E, and Unicode scan PASS | `47fbb7a2d900ce1bf99ef7f1a670870eda3e8949583fc7a373b525c172ae991d` |
+| `docs/08-validation/evidence/local-root-check.txt` | Ruff, strict MyPy, 191 Python tests, ESLint, strict TypeScript, 46 frontend tests, production build, Chrome and Edge core E2E, Chrome privacy E2E, and Unicode scan PASS | `0b53fb46b3a69f4d5c585d642a7adb05385c66f681a207a534db7a8cd5728d0a` |
 | `docs/08-validation/evidence/governed-coverage-summary.json` | All four governed coverage scopes PASS | `c578840402c2fc62186a18051c024f264041485241d3ed42ab17362b10d83351` |
 | `docs/08-validation/evidence/local-product-corpus.json` | 30 of 30 cases, 456 of 456 rows, 8 of 8 mutations, zero false clean | `0d1346095ae578ed24d0bc6fc8e067d7f7f9bd1d085cc476705f0c12e09b4a1e` |
 | `docs/08-validation/evidence/local-performance.json` | Warm 30 of 30 at 2,374.123 ms p95; cold 5 of 5 at 7,531.501 ms p95 | `c349e8465ecd40c30941176ab0e12f63ee0c32d437dc1920430a76dca3ee0119` |
@@ -100,12 +100,12 @@ Coverage was calculated only across the governed business-module subsets, not in
 | `docs/08-validation/evidence/security-post-fix/lifecycle-matrix.json` | 50 focused and 191 full Python tests PASS with cleanup/canary evidence and current source hashes | `30cad5953bd0fc6d787dbfb7e76c1050f83af4b56eb5cbe3a1f45b18db36b97b` |
 | `docs/08-validation/evidence/security-post-fix/source-security-scan.json` | Runtime content, path, and no-required-egress source checks PASS; deployed deny-policy enforcement remains BLOCKED | `dc4037c19c4151218ea58fa877dfb7a092b22e91bf06c31f4b2c1024e53c22e7` |
 | `docs/08-validation/evidence/security-post-fix/SECURITY_POST_FIX_REPORT.md` | Security lifecycle and source evidence summary; all local assertions PASS | `0bd0c7462ce8446965a8d6df4b6448a5df076758963e664837090bd7f10f8d7e` |
-| `docs/08-validation/evidence/browser-privacy-matrix.json` | Complete required Chrome browser lifecycle and storage matrix PASS | `89c8c5100f6913a59d58a8c7cf1602be952e5a25bda3f6da941030243d3b6679` |
+| `docs/08-validation/evidence/browser-privacy-matrix.json` | Complete required Chrome browser lifecycle and storage matrix PASS | `2506d3efbf02389da50a9aadc4aaf3601e22f2dffa7618c4364218d794d180bf` |
 | `docs/08-validation/evidence/total-phase-matrix.json` | All 11 recorded phase groups PASS, all current source hashes match, and project/temp paths are sanitized | `cfd061312724cbfb295a1b27decf4baa030ebf88da10179e39c28300926158bc` |
 | `README.md` | Setup, architecture, Azure path, assumptions, trade-offs, limitations, and evidence claims are current | `3c4cb8148a4dfd280e7baaa50e7aac0b97700d1431fa19812d2a5130acc9bb12` |
 | `docs/09-qa-qc-uat/DEFECT_LEDGER.md` | Current defect dispositions retain no open stop-ship, high, or medium local defect | `99a5bd0281d14d76e39b0a3b0962523946db7f4d74c2e87c1af0e523291f9d65` |
 | `docs/08-validation/VALIDATION_PROTOCOL_RESULTS.md` | Revision 2.0 records the 191-test root gate and the unchanged incomplete composite | `ecb3ec146a8498b4aa4b7b1c4d5560dba42790f2106f22df93051f1b10c82bce` |
-| `docs/10-release/RELEASE_CANDIDATE_STATUS.md` | Revision 2.0 records the authorized Azure sequence without promoting live gates | `8fbbd336bcc6995e603bd8953ab2e8cab5b4337fe94065f08ab5aa086e47e100` |
+| `docs/10-release/RELEASE_CANDIDATE_STATUS.md` | Revision 2.0 records the authorized Azure sequence without promoting live gates | `6ac926cfb7596f2b89c56b09c8fd723032491a464608d0e9d5f72567afac3c1e` |
 | `docs/04-i2r-ae/02_I2R_DATA_INTERFACE_SECURITY.md` | LV-I2R-002 controls timing, phase, Azure identity, and public-edge behavior | `fbf36ebde270227c8bea81ab8ce844edcc3b15c3ae0d857c209779682470d258` |
 | `docs/04-i2r-ae/09_I2R_AS_BUILT_SECURITY_RUNTIME_ADDENDUM.md` | LV-I2R-009 remains the active as-built runtime interpretation | `4a41c06df4d26b1bcdaa7d7b7f3872036c90274f8d3e3da458cf4b8eedd40960` |
 | `docs/05-frd/01_FEATURE_REQUIREMENTS_DOCUMENT.md` | LV-FRD-001 includes the selected-edge FR-040 acceptance baseline | `42eb9c09de335249624caa4c4b889bcd0e78954ef37005ba0f2df622683baed6` |

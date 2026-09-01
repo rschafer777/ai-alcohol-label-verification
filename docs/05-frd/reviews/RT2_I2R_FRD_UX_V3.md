@@ -43,9 +43,9 @@ References to the rejected 3 second value remain only in sealed historical revie
 
 ## Focused regression and BI readiness
 
-- Sarah's speed and simplicity objectives remain represented through the five-second normal profile, obvious sample and manual paths, plain processing and recovery states, and no batch release work.
-- Dave's judgment boundary remains intact through Review handling for case, punctuation, ambiguity, and immutable machine evidence.
-- Jenny's warning requirements remain explicit, independently testable, and honest about image-based physical-size limits.
+- The deputy director's speed and simplicity objectives remain represented through the five-second normal profile, obvious sample and manual paths, plain processing and recovery states, and no batch release work.
+- The senior agent's judgment boundary remains intact through Review handling for case, punctuation, ambiguity, and immutable machine evidence.
+- The junior agent's warning requirements remain explicit, independently testable, and honest about image-based physical-size limits.
 - IT constraints remain represented through no COLA integration, no required inference egress, bounded public upload controls, no intentional persistence, content-free logs, and explicit cleanup.
 - The evaluator path remains public, unofficial, synthetic-data-first, accessible, documented, and backed by binary setup, performance, evidence, privacy, and delivery acceptance.
 - Evidence identity, error mapping, cancellation ownership, browser non-persistence, performance profiles, cold-start disclosure, accessibility, and Grok/Gemini adoption and rejection decisions show no material regression.
