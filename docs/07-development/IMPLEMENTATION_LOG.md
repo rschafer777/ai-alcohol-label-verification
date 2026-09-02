@@ -181,4 +181,4 @@ The decisive rerun passed all 30 cases, all 456 expected result rows, and all 8 
 - Python dependency audit: no known vulnerabilities.
 - Production npm audit: zero vulnerabilities.
 
-The local implementation completed internal UAT and independent RT inspection with the documented automatic-clear recognition gate. The protected GitHub workflow subsequently proved OCI construction, non-root local-container readiness, Azure deployment, configuration readback, and rollback on prior revisions. The current OCR lane correction must repeat the protected deployment and independent live UAT before its deployed performance evidence can pass. Requester acceptance remains separate.
+The local implementation completed internal UAT and independent RT inspection with the documented automatic-clear recognition gate. Protected run `33583826159` subsequently proved OCI construction, non-root local-container readiness, Azure deployment, configuration readback, and the corrected three-attempt public performance gate. Independent browser and direct API UAT also passed against that build. Requester acceptance remains separate.

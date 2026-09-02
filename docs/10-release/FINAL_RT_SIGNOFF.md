@@ -1,9 +1,9 @@
-# Pre-Azure Final Red-Team Signoff
+# Final Red-Team Signoff History
 
 Document control ID: LV-REL-003  
-Revision: 2.5  
+Revision: 3.0  
 Date: 2026-09-01  
-Status: Historical signoff for the pre-Azure source snapshot; superseded for deployment changes
+Status: Pre-Azure signoff retained; post-Azure documentation RT complete
 
 ## 1. Candidate under review
 
@@ -35,3 +35,17 @@ The release manifest was regenerated from the exact staged Git tree after every 
 ## 4. Controlled disposition
 
 The current frozen snapshot has unanimous internal approval with one known gate. It is not corpus-UAT complete because the automatic-clear recognition gate remains failed at 0 of 14 selected-profile visual passes. The package must not be represented as fully validated, release-complete, or ready for final requester acceptance until that gate is resolved or the requester explicitly accepts the documented human-review limitation. Source publication is authorized. Public deployment remains a later requester-controlled step.
+
+## 5. Post-Azure final documentation RT cycle
+
+The post-Azure RT cycle reviewed staged tree `d2d2081f6c8359d25c08c7b0c4ca33e3d614e453` with release-manifest SHA-256 `d7772f8ff8a09fe53e86923e651d56d9d94afd34cf5a61ab1f9f051441e5d11a`.
+
+| Review | Scope | Initial finding | Final verdict |
+|---|---|---|---|
+| Requirements and product RT | Original assignment, stakeholder intake, batch, warning exactness, human judgment, difficult images, README deliverables, performance, and limitations | Active validation text contradicted the current passed OCI, Git, deployment, and source-recheck rows | APPROVE after correction |
+| Architecture and security RT | Local OCR boundary, Azure OIDC, immutable deployment, effective configuration, rollback, privacy, contract control, and manifest integrity | Human evidence-ledger description still named Release Candidate Revision 2.7 and a pending OCR correction | APPROVE after correction |
+| Adversarial evidence RT | Archive integrity, evidence hashes, hidden-test readiness, performance arithmetic, anti-gaming controls, public evidence, exclusions, and license status | No independent release blocker | APPROVE |
+
+All three reviewers independently confirmed that the reviewed archive contained 575 files, that the 574 manifest entries covered every file except the manifest itself, and that there were zero missing, extra, or mismatched hashes. The requirements reviewer also verified all 123 machine-ledger references, 26 human-ledger rows, and 77 product-corpus bindings. The corrected active documents preserve the passed take-home deployment gate while leaving automatic-clear recognition, native accessibility, deployed deny-by-default egress, extended deployed performance, and requester acceptance explicit.
+
+The full local gate passed against this candidate: Ruff, strict MyPy, 197 Python tests, ESLint, strict TypeScript, 46 frontend tests, the production build, Chrome core and privacy journeys, Edge core, and the tracked-source prohibited-dash scan. The final publication manifest is regenerated after adding this history record, followed by a narrow three-reviewer seal-integrity confirmation.

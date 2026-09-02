@@ -2052,7 +2052,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "INT-LEAD",
@@ -2094,7 +2094,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "INT-LEAD",
@@ -2255,7 +2255,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Independent accessibility reviewer 1",
@@ -2303,7 +2303,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Independent accessibility reviewer 1",
@@ -2349,7 +2349,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Independent accessibility reviewer 1",
@@ -2527,7 +2527,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Requester-controlled",
@@ -2570,7 +2570,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Requester-controlled",
@@ -2613,7 +2613,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Requester-controlled",
@@ -2656,7 +2656,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Requester-controlled",
@@ -2765,19 +2765,19 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         },
         {
           "path": "README.md",
-          "sha256": "e03762a2de19c26f6f0443bae2edade182f3f9d5a8b9489cf86a340d59a6cfe7"
+          "sha256": "3c744f8defead87eae3cf61478f0d7dde94c5e36ff8f1024a16916540db89299"
         },
         {
           "path": "docs/08-validation/VALIDATION_PROTOCOL_RESULTS.md",
-          "sha256": "ab99ca3967cb04d1e2500a8e4bdf0b27cc63cad1c54c7b1564798e24c517886f"
+          "sha256": "1c35e4dadc1e3928e25d629d44501cf1bbb6819a619a0ba3e57b521d04128b2c"
         },
         {
           "path": "docs/10-release/RELEASE_CANDIDATE_STATUS.md",
-          "sha256": "8f071e153175a98c598343c3f3efd97ee933ead49073130d8129512584e6054d"
+          "sha256": "ee9d6f8da01a75f033dc73eaedebdc9959fb5dbaaa6d88d4edb45cebb5491c0b"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -2820,7 +2820,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "INT-LEAD",
@@ -2862,7 +2862,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "INT-LEAD",
@@ -2904,7 +2904,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Requester-controlled",
@@ -2946,7 +2946,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Requester-controlled",
@@ -3276,7 +3276,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "VV-LEAD automated local harness",
@@ -3331,7 +3331,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Independent UAT reviewers 1 and 2",
@@ -3454,7 +3454,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Requester-controlled",
@@ -3560,7 +3560,7 @@
       "artifacts": [
         {
           "path": "docs/08-validation/evidence/browser-privacy-matrix.json",
-          "sha256": "63f30d8ff0ff5e0c6e3aec52ad53e5987536a85174dd329a7c7c2cb4a81d3130"
+          "sha256": "9d77ae856cb2d9347e71b21642f82d2a9eb75cbc4a4e9cd8574c0e778650194c"
         },
         {
           "path": "docs/08-validation/evidence/local-root-check.txt",
@@ -3568,7 +3568,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Playwright Chrome privacy matrix",
@@ -3665,7 +3665,7 @@
       "artifacts": [
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "Requester-controlled",
@@ -3809,7 +3809,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "INT-LEAD phase-matrix harness and root gate",
@@ -3858,7 +3858,7 @@
         },
         {
           "path": "docs/09-qa-qc-uat/DEFECT_LEDGER.md",
-          "sha256": "42833dc134aa62ea356bf036dde5731bcce6d9ef87635a9c9dbd449c8f89d3d6"
+          "sha256": "fd59b167e71ba841cbd9fa3e0e123d1302453eabffd6bd37b0d488cefcb96206"
         }
       ],
       "executor": "INT-LEAD security remediation",

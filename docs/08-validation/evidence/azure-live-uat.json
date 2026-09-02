@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "recordedAtUtc": "2026-09-02T02:47:12.213200Z",
+  "publicUrl": "https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io",
+  "workflow": {
+    "runId": 33583826159,
+    "runNumber": 9,
+    "url": "https://github.com/rschafer777/ai-alcohol-label-verification/actions/runs/33583826159",
+    "conclusion": "success",
+    "commit": "ee0a15160643c42d1d2b92646442927e53d7f21b",
+    "imageDigest": "sha256:c895a059a234255042c51de4030f6fe65c686d6f0fdcb439b2ff9226d8947363",
+    "serverDurationsMs": [5027.237, 4543.133, 4573.13],
+    "meanServerDurationMs": 4714.5,
+    "maximumServerDurationMs": 5027.237,
+    "passedGates": [
+      "source-quality",
+      "public-archive-privacy",
+      "product-corpus",
+      "oidc-authentication",
+      "immutable-image",
+      "local-digest-readiness",
+      "azure-effective-configuration",
+      "https-metadata-readiness",
+      "three-run-public-verification"
+    ]
+  },
+  "browserUat": {
+    "journey": "built-in two-panel sample",
+    "summary": "Review needed",
+    "serverWorkDisplay": "4.4s",
+    "checkCount": 19,
+    "nonMatchChecks": [
+      {"checkId": "warning_wording", "state": "Review"},
+      {"checkId": "warning_physical_size", "state": "Not verified"}
+    ],
+    "result": "PASS"
+  },
+  "directApiUat": {
+    "attempts": [
+      {"attempt": 1, "wallMs": 4569.755, "serverDurationMs": 4361.087},
+      {"attempt": 2, "wallMs": 4595.392, "serverDurationMs": 4387.021},
+      {"attempt": 3, "wallMs": 4524.842, "serverDurationMs": 4363.8}
+    ],
+    "expectedSummary": "Review needed",
+    "expectedCheckCount": 19,
+    "expectedNonMatchChecks": [
+      {"checkId": "warning_wording", "state": "Review"},
+      {"checkId": "warning_physical_size", "state": "Not verified"}
+    ],
+    "buildId": "ee0a15160643c42d1d2b92646442927e53d7f21b",
+    "result": "PASS"
+  },
+  "overallResult": "PASS",
+  "separateOpenGates": [
+    "50-image automatic-clear recognition",
+    "extended 30-run deployed performance",
+    "deny-by-default deployed egress",
+    "native accessibility checks",
+    "requester acceptance"
+  ]
+}

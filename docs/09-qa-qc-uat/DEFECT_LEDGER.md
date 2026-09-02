@@ -104,11 +104,11 @@ The security correction review also closed its circular-import regression before
 
 | ID | Type | Condition | Current status | Required closure evidence |
 |---|---|---|---|---|
-| `ENV-OCI-001` | Environment | No Docker, Podman, nerdctl, or Buildah executable is installed. | BLOCKED | Clean OCI build and rebuild, image digest, non-root identity, governed hashes, and readiness smoke. |
+| `ENV-OCI-001` | Environment | No Docker, Podman, nerdctl, or Buildah executable is installed on the development host. | CLOSED BY HOSTED PROOF | Protected run `33583826159` built the immutable image and proved local-digest non-root readiness and governed metadata on the hosted Linux runner. |
 | `ENV-NVDA-001` | Environment and action authorization | NVDA is not installed. Running the verified portable package requires requester confirmation at action time. | BLOCKED | Manual NVDA core-journey transcript against the final source snapshot. |
 | `ENV-A11Y-001` | Environment | The permitted browser connection does not expose native 200 percent browser zoom or a live manual Edge connection. | BLOCKED | Exact native 200 percent zoom inspection at 1024 by 768 and live manual Edge visual inspection. |
-| `REQ-GIT-001` | Authorization and publication | Requester authorized Git initialization and publication on 2026-09-01. | IN_PROGRESS | Push the verified commit and complete clean-checkout replay. |
-| `REQ-DEPLOY-001` | Authorization and deployed evidence | Requester authorized deployment and the governed workflow established the public Azure URL. The current OCR lane correction has not yet passed the protected workflow. | IN_PROGRESS | Exact corrected commit, immutable digest, effective configuration, three-run public timing evidence, and independent live UAT. |
+| `REQ-GIT-001` | Authorization and publication | Requester authorized Git initialization and publication on 2026-09-01. | PASS | The verified source is published on `main`; protected source gates and exact-checkout replay passed for commit `ee0a15160643c42d1d2b92646442927e53d7f21b`. |
+| `REQ-DEPLOY-001` | Authorization and deployed evidence | Requester authorized deployment and the governed workflow established the public Azure URL. | PASS | Run `33583826159` deployed the exact corrected commit and immutable digest, passed effective-configuration and three-run timing gates, and independent browser plus direct API UAT passed. |
 | `REQ-REG-001` | External verification | Final official-source regulatory recheck was completed on 2026-09-01. | PASS | Dated TTB and eCFR verification is recorded in the regulatory and technical source registers. |
 
 ## 9. Current defect conclusion

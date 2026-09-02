@@ -49,4 +49,4 @@ Acceptance results are retained in `docs/08-validation/evidence/`. The full loca
 
 ## 5. Deployment closure
 
-Local acceptance does not substitute for public performance proof. The exact accepted commit must still pass immutable OCI construction, local-digest readiness, Azure configuration readback, three consecutive public sample verifications with mean duration below 5 seconds and every duration below 9 seconds, independent live UAT, and the final requester gates.
+Protected run `33583826159` closed the public technical proof for `CC-001`. It passed immutable OCI construction, local-digest readiness, Azure configuration readback, and three consecutive public sample verifications with mean duration 4,714.500 ms and maximum duration 5,027.237 ms. Independent browser and direct API UAT then passed. The final documentation-only publication commit must repeat the protected workflow so the public build ID matches the final source snapshot. Requester code review, requester UAT, and final submission approval remain separate gates.

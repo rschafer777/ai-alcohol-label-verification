@@ -3,13 +3,13 @@
 Document control ID: LV-VAL-001  
 Revision: 2.0  
 Date: 2026-09-01  
-Status: Runnable local evidence complete; composite INCOMPLETE
+Status: Runnable local and take-home public evidence complete; composite INCOMPLETE
 
 ## 1. Gate conclusion
 
-The governed SDLC ledger contains 75 assertions across all 41 tests: 56 PASS, 0 FAIL, 0 NOT_RUN, 7 BLOCKED, and 12 `PENDING_REQUESTER_GATE`. A later user-supplied 50-image diagnostic adds a separate failed automatic-clear recognition gate: the visual oracle contains 33 pass and 17 do-not-pass images, while the local harness routes all 33 visual passes to review, detects 5 defects, holds 12 defects for review, clears no defect, and falsely rejects no visual pass. The candidate composite therefore remains INCOMPLETE and is not represented as a local or final PASS.
+The retained pre-Azure SDLC ledger contains 75 assertions across all 41 tests: 56 PASS, 0 FAIL, 0 NOT_RUN, 7 BLOCKED, and 12 `PENDING_REQUESTER_GATE`. Later protected workflow evidence closes its former repository, OCI, and take-home public URL gates without rewriting that historical compilation. A user-supplied 50-image diagnostic adds a separate failed automatic-clear recognition gate: the visual oracle contains 33 pass and 17 do-not-pass images, while the local harness routes all 33 visual passes to review, detects 5 defects, holds 12 defects for review, clears no defect, and falsely rejects no visual pass. The candidate composite therefore remains INCOMPLETE and is not represented as a final PASS.
 
-This is a local candidate conclusion. It does not convert OCI, Git, public deployment, official-source release recheck, or requester acceptance gates into PASS.
+The retained pre-Azure ledger is not rewritten after the fact. Later protected evidence closes its OCI, Git, take-home public deployment, and official-source release-recheck gates. It does not close the separate automatic-clear recognition, accessibility, deployed egress, extended-performance, or requester-acceptance gates.
 
 ## 2. Requirements chain
 
@@ -36,6 +36,8 @@ The implemented product remains a standalone, human-in-the-loop verification ass
 | Batch capacity and elapsed time | PASS | One warmed worker completed 10 in 28.775 seconds, 20 in 57.221 seconds, and 300 in 836.881 seconds; average 2,789.590 ms; maximum 3,947.798 ms; zero false-clean results |
 | User-supplied 50-image diagnostic | FAIL for automatic-clear recognition | Human oracle 33 pass and 17 do not pass; harness 0 pass, 45 review, and 5 do not pass; all 17 defects contained; zero false clearances; zero false deterministic rejections; selected-profile clear recognition 0 of 14 |
 | Resource envelope | PASS locally | Warm peak parent plus worker RSS 1,466,265,600 bytes and 300-application batch peak 847,306,752 bytes are inside the 2 GiB operating target; transient cold initialization peak 2,997,751,808 bytes is inside the selected 4 GiB Azure runtime envelope |
+| Protected Azure deployment | PASS | Run 33583826159 built and deployed the immutable digest, read back the effective 2 vCPU/4 GiB configuration, and passed HTTPS, metadata, readiness, and three complete public verification attempts at 4,714.500 ms mean and 5,027.237 ms maximum |
+| Independent live UAT | PASS | Public browser sample rendered 19 checks with 4.4 seconds server work; three direct attempts completed at 4,361.087, 4,387.021, and 4,363.800 ms with the exact expected Review result |
 | Security correction | PASS locally | Local lifecycle and security assertions passed; the current security-correction matrix and root regression each contain 197 passing tests including Azure identity, evidence binding, and deployment contracts |
 | Independent UAT | PASS locally | Two non-UI implementers passed both no-help timed journeys within the 3-minute and 7-minute limits |
 | Accessibility | INCOMPLETE | Automated Chrome/Edge and manual keyboard/focus evidence pass; native 200 percent zoom/manual Edge and NVDA are BLOCKED by the current environment |
@@ -48,6 +50,7 @@ Machine-readable evidence:
 - `docs/08-validation/evidence/local-product-corpus.json`
 - `docs/08-validation/evidence/local-performance.json`
 - `docs/08-validation/evidence/local-batch-performance.json`
+- `docs/08-validation/evidence/azure-live-uat.json`
 - `docs/08-validation/evidence/local-root-check.txt`
 - `docs/08-validation/evidence/governed-coverage-summary.json`
 - `docs/08-validation/evidence/browser-privacy-matrix.json`
@@ -85,12 +88,12 @@ The accepted local workflow supports:
 
 | Gate | Status | Reason |
 |---|---|---|
-| OCI build and runtime proof | PASS FOR PROVEN LIVE REVISION; CURRENT CORRECTION PENDING | The protected GitHub workflow built the immutable OCI digest and proved non-root readiness and metadata on its Linux runner. The corrected revision must repeat that proof. |
+| OCI build and runtime proof | PASS | The protected GitHub workflow built the immutable OCI digest and proved non-root readiness and metadata on its Linux runner for the corrected implementation. |
 | Native 200 percent zoom and live manual Edge | BLOCKED | The permitted browser connection cannot expose this native manual state |
 | NVDA manual journey | BLOCKED | NVDA is not installed and portable execution requires requester confirmation at action time |
 | Deployed network-egress enforcement | BLOCKED | The Azure Consumption environment does not establish the final deny-by-default federal egress policy |
-| Git repository and clean-checkout replay | PASS FOR PUBLISHED REVISION; CURRENT CORRECTION PENDING | Repository creation, source publication, clean clone, and exact manifest replay passed; the current correction must repeat the protected source gates after push. |
-| Public deployment and URL | LIVE, CORRECTION PENDING | The Azure URL is live on the last governed digest. The corrected revision must pass immutable deployment, configuration readback, and three-run public performance evidence. |
+| Git repository and clean-checkout replay | PASS | Repository creation, source publication, exact checkout, and protected source gates passed for the corrected implementation commit. |
+| Public deployment and URL | PASS FOR TAKE-HOME GATE | The corrected immutable digest, configuration readback, three-run public performance evidence, HTTPS controls, metadata, browser UAT, and direct API UAT passed. The extended 30-run deployed assertion remains separately pending. |
 | Final official TTB source recheck | PASS | The dated official-source release check was completed on 2026-09-01 and is retained in the regulatory and technical source registers. |
 | Requester code review and UAT | PENDING_REQUESTER_GATE | Follows internal clearance |
 
@@ -99,4 +102,4 @@ The accepted local workflow supports:
 Validation Protocol composite: INCOMPLETE.  
 Governed SDLC ledger assertions: 56 of 56 runnable assertions PASS.  
 Additional user-supplied image recognition gate: FAIL.  
-Next gate: clear the Azure RT findings, regenerate one immutable candidate manifest, configure the governed GitHub environment, and execute the authorized public workflow. Automatic clear recognition remains a separate failed gate that must improve without false clearances or false deterministic rejections, or receive explicit requester acceptance. Blocked and requester-controlled assertions remain explicit until their required environment or approval exists.
+Next gate: seal the live evidence, complete the final assignment RT cycle, repeat the protected workflow for the final documentation-only publication commit, and present the candidate for requester code review and UAT. Automatic-clear recognition remains a separate failed gate that must improve without false clearances or false deterministic rejections, or receive explicit requester acceptance. Remaining accessibility, network-policy, extended-performance, and requester-controlled assertions stay explicit.
