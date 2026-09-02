@@ -18,6 +18,7 @@ import psutil  # type: ignore[import-untyped]
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "backend"))
 
+from labelverify.contracts.loader import contracts  # noqa: E402
 from labelverify.contracts.models import ReferenceRecord, VerificationResult  # noqa: E402
 from labelverify.orchestration.supervisor import WorkerSupervisor  # noqa: E402
 
@@ -116,7 +117,7 @@ def run_warm(
     wall_values = [float(record["wallMs"]) for record in records]
     complete = all(
         record["summary"] == expected_summary
-        and record["checkCount"] == 19
+        and record["checkCount"] == len(contracts().check_ids)
         for record in records
     )
     return {
@@ -124,7 +125,7 @@ def run_warm(
         "runCount": len(records),
         "completeRunCount": sum(
             record["summary"] == expected_summary
-            and record["checkCount"] == 19
+            and record["checkCount"] == len(contracts().check_ids)
             for record in records
         ),
         "expectedSummary": expected_summary,
@@ -187,7 +188,7 @@ def run_cold(
     total_values = [float(record["readyThroughFirstResultMs"]) for record in records]
     complete = all(
         record["summary"] == expected_summary
-        and record["checkCount"] == 19
+        and record["checkCount"] == len(contracts().check_ids)
         for record in records
     )
     return {
@@ -195,7 +196,7 @@ def run_cold(
         "runCount": len(records),
         "completeRunCount": sum(
             record["summary"] == expected_summary
-            and record["checkCount"] == 19
+            and record["checkCount"] == len(contracts().check_ids)
             for record in records
         ),
         "expectedSummary": expected_summary,

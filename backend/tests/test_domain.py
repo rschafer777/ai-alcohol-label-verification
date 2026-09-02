@@ -22,7 +22,7 @@ def by_id(checks: Sequence[CheckResult], check_id: str) -> CheckResult:
 def test_complete_clean_check_set_matches_registry_order() -> None:
     checks, summary = compare_all(ComparisonInputs(reference(), clean_observed()))
     assert [item.check_id for item in checks] == list(contracts().check_ids)
-    assert len(checks) == 19
+    assert len(checks) == 24
     assert summary == "No differences found in checked fields"
 
 
@@ -42,6 +42,16 @@ def test_punctuation_only_brand_is_review() -> None:
     assert by_id(checks, "brand").reason_code == "punctuation_variation"
 
 
+def test_probable_ocr_character_error_is_review_not_mismatch() -> None:
+    observed = clean_observed()
+    observed.fields["brand"] = found("OLD TOM D|STILLERY", "brand")
+    checks, summary = compare_all(ComparisonInputs(reference(), observed))
+    brand = by_id(checks, "brand")
+    assert brand.state == "Review"
+    assert brand.reason_code == "ocr_near_match"
+    assert summary == "Review needed"
+
+
 def test_numeric_difference_has_mismatch_precedence() -> None:
     observed = clean_observed()
     observed.fields["abv"] = found("40% Alc./Vol.", "abv")
@@ -54,6 +64,16 @@ def test_net_contents_liters_normalize_exactly() -> None:
     observed = clean_observed()
     observed.fields["net_contents"] = found("0.75 L", "net_contents")
     checks, _ = compare_all(ComparisonInputs(reference(), observed))
+    assert by_id(checks, "net_contents").state == "Match"
+
+
+def test_net_contents_tolerates_common_ocr_zero_in_fluid_ounce_unit() -> None:
+    observed = clean_observed()
+    observed.fields["net_contents"] = found("12 fl 0Z", "net_contents")
+    malt_reference = reference().model_copy(
+        update={"net_contents_value": Decimal("12"), "net_contents_unit": "fl oz"}
+    )
+    checks, _ = compare_all(ComparisonInputs(malt_reference, observed))
     assert by_id(checks, "net_contents").state == "Match"
 
 
@@ -77,6 +97,38 @@ def test_domestic_country_is_explicit_non_applicable() -> None:
     checks, _ = compare_all(ComparisonInputs(reference(), clean_observed()))
     country = by_id(checks, "country")
     assert country.applicable is False
+
+
+def test_label_derived_missing_country_keeps_import_status_unresolved() -> None:
+    label_reference = reference().model_copy(update={"reference_provenance": "label_ocr"})
+
+    checks, summary = compare_all(ComparisonInputs(label_reference, clean_observed()))
+
+    country = by_id(checks, "country")
+    assert country.state == "Review"
+    assert country.reason_code == "import_status_unknown"
+    assert summary == "Review needed"
+
+
+@pytest.mark.parametrize(
+    ("abv", "expected_reason"),
+    [
+        (Decimal("0.49"), "warning_not_required"),
+        (Decimal("0.50"), "warning_required"),
+    ],
+)
+def test_warning_threshold_is_exact(abv: Decimal, expected_reason: str) -> None:
+    checks = warning_checks(abv, clean_observed().warning)
+
+    assert by_id(checks, "warning_applicability").reason_code == expected_reason
+
+
+def test_unknown_warning_abv_requires_review_without_inventing_applicability() -> None:
+    checks = warning_checks(None, clean_observed().warning)
+
+    applicability = by_id(checks, "warning_applicability")
+    assert applicability.state == "Review"
+    assert applicability.reason_code == "warning_applicability_unknown"
 
 
 def test_title_case_warning_heading_is_independent_mismatch() -> None:
@@ -461,7 +513,9 @@ def test_numeric_parse_and_proof_policy_paths() -> None:
 
     observed.fields["proof"] = found("90 Proof", "proof")
     checks, _ = compare_all(ComparisonInputs(no_proof_reference, observed))
-    assert by_id(checks, "proof").reason_code == "proof_abv_relationship_match"
+    assert by_id(checks, "proof").reason_code == (
+        "proof_abv_relationship_and_placement_match"
+    )
 
     inconsistent_reference = reference().model_copy(update={"proof": Decimal("80")})
     observed.fields["proof"] = found("80 Proof", "proof")

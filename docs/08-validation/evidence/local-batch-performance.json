@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "measuredAtUtc": "2026-09-02T01:54:00.774865+00:00",
+  "measuredAtUtc": "2026-09-02T22:37:08.992727+00:00",
   "environment": {
     "platform": "Windows",
     "python": "3.12.10",
@@ -8,32 +8,32 @@
   },
   "executionModel": "one warmed local OCR worker; sequential applications",
   "result": {
-    "requestedCount": 300,
-    "completedCount": 300,
-    "uniqueRequestIdCount": 300,
+    "requestedCount": 20,
+    "completedCount": 20,
+    "uniqueRequestIdCount": 20,
     "scenarioCaseIds": [
       "H006",
       "D001",
       "D004"
     ],
     "expectedSummaryCounts": {
-      "No differences found in checked fields": 100,
-      "Review needed": 100,
-      "Differences detected": 100
+      "No differences found in checked fields": 7,
+      "Review needed": 7,
+      "Differences detected": 6
     },
     "summaryCounts": {
-      "No differences found in checked fields": 100,
-      "Review needed": 100,
-      "Differences detected": 100
+      "No differences found in checked fields": 7,
+      "Review needed": 7,
+      "Differences detected": 6
     },
     "falseCleanCount": 0,
-    "elapsedSeconds": 836.942,
-    "totalIncludingReadinessSeconds": 842.243,
-    "averageItemMs": 2789.59,
-    "maximumItemMs": 3947.798,
-    "peakParentAndWorkerRssBytes": 847306752,
-    "peakParentRssBytes": 61980672,
-    "peakWorkerRssBytes": 785358848,
+    "elapsedSeconds": 58.137,
+    "totalIncludingReadinessSeconds": 61.036,
+    "averageItemMs": 2903.2,
+    "maximumItemMs": 4390.521,
+    "peakParentAndWorkerRssBytes": 726114304,
+    "peakParentRssBytes": 63021056,
+    "peakWorkerRssBytes": 663093248,
     "rssThresholdBytesExclusive": 2147483648,
     "initialSupervisorSnapshot": {
       "ready": true,
@@ -41,7 +41,7 @@
       "active_jobs": 0,
       "timeouts": 0,
       "restarts": 0,
-      "child_pid": 64220
+      "child_pid": 77072
     },
     "finalSupervisorSnapshot": {
       "ready": true,
@@ -49,22 +49,17 @@
       "active_jobs": 0,
       "timeouts": 0,
       "restarts": 0,
-      "child_pid": 64220
+      "child_pid": 77072
     },
     "checkpoints": {
       "10": {
-        "elapsedSeconds": 28.775,
+        "elapsedSeconds": 29.806,
         "thresholdSeconds": 50.0,
         "pass": true
       },
       "20": {
-        "elapsedSeconds": 57.221,
+        "elapsedSeconds": 58.065,
         "thresholdSeconds": 100.0,
-        "pass": true
-      },
-      "300": {
-        "elapsedSeconds": 836.881,
-        "thresholdSeconds": 1500.0,
         "pass": true
       }
     },

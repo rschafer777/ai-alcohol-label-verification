@@ -49,7 +49,7 @@ jobs:
 
       - name: Run the complete release gate
         shell: pwsh
-        run: ./scripts/check.ps1
+        run: ./scripts/release-check.ps1
 
       - name: Scan the public archive for unnecessary personal details
         shell: pwsh
@@ -258,12 +258,12 @@ jobs:
             docker logs "$container_name" >&2
             exit 1
           fi
-          jq -e '.ready == true and .profileId == "distilled_spirits_demo_v1"' \
+          jq -e '.ready == true and .profileId == "all_beverages_demo_v2"' \
             "$RUNNER_TEMP/predeploy-ready.json" >/dev/null
           curl --fail --silent --show-error --max-time 10 \
             http://127.0.0.1:18080/api/v1/meta >"$RUNNER_TEMP/predeploy-meta.json"
           jq -e --arg sha "$GITHUB_SHA" \
-            '.buildId == $sha and .ready == true and .selectedCheckCount == 19' \
+            '.buildId == $sha and .ready == true and .selectedCheckCount == 24' \
             "$RUNNER_TEMP/predeploy-meta.json" >/dev/null
           echo "ready=true" >>"$GITHUB_OUTPUT"
 
@@ -405,19 +405,19 @@ jobs:
             sleep 2
           done
           [[ "$ready" == "true" ]]
-          jq -e '.ready == true and .profileId == "distilled_spirits_demo_v1"' \
+          jq -e '.ready == true and .profileId == "all_beverages_demo_v2"' \
             "$work/ready.json" >/dev/null
 
           curl --fail --silent --show-error --max-time 20 \
             "$base_url/api/v1/meta" >"$work/meta.json"
           jq -e --arg sha "$GITHUB_SHA" \
-            '.buildId == $sha and .ready == true and .selectedCheckCount == 19' \
+            '.buildId == $sha and .ready == true and .selectedCheckCount == 24' \
             "$work/meta.json" >/dev/null
 
           curl --fail --silent --show-error --max-time 20 \
             "$base_url/api/v1/samples/distilled-spirits-v1" >"$work/sample.json"
           mapfile -t panel_urls < <(jq -r '.panels[].url' "$work/sample.json")
-          [[ "${#panel_urls[@]}" -ge 1 && "${#panel_urls[@]}" -le 6 ]]
+          [[ "${#panel_urls[@]}" -ge 1 && "${#panel_urls[@]}" -le 3 ]]
           panel_args=()
           for index in "${!panel_urls[@]}"; do
             panel_path="$work/panel-$((index + 1)).img"
@@ -447,10 +447,10 @@ jobs:
             'length == 3 and
              all(.[];
                .buildId == $sha and
-               .profileId == "distilled_spirits_demo_v1" and
+               .profileId == "all_beverages_demo_v2" and
                (.serverDurationMs | type) == "number" and
                .serverDurationMs >= 0 and
-               (.checks | length) == 19 and
+               (.checks | length) == 24 and
                .summary == "Review needed" and
                ([.checks[] |
                  select(.applicable == true and .state == "Mismatch")] |
@@ -463,6 +463,32 @@ jobs:
              ((map(.serverDurationMs) | add) / length) < 5000 and
              (map(.serverDurationMs) | max) < 9000' \
             "$work"/result-*.json >/dev/null
+
+          curl --fail --silent --show-error --max-time 40 \
+            --header "Origin: $base_url" \
+            --cookie-jar "$work/cookies.txt" \
+            --dump-header "$work/analysis-headers.txt" \
+            "${panel_args[@]}" \
+            "$base_url/api/v1/analyses" >"$work/analysis.json"
+          tr -d '\r' <"$work/analysis-headers.txt" | \
+            grep -Eqi '^set-cookie: labelverify_scope=[A-Za-z0-9_-]{43};.*HttpOnly;.*SameSite=Strict;.*Secure'
+          history_id="$(jq -r '.verification.historyId' "$work/analysis.json")"
+          jq -e --arg sha "$GITHUB_SHA" \
+            '.buildId == $sha and
+             .draft.beverageType == "distilled_spirits" and
+             (.verification.checks | length) == 24 and
+             (.verification.historyId | type) == "string" and
+             (.verification.historyId | length) > 0' \
+            "$work/analysis.json" >/dev/null
+          curl --fail --silent --show-error --max-time 20 \
+            --cookie "$work/cookies.txt" \
+            "$base_url/api/v1/history/${history_id}" >"$work/history.json"
+          jq -e --arg history_id "$history_id" \
+            '.id == $history_id and
+             (.panels | length) >= 1 and
+             (.panels | length) <= 3 and
+             (.result.checks | length) == 24' \
+            "$work/history.json" >/dev/null
           redirect_status="$(curl --silent --show-error --output /dev/null \
             --write-out '%{http_code}' --max-time 20 \
             "http://${AZURE_CONTAINER_APP_FQDN}/")"

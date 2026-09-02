@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from decimal import Decimal
+from difflib import SequenceMatcher
 
 from labelverify.contracts.models import (
     Alternative,
@@ -151,6 +152,29 @@ def compare_text(
             observed=observed,
             candidate=candidate,
         )
+    normalized_observed = punctuation_folded(observed)
+    normalized_reference = punctuation_folded(reference)
+    if (
+        normalized_observed
+        and normalized_reference
+        and SequenceMatcher(
+            None,
+            normalized_observed,
+            normalized_reference,
+            autojunk=False,
+        ).ratio()
+        >= 0.85
+    ):
+        return _result(
+            check_id,
+            label,
+            "Review",
+            "ocr_near_match",
+            "The values are highly similar, but a possible OCR character error requires review",
+            reference=reference,
+            observed=observed,
+            candidate=candidate,
+        )
     return _result(
         check_id,
         label,
@@ -277,7 +301,28 @@ def compare_net_contents(
     reference_value: Decimal, reference_unit: str, candidates: CandidateSet
 ) -> CheckResult:
     expected = reference_volume_ml(reference_value, reference_unit)
-    return compare_numeric(
+    if candidates.status == "Ambiguous":
+        parsed = [
+            (candidate, parse_volume_ml(candidate.value)) for candidate in candidates.candidates
+        ]
+        equivalent = [
+            candidate
+            for candidate, value in parsed
+            if value is not None and abs(value - expected) <= Decimal("1")
+        ]
+        if equivalent:
+            candidate = equivalent[0]
+            return _result(
+                "net_contents",
+                "Net contents",
+                "Match",
+                "equivalent_volume_match",
+                "A readable net-content statement matches after unit conversion",
+                reference=f"{reference_value} {reference_unit}",
+                observed=candidate.value,
+                candidate=candidate,
+            )
+    result = compare_numeric(
         "net_contents",
         "Net contents",
         expected,
@@ -285,6 +330,13 @@ def compare_net_contents(
         parse_volume_ml,
         f"{reference_value} {reference_unit}",
     )
+    if result.state == "Mismatch" and candidates.status == "Found":
+        observed = parse_volume_ml(candidates.candidates[0].value)
+        if observed is not None and abs(observed - expected) <= Decimal("1"):
+            result.state = "Match"
+            result.reason_code = "equivalent_volume_match"
+            result.reason_text = "The net contents match after standard unit conversion"
+    return result
 
 
 def compare_producer(reference: str, candidates: CandidateSet) -> CheckResult:
@@ -305,7 +357,18 @@ def compare_producer(reference: str, candidates: CandidateSet) -> CheckResult:
     return result
 
 
-def compare_country(imported: bool, reference: str | None, candidates: CandidateSet) -> CheckResult:
+def compare_country(
+    imported: bool | None, reference: str | None, candidates: CandidateSet
+) -> CheckResult:
+    if imported is None:
+        return _result(
+            "country",
+            "Country of origin",
+            "Review",
+            "import_status_unknown",
+            "The label images do not establish whether an import country statement is required",
+            capability="human_confirmation",
+        )
     if not imported:
         return _result(
             "country",

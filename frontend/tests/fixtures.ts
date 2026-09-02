@@ -1,76 +1,52 @@
-import {
-  checkIds,
-  profileId,
-  type CheckResult,
-  type ReferenceRecord,
-  type VerificationResult,
-} from "../src/api/generated-contract";
-import type { LoadedSample } from "../src/contracts/types";
+import { checkIds, profileId, type AnalysisResult, type CheckResult, type VerificationResult } from "../src/api/generated-contract";
 
-export const sampleReference: ReferenceRecord = {
+export const checks: CheckResult[] = checkIds.map((checkId, index) => ({
+  checkId,
+  label: checkId.replaceAll("_", " "),
+  applicable: true,
+  referenceDisplay: "Required value",
+  observedDisplay: "Observed value",
+  state: index === 13 ? "Review" : "Match",
+  reasonCode: index === 13 ? "review" : "match",
+  reasonText: index === 13 ? "Human review is needed." : "The selected requirement is supported.",
+  evidenceRef: index < 2 ? `ev_${checkId}_panel-1_00` : null,
+  alternatives: [],
+  capability: "automated_selected_check",
+  policyVersion: "2.0.0",
+}));
+
+export const result: VerificationResult = {
+  requestId: "req_test",
+  buildId: "test",
   profileId,
-  caseLabel: "Sample case",
-  brandName: "OLD TOM DISTILLERY",
-  classType: "Kentucky Straight Bourbon Whiskey",
-  abvPercent: 45,
-  proof: 90,
-  netContentsValue: 750,
-  netContentsUnit: "mL",
-  producerNameAddress: "Old Heritage Distillery LLC\nFrankfort, Kentucky",
-  isImported: false,
-  countryOfOrigin: null,
+  profileVersion: "2.0.0",
+  modelIdentity: "test-ocr",
+  ruleSources: ["https://www.ttb.gov/"],
+  serverDurationMs: 1800,
+  stageTimings: { ocrMs: 1200 },
+  panels: [{ panelId: "panel-1", originalDimensions: { width: 1200, height: 1600 }, qualitySignals: { qualityClass: "Sufficient" }, coverageState: "Sufficient" }],
+  evidence: [
+    { evidenceId: "ev_beverage_type_panel-1_00", panelId: "panel-1", polygonOriginalPixels: [{ x: 10, y: 10 }, { x: 400, y: 10 }, { x: 400, y: 100 }, { x: 10, y: 100 }], sourceView: "original", transformId: "identity", textSnippet: "BOURBON WHISKEY", confidenceProvenance: { source: "ocr", signal: .98, calibratedProbability: false } },
+    { evidenceId: "ev_brand_panel-1_00", panelId: "panel-1", polygonOriginalPixels: [{ x: 10, y: 120 }, { x: 500, y: 120 }, { x: 500, y: 220 }, { x: 10, y: 220 }], sourceView: "original", transformId: "identity", textSnippet: "OLD TOM DISTILLERY", confidenceProvenance: { source: "ocr", signal: .97, calibratedProbability: false } },
+  ],
+  checks,
+  limitations: ["Physical warning type size needs reliable scale."],
+  summary: "Review needed",
+  historyId: "hist_test",
 };
 
-export function sampleFile(name = "old-tom-front.png"): File {
-  return new File([new Uint8Array([1, 2, 3])], name, { type: "image/png" });
-}
-
-export function loadedSample(): LoadedSample {
-  return { reference: sampleReference, panels: [sampleFile()] };
-}
-
-function labelFor(checkId: string): string {
-  return checkId.split("_").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ");
-}
-
-export function completeResult(overrides: Partial<VerificationResult> = {}): VerificationResult {
-  const checks: CheckResult[] = checkIds.map((checkId) => ({
-    checkId,
-    label: labelFor(checkId),
-    applicable: true,
-    referenceDisplay: checkId === "brand" ? "OLD TOM DISTILLERY" : "Expected value",
-    observedDisplay: checkId === "brand" ? "OLD TOM DISTILLERY" : "Observed value",
-    state: "Match",
-    reasonCode: "exact_match",
-    reasonText: "The checked value matches the application value.",
-    evidenceRef: checkId === "brand" ? "ev_brand_panel-1_01" : null,
-    alternatives: [],
-    capability: "supported",
-    policyVersion: "1.0.0",
-  }));
-
-  return {
-    requestId: "request-test-1",
-    buildId: "build-test-1",
-    profileId,
-    profileVersion: "1.0.0",
-    modelIdentity: "rapidocr-test",
-    ruleSources: ["rules-v1"],
-    serverDurationMs: 1200,
-    stageTimings: { total: 1200 },
-    panels: [{ panelId: "panel-1", originalDimensions: { width: 100, height: 100 }, qualitySignals: {}, coverageState: "complete" }],
-    evidence: [{
-      evidenceId: "ev_brand_panel-1_01",
-      panelId: "panel-1",
-      polygonOriginalPixels: [{ x: 10, y: 10 }, { x: 50, y: 10 }, { x: 50, y: 20 }, { x: 10, y: 20 }],
-      sourceView: "original",
-      transformId: "original",
-      textSnippet: "OLD TOM DISTILLERY",
-      confidenceProvenance: { source: "rapidocr", signal: 0.95, calibratedProbability: false },
-    }],
-    checks,
-    limitations: ["Physical type size needs human confirmation without a reliable scale."],
-    summary: "No differences found in checked fields",
-    ...overrides,
-  };
-}
+export const analysis: AnalysisResult = {
+  requestId: "req_test",
+  buildId: "test",
+  profileId,
+  modelIdentity: "test-ocr",
+  serverDurationMs: 1800,
+  panels: result.panels,
+  evidence: result.evidence,
+  draft: { beverageType: "distilled_spirits", brandName: "OLD TOM DISTILLERY", classType: "Kentucky Straight Bourbon Whiskey", abvPercent: 45, proof: 90, netContentsValue: 750, netContentsUnit: "mL", producerNameAddress: "Old Tom Distillery, Frankfort, Kentucky", isImported: false, countryOfOrigin: null, wineAppellation: null, wineSulfiteStatus: "unknown", maltAlcoholSource: "unknown" },
+  detected: {},
+  beverageTypeConfidence: .96,
+  beverageTypeReason: "Class terms support distilled spirits.",
+  limitations: [],
+  verification: result,
+};

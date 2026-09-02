@@ -1,15 +1,15 @@
 // Generated CG-004 contract surface. Do not hand-edit in feature work.
 
-export const contractVersion = "1.0.0" as const;
-export const profileId = "distilled_spirits_demo_v1" as const;
+export const contractVersion = "2.0.0" as const;
+export const profileId = "all_beverages_demo_v2" as const;
 
 export const limits = {
-  rawRequestBytes: 8_650_752,
+  rawRequestBytes: 13_631_488,
   referenceBytes: 32_768,
   fileBytes: 4_194_304,
-  aggregateFileBytes: 8_388_608,
+  aggregateFileBytes: 12_582_912,
   panelCountMin: 1,
-  panelCountMax: 6,
+  panelCountMax: 3,
   pixelsPerImage: 12_000_000,
   pixelsPerRequest: 36_000_000,
   uploadDeadlineSeconds: 20,
@@ -19,6 +19,7 @@ export const limits = {
 } as const;
 
 export const checkIds = [
+  "beverage_type",
   "brand",
   "class_type",
   "abv",
@@ -26,6 +27,10 @@ export const checkIds = [
   "net_contents",
   "producer",
   "country",
+  "wine_appellation",
+  "wine_sulfites",
+  "spirits_field_of_vision",
+  "malt_class_designation",
   "warning_applicability",
   "warning_wording",
   "warning_heading_uppercase",
@@ -85,16 +90,61 @@ export type VerificationSummary =
 
 export interface ReferenceRecord {
   profileId: typeof profileId;
+  beverageType: "malt_beverage" | "wine" | "distilled_spirits";
+  referenceProvenance: "label_ocr" | "manual" | "manifest" | "sample";
   caseLabel?: string | null;
   brandName: string;
   classType: string;
-  abvPercent: number;
+  abvPercent: number | null;
   proof?: number | null;
   netContentsValue: number;
-  netContentsUnit: "mL" | "L";
+  netContentsUnit: "mL" | "L" | "fl oz" | "pt" | "qt" | "gal";
   producerNameAddress: string;
   isImported: boolean;
   countryOfOrigin?: string | null;
+  wineAppellation?: string | null;
+  wineSulfiteStatus: "present" | "not_present" | "unknown";
+  maltAlcoholSource: "added_ingredients" | "none" | "unknown";
+}
+
+export interface DetectedValue {
+  value: string | number | boolean | null;
+  status: "Found" | "Ambiguous" | "Not found" | "Unreadable";
+  evidenceRef?: string | null;
+  alternatives: string[];
+  confidenceSignal?: number | null;
+}
+
+export interface AnalysisDraft {
+  beverageType: ReferenceRecord["beverageType"] | null;
+  brandName: string | null;
+  classType: string | null;
+  abvPercent: number | null;
+  proof: number | null;
+  netContentsValue: number | null;
+  netContentsUnit: ReferenceRecord["netContentsUnit"] | null;
+  producerNameAddress: string | null;
+  isImported: boolean;
+  countryOfOrigin: string | null;
+  wineAppellation: string | null;
+  wineSulfiteStatus: ReferenceRecord["wineSulfiteStatus"];
+  maltAlcoholSource: ReferenceRecord["maltAlcoholSource"];
+}
+
+export interface AnalysisResult {
+  requestId: string;
+  buildId: string;
+  profileId: typeof profileId;
+  modelIdentity: string;
+  serverDurationMs: number;
+  panels: PanelResult[];
+  evidence: Evidence[];
+  draft: AnalysisDraft;
+  detected: Record<string, DetectedValue>;
+  beverageTypeConfidence: number | null;
+  beverageTypeReason: string;
+  limitations: string[];
+  verification: VerificationResult | null;
 }
 
 export interface Point {
@@ -159,6 +209,7 @@ export interface VerificationResult {
   checks: CheckResult[];
   limitations: string[];
   summary: VerificationSummary;
+  historyId?: string | null;
 }
 
 export interface PublicError {

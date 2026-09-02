@@ -91,12 +91,14 @@
     },
     {
       "expectedChangedChecks": [
+        "beverage_type",
         "brand",
         "class_type",
         "abv",
         "proof",
         "net_contents",
         "producer",
+        "spirits_field_of_vision",
         "warning_wording",
         "warning_heading_uppercase",
         "warning_heading_emphasis",
@@ -105,7 +107,6 @@
         "warning_continuity",
         "warning_contrast",
         "warning_legibility",
-        "warning_physical_size",
         "panel_coverage",
         "image_quality"
       ],

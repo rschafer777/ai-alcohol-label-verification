@@ -5,22 +5,23 @@
   "oraclePath": "fixtures/oracle/development/D007.json",
   "panels": [
     {
-      "bytes": 91525,
+      "bytes": 96176,
       "height": 1600,
       "mimeType": "image/png",
       "panelId": "panel-1",
       "path": "fixtures/development/cases/D007/panels/panel-1.png",
-      "sha256": "b8ca9ad0ed01aa402dcb766e2b5f0b4e6d1ded46e9b2ab3dfb06ec18f1f6d37a",
+      "sha256": "ddf8ac493f1028a7f7ff34556d61a9764923268eb41720579cabc40f4ae282a0",
       "width": 1200
     }
   ],
   "partition": "development",
   "referencePath": "fixtures/development/cases/D007/reference.json",
   "scenarioTags": [
+    "wine",
     "net_contents",
     "safe_equivalence"
   ],
   "sealed": false,
   "submissionMode": "ui",
-  "title": "Equivalent liter net contents"
+  "title": "Wine with equivalent liter net contents"
 }

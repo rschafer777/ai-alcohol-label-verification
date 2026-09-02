@@ -4,6 +4,16 @@
   "checks": [
     {
       "applicable": true,
+      "checkId": "beverage_type",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
+    },
+    {
+      "applicable": true,
       "checkId": "brand",
       "evidence": "required",
       "minimumAlternatives": 0,
@@ -33,14 +43,14 @@
       "state": "Match"
     },
     {
-      "applicable": true,
+      "applicable": false,
       "checkId": "proof",
-      "evidence": "required",
+      "evidence": "forbidden",
       "minimumAlternatives": 0,
-      "mustAppear": true,
+      "mustAppear": false,
       "observedHint": null,
-      "reasonClass": "exact",
-      "state": "Match"
+      "reasonClass": "not_applicable",
+      "state": "Not verified"
     },
     {
       "applicable": true,
@@ -71,6 +81,46 @@
       "observedHint": null,
       "reasonClass": "not_applicable",
       "state": "Not verified"
+    },
+    {
+      "applicable": false,
+      "checkId": "wine_appellation",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": false,
+      "observedHint": null,
+      "reasonClass": "not_applicable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": false,
+      "checkId": "wine_sulfites",
+      "evidence": "forbidden",
+      "minimumAlternatives": 0,
+      "mustAppear": false,
+      "observedHint": null,
+      "reasonClass": "not_applicable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": false,
+      "checkId": "spirits_field_of_vision",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": false,
+      "observedHint": null,
+      "reasonClass": "not_applicable",
+      "state": "Not verified"
+    },
+    {
+      "applicable": true,
+      "checkId": "malt_class_designation",
+      "evidence": "optional",
+      "minimumAlternatives": 0,
+      "mustAppear": true,
+      "observedHint": null,
+      "reasonClass": "exact",
+      "state": "Match"
     },
     {
       "applicable": true,

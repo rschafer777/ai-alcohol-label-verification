@@ -62,9 +62,7 @@ def decode_panel(path: Path, panel_id: str, max_pixels: int) -> DecodedPanel:
     dark_fraction = float(np.mean(gray <= 8))
     light_fraction = float(np.mean(gray >= 247))
     clipped_highlight_fraction = float(np.mean(gray >= 252))
-    estimated_skew_degrees = _estimated_skew_degrees(
-        np.asarray(gray, dtype=np.uint8)
-    )
+    estimated_skew_degrees = _estimated_skew_degrees(np.asarray(gray, dtype=np.uint8))
     coverage: Literal["Sufficient", "Review", "Unreadable"]
     if laplacian < 18.0 or dark_fraction > 0.90 or light_fraction > 0.98:
         coverage = "Unreadable"

@@ -41,7 +41,7 @@ class ImageView:
         return normalize_clockwise(points)
 
 
-def create_ocr_views(panel: DecodedPanel, max_working_pixels: int = 2_500_000) -> list[ImageView]:
+def create_ocr_views(panel: DecodedPanel, max_working_pixels: int = 2_073_600) -> list[ImageView]:
     scale = min(1.0, (max_working_pixels / panel.pixels) ** 0.5)
     width = max(1, round(panel.width * scale))
     height = max(1, round(panel.height * scale))

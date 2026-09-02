@@ -18,11 +18,11 @@ from scripts.validate_fixture_corpus import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_HASHES = {
-    "api-contract-v1.json": "cc6e9463792efd50447fce6303fb8307bd6b462f5695cafd3e7880298a71e72a",
-    "error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
-    "regulatory-rules-v1.json": "6d1c9866738a1b863ff8572c29881195005861b2198c2e364c4b5ff0fbf2e6c2",
+    "api-contract-v1.json": "5719e1ac62c09eb61483053ca6ddd2911d64ac903a7d38c4c3e0d0e1c9c01c17",
+    "error-registry-v1.json": "0e78225cbee9ae166e5d5154a231cf302051ffbb4ddc9dfc1b9a2624d9993b65",
+    "regulatory-rules-v1.json": "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149",
     "selected-check-registry-v1.json": (
-        "521d7a1dbdb3872086083e92a6f37e459c48ad5471a09f3f92c23472b7dc8b13"
+        "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
     ),
 }
 
@@ -35,7 +35,7 @@ def test_cg001_hashes_counts_and_limits(tmp_path: Path) -> None:
     errors, contracts = validate_contracts(PROJECT_ROOT)
     assert errors == []
     assert contracts["hashes"] == EXPECTED_HASHES
-    assert len(contracts["checkIds"]) == 19
+    assert len(contracts["checkIds"]) == 24
     assert len(contracts["errorCodes"]) == 27
     model = tmp_path / "model.onnx"
     model.write_bytes(b"governed model")
@@ -50,7 +50,7 @@ def test_corpus_schema_oracles_counts_and_seal() -> None:
     assert metrics["totalCases"] == 30
     assert metrics["developmentCases"] == 24
     assert metrics["holdoutCases"] == 6
-    assert metrics["selectedChecks"] == 19
+    assert metrics["selectedChecks"] == 24
     assert metrics["mutationControls"] == 8
 
 
@@ -70,7 +70,8 @@ def test_oracle_covers_all_summaries_and_all_selected_checks() -> None:
             if row["applicable"]:
                 states[row["checkId"]].add(row["state"])
     assert summaries == {SUMMARY_CLEAN, SUMMARY_REVIEW, SUMMARY_DIFFERENCE}
-    assert all(states.values())
+    assert all(check_id in states for check_id in expected_ids)
+    assert all(states[check_id] for check_id in expected_ids)
 
 
 def test_corrected_oracle_boundaries_and_non_applicable_states() -> None:
@@ -109,7 +110,7 @@ def test_corrected_oracle_boundaries_and_non_applicable_states() -> None:
     assert corrupt_panel.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
 
 
-def test_corrected_missing_panel_and_mutation_expectations() -> None:
+def test_missing_panel_and_mutation_expectations() -> None:
     manifest = load_json(PROJECT_ROOT / "fixtures" / "corpus-manifest-v1.json")
     cases = {case["caseId"]: case for case in manifest["cases"]}
     oracle = load_json(PROJECT_ROOT / cases["D010"]["oraclePath"])
@@ -137,15 +138,20 @@ def test_corrected_missing_panel_and_mutation_expectations() -> None:
     assert "panel_coverage" not in mutations["M007_remove_warning_panel"]["expectedChangedChecks"]
     severe_blur = mutations["M008_image_blur"]
     assert severe_blur["expectedSummary"] == SUMMARY_REVIEW
-    assert set(severe_blur["expectedChangedChecks"]) == expected_missing - {"panel_coverage"} | {
-        "brand",
-        "class_type",
+    assert set(severe_blur["expectedChangedChecks"]) == expected_missing - {
+        "panel_coverage",
+        "warning_physical_size",
+    } | {
+            "brand",
+            "beverage_type",
+            "class_type",
         "abv",
         "proof",
         "net_contents",
         "image_quality",
-        "panel_coverage",
-    }
+            "panel_coverage",
+            "spirits_field_of_vision",
+        }
 
 
 def test_decisive_report_oracle_corrections_follow_contract_capabilities() -> None:

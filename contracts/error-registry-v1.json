@@ -13,7 +13,7 @@
     {"http": 413, "code": "multipart_limit_exceeded", "retryable": false, "action": "Reduce files or fields to the supported limits", "logClass": "request_validation"},
     {"http": 415, "code": "unsupported_media_type", "retryable": false, "action": "Use JPEG, PNG, or WebP", "logClass": "input_validation", "locatorAllowed": true},
     {"http": 422, "code": "invalid_reference", "retryable": false, "action": "Correct the identified reference field", "logClass": "input_validation", "locatorAllowed": true},
-    {"http": 422, "code": "invalid_panel_count", "retryable": false, "action": "Add 1 to 6 label panels", "logClass": "input_validation", "locatorAllowed": true},
+    {"http": 422, "code": "invalid_panel_count", "retryable": false, "action": "Add 1 to 3 label panels", "logClass": "input_validation", "locatorAllowed": true},
     {"http": 422, "code": "invalid_image", "retryable": false, "action": "Replace the identified corrupt or unreadable image", "logClass": "input_validation", "locatorAllowed": true},
     {"http": 422, "code": "decoded_pixel_limit", "retryable": false, "action": "Reduce image dimensions", "logClass": "input_validation", "locatorAllowed": true},
     {"http": 429, "code": "client_rate_limited", "retryable": true, "action": "Wait and retry", "logClass": "capacity"},

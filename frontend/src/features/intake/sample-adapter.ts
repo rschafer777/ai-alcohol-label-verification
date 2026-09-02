@@ -5,6 +5,8 @@ import type { LoadedSample, SampleAdapter, SamplePackage } from "../../contracts
 
 const referenceSchema = z.object({
   profileId: z.literal(profileId),
+  beverageType: z.enum(["malt_beverage", "wine", "distilled_spirits"]),
+  referenceProvenance: z.enum(["label_ocr", "manual", "manifest", "sample"]),
   caseLabel: z.string().max(80).nullable().optional(),
   brandName: z.string().min(1).max(160),
   classType: z.string().min(1).max(240),
@@ -15,6 +17,9 @@ const referenceSchema = z.object({
   producerNameAddress: z.string().min(1).max(500),
   isImported: z.boolean(),
   countryOfOrigin: z.string().max(80).nullable().optional(),
+  wineAppellation: z.string().max(160).nullable().optional(),
+  wineSulfiteStatus: z.enum(["present", "not_present", "unknown"]),
+  maltAlcoholSource: z.enum(["added_ingredients", "none", "unknown"]),
 });
 
 const sampleSchema = z.object({
@@ -22,7 +27,7 @@ const sampleSchema = z.object({
   panels: z
     .array(
       z.object({
-        panelId: z.string().regex(/^panel-[1-6]$/),
+        panelId: z.string().regex(/^panel-[1-3]$/),
         label: z.string().min(1),
         fileName: z.string().min(1),
         mimeType: z.enum(["image/jpeg", "image/png", "image/webp"]),
@@ -30,7 +35,7 @@ const sampleSchema = z.object({
       }),
     )
     .min(1)
-    .max(6),
+    .max(3),
 });
 
 export function createSampleAdapter(fetcher: typeof fetch = fetch): SampleAdapter {

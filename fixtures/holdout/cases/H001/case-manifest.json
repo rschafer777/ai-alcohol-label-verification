@@ -30,44 +30,17 @@
       "path": "fixtures/holdout/cases/H001/panels/panel-3.png",
       "sha256": "e0bc6f7211d3f57ea0247c4cdcfb54478f73c62c90ad1874b2f98b14ee408cc0",
       "width": 1200
-    },
-    {
-      "bytes": 22162,
-      "height": 1600,
-      "mimeType": "image/png",
-      "panelId": "panel-4",
-      "path": "fixtures/holdout/cases/H001/panels/panel-4.png",
-      "sha256": "f1b793dec72e344ded6d37c7dcf489b3e6e8171b110eefb83fa9d10f61929623",
-      "width": 1200
-    },
-    {
-      "bytes": 16668,
-      "height": 1600,
-      "mimeType": "image/png",
-      "panelId": "panel-5",
-      "path": "fixtures/holdout/cases/H001/panels/panel-5.png",
-      "sha256": "118c70734640f8e74a52ca79f1b0e3974577a6602ceddc76d773f4f361b67510",
-      "width": 1200
-    },
-    {
-      "bytes": 16668,
-      "height": 1600,
-      "mimeType": "image/png",
-      "panelId": "panel-6",
-      "path": "fixtures/holdout/cases/H001/panels/panel-6.png",
-      "sha256": "118c70734640f8e74a52ca79f1b0e3974577a6602ceddc76d773f4f361b67510",
-      "width": 1200
     }
   ],
   "partition": "holdout",
   "referencePath": "fixtures/holdout/cases/H001/reference.json",
   "scenarioTags": [
     "exact",
-    "six_panel",
+    "three_panel",
     "holdout",
     "clean"
   ],
   "sealed": true,
   "submissionMode": "ui",
-  "title": "Six panel exact holdout"
+  "title": "Three panel exact holdout"
 }

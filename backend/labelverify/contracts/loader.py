@@ -11,13 +11,13 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 CONTRACT_ROOT = PROJECT_ROOT / "contracts"
 
 CONTRACT_HASHES = {
-    "api-contract-v1.json": "cc6e9463792efd50447fce6303fb8307bd6b462f5695cafd3e7880298a71e72a",
-    "error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
+    "api-contract-v1.json": "5719e1ac62c09eb61483053ca6ddd2911d64ac903a7d38c4c3e0d0e1c9c01c17",
+    "error-registry-v1.json": "0e78225cbee9ae166e5d5154a231cf302051ffbb4ddc9dfc1b9a2624d9993b65",
     "selected-check-registry-v1.json": (
-        "521d7a1dbdb3872086083e92a6f37e459c48ad5471a09f3f92c23472b7dc8b13"
+        "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
     ),
     "regulatory-rules-v1.json": (
-        "6d1c9866738a1b863ff8572c29881195005861b2198c2e364c4b5ff0fbf2e6c2"
+        "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149"
     ),
 }
 
@@ -80,8 +80,8 @@ def contracts() -> ContractBundle:
     check_ids = bundle.check_ids
     error_codes = bundle.error_codes
     browser_codes = tuple(str(code) for code in bundle.errors["browserOnly"])
-    if len(check_ids) != 19 or len(set(check_ids)) != 19:
-        raise ContractIntegrityError("Selected-check registry must contain 19 unique checks")
+    if len(check_ids) != 24 or len(set(check_ids)) != 24:
+        raise ContractIntegrityError("Selected-check registry must contain 24 unique checks")
     if not all(bool(item.get("aggregates")) for item in bundle.checks["checks"]):
         raise ContractIntegrityError("Every selected check must aggregate")
     if len(error_codes) != 23 or len(set(error_codes)) != 23:

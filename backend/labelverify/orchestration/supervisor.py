@@ -10,9 +10,15 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from labelverify.contracts.models import ReferenceRecord, VerificationResult
+from labelverify.contracts.models import AnalysisResult, ReferenceRecord, VerificationResult
 from labelverify.extraction.rapidocr_adapter import RapidOcrAdapter
-from labelverify.orchestration.pipeline import PipelineFailure, PipelineJob, execute_pipeline
+from labelverify.orchestration.pipeline import (
+    AnalysisJob,
+    PipelineFailure,
+    PipelineJob,
+    execute_analysis,
+    execute_pipeline,
+)
 
 
 class WorkerNotReady(RuntimeError):
@@ -183,6 +189,54 @@ class WorkerSupervisor:
                 self._active_jobs -= 1
             self._job_lock.release()
 
+    def analyze(
+        self,
+        request_id: str,
+        panel_paths: tuple[Path, ...],
+    ) -> AnalysisResult:
+        if not self._job_lock.acquire(timeout=self._acquisition_seconds):
+            raise WorkerQueueBusy
+        with self._lifecycle_lock:
+            if self._stopping or not self.ready:
+                self._job_lock.release()
+                raise WorkerNotReady
+            assert self._commands is not None
+            assert self._results is not None
+            commands = self._commands
+            results = self._results
+            self._active_jobs += 1
+        job_id = uuid.uuid4().hex
+        try:
+            deadline = time.monotonic() + self._worker_deadline_seconds
+            self._put_command(
+                commands,
+                {
+                    "kind": "analysis",
+                    "jobId": job_id,
+                    "requestId": request_id,
+                    "buildId": self._build_id,
+                    "panelPaths": [str(path) for path in panel_paths],
+                },
+                deadline,
+            )
+            response = self._wait_for_result(results, deadline)
+            if response.get("jobId") != job_id:
+                self._ready = False
+                self._terminate_worker()
+                self._schedule_replacement()
+                raise WorkerExecutionFailed("internal_error")
+            if response.get("kind") == "error":
+                raise WorkerExecutionFailed(
+                    str(response.get("code", "internal_error")), response.get("fieldOrPanel")
+                )
+            if response.get("kind") != "analysis_result":
+                raise WorkerExecutionFailed("internal_error")
+            return AnalysisResult.model_validate(response["payload"])
+        finally:
+            with self._lifecycle_lock:
+                self._active_jobs -= 1
+            self._job_lock.release()
+
     def stop(self, join_timeout: float = 2.0) -> None:
         with self._lifecycle_lock:
             self._stopping = True
@@ -299,6 +353,21 @@ def _worker_main(commands: Any, results: Any, model_root: str, generation: int) 
             return
         job_id = command.get("jobId")
         try:
+            if command.get("kind") == "analysis":
+                analysis_job = AnalysisJob(
+                    request_id=str(command["requestId"]),
+                    build_id=str(command["buildId"]),
+                    panel_paths=tuple(Path(value) for value in command["panelPaths"]),
+                )
+                analysis = execute_analysis(analysis_job, adapter)
+                results.put(
+                    {
+                        "kind": "analysis_result",
+                        "jobId": job_id,
+                        "payload": analysis.model_dump(by_alias=True, mode="json"),
+                    }
+                )
+                continue
             reference = ReferenceRecord.model_validate(command["reference"])
             job = PipelineJob(
                 request_id=str(command["requestId"]),

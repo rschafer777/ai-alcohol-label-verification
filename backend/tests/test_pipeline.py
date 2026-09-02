@@ -14,8 +14,10 @@ from labelverify.contracts.models import (
 from labelverify.imaging.decode import DecodedPanel
 from labelverify.orchestration import pipeline as pipeline_module
 from labelverify.orchestration.pipeline import (
+    AnalysisJob,
     PipelineFailure,
     PipelineJob,
+    execute_analysis,
     execute_pipeline,
     validate_result_integrity,
 )
@@ -26,11 +28,14 @@ from .helpers import evidence, jpeg_bytes, reference
 class FakeAdapter:
     model_identity = "fake-reference-blind"
 
+    def __init__(self, texts: list[str] | None = None) -> None:
+        self.texts = texts
+
     def initialize(self) -> None:
         return None
 
     def extract(self, views: object) -> list[OcrLine]:
-        texts = [
+        texts = self.texts or [
             "OLD TOM DISTILLERY",
             "Kentucky Straight Bourbon Whiskey",
             "45% Alc./Vol. 90 Proof",
@@ -71,11 +76,54 @@ def test_c008_pipeline_returns_complete_ordered_result(tmp_path: Path) -> None:
     result = execute_pipeline(PipelineJob("request", "build", reference(), (path,)), FakeAdapter())
     assert result.request_id == "request"
     assert result.model_identity == "fake-reference-blind"
-    assert len(result.checks) == 19
+    assert len(result.checks) == 24
     assert result.stage_timings.decode_ms >= 0
     assert result.stage_timings.ocr_ms >= 0
     assert result.summary in {"Differences detected", "Review needed"}
     assert all(item.check_id for item in result.checks)
+
+
+def test_unresolved_analysis_returns_24_reviewable_checks(tmp_path: Path) -> None:
+    path = tmp_path / "panel.jpg"
+    path.write_bytes(jpeg_bytes())
+    adapter = FakeAdapter(
+        [
+            "CLOUD NINE",
+            "HARD SELTZER",
+            "5% Alcohol by Volume",
+            "12 fl oz",
+        ]
+    )
+
+    result = execute_analysis(AnalysisJob("request", "build", (path,)), adapter)
+
+    assert result.draft.beverage_type is None
+    assert result.verification is not None
+    assert len(result.verification.checks) == 24
+    assert result.verification.checks[0].state == "Review"
+    assert result.verification.summary == "Review needed"
+
+
+def test_label_first_spirits_without_readable_abv_remains_reviewable(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    path = tmp_path / "panel.jpg"
+    path.write_bytes(jpeg_bytes())
+    monkeypatch.setattr(
+        pipeline_module,
+        "_infer_beverage_type",
+        lambda _observed: ("distilled_spirits", 0.9, "Test type evidence"),
+    )
+    result = execute_analysis(
+        AnalysisJob("request", "build", (path,)),
+        FakeAdapter(["CLEARWATER VODKA", "750 mL"]),
+    )
+
+    assert result.verification is not None
+    assert len(result.verification.checks) == 24
+    proof = next(check for check in result.verification.checks if check.check_id == "proof")
+    assert proof.state == "Not verified"
+    assert proof.reason_code == "proof_requires_actual_abv"
 
 
 def test_pipeline_invalid_image_is_typed_and_result_free(tmp_path: Path) -> None:

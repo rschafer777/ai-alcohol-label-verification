@@ -21,6 +21,7 @@ def test_public_manifest_excludes_local_controls_and_nonredistributable_images(
     raw_frontend_coverage = (
         tmp_path / "docs/08-validation/evidence/frontend-coverage-json/coverage-final.json"
     )
+    rt_signoff = tmp_path / "docs/10-release/FINAL_RT_SIGNOFF.md"
 
     for path in (
         included,
@@ -31,6 +32,7 @@ def test_public_manifest_excludes_local_controls_and_nonredistributable_images(
         environment_example,
         raw_python_coverage,
         raw_frontend_coverage,
+        rt_signoff,
     ):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text("test\n", encoding="utf-8")
@@ -45,6 +47,7 @@ def test_public_manifest_excludes_local_controls_and_nonredistributable_images(
     assert "docs/08-validation/evidence/python-coverage.json" not in selected
     assert "docs/08-validation/evidence/frontend-coverage-json/coverage-final.json" not in selected
     assert "tests/Test_Images/example.jpg" not in selected
+    assert "docs/10-release/FINAL_RT_SIGNOFF.md" not in selected
 
     attributes = tmp_path / ".gitattributes"
     evidence = tmp_path / "evidence.json"
@@ -53,7 +56,13 @@ def test_public_manifest_excludes_local_controls_and_nonredistributable_images(
 
     subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
     subprocess.run(
-        ["git", "add", ".gitattributes", "evidence.json"],
+        [
+            "git",
+            "add",
+            ".gitattributes",
+            "evidence.json",
+            "docs/10-release/FINAL_RT_SIGNOFF.md",
+        ],
         cwd=tmp_path,
         check=True,
     )
@@ -64,6 +73,7 @@ def test_public_manifest_excludes_local_controls_and_nonredistributable_images(
     lf_native_entries = dict(staged_file_hashes(tmp_path, output))
 
     assert crlf_native_entries == lf_native_entries
+    assert "docs/10-release/FINAL_RT_SIGNOFF.md" not in crlf_native_entries
     assert (
         crlf_native_entries["evidence.json"] == hashlib.sha256(b'{"result":"pass"}\n').hexdigest()
     )

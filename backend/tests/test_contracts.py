@@ -15,7 +15,7 @@ def test_cg001_hashes_and_counts() -> None:
     bundle = contracts()
     for name, expected in CONTRACT_HASHES.items():
         assert sha256_file(__import__("pathlib").Path("contracts") / name) == expected
-    assert len(bundle.check_ids) == len(set(bundle.check_ids)) == 19
+    assert len(bundle.check_ids) == len(set(bundle.check_ids)) == 24
     assert sum(value.startswith("warning_") for value in bundle.check_ids) == 10
     assert len(bundle.error_codes) == len(set(bundle.error_codes)) == 23
     assert len(bundle.errors["browserOnly"]) == 4
@@ -41,7 +41,9 @@ def test_unknown_error_falls_back_to_internal_error() -> None:
 
 def test_reference_requires_import_origin() -> None:
     base = {
-        "profileId": "distilled_spirits_demo_v1",
+        "profileId": "all_beverages_demo_v2",
+        "beverageType": "distilled_spirits",
+        "referenceProvenance": "manual",
         "brandName": "Brand",
         "classType": "Whiskey",
         "abvPercent": 45,

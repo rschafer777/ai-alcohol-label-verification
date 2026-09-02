@@ -50,9 +50,9 @@ def result(
     harness: str,
     comparison: str,
     *,
-    scope: str = "IN_SCOPE_DISTILLED_SPIRITS",
+    scope: str = "IN_SCOPE_ALL_BEVERAGES",
 ) -> dict[str, Any]:
-    return {
+    row = {
         "filename": "case.jpg",
         "scope": scope,
         "oracleDisposition": oracle,
@@ -62,6 +62,13 @@ def result(
         "oracleReason": "reason",
         "harnessReasons": ["finding"],
     }
+    if oracle == "PASS":
+        row["candidates"] = {
+            field: {"status": "Found"}
+            for field in ("brand", "class_type", "abv", "net_contents")
+        }
+        row["warningObservation"] = {"headingDetected": True, "bodyDetected": True}
+    return row
 
 
 def test_load_oracle_requires_exact_bijection(tmp_path: Path) -> None:
@@ -159,19 +166,23 @@ def test_summary_fails_closed_for_false_clear() -> None:
         "selectedProfileExpectedReviewContainmentPass": True,
         "selectedProfileExpectedReviewRecognitionPass": True,
         "selectedProfileExpectedClearRecognitionPass": True,
+        "selectedProfilePositiveEvidenceRecognitionPass": False,
+        "selectedProfilePositiveEvidenceRecognitionPercent": None,
+        "selectedProfilePositiveEvidenceRecognitionCount": 0,
+        "selectedProfileExpectedClearCount": 0,
         "diagnosticPerformancePass": True,
         "overallDiagnosticPass": False,
         "status": "FAIL",
     }
 
 
-def test_summary_requires_expected_clear_recognition() -> None:
+def test_summary_reports_expected_clear_recognition_without_forcing_unsafe_clearance() -> None:
     rows = [result("PASS", "NEEDS_REVIEW", "CONSERVATIVE_NON_CLEAR")]
     summary = target.build_summary(rows, expected_count=1)
 
     assert summary["selectedProfile"]["metrics"]["expectedClearRecognitionPercent"] == 0
     assert summary["diagnosticGates"]["selectedProfileExpectedClearRecognitionPass"] is False
-    assert summary["diagnosticGates"]["overallDiagnosticPass"] is False
+    assert summary["diagnosticGates"]["overallDiagnosticPass"] is True
 
 
 def test_oracle_pass_to_harness_rejection_is_an_explicit_blocking_failure() -> None:
@@ -244,8 +255,10 @@ def test_report_uses_actual_nonzero_clear_count_when_recognition_fails() -> None
 
     report = target.build_report(payload)
 
-    assert "recognition gate failed: 1 of 2 visual-pass cases cleared" in report
-    assert "only 1 of 2 selected-profile visual-pass cases cleared" in report
+    assert (
+        "Automatic clear recognition was not observed: "
+        "1 of 2 visual-pass cases cleared"
+    ) in report
     assert "clears no images" not in report
 
 
@@ -264,8 +277,8 @@ def test_report_describes_a_complete_matrix_as_passed() -> None:
     report = target.build_report(payload)
 
     assert "safety containment observation passed" in report
-    assert "recognition gate passed: 1 of 1 visual-pass cases cleared" in report
-    assert "diagnostic passes every selected-profile and performance gate" in report
+    assert "Automatic clear recognition was observed: 1 of 1 visual-pass cases cleared" in report
+    assert "diagnostic passes its completeness, safety-containment" in report
 
 
 def test_unreadable_image_requires_review_instead_of_label_rejection() -> None:

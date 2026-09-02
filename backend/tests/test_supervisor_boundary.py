@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 import pytest
+from labelverify.contracts.loader import contracts
 from labelverify.extraction.rapidocr_adapter import ModelIntegrityError, RapidOcrAdapter
 from labelverify.orchestration.supervisor import WorkerNotReady, WorkerSupervisor
 from labelverify.security.boundary import BoundaryMiddleware
@@ -85,9 +86,10 @@ async def invoke_boundary(
 
 @pytest.mark.asyncio
 async def test_oversize_content_length_rejects_before_body(tmp_path: Path) -> None:
+    oversize = int(contracts().api["limits"]["rawRequestBytes"]) + 1
     sent, reads = await invoke_boundary(
         tmp_path,
-        [(b"content-length", b"8650753")],
+        [(b"content-length", str(oversize).encode("ascii"))],
         [{"type": "http.request", "body": b"unused", "more_body": False}],
     )
     assert sent[0]["status"] == 413
@@ -152,9 +154,10 @@ class RecordingLimiter(StartRateLimiter):
 @pytest.mark.asyncio
 async def test_invalid_length_does_not_charge_shared_start_budget(tmp_path: Path) -> None:
     limiter = RecordingLimiter()
+    oversize = int(contracts().api["limits"]["rawRequestBytes"]) + 1
     sent, reads = await invoke_boundary(
         tmp_path,
-        [(b"content-length", b"8650753")],
+        [(b"content-length", str(oversize).encode("ascii"))],
         [{"type": "http.request", "body": b"unused", "more_body": False}],
         limiter,
     )

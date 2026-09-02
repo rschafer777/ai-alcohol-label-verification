@@ -203,6 +203,18 @@ def test_brand_selection_is_independent_of_panel_order() -> None:
     assert first.field("brand").candidates[0].value == "ACME RESERVE"
     assert second.field("brand").candidates[0].value == "ACME RESERVE"
 
+    mixed_case = locate_candidates(
+        [
+            line("Stone's Throw", 0, y=20, height=42),
+            line("A family tradition", 1, y=78, height=18),
+            line("Pinot Noir Wine", 2, y=120, height=28),
+            line("Napa Valley", 3, y=165, height=46),
+        ],
+        [panel()],
+    )
+    assert mixed_case.field("brand").status == "Found"
+    assert mixed_case.field("brand").candidates[0].value == "Stone's Throw"
+
 
 def test_warning_body_interruption_cannot_become_brand() -> None:
     observed = locate_candidates(
@@ -626,6 +638,5 @@ def test_warning_interruption_after_second_clause_cannot_preserve_continuity() -
 
     assert observed.continuous is False
     assert observed.body == (
-        "(1) First required sentence. (2) Second required sentence "
-        "and may cause health problems."
+        "(1) First required sentence. (2) Second required sentence and may cause health problems."
     )

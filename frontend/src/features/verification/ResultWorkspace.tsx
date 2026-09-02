@@ -1,243 +1,145 @@
-import { useEffect, useMemo, useState, type RefObject } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import type { CheckResult, Evidence, VerificationResult } from "../../api/generated-contract";
+import type { AnalysisResult, CheckResult, Evidence, VerificationResult } from "../../contracts/types";
+
+type Layout = "table" | "cards" | "image";
+type Disposition = "approved" | "rejected" | "more_info_requested" | null;
 
 interface ResultWorkspaceProps {
+  analysis: AnalysisResult;
   result: VerificationResult;
   sourcePanels: File[];
-  selectedEvidenceId: string | null;
-  note: string;
-  disposition: string;
-  summaryRef: RefObject<HTMLHeadingElement | null>;
-  onSelectEvidence: (evidenceId: string) => void;
-  onNoteChange: (note: string) => void;
-  onDispositionChange: (disposition: string) => void;
   onStartOver: () => void;
+  onAddFiles?: (files: File[]) => void;
 }
 
-function useObjectUrl(file?: File): string {
-  const url = useMemo(
-    () => file && typeof URL.createObjectURL === "function" ? URL.createObjectURL(file) : "",
-    [file],
-  );
-  useEffect(() => {
-    return () => {
-      if (url && typeof URL.revokeObjectURL === "function") URL.revokeObjectURL(url);
-    };
-  }, [url]);
-  return url;
+const WARNING_IDS = new Set([
+  "warning_applicability", "warning_wording", "warning_heading_uppercase",
+  "warning_heading_emphasis", "warning_body_not_bold", "warning_separation",
+  "warning_continuity", "warning_contrast", "warning_legibility", "warning_physical_size",
+]);
+
+const GROUPS: Array<{ name: string; ids: string[] }> = [
+  { name: "Identity", ids: ["beverage_type", "brand", "class_type"] },
+  { name: "Content statements", ids: ["abv", "proof", "net_contents", "producer", "country"] },
+  { name: "Type-specific rules", ids: ["wine_appellation", "wine_sulfites", "spirits_field_of_vision", "malt_class_designation"] },
+  { name: "Government warning", ids: [...WARNING_IDS] },
+  { name: "Image and coverage", ids: ["panel_coverage", "image_quality"] },
+];
+
+const REQUIRED_WARNING = "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.";
+
+function stateClass(value: string): string {
+  if (value === "Match") return "pass";
+  if (value === "Mismatch") return "fail";
+  if (value === "Review") return "warn";
+  return "none";
 }
 
-function stateClass(state: CheckResult["state"]): string {
-  if (state === "Match") return "state-match";
-  if (state === "Mismatch") return "state-difference";
-  if (state === "Review") return "state-review";
-  return "state-unverified";
+function StatusTag({ value }: { value: string }) {
+  const icon = value === "Match" || value.includes("No differences") ? "OK" : value === "Mismatch" || value.includes("Differences") ? "X" : value === "Review" || value.includes("Review") ? "?" : "-";
+  return <span className={`status-tag ${stateClass(value)}`}><span aria-hidden="true">{icon}</span>{value}</span>;
 }
 
-function stateLabel(state: CheckResult["state"]): string {
-  return state === "Mismatch" ? "Difference" : state;
+function typeLabel(value: string | null): string {
+  if (value === "malt_beverage") return "Beer / malt beverage";
+  if (value === "distilled_spirits") return "Distilled spirits";
+  if (value === "wine") return "Wine";
+  return "Type uncertain";
 }
 
-function fallbackComparisonValue(check: CheckResult, side: "reference" | "observed"): string {
-  if (!check.applicable) return "Not applicable";
-  if (side === "reference") return "Rule-based requirement";
-  if (check.state === "Match") return "Condition satisfied";
-  if (check.state === "Mismatch") return "Condition not satisfied";
-  if (check.state === "Review") return "Review required";
-  return "Not verified";
+function groupFor(check: CheckResult): string {
+  return GROUPS.find((group) => group.ids.includes(check.checkId))?.name ?? "Other";
 }
 
-function summaryClass(summary: VerificationResult["summary"]): string {
-  if (summary === "No differences found in checked fields") return "summary-clear";
-  if (summary === "Differences detected") return "summary-difference";
-  return "summary-review";
-}
-
-function CheckRow({
-  check,
-  evidenceById,
-  selectedEvidenceId,
-  onSelectEvidence,
-}: {
-  check: CheckResult;
-  evidenceById: Map<string, Evidence>;
-  selectedEvidenceId: string | null;
-  onSelectEvidence: (evidenceId: string) => void;
-}) {
-  const evidence = check.evidenceRef ? evidenceById.get(check.evidenceRef) : undefined;
+function CheckTable({ checks, selected, onSelect }: { checks: CheckResult[]; selected: string | null; onSelect: (id: string | null) => void }) {
   return (
-    <article className={`check-row ${stateClass(check.state)}`} aria-labelledby={`check-${check.checkId}`}>
-      <div className="check-title">
-        <span className="state-symbol" aria-hidden="true">
-          {check.state === "Match" ? "OK" : check.state === "Mismatch" ? "!" : "?"}
-        </span>
-        <div>
-          <h3 id={`check-${check.checkId}`}>{check.label}</h3>
-          <span className="state-label">{check.applicable ? stateLabel(check.state) : "Not applicable"}</span>
-        </div>
-      </div>
-      <dl className="comparison-values">
-        <div><dt>Application</dt><dd>{check.referenceDisplay ?? fallbackComparisonValue(check, "reference")}</dd></div>
-        <div><dt>Label</dt><dd>{check.observedDisplay ?? fallbackComparisonValue(check, "observed")}</dd></div>
-      </dl>
-      <p className="reason-text">{check.reasonText}</p>
-      <p className="capability-text">Check capability: {check.capability.replaceAll("_", " ")}</p>
-      <div className="evidence-actions">
-        {evidence ? (
-          <button
-            aria-pressed={selectedEvidenceId === evidence.evidenceId}
-            className="evidence-button"
-            onClick={() => onSelectEvidence(evidence.evidenceId)}
-            type="button"
-          >
-            Show on label
-          </button>
-        ) : (
-          <span className="no-evidence">No visual evidence is available for this check.</span>
-        )}
-        {check.alternatives.map((alternative) => (
-          <button
-            aria-pressed={selectedEvidenceId === alternative.evidenceRef}
-            className="evidence-button alternative-button"
-            key={`${alternative.value}-${alternative.evidenceRef}`}
-            onClick={() => onSelectEvidence(alternative.evidenceRef)}
-            type="button"
-          >
-            Show {alternative.value}
-          </button>
-        ))}
-      </div>
-    </article>
+    <div className="checks-groups">
+      {GROUPS.map((group) => {
+        const rows = checks.filter((check) => group.ids.includes(check.checkId));
+        if (!rows.length) return null;
+        return <section className="check-group" key={group.name}><div className="group-title"><h3>{group.name}</h3><span>{rows.filter((item) => item.state === "Match").length} match | {rows.filter((item) => item.state === "Review").length} review | {rows.filter((item) => item.state === "Mismatch").length} mismatch</span></div><div aria-label={`${group.name} checks`} className="table-wrap" tabIndex={0}><table className="checks-table"><thead><tr><th>Check</th><th>Rule expects</th><th>Read on label</th><th>Result</th><th>Evidence</th></tr></thead><tbody>{rows.map((check) => <tr className={selected === check.checkId ? "selected" : ""} key={check.checkId}><th scope="row">{check.label}{!check.applicable ? <small>Not applicable</small> : null}</th><td>{check.referenceDisplay ?? "Selected rule profile"}</td><td>{check.observedDisplay ?? "Not reliably read"}</td><td><StatusTag value={check.state} /><small>{check.reasonText}</small></td><td>{check.evidenceRef ? <button aria-pressed={selected === check.checkId} className="show-btn" onClick={() => onSelect(selected === check.checkId ? null : check.checkId)} type="button">Show</button> : <span className="micro">None</span>}</td></tr>)}</tbody></table></div></section>;
+      })}
+    </div>
   );
 }
 
-export function ResultWorkspace({
-  result,
-  sourcePanels,
-  selectedEvidenceId,
-  note,
-  disposition,
-  summaryRef,
-  onSelectEvidence,
-  onNoteChange,
-  onDispositionChange,
-  onStartOver,
-}: ResultWorkspaceProps) {
-  const [viewMode, setViewMode] = useState<"original" | "enhanced">("original");
-  const [zoom, setZoom] = useState(1);
-  const [rotation, setRotation] = useState(0);
-  const selectedEvidence = result.evidence.find((item) => item.evidenceId === selectedEvidenceId) ?? null;
-  const selectedPanelId = selectedEvidence?.panelId ?? result.panels[0]?.panelId ?? "panel-1";
-  const selectedPanelIndex = Math.max(0, Number(selectedPanelId.replace("panel-", "")) - 1);
-  const selectedFile = sourcePanels[selectedPanelIndex];
-  const imageUrl = useObjectUrl(selectedFile);
-  const panelResult = result.panels.find((panel) => panel.panelId === selectedPanelId);
-  const evidenceById = useMemo(() => new Map(result.evidence.map((item) => [item.evidenceId, item])), [result.evidence]);
-  const viewerTransformClass = `zoom-${Math.round(zoom * 100)} rotate-${rotation}`;
-  const polygon = selectedEvidence?.polygonOriginalPixels.map((point) => `${point.x},${point.y}`).join(" ");
+function CheckCards({ checks, selected, onSelect }: { checks: CheckResult[]; selected: string | null; onSelect: (id: string | null) => void }) {
+  return <div className="check-cards">{checks.map((check) => <article className={`check-card ${selected === check.checkId ? "selected" : ""}`} key={check.checkId}><div className="section-row"><h3>{check.label}</h3><StatusTag value={check.state} /></div><dl><div><dt>Rule expects</dt><dd>{check.referenceDisplay ?? "Selected profile requirement"}</dd></div><div><dt>Read on label</dt><dd>{check.observedDisplay ?? "Not reliably read"}</dd></div></dl><p>{check.reasonText}</p><div className="section-row"><span className="micro">{groupFor(check)} | {check.capability}</span>{check.evidenceRef ? <button className="show-btn" onClick={() => onSelect(selected === check.checkId ? null : check.checkId)} type="button">Show on label</button> : null}</div></article>)}</div>;
+}
 
-  function resetViewer() {
-    setViewMode("original");
-    setZoom(1);
-    setRotation(0);
+function CheckRail({ checks, selected, onSelect }: { checks: CheckResult[]; selected: string | null; onSelect: (id: string | null) => void }) {
+  const active = checks.find((check) => check.checkId === selected) ?? checks[0];
+  return <div className="image-first"><div className="check-rail">{checks.map((check) => <button className={selected === check.checkId ? "selected" : ""} key={check.checkId} onClick={() => onSelect(check.checkId)} type="button"><span>{check.label}</span><StatusTag value={check.state} /></button>)}</div>{active ? <article className="blueprint selected-check"><div className="section-row"><h2>{active.label}</h2><StatusTag value={active.state} /></div><h3>Rule expects</h3><p>{active.referenceDisplay ?? "Selected profile requirement"}</p><h3>Read on label</h3><p>{active.observedDisplay ?? "Not reliably read"}</p><p>{active.reasonText}</p></article> : null}</div>;
+}
+
+function EvidenceViewer({ result, files, selectedCheckId, onClear, onAddFiles }: { result: VerificationResult; files: File[]; selectedCheckId: string | null; onClear: () => void; onAddFiles?: (files: File[]) => void }) {
+  const [panelIndex, setPanelIndex] = useState(0);
+  const [zoom, setZoom] = useState(100);
+  const [rotation, setRotation] = useState(0);
+  const [enhanced, setEnhanced] = useState(false);
+  const urls = useMemo(() => files.map((file) => URL.createObjectURL(file)), [files]);
+  useEffect(() => () => urls.forEach((url) => URL.revokeObjectURL(url)), [urls]);
+  const panel = result.panels[panelIndex];
+  const check = result.checks.find((item) => item.checkId === selectedCheckId);
+  const selectedEvidence = result.evidence.find((item) => item.evidenceId === check?.evidenceRef);
+  const visibleEvidence = selectedEvidence ? [selectedEvidence] : result.evidence.filter((item) => item.panelId === panel?.panelId);
+  const dimensions = panel?.originalDimensions;
+  return (
+    <section className="viewer-pane" aria-labelledby="viewer-heading">
+      <div className="viewer-tools"><h2 id="viewer-heading">Label images <span>{files.length} of 3</span></h2><button onClick={() => setZoom(Math.max(50, zoom - 25))} type="button">Zoom -</button><strong>{zoom}%</strong><button onClick={() => setZoom(Math.min(250, zoom + 25))} type="button">Zoom +</button><button onClick={() => setRotation((rotation + 90) % 360)} type="button">Rotate</button><button aria-pressed={enhanced} onClick={() => setEnhanced((value) => !value)} type="button">Enhance</button></div>
+      <div className="image-slots" role="group" aria-label="Label images">{[0, 1, 2].map((index) => files[index] ? <button aria-pressed={panelIndex === index} className={panelIndex === index ? "selected" : ""} key={index} onClick={() => setPanelIndex(index)} type="button"><img alt="" src={urls[index]} /><span><strong>Image {index + 1}</strong><small>{files[index]?.name}</small></span></button> : <label className="empty-slot" key={index}><strong>Add image</strong><small>Image {index + 1} of 3</small><input accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={(event) => { const added = Array.from(event.target.files ?? []); if (added.length) onAddFiles?.(added); }} type="file" /></label>)}</div>
+      <div className="viewer-meta"><span>Viewing <strong>{files[panelIndex]?.name ?? "image"}</strong></span><span>Coverage: <strong>{panel?.coverageState ?? "Unknown"}</strong></span><span>Solid outline is selected evidence. Dotted outlines show all located fields.</span></div>
+      <div aria-label="Scrollable label evidence image" className="image-stage" tabIndex={0}><div className={`image-transform ${enhanced ? "enhanced" : ""}`} style={{ transform: `scale(${zoom / 100}) rotate(${rotation}deg)` }}>{urls[panelIndex] ? <img alt={`Label evidence from ${files[panelIndex]?.name ?? "uploaded image"}`} src={urls[panelIndex]} /> : null}{dimensions ? <svg aria-hidden="true" className="evidence-overlay" preserveAspectRatio="none" viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}>{visibleEvidence.map((evidence: Evidence) => <polygon className={selectedEvidence ? stateClass(check?.state ?? "") : "map"} key={evidence.evidenceId} points={evidence.polygonOriginalPixels.map((point) => `${point.x},${point.y}`).join(" ")} />)}</svg> : null}</div></div>
+      <div className={`evidence-caption ${stateClass(check?.state ?? "")}`} aria-live="polite"><strong>{check?.label ?? "All evidence regions"}</strong><span>{selectedEvidence?.textSnippet ? `Read: ${selectedEvidence.textSnippet}` : `${visibleEvidence.length} regions located on this image`}</span>{selectedEvidence ? <button className="show-btn" onClick={onClear} type="button">Show all regions</button> : null}</div>
+    </section>
+  );
+}
+
+function WarningInspect({ checks, evidence, onBack }: { checks: CheckResult[]; evidence: Evidence[]; onBack: () => void }) {
+  const rows = checks.filter((check) => WARNING_IDS.has(check.checkId));
+  const worst = rows.some((check) => check.state === "Mismatch") ? "Mismatch" : rows.some((check) => check.state === "Review") ? "Review" : "Match";
+  const observed = evidence.find((item) => item.evidenceId === rows.find((item) => item.checkId === "warning_wording")?.evidenceRef)?.textSnippet;
+  return <section className="warning-page"><div className="review-header"><button className="btn ghost" onClick={onBack} type="button">Back to all 24 checks</button><h1>Government warning statement</h1><span className="neutral-tag">27 CFR Part 16 | exact text required</span><StatusTag value={worst} /></div><div className="warning-grid"><article className="blueprint warning-copy"><p className="kicker">Required text</p><p><strong>GOVERNMENT WARNING:</strong> {REQUIRED_WARNING.replace("GOVERNMENT WARNING: ", "")}</p></article><article className="blueprint warning-copy"><p className="kicker">Read on label</p><p>{observed ?? "The complete warning could not be read reliably from the submitted images."}</p></article></div><div className="table-wrap"><table className="checks-table"><thead><tr><th>Check</th><th>Rule expects</th><th>Read on label</th><th>Result</th></tr></thead><tbody>{rows.map((check) => <tr key={check.checkId}><th scope="row">{check.label}</th><td>{check.referenceDisplay ?? "Part 16 requirement"}</td><td>{check.observedDisplay ?? "Not reliably read"}</td><td><StatusTag value={check.state} /><small>{check.reasonText}</small></td></tr>)}</tbody></table></div><div className="decision-bar"><span>Warning detail does not change the overall machine result.</span><button className="btn primary" onClick={onBack} type="button">Continue review</button></div></section>;
+}
+
+export function ResultWorkspace({ analysis, result, sourcePanels, onStartOver, onAddFiles }: ResultWorkspaceProps) {
+  const [layout, setLayout] = useState<Layout>("table");
+  const [selectedCheckId, setSelectedCheckId] = useState<string | null>(null);
+  const [warningOpen, setWarningOpen] = useState(false);
+  const [disposition, setDisposition] = useState<Disposition>(null);
+  const [note, setNote] = useState("");
+  const [saveState, setSaveState] = useState("");
+  const checks = result.checks;
+  const tally = { match: checks.filter((item) => item.state === "Match").length, review: checks.filter((item) => item.state === "Review").length, mismatch: checks.filter((item) => item.state === "Mismatch").length, unverified: checks.filter((item) => item.state === "Not verified").length };
+
+  async function save() {
+    if (result.historyId) {
+      const response = await fetch(`/api/v1/history/${result.historyId}/disposition`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ disposition, reviewerNote: note }) });
+      setSaveState(response.ok ? "Saved" : "Could not save. Retry before leaving.");
+      if (!response.ok) return;
+    }
+    onStartOver();
   }
 
+  useEffect(() => {
+    function shortcut(event: KeyboardEvent) {
+      if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
+      if (event.key.toLowerCase() === "a") setDisposition("approved");
+      if (event.key.toLowerCase() === "r") setDisposition("rejected");
+      if (event.key.toLowerCase() === "m") setDisposition("more_info_requested");
+      if (event.key.toLowerCase() === "w") setWarningOpen(true);
+    }
+    window.addEventListener("keydown", shortcut);
+    return () => window.removeEventListener("keydown", shortcut);
+  }, []);
+
+  if (warningOpen) return <WarningInspect checks={checks} evidence={result.evidence} onBack={() => setWarningOpen(false)} />;
   return (
-    <div className="result-page">
-      <section className={`summary-card ${summaryClass(result.summary)}`} aria-live="polite">
-        <div>
-          <p className="eyebrow">Verification complete</p>
-          <h1 ref={summaryRef} tabIndex={-1}>{result.summary}</h1>
-          <p>Review the system findings and source evidence. You make the final decision.</p>
-        </div>
-        <div className="summary-meta">
-          <span>Server work: {(result.serverDurationMs / 1000).toFixed(1)}s</span>
-          <span>Request: {result.requestId}</span>
-        </div>
-      </section>
-
-      <div className="workspace-grid">
-        <section className="card viewer-card" aria-labelledby="viewer-heading">
-          <div className="section-heading compact-heading">
-            <div><p className="step-label">Source evidence</p><h2 id="viewer-heading">Label view</h2></div>
-            <span className="panel-count">{selectedPanelId}</span>
-          </div>
-          <div className="viewer-toolbar" aria-label="Label view controls">
-            <div className="segmented-control" aria-label="Image view">
-              <button aria-pressed={viewMode === "original"} onClick={() => setViewMode("original")} type="button">Original</button>
-              <button aria-pressed={viewMode === "enhanced"} onClick={() => setViewMode("enhanced")} type="button">Enhanced display</button>
-            </div>
-            <button aria-label="Zoom out" disabled={zoom <= 0.75} onClick={() => setZoom((value) => Math.max(0.75, value - 0.25))} type="button">Zoom out</button>
-            <button aria-label="Zoom in" disabled={zoom >= 2} onClick={() => setZoom((value) => Math.min(2, value + 0.25))} type="button">Zoom in</button>
-            <button onClick={() => setRotation((value) => (value + 90) % 360)} type="button">Rotate</button>
-            <button onClick={resetViewer} type="button">Fit and reset</button>
-          </div>
-          <p className="view-explanation">
-            {viewMode === "original" ? "Original uploaded image" : "Display-only contrast enhancement. Findings do not change."}
-          </p>
-          <div className="image-stage">
-            {imageUrl && panelResult ? (
-              <div className={`image-transform ${viewMode === "enhanced" ? "enhanced" : ""} ${viewerTransformClass}`}>
-                <img alt={`Original label ${selectedPanelId}`} src={imageUrl} />
-                {polygon ? (
-                  <svg aria-hidden="true" className="evidence-overlay" preserveAspectRatio="none" viewBox={`0 0 ${panelResult.originalDimensions.width} ${panelResult.originalDimensions.height}`}>
-                    <polygon points={polygon} />
-                  </svg>
-                ) : null}
-              </div>
-            ) : (
-              <div className="viewer-empty">Original panel preview is unavailable. The result remains unchanged.</div>
-            )}
-          </div>
-          {selectedEvidence ? (
-            <div className="selected-evidence" aria-live="polite">
-              <strong>Focused evidence</strong>
-              <span>{selectedEvidence.textSnippet || "Visual presentation evidence"}</span>
-              <span>Source: {selectedEvidence.sourceView}; confidence is an extraction signal, not an approval score.</span>
-            </div>
-          ) : <p className="selected-evidence">Choose Show on label to focus a source region.</p>}
-        </section>
-
-        <section className="card checks-card" aria-labelledby="checks-heading">
-          <div className="section-heading compact-heading">
-            <div><p className="step-label">Application compared with label</p><h2 id="checks-heading">Checked details</h2></div>
-            <span className="panel-count">{result.checks.filter((check) => check.applicable).length} applicable</span>
-          </div>
-          <div className="check-list">
-            {result.checks.map((check) => (
-              <CheckRow
-                check={check}
-                evidenceById={evidenceById}
-                key={check.checkId}
-                onSelectEvidence={onSelectEvidence}
-                selectedEvidenceId={selectedEvidenceId}
-              />
-            ))}
-          </div>
-        </section>
-      </div>
-
-      <section className="card limitations-card" aria-labelledby="limitations-heading">
-        <h2 id="limitations-heading">Limits and reviewer notes</h2>
-        {result.limitations.length ? <ul>{result.limitations.map((item) => <li key={item}>{item}</li>)}</ul> : <p>No additional result limitations were reported.</p>}
-        <div className="review-fields">
-          <div className="field">
-            <label htmlFor="reviewer-disposition">Session disposition (optional)</label>
-            <select id="reviewer-disposition" onChange={(event) => onDispositionChange(event.target.value)} value={disposition}>
-              <option value="">No disposition selected</option>
-              <option value="reviewed">Reviewed</option>
-              <option value="follow-up">Follow-up needed</option>
-            </select>
-          </div>
-          <div className="field">
-            <label htmlFor="reviewer-note">Reviewer note (optional)</label>
-            <textarea id="reviewer-note" maxLength={1000} onChange={(event) => onNoteChange(event.target.value)} rows={3} value={note} />
-          </div>
-        </div>
-        <p className="session-note">Notes and disposition stay only in this browser tab and never change the system findings.</p>
-        <button className="button secondary" onClick={onStartOver} type="button">Start over</button>
-      </section>
-    </div>
+    <section className="review-page">
+      <div className="review-header"><button className="btn ghost" onClick={onStartOver} type="button">Start over</button><div><h1>{analysis.draft.brandName ?? "Product label"}</h1><span className="neutral-tag">{typeLabel(analysis.draft.beverageType)} | inferred, {analysis.beverageTypeConfidence ? `${Math.round(analysis.beverageTypeConfidence * 100)}% signal` : "review needed"}</span></div><span className="review-time">{sourcePanels.length} image{sourcePanels.length === 1 ? "" : "s"} | {(result.serverDurationMs / 1000).toFixed(1)} s</span><div><small>Machine result</small><StatusTag value={result.summary} /></div><div className="segmented" aria-label="Review layout">{(["table", "cards", "image"] as Layout[]).map((value) => <button aria-pressed={layout === value} key={value} onClick={() => setLayout(value)} type="button">{value === "image" ? "Image first" : value[0]?.toUpperCase() + value.slice(1)}</button>)}</div></div>
+      <div className={`review-body layout-${layout}`}><EvidenceViewer files={sourcePanels} onAddFiles={onAddFiles} onClear={() => setSelectedCheckId(null)} result={result} selectedCheckId={selectedCheckId} /><section className="checks-pane"><div className="checks-heading"><div><p className="kicker">24 selected checks | {typeLabel(analysis.draft.beverageType)}</p><h2>{tally.match} match | {tally.review} review | {tally.mismatch} mismatch | {tally.unverified} not verified</h2></div><button className="btn secondary" onClick={() => setWarningOpen(true)} type="button">Inspect warning</button></div>{layout === "table" ? <CheckTable checks={checks} onSelect={setSelectedCheckId} selected={selectedCheckId} /> : layout === "cards" ? <CheckCards checks={checks} onSelect={setSelectedCheckId} selected={selectedCheckId} /> : <CheckRail checks={checks} onSelect={setSelectedCheckId} selected={selectedCheckId} />}<details><summary>Limitations reported with this result ({result.limitations.length})</summary><ul>{result.limitations.map((item) => <li key={item}>{item}</li>)}</ul><p className="micro">Model {result.modelIdentity} | Policy {result.profileVersion} | Request {result.requestId}</p></details></section></div>
+      <div className="decision-bar"><div><small>Your disposition</small><strong>{disposition ? disposition.replaceAll("_", " ") : "Undecided"}</strong></div><button aria-pressed={disposition === "approved"} className="btn disposition approve" onClick={() => setDisposition("approved")} type="button">Approve A</button><button aria-pressed={disposition === "rejected"} className="btn disposition reject" onClick={() => setDisposition("rejected")} type="button">Reject R</button><button aria-pressed={disposition === "more_info_requested"} className="btn disposition more" onClick={() => setDisposition("more_info_requested")} type="button">Request more info M</button><label className="note-field"><span className="sr-only">Reviewer note</span><input maxLength={1000} onChange={(event) => setNote(event.target.value)} placeholder="Note (optional). Stays with this record." value={note} /></label><span aria-live="polite" className="micro">{saveState}</span><button className="btn primary" onClick={() => void save()} type="button">Save and check another</button></div>
+    </section>
   );
 }

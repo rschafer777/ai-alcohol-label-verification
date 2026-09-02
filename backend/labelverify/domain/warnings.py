@@ -6,7 +6,7 @@ from difflib import SequenceMatcher
 from labelverify.contracts.loader import contracts
 from labelverify.contracts.models import CheckResult, CheckState, Evidence
 from labelverify.domain.comparison import _result
-from labelverify.domain.normalize import punctuation_folded, warning_text
+from labelverify.domain.normalize import punctuation_folded, reference_volume_ml, warning_text
 from labelverify.domain.types import WarningObservation
 
 
@@ -47,27 +47,39 @@ def _presentation(
 
 
 def warning_checks(
-    abv: Decimal,
+    abv: Decimal | None,
     observed: WarningObservation,
     net_contents_value: Decimal = Decimal("750"),
     net_contents_unit: str = "mL",
 ) -> list[CheckResult]:
     warning = contracts().rules["warning"]
     threshold = Decimal(str(warning["applicabilityAbvPercentGte"]))
-    required = abv >= threshold
+    required = abv is not None and abv >= threshold
     actual_heading = warning_text(observed.heading or "")
     actual_body = warning_text(observed.body or "")
     actual_full = warning_text(observed.full_text or "")
-    applicability = _result(
-        "warning_applicability",
-        "Warning applicability",
-        "Match",
-        "warning_required" if required else "warning_not_required",
-        "The reference ABV establishes the warning applicability rule",
-        reference=f"ABV at least {threshold}%" if required else f"ABV below {threshold}%",
-        observed=f"{abv}% ABV",
-    )
-    if not required:
+    if abv is None:
+        applicability = _result(
+            "warning_applicability",
+            "Warning applicability",
+            "Review",
+            "warning_applicability_unknown",
+            "A trusted alcohol value is needed to decide whether the federal warning is required",
+            reference=f"Required at {threshold}% ABV or more",
+            observed="Alcohol value not established",
+            capability="human_confirmation",
+        )
+    else:
+        applicability = _result(
+            "warning_applicability",
+            "Warning applicability",
+            "Match",
+            "warning_required" if required else "warning_not_required",
+            "The alcohol value establishes the federal warning applicability rule",
+            reference=(f"ABV at least {threshold}%" if required else f"ABV below {threshold}%"),
+            observed=f"{abv}% ABV",
+        )
+    if abv is not None and not required:
         return [applicability] + [
             _result(
                 check_id,
@@ -193,10 +205,9 @@ def warning_checks(
         ).model_copy(
             update={"evidence_ref": heading_evidence.evidence_id if heading_evidence else None}
         )
-    elif (
-        actual_heading.upper() == actual_heading
-        and punctuation_folded(actual_heading) == punctuation_folded(expected_heading)
-    ):
+    elif actual_heading.upper() == actual_heading and punctuation_folded(
+        actual_heading
+    ) == punctuation_folded(expected_heading):
         heading_case = _result(
             "warning_heading_uppercase",
             "Warning heading uppercase",
@@ -293,8 +304,7 @@ def warning_checks(
 
 
 def _required_type_size_mm(net_contents_value: Decimal, net_contents_unit: str) -> Decimal:
-    unit_multiplier = Decimal("1000") if net_contents_unit == "L" else Decimal("1")
-    milliliters = net_contents_value * unit_multiplier
+    milliliters = reference_volume_ml(net_contents_value, net_contents_unit)
     if milliliters > Decimal("3000"):
         return Decimal("3")
     if milliliters > Decimal("237"):

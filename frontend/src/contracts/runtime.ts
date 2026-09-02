@@ -3,14 +3,14 @@ import { z } from "zod";
 import errorRegistryJson from "../../../contracts/error-registry-v1.json";
 import { checkIds, profileId } from "../api/generated-contract";
 
-import type { PublicError, VerificationResult } from "./types";
+import type { AnalysisResult, PublicError, VerificationResult } from "./types";
 
 const pointSchema = z.object({ x: z.number().int().nonnegative(), y: z.number().int().nonnegative() }).strict();
 
 const evidenceSchema = z
   .object({
     evidenceId: z.string().regex(/^ev_[a-z0-9_-]+$/),
-    panelId: z.string().regex(/^panel-[1-6]$/),
+    panelId: z.string().regex(/^panel-[1-3]$/),
     polygonOriginalPixels: z.array(pointSchema).length(4),
     sourceView: z.enum(["original", "derived"]),
     transformId: z.string().min(1),
@@ -57,7 +57,7 @@ const resultSchema = z
     panels: z.array(
       z
         .object({
-          panelId: z.string().regex(/^panel-[1-6]$/),
+          panelId: z.string().regex(/^panel-[1-3]$/),
           originalDimensions: z
             .object({ width: z.number().int().positive(), height: z.number().int().positive() })
             .strict(),
@@ -77,8 +77,47 @@ const resultSchema = z
       "Review needed",
       "Differences detected",
     ]),
+    historyId: z.string().nullable().optional(),
   })
   .passthrough();
+
+const detectedValueSchema = z.object({
+  value: z.union([z.string(), z.number(), z.boolean()]).nullable(),
+  status: z.enum(["Found", "Ambiguous", "Not found", "Unreadable"]),
+  evidenceRef: z.string().nullable().optional(),
+  alternatives: z.array(z.string()),
+  confidenceSignal: z.number().min(0).max(1).nullable().optional(),
+}).strict();
+
+const analysisSchema = z.object({
+  requestId: z.string().min(1),
+  buildId: z.string().min(1),
+  profileId: z.literal(profileId),
+  modelIdentity: z.string().min(1),
+  serverDurationMs: z.number().nonnegative(),
+  panels: resultSchema.shape.panels,
+  evidence: z.array(evidenceSchema),
+  draft: z.object({
+    beverageType: z.enum(["malt_beverage", "wine", "distilled_spirits"]).nullable(),
+    brandName: z.string().nullable(),
+    classType: z.string().nullable(),
+    abvPercent: z.number().min(0).max(100).nullable(),
+    proof: z.number().nonnegative().nullable(),
+    netContentsValue: z.number().positive().nullable(),
+    netContentsUnit: z.enum(["mL", "L", "fl oz", "pt", "qt", "gal"]).nullable(),
+    producerNameAddress: z.string().nullable(),
+    isImported: z.boolean(),
+    countryOfOrigin: z.string().nullable(),
+    wineAppellation: z.string().nullable(),
+    wineSulfiteStatus: z.enum(["present", "not_present", "unknown"]),
+    maltAlcoholSource: z.enum(["added_ingredients", "none", "unknown"]),
+  }).strict(),
+  detected: z.record(z.string(), detectedValueSchema),
+  beverageTypeConfidence: z.number().min(0).max(1).nullable(),
+  beverageTypeReason: z.string().min(1),
+  limitations: z.array(z.string()),
+  verification: resultSchema.nullable(),
+}).strict();
 
 const publicErrorSchema = z
   .object({
@@ -213,6 +252,32 @@ export function parseVerificationResult(value: unknown): VerificationResult {
   }
 
   return result as unknown as VerificationResult;
+}
+
+export function parseAnalysisResult(value: unknown): AnalysisResult {
+  const parsed = analysisSchema.safeParse(value);
+  if (!parsed.success) throw new ResponseContractError("The analysis response was incomplete or invalid.");
+  const result = parsed.data;
+  const panelIds = result.panels.map((panel) => panel.panelId);
+  const evidenceIds = result.evidence.map((evidence) => evidence.evidenceId);
+  if (hasDuplicates(panelIds) || hasDuplicates(evidenceIds)) {
+    throw new ResponseContractError("The analysis response contained duplicate identifiers.", result.requestId);
+  }
+  const panels = new Map(result.panels.map((panel) => [panel.panelId, panel]));
+  const evidence = new Map(result.evidence.map((item) => [item.evidenceId, item]));
+  for (const item of result.evidence) {
+    const panel = panels.get(item.panelId);
+    if (!panel || !validatePolygon(item.polygonOriginalPixels, panel.originalDimensions.width, panel.originalDimensions.height)) {
+      throw new ResponseContractError("The analysis response contained invalid evidence coordinates.", result.requestId);
+    }
+  }
+  for (const detected of Object.values(result.detected)) {
+    if (detected.evidenceRef && !evidence.has(detected.evidenceRef)) {
+      throw new ResponseContractError("The analysis response referenced missing evidence.", result.requestId);
+    }
+  }
+  if (result.verification) parseVerificationResult(result.verification);
+  return result as unknown as AnalysisResult;
 }
 
 export function parsePublicError(value: unknown): PublicError | null {

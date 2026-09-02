@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import asyncio
+import re
+import secrets
 import time
 import uuid
+from http.cookies import SimpleCookie
 from typing import Any
 
 from starlette.responses import JSONResponse
@@ -14,6 +17,13 @@ from labelverify.security.rate_limit import AdmissionController, StartRateLimite
 from labelverify.settings.config import Settings
 
 VERIFY_PATH = "/api/v1/verifications"
+ANALYZE_PATH = "/api/v1/analyses"
+EXPENSIVE_PATHS = frozenset({VERIFY_PATH, ANALYZE_PATH})
+HISTORY_PATH = "/api/v1/history"
+HISTORY_SCOPE_COOKIE = "labelverify_scope"
+HISTORY_SCOPE_PATTERN = re.compile(r"[A-Za-z0-9_-]{43}\Z")
+HISTORY_SCOPE_MAX_AGE = 7 * 24 * 60 * 60
+JSON_BODY_LIMIT = 8 * 1024
 
 
 class BoundaryMiddleware:
@@ -42,6 +52,8 @@ class BoundaryMiddleware:
             return
         request_id = uuid.uuid4().hex
         scope.setdefault("state", {})["request_id"] = request_id
+        history_scope_id, set_history_cookie = _history_scope(scope)
+        scope["state"]["history_scope_id"] = history_scope_id
         started = time.monotonic()
         response_started = False
 
@@ -49,12 +61,20 @@ class BoundaryMiddleware:
             nonlocal response_started
             if message["type"] == "http.response.start":
                 response_started = True
-                message["headers"] = _security_headers(
+                headers = _security_headers(
                     list(message.get("headers", [])),
                     production=self.settings.production,
                     no_store=scope.get("path", "").startswith("/api/")
                     or scope.get("path", "").startswith("/health/"),
                 )
+                if set_history_cookie and scope.get("path", "").startswith("/api/"):
+                    headers.append(
+                        (
+                            b"set-cookie",
+                            _scope_cookie(history_scope_id, self.settings.production),
+                        )
+                    )
+                message["headers"] = headers
             await send(message)
 
         client_key: str | None = None
@@ -62,18 +82,26 @@ class BoundaryMiddleware:
         admitted = False
         try:
             self._validate_host_origin(scope, request_id)
-            if scope.get("method") == "POST" and scope.get("path") == VERIFY_PATH:
+            expensive = _is_expensive(scope)
+            mutation = _is_state_change(scope)
+            if expensive or mutation:
                 client_key = self.identity.resolve(scope, self.settings, request_id)
-                declared = self._validate_content_length(scope, request_id)
+                body_limit = self.raw_limit if expensive else JSON_BODY_LIMIT
+                declared = self._validate_content_length(scope, request_id, body_limit)
+                if scope.get("method") == "DELETE" and declared not in {None, 0}:
+                    raise PublicApiError("invalid_content_length", request_id)
                 rate_error = self.limiter.begin(client_key)
                 if rate_error:
                     raise PublicApiError(rate_error, request_id)
                 rate_started = True
-                if not self.admissions.acquire():
-                    raise PublicApiError("verification_capacity_busy", request_id)
-                admitted = True
-                scope["state"]["admission_started"] = started
-                limited_receive = self._limited_receive(receive, started, declared, request_id)
+                if expensive:
+                    if not self.admissions.acquire():
+                        raise PublicApiError("verification_capacity_busy", request_id)
+                    admitted = True
+                    scope["state"]["admission_started"] = started
+                limited_receive = self._limited_receive(
+                    receive, started, declared, request_id, body_limit
+                )
                 remaining = max(0.001, self.server_deadline - (time.monotonic() - started))
                 await asyncio.wait_for(
                     self.app(scope, limited_receive, secure_send), timeout=remaining
@@ -112,13 +140,15 @@ class BoundaryMiddleware:
             raise PublicApiError("invalid_host", request_id) from exc
         if actual != expected:
             raise PublicApiError("invalid_host", request_id)
-        if scope.get("method") == "POST" and scope.get("path") == VERIFY_PATH:
+        if _is_state_change(scope):
             origins = _header_values(scope, b"origin")
             expected_origin = f"https://{expected}".encode("ascii")
             if len(origins) != 1 or origins[0] != expected_origin:
                 raise PublicApiError("origin_not_allowed", request_id)
 
-    def _validate_content_length(self, scope: dict[str, Any], request_id: str) -> int | None:
+    def _validate_content_length(
+        self, scope: dict[str, Any], request_id: str, body_limit: int
+    ) -> int | None:
         length_values = _header_values(scope, b"content-length")
         transfer_values = _header_values(scope, b"transfer-encoding")
         if length_values and transfer_values:
@@ -131,7 +161,7 @@ class BoundaryMiddleware:
         if not raw or not raw.isdigit():
             raise PublicApiError("invalid_content_length", request_id)
         value = int(raw)
-        if value > self.raw_limit:
+        if value > body_limit:
             raise PublicApiError("request_too_large", request_id)
         return value
 
@@ -141,6 +171,7 @@ class BoundaryMiddleware:
         started: float,
         declared: int | None,
         request_id: str,
+        body_limit: int,
     ) -> Any:
         total = 0
         finished = False
@@ -160,7 +191,7 @@ class BoundaryMiddleware:
                 return message
             body = message.get("body", b"")
             total += len(body)
-            if total > self.raw_limit:
+            if total > body_limit:
                 raise PublicApiError("request_too_large", request_id)
             if declared is not None and total > declared:
                 raise PublicApiError("content_length_mismatch", request_id)
@@ -171,6 +202,47 @@ class BoundaryMiddleware:
             return message
 
         return wrapped
+
+
+def _is_expensive(scope: dict[str, Any]) -> bool:
+    return scope.get("method") == "POST" and scope.get("path") in EXPENSIVE_PATHS
+
+
+def _is_state_change(scope: dict[str, Any]) -> bool:
+    method = scope.get("method")
+    path = str(scope.get("path", ""))
+    return _is_expensive(scope) or (
+        method in {"PATCH", "DELETE"}
+        and (path == HISTORY_PATH or path.startswith(f"{HISTORY_PATH}/"))
+    )
+
+
+def _history_scope(scope: dict[str, Any]) -> tuple[str, bool]:
+    values = _header_values(scope, b"cookie")
+    raw = b"; ".join(values)
+    if raw and len(raw) <= 4096:
+        try:
+            jar = SimpleCookie()
+            jar.load(raw.decode("ascii"))
+            morsel = jar.get(HISTORY_SCOPE_COOKIE)
+            if morsel is not None and HISTORY_SCOPE_PATTERN.fullmatch(morsel.value):
+                return morsel.value, False
+        except (UnicodeError, ValueError):
+            pass
+    return secrets.token_urlsafe(32), True
+
+
+def _scope_cookie(scope_id: str, production: bool) -> bytes:
+    attributes = [
+        f"{HISTORY_SCOPE_COOKIE}={scope_id}",
+        "Path=/",
+        f"Max-Age={HISTORY_SCOPE_MAX_AGE}",
+        "HttpOnly",
+        "SameSite=Strict",
+    ]
+    if production:
+        attributes.append("Secure")
+    return "; ".join(attributes).encode("ascii")
 
 
 async def _send_error(error: PublicApiError, scope: dict[str, Any], send: Any) -> None:

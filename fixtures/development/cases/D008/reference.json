@@ -1,13 +1,18 @@
 {
-  "abvPercent": 45.0,
+  "abvPercent": 5.0,
+  "beverageType": "malt_beverage",
   "brandName": "OLD TOM DISTILLERY",
   "caseLabel": null,
-  "classType": "Kentucky Straight Bourbon Whiskey",
+  "classType": "Lager Beer",
   "countryOfOrigin": null,
   "isImported": false,
-  "netContentsUnit": "mL",
-  "netContentsValue": 750.0,
-  "producerNameAddress": "OLD TOM DISTILLERY, LLC\nFRANKFORT, KENTUCKY 40601",
-  "profileId": "distilled_spirits_demo_v1",
-  "proof": 90.0
+  "maltAlcoholSource": "none",
+  "netContentsUnit": "fl oz",
+  "netContentsValue": 12.0,
+  "producerNameAddress": "OLD TOM BREWING, LLC\nFRANKFORT, KENTUCKY 40601",
+  "profileId": "all_beverages_demo_v2",
+  "proof": null,
+  "referenceProvenance": "sample",
+  "wineAppellation": null,
+  "wineSulfiteStatus": "unknown"
 }

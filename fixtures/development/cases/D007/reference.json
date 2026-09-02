@@ -1,13 +1,18 @@
 {
-  "abvPercent": 45.0,
+  "abvPercent": 13.5,
+  "beverageType": "wine",
   "brandName": "OLD TOM DISTILLERY",
   "caseLabel": null,
-  "classType": "Kentucky Straight Bourbon Whiskey",
+  "classType": "Cabernet Sauvignon Wine",
   "countryOfOrigin": null,
   "isImported": false,
+  "maltAlcoholSource": "unknown",
   "netContentsUnit": "mL",
   "netContentsValue": 750.0,
   "producerNameAddress": "OLD TOM DISTILLERY LLC\nFRANKFORT, KENTUCKY 40601",
-  "profileId": "distilled_spirits_demo_v1",
-  "proof": 90.0
+  "profileId": "all_beverages_demo_v2",
+  "proof": null,
+  "referenceProvenance": "sample",
+  "wineAppellation": "Napa Valley",
+  "wineSulfiteStatus": "present"
 }

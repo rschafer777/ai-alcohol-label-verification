@@ -20,8 +20,8 @@ EXPECTED_METRICS = {
     "totalCases": 30,
     "developmentCases": 24,
     "holdoutCases": 6,
-    "selectedChecks": 19,
-    "scenarioTags": 50,
+    "selectedChecks": 24,
+    "scenarioTags": 52,
     "mutationControls": 8,
 }
 

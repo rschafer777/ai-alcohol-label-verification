@@ -8,7 +8,12 @@ _SPACE = re.compile(r"\s+")
 _PUNCT = re.compile(r"[^\w\s]", re.UNICODE)
 _ABV = re.compile(r"(?<!\d)(\d{1,3}(?:\.\d+)?)\s*%(?:\s*(?:alc(?:ohol)?\.?\s*/?\s*vol\.?))?", re.I)
 _PROOF = re.compile(r"(?<!\d)(\d{1,3}(?:\.\d+)?)\s*proof\b", re.I)
-_VOLUME = re.compile(r"(?<!\d)(\d+(?:\.\d+)?)\s*(ml|m[lL]|lit(?:er|re)s?|[lL])\b", re.I)
+_VOLUME = re.compile(
+    r"(?<!\d)(\d+(?:\.\d+)?)\s*"
+    r"(fl\.?\s*(?:oz|0z)\.?|fluid\s+ounces?|pints?|pts?\.?|quarts?|qts?\.?|"
+    r"gallons?|gals?\.?|ml|m[lL]|lit(?:er|re)s?|[lL])\b",
+    re.I,
+)
 
 
 def whitespace(value: str) -> str:
@@ -48,15 +53,44 @@ def parse_volume_ml(value: str) -> Decimal | None:
     if quantity is None:
         return None
     unit = match.group(2).casefold()
-    return (
-        quantity * Decimal(1000)
-        if unit in {"l", "liter", "litre", "liters", "litres"}
-        else quantity
-    )
+    compact = re.sub(r"[.\s]", "", unit)
+    if compact.startswith("fl"):
+        compact = compact.replace("0", "o")
+    multipliers = {
+        "l": Decimal("1000"),
+        "liter": Decimal("1000"),
+        "litre": Decimal("1000"),
+        "liters": Decimal("1000"),
+        "litres": Decimal("1000"),
+        "floz": Decimal("29.5735295625"),
+        "fluidounce": Decimal("29.5735295625"),
+        "fluidounces": Decimal("29.5735295625"),
+        "pint": Decimal("473.176473"),
+        "pints": Decimal("473.176473"),
+        "pt": Decimal("473.176473"),
+        "pts": Decimal("473.176473"),
+        "quart": Decimal("946.352946"),
+        "quarts": Decimal("946.352946"),
+        "qt": Decimal("946.352946"),
+        "qts": Decimal("946.352946"),
+        "gallon": Decimal("3785.411784"),
+        "gallons": Decimal("3785.411784"),
+        "gal": Decimal("3785.411784"),
+        "gals": Decimal("3785.411784"),
+    }
+    return quantity * multipliers.get(compact, Decimal("1"))
 
 
 def reference_volume_ml(value: Decimal, unit: str) -> Decimal:
-    return value * Decimal(1000) if unit == "L" else value
+    multipliers = {
+        "mL": Decimal("1"),
+        "L": Decimal("1000"),
+        "fl oz": Decimal("29.5735295625"),
+        "pt": Decimal("473.176473"),
+        "qt": Decimal("946.352946"),
+        "gal": Decimal("3785.411784"),
+    }
+    return value * multipliers[unit]
 
 
 def warning_text(value: str) -> str:

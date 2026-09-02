@@ -1,423 +1,315 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type ReactNode } from "react";
 
-import { limits, type PublicError, type VerificationResult } from "../api/generated-contract";
 import { createVerificationClient, VerificationClientError } from "../api/verification-client";
-import type { SampleAdapter, VerificationClient } from "../contracts/types";
+import type {
+  AnalysisResult,
+  PublicError,
+  ReferenceRecord,
+  SampleAdapter,
+  VerificationClient,
+  VerificationResult,
+} from "../contracts/types";
 import { BatchWorkspace } from "../features/batch/BatchWorkspace";
-import { IntakeForm } from "../features/intake/IntakeForm";
-import {
-  ACCEPTED_IMAGE_TYPES,
-  draftHasContent,
-  EMPTY_DRAFT,
-  MAX_AGGREGATE_BYTES,
-  MAX_FILE_BYTES,
-  MAX_PANELS,
-  referenceToDraft,
-  toReference,
-  validateDraft,
-  type DraftErrors,
-  type DraftField,
-  type ReferenceDraft,
-} from "../features/intake/model";
+import { imageSelectionIssue } from "../features/batch/grouping";
+import { HistoryWorkspace } from "../features/history/HistoryWorkspace";
 import { createSampleAdapter } from "../features/intake/sample-adapter";
 import { ResultWorkspace } from "../features/verification/ResultWorkspace";
-import "./styles.css";
 
-type Phase = "intake" | "validating" | "submitting" | "processing" | "complete" | "cancelled" | "error";
+type Page = "home" | "processing" | "review" | "history" | "batch";
 
 interface AppProps {
   verificationClient?: VerificationClient;
   sampleAdapter?: SampleAdapter;
 }
 
-const FIELD_ORDER: Array<keyof DraftErrors> = [
-  "caseLabel",
-  "brandName",
-  "classType",
-  "abvPercent",
-  "proof",
-  "netContentsValue",
-  "producerNameAddress",
-  "countryOfOrigin",
-  "panels",
-];
-
-function browserError(code: string, message: string, nextAction: string): PublicError {
-  return { requestId: "browser", code, message, retryable: true, nextAction, fieldOrPanel: null };
+interface RecentRecord {
+  id: string;
+  createdAt: string;
+  displayName: string;
+  beverageType: ReferenceRecord["beverageType"] | "unresolved";
+  summary: VerificationResult["summary"];
+  disposition: string | null;
 }
 
-function ResetDialog({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: () => void }) {
-  const cancelRef = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    cancelRef.current?.focus();
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onCancel();
-    }
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onCancel]);
+function typeLabel(value: ReferenceRecord["beverageType"] | "unresolved"): string {
+  if (value === "malt_beverage") return "Beer / malt";
+  if (value === "distilled_spirits") return "Distilled spirits";
+  if (value === "wine") return "Wine";
+  return "Type uncertain";
+}
 
+function StateCard({ error, onRetry, onHome }: { error: PublicError; onRetry: () => void; onHome: () => void }) {
   return (
-    <div className="dialog-backdrop">
-      <div aria-describedby="reset-description" aria-labelledby="reset-title" aria-modal="true" className="dialog" role="dialog">
-        <h2 id="reset-title">Start over and clear this session?</h2>
-        <p id="reset-description">This clears the form, selected images, current result, evidence selection, and reviewer notes from this browser tab.</p>
-        <div className="dialog-actions">
-          <button className="button secondary" onClick={onCancel} ref={cancelRef} type="button">Cancel</button>
-          <button className="button danger" onClick={onConfirm} type="button">Confirm and clear</button>
-        </div>
+    <section className="state-card" role="alert">
+      <p className="kicker">{error.code}</p>
+      <h1>We could not finish this label</h1>
+      <p>{error.message}</p>
+      <p><strong>Next:</strong> {error.nextAction}</p>
+      <p className="micro">Request {error.requestId}</p>
+      <div className="button-row">
+        {error.retryable ? <button className="btn primary" onClick={onRetry} type="button">Try again</button> : null}
+        <button className="btn secondary" onClick={onHome} type="button">Back home</button>
       </div>
+    </section>
+  );
+}
+
+function FilePreview({ file, alt = "" }: { file: File; alt?: string }) {
+  const url = useMemo(() => URL.createObjectURL(file), [file]);
+  useEffect(() => () => URL.revokeObjectURL(url), [url]);
+  return <img alt={alt} src={url} />;
+}
+
+function AppShell({ page, historyCount, onNavigate, children }: {
+  page: Page;
+  historyCount: number;
+  onNavigate: (page: Page) => void;
+  children: ReactNode;
+}) {
+  const [trayOpen, setTrayOpen] = useState(true);
+  const title = page === "home" ? "Home" : page === "batch" ? "Batch review" : page === "history" ? "History" : "Label review";
+  return (
+    <div className={`shell ${trayOpen ? "tray-open" : "tray-closed"}`}>
+      <header className="topbar">
+        <button aria-controls="lv-tray" aria-expanded={trayOpen} className="icon-btn" onClick={() => setTrayOpen((value) => !value)} type="button">Menu</button>
+        <div className="agency-mark" aria-hidden="true">LV</div>
+        <div className="agency-name"><strong>TTB</strong><span>Alcohol and Tobacco Tax and Trade Bureau</span></div>
+        <span className="top-rule" />
+        <div className="product-name"><strong>LabelVerify</strong><span>Alcohol label evidence assistant</span></div>
+        <span className="current-title">{title}</span>
+        <span className="prototype-tag">Unofficial prototype</span>
+      </header>
+      <div className="notice-band">
+        <strong>Synthetic or sanitized data only</strong>
+        <span>Not connected to COLA</span>
+        <span>No legal decisions are issued</span>
+        <span>Images are kept with each completed result for evidence review</span>
+      </div>
+      <aside className="left-tray" id="lv-tray">
+        <nav aria-label="Primary navigation">
+          <button aria-current={page === "home" || page === "processing" || page === "review" ? "page" : undefined} onClick={() => onNavigate("home")} type="button"><strong>Check one label</strong><span>1 to 3 images of one product</span></button>
+          <button aria-current={page === "batch" ? "page" : undefined} onClick={() => onNavigate("batch")} type="button"><strong>Check a batch</strong><span>Up to 300 products</span></button>
+          <button aria-current={page === "history" ? "page" : undefined} onClick={() => onNavigate("history")} type="button"><strong>History</strong><span>{historyCount} of 500 kept</span></button>
+        </nav>
+        <div className="tray-foot"><span>Reviewer workspace</span><strong>Evidence-led decisions</strong></div>
+      </aside>
+      <main className="content">{children}</main>
+      <footer>Evidence support for human review <span>History capped at 500 records</span></footer>
     </div>
   );
 }
 
-function ErrorBanner({ error, onRetry, onFocusLocator }: { error: PublicError; onRetry: () => void; onFocusLocator: () => void }) {
+function Home({ onSingle, onBatch, onSample, recent, sampleLoading }: {
+  onSingle: (files: File[]) => void;
+  onBatch: (files: File[]) => void;
+  onSample: () => void;
+  recent: RecentRecord[];
+  sampleLoading: boolean;
+}) {
+  const singleInput = useRef<HTMLInputElement>(null);
+  const batchInput = useRef<HTMLInputElement>(null);
+  const [singleFiles, setSingleFiles] = useState<File[]>([]);
+  const [batchFiles, setBatchFiles] = useState<File[]>([]);
+  const [singleIssue, setSingleIssue] = useState("");
+  const [batchIssue, setBatchIssue] = useState("");
+
+  function setSingleSelection(files: File[]) {
+    const issue = imageSelectionIssue(files, 3);
+    setSingleIssue(issue ?? "");
+    setSingleFiles(issue ? [] : files);
+  }
+
+  function setBatchSelection(files: File[]) {
+    const issue = imageSelectionIssue(files, 900);
+    setBatchIssue(issue ?? "");
+    setBatchFiles(issue ? [] : files);
+  }
+
+  function chooseSingle(event: ChangeEvent<HTMLInputElement>) {
+    setSingleSelection(Array.from(event.target.files ?? []));
+    event.target.value = "";
+  }
+
+  function chooseBatch(event: ChangeEvent<HTMLInputElement>) {
+    setBatchSelection(Array.from(event.target.files ?? []));
+    event.target.value = "";
+  }
+
+  function moveSingle(index: number, offset: -1 | 1) {
+    setSingleFiles((current) => {
+      const destination = index + offset;
+      if (destination < 0 || destination >= current.length) return current;
+      const next = [...current];
+      const selected = next[index];
+      const displaced = next[destination];
+      if (!selected || !displaced) return current;
+      next[index] = displaced;
+      next[destination] = selected;
+      return next;
+    });
+  }
+
   return (
-    <section className="status-banner error-banner" aria-labelledby="error-heading" role="alert">
-      <div>
-        <p className="eyebrow">No result was issued</p>
-        <h2 id="error-heading">{error.message}</h2>
-        <p>{error.nextAction}</p>
-        {error.requestId && error.requestId !== "browser" && error.requestId !== "unavailable" ? <p className="request-id">Request: {error.requestId}</p> : null}
+    <div className="home-page">
+      <section className="home-heading">
+        <div><p className="kicker">Beer | Wine | Distilled spirits</p><h1>What are we checking today?</h1></div>
+        <p>Drop label photos. LabelVerify reads them, infers the beverage type, and runs the selected TTB checks. You make the decision.</p>
+      </section>
+      <div className="door-grid">
+        <section className="blueprint door-card" aria-labelledby="single-heading">
+          <div className="section-row"><h2 id="single-heading">Check one label</h2><span>1 to 3 images of one product</span></div>
+          <div className="drop-panel" onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); setSingleSelection(Array.from(event.dataTransfer.files)); }}>
+            <span className="large-icon" aria-hidden="true">+</span>
+            <strong>Drop label images here</strong>
+            <span>Front, back, or neck. JPEG, PNG, or WebP, 4 MB each.</span>
+            <div className="button-row">
+              <button className="btn secondary" onClick={() => singleInput.current?.click()} type="button">Choose images</button>
+              <button className="btn ghost" disabled={sampleLoading} onClick={onSample} type="button">{sampleLoading ? "Loading sample" : "Use built-in sample"}</button>
+            </div>
+            <input aria-label="Choose label images" ref={singleInput} className="sr-only" accept="image/jpeg,image/png,image/webp" multiple onChange={chooseSingle} type="file" />
+          </div>
+          {singleIssue ? <p className="form-error" role="alert">{singleIssue}</p> : null}
+          <ul className="file-chips">{singleFiles.map((file, index) => <li key={`${file.name}-${file.lastModified}`}><span>{index + 1}</span><FilePreview alt={`${file.name} preview`} file={file} /><strong>{file.name}</strong><div className="file-actions"><button aria-label={`Move ${file.name} up`} disabled={index === 0} onClick={() => moveSingle(index, -1)} type="button">Up</button><button aria-label={`Move ${file.name} down`} disabled={index === singleFiles.length - 1} onClick={() => moveSingle(index, 1)} type="button">Down</button><button aria-label={`Remove ${file.name}`} onClick={() => setSingleFiles((files) => files.filter((_, item) => item !== index))} type="button">Remove</button></div></li>)}</ul>
+          <div className="door-footer"><span>Reads and checks in one step. Usually about 5 seconds.</span><button className="btn primary" disabled={!singleFiles.length} onClick={() => onSingle(singleFiles)} type="button">Read and check label</button></div>
+        </section>
+        <section className="blueprint door-card" aria-labelledby="batch-heading">
+          <div className="section-row"><h2 id="batch-heading">Check a batch</h2><span>Up to 300 products and 900 images</span></div>
+          <div className="drop-panel" onDragOver={(event) => event.preventDefault()} onDrop={(event) => { event.preventDefault(); setBatchSelection(Array.from(event.dataTransfer.files)); }}>
+            <span className="large-icon" aria-hidden="true">+</span>
+            <strong>Drop a folder of labels</strong>
+            <span>No spreadsheet needed. We suggest product groups, then you confirm them.</span>
+            <button className="btn secondary" onClick={() => batchInput.current?.click()} type="button">Choose folder</button>
+            <input aria-label="Choose batch folder" ref={batchInput} className="sr-only" {...({ webkitdirectory: "", directory: "" } as Record<string, string>)} multiple onChange={chooseBatch} type="file" />
+          </div>
+          {batchIssue ? <p className="form-error" role="alert">{batchIssue}</p> : null}
+          <ol className="batch-steps"><li><strong>1 Analyze</strong><span>Read image cues</span></li><li><strong>2 Confirm groups</strong><span>Up to 3 images each</span></li><li><strong>3 Work exceptions</strong><span>Review only what needs you</span></li></ol>
+          <div className="door-footer"><span>{batchFiles.length ? `${batchFiles.length} images selected` : "Images stay local until processing starts"}</span><button className="btn primary" disabled={!batchFiles.length} onClick={() => onBatch(batchFiles)} type="button">Analyze images</button></div>
+        </section>
       </div>
-      <div className="banner-actions">
-        {error.fieldOrPanel ? <button className="button secondary" onClick={onFocusLocator} type="button">Go to the affected item</button> : null}
-        {error.retryable ? <button className="button primary" onClick={onRetry} type="button">Retry verification</button> : null}
-      </div>
-    </section>
+      <section className="recent-section">
+        <div className="section-row"><h2>Recent</h2><span>{recent.length ? "Latest completed checks" : "No completed checks yet"}</span></div>
+        <div className="table-wrap"><table><thead><tr><th>When</th><th>Product</th><th>Type</th><th>Machine result</th><th>Your disposition</th></tr></thead><tbody>{recent.map((item) => <tr key={item.id}><td>{new Date(item.createdAt).toLocaleString()}</td><th scope="row">{item.displayName}</th><td>{typeLabel(item.beverageType)}</td><td>{item.summary}</td><td>{item.disposition ? item.disposition.replaceAll("_", " ") : "Undecided"}</td></tr>)}{!recent.length ? <tr><td colSpan={5}>Completed results will appear here.</td></tr> : null}</tbody></table></div>
+      </section>
+    </div>
   );
 }
 
-function ProcessingBanner({ phase, elapsed, onCancel }: { phase: Phase; elapsed: number; onCancel: () => void }) {
-  const text = phase === "submitting" ? "Uploading label panels" : "Reading and checking the label";
+function Processing({ files, elapsed, onCancel }: { files: File[]; elapsed: number; onCancel: () => void }) {
   return (
-    <section className="status-banner processing-banner" aria-live="polite" aria-labelledby="processing-heading">
-      <div className="spinner" aria-hidden="true" />
-      <div>
-        <p className="eyebrow">Verification in progress</p>
-        <h2 id="processing-heading">{text}</h2>
-        <p>Elapsed time: {elapsed.toFixed(1)} seconds. Most normal labels should finish in about 5 seconds.</p>
+    <section className="processing-page" aria-live="polite">
+      <div className="section-row"><p className="kicker">Check one label</p><button className="btn ghost" onClick={onCancel} type="button">Cancel</button></div>
+      <div className="processing-card blueprint">
+        <div className="processing-thumbs">{files.map((file) => <div className="scan-thumb" key={file.name}><FilePreview file={file} /><span /></div>)}</div>
+        <div><div className="processing-title"><h1 tabIndex={-1}>Reading the label</h1><strong>{elapsed.toFixed(1)} s</strong></div><p>OCR is locating the text, inferring beverage type, and checking the applicable rule profile.</p><ol className="process-steps"><li className="done"><strong>Uploaded</strong><span>{files.length} image{files.length === 1 ? "" : "s"}</span></li><li className="active"><strong>Reading label</strong><span>Local OCR and evidence mapping</span></li><li><strong>Checking rules</strong><span>Beer, wine, or spirits profile</span></li></ol><p className="micro">Most labels finish in about 5 seconds. Harder images may take longer and are never rejected solely because of resolution.</p></div>
       </div>
-      <button className="button secondary" onClick={onCancel} type="button">Cancel verification</button>
     </section>
   );
-}
-
-function focusFirstError(errors: DraftErrors) {
-  const first = FIELD_ORDER.find((field) => errors[field]);
-  if (!first) return;
-  const targetId = first === "panels" ? "choose-panels" : `field-${first}`;
-  window.setTimeout(() => document.getElementById(targetId)?.focus(), 0);
-}
-
-function fieldIdFromLocator(locator?: string | null): string | null {
-  if (!locator) return null;
-  const normalized = locator.replace(/^reference\./, "");
-  const allowed = new Set([
-    "caseLabel",
-    "brandName",
-    "classType",
-    "abvPercent",
-    "proof",
-    "netContentsValue",
-    "netContentsUnit",
-    "producerNameAddress",
-    "isImported",
-    "countryOfOrigin",
-  ]);
-  if (allowed.has(normalized)) return `field-${normalized}`;
-  if (/^panel-[1-6]$/.test(normalized) || normalized === "panels") return "choose-panels";
-  return null;
 }
 
 export function App({ verificationClient, sampleAdapter }: AppProps) {
   const client = useMemo(() => verificationClient ?? createVerificationClient(), [verificationClient]);
   const samples = useMemo(() => sampleAdapter ?? createSampleAdapter(), [sampleAdapter]);
-  const [workspace, setWorkspace] = useState<"single" | "batch">("single");
-  const [draft, setDraft] = useState<ReferenceDraft>(EMPTY_DRAFT);
-  const [panels, setPanels] = useState<File[]>([]);
-  const [errors, setErrors] = useState<DraftErrors>({});
-  const [phase, setPhase] = useState<Phase>("intake");
-  const [elapsed, setElapsed] = useState(0);
+  const [page, setPage] = useState<Page>("home");
+  const [files, setFiles] = useState<File[]>([]);
+  const [batchFiles, setBatchFiles] = useState<File[]>([]);
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [result, setResult] = useState<VerificationResult | null>(null);
-  const [publicError, setPublicError] = useState<PublicError | null>(null);
-  const [selectedEvidenceId, setSelectedEvidenceId] = useState<string | null>(null);
-  const [reviewerNote, setReviewerNote] = useState("");
-  const [disposition, setDisposition] = useState("");
-  const [resetOpen, setResetOpen] = useState(false);
+  const [error, setError] = useState<PublicError | null>(null);
+  const [elapsed, setElapsed] = useState(0);
+  const [historyCount, setHistoryCount] = useState(0);
+  const [recent, setRecent] = useState<RecentRecord[]>([]);
   const [sampleLoading, setSampleLoading] = useState(false);
-  const [sampleMessage, setSampleMessage] = useState("");
-  const summaryRef = useRef<HTMLHeadingElement>(null);
-  const controllerRef = useRef<AbortController | null>(null);
-  const activeRequestRef = useRef(0);
-  const intervalRef = useRef<number | null>(null);
-  const deadlineRef = useRef<number | null>(null);
+  const controller = useRef<AbortController | null>(null);
+  const timer = useRef<number | null>(null);
 
-  const active = phase === "validating" || phase === "submitting" || phase === "processing";
-  const hasWork = draftHasContent(draft) || panels.length > 0 || Boolean(result) || Boolean(reviewerNote) || Boolean(disposition);
-
-  function clearTimers() {
-    if (intervalRef.current !== null) window.clearInterval(intervalRef.current);
-    if (deadlineRef.current !== null) window.clearTimeout(deadlineRef.current);
-    intervalRef.current = null;
-    deadlineRef.current = null;
+  async function refreshRecent() {
+    try {
+      const response = await fetch("/api/v1/history?pageSize=3");
+      if (!response.ok) return;
+      const payload = await response.json() as { total: number; items: RecentRecord[] };
+      setHistoryCount(payload.total);
+      setRecent(payload.items);
+    } catch {
+      setHistoryCount(0);
+    }
   }
 
-  useEffect(() => () => {
-    activeRequestRef.current += 1;
-    controllerRef.current?.abort();
-    clearTimers();
+  useEffect(() => {
+    const loadTimer = window.setTimeout(() => void refreshRecent(), 0);
+    return () => {
+      window.clearTimeout(loadTimer);
+      controller.current?.abort();
+      if (timer.current !== null) window.clearInterval(timer.current);
+    };
   }, []);
 
-  useLayoutEffect(() => {
-    if (phase !== "complete" || !result) return;
-    clearTimers();
-    summaryRef.current?.focus();
-  }, [phase, result]);
-
-  function changeField<K extends DraftField>(field: K, value: ReferenceDraft[K]) {
-    setDraft((current) => ({ ...current, [field]: value }));
-    setErrors((current) => {
-      const next = { ...current };
-      delete next[field];
-      return next;
-    });
-    setSampleMessage("");
+  function reset() {
+    controller.current?.abort();
+    if (timer.current !== null) window.clearInterval(timer.current);
+    setFiles([]);
+    setAnalysis(null);
+    setResult(null);
+    setError(null);
+    setElapsed(0);
+    setPage("home");
+    void refreshRecent();
   }
 
-  function addPanels(incoming: File[]) {
-    if (!incoming.length) return;
-    const all = [...panels, ...incoming];
-    let message = "";
-    if (all.length > MAX_PANELS) message = "Add no more than 6 label panels.";
-    else if (incoming.some((file) => !ACCEPTED_IMAGE_TYPES.includes(file.type as (typeof ACCEPTED_IMAGE_TYPES)[number]))) message = "Use JPEG, PNG, or WebP images only.";
-    else if (incoming.some((file) => file.size > MAX_FILE_BYTES)) message = "Each image must be 4 MiB or smaller.";
-    else if (all.reduce((sum, file) => sum + file.size, 0) > MAX_AGGREGATE_BYTES) message = "All images together must be 8 MiB or smaller.";
-
-    if (message) {
-      setErrors((current) => ({ ...current, panels: message }));
-      focusFirstError({ panels: message });
-      return;
+  async function runSingle(selected: File[]) {
+    const nextController = new AbortController();
+    controller.current = nextController;
+    setFiles(selected);
+    setError(null);
+    setResult(null);
+    setPage("processing");
+    const started = performance.now();
+    timer.current = window.setInterval(() => setElapsed((performance.now() - started) / 1000), 100);
+    try {
+      const nextAnalysis = await client.analyze({ panels: selected, signal: nextController.signal });
+      if (nextController.signal.aborted) return;
+      setAnalysis(nextAnalysis);
+      if (!nextAnalysis.verification) {
+        setError({ requestId: nextAnalysis.requestId, code: "beverage_type_uncertain", message: "The beverage type could not be inferred reliably from the submitted images.", retryable: true, nextAction: "Add a clearer class or type panel and retry", fieldOrPanel: "panels" });
+        return;
+      }
+      setResult(nextAnalysis.verification);
+      setPage("review");
+      void refreshRecent();
+    } catch (caught) {
+      if (nextController.signal.aborted) return;
+      setError(caught instanceof VerificationClientError ? caught.detail : { requestId: "unavailable", code: "network_unavailable", message: "The verifier could not be reached.", retryable: true, nextAction: "Check the connection and retry", fieldOrPanel: null });
+    } finally {
+      if (timer.current !== null) window.clearInterval(timer.current);
+      timer.current = null;
+      setElapsed((performance.now() - started) / 1000);
+      if (!nextController.signal.aborted) setPage((current) => current === "processing" ? "review" : current);
     }
-    setPanels(all);
-    setErrors((current) => {
-      const next = { ...current };
-      delete next.panels;
-      return next;
-    });
-    setSampleMessage("");
-  }
-
-  function movePanel(index: number, direction: -1 | 1) {
-    setPanels((current) => {
-      const next = [...current];
-      const target = index + direction;
-      const item = next[index];
-      if (!item || target < 0 || target >= next.length) return current;
-      next.splice(index, 1);
-      next.splice(target, 0, item);
-      return next;
-    });
-  }
-
-  function removePanel(index: number) {
-    setPanels((current) => current.filter((_, itemIndex) => itemIndex !== index));
   }
 
   async function loadSample() {
     setSampleLoading(true);
-    setSampleMessage("Loading the built-in sample.");
     try {
       const loaded = await samples.load();
-      setDraft(referenceToDraft(loaded.reference));
-      setPanels(loaded.panels);
-      setErrors({});
-      setPublicError(null);
-      setResult(null);
-      setPhase("intake");
-      setSampleMessage("Sample loaded. Review it or choose Verify label.");
+      await runSingle(loaded.panels.slice(0, 3));
     } catch {
-      setSampleMessage("The built-in sample could not be loaded. You can still enter a record and add images manually.");
+      setError({ requestId: "sample", code: "sample_unavailable", message: "The built-in sample could not be loaded.", retryable: true, nextAction: "Choose your own images", fieldOrPanel: null });
+      setPage("review");
     } finally {
       setSampleLoading(false);
     }
   }
 
-  function finishWithError(error: PublicError) {
-    clearTimers();
-    controllerRef.current = null;
-    setResult(null);
-    setSelectedEvidenceId(null);
-    setPublicError(error);
-    setPhase("error");
+  function navigate(next: Page) {
+    if (next === "home") reset();
+    else setPage(next);
   }
 
-  async function verify() {
-    if (active) return;
-    const activatedAt = performance.now();
-    setPhase("validating");
-    setPublicError(null);
-    setResult(null);
-    setSelectedEvidenceId(null);
-    const nextErrors = validateDraft(draft, panels);
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length) {
-      setPhase("intake");
-      focusFirstError(nextErrors);
-      return;
-    }
+  let body: ReactNode;
+  if (page === "processing") body = <Processing elapsed={elapsed} files={files} onCancel={reset} />;
+  else if (page === "review") body = error ? <StateCard error={error} onHome={reset} onRetry={() => void runSingle(files)} /> : result && analysis ? <ResultWorkspace analysis={analysis} onAddFiles={(added) => void runSingle([...files, ...added].slice(0, 3))} onStartOver={reset} result={result} sourcePanels={files} /> : <StateCard error={{ requestId: "unavailable", code: "result_unavailable", message: "No result is available.", retryable: true, nextAction: "Retry the label", fieldOrPanel: null }} onHome={reset} onRetry={() => void runSingle(files)} />;
+  else if (page === "batch") body = <BatchWorkspace initialFiles={batchFiles} onFilesConsumed={() => setBatchFiles([])} verificationClient={client} />;
+  else if (page === "history") body = <HistoryWorkspace onCountChange={setHistoryCount} />;
+  else body = <Home onBatch={(selected) => { setBatchFiles(selected); setPage("batch"); }} onSample={() => void loadSample()} onSingle={(selected) => void runSingle(selected)} recent={recent} sampleLoading={sampleLoading} />;
 
-    const requestId = activeRequestRef.current + 1;
-    activeRequestRef.current = requestId;
-    const controller = new AbortController();
-    controllerRef.current = controller;
-    const started = activatedAt;
-    setElapsed(0);
-    setPhase("submitting");
-    intervalRef.current = window.setInterval(() => {
-      setElapsed((performance.now() - started) / 1000);
-      setPhase((current) => current === "submitting" ? "processing" : current);
-    }, 100);
-    const remainingBrowserBudget = Math.max(0, limits.browserDeadlineSeconds * 1000 - (performance.now() - started));
-    deadlineRef.current = window.setTimeout(() => {
-      if (activeRequestRef.current !== requestId) return;
-      activeRequestRef.current += 1;
-      controller.abort();
-      finishWithError(browserError(
-        "client_deadline_exceeded",
-        "Verification did not finish within 35 seconds.",
-        "Retry with smaller files or a stable connection",
-      ));
-    }, remainingBrowserBudget);
-
-    try {
-      const nextResult = await client.verify({ reference: toReference(draft), panels, signal: controller.signal });
-      if (activeRequestRef.current !== requestId || controller.signal.aborted) return;
-      setElapsed((performance.now() - started) / 1000);
-      setPublicError(null);
-      setResult(nextResult);
-      setSelectedEvidenceId(nextResult.evidence[0]?.evidenceId ?? null);
-      setPhase("complete");
-    } catch (error) {
-      if (activeRequestRef.current !== requestId || controller.signal.aborted) return;
-      if (error instanceof VerificationClientError) finishWithError(error.detail);
-      else finishWithError(browserError("network_unavailable", "The verifier could not be reached.", "Check your connection and retry"));
-    }
-  }
-
-  function cancelVerification() {
-    if (!active) return;
-    activeRequestRef.current += 1;
-    controllerRef.current?.abort();
-    controllerRef.current = null;
-    clearTimers();
-    setResult(null);
-    setPublicError(null);
-    setSelectedEvidenceId(null);
-    setPhase("cancelled");
-  }
-
-  function resetSession() {
-    activeRequestRef.current += 1;
-    controllerRef.current?.abort();
-    clearTimers();
-    setDraft(EMPTY_DRAFT);
-    setPanels([]);
-    setErrors({});
-    setPhase("intake");
-    setElapsed(0);
-    setResult(null);
-    setPublicError(null);
-    setSelectedEvidenceId(null);
-    setReviewerNote("");
-    setDisposition("");
-    setSampleMessage("");
-    setResetOpen(false);
-    window.setTimeout(() => document.getElementById("start-heading")?.focus(), 0);
-  }
-
-  function requestReset() {
-    if (hasWork) setResetOpen(true);
-    else resetSession();
-  }
-
-  function focusErrorLocator() {
-    const id = fieldIdFromLocator(publicError?.fieldOrPanel);
-    if (id) document.getElementById(id)?.focus();
-  }
-
-  return (
-    <div className="app-shell">
-      <header className="site-header">
-        <div className="brand-mark" aria-hidden="true">LV</div>
-        <div><strong>LabelVerify</strong><span>Alcohol label evidence assistant</span></div>
-        <nav aria-label="Verification mode" className="workspace-switcher">
-          <button aria-current={workspace === "single" ? "page" : undefined} disabled={active} onClick={() => setWorkspace("single")} type="button">One label</button>
-          <button aria-current={workspace === "batch" ? "page" : undefined} disabled={active} onClick={() => setWorkspace("batch")} type="button">Batch</button>
-        </nav>
-        <span className="prototype-badge">Unofficial prototype</span>
-      </header>
-
-      <aside className="prototype-notice" aria-label="Prototype data notice">
-        <strong>Use synthetic or sanitized data only.</strong>
-        <span>This standalone prototype is not connected to COLA, does not issue legal decisions, and does not save your session.</span>
-      </aside>
-
-      <main>
-        {workspace === "batch" ? <BatchWorkspace sampleAdapter={samples} verificationClient={client} /> : (
-          <>
-            <div className="live-status visually-hidden" aria-live="polite">
-              {phase === "cancelled" ? "Verification cancelled. Your form and selected files are unchanged." : ""}
-            </div>
-            {phase === "complete" && result ? (
-              <ResultWorkspace
-                disposition={disposition}
-                note={reviewerNote}
-                onDispositionChange={setDisposition}
-                onNoteChange={setReviewerNote}
-                onSelectEvidence={setSelectedEvidenceId}
-                onStartOver={requestReset}
-                result={result}
-                selectedEvidenceId={selectedEvidenceId}
-                sourcePanels={panels}
-                summaryRef={summaryRef}
-              />
-            ) : (
-              <>
-                {active ? <ProcessingBanner elapsed={elapsed} onCancel={cancelVerification} phase={phase} /> : null}
-                {phase === "cancelled" ? (
-                  <section className="status-banner cancelled-banner" aria-live="polite">
-                    <div><p className="eyebrow">Cancelled</p><h2>Verification cancelled</h2><p>Your application values and selected images are unchanged. You can verify again or start over.</p></div>
-                  </section>
-                ) : null}
-                {publicError ? <ErrorBanner error={publicError} onFocusLocator={focusErrorLocator} onRetry={verify} /> : null}
-                {sampleMessage && !sampleLoading ? <p className="sample-status" aria-live="polite">{sampleMessage}</p> : null}
-                <IntakeForm
-                  disabled={active}
-                  draft={draft}
-                  errors={errors}
-                  onAddPanels={addPanels}
-                  onFieldChange={changeField}
-                  onMovePanel={movePanel}
-                  onRemovePanel={removePanel}
-                  onStartOver={requestReset}
-                  onTrySample={loadSample}
-                  onVerify={verify}
-                  panels={panels}
-                  sampleLoading={sampleLoading}
-                />
-              </>
-            )}
-          </>
-        )}
-      </main>
-
-      <footer>
-        <span>Evidence support for human review</span>
-        <span>Current browser session only</span>
-      </footer>
-
-      {resetOpen ? <ResetDialog onCancel={() => setResetOpen(false)} onConfirm={resetSession} /> : null}
-    </div>
-  );
+  return <AppShell historyCount={historyCount} onNavigate={navigate} page={page}>{body}</AppShell>;
 }

@@ -68,20 +68,20 @@ def validate_contracts(project_root: Path) -> tuple[list[str], dict[str, Any]]:
     checks = [row["checkId"] for row in check_registry["checks"]]
     server_errors = [row["code"] for row in error_registry["errors"]]
     browser_errors = list(error_registry["browserOnly"])
-    if len(checks) != 19 or len(set(checks)) != 19:
-        errors.append("CG-001 selected-check registry is not 19 unique rows")
+    if len(checks) != 24 or len(set(checks)) != 24:
+        errors.append("CG-001 selected-check registry is not 24 unique rows")
     if len(server_errors) != 23 or len(set(server_errors)) != 23:
         errors.append("CG-001 server error registry is not 23 unique rows")
     if len(browser_errors) != 4 or len(set(browser_errors)) != 4:
         errors.append("CG-001 browser error registry is not 4 unique rows")
     limits = api["limits"]
     expected_limits = {
-        "rawRequestBytes": 8_650_752,
+        "rawRequestBytes": 13_631_488,
         "referenceBytes": 32_768,
         "fileBytes": 4_194_304,
-        "aggregateFileBytes": 8_388_608,
+        "aggregateFileBytes": 12_582_912,
         "panelCountMin": 1,
-        "panelCountMax": 6,
+        "panelCountMax": 3,
         "pixelsPerImage": 12_000_000,
         "pixelsPerRequest": 36_000_000,
         "uploadDeadlineSeconds": 20,
@@ -120,9 +120,13 @@ def validate_reference(reference: dict[str, Any], case_id: str) -> list[str]:
     missing = required - set(reference)
     if missing:
         errors.append(f"{case_id}: reference misses {sorted(missing)}")
-    if reference.get("profileId") != "distilled_spirits_demo_v1":
+    if reference.get("profileId") != "all_beverages_demo_v2":
         errors.append(f"{case_id}: wrong profileId")
-    if reference.get("netContentsUnit") not in {"mL", "L"}:
+    if reference.get("beverageType") not in {"malt_beverage", "wine", "distilled_spirits"}:
+        errors.append(f"{case_id}: wrong beverageType")
+    if reference.get("referenceProvenance") not in {"sample", "manual", "manifest", "label_ocr"}:
+        errors.append(f"{case_id}: wrong referenceProvenance")
+    if reference.get("netContentsUnit") not in {"mL", "L", "fl oz", "pt", "qt", "gal"}:
         errors.append(f"{case_id}: unsupported net contents unit")
     if reference.get("isImported") and not reference.get("countryOfOrigin"):
         errors.append(f"{case_id}: imported reference has no country")
@@ -141,9 +145,7 @@ def validate_oracle(
     case_id = case["caseId"]
     if oracle.get("caseId") != case_id:
         errors.append(f"{case_id}: oracle caseId mismatch")
-    if oracle.get("authorship") != (
-        "VV-LEAD independent of production comparison and aggregation"
-    ):
+    if oracle.get("authorship") != ("VV-LEAD independent of production comparison and aggregation"):
         errors.append(f"{case_id}: oracle authorship is missing")
     if oracle.get("outcomeKind") != case["expectedKind"]:
         errors.append(f"{case_id}: oracle outcome kind mismatch")
@@ -180,9 +182,7 @@ def validate_oracle(
     return errors
 
 
-def validate_holdout_seal(
-    project_root: Path, manifest: dict[str, Any]
-) -> list[str]:
+def validate_holdout_seal(project_root: Path, manifest: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     fixtures_root = project_root / "fixtures"
     seal_path = fixtures_root / "holdout" / "SEAL.sha256"
@@ -205,13 +205,9 @@ def validate_holdout_seal(
             continue
         if not case["sealed"]:
             errors.append(f"{case['caseId']}: holdout is not marked sealed")
-        required_paths.add(
-            Path(case["referencePath"]).relative_to("fixtures").as_posix()
-        )
+        required_paths.add(Path(case["referencePath"]).relative_to("fixtures").as_posix())
         required_paths.add(Path(case["oraclePath"]).relative_to("fixtures").as_posix())
-        required_paths.add(
-            f"holdout/cases/{case['caseId']}/case-manifest.json"
-        )
+        required_paths.add(f"holdout/cases/{case['caseId']}/case-manifest.json")
         for panel in case["panels"]:
             required_paths.add(Path(panel["path"]).relative_to("fixtures").as_posix())
     if required_paths != sealed_paths:
@@ -384,9 +380,9 @@ def validate_corpus(project_root: Path) -> tuple[list[str], dict[str, Any]]:
         "selectedChecks": len(contracts["checkIds"]),
         "scenarioTags": len(tags),
         "mutationControls": len(
-            load_json(
-                project_root / "fixtures" / "mutations" / "mutation-plan-v1.json"
-            )["mutations"]
+            load_json(project_root / "fixtures" / "mutations" / "mutation-plan-v1.json")[
+                "mutations"
+            ]
         ),
     }
     return errors, metrics

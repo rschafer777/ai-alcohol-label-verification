@@ -26,9 +26,7 @@ MODEL_ASSETS = {
         "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c"
     ),
 }
-FONT_ASSET = {
-    "DejaVuSans.ttf": "7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954"
-}
+FONT_ASSET = {"DejaVuSans.ttf": "7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954"}
 RUNTIME_ASSETS = MODEL_ASSETS | FONT_ASSET
 OCR_INFERENCE_LANES = 2
 OCR_INTRA_OP_THREADS_PER_LANE = 1
@@ -83,16 +81,26 @@ class RapidOcrAdapter:
             "Global.font_path": str(self._model_root / "DejaVuSans.ttf"),
             "Global.log_level": "error",
             "Global.max_side_len": 3000,
-            "Det.limit_side_len": 1600,
+            "Det.limit_side_len": 1440,
             "Det.model_path": str(self._model_root / "en_PP-OCRv3_det_infer.onnx"),
             "Rec.model_path": str(self._model_root / "en_PP-OCRv4_rec_infer.onnx"),
             "Cls.model_path": str(self._model_root / "ch_ppocr_mobile_v2.0_cls_infer.onnx"),
         }
-        warmup = np.full((96, 384, 3), 255, dtype=np.uint8)
-        cv2.putText(warmup, "LABEL VERIFY", (8, 62), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 2)
+        # Warm a label-shaped tensor so the first reviewer request does not pay
+        # the ONNX allocation and graph setup cost for a production-sized image.
+        warmup = np.full((960, 720, 3), 255, dtype=np.uint8)
+        cv2.putText(warmup, "LABEL VERIFY", (40, 180), cv2.FONT_HERSHEY_SIMPLEX, 1.8, (0, 0, 0), 3)
+        cv2.putText(
+            warmup,
+            "45% Alc./Vol. 750 mL",
+            (40, 320),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            1.2,
+            (0, 0, 0),
+            2,
+        )
         engines = tuple(
-            _initialize_engine(RapidOCR, params, None)
-            for _ in range(OCR_INFERENCE_LANES)
+            _initialize_engine(RapidOCR, params, None) for _ in range(OCR_INFERENCE_LANES)
         )
         with ThreadPoolExecutor(max_workers=OCR_INFERENCE_LANES) as executor:
             list(executor.map(_warm_engine, engines, (warmup.copy() for _ in engines)))
@@ -176,9 +184,7 @@ def _run_inference_lane(
     return [(index, engine(view.image)) for index, view in indexed_views]
 
 
-def _initialize_engine(
-    engine_factory: Any, params: dict[str, Any], warmup: Any | None
-) -> Any:
+def _initialize_engine(engine_factory: Any, params: dict[str, Any], warmup: Any | None) -> Any:
     engine = engine_factory(params=params)
     if warmup is not None:
         engine(warmup)
@@ -299,9 +305,7 @@ def _has_warning_word_gap(image: np.ndarray[Any, Any], polygon: Any) -> bool:
     minimum_gap = max(3, round(width * 0.012))
     edge_margin = max(1, round(width * 0.02))
     runs = _true_runs(low_ink, edge_margin, width - edge_margin)
-    candidates = [
-        run for run in runs if run[0] < search_end and run[1] >= search_start
-    ]
+    candidates = [run for run in runs if run[0] < search_end and run[1] >= search_start]
     if not candidates:
         return False
     candidate = max(candidates, key=lambda run: run[2])

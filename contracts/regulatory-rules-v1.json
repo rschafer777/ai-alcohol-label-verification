@@ -1,8 +1,41 @@
 {
-  "registryId": "ttb-distilled-spirits-selected-rules",
-  "registryVersion": "1.0.0",
-  "sourceReviewDate": "2026-08-31",
-  "beverageScope": "distilled_spirits",
+  "registryId": "ttb-all-beverages-selected-rules",
+  "registryVersion": "2.0.0",
+  "sourceReviewDate": "2026-09-02",
+  "beverageScope": ["malt_beverage", "wine", "distilled_spirits"],
+  "profiles": {
+    "malt_beverage": {
+      "abvRequirement": "required_for_alcohol_from_added_ingredients_other_than_hops_extract",
+      "recognizedClasses": ["malt beverage", "beer", "lager beer", "lager", "ale", "porter", "stout", "india pale ale"],
+      "ipaAloneAccepted": false,
+      "abvRangeAllowed": false,
+      "abvDecimalPlacesAtOrAbovePointFive": 1,
+      "abvDecimalPlacesBelowPointFive": 2,
+      "mandatoryNetContentsSystem": "us_customary_metric_additional_only",
+      "compositionRequiredForStatutoryFamilyProof": true
+    },
+    "wine": {
+      "numericAbvRequiredAbovePercent": 14,
+      "tableLightWineNumericAbvExceptionMinPercent": 7,
+      "tableLightWineNumericAbvExceptionMaxPercent": 14,
+      "specificAbvToleranceAtOrBelowFourteenPoints": 1.5,
+      "specificAbvToleranceAboveFourteenPoints": 1,
+      "maximumRangeAtOrBelowFourteenPoints": 3,
+      "maximumRangeAboveFourteenPoints": 2,
+      "rangeMayNotCrossFourteenPercentBoundary": true,
+      "sulfiteDeclarationThresholdPpm": 10,
+      "appellationConditional": true,
+      "brandClassAndConditionalAppellationOnBrandLabel": true
+    },
+    "distilled_spirits": {
+      "abvRequired": true,
+      "brandClassAbvSameFieldOfVision": true,
+      "abvRangeAllowed": false,
+      "proofOptional": true,
+      "proofSameFieldOfVisionAsAbv": true,
+      "proofMustBeDistinguishedFromAbv": true
+    }
+  },
   "warning": {
     "applicabilityAbvPercentGte": 0.5,
     "headingExact": "GOVERNMENT WARNING:",
@@ -10,11 +43,34 @@
     "normalization": "whitespace_and_line_wrap_only",
     "headingMustBeUppercase": true,
     "headingMustBeBold": true,
-    "bodyMustNotBeBold": true
+    "bodyMustNotBeBold": true,
+    "visualDecisionThresholds": {
+      "headingBoldInkDensityPassGte": 0.32,
+      "headingBoldInkDensityFailLte": 0.25,
+      "bodyBoldMeanInkDensityPassGte": 0.25,
+      "bodyNotBoldMeanInkDensityPassLte": 0.22,
+      "headingToBodyDensityPassGte": 1.8,
+      "headingToBodyDensityFailLte": 1.65,
+      "separationGapPassLineHeightRatioGte": 0.75,
+      "separationGapFailLineHeightRatioLte": 0.25,
+      "contrastFailLt": 0.3,
+      "ocrSignalPassGte": 0.8,
+      "ocrSignalFailLt": 0.5
+    }
   },
   "citations": [
     "https://www.ecfr.gov/current/title-27/chapter-I/subchapter-A/part-16",
+    "https://www.ecfr.gov/current/title-27/chapter-I/subchapter-A/part-4",
     "https://www.ecfr.gov/current/title-27/chapter-I/subchapter-A/part-5/subpart-E/section-5.63",
-    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/distilled-spirits/ds-labeling-home/ds-health-warning"
+    "https://www.ecfr.gov/current/title-27/chapter-I/subchapter-A/part-7",
+    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/beer/labeling",
+    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/beer/labeling/malt-beverage-alcohol-content",
+    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/beer/labeling/malt-beverage-class-and-type",
+    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/labeling",
+    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/labeling-wine/wine-labeling-alcohol-content",
+    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/wine-labeling-declaration-of-sulfites",
+    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/labeling-wine/wine-labeling-brand-label",
+    "https://www.ttb.gov/media/66695/download",
+    "https://www.ttb.gov/regulated-commodities/beverage-alcohol/wine/labeling-wine/wine-labeling-health-warning-statement"
   ]
 }

@@ -37,7 +37,7 @@ def test_warmed_supervised_sample_finishes_before_worker_deadline() -> None:
     assert elapsed < 9.0
     assert result.server_duration_ms < 5_000
     assert result.stage_timings.ocr_ms < 5_000
-    assert len(result.checks) == 19
+    assert len(result.checks) == 24
     assert result.summary == "Review needed"
     nonmatches = {
         check.check_id: check.state
@@ -47,34 +47,34 @@ def test_warmed_supervised_sample_finishes_before_worker_deadline() -> None:
     assert nonmatches == PIXEL_SUPPORTED_WARNING_NONMATCHES
 
 
-def test_governed_six_panel_case_finishes_before_worker_deadline() -> None:
+def test_governed_three_panel_case_finishes_before_worker_deadline() -> None:
     project_root = Path(__file__).resolve().parents[2]
     manifest = json.loads((project_root / "fixtures" / "corpus-manifest-v1.json").read_text())
     matching_cases = [
         case
         for case in manifest["cases"]
-        if "six_panel" in case["scenarioTags"] and case["expectedKind"] == "result"
+        if "three_panel" in case["scenarioTags"] and case["expectedKind"] == "result"
     ]
     assert len(matching_cases) == 1
     case = matching_cases[0]
     reference = ReferenceRecord.model_validate(
         json.loads((project_root / case["referencePath"]).read_text())
     )
-    panels = tuple(project_root / panel["path"] for panel in case["panels"])
-    assert len(panels) == 6
+    panels = tuple(project_root / panel["path"] for panel in case["panels"][:3])
+    assert len(panels) == 3
     supervisor = WorkerSupervisor(
         project_root / "models",
         worker_deadline_seconds=9.0,
-        build_id="governed-six-panel-integration",
+        build_id="governed-three-panel-integration",
     )
     try:
         assert supervisor.start(readiness_timeout=15.0)
         started = time.perf_counter()
-        result = supervisor.run("governed-six-panel", reference, panels)
+        result = supervisor.run("governed-three-panel", reference, panels)
         elapsed = time.perf_counter() - started
         reversed_started = time.perf_counter()
         reversed_result = supervisor.run(
-            "governed-six-panel-reversed", reference, tuple(reversed(panels))
+            "governed-three-panel-reversed", reference, tuple(reversed(panels))
         )
         reversed_elapsed = time.perf_counter() - reversed_started
     finally:
@@ -83,7 +83,7 @@ def test_governed_six_panel_case_finishes_before_worker_deadline() -> None:
     assert elapsed < 9.0
     assert result.server_duration_ms < 9_000
     assert result.stage_timings.ocr_ms < 9_000
-    assert len(result.checks) == 19
+    assert len(result.checks) == 24
     assert result.summary == "Review needed"
     nonmatches = {
         check.check_id: check.state

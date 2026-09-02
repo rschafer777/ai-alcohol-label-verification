@@ -1,0 +1,48 @@
+# Implementation Record
+
+Document ID: LV-DEV-001  
+Build baseline: LV-BI-001  
+Status: Implementation complete; local release validation passed
+
+## Implemented components
+
+| Component | Location | Responsibility |
+| --- | --- | --- |
+| Contract loader and models | `backend/labelverify/contracts/` | Integrity-checked contracts and typed records |
+| HTTP API | `backend/labelverify/api/` | Health, metadata, sample, analysis, verification, history, and public errors |
+| Security boundary | `backend/labelverify/security/` | Host, Origin, length, multipart, JSON, browser-scope, rate, capacity, and identity controls |
+| Supervised pipeline | `backend/labelverify/orchestration/` | Lifecycle, timeout, cancellation, one-pass analysis, result assembly |
+| Image pipeline | `backend/labelverify/imaging/` | Decode, limits, quality, orientation, and recovery transforms |
+| OCR and candidates | `backend/labelverify/extraction/` | Local OCR, field candidates, warning evidence, coordinate provenance |
+| Deterministic rules | `backend/labelverify/domain/` | Normalization, family selection, comparison, warning, and 24-check aggregation |
+| History repository | `backend/labelverify/persistence/` | SQLite metadata, image retention, FIFO, disposition, and deletion |
+| Frontend API | `frontend/src/api/` | Typed multipart, result, metadata, and history clients |
+| Application shell | `frontend/src/app/` | Fable interface, navigation, home, processing, and global state |
+| Review workspace | `frontend/src/features/verification/` | Evidence viewer, check layouts, warning detail, and disposition |
+| Batch workspace | `frontend/src/features/batch/` | Grouping, confirmation, sequential queue, status, retry, cancel, export |
+| History workspace | `frontend/src/features/history/` | Filter, paging, detail, images, evidence, disposition, and deletion |
+| Deployment | `Dockerfile`, `ops/`, `.github/workflows/` | Reproducible OCI build and Azure Container Apps release |
+
+## Implemented data movement
+
+The browser owns only selected `File` objects, lifecycle-managed previews, unconfirmed group edits, and active batch state. The API streams admitted content to a controlled spool, the worker reads local files, and cleanup removes spool content at every terminal path. Result persistence copies admitted source panels to an opaque history directory only after a successful result. SQLite stores immutable result JSON plus mutable reviewer disposition fields. Every record is assigned to a high-entropy browser scope that is enforced by every history query. It stores no external application record because none is supplied by the label-first flow.
+
+The UI receives original dimensions and polygons. Image display uses an SVG view box equal to original dimensions, so resized presentation does not change evidence alignment. Historical images reuse the same coordinate contract.
+
+Every admitted analysis returns the complete 24-row registry. When beverage type is unresolved or conflicting, type-dependent rows remain Review rather than selecting a family silently. These results stay usable for human disposition and are retained in history as Type uncertain. A wine alcohol range read from the label cannot validate itself; a conforming visible range remains Review until a trusted actual value is supplied.
+
+## Selected rule inventory
+
+The implemented registry contains beverage type, brand, class/type, ABV, proof, net contents, producer, country, wine appellation, wine sulfites, spirits field of vision, malt class designation, warning applicability, eight warning content/presentation checks, warning physical size, panel coverage, and image quality. The machine registry in `contracts/selected-check-registry-v1.json` is authoritative for order and count.
+
+## Build dependencies
+
+Python and frontend dependencies are locked in `uv.lock` and `frontend/package-lock.json`. OCR models and the DejaVu font are acquired during setup or image build from a manifest that verifies SHA-256. They are not fetched during label processing.
+
+## Operational configuration
+
+Environment settings control runtime mode, allowed host, client identity source, model root, spool root, history root, static root, sample manifest, and build ID. The default local history root is beneath the operating system temporary directory. Production uses the configured container filesystem unless a durable service is introduced at the system boundary.
+
+## Implementation completion criteria
+
+Implementation is complete when code compiles, typed contracts agree, all component and integration tests pass, frontend production assets build, and the validation protocol has no open release-blocking defect. Requester acceptance remains the UAT gate.

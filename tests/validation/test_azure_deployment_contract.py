@@ -101,14 +101,14 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
     assert "/api/v1/meta" in workflow
     assert "/api/v1/verifications" in workflow
     assert "Origin: $base_url" in workflow
-    assert "selectedCheckCount == 19" in workflow
+    assert "selectedCheckCount == 24" in workflow
     assert '.summary == "Review needed"' in workflow
     assert "for attempt in 1 2 3; do" in workflow
-    assert 'length == 3 and' in workflow
+    assert "length == 3 and" in workflow
     assert '(.serverDurationMs | type) == "number"' in workflow
     assert ".serverDurationMs >= 0" in workflow
-    assert '((map(.serverDurationMs) | add) / length) < 5000' in workflow
-    assert '(map(.serverDurationMs) | max) < 9000' in workflow
+    assert "((map(.serverDurationMs) | add) / length) < 5000" in workflow
+    assert "(map(.serverDurationMs) | max) < 9000" in workflow
     assert "durationsMs: map(.serverDurationMs)" in workflow
     assert "Full-sample server durations and statistics" in workflow
     assert workflow.index('performance_json="$(jq -s -c') < workflow.index(
@@ -135,9 +135,7 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
     readiness_step = "Prove container readiness before the Container App mutation boundary"
     mutation_step = "Mark the Container App mutation boundary"
     assert readiness_step in workflow
-    assert workflow.index(readiness_step) < (
-        workflow.index(mutation_step)
-    )
+    assert workflow.index(readiness_step) < (workflow.index(mutation_step))
     assert 'echo "ready=true" >>"$GITHUB_OUTPUT"' in workflow
     assert "PREDEPLOY_READY: ${{ steps.predeploy.outputs.ready }}" in workflow
     assert '[[ "$PREDEPLOY_READY" == "true" ]]' in workflow
@@ -148,7 +146,7 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
     deploy_start = workflow.index("Deploy the image digest through ARM")
     deploy_end = workflow.index("Validate the effective Azure configuration")
     assert deployment_gate in workflow[deploy_start:deploy_end]
-    assert "docker logs \"$container_name\"" in workflow
+    assert 'docker logs "$container_name"' in workflow
     assert ".properties.configuration.ingress.fqdn == $host" in workflow
     assert ".properties.template.containers[0].resources.cpu == 2" in workflow
     assert '.properties.template.containers[0].resources.memory == "4Gi"' in workflow

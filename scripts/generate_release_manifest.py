@@ -4,9 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import io
 import subprocess
-import tarfile
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -48,8 +46,29 @@ EXCLUDED_GENERATED_CONFIGS = {
     "frontend/vite.config.js",
     "frontend/vitest.config.d.ts",
     "frontend/vitest.config.js",
+    "docs/10-release/FINAL_RT_SIGNOFF.md",
 }
 NON_REDISTRIBUTABLE_IMAGE_SUFFIXES = {".jpeg", ".jpg", ".png", ".webp"}
+
+
+def is_excluded(relative: Path, output_relative: str) -> bool:
+    relative_text = relative.as_posix()
+    if any(part in EXCLUDED_PARTS for part in relative.parts):
+        return True
+    if relative.suffix.casefold() in EXCLUDED_SUFFIXES:
+        return True
+    if relative.name.endswith("~"):
+        return True
+    if relative.name == ".env" or (
+        relative.name.startswith(".env.") and relative.name != ".env.example"
+    ):
+        return True
+    if (
+        relative.parts[:2] == ("tests", "Test_Images")
+        and relative.suffix.casefold() in NON_REDISTRIBUTABLE_IMAGE_SUFFIXES
+    ):
+        return True
+    return relative_text in EXCLUDED_GENERATED_CONFIGS or relative_text == output_relative
 
 
 def sha256(path: Path) -> str:
@@ -71,50 +90,35 @@ def included_files(root: Path, output: Path) -> list[Path]:
         if not path.is_file():
             continue
         relative = path.relative_to(root)
-        relative_text = relative.as_posix()
-        if any(part in EXCLUDED_PARTS for part in relative.parts):
-            continue
-        if path.suffix.casefold() in EXCLUDED_SUFFIXES:
-            continue
-        if path.name.endswith("~"):
-            continue
-        if path.name == ".env" or (path.name.startswith(".env.") and path.name != ".env.example"):
-            continue
-        if (
-            relative.parts[:2] == ("tests", "Test_Images")
-            and path.suffix.casefold() in NON_REDISTRIBUTABLE_IMAGE_SUFFIXES
-        ):
-            continue
-        if relative_text in EXCLUDED_GENERATED_CONFIGS or relative_text == output_relative:
+        if is_excluded(relative, output_relative):
             continue
         selected.append(path)
     return sorted(selected, key=lambda item: item.relative_to(root).as_posix())
 
 
 def staged_file_hashes(root: Path, output: Path) -> list[tuple[str, str]]:
-    """Hash the normalized bytes in the Git index, not working-tree bytes."""
+    """Hash the exact blob bytes in the Git index, not working-tree bytes."""
 
     output_relative = output.relative_to(root).as_posix()
-    tree = subprocess.run(
-        ["git", "-C", str(root), "write-tree"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
-    archive = subprocess.run(
-        ["git", "-C", str(root), "archive", "--format=tar", tree],
+    listed = subprocess.run(
+        ["git", "-C", str(root), "ls-files", "--cached", "-z"],
         check=True,
         capture_output=True,
     ).stdout
     entries: list[tuple[str, str]] = []
-    with tarfile.open(fileobj=io.BytesIO(archive), mode="r:") as staged_tree:
-        for member in staged_tree.getmembers():
-            if not member.isfile() or member.name == output_relative:
-                continue
-            extracted = staged_tree.extractfile(member)
-            if extracted is None:  # pragma: no cover - tarfile contract guard
-                raise RuntimeError(f"Could not read staged file: {member.name}")
-            entries.append((member.name, sha256_bytes(extracted.read())))
+    for encoded_name in listed.split(b"\0"):
+        if not encoded_name:
+            continue
+        relative_text = encoded_name.decode("utf-8", errors="surrogateescape")
+        relative = Path(relative_text)
+        if is_excluded(relative, output_relative):
+            continue
+        staged_bytes = subprocess.run(
+            ["git", "-C", str(root), "show", f":{relative_text}"],
+            check=True,
+            capture_output=True,
+        ).stdout
+        entries.append((relative.as_posix(), sha256_bytes(staged_bytes)))
     return sorted(entries, key=lambda item: item[0])
 
 

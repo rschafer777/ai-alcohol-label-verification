@@ -27,9 +27,7 @@ class ClientIdentity:
         return hmac.new(self._secret, normalized, hashlib.sha256).hexdigest()
 
 
-def _trusted_production_ip(
-    scope: dict[str, Any], settings: Settings, request_id: str
-) -> str:
+def _trusted_production_ip(scope: dict[str, Any], settings: Settings, request_id: str) -> str:
     if settings.client_identity_source == "fly":
         values = _header_values(scope, b"fly-client-ip")
         if len(values) != 1 or b"," in values[0] or b"%" in values[0]:

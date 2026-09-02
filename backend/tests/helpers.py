@@ -23,7 +23,9 @@ from PIL import Image, ImageDraw
 
 def reference(*, imported: bool = False, brand: str = "OLD TOM DISTILLERY") -> ReferenceRecord:
     return ReferenceRecord(
-        profileId="distilled_spirits_demo_v1",
+        profileId="all_beverages_demo_v2",
+        beverageType="distilled_spirits",
+        referenceProvenance="manual",
         brandName=brand,
         classType="Kentucky Straight Bourbon Whiskey",
         abvPercent=Decimal("45"),
@@ -134,7 +136,7 @@ def fake_result(request_id: str = "request") -> VerificationResult:
     return VerificationResult(
         requestId=request_id,
         buildId="test-build",
-        profileId="distilled_spirits_demo_v1",
+        profileId="all_beverages_demo_v2",
         profileVersion="1.0.0",
         modelIdentity="test-model",
         ruleSources=["test-rule"],

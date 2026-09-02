@@ -6,6 +6,8 @@ from typing import Annotated, Literal
 from pydantic import BaseModel, ConfigDict, Field, StringConstraints, model_validator
 
 NonBlank = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
+BeverageType = Literal["malt_beverage", "wine", "distilled_spirits"]
+VolumeUnit = Literal["mL", "L", "fl oz", "pt", "qt", "gal"]
 CheckState = Literal["Match", "Mismatch", "Review", "Not verified"]
 CandidateStatus = Literal["Found", "Ambiguous", "Not found", "Unreadable"]
 SummaryState = Literal[
@@ -20,22 +22,47 @@ class ContractModel(BaseModel):
 
 
 class ReferenceRecord(ContractModel):
-    profile_id: Literal["distilled_spirits_demo_v1"] = Field(alias="profileId")
+    profile_id: Literal["all_beverages_demo_v2"] = Field(alias="profileId")
+    beverage_type: BeverageType = Field(alias="beverageType")
+    reference_provenance: Literal["label_ocr", "manual", "manifest", "sample"] = Field(
+        default="manual", alias="referenceProvenance"
+    )
     case_label: str | None = Field(default=None, max_length=80, alias="caseLabel")
     brand_name: NonBlank = Field(max_length=160, alias="brandName")
     class_type: NonBlank = Field(max_length=240, alias="classType")
-    abv_percent: Decimal = Field(gt=0, le=100, alias="abvPercent")
+    abv_percent: Decimal | None = Field(default=None, ge=0, le=100, alias="abvPercent")
     proof: Decimal | None = Field(default=None, ge=0)
     net_contents_value: Decimal = Field(gt=0, alias="netContentsValue")
-    net_contents_unit: Literal["mL", "L"] = Field(alias="netContentsUnit")
+    net_contents_unit: VolumeUnit = Field(alias="netContentsUnit")
     producer_name_address: NonBlank = Field(max_length=500, alias="producerNameAddress")
     is_imported: bool = Field(alias="isImported")
     country_of_origin: str | None = Field(default=None, max_length=80, alias="countryOfOrigin")
+    wine_appellation: str | None = Field(default=None, max_length=160, alias="wineAppellation")
+    wine_sulfite_status: Literal["present", "not_present", "unknown"] = Field(
+        default="unknown", alias="wineSulfiteStatus"
+    )
+    malt_alcohol_source: Literal["added_ingredients", "none", "unknown"] = Field(
+        default="unknown", alias="maltAlcoholSource"
+    )
 
     @model_validator(mode="after")
     def validate_origin(self) -> ReferenceRecord:
         if self.is_imported and not (self.country_of_origin or "").strip():
             raise ValueError("countryOfOrigin is required when isImported is true")
+        if (
+            self.beverage_type == "distilled_spirits"
+            and self.abv_percent is None
+            and self.reference_provenance != "label_ocr"
+        ):
+            raise ValueError("abvPercent is required for distilled spirits")
+        if (
+            self.beverage_type == "malt_beverage"
+            and self.malt_alcohol_source == "added_ingredients"
+            and self.abv_percent is None
+        ):
+            raise ValueError(
+                "abvPercent is required for a malt beverage with added-ingredient alcohol"
+            )
         return self
 
 
@@ -52,7 +79,7 @@ class ConfidenceProvenance(ContractModel):
 
 class Evidence(ContractModel):
     evidence_id: str = Field(pattern=r"^ev_[a-z0-9_-]+$", alias="evidenceId")
-    panel_id: str = Field(pattern=r"^panel-[1-6]$", alias="panelId")
+    panel_id: str = Field(pattern=r"^panel-[1-3]$", alias="panelId")
     polygon_original_pixels: list[Point] = Field(
         min_length=4, max_length=4, alias="polygonOriginalPixels"
     )
@@ -88,7 +115,7 @@ class OriginalDimensions(ContractModel):
 
 
 class PanelResult(ContractModel):
-    panel_id: str = Field(pattern=r"^panel-[1-6]$", alias="panelId")
+    panel_id: str = Field(pattern=r"^panel-[1-3]$", alias="panelId")
     original_dimensions: OriginalDimensions = Field(alias="originalDimensions")
     quality_signals: dict[str, float | bool | str] = Field(alias="qualitySignals")
     coverage_state: Literal["Sufficient", "Review", "Unreadable"] = Field(alias="coverageState")
@@ -117,6 +144,53 @@ class VerificationResult(ContractModel):
     checks: list[CheckResult]
     limitations: list[str]
     summary: SummaryState
+    history_id: str | None = Field(default=None, alias="historyId")
+
+
+class DetectedValue(ContractModel):
+    value: str | float | bool | None = None
+    status: CandidateStatus
+    evidence_ref: str | None = Field(default=None, alias="evidenceRef")
+    alternatives: list[str] = Field(default_factory=list)
+    confidence_signal: float | None = Field(default=None, ge=0, le=1, alias="confidenceSignal")
+
+
+class AnalysisDraft(ContractModel):
+    beverage_type: BeverageType | None = Field(default=None, alias="beverageType")
+    brand_name: str | None = Field(default=None, alias="brandName")
+    class_type: str | None = Field(default=None, alias="classType")
+    abv_percent: float | None = Field(default=None, ge=0, le=100, alias="abvPercent")
+    proof: float | None = Field(default=None, ge=0)
+    net_contents_value: float | None = Field(default=None, gt=0, alias="netContentsValue")
+    net_contents_unit: VolumeUnit | None = Field(default=None, alias="netContentsUnit")
+    producer_name_address: str | None = Field(default=None, alias="producerNameAddress")
+    is_imported: bool = Field(default=False, alias="isImported")
+    country_of_origin: str | None = Field(default=None, alias="countryOfOrigin")
+    wine_appellation: str | None = Field(default=None, alias="wineAppellation")
+    wine_sulfite_status: Literal["present", "not_present", "unknown"] = Field(
+        default="unknown", alias="wineSulfiteStatus"
+    )
+    malt_alcohol_source: Literal["added_ingredients", "none", "unknown"] = Field(
+        default="unknown", alias="maltAlcoholSource"
+    )
+
+
+class AnalysisResult(ContractModel):
+    request_id: str = Field(alias="requestId")
+    build_id: str = Field(alias="buildId")
+    profile_id: Literal["all_beverages_demo_v2"] = Field(alias="profileId")
+    model_identity: str = Field(alias="modelIdentity")
+    server_duration_ms: float = Field(ge=0, alias="serverDurationMs")
+    panels: list[PanelResult]
+    evidence: list[Evidence]
+    draft: AnalysisDraft
+    detected: dict[str, DetectedValue]
+    beverage_type_confidence: float | None = Field(
+        default=None, ge=0, le=1, alias="beverageTypeConfidence"
+    )
+    beverage_type_reason: str = Field(alias="beverageTypeReason")
+    limitations: list[str]
+    verification: VerificationResult | None = None
 
 
 class PublicError(ContractModel):

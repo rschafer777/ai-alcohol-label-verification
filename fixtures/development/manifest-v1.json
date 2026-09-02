@@ -169,24 +169,25 @@
       "oraclePath": "fixtures/oracle/development/D007.json",
       "panels": [
         {
-          "bytes": 91525,
+          "bytes": 96176,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D007/panels/panel-1.png",
-          "sha256": "b8ca9ad0ed01aa402dcb766e2b5f0b4e6d1ded46e9b2ab3dfb06ec18f1f6d37a",
+          "sha256": "ddf8ac493f1028a7f7ff34556d61a9764923268eb41720579cabc40f4ae282a0",
           "width": 1200
         }
       ],
       "partition": "development",
       "referencePath": "fixtures/development/cases/D007/reference.json",
       "scenarioTags": [
+        "wine",
         "net_contents",
         "safe_equivalence"
       ],
       "sealed": false,
       "submissionMode": "ui",
-      "title": "Equivalent liter net contents"
+      "title": "Wine with equivalent liter net contents"
     },
     {
       "caseId": "D008",
@@ -195,25 +196,26 @@
       "oraclePath": "fixtures/oracle/development/D008.json",
       "panels": [
         {
-          "bytes": 91743,
+          "bytes": 84191,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D008/panels/panel-1.png",
-          "sha256": "1b75b75efe2f1911155a493be47755f32ffd93e6bd847f1ca1a56e1a7c96520a",
+          "sha256": "8eb73080b04aca8053f5b7f947a6fa7af3a20540ada6098ce93da8a4c67de402",
           "width": 1200
         }
       ],
       "partition": "development",
       "referencePath": "fixtures/development/cases/D008/reference.json",
       "scenarioTags": [
+        "malt_beverage",
         "producer",
         "punctuation",
         "review"
       ],
       "sealed": false,
       "submissionMode": "ui",
-      "title": "Producer punctuation variation"
+      "title": "Malt beverage producer punctuation variation"
     },
     {
       "caseId": "D009",

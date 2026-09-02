@@ -26,8 +26,8 @@ def expected_contract_data(project_root: Path) -> dict[str, Any]:
     check_ids = [row["checkId"] for row in checks["checks"]]
     server_codes = [row["code"] for row in errors["errors"]]
     browser_codes = list(errors["browserOnly"])
-    if len(check_ids) != 19 or len(set(check_ids)) != 19:
-        raise ValueError("Selected-check registry must contain 19 unique checks")
+    if len(check_ids) != 24 or len(set(check_ids)) != 24:
+        raise ValueError("Selected-check registry must contain 24 unique checks")
     if len(server_codes) != 23 or len(set(server_codes)) != 23:
         raise ValueError("Server error registry must contain 23 unique codes")
     if len(browser_codes) != 4 or len(set(browser_codes)) != 4:
@@ -38,7 +38,7 @@ def expected_contract_data(project_root: Path) -> dict[str, Any]:
         errors["registryVersion"],
         regulatory["registryVersion"],
     }
-    if versions != {"1.0.0"}:
+    if versions != {"1.0.0", "2.0.0"}:
         raise ValueError(f"CG-001 versions differ: {sorted(versions)}")
     return {
         "contractVersion": api["contractVersion"],
@@ -51,9 +51,7 @@ def expected_contract_data(project_root: Path) -> dict[str, Any]:
 
 
 def extract_string(text: str, name: str) -> str | None:
-    match = re.search(
-        rf'export\s+const\s+{re.escape(name)}\s*=\s*"([^"]+)"\s+as\s+const', text
-    )
+    match = re.search(rf'export\s+const\s+{re.escape(name)}\s*=\s*"([^"]+)"\s+as\s+const', text)
     return match.group(1) if match else None
 
 

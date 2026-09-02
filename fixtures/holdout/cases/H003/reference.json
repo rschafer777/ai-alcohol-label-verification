@@ -1,13 +1,18 @@
 {
   "abvPercent": 45.0,
+  "beverageType": "distilled_spirits",
   "brandName": "OLD TOM DISTILLERY",
   "caseLabel": null,
   "classType": "Kentucky Straight Bourbon Whiskey",
   "countryOfOrigin": "CANADA",
   "isImported": true,
+  "maltAlcoholSource": "unknown",
   "netContentsUnit": "mL",
   "netContentsValue": 750.0,
   "producerNameAddress": "OLD TOM DISTILLERY LLC\nFRANKFORT, KENTUCKY 40601",
-  "profileId": "distilled_spirits_demo_v1",
-  "proof": 90.0
+  "profileId": "all_beverages_demo_v2",
+  "proof": 90.0,
+  "referenceProvenance": "sample",
+  "wineAppellation": null,
+  "wineSulfiteStatus": "unknown"
 }

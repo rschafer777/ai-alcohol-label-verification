@@ -5,7 +5,13 @@ from pathlib import Path
 
 import pytest
 from labelverify.api.errors import PublicApiError
-from labelverify.security.boundary import _normalize_host, _security_headers
+from labelverify.security.boundary import (
+    HISTORY_SCOPE_COOKIE,
+    _history_scope,
+    _normalize_host,
+    _scope_cookie,
+    _security_headers,
+)
 from labelverify.security.identity import ClientIdentity
 from labelverify.security.rate_limit import AdmissionController, StartRateLimiter
 from labelverify.security.signatures import image_media_type
@@ -85,9 +91,7 @@ def test_azure_identity_uses_only_the_ingress_appended_rightmost_ip(tmp_path: Pa
         settings(tmp_path, production=True),
         client_identity_source="azure_container_apps",
     )
-    expected = resolver.resolve(
-        scope([(b"x-forwarded-for", b"203.0.113.7")]), azure, "request"
-    )
+    expected = resolver.resolve(scope([(b"x-forwarded-for", b"203.0.113.7")]), azure, "request")
     spoofed_prefix = resolver.resolve(
         scope([(b"x-forwarded-for", b"198.51.100.99, 203.0.113.7")]),
         azure,
@@ -131,6 +135,20 @@ def test_rate_limits_and_active_isolation() -> None:
     assert limiter.begin("client", now=21) == "client_rate_limited"
 
 
+def test_one_client_cannot_consume_the_global_minute_allowance() -> None:
+    limiter = StartRateLimiter(
+        client_starts_per_minute=3,
+        client_starts_per_ten_minutes=20,
+        global_starts_per_minute=5,
+    )
+    for second in range(3):
+        assert limiter.begin("noisy", now=float(second)) is None
+        limiter.finish("noisy")
+    assert limiter.begin("noisy", now=3.0) == "client_rate_limited"
+    assert limiter.begin("other", now=3.0) is None
+    limiter.finish("other")
+
+
 def test_default_rate_limit_supports_one_sequential_peak_batch() -> None:
     limiter = StartRateLimiter()
     for second in range(300):
@@ -165,3 +183,26 @@ def test_security_headers_apply_no_store_and_html_csp() -> None:
     assert values[b"cache-control"] == b"no-store, private"
     assert values[b"strict-transport-security"].startswith(b"max-age=")
     assert b"default-src 'self'" in values[b"content-security-policy"]
+
+
+def test_history_scope_cookie_is_opaque_strict_and_secure_in_production() -> None:
+    generated, should_set = _history_scope({"headers": []})
+    assert should_set
+    assert len(generated) == 43
+    cookie = _scope_cookie(generated, production=True).decode("ascii")
+    assert cookie.startswith(f"{HISTORY_SCOPE_COOKIE}={generated};")
+    assert "HttpOnly" in cookie
+    assert "SameSite=Strict" in cookie
+    assert "Secure" in cookie
+
+    recovered, should_replace = _history_scope(
+        {"headers": [(b"cookie", f"{HISTORY_SCOPE_COOKIE}={generated}".encode("ascii"))]}
+    )
+    assert recovered == generated
+    assert not should_replace
+
+    replacement, should_replace = _history_scope(
+        {"headers": [(b"cookie", f"{HISTORY_SCOPE_COOKIE}=predictable".encode("ascii"))]}
+    )
+    assert replacement != "predictable"
+    assert should_replace

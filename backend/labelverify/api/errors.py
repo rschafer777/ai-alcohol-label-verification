@@ -26,7 +26,7 @@ MESSAGES = {
     "multipart_limit_exceeded": "The upload contains too many or oversized parts.",
     "unsupported_media_type": "A panel is not a supported JPEG, PNG, or WebP image.",
     "invalid_reference": "The reference record contains an invalid value.",
-    "invalid_panel_count": "Add between 1 and 6 label panels.",
+    "invalid_panel_count": "Add between 1 and 3 label panels.",
     "invalid_image": "A panel is corrupt or cannot be read.",
     "decoded_pixel_limit": "A panel exceeds the supported decoded image dimensions.",
     "client_rate_limited": "This client has started too many verifications.",

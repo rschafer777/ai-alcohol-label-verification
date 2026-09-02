@@ -169,24 +169,25 @@
       "oraclePath": "fixtures/oracle/development/D007.json",
       "panels": [
         {
-          "bytes": 91525,
+          "bytes": 96176,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D007/panels/panel-1.png",
-          "sha256": "b8ca9ad0ed01aa402dcb766e2b5f0b4e6d1ded46e9b2ab3dfb06ec18f1f6d37a",
+          "sha256": "ddf8ac493f1028a7f7ff34556d61a9764923268eb41720579cabc40f4ae282a0",
           "width": 1200
         }
       ],
       "partition": "development",
       "referencePath": "fixtures/development/cases/D007/reference.json",
       "scenarioTags": [
+        "wine",
         "net_contents",
         "safe_equivalence"
       ],
       "sealed": false,
       "submissionMode": "ui",
-      "title": "Equivalent liter net contents"
+      "title": "Wine with equivalent liter net contents"
     },
     {
       "caseId": "D008",
@@ -195,25 +196,26 @@
       "oraclePath": "fixtures/oracle/development/D008.json",
       "panels": [
         {
-          "bytes": 91743,
+          "bytes": 84191,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D008/panels/panel-1.png",
-          "sha256": "1b75b75efe2f1911155a493be47755f32ffd93e6bd847f1ca1a56e1a7c96520a",
+          "sha256": "8eb73080b04aca8053f5b7f947a6fa7af3a20540ada6098ce93da8a4c67de402",
           "width": 1200
         }
       ],
       "partition": "development",
       "referencePath": "fixtures/development/cases/D008/reference.json",
       "scenarioTags": [
+        "malt_beverage",
         "producer",
         "punctuation",
         "review"
       ],
       "sealed": false,
       "submissionMode": "ui",
-      "title": "Producer punctuation variation"
+      "title": "Malt beverage producer punctuation variation"
     },
     {
       "caseId": "D009",
@@ -765,46 +767,19 @@
           "path": "fixtures/holdout/cases/H001/panels/panel-3.png",
           "sha256": "e0bc6f7211d3f57ea0247c4cdcfb54478f73c62c90ad1874b2f98b14ee408cc0",
           "width": 1200
-        },
-        {
-          "bytes": 22162,
-          "height": 1600,
-          "mimeType": "image/png",
-          "panelId": "panel-4",
-          "path": "fixtures/holdout/cases/H001/panels/panel-4.png",
-          "sha256": "f1b793dec72e344ded6d37c7dcf489b3e6e8171b110eefb83fa9d10f61929623",
-          "width": 1200
-        },
-        {
-          "bytes": 16668,
-          "height": 1600,
-          "mimeType": "image/png",
-          "panelId": "panel-5",
-          "path": "fixtures/holdout/cases/H001/panels/panel-5.png",
-          "sha256": "118c70734640f8e74a52ca79f1b0e3974577a6602ceddc76d773f4f361b67510",
-          "width": 1200
-        },
-        {
-          "bytes": 16668,
-          "height": 1600,
-          "mimeType": "image/png",
-          "panelId": "panel-6",
-          "path": "fixtures/holdout/cases/H001/panels/panel-6.png",
-          "sha256": "118c70734640f8e74a52ca79f1b0e3974577a6602ceddc76d773f4f361b67510",
-          "width": 1200
         }
       ],
       "partition": "holdout",
       "referencePath": "fixtures/holdout/cases/H001/reference.json",
       "scenarioTags": [
         "exact",
-        "six_panel",
+        "three_panel",
         "holdout",
         "clean"
       ],
       "sealed": true,
       "submissionMode": "ui",
-      "title": "Six panel exact holdout"
+      "title": "Three panel exact holdout"
     },
     {
       "caseId": "H002",
@@ -964,10 +939,10 @@
     }
   ],
   "contractHashes": {
-    "api-contract-v1.json": "cc6e9463792efd50447fce6303fb8307bd6b462f5695cafd3e7880298a71e72a",
-    "error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
-    "regulatory-rules-v1.json": "6d1c9866738a1b863ff8572c29881195005861b2198c2e364c4b5ff0fbf2e6c2",
-    "selected-check-registry-v1.json": "521d7a1dbdb3872086083e92a6f37e459c48ad5471a09f3f92c23472b7dc8b13"
+    "api-contract-v1.json": "5719e1ac62c09eb61483053ca6ddd2911d64ac903a7d38c4c3e0d0e1c9c01c17",
+    "error-registry-v1.json": "0e78225cbee9ae166e5d5154a231cf302051ffbb4ddc9dfc1b9a2624d9993b65",
+    "regulatory-rules-v1.json": "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149",
+    "selected-check-registry-v1.json": "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
   },
   "corpusId": "labelverify-fixtures-v1",
   "developmentCount": 24,

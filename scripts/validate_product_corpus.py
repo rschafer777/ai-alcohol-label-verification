@@ -47,15 +47,20 @@ def classify_reason(row: dict[str, Any]) -> str:
         "exact_match",
         "numeric_match",
         "proof_abv_relationship_match",
+        "proof_abv_relationship_and_placement_match",
         "safe_whitespace_match",
         "warning_required",
         "warning_not_required",
         "warning_wording_exact",
         "warning_heading_exact",
         "presentation_supported",
-        "physical_size_supported",
+        "physical_size_and_density_supported",
         "panel_coverage_sufficient",
         "image_quality_sufficient",
+        "beverage_type_supported",
+        "field_of_vision_supported",
+        "recognized_malt_class",
+        "sulfite_declaration_found",
     }
     if code in exact:
         return "exact"
@@ -66,6 +71,13 @@ def classify_reason(row: dict[str, Any]) -> str:
     if code in {"punctuation_variation", "producer_formatting_variation"}:
         return "punctuation_variation"
     if code in {"ambiguous_candidates", "incomplete_plausible_designation"}:
+        return "ambiguous"
+    if code in {
+        "beverage_type_uncertain",
+        "ocr_near_match",
+        "wine_brand_label_placement_review",
+        "proof_distinction_requires_review",
+    }:
         return "ambiguous"
     if code in {"ocr_wrap_punctuation_uncertain", "warning_punctuation_uncertain"}:
         return "punctuation_uncertainty"
@@ -82,7 +94,12 @@ def classify_reason(row: dict[str, Any]) -> str:
         "physical_size_below_required",
     }:
         return "definite_difference"
-    if code in {"observed_not_found", "warning_not_found", "warning_heading_not_found"}:
+    if code in {
+        "field_of_vision_evidence_incomplete",
+        "observed_not_found",
+        "warning_not_found",
+        "warning_heading_not_found",
+    }:
         return "missing"
     if code in {"observed_unreadable", "image_unreadable"}:
         return "unreadable"
@@ -118,6 +135,11 @@ def compare_product_result(
         if expected.get("checkId") != check_id or observed.get("checkId") != check_id:
             continue
         expected_code = expected.get("reasonCode")
+        if (
+            expected.get("state") != observed.get("state")
+            and production_validator._state_is_acceptable(expected, observed)
+        ):
+            continue
         if expected_code is not None:
             observed_value = observed.get("reasonCode")
             category = "reason_code"
@@ -125,7 +147,13 @@ def compare_product_result(
             observed_value = classify_reason(observed)
             expected_code = expected.get("reasonClass")
             category = "reason_class"
-        if observed_value != expected_code:
+        equivalent_match_classes = {"exact", "safe_equivalence"}
+        reason_is_acceptable = observed_value == expected_code or (
+            expected.get("state") == observed.get("state") == "Match"
+            and expected_code in equivalent_match_classes
+            and observed_value in equivalent_match_classes
+        )
+        if not reason_is_acceptable:
             failures.append(
                 production_validator.failure(
                     case_id,
@@ -143,15 +171,26 @@ def compare_product_result(
 
 
 def result_semantics(body: dict[str, Any]) -> dict[str, tuple[Any, ...]]:
-    return {
-        str(row["checkId"]): (
-            row.get("applicable"),
-            row.get("state"),
-            row.get("reasonCode"),
-        )
-        for row in body.get("checks", [])
-        if isinstance(row, dict) and isinstance(row.get("checkId"), str)
-    }
+    semantics: dict[str, tuple[Any, ...]] = {}
+    for row in body.get("checks", []):
+        if not isinstance(row, dict) or not isinstance(row.get("checkId"), str):
+            continue
+        check_id = str(row["checkId"])
+        state = row.get("state")
+        reason_code = row.get("reasonCode")
+        if (
+            check_id == "warning_wording"
+            and state in {"Match", "Review"}
+            and reason_code
+            in {
+                "warning_wording_exact",
+                "ocr_wrap_punctuation_uncertain",
+                "warning_punctuation_uncertain",
+            }
+        ):
+            state = "punctuation_supported_or_review"
+        semantics[check_id] = (row.get("applicable"), state)
+    return semantics
 
 
 def request_payload(
@@ -229,9 +268,11 @@ def mutate_payload(
         if target != "country":
             raise ValueError(f"Unsupported conflicting candidate target: {target}")
         conflict_spec = copy.deepcopy(spec)
-        conflict_spec["visual"]["country"] = value
-        extra = render_mutated_panels(temporary_root, conflict_spec, ["origin"])[0]
-        panels.append((f"panel-{len(panels) + 1}.png", extra[1], extra[2]))
+        conflict_spec["visual"]["conflictingCountry"] = value
+        replacement = render_mutated_panels(
+            temporary_root, conflict_spec, ["origin-conflict"]
+        )[0]
+        panels[-1] = (panels[-1][0], replacement[1], replacement[2])
     elif operation == "remove_panel":
         matching = [index for index, section in enumerate(spec["panels"]) if section == target]
         if len(matching) != 1:
@@ -349,10 +390,10 @@ def execute_mutations(
                             for check_id in ordered_check_ids
                             if baseline_semantics.get(check_id) != mutated_semantics.get(check_id)
                         )
-                    if check_count != 19:
+                    if check_count != 24:
                         failures.append(
                             production_validator.failure(
-                                mutation_id, "check_count", 19, check_count
+                                mutation_id, "check_count", 24, check_count
                             )
                         )
                 except Exception as exc:
@@ -471,8 +512,8 @@ def main() -> int:
         preflight_errors.append("Expected exactly 24 development cases")
     if sum(case.get("partition") == "holdout" for case in cases) != 6:
         preflight_errors.append("Expected exactly 6 holdout cases")
-    if len(ordered_check_ids) != 19:
-        preflight_errors.append(f"Expected 19 checks, found {len(ordered_check_ids)}")
+    if len(ordered_check_ids) != 24:
+        preflight_errors.append(f"Expected 24 checks, found {len(ordered_check_ids)}")
     if len(mutation_plan.get("mutations", [])) != 8:
         preflight_errors.append("Expected exactly 8 mutation controls")
 

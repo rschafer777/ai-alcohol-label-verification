@@ -4,6 +4,7 @@ import re
 from collections.abc import Iterable
 from difflib import SequenceMatcher
 
+from labelverify.contracts.loader import contracts
 from labelverify.contracts.models import (
     Candidate,
     CandidateSet,
@@ -22,17 +23,28 @@ _ABV_CONTEXT = re.compile(
     re.I,
 )
 _PROOF = re.compile(r"\b\d{1,3}(?:\.\d+)?\s*proof\b", re.I)
-_NET = re.compile(r"\b\d+(?:\.\d+)?\s*(?:ml|mL|L|liters?|litres?)\b", re.I)
+_NET = re.compile(
+    r"\b\d+(?:\.\d+)?\s*(?:fl\.?\s*(?:oz|0z)\.?|fluid\s+ounces?|pints?|pts?\.?|"
+    r"quarts?|qts?\.?|gallons?|gals?\.?|ml|mL|L|liters?|litres?)\b",
+    re.I,
+)
 _CLASS = re.compile(
-    r"\b(?:bourbon|whisk(?:e)?y|vodka|gin|rum|tequila|brandy|liqueur|cordial|spirits?)\b",
+    r"\b(?:bourbon|whisk(?:e)?y|vodka|gin|rum|tequila|brandy|liqueur|cordial|spirits?|"
+    r"wine|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
+    r"syrah|shiraz|muscat|sangria|vermouth|port|sherry|champagne|sparkling\s+wine|"
+    r"malt\s+beverage|beer|ale|lager|stout|porter|pilsner|ipa|india\s+pale\s+ale|"
+    r"near\s+beer|cereal\s+beverage|hard\s+seltzer)\b",
     re.I,
 )
 _STRONG_CLASS = re.compile(
-    r"\b(?:bourbon|whisk(?:e)?y|vodka|gin|rum|tequila|brandy|liqueur|cordial)\b",
+    r"\b(?:bourbon|whisk(?:e)?y|vodka|gin|rum|tequila|brandy|liqueur|cordial|"
+    r"wine|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
+    r"syrah|shiraz|muscat|sangria|vermouth|port|sherry|champagne|beer|ale|lager|"
+    r"stout|porter|pilsner|india\s+pale\s+ale|near\s+beer|hard\s+seltzer)\b",
     re.I,
 )
 _PRODUCER = re.compile(
-    r"\b(?:(?:bottled|distilled|produced|manufactured|blended|imported|packed)\s+by|"
+    r"\b(?:(?:bottled|distilled|produced|manufactured|blended|imported|packed|brewed|canned|filled)\s+(?:and\s+(?:bottled|canned|packed|filled)\s+)?by|"
     r"(?:llc|l\.l\.c\.|inc\.?|corp\.?|corporation|ltd\.?|company|co\.?|imports?))\b",
     re.I,
 )
@@ -41,6 +53,12 @@ _COUNTRY = re.compile(
     re.I,
 )
 _WARNING = re.compile(r"government\s+warning\s*:?", re.I)
+_APPELLATION = re.compile(
+    r"\b(?:american|california|oregon|washington|new\s+york|napa\s+valley|sonoma|"
+    r"willamette\s+valley|product\s+of\s+[A-Za-z][A-Za-z .'-]{1,60})\b",
+    re.I,
+)
+_SULFITES = re.compile(r"\bcontains?\s+(?:sulfites?|a\s+sulfiting\s+agent)\b", re.I)
 _WARNING_BODY_TERM = re.compile(
     r"\b(?:according|surgeon|general|women|should|drink|alcoholic|beverages|"
     r"pregnancy|risk|birth|defects|consumption|impairs|ability|drive|car|"
@@ -76,6 +94,7 @@ _SCALE = re.compile(r"\b(?:reference|synthetic)?\s*scale\s*:\s*(\d+(?:\.\d+)?)\s
 _ADMINISTRATIVE = re.compile(
     r"\b(?:test\s+label|reference\s+scale|synthetic\s+scale|lot\s*:)\b", re.I
 )
+_WARNING_THRESHOLDS = contracts().rules["warning"]["visualDecisionThresholds"]
 
 
 def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> ObservedCandidates:
@@ -93,6 +112,8 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
     class_type = _class_candidates(ordered, factory)
     producer = _producer_candidates(ordered, factory)
     country = _country_candidates(ordered, factory)
+    appellation = _line_candidates(ordered, _APPELLATION, "wine_appellation", factory)
+    sulfites = _line_candidates(ordered, _SULFITES, "wine_sulfites", factory)
     warning = _warning_observation(
         ordered,
         panels,
@@ -108,11 +129,14 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
         or _CLASS.search(item.text)
         or _PRODUCER.search(item.text)
         or _COUNTRY.search(item.text)
+        or _APPELLATION.search(item.text)
         or _WARNING.search(item.text)
+        or _SULFITES.search(item.text)
         or _SCALE.search(item.text)
         or _ADMINISTRATIVE.search(item.text)
     }
     excluded.update(_warning_interruption_orders(ordered))
+    excluded.update(_warning_body_orders(ordered))
     brand = _brand_candidates(ordered, excluded, factory)
     evidence = list(factory.evidence.values())
     fields = {
@@ -123,6 +147,8 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
         "net_contents": net,
         "producer": producer,
         "country": country,
+        "wine_appellation": appellation,
+        "wine_sulfites": sulfites,
     }
     if unreadable_panel_ids:
         fields = {
@@ -315,8 +341,8 @@ def _brand_candidates(
         if line.reading_order not in excluded
         and 2 <= len(whitespace(line.text)) <= 160
         and any(character.isalpha() for character in line.text)
-        and line.text.upper() == line.text
         and not _ADMINISTRATIVE.search(line.text)
+        and not _looks_like_warning_body_text(line.text)
     ]
     if not eligible:
         return CandidateSet(status="Not found")
@@ -359,6 +385,16 @@ def _warning_interruption_orders(lines: list[OcrLine]) -> set[int]:
             for candidate in body_lines[:part_two]
             if _looks_like_interruption(candidate.text)
         }
+    return set()
+
+
+def _warning_body_orders(lines: list[OcrLine]) -> set[int]:
+    for index, line in enumerate(lines):
+        if _WARNING.search(line.text):
+            return {
+                candidate.reading_order
+                for candidate in _warning_body_lines(lines, index, line)
+            }
     return set()
 
 
@@ -424,6 +460,8 @@ def _brand_group(first: OcrLine, eligible: list[OcrLine]) -> list[OcrLine]:
         for line in eligible
         if line is not first
         and line.panel_id == first.panel_id
+        and _same_column(first, line)
+        and _line_height(line) >= max(10, round(_line_height(first) * 0.55))
         and 0
         <= min(point.y for point in line.polygon) - first_bottom
         <= max(12, _line_height(first))
@@ -554,9 +592,9 @@ def _has_wrap_punctuation_uncertainty(lines: list[OcrLine]) -> bool:
 def _bold_state(density: float | None) -> bool | None:
     if density is None:
         return None
-    if density >= 0.32:
+    if density >= _WARNING_THRESHOLDS["headingBoldInkDensityPassGte"]:
         return True
-    if density <= 0.25:
+    if density <= _WARNING_THRESHOLDS["headingBoldInkDensityFailLte"]:
         return False
     return None
 
@@ -567,9 +605,9 @@ def _body_bold_state(lines: list[OcrLine]) -> bool | None:
         return None
     densities = [item.ink_density for item in content if item.ink_density is not None]
     average = sum(densities) / len(densities)
-    if average >= 0.25:
+    if average >= _WARNING_THRESHOLDS["bodyBoldMeanInkDensityPassGte"]:
         return True
-    if average <= 0.22:
+    if average <= _WARNING_THRESHOLDS["bodyNotBoldMeanInkDensityPassLte"]:
         return False
     return None
 
@@ -600,9 +638,9 @@ def _heading_bold_state(
     if body_average <= 0:
         return None
     ratio = heading.ink_density / body_average
-    if ratio >= 1.8:
+    if ratio >= _WARNING_THRESHOLDS["headingToBodyDensityPassGte"]:
         return True
-    if ratio <= 1.65 and height_state is False:
+    if ratio <= _WARNING_THRESHOLDS["headingToBodyDensityFailLte"] and height_state is False:
         return False
     return height_state if height_state is True else None
 
@@ -618,13 +656,17 @@ def _vertical_separation(previous: OcrLine | None, heading: OcrLine) -> bool | N
     comparison_height = min(heading_height, previous_height)
     if gap > comparison_height * 3:
         return None
-    if gap >= comparison_height * 0.75:
+    if gap >= comparison_height * _WARNING_THRESHOLDS[
+        "separationGapPassLineHeightRatioGte"
+    ]:
         if _unexpected_surrounding_text(previous.text) and gap < comparison_height * 2:
             return None
         return True
     if _unexpected_surrounding_text(previous.text):
         return None
-    if gap <= comparison_height * 0.25:
+    if gap <= comparison_height * _WARNING_THRESHOLDS[
+        "separationGapFailLineHeightRatioLte"
+    ]:
         return False
     return None
 
@@ -636,10 +678,13 @@ def _warning_contrast(heading: OcrLine, body_lines: list[OcrLine]) -> bool | Non
     ):
         return None
     contrasts = [item.local_contrast for item in content if item.local_contrast is not None]
-    if min(contrasts) < 0.3:
+    if min(contrasts) < _WARNING_THRESHOLDS["contrastFailLt"]:
         return False
     confidences = [item.confidence for item in content if item.confidence is not None]
-    if len(confidences) != len(content) or min(confidences) < 0.8:
+    if (
+        len(confidences) != len(content)
+        or min(confidences) < _WARNING_THRESHOLDS["ocrSignalPassGte"]
+    ):
         return None
     return True
 
@@ -664,9 +709,9 @@ def _warning_legibility(
     ]
     if not confidences:
         return None
-    if min(confidences) >= 0.8:
+    if min(confidences) >= _WARNING_THRESHOLDS["ocrSignalPassGte"]:
         return True
-    if min(confidences) < 0.5:
+    if min(confidences) < _WARNING_THRESHOLDS["ocrSignalFailLt"]:
         return False
     return None
 
@@ -687,6 +732,14 @@ def _looks_like_interruption(value: str) -> bool:
     ):
         return False
     return bool(text and any(character.isalpha() for character in text) and text.upper() == text)
+
+
+def _looks_like_warning_body_text(value: str) -> bool:
+    text = whitespace(value)
+    if text.startswith(("(1)", "(2)")):
+        return True
+    tokens = set(re.findall(r"[A-Za-z]+", text.casefold()))
+    return len(tokens & _WARNING_BODY_WORDS) >= 3
 
 
 def _contains_warning_like_word(value: str) -> bool:

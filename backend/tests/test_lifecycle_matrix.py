@@ -652,7 +652,7 @@ async def test_t029_content_and_path_canaries_never_reach_response_or_logs(
     admissions = AdmissionController()
     app, settings = _boundary_app(tmp_path, _ImmediateSupervisor(), limiter, admissions)
     canary = "PRIVATE-CONTENT-CANARY-7c9d"
-    filename = "C:\\Users\\private\\label-canary.jpg"
+    filename = "private-folder\\label-canary.jpg"
     body = _multipart_body(
         [b"not-an-image"], reference_value=reference(brand=canary), filename=filename
     )

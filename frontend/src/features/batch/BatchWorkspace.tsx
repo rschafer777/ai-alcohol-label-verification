@@ -1,64 +1,32 @@
-import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { VerificationClientError } from "../../api/verification-client";
-import { limits } from "../../api/generated-contract";
-import type { SampleAdapter, VerificationClient } from "../../contracts/types";
+import type { VerificationClient } from "../../contracts/types";
 import { ResultWorkspace } from "../verification/ResultWorkspace";
 import {
-  batchCsv,
-  batchDetailsJson,
-  MAX_BATCH_SELECTED_ENTRIES,
-  MAX_BATCH_ITEMS,
-  readBatchDirectory,
-  resultState,
-  toQueueItems,
-  type BatchItemState,
-  type BatchParseIssue,
-  type BatchQueueItem,
-} from "./model";
+  canonicalPath,
+  imageSelectionIssue,
+  spreadsheetSafeCsvCell,
+  suggestProductGroups,
+  type SuggestedGroup,
+} from "./grouping";
 
 interface BatchWorkspaceProps {
+  initialFiles: File[];
+  onFilesConsumed: () => void;
   verificationClient: VerificationClient;
-  sampleAdapter: SampleAdapter;
 }
 
-type Filter = "all" | "attention" | "match" | "review" | "difference" | "bad_image" | "error" | "cancelled" | "queued";
-
-const TEMPLATE = [
-  "case_id,brand_name,class_type,abv_percent,proof,net_contents_value,net_contents_unit,producer_name_address,is_imported,country_of_origin,panel_paths",
-  'CASE-001,OLD TOM DISTILLERY,Kentucky Straight Bourbon Whiskey,45,90,750,mL,"OLD TOM DISTILLERY LLC FRANKFORT KENTUCKY 40601",false,,CASE-001/front.png|CASE-001/back.png',
-].join("\r\n");
-
-const FILTERS: Array<{ value: Filter; label: string }> = [
-  { value: "all", label: "All" },
-  { value: "attention", label: "Needs attention" },
-  { value: "match", label: "No differences" },
-  { value: "review", label: "Needs review" },
-  { value: "difference", label: "Differences" },
-  { value: "bad_image", label: "Bad image" },
-  { value: "error", label: "Errors" },
-  { value: "cancelled", label: "Cancelled" },
-  { value: "queued", label: "Queued" },
-];
-
-const ATTENTION_STATES: BatchItemState[] = ["review", "difference", "bad_image", "error", "cancelled"];
-
-function statusLabel(state: BatchItemState): string {
-  const labels: Record<BatchItemState, string> = {
-    queued: "Queued",
-    running: "Running",
-    match: "No differences",
-    review: "Needs review",
-    difference: "Differences",
-    bad_image: "Bad image",
-    error: "Error",
-    cancelled: "Cancelled",
-  };
-  return labels[state];
+function machineLabel(group: SuggestedGroup): string {
+  if (group.status === "running") return "Running";
+  if (group.status === "queued") return "Queued";
+  if (group.status === "cancelled") return "Cancelled";
+  if (group.status === "failed") return "Failed";
+  return group.result?.summary ?? "Waiting";
 }
 
-function downloadText(filename: string, contents: string, type = "text/csv;charset=utf-8") {
-  const url = URL.createObjectURL(new Blob([contents], { type }));
+function download(filename: string, content: string, type: string) {
+  const url = URL.createObjectURL(new Blob([content], { type }));
   const link = document.createElement("a");
   link.href = url;
   link.download = filename;
@@ -66,308 +34,191 @@ function downloadText(filename: string, contents: string, type = "text/csv;chars
   URL.revokeObjectURL(url);
 }
 
-export function BatchWorkspace({ verificationClient, sampleAdapter }: BatchWorkspaceProps) {
-  const [queue, setQueue] = useState<BatchQueueItem[]>([]);
-  const [issues, setIssues] = useState<BatchParseIssue[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [running, setRunning] = useState(false);
-  const [elapsedMs, setElapsedMs] = useState(0);
-  const [filter, setFilter] = useState<Filter>("all");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [selectedEvidenceId, setSelectedEvidenceId] = useState<string | null>(null);
-  const [note, setNote] = useState("");
-  const [disposition, setDisposition] = useState("");
-  const controllerRef = useRef<AbortController | null>(null);
-  const cancelRef = useRef(false);
-  const timerRef = useRef<number | null>(null);
-  const summaryRef = useRef<HTMLHeadingElement>(null);
+function FilePreview({ file }: { file: File }) {
+  const url = useMemo(() => URL.createObjectURL(file), [file]);
+  useEffect(() => () => URL.revokeObjectURL(url), [url]);
+  return <img alt="" loading="lazy" src={url} />;
+}
 
+export function BatchWorkspace({ initialFiles, onFilesConsumed, verificationClient }: BatchWorkspaceProps) {
+  const initialIssue = imageSelectionIssue(initialFiles, 900);
+  const [groups, setGroups] = useState<SuggestedGroup[]>(() => initialIssue ? [] : suggestProductGroups(initialFiles));
+  const [stage, setStage] = useState<"select" | "confirm" | "run">(initialFiles.length && !initialIssue ? "confirm" : "select");
+  const [selectionIssue, setSelectionIssue] = useState(initialIssue ?? "");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [filter, setFilter] = useState<"all" | "attention" | "complete" | "failed">("all");
+  const [elapsedMs, setElapsedMs] = useState(0);
+  const input = useRef<HTMLInputElement>(null);
+  const consumedInitialFiles = useRef(false);
+  const cancel = useRef(false);
+  const controller = useRef<AbortController | null>(null);
+  const runTimer = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!consumedInitialFiles.current && initialFiles.length) {
+      consumedInitialFiles.current = true;
+      onFilesConsumed();
+    }
+  }, [initialFiles.length, onFilesConsumed]);
   useEffect(() => () => {
-    cancelRef.current = true;
-    controllerRef.current?.abort();
-    if (timerRef.current !== null) window.clearInterval(timerRef.current);
+    cancel.current = true;
+    controller.current?.abort();
+    if (runTimer.current !== null) window.clearInterval(runTimer.current);
   }, []);
 
-  const completed = queue.filter((item) => !["queued", "running"].includes(item.state)).length;
-  const processed = queue.filter((item) => ["match", "review", "difference", "bad_image", "error"].includes(item.state));
-  const averageMs = processed.length
-    ? processed.reduce((total, item) => total + (item.durationMs ?? 0), 0) / processed.length
-    : 0;
-  const remaining = queue.filter((item) => item.state === "queued").length;
-  const filtered = useMemo(
-    () => filter === "all"
-      ? queue
-      : queue.filter((item) => filter === "attention" ? ATTENTION_STATES.includes(item.state) : item.state === filter),
-    [filter, queue],
-  );
-  const selected = queue.find((item) => item.id === selectedId) ?? null;
-  const current = queue.find((item) => item.state === "running") ?? null;
+  const completed = groups.filter((group) => group.status === "complete").length;
+  const failed = groups.filter((group) => group.status === "failed").length;
+  const remaining = groups.filter((group) => ["queued", "running"].includes(group.status)).length;
+  const durations = groups.flatMap((group) => group.durationMs == null ? [] : [group.durationMs]);
+  const averageMs = durations.length ? durations.reduce((sum, value) => sum + value, 0) / durations.length : 0;
+  const active = groups.find((group) => group.id === activeId) ?? null;
+  const filtered = useMemo(() => groups.filter((group) => filter === "all" || filter === "attention" && (group.status === "failed" || group.result?.summary !== "No differences found in checked fields") || filter === "complete" && group.status === "complete" || filter === "failed" && group.status === "failed"), [filter, groups]);
 
-  async function loadDirectory(event: ChangeEvent<HTMLInputElement>) {
-    const selection = event.target.files;
-    if (!selection?.length) return;
-    if (selection.length > MAX_BATCH_SELECTED_ENTRIES) {
-      event.target.value = "";
-      setQueue([]);
-      setIssues([{
-        row: null,
-        message: `The selected folder exceeds the ${MAX_BATCH_SELECTED_ENTRIES}-entry limit.`,
-      }]);
+  function choose(files: File[]) {
+    const issue = imageSelectionIssue(files, 900);
+    if (issue) {
+      setGroups([]);
+      setStage("select");
+      setSelectionIssue(issue);
       return;
     }
-    const files = Array.from(selection);
-    event.target.value = "";
-    setLoading(true);
-    setSelectedId(null);
-    try {
-      const parsed = await readBatchDirectory(files);
-      setQueue(toQueueItems(parsed.items));
-      setIssues(parsed.issues);
-    } finally {
-      setLoading(false);
-    }
+    setSelectionIssue("");
+    setGroups(suggestProductGroups(files));
+    setStage(files.length ? "confirm" : "select");
+    setSelected(new Set());
   }
 
-  async function loadDemo() {
-    setLoading(true);
-    setIssues([]);
-    setSelectedId(null);
-    try {
-      const sample = await sampleAdapter.load();
-      const inputs = Array.from({ length: 10 }, (_, index) => {
-        const reference = { ...sample.reference, caseLabel: `DEMO-${String(index + 1).padStart(2, "0")}` };
-        if (index === 1) reference.brandName = "Old Tom Distillery";
-        if (index === 2) reference.abvPercent = 46;
-        if (index === 3) {
-          reference.netContentsValue = 1;
-          reference.netContentsUnit = "L";
-        }
-        return {
-          id: reference.caseLabel ?? `DEMO-${index + 1}`,
-          manifestRow: index + 2,
-          reference,
-          panels: sample.panels,
-          panelPaths: sample.panels.map((panel) => panel.name),
-          ingressError: null,
-        };
-      });
-      setQueue(toQueueItems(inputs));
-    } catch {
-      setIssues([{ row: null, message: "The built-in batch could not be loaded." }]);
-    } finally {
-      setLoading(false);
-    }
+  function update(id: string, patch: Partial<SuggestedGroup>) {
+    setGroups((current) => current.map((group) => group.id === id ? { ...group, ...patch } : group));
   }
 
-  function updateItem(index: number, update: Partial<BatchQueueItem>) {
-    setQueue((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, ...update } : item));
+  function confirm(id: string) {
+    const group = groups.find((item) => item.id === id);
+    if (!group?.name.trim()) return;
+    update(id, { name: group.name.trim(), confirmed: true, status: "ready" });
   }
 
-  async function processItem(index: number, item: BatchQueueItem): Promise<void> {
-    if (!item.reference || item.ingressError) return;
-    const controller = new AbortController();
-    controllerRef.current = controller;
-    updateItem(index, { state: "running", error: null, result: null, durationMs: null });
+  function mergeSelected() {
+    const merge = groups.filter((group) => selected.has(group.id));
+    const files = merge.flatMap((group) => group.files);
+    if (merge.length < 2 || files.length > 3) return;
+    const first = merge[0];
+    if (!first) return;
+    setGroups((current) => [{ ...first, files, name: first.name, confirmed: false, status: "needs_confirmation", reason: "Manually merged. Confirm before running." }, ...current.filter((group) => !selected.has(group.id))]);
+    setSelected(new Set());
+  }
+
+  function splitSelected() {
+    const split = groups.filter((group) => selected.has(group.id) && group.files.length > 1);
+    if (!split.length) return;
+    setGroups((current) => current.flatMap((group) => selected.has(group.id) && group.files.length > 1 ? group.files.map((file, index) => ({ ...group, id: `${group.id}-split-${index + 1}`, name: `${group.name} ${index + 1}`, files: [file], confirmed: false, status: "needs_confirmation" as const, reason: "Manually split. Confirm as a separate product." })) : [group]));
+    setSelected(new Set());
+  }
+
+  async function processGroup(group: SuggestedGroup): Promise<void> {
+    const nextController = new AbortController();
+    controller.current = nextController;
+    update(group.id, { status: "running", attempts: group.attempts + 1, error: null });
     const started = performance.now();
-    let timedOut = false;
-    const deadline = window.setTimeout(() => {
-      timedOut = true;
-      controller.abort();
-    }, limits.browserDeadlineSeconds * 1000);
     try {
-      const result = await verificationClient.verify({
-        reference: item.reference,
-        panels: item.panels,
-        signal: controller.signal,
-      });
+      const analysis = await verificationClient.analyze({ panels: group.files, signal: nextController.signal });
       const durationMs = performance.now() - started;
-      if (controller.signal.aborted || cancelRef.current) {
-        updateItem(index, { state: "cancelled", error: null, result: null, durationMs });
-      } else {
-        updateItem(index, { state: resultState(result), result, error: null, durationMs });
-      }
-    } catch (error) {
+      if (cancel.current || nextController.signal.aborted) update(group.id, { status: "cancelled", durationMs });
+      else if (analysis.verification) update(group.id, { analysis, result: analysis.verification, status: "complete", durationMs });
+      else update(group.id, { analysis, status: "failed", durationMs, error: "Beverage type needs human confirmation before rule checks can run." });
+    } catch (caught) {
       const durationMs = performance.now() - started;
-      if (timedOut) {
-        updateItem(index, {
-          state: "error",
-          error: `This application exceeded the ${limits.browserDeadlineSeconds}-second browser deadline. Retry it or use a clearer image.`,
-          result: null,
-          durationMs,
-        });
-      } else if (controller.signal.aborted || cancelRef.current) {
-        updateItem(index, { state: "cancelled", error: null, result: null, durationMs });
-      } else {
-        const message = error instanceof VerificationClientError
-          ? `${error.detail.message} ${error.detail.nextAction}`
-          : "The verifier could not process this application.";
-        updateItem(index, { state: "error", error: message, result: null, durationMs });
+      if (cancel.current || nextController.signal.aborted) update(group.id, { status: "cancelled", durationMs });
+      else update(group.id, { status: "failed", durationMs, error: caught instanceof VerificationClientError ? caught.detail.message : "Processing failed." });
+    }
+  }
+
+  async function run() {
+    if (
+      !groups.length
+      || groups.length > 300
+      || groups.some((group) => !group.confirmed || !group.name.trim())
+    ) return;
+    cancel.current = false;
+    setStage("run");
+    const started = performance.now();
+    runTimer.current = window.setInterval(
+      () => setElapsedMs(performance.now() - started),
+      100,
+    );
+    setGroups((current) => current.map((group) => ({ ...group, status: "queued", error: null })));
+    try {
+      for (const snapshot of groups) {
+        if (cancel.current) break;
+        await processGroup(snapshot);
       }
     } finally {
-      window.clearTimeout(deadline);
-      controllerRef.current = null;
+      if (runTimer.current !== null) window.clearInterval(runTimer.current);
+      runTimer.current = null;
+      setElapsedMs(performance.now() - started);
+    }
+    if (cancel.current) setGroups((current) => current.map((group) => group.status === "queued" ? { ...group, status: "cancelled" } : group));
+  }
+
+  async function retry(group: SuggestedGroup) {
+    cancel.current = false;
+    await processGroup(group);
+  }
+
+  async function retryFailed() {
+    for (const group of groups.filter((item) => item.status === "failed")) {
+      if (cancel.current) break;
+      await retry(group);
     }
   }
 
-  async function runBatch() {
-    if (running || !queue.some((item) => item.state === "queued" || (["error", "cancelled"].includes(item.state) && !item.ingressError))) return;
-    cancelRef.current = false;
-    setRunning(true);
-    setElapsedMs(0);
-    const started = performance.now();
-    timerRef.current = window.setInterval(() => setElapsedMs(performance.now() - started), 200);
-    const snapshot = queue.map((item) =>
-      ["error", "cancelled"].includes(item.state) && !item.ingressError
-        ? { ...item, state: "queued" as const, error: null, result: null, durationMs: null }
-        : item,
-    );
-    setQueue(snapshot);
-    for (let index = 0; index < snapshot.length; index += 1) {
-      if (cancelRef.current) break;
-      const item = snapshot[index];
-      if (!item || item.state !== "queued") continue;
-      await processItem(index, item);
-    }
-    if (cancelRef.current) {
-      setQueue((current) => current.map((item) => item.state === "queued" ? { ...item, state: "cancelled" } : item));
-    }
-    if (timerRef.current !== null) window.clearInterval(timerRef.current);
-    timerRef.current = null;
-    setElapsedMs(performance.now() - started);
-    setRunning(false);
+  function exportCsv() {
+    const header = "product,machine_result,duration_seconds,attempts,request_id";
+    const rows = groups.map((group) => [group.name, machineLabel(group), ((group.durationMs ?? 0) / 1000).toFixed(2), group.attempts, group.result?.requestId ?? ""].map(spreadsheetSafeCsvCell).join(","));
+    download("labelverify-batch-results.csv", [header, ...rows].join("\r\n"), "text/csv;charset=utf-8");
   }
 
-  function cancelBatch() {
-    cancelRef.current = true;
-    controllerRef.current?.abort();
-  }
+  if (active?.analysis && active.result) return <div><button className="btn ghost" onClick={() => setActiveId(null)} type="button">Back to batch</button><ResultWorkspace analysis={active.analysis} onStartOver={() => setActiveId(null)} result={active.result} sourcePanels={active.files} /></div>;
 
-  async function retryOne(item: BatchQueueItem) {
-    if (running || item.ingressError) return;
-    const index = queue.findIndex((candidate) => candidate.id === item.id);
-    if (index < 0) return;
-    cancelRef.current = false;
-    setRunning(true);
-    await processItem(index, item);
-    setRunning(false);
-  }
+  if (stage === "select") return <section className="batch-select blueprint"><p className="kicker">Check a batch | step 1 of 3</p><h1>Choose a folder of label images</h1><p>No spreadsheet is required. Folder and filename cues create conservative product suggestions. You confirm every group before processing.</p>{selectionIssue ? <p className="form-error" role="alert">{selectionIssue}</p> : null}<button className="btn primary" onClick={() => input.current?.click()} type="button">Choose batch folder</button><input aria-label="Choose batch folder" ref={input} className="sr-only" {...({ webkitdirectory: "", directory: "" } as Record<string, string>)} multiple onChange={(event) => { choose(Array.from(event.target.files ?? [])); event.target.value = ""; }} type="file" /></section>;
 
-  function openDetails(item: BatchQueueItem) {
-    if (!item.result) return;
-    setSelectedId(item.id);
-    setSelectedEvidenceId(item.result.evidence[0]?.evidenceId ?? null);
-    setNote("");
-    setDisposition("");
-    window.setTimeout(() => summaryRef.current?.focus(), 0);
-  }
-
-  if (selected?.result) {
-    return (
-      <div className="batch-detail-page">
-        <button className="button secondary" onClick={() => setSelectedId(null)} type="button">Back to batch results</button>
-        <ResultWorkspace
-          disposition={disposition}
-          note={note}
-          onDispositionChange={setDisposition}
-          onNoteChange={setNote}
-          onSelectEvidence={setSelectedEvidenceId}
-          onStartOver={() => setSelectedId(null)}
-          result={selected.result}
-          selectedEvidenceId={selectedEvidenceId}
-          sourcePanels={selected.panels}
-          summaryRef={summaryRef}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div className="batch-page">
-      <section className="card batch-intro" aria-labelledby="batch-heading">
-        <p className="eyebrow">Local batch review</p>
-        <h1 id="batch-heading">Check up to {MAX_BATCH_ITEMS} applications</h1>
-        <p className="lede">Choose one folder containing a manifest and its label images. Applications run one at a time through the same local OCR and rule pipeline, with progress and isolated errors.</p>
-        <div className="batch-intake-actions">
-          <label className={`button primary ${running || loading ? "disabled-label" : ""}`}>
-            Choose batch folder
-            <input
-              {...({ webkitdirectory: "", directory: "" } as Record<string, string>)}
-              accept=".csv,image/jpeg,image/png,image/webp"
-              disabled={running || loading}
-              multiple
-              onChange={loadDirectory}
-              type="file"
-            />
-          </label>
-          <button className="button secondary" disabled={running || loading} onClick={loadDemo} type="button">Try a 10-application batch</button>
-          <button className="button tertiary" onClick={() => downloadText("labelverify-batch-template.csv", TEMPLATE)} type="button">Download manifest template</button>
+  if (stage === "confirm") return (
+    <section className="grouping-page">
+      <div className="page-heading">
+        <div>
+          <p className="kicker">Check a batch | step 2 of 3</p>
+          <h1>Confirm how the images group into products</h1>
+          {groups.length > 300 ? <p className="form-error" role="alert">This batch currently has {groups.length} product groups. Merge related images until there are no more than 300 products.</p> : null}
         </div>
-        <p className="field-help">The folder must contain one manifest.csv. Separate multiple panel paths with | or ;. Files remain in this browser session and each application keeps the existing per-request limits.</p>
-      </section>
-
-      {issues.length ? (
-        <section className="status-banner error-banner" aria-labelledby="batch-issues-heading" role="alert">
-          <div>
-            <p className="eyebrow">Batch intake issues</p>
-            <h2 id="batch-issues-heading">{issues.length} row or folder issue{issues.length === 1 ? "" : "s"}</h2>
-            <ul>{issues.map((issue, index) => <li key={`${issue.row}-${index}`}>{issue.row ? `Row ${issue.row}: ` : ""}{issue.message}</li>)}</ul>
-            {queue.length ? <p>Valid rows remain queued and can still be processed.</p> : null}
-          </div>
-        </section>
-      ) : null}
-
-      {queue.length ? (
-        <section className="card batch-queue" aria-labelledby="batch-queue-heading">
-          <div className="section-heading">
-            <div>
-              <p className="step-label">Batch queue</p>
-              <h2 id="batch-queue-heading">{completed} of {queue.length} completed</h2>
-            </div>
-            <div className="batch-summary">
-              <span>Elapsed: {(elapsedMs / 1000).toFixed(1)}s</span>
-              <span>Current: {current?.id ?? "None"}</span>
-              <span>Average: {averageMs ? `${(averageMs / 1000).toFixed(1)}s` : "Pending"}</span>
-              <span>Estimated remaining: {averageMs ? `${Math.ceil(remaining * averageMs / 1000)}s` : "Pending"}</span>
-            </div>
-          </div>
-          <progress aria-label="Batch progress" max={queue.length} value={completed}>{completed} of {queue.length}</progress>
-          <div className="batch-controls">
-            {running
-              ? <button className="button danger" onClick={cancelBatch} type="button">Cancel batch</button>
-              : <button className="button primary" onClick={runBatch} type="button">{completed ? "Process remaining and retry errors" : "Start batch"}</button>}
-            <button className="button secondary" disabled={!completed} onClick={() => downloadText("labelverify-batch-results.csv", batchCsv(queue))} type="button">Export results CSV</button>
-            <button className="button secondary" disabled={!completed} onClick={() => downloadText("labelverify-batch-details.json", batchDetailsJson(queue), "application/json;charset=utf-8")} type="button">Export detailed JSON</button>
-          </div>
-          <div className="batch-filters" aria-label="Filter batch results">
-            {FILTERS.map((item) => (
-              <button aria-pressed={filter === item.value} key={item.value} onClick={() => setFilter(item.value)} type="button">
-                {item.label} ({item.value === "all"
-                  ? queue.length
-                  : queue.filter((candidate) => item.value === "attention" ? ATTENTION_STATES.includes(candidate.state) : candidate.state === item.value).length})
-              </button>
-            ))}
-          </div>
-          <div className="batch-table-wrap">
-            <table>
-              <thead><tr><th scope="col">Case</th><th scope="col">Status</th><th scope="col">Time</th><th scope="col">Problem summary</th><th scope="col">Action</th></tr></thead>
-              <tbody>
-                {filtered.map((item) => (
-                  <tr className={`batch-state-${item.state}`} key={`${item.manifestRow}-${item.id}`}>
-                    <th scope="row">{item.id}</th>
-                    <td><span className="batch-status">{statusLabel(item.state)}</span></td>
-                    <td>{item.durationMs == null ? "-" : `${(item.durationMs / 1000).toFixed(1)}s`}</td>
-                    <td>{item.error ?? item.result?.summary ?? "Waiting to run"}</td>
-                    <td>
-                      {item.result ? <button className="button secondary compact-button" onClick={() => openDetails(item)} type="button">Open details</button> : null}
-                      {["error", "cancelled"].includes(item.state) && !item.ingressError ? <button className="button secondary compact-button" disabled={running} onClick={() => retryOne(item)} type="button">Retry</button> : null}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      ) : null}
-    </div>
+        <dl className="heading-stats">
+          <div><dt>Images</dt><dd>{groups.reduce((sum, group) => sum + group.files.length, 0)}</dd></div>
+          <div><dt>Suggested products</dt><dd>{groups.length}</dd></div>
+          <div><dt>Need confirmation</dt><dd>{groups.filter((group) => !group.confirmed).length}</dd></div>
+        </dl>
+      </div>
+      <div className="group-toolbar">
+        <span>Select cards to merge or split. Rename any product before confirming.</span>
+        <button className="btn secondary" disabled={selected.size < 2 || groups.filter((group) => selected.has(group.id)).reduce((sum, group) => sum + group.files.length, 0) > 3} onClick={mergeSelected} type="button">Merge selected</button>
+        <button className="btn secondary" disabled={!groups.some((group) => selected.has(group.id) && group.files.length > 1)} onClick={splitSelected} type="button">Split into separate products</button>
+        <button className="btn ghost" disabled={groups.some((group) => !group.name.trim())} onClick={() => setGroups((current) => current.map((group) => ({ ...group, name: group.name.trim(), confirmed: true, status: "ready" })))} type="button">Confirm all ready</button>
+        <button className="btn primary" disabled={!groups.length || groups.length > 300 || groups.some((group) => !group.confirmed || !group.name.trim())} onClick={() => void run()} type="button">Run {groups.length} products</button>
+      </div>
+      <div className="group-wall">
+        {groups.map((group, ordinal) => (
+          <article className={`blueprint group-card ${group.confirmed ? "ready" : ""}`} key={group.id}>
+            <label className="group-select"><input checked={selected.has(group.id)} onChange={(event) => setSelected((current) => { const next = new Set(current); if (event.target.checked) next.add(group.id); else next.delete(group.id); return next; })} type="checkbox" /> Select</label>
+            <div className="section-row"><p className="kicker">Product {ordinal + 1}</p><span className={`status-tag ${group.confirmed ? "pass" : "warn"}`}>{group.confirmed ? "Ready" : "Needs confirmation"}</span></div>
+            <div className="group-thumbs">{group.files.map((file) => <figure key={canonicalPath(file)}><FilePreview file={file} /><figcaption>{file.name}</figcaption></figure>)}</div>
+            <label className="group-name">Product name<input aria-label={`Product ${ordinal + 1} name`} maxLength={80} onChange={(event) => update(group.id, { name: event.target.value, confirmed: false, status: "needs_confirmation" })} value={group.name} /></label>
+            {!group.name.trim() ? <p className="form-error" role="alert">Enter a product name before confirming.</p> : null}
+            <p>{group.reason}</p>
+            <div className="section-row"><span>{group.files.length} of 3 images</span><button className="btn secondary" disabled={group.confirmed || !group.name.trim()} onClick={() => confirm(group.id)} type="button">{group.confirmed ? "Confirmed" : "Confirm as product"}</button></div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
+
+  return <section className="batch-run-page"><div className="page-heading"><div><p className="kicker">Check a batch | step 3 of 3</p><h1>{groups.length} products | {groups.reduce((sum, group) => sum + group.files.length, 0)} images</h1></div><div className="button-row"><button className="btn secondary" onClick={() => { cancel.current = true; controller.current?.abort(); }} type="button">Cancel remaining</button><button className="btn secondary" disabled={!failed} onClick={() => void retryFailed()} type="button">Retry failed ({failed})</button><button className="btn secondary" disabled={!completed} onClick={exportCsv} type="button">CSV</button><button className="btn secondary" disabled={!completed} onClick={() => download("labelverify-batch-details.json", JSON.stringify(groups.map((group) => ({ name: group.name, files: group.files.map((file) => file.name), result: group.result, error: group.error })), null, 2), "application/json")} type="button">Detailed JSON</button></div></div><div className="stats-strip">{[["Products", groups.length], ["Images", groups.reduce((sum, group) => sum + group.files.length, 0)], ["Processed", completed + failed], ["Remaining", remaining], ["Running", groups.filter((group) => group.status === "running").length], ["Queued", groups.filter((group) => group.status === "queued").length], ["Review", groups.filter((group) => group.result?.summary === "Review needed").length], ["Differences", groups.filter((group) => group.result?.summary === "Differences detected").length], ["Failed", failed], ["Active time", `${(elapsedMs / 1000).toFixed(1)}s`], ["Average", averageMs ? `${(averageMs / 1000).toFixed(1)}s` : "Pending"], ["ETA", averageMs ? `${Math.ceil(remaining * averageMs / 1000)}s` : "Pending"]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><progress max={groups.length} value={completed + failed}>{completed + failed} of {groups.length}</progress><div className="batch-filters">{(["all", "attention", "complete", "failed"] as const).map((value) => <button aria-pressed={filter === value} key={value} onClick={() => setFilter(value)} type="button">{value}</button>)}</div><div className="table-wrap"><table><thead><tr><th>Product</th><th>Type</th><th>Images</th><th>Machine result</th><th>Why</th><th>Time</th><th>Attempts</th><th>Action</th></tr></thead><tbody>{filtered.map((group) => <tr key={group.id}><th scope="row">{group.name}</th><td>{group.analysis?.draft.beverageType?.replaceAll("_", " ") ?? "Pending"}</td><td>{group.files.length}</td><td>{machineLabel(group)}</td><td>{group.error ?? group.result?.checks.find((check) => check.state !== "Match")?.reasonText ?? "No exception"}</td><td>{group.durationMs == null ? "-" : `${(group.durationMs / 1000).toFixed(1)}s`}</td><td>{group.attempts}</td><td>{group.result ? <button className="show-btn" onClick={() => setActiveId(group.id)} type="button">Open</button> : group.status === "failed" ? <button className="show-btn" onClick={() => void retry(group)} type="button">Retry</button> : null}</td></tr>)}</tbody></table></div></section>;
 }

@@ -17,7 +17,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 SCHEMA_VERSION = "1.0.0"
 CORPUS_ID = "labelverify-fixtures-v1"
-PROFILE_ID = "distilled_spirits_demo_v1"
+PROFILE_ID = "all_beverages_demo_v2"
 AUTHORSHIP = "VV-LEAD independent of production comparison and aggregation"
 WARNING_BODY = (
     "(1) According to the Surgeon General, women should not drink alcoholic beverages "
@@ -30,6 +30,7 @@ SUMMARY_REVIEW = "Review needed"
 SUMMARY_DIFFERENCE = "Differences detected"
 
 CHECK_IDS = [
+    "beverage_type",
     "brand",
     "class_type",
     "abv",
@@ -37,6 +38,10 @@ CHECK_IDS = [
     "net_contents",
     "producer",
     "country",
+    "wine_appellation",
+    "wine_sulfites",
+    "spirits_field_of_vision",
+    "malt_class_designation",
     "warning_applicability",
     "warning_wording",
     "warning_heading_uppercase",
@@ -55,6 +60,8 @@ CHECK_IDS = [
 def reference(**updates: Any) -> dict[str, Any]:
     value: dict[str, Any] = {
         "profileId": PROFILE_ID,
+        "beverageType": "distilled_spirits",
+        "referenceProvenance": "sample",
         "caseLabel": None,
         "brandName": "OLD TOM DISTILLERY",
         "classType": "Kentucky Straight Bourbon Whiskey",
@@ -65,6 +72,9 @@ def reference(**updates: Any) -> dict[str, Any]:
         "producerNameAddress": "OLD TOM DISTILLERY LLC\nFRANKFORT, KENTUCKY 40601",
         "isImported": False,
         "countryOfOrigin": None,
+        "wineAppellation": None,
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown",
     }
     value.update(updates)
     return value
@@ -192,17 +202,34 @@ def case_specs() -> list[dict[str, Any]]:
         ),
         result_case(
             "D007",
-            "Equivalent liter net contents",
-            ["net_contents", "safe_equivalence"],
+            "Wine with equivalent liter net contents",
+            ["wine", "net_contents", "safe_equivalence"],
+            ref=reference(
+                beverageType="wine",
+                classType="Cabernet Sauvignon Wine",
+                abvPercent=13.5,
+                proof=None,
+                wineAppellation="Napa Valley",
+                wineSulfiteStatus="present",
+            ),
             visual={"netText": "0.75 L"},
             overrides={"net_contents": override("Match", "safe_equivalence", observed="0.75 L")},
         ),
         result_case(
             "D008",
-            "Producer punctuation variation",
-            ["producer", "punctuation", "review"],
-            ref=reference(producerNameAddress="OLD TOM DISTILLERY, LLC\nFRANKFORT, KENTUCKY 40601"),
-            visual={"producer": "OLD TOM DISTILLERY LLC\nFRANKFORT KENTUCKY 40601"},
+            "Malt beverage producer punctuation variation",
+            ["malt_beverage", "producer", "punctuation", "review"],
+            ref=reference(
+                beverageType="malt_beverage",
+                classType="Lager Beer",
+                abvPercent=5.0,
+                proof=None,
+                netContentsValue=12.0,
+                netContentsUnit="fl oz",
+                producerNameAddress="OLD TOM BREWING, LLC\nFRANKFORT, KENTUCKY 40601",
+                maltAlcoholSource="none",
+            ),
+            visual={"producer": "OLD TOM BREWING LLC\nFRANKFORT KENTUCKY 40601"},
             overrides={
                 "producer": override(
                     "Review",
@@ -218,9 +245,7 @@ def case_specs() -> list[dict[str, Any]]:
             ref=reference(isImported=True, countryOfOrigin="CANADA"),
             visual={"country": "CANADA"},
             panels=["front", "back", "origin"],
-            overrides={
-                "warning_wording": override("Review", "punctuation_uncertainty")
-            },
+            overrides={"warning_wording": override("Review", "punctuation_uncertainty")},
         ),
         result_case(
             "D010",
@@ -434,13 +459,11 @@ def case_specs() -> list[dict[str, Any]]:
         ),
         result_case(
             "H001",
-            "Six panel exact holdout",
-            ["exact", "six_panel", "holdout", "clean"],
+            "Three panel exact holdout",
+            ["exact", "three_panel", "holdout", "clean"],
             partition="holdout",
-            panels=["front", "back", "details", "scale", "side", "side"],
-            overrides={
-                "warning_wording": override("Review", "punctuation_uncertainty")
-            },
+            panels=["front", "back", "details"],
+            overrides={"warning_wording": override("Review", "punctuation_uncertainty")},
         ),
         result_case(
             "H002",
@@ -543,6 +566,7 @@ def check_expectations(spec: dict[str, Any]) -> list[dict[str, Any]]:
     ref = spec["reference"]
     warning_applicable = float(ref["abvPercent"]) >= 0.5
     country_applicable = bool(ref["isImported"])
+    beverage_type = str(ref.get("beverageType", "distilled_spirits"))
     expectations: dict[str, dict[str, Any]] = {}
     for check_id in CHECK_IDS:
         applicable = True
@@ -556,6 +580,45 @@ def check_expectations(spec: dict[str, Any]) -> list[dict[str, Any]]:
             reason = "not_applicable"
             evidence = "forbidden"
             state = "Not verified"
+        if check_id in {"wine_appellation", "wine_sulfites"} and beverage_type != "wine":
+            applicable = False
+            must_appear = False
+            reason = "not_applicable"
+            evidence = "forbidden"
+            state = "Not verified"
+        if check_id == "spirits_field_of_vision" and beverage_type != "distilled_spirits":
+            applicable = False
+            must_appear = False
+            reason = "not_applicable"
+            evidence = "forbidden"
+            state = "Not verified"
+        if check_id == "malt_class_designation" and beverage_type != "malt_beverage":
+            applicable = False
+            must_appear = False
+            reason = "not_applicable"
+            evidence = "forbidden"
+            state = "Not verified"
+        if check_id in {"beverage_type", "spirits_field_of_vision"}:
+            evidence = "optional"
+        if check_id == "proof" and beverage_type != "distilled_spirits":
+            applicable = False
+            must_appear = False
+            reason = "not_applicable"
+            evidence = "forbidden"
+            state = "Not verified"
+        if check_id == "wine_appellation" and beverage_type == "wine":
+            evidence = "required" if ref.get("wineAppellation") else "forbidden"
+        if check_id == "wine_sulfites" and beverage_type == "wine":
+            if ref.get("wineSulfiteStatus") == "present":
+                evidence = "required"
+            else:
+                applicable = False
+                must_appear = False
+                reason = "not_applicable"
+                evidence = "forbidden"
+                state = "Not verified"
+        if check_id == "malt_class_designation" and beverage_type == "malt_beverage":
+            evidence = "optional"
         if (
             check_id.startswith("warning_")
             and check_id != "warning_applicability"
@@ -642,8 +705,12 @@ def text_lines(spec: dict[str, Any], section: str) -> list[tuple[str, bool, int]
                 (net_text, False, 20),
             ]
         )
+        if ref.get("beverageType") == "wine" and ref.get("wineAppellation"):
+            lines.append((str(ref["wineAppellation"]), False, 20))
     if section in {"all", "back"}:
         lines.extend((line, False, 20) for line in producer.splitlines())
+        if ref.get("beverageType") == "wine" and ref.get("wineSulfiteStatus") == "present":
+            lines.append(("CONTAINS SULFITES", True, 20))
         if not visual.get("omitWarning", False):
             if visual.get("separationUncertain", False):
                 lines.append(("BOTTLED FOR TEST REVIEW", False, warning_fill))
@@ -660,6 +727,11 @@ def text_lines(spec: dict[str, Any], section: str) -> list[tuple[str, bool, int]
     if section == "side":
         lines.append(("SYNTHETIC SIDE PANEL", False, 20))
     if section.startswith("origin"):
+        if section == "origin-conflict":
+            countries = [ref.get("countryOfOrigin"), visual.get("conflictingCountry")]
+            for country in countries:
+                lines.append((f"PRODUCT OF {country}", True, 20))
+            return lines
         if "countryByPanel" in visual:
             index = int(section.split(":", maxsplit=1)[1])
             country = visual["countryByPanel"][index]
@@ -783,9 +855,7 @@ def sample_spec() -> dict[str, Any]:
         "Old Tom deterministic sample",
         ["sample", "exact", "two_panel", "review"],
         panels=["front", "back"],
-        overrides={
-            "warning_wording": override("Review", "punctuation_uncertainty")
-        },
+        overrides={"warning_wording": override("Review", "punctuation_uncertainty")},
     )
 
 
@@ -923,12 +993,14 @@ def mutation_plan() -> dict[str, Any]:
             "target": "all_panels",
             "value": 6.0,
             "expectedChangedChecks": [
+                "beverage_type",
                 "brand",
                 "class_type",
                 "abv",
                 "proof",
                 "net_contents",
                 "producer",
+                "spirits_field_of_vision",
                 "warning_wording",
                 "warning_heading_uppercase",
                 "warning_heading_emphasis",
@@ -937,7 +1009,6 @@ def mutation_plan() -> dict[str, Any]:
                 "warning_continuity",
                 "warning_contrast",
                 "warning_legibility",
-                "warning_physical_size",
                 "panel_coverage",
                 "image_quality",
             ],

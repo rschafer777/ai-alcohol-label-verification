@@ -19,6 +19,7 @@ import psutil  # type: ignore[import-untyped]
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "backend"))
 
+from labelverify.contracts.loader import contracts  # noqa: E402
 from labelverify.contracts.models import ReferenceRecord  # noqa: E402
 from labelverify.orchestration.supervisor import WorkerSupervisor  # noqa: E402
 
@@ -71,9 +72,7 @@ def load_case(root: Path, partition: str, case_id: str) -> BatchScenario:
     case_root = root / "fixtures" / partition / "cases" / case_id
     manifest = json.loads((case_root / "case-manifest.json").read_text(encoding="utf-8"))
     oracle = json.loads((root / manifest["oraclePath"]).read_text(encoding="utf-8"))
-    manifest = json.loads(
-        (case_root / "case-manifest.json").read_text(encoding="utf-8")
-    )
+    manifest = json.loads((case_root / "case-manifest.json").read_text(encoding="utf-8"))
     reference = ReferenceRecord.model_validate(
         json.loads((root / manifest["referencePath"]).read_text(encoding="utf-8"))
     )
@@ -122,7 +121,10 @@ def run_batch(root: Path, count: int) -> dict[str, Any]:
                 expected_summaries[scenario.expected_summary] += 1
                 if result.summary == SUMMARY_CLEAN and scenario.expected_summary != SUMMARY_CLEAN:
                     false_clean_count += 1
-                if result.summary != scenario.expected_summary or len(result.checks) != 19:
+                if (
+                    result.summary != scenario.expected_summary
+                    or len(result.checks) != len(contracts().check_ids)
+                ):
                     raise RuntimeError(f"Batch item {index} returned an unexpected result")
                 if index in checkpoints:
                     elapsed_seconds = time.perf_counter() - batch_started

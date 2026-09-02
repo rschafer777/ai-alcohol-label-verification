@@ -100,7 +100,7 @@ def test_health_meta_sample_static_and_spa_same_origin(tmp_path: Path) -> None:
         ready = client.get("/health/ready")
         assert ready.status_code == 200
         meta = client.get("/api/v1/meta").json()
-        assert meta["selectedCheckCount"] == 19
+        assert meta["selectedCheckCount"] == 24
         assert "model_root" not in json.dumps(meta).casefold()
         sample_response = client.get("/api/v1/samples/distilled-spirits-v1")
         assert sample_response.status_code == 200
@@ -143,13 +143,43 @@ def test_valid_verification_is_complete_no_store_and_cleans_spool(tmp_path: Path
         )
     assert response.status_code == 200, response.text
     body = response.json()
-    assert len(body["checks"]) == 19
+    assert len(body["checks"]) == 24
     assert body["panels"][0]["originalDimensions"] == {"width": 640, "height": 900}
     assert "originalWidth" not in body["panels"][0]
     assert "originalHeight" not in body["panels"][0]
     assert response.headers["cache-control"] == "no-store, private"
+    assert "labelverify_scope=" in response.headers["set-cookie"]
+    assert "HttpOnly" in response.headers["set-cookie"]
+    assert "SameSite=Strict" in response.headers["set-cookie"]
     assert supervisor.calls == 1
     assert list(settings.spool_root.iterdir()) == []
+
+
+def test_history_is_private_to_the_browser_scope_and_patch_is_bounded(tmp_path: Path) -> None:
+    supervisor = FakeSupervisor()
+    app = create_app(settings=runtime(tmp_path), supervisor=supervisor)  # type: ignore[arg-type]
+    with TestClient(app, client=("127.0.0.1", 50000)) as client:
+        created = client.post(
+            "/api/v1/verifications",
+            data={"reference": multipart_reference()},
+            files={"panels": ("label.jpg", jpeg_bytes(), "image/jpeg")},
+        )
+        assert created.status_code == 200, created.text
+        history_id = created.json()["historyId"]
+        assert client.get("/api/v1/history").json()["total"] == 1
+        assert client.get(f"/api/v1/history/{history_id}").status_code == 200
+
+        oversized = client.patch(
+            f"/api/v1/history/{history_id}/disposition",
+            content=b'{' + b'"reviewerNote":"' + (b"x" * 9000) + b'"}',
+            headers={"Content-Type": "application/json"},
+        )
+        assert oversized.status_code == 413
+        assert oversized.json()["code"] == "request_too_large"
+
+        client.cookies.clear()
+        assert client.get("/api/v1/history").json()["total"] == 0
+        assert client.get(f"/api/v1/history/{history_id}").status_code == 404
 
 
 def test_invalid_reference_is_result_free_and_does_not_run_worker(tmp_path: Path) -> None:

@@ -1,7 +1,7 @@
 [project]
 name = "labelverify"
 version = "0.1.0"
-description = "AI-assisted distilled-spirits label comparison take-home prototype"
+description = "Local AI-assisted beer, wine, and distilled-spirits label verification prototype"
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "fastapi==0.141.1",
@@ -18,6 +18,7 @@ dependencies = [
 dev = [
   "httpx>=0.28.1,<0.29",
   "mypy>=1.17,<2",
+  "pip-audit==2.9.0",
   "psutil==7.0.0",
   "pytest>=9.0.3,<10",
   "pytest-asyncio>=1.1,<2",

@@ -66,13 +66,9 @@ def test_initialize_supplies_the_governed_local_font_path(
     assert len(captured) == 2
     assert warmup_calls == 2
     assert all(
-        params["Global.font_path"] == str(tmp_path / "DejaVuSans.ttf")
-        for params in captured
+        params["Global.font_path"] == str(tmp_path / "DejaVuSans.ttf") for params in captured
     )
-    assert all(
-        params["EngineConfig.onnxruntime.intra_op_num_threads"] == 1
-        for params in captured
-    )
+    assert all(params["EngineConfig.onnxruntime.intra_op_num_threads"] == 1 for params in captured)
 
 
 class CountingEngine:
@@ -178,8 +174,7 @@ def test_unique_views_use_two_bounded_inference_lanes(tmp_path: Path) -> None:
     adapter = RapidOcrAdapter(tmp_path, require_read_only=False)
     adapter._engines = engines
     views = [
-        view(f"panel-{index}", np.full((40, 80, 3), index, dtype=np.uint8))
-        for index in range(1, 5)
+        view(f"panel-{index}", np.full((40, 80, 3), index, dtype=np.uint8)) for index in range(1, 5)
     ]
 
     lines = adapter.extract(views)

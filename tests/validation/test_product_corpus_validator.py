@@ -44,7 +44,7 @@ def test_numeric_unit_conversion_is_safe_equivalence() -> None:
 
 
 def test_compare_product_result_reports_reason_class_difference() -> None:
-    check_ids = [f"check_{index:02d}" for index in range(19)]
+    check_ids = [f"check_{index:02d}" for index in range(24)]
     actual_rows = []
     oracle_rows = []
     evidence = []

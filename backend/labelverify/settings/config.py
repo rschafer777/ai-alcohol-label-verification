@@ -16,6 +16,7 @@ class Settings:
     static_root: Path
     build_id: str
     client_identity_source: str = "fly"
+    history_root: Path | None = None
 
     @property
     def production(self) -> bool:
@@ -30,10 +31,14 @@ class Settings:
         allowed_host = os.environ.get("LABELVERIFY_ALLOWED_HOST")
         if mode == "production" and not allowed_host:
             raise ValueError("LABELVERIFY_ALLOWED_HOST is required in production")
-        identity_source = os.environ.get(
-            "LABELVERIFY_CLIENT_IDENTITY_SOURCE",
-            "direct" if mode == "direct" else "",
-        ).strip().casefold()
+        identity_source = (
+            os.environ.get(
+                "LABELVERIFY_CLIENT_IDENTITY_SOURCE",
+                "direct" if mode == "direct" else "",
+            )
+            .strip()
+            .casefold()
+        )
         if mode == "production" and identity_source not in {"fly", "azure_container_apps"}:
             raise ValueError(
                 "LABELVERIFY_CLIENT_IDENTITY_SOURCE must be fly or azure_container_apps "
@@ -67,4 +72,10 @@ class Settings:
             ),
             build_id=os.environ.get("LABELVERIFY_BUILD_ID", "development"),
             client_identity_source=identity_source,
+            history_root=Path(
+                os.environ.get(
+                    "LABELVERIFY_HISTORY_ROOT",
+                    str(Path(tempfile.gettempdir()) / "labelverify-history"),
+                )
+            ),
         )

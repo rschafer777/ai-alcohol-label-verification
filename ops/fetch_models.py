@@ -43,9 +43,10 @@ def fetch_artifact(artifact: Artifact, target_dir: Path) -> None:
         artifact["url"],
         headers={"User-Agent": "LabelVerify controlled image build"},
     )
-    with urllib.request.urlopen(request, timeout=60) as response, source_partial.open(
-        "wb"
-    ) as output:
+    with (
+        urllib.request.urlopen(request, timeout=60) as response,
+        source_partial.open("wb") as output,
+    ):
         while block := response.read(1024 * 1024):
             output.write(block)
 

@@ -18,11 +18,13 @@ class StartRateLimiter:
         self,
         max_keys: int = 4096,
         ttl_seconds: float = 900.0,
+        client_starts_per_minute: int = 60,
         client_starts_per_ten_minutes: int = 360,
         global_starts_per_minute: int = 120,
     ) -> None:
         self._max_keys = max_keys
         self._ttl_seconds = ttl_seconds
+        self._client_starts_per_minute = client_starts_per_minute
         self._client_starts_per_ten_minutes = client_starts_per_ten_minutes
         self._global_starts_per_minute = global_starts_per_minute
         self._clients: dict[str, tuple[deque[float], float]] = {}
@@ -43,6 +45,10 @@ class StartRateLimiter:
             starts, _ = self._clients.get(key, (deque(), timestamp))
             while starts and timestamp - starts[0] >= 600.0:
                 starts.popleft()
+            starts_in_last_minute = sum(1 for started in starts if timestamp - started < 60.0)
+            if starts_in_last_minute >= self._client_starts_per_minute:
+                self._clients[key] = (starts, timestamp)
+                return "client_rate_limited"
             if len(starts) >= self._client_starts_per_ten_minutes:
                 self._clients[key] = (starts, timestamp)
                 return "client_rate_limited"

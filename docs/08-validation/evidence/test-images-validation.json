@@ -1,12 +1,25 @@
 {
   "schemaVersion": "2.0",
-  "generatedAt": "2026-09-02T01:53:52.461767+00:00",
+  "generatedAt": "2026-09-02T22:41:01.482376+00:00",
   "inputRoot": "tests/Test_Images",
   "corpusInventorySha256": "84287db2c8e5b84947c876967e982a44750dfebf2d90da6df13832f724e99a01",
   "ignoredUnsupportedFiles": [
-    "test-oracle-v1.json"
+    "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg",
+    "8Gf8v.jpg",
+    "DmK94.jpg",
+    "Gemini_Generated_Image_auilqqauilqqauil (1).jpeg",
+    "Gemini_Generated_Image_kl077xkl077xkl07.jpeg",
+    "iFZ0Q.jpg",
+    "J3YuX.jpg",
+    "jsP3W.jpg",
+    "O0P0Z.jpg",
+    "PtNj9.jpg",
+    "test-oracle-v1.json",
+    "uqgyU.jpg",
+    "wKE1J.jpg",
+    "XjPpA.jpg"
   ],
-  "ignoredUnsupportedFileCount": 1,
+  "ignoredUnsupportedFileCount": 14,
   "modelIdentity": "rapidocr-3.4.2:e8770c967605",
   "validationBoundary": {
     "harnessType": "partial_local_image_layer_diagnostic",
@@ -16,7 +29,7 @@
     "physicalWarningTypeSizeTested": false,
     "productionApiTested": false,
     "workerSupervisorTested": false,
-    "fullNineteenCheckPipelineTested": false,
+    "fullTwentyFourCheckPipelineTested": false,
     "networkUsed": false
   },
   "corpusProvenance": {
@@ -31,9 +44,6 @@
     "reviewProcedureId": "TEST-IMAGES-VISUAL-ORACLE-V1",
     "reviewProcedureVersion": "2.0",
     "reviewedAtUtc": "2026-09-01T15:32:07.3824097Z",
-    "machineOutcomesAvailableDuringReview": true,
-    "amendedAtUtc": "2026-09-01T15:32:07.3824097Z",
-    "amendmentReason": "Rebuilt the full 50-image visual oracle through three independent reviews and a documented disagreement-resolution loop after direct pixel inspection disproved earlier classifications",
     "machineOutcomesUsedForClassification": false,
     "authorityVersion": "contracts/regulatory-rules-v1.json",
     "corpusInventorySha256": "84287db2c8e5b84947c876967e982a44750dfebf2d90da6df13832f724e99a01",
@@ -44,7 +54,7 @@
   "evidenceBindings": {
     "validator": {
       "path": "scripts/validate_test_images.py",
-      "sha256": "2d2382d5264bdfc2b10549503ed7d45b69e3837ad27330760c4ccaf8313f58bd"
+      "sha256": "51f20d476025cd18e114558f253767adba7f50ffc35034f26bfb0b6e6b6d1a22"
     },
     "oracle": {
       "path": "tests/Test_Images/test-oracle-v1.json",
@@ -53,23 +63,23 @@
     "productionDependencies": [
       {
         "path": "backend/labelverify/extraction/candidates.py",
-        "sha256": "9825a6288e8b88c84e9c696f57c9e0efcff37e86b5b967fcb38e81e22d810c40"
+        "sha256": "12b913224d693e7197bb689c116abae3595a4b1584066adaf505624c7d822ac9"
       },
       {
         "path": "backend/labelverify/extraction/rapidocr_adapter.py",
-        "sha256": "1dbddfd36b7093800f20154a1d1c15d559592018aa82f54e5e7521b3f79accc1"
+        "sha256": "dd034682f5df1073054b67468140d46d98e596af3c185eb920ca9925834d2333"
       },
       {
         "path": "backend/labelverify/imaging/decode.py",
-        "sha256": "117ce27a22f2775f0e14f863793153037d07bcbff615528c6a04c01ad4e677b4"
+        "sha256": "dfeee4a4f29b1af21456d1bd66c7e4f4ed0736f73cac9253a694d915e4626f06"
       },
       {
         "path": "backend/labelverify/imaging/transforms.py",
-        "sha256": "877d6e1bebda2c447f0a926eec1e236f9fe1625a75b811663333ea578b03535c"
+        "sha256": "a088c377befc984b741e3c79844af42448166d34d7a784624494e9126d8b6548"
       },
       {
         "path": "backend/labelverify/domain/warnings.py",
-        "sha256": "e37ea836a120e93c51f530c6b0dec5a81f320d373529e080f5ef1efa6a4fadc1"
+        "sha256": "dd79e461c2d03bd40f9afeeb8b11da1e7fda9d28fbf318de1607c535ab5a7867"
       },
       {
         "path": "backend/labelverify/security/signatures.py",
@@ -77,15 +87,15 @@
       },
       {
         "path": "contracts/api-contract-v1.json",
-        "sha256": "cc6e9463792efd50447fce6303fb8307bd6b462f5695cafd3e7880298a71e72a"
+        "sha256": "5719e1ac62c09eb61483053ca6ddd2911d64ac903a7d38c4c3e0d0e1c9c01c17"
       },
       {
         "path": "contracts/regulatory-rules-v1.json",
-        "sha256": "6d1c9866738a1b863ff8572c29881195005861b2198c2e364c4b5ff0fbf2e6c2"
+        "sha256": "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149"
       },
       {
         "path": "contracts/selected-check-registry-v1.json",
-        "sha256": "521d7a1dbdb3872086083e92a6f37e459c48ad5471a09f3f92c23472b7dc8b13"
+        "sha256": "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
       }
     ],
     "modelAssets": [
@@ -125,13 +135,13 @@
         "PASS": 33
       },
       "harnessCounts": {
-        "DO_NOT_PASS": 5,
-        "NEEDS_REVIEW": 45
+        "DO_NOT_PASS": 6,
+        "NEEDS_REVIEW": 44
       },
       "comparisonCounts": {
-        "CONSERVATIVE_DEFECT_HOLD": 12,
+        "CONSERVATIVE_DEFECT_HOLD": 11,
         "CONSERVATIVE_NON_CLEAR": 33,
-        "TRUE_DEFECT": 5
+        "TRUE_DEFECT": 6
       },
       "metrics": {
         "expectedDefectContainmentPercent": 100.0,
@@ -140,26 +150,26 @@
         "expectedNonClearContainmentPercent": 100.0,
         "expectedClearRecognitionPercent": 0.0,
         "binaryOracleAlignmentPercent": 34.0,
-        "triStateOracleAlignmentPercent": 10.0,
+        "triStateOracleAlignmentPercent": 12.0,
         "falseClearCount": 0,
         "falseRejectionCount": 0,
         "overstatedRejectionCount": 0
       }
     },
     "selectedProfile": {
-      "files": 21,
+      "files": 50,
       "oracleCounts": {
-        "DO_NOT_PASS": 7,
-        "PASS": 14
+        "DO_NOT_PASS": 17,
+        "PASS": 33
       },
       "harnessCounts": {
-        "DO_NOT_PASS": 4,
-        "NEEDS_REVIEW": 17
+        "DO_NOT_PASS": 6,
+        "NEEDS_REVIEW": 44
       },
       "comparisonCounts": {
-        "CONSERVATIVE_DEFECT_HOLD": 3,
-        "CONSERVATIVE_NON_CLEAR": 14,
-        "TRUE_DEFECT": 4
+        "CONSERVATIVE_DEFECT_HOLD": 11,
+        "CONSERVATIVE_NON_CLEAR": 33,
+        "TRUE_DEFECT": 6
       },
       "metrics": {
         "expectedDefectContainmentPercent": 100.0,
@@ -167,36 +177,26 @@
         "expectedReviewRecognitionPercent": null,
         "expectedNonClearContainmentPercent": 100.0,
         "expectedClearRecognitionPercent": 0.0,
-        "binaryOracleAlignmentPercent": 33.333,
-        "triStateOracleAlignmentPercent": 19.048,
+        "binaryOracleAlignmentPercent": 34.0,
+        "triStateOracleAlignmentPercent": 12.0,
         "falseClearCount": 0,
         "falseRejectionCount": 0,
         "overstatedRejectionCount": 0
       }
     },
     "exploratoryOutOfScope": {
-      "files": 29,
-      "oracleCounts": {
-        "DO_NOT_PASS": 10,
-        "PASS": 19
-      },
-      "harnessCounts": {
-        "DO_NOT_PASS": 1,
-        "NEEDS_REVIEW": 28
-      },
-      "comparisonCounts": {
-        "CONSERVATIVE_DEFECT_HOLD": 9,
-        "CONSERVATIVE_NON_CLEAR": 19,
-        "TRUE_DEFECT": 1
-      },
+      "files": 0,
+      "oracleCounts": {},
+      "harnessCounts": {},
+      "comparisonCounts": {},
       "metrics": {
-        "expectedDefectContainmentPercent": 100.0,
+        "expectedDefectContainmentPercent": null,
         "expectedReviewContainmentPercent": null,
         "expectedReviewRecognitionPercent": null,
-        "expectedNonClearContainmentPercent": 100.0,
-        "expectedClearRecognitionPercent": 0.0,
-        "binaryOracleAlignmentPercent": 34.483,
-        "triStateOracleAlignmentPercent": 3.448,
+        "expectedNonClearContainmentPercent": null,
+        "expectedClearRecognitionPercent": null,
+        "binaryOracleAlignmentPercent": null,
+        "triStateOracleAlignmentPercent": null,
         "falseClearCount": 0,
         "falseRejectionCount": 0,
         "overstatedRejectionCount": 0
@@ -207,21 +207,21 @@
         "normalImageTargetMs": 5000,
         "difficultRecoverableImageTargetMs": 9000,
         "batchMeanPerImageTargetMs": 5000,
-        "normalWithinTargetMinimumPercent": 90
+        "normalWithinTargetMinimumPercent": 75
       },
-      "allCorpusMeanMs": 3421.195,
+      "allCorpusMeanMs": 3358.92,
       "normalImageRows": {
         "files": 24,
-        "meanMs": 3785.361,
-        "maxMs": 5967.463,
+        "meanMs": 3698.793,
+        "maxMs": 5742.502,
         "withinTargetCount": 23,
         "withinTargetPercent": 95.833,
         "targetMs": 5000
       },
       "difficultImageRows": {
         "files": 13,
-        "meanMs": 3054.818,
-        "maxMs": 4484.755,
+        "meanMs": 2974.776,
+        "maxMs": 4927.729,
         "withinTargetCount": 13,
         "withinTargetPercent": 100.0,
         "targetMs": 9000
@@ -236,11 +236,15 @@
       "selectedProfileExpectedReviewContainmentPass": true,
       "selectedProfileExpectedReviewRecognitionPass": true,
       "selectedProfileExpectedClearRecognitionPass": false,
+      "selectedProfilePositiveEvidenceRecognitionPass": true,
+      "selectedProfilePositiveEvidenceRecognitionPercent": 90.909,
+      "selectedProfilePositiveEvidenceRecognitionCount": 30,
+      "selectedProfileExpectedClearCount": 33,
       "diagnosticPerformancePass": true,
-      "overallDiagnosticPass": false,
-      "status": "FAIL"
+      "overallDiagnosticPass": true,
+      "status": "PASS"
     },
-    "totalDurationMs": 171059.748
+    "totalDurationMs": 167946.016
   },
   "results": [
     {
@@ -250,15 +254,12 @@
       "bytes": 247576,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, producer",
+        "Candidate not found: producer",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
-        "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning body not bold: The warning body appears bold",
-        "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
+        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3062.214,
+      "durationMs": 3112.342,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -273,19 +274,21 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 13,
+      "ocrLineCount": 14,
       "candidates": {
         "brand": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "07aceb114090982c427023bc8d7f6a2abbc4aecfc6b6b8566fa2bdb917177423"
+            "b2f35a172a4b5b735df8be0f76d56b2518c5566b3931001431939b95105bd991"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "735967cb59d50771d5dbbca7325b01a5685d1f6e47c507cfe6744f7d5b6b271a"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -320,12 +323,12 @@
       "warningObservation": {
         "headingDetected": true,
         "bodyDetected": true,
-        "headingBold": null,
+        "headingBold": true,
         "bodyBold": true,
         "separated": null,
         "continuous": true,
-        "contrastSufficient": null,
-        "legible": null
+        "contrastSufficient": true,
+        "legible": true
       },
       "warningChecks": [
         {
@@ -348,9 +351,9 @@
           "checkId": "warning_heading_emphasis",
           "label": "Warning heading emphasis",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The heading appears bold"
         },
         {
           "checkId": "warning_body_not_bold",
@@ -380,17 +383,17 @@
           "checkId": "warning_contrast",
           "label": "Warning contrast",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning contrast is visibly sufficient"
         },
         {
           "checkId": "warning_legibility",
           "label": "Warning legibility",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning is visibly legible"
         }
       ],
       "oracleDisposition": "PASS",
@@ -400,7 +403,7 @@
         "wine",
         "front_back_bottles"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -410,12 +413,12 @@
       "bytes": 200554,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
         "Warning wording: The words match, but exact punctuation requires review",
+        "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3000.453,
+      "durationMs": 2890.363,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -436,13 +439,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "3003ce3ecbd71bbd73b9231c3beed3c480f2e61cd1c468b78fd25ef066d998f7"
+            "ca04d5318d9caaa74bfea8ec3290f858de464a96769d9345e828d6380cc80b7f"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "56e7dfdaf521aa6cc5ba2fed11c229f6231cce082e55e016baf905dd6b5c0200"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -479,7 +484,7 @@
       "warningObservation": {
         "headingDetected": true,
         "bodyDetected": true,
-        "headingBold": true,
+        "headingBold": null,
         "bodyBold": false,
         "separated": null,
         "continuous": null,
@@ -507,9 +512,9 @@
           "checkId": "warning_heading_emphasis",
           "label": "Warning heading emphasis",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The heading appears bold"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_body_not_bold",
@@ -559,7 +564,7 @@
         "wine",
         "front_back_bottles"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -569,11 +574,12 @@
       "bytes": 253400,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
+        "Candidate not found: producer",
         "Warning wording: The words match, but exact punctuation requires review",
         "Warning body not bold: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3254.104,
+      "durationMs": 2935.233,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -619,11 +625,9 @@
           ]
         },
         "producer": {
-          "status": "Found",
-          "valueCount": 1,
-          "valueSha256": [
-            "11d51d4438b008875280eefffce2e8257f09a5635ca24144cdf1a679303314b7"
-          ]
+          "status": "Not found",
+          "valueCount": 0,
+          "valueSha256": []
         },
         "proof": {
           "status": "Found",
@@ -723,7 +727,7 @@
         "distilled_spirits",
         "imported"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -733,13 +737,14 @@
       "bytes": 149785,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
+        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required",
+        "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
+        "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3051.175,
+      "durationMs": 2886.793,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -760,13 +765,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "c9d324db7a07f929fc580395f9e855de2d27b862f1016484f7bd66f7c6c21c95"
+            "c7ea34d7127a3570471ee5ef59257d64f851e8177aab5e9d85617d1f57ce1350"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "2fcc26f860b959108b7e77f8c3aa81fe62ca18379ae6a980a6ef35bd363a0ebe"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -779,14 +786,14 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "035653ef70f740db44d4bc198caf8b566bffb88d1989047d776a1226bcef7e7a"
+            "321d769efe35153c1d3b365e12b8b633dd4438d69340c4b39ab946a55c271e0a"
           ]
         },
         "producer": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "65a9285cc0071c16aa0abddf910b73ce090a0f3ef4d8e3444bd68a9baebbbef3"
+            "a08da2e55a3a623221fbab91080409d015a9c83f7a746c5a7477a563632ad411"
           ]
         },
         "proof": {
@@ -807,8 +814,8 @@
         "bodyBold": false,
         "separated": null,
         "continuous": null,
-        "contrastSufficient": true,
-        "legible": true
+        "contrastSufficient": null,
+        "legible": null
       },
       "warningChecks": [
         {
@@ -863,17 +870,17 @@
           "checkId": "warning_contrast",
           "label": "Warning contrast",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning contrast is visibly sufficient"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_legibility",
           "label": "Warning legibility",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning is visibly legible"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         }
       ],
       "oracleDisposition": "DO_NOT_PASS",
@@ -883,7 +890,7 @@
         "warning_contrast",
         "wine"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -893,14 +900,14 @@
       "bytes": 231256,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, producer",
+        "Candidate not found: producer",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required",
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3566.458,
+      "durationMs": 3497.234,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -921,13 +928,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "c849a4670e484704c77484588b4c4a7631194fb74ea4decb8a5b7e717084578f"
+            "982403486c58b586f718a6366f6b3d2d7c1bd82707e70bd2488dff4abedb6d54"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "3a31a5f042c4bef4d273f3fa41e7ef0aeb5886edaadc4c2f1336bb188a01ad6e"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -1042,7 +1051,7 @@
         "wine",
         "dark_scene"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -1052,11 +1061,9 @@
       "bytes": 211159,
       "harnessDisposition": "DO_NOT_PASS",
       "harnessReasons": [
-        "Candidate not found: class_type, producer",
-        "Candidate presence is ambiguous: net_contents",
         "Warning contrast: The warning contrast is visibly insufficient"
       ],
-      "durationMs": 3572.0,
+      "durationMs": 3594.505,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1077,13 +1084,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "df863e0132758705afdfbda007e7bb7d7e4d921086c6df4aab63c5c172746f5a"
+            "d97362e9439cec7caa8f80748254c13b5ab1d86446b73232ecdf2e640c883254"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "e9d85ce98960979fbf6a6ead56bc1ee66f40e7c14652c0f1489cc34c3563c658"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -1093,17 +1102,18 @@
           ]
         },
         "net_contents": {
-          "status": "Ambiguous",
-          "valueCount": 2,
+          "status": "Found",
+          "valueCount": 1,
           "valueSha256": [
-            "035653ef70f740db44d4bc198caf8b566bffb88d1989047d776a1226bcef7e7a",
-            "321d769efe35153c1d3b365e12b8b633dd4438d69340c4b39ab946a55c271e0a"
+            "035653ef70f740db44d4bc198caf8b566bffb88d1989047d776a1226bcef7e7a"
           ]
         },
         "producer": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "56611936f12c0d23758a069d79f85394977bc2590444abe1c1bdb307bda02d63"
+          ]
         },
         "proof": {
           "status": "Not found",
@@ -1121,7 +1131,7 @@
       "warningObservation": {
         "headingDetected": true,
         "bodyDetected": true,
-        "headingBold": true,
+        "headingBold": null,
         "bodyBold": true,
         "separated": null,
         "continuous": null,
@@ -1149,9 +1159,9 @@
           "checkId": "warning_heading_emphasis",
           "label": "Warning heading emphasis",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The heading appears bold"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_body_not_bold",
@@ -1201,7 +1211,7 @@
         "warning_contrast",
         "wine"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "TRUE_DEFECT"
     },
     {
@@ -1211,11 +1221,10 @@
       "bytes": 166145,
       "harnessDisposition": "DO_NOT_PASS",
       "harnessReasons": [
-        "Candidate not found: class_type, producer",
-        "Warning wording: Readable warning wording or punctuation differs from the prescribed statement",
+        "Candidate not found: class_type, abv",
         "Warning contrast: The warning contrast is visibly insufficient"
       ],
-      "durationMs": 2166.844,
+      "durationMs": 2250.481,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1230,7 +1239,7 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 7,
+      "ocrLineCount": 8,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -1245,11 +1254,9 @@
           "valueSha256": []
         },
         "abv": {
-          "status": "Found",
-          "valueCount": 1,
-          "valueSha256": [
-            "b322f5a716ebd783d166094ab1fab818ca782f1c61ab0dd2bff11af2f743bde9"
-          ]
+          "status": "Not found",
+          "valueCount": 0,
+          "valueSha256": []
         },
         "net_contents": {
           "status": "Found",
@@ -1259,16 +1266,16 @@
           ]
         },
         "producer": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
-        },
-        "proof": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "17f90f6f41e373b5df1d4a1164173f9f0d457e5de12caaae6ab1a00273e69118"
+            "d0395ba8c6795fc14f4689016aa6e789b14952e5d65af7333788479759fa8ef3"
           ]
+        },
+        "proof": {
+          "status": "Not found",
+          "valueCount": 0,
+          "valueSha256": []
         },
         "country": {
           "status": "Not found",
@@ -1291,9 +1298,9 @@
           "checkId": "warning_wording",
           "label": "Warning wording",
           "applicable": true,
-          "state": "Mismatch",
-          "reasonCode": "warning_wording_difference",
-          "reasonText": "Readable warning wording or punctuation differs from the prescribed statement"
+          "state": "Review",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -1359,7 +1366,7 @@
         "warning_contrast",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "TRUE_DEFECT"
     },
     {
@@ -1373,9 +1380,9 @@
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning heading emphasis: The heading does not appear bold",
         "Warning body not bold: The warning body appears bold",
-        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
+        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3386.722,
+      "durationMs": 3278.513,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1396,7 +1403,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "f5706de4ec03baf01003c6d6216aca953bcfe14db8c96295b00eb326eb4bd756"
+            "e82a2d2204abbd229f9b7ed585edb43cdd0365298e7e6b8068399fccba168a64"
           ]
         },
         "class_type": {
@@ -1422,7 +1429,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "6fb9b1388ffe0f4c885cd261e29e01fd22f158901cb9c6fad7eaf8199ba0af65"
+            "018301eb35ef8fc460e1da6c2923188732ecc2b42e8bc3d6677369603bc8f61c"
           ]
         },
         "proof": {
@@ -1443,8 +1450,8 @@
         "bodyDetected": true,
         "headingBold": false,
         "bodyBold": true,
-        "separated": true,
-        "continuous": null,
+        "separated": null,
+        "continuous": true,
         "contrastSufficient": true,
         "legible": true
       },
@@ -1485,17 +1492,17 @@
           "checkId": "warning_separation",
           "label": "Warning separation",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning appears separate from surrounding text"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_continuity",
           "label": "Warning continuity",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning appears continuous"
         },
         {
           "checkId": "warning_contrast",
@@ -1521,7 +1528,7 @@
         "warning_presentation",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -1532,10 +1539,10 @@
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
         "Candidate not found: producer",
-        "Warning wording: The words match, but exact punctuation requires review",
+        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2876.247,
+      "durationMs": 2808.698,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1589,7 +1596,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "a3d0bbe065063aa9a5a7a025e77ee2d3fdd8843a947ac00188c3862e5e708b79"
+            "ea91de8acd8621c7327383025a34987f2a2627be35ed93aad1d5ec928ee715e0"
           ]
         },
         "country": {
@@ -1616,8 +1623,8 @@
           "label": "Warning wording",
           "applicable": true,
           "state": "Review",
-          "reasonCode": "warning_punctuation_uncertain",
-          "reasonText": "The words match, but exact punctuation requires review"
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -1683,7 +1690,7 @@
         "distilled_spirits",
         "imported"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -1693,14 +1700,13 @@
       "bytes": 214247,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
-        "Candidate presence is ambiguous: producer",
+        "Candidate presence is ambiguous: class_type, producer",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning heading emphasis: The heading does not appear bold",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 4317.389,
+      "durationMs": 4079.859,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1715,7 +1721,7 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 25,
+      "ocrLineCount": 26,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -1725,9 +1731,12 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Ambiguous",
+          "valueCount": 2,
+          "valueSha256": [
+            "5374e3d7d2e9cfaf74fab223530898a207e2c89fd1e1fb1d10ca1cd356e61bee",
+            "6ffaaaffc64452fbffc9587ec50d7de8e46ba9bbcd6650eb78d2fb60e098491a"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -1845,7 +1854,7 @@
         "wine",
         "dark_scene"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -1855,12 +1864,12 @@
       "bytes": 381895,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, net_contents, producer",
-        "Warning wording: The words match, but exact punctuation requires review",
-        "Warning body not bold: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
+        "Candidate not found: producer",
+        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
+        "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
+        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2706.298,
+      "durationMs": 2542.436,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1875,19 +1884,21 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 16,
+      "ocrLineCount": 15,
       "candidates": {
         "brand": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "ac123a323c6e1a173aef0fbd0645e7e2cb30c618924b6e02a03f4fd9faa37c78"
+            "1a2b3e195a792d62126934f865d1698713095982bf5727334a284c0da004edc5"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "94eb563bdbfd3b2200b3635dad6d7fba8b0a2b5a6233f54905f1699d7b008318"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -1897,9 +1908,11 @@
           ]
         },
         "net_contents": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "3359c56b3bc7ff9f31fb0713777b3406a5e9f3ad6d804d0de54c2cbed5557afb"
+          ]
         },
         "producer": {
           "status": "Not found",
@@ -1921,9 +1934,9 @@
         "headingDetected": true,
         "bodyDetected": true,
         "headingBold": true,
-        "bodyBold": null,
+        "bodyBold": false,
         "separated": null,
-        "continuous": true,
+        "continuous": null,
         "contrastSufficient": true,
         "legible": true
       },
@@ -1933,8 +1946,8 @@
           "label": "Warning wording",
           "applicable": true,
           "state": "Review",
-          "reasonCode": "warning_punctuation_uncertain",
-          "reasonText": "The words match, but exact punctuation requires review"
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -1956,9 +1969,9 @@
           "checkId": "warning_body_not_bold",
           "label": "Warning body not bold",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning body does not appear bold"
         },
         {
           "checkId": "warning_separation",
@@ -1972,9 +1985,9 @@
           "checkId": "warning_continuity",
           "label": "Warning continuity",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning appears continuous"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_contrast",
@@ -2000,7 +2013,7 @@
         "warning_presentation",
         "beer"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -2010,12 +2023,11 @@
       "bytes": 301803,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
-        "Candidate presence is ambiguous: abv",
+        "Candidate presence is ambiguous: class_type, abv",
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 4453.939,
+      "durationMs": 4447.072,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -2040,9 +2052,12 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Ambiguous",
+          "valueCount": 2,
+          "valueSha256": [
+            "054dfc4b2052b4fbef0bac48b6a06e42988512afdb11e97e1667152e50c4b63b",
+            "f3d149585402a681278a88fa2eeb6604d69fa52c466de332fc850eeb578ea81a"
+          ]
         },
         "abv": {
           "status": "Ambiguous",
@@ -2160,7 +2175,7 @@
         "wine",
         "brand_case_judgment"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -2172,7 +2187,7 @@
       "harnessReasons": [
         "Warning heading uppercase: The warning heading capitalization or punctuation is not exact"
       ],
-      "durationMs": 4349.473,
+      "durationMs": 4428.721,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -2252,9 +2267,9 @@
           "checkId": "warning_wording",
           "label": "Warning wording",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "ocr_wrap_punctuation_uncertain",
-          "reasonText": "OCR detected possible punctuation at a visual line wrap; exact wording requires review"
+          "state": "Match",
+          "reasonCode": "warning_wording_exact",
+          "reasonText": "The warning body wording and punctuation exactly match the prescribed statement"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -2320,7 +2335,7 @@
         "warning_heading_case",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "TRUE_DEFECT"
     },
     {
@@ -2332,7 +2347,7 @@
       "harnessReasons": [
         "Warning wording: Readable warning wording or punctuation differs from the prescribed statement"
       ],
-      "durationMs": 3491.658,
+      "durationMs": 3944.722,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -2353,7 +2368,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "f02b5b9ddb510c37659468ef913e0b0acd0a5b1f7b74d56ab9e11c383fd50d0f"
+            "211a0908e704e726b2feda0f68f824b74ed87cf532789bfe37498374bd169809"
           ]
         },
         "class_type": {
@@ -2381,20 +2396,22 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "e298fe189c9157761dab0a9f391357466a5d6882a7f194a9988ea2c0e0c5a22c"
+            "14c69908f2d7d57734aa8ec92c2bae61895dd8f8fc3264742677a9249389a017"
           ]
         },
         "proof": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "5bc3e43b0a18758b4e1225b8b0f6a6793c825a7c96692832f2d3221b1eed7b7b"
+            "492851afd9d73d325e4eec11002a820486434ac9c1c992e04373d490a9cae55a"
           ]
         },
         "country": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "a7d355b26bda6bf1196ccffead0b2cf2b81f0a9de5b4876b44407f1dc07e51e6"
+          ]
         }
       },
       "warningObservation": {
@@ -2480,7 +2497,7 @@
         "warning_wording",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "TRUE_DEFECT"
     },
     {
@@ -2493,9 +2510,11 @@
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
+        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required",
+        "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
+        "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3218.898,
+      "durationMs": 3234.457,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -2544,7 +2563,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "a5721ed3814d3eacb8a6057d03797be4b81ea28308b1044f19570c1205097291"
+            "6a6d3eaf79fac907a778e26e6524585a3e3b1878889b9c9a0abc0c4a30f517c3"
           ]
         },
         "proof": {
@@ -2567,8 +2586,8 @@
         "bodyBold": false,
         "separated": null,
         "continuous": null,
-        "contrastSufficient": true,
-        "legible": true
+        "contrastSufficient": null,
+        "legible": null
       },
       "warningChecks": [
         {
@@ -2623,17 +2642,17 @@
           "checkId": "warning_contrast",
           "label": "Warning contrast",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning contrast is visibly sufficient"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_legibility",
           "label": "Warning legibility",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning is visibly legible"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         }
       ],
       "oracleDisposition": "PASS",
@@ -2643,7 +2662,7 @@
         "distilled_spirits",
         "large_container"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -2653,10 +2672,9 @@
       "bytes": 485288,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Warning wording: The words match, but exact punctuation requires review",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 4220.718,
+      "durationMs": 4204.069,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -2677,7 +2695,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "0917b13a9091915d54b6336f45909539cce452b3661b21f386418a257883b30a"
+            "d46776d457774eed56ea97393b18a17c349bda78e52a7052eabfefb0a2c9bb3e"
           ]
         },
         "class_type": {
@@ -2736,9 +2754,9 @@
           "checkId": "warning_wording",
           "label": "Warning wording",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "warning_punctuation_uncertain",
-          "reasonText": "The words match, but exact punctuation requires review"
+          "state": "Match",
+          "reasonCode": "warning_wording_exact",
+          "reasonText": "The warning body wording and punctuation exactly match the prescribed statement"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -2804,7 +2822,7 @@
         "distilled_spirits",
         "one_liter"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -2814,10 +2832,9 @@
       "bytes": 485288,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Warning wording: The words match, but exact punctuation requires review",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3104.777,
+      "durationMs": 3044.673,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -2838,7 +2855,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "0917b13a9091915d54b6336f45909539cce452b3661b21f386418a257883b30a"
+            "d46776d457774eed56ea97393b18a17c349bda78e52a7052eabfefb0a2c9bb3e"
           ]
         },
         "class_type": {
@@ -2875,6 +2892,167 @@
           "valueSha256": [
             "cbadeb2f04c0e02e54cb8edc715f5f7ccc4d853fff01797b0b5defee7c3682c4"
           ]
+        },
+        "country": {
+          "status": "Not found",
+          "valueCount": 0,
+          "valueSha256": []
+        }
+      },
+      "warningObservation": {
+        "headingDetected": true,
+        "bodyDetected": true,
+        "headingBold": true,
+        "bodyBold": false,
+        "separated": null,
+        "continuous": true,
+        "contrastSufficient": true,
+        "legible": true
+      },
+      "warningChecks": [
+        {
+          "checkId": "warning_wording",
+          "label": "Warning wording",
+          "applicable": true,
+          "state": "Match",
+          "reasonCode": "warning_wording_exact",
+          "reasonText": "The warning body wording and punctuation exactly match the prescribed statement"
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "label": "Warning heading uppercase",
+          "applicable": true,
+          "state": "Match",
+          "reasonCode": "warning_heading_exact",
+          "reasonText": "The warning heading is exact and uppercase"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "label": "Warning heading emphasis",
+          "applicable": true,
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The heading appears bold"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "label": "Warning body not bold",
+          "applicable": true,
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning body does not appear bold"
+        },
+        {
+          "checkId": "warning_separation",
+          "label": "Warning separation",
+          "applicable": true,
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+        },
+        {
+          "checkId": "warning_continuity",
+          "label": "Warning continuity",
+          "applicable": true,
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning appears continuous"
+        },
+        {
+          "checkId": "warning_contrast",
+          "label": "Warning contrast",
+          "applicable": true,
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning contrast is visibly sufficient"
+        },
+        {
+          "checkId": "warning_legibility",
+          "label": "Warning legibility",
+          "applicable": true,
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning is visibly legible"
+        }
+      ],
+      "oracleDisposition": "PASS",
+      "oracleReason": "Readable gin label art with complete exact warning, bold uppercase heading, and regular-weight body",
+      "scenarioTags": [
+        "happy_path",
+        "distilled_spirits",
+        "one_liter"
+      ],
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
+      "comparison": "CONSERVATIVE_NON_CLEAR"
+    },
+    {
+      "filename": "Test_TTB_Image_0007.jpg",
+      "relativePath": "tests/Test_Images/Test_TTB_Image_0007.jpg",
+      "sha256": "6becb972100aae7f5f71a320ab5dbaf9b3c5a51bbd49f81ec4576c6183603448",
+      "bytes": 302279,
+      "harnessDisposition": "NEEDS_REVIEW",
+      "harnessReasons": [
+        "Candidate presence is ambiguous: net_contents",
+        "Warning wording: The words match, but exact punctuation requires review",
+        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
+      ],
+      "durationMs": 3298.931,
+      "dimensions": {
+        "width": 1168,
+        "height": 784
+      },
+      "quality": {
+        "laplacianVariance": 4206.741,
+        "meanLuma": 171.786,
+        "darkFraction": 0.01889,
+        "lightFraction": 0.27263,
+        "clippedHighlightFraction": 0.24759,
+        "estimatedSkewDegrees": 0.0,
+        "qualityClass": "Sufficient"
+      },
+      "coverageState": "Sufficient",
+      "ocrLineCount": 16,
+      "candidates": {
+        "brand": {
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "24e313d62e0c499125d3a04f45f9c352b9cebb31f32466d75a66717667d15cfc"
+          ]
+        },
+        "class_type": {
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "322b2e11f855e6f749f947a7d36855e2e865135a266bfbb2dce9201e44e75d1a"
+          ]
+        },
+        "abv": {
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "c31e0fcedb154b3269a7fbf9b8e71a41d16af95fd4b16cb805df3dcdddf0e700"
+          ]
+        },
+        "net_contents": {
+          "status": "Ambiguous",
+          "valueCount": 2,
+          "valueSha256": [
+            "9a7fb95f16326c0faa30f70c60f199a7004fd6fdb381336c1542bf242aa1a988",
+            "83b8b09b24d003ece191a4598e544377ca6c0377a9a6c12a31ae77fbccb4229c"
+          ]
+        },
+        "producer": {
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "29b40804227d7b782c0e2aca4b6d2d179e0ae6ed240f769237e6d383be99ab33"
+          ]
+        },
+        "proof": {
+          "status": "Not found",
+          "valueCount": 0,
+          "valueSha256": []
         },
         "country": {
           "status": "Not found",
@@ -2959,168 +3137,12 @@
         }
       ],
       "oracleDisposition": "PASS",
-      "oracleReason": "Readable gin label art with complete exact warning, bold uppercase heading, and regular-weight body",
-      "scenarioTags": [
-        "happy_path",
-        "distilled_spirits",
-        "one_liter"
-      ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
-      "comparison": "CONSERVATIVE_NON_CLEAR"
-    },
-    {
-      "filename": "Test_TTB_Image_0007.jpg",
-      "relativePath": "tests/Test_Images/Test_TTB_Image_0007.jpg",
-      "sha256": "6becb972100aae7f5f71a320ab5dbaf9b3c5a51bbd49f81ec4576c6183603448",
-      "bytes": 302279,
-      "harnessDisposition": "NEEDS_REVIEW",
-      "harnessReasons": [
-        "Candidate not found: class_type, net_contents",
-        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
-        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
-      ],
-      "durationMs": 3562.518,
-      "dimensions": {
-        "width": 1168,
-        "height": 784
-      },
-      "quality": {
-        "laplacianVariance": 4206.741,
-        "meanLuma": 171.786,
-        "darkFraction": 0.01889,
-        "lightFraction": 0.27263,
-        "clippedHighlightFraction": 0.24759,
-        "estimatedSkewDegrees": 0.0,
-        "qualityClass": "Sufficient"
-      },
-      "coverageState": "Sufficient",
-      "ocrLineCount": 16,
-      "candidates": {
-        "brand": {
-          "status": "Found",
-          "valueCount": 1,
-          "valueSha256": [
-            "a0a5f17fbf94a5768259b84495a92f08aa4b8562dff792593c1b4e643bf0725b"
-          ]
-        },
-        "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
-        },
-        "abv": {
-          "status": "Found",
-          "valueCount": 1,
-          "valueSha256": [
-            "c31e0fcedb154b3269a7fbf9b8e71a41d16af95fd4b16cb805df3dcdddf0e700"
-          ]
-        },
-        "net_contents": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
-        },
-        "producer": {
-          "status": "Found",
-          "valueCount": 1,
-          "valueSha256": [
-            "e882926f7c79edfaa3694a07ae6e0f9ee8aa803a51b54f855f2a844fc7802d24"
-          ]
-        },
-        "proof": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
-        },
-        "country": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
-        }
-      },
-      "warningObservation": {
-        "headingDetected": true,
-        "bodyDetected": true,
-        "headingBold": true,
-        "bodyBold": false,
-        "separated": null,
-        "continuous": true,
-        "contrastSufficient": true,
-        "legible": true
-      },
-      "warningChecks": [
-        {
-          "checkId": "warning_wording",
-          "label": "Warning wording",
-          "applicable": true,
-          "state": "Review",
-          "reasonCode": "warning_ocr_difference_uncertain",
-          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
-        },
-        {
-          "checkId": "warning_heading_uppercase",
-          "label": "Warning heading uppercase",
-          "applicable": true,
-          "state": "Match",
-          "reasonCode": "warning_heading_exact",
-          "reasonText": "The warning heading is exact and uppercase"
-        },
-        {
-          "checkId": "warning_heading_emphasis",
-          "label": "Warning heading emphasis",
-          "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The heading appears bold"
-        },
-        {
-          "checkId": "warning_body_not_bold",
-          "label": "Warning body not bold",
-          "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning body does not appear bold"
-        },
-        {
-          "checkId": "warning_separation",
-          "label": "Warning separation",
-          "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
-        },
-        {
-          "checkId": "warning_continuity",
-          "label": "Warning continuity",
-          "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning appears continuous"
-        },
-        {
-          "checkId": "warning_contrast",
-          "label": "Warning contrast",
-          "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning contrast is visibly sufficient"
-        },
-        {
-          "checkId": "warning_legibility",
-          "label": "Warning legibility",
-          "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The warning is visibly legible"
-        }
-      ],
-      "oracleDisposition": "PASS",
       "oracleReason": "Readable beer label art with complete exact warning, markedly heavier heading, and regular condensed body",
       "scenarioTags": [
         "happy_path",
         "beer"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -3130,11 +3152,12 @@
       "bytes": 179545,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
+        "Candidate presence is ambiguous: class_type",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
+        "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2887.572,
+      "durationMs": 2783.795,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -3159,9 +3182,12 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Ambiguous",
+          "valueCount": 2,
+          "valueSha256": [
+            "ef8e75027955b3cc54a6dcb48b7af4a8e138fab60d37eec0bc3cb06ec98513eb",
+            "2c65d02dd958d3867a900c43f8e443888b6c3c6f1b98b82646e51069709ed59b"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -3181,7 +3207,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "523cfb5d75e59dd9f2fa75feb9e2b74721527b2c9295d70e77586a6a4baf18e6"
+            "a2d888c1501193d6d2be9faa781b010cf14af10b9901a71e66d1de546c9c813c"
           ]
         },
         "proof": {
@@ -3198,7 +3224,7 @@
       "warningObservation": {
         "headingDetected": true,
         "bodyDetected": true,
-        "headingBold": true,
+        "headingBold": null,
         "bodyBold": false,
         "separated": null,
         "continuous": true,
@@ -3226,9 +3252,9 @@
           "checkId": "warning_heading_emphasis",
           "label": "Warning heading emphasis",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "presentation_supported",
-          "reasonText": "The heading appears bold"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_body_not_bold",
@@ -3278,7 +3304,7 @@
         "wine",
         "imported"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -3288,12 +3314,11 @@
       "bytes": 283184,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, net_contents",
-        "Candidate presence is ambiguous: producer",
-        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
+        "Candidate presence is ambiguous: net_contents, producer",
+        "Warning wording: The words match, but exact punctuation requires review",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3932.636,
+      "durationMs": 3829.289,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -3314,13 +3339,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "f3fde0e2da95695f3f6cd82327383b707af3d481670769e197e6c6243966754b"
+            "a157101047428350809c9f920baef3687106f0396c6e1fda8b099c5f726446cf"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "f3fde0e2da95695f3f6cd82327383b707af3d481670769e197e6c6243966754b"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -3330,16 +3357,20 @@
           ]
         },
         "net_contents": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Ambiguous",
+          "valueCount": 3,
+          "valueSha256": [
+            "257575d8562ca718cc44dbbb439408ad038abc7fd0a09b70f3c8ffa16d96642f",
+            "dce888572895d77bad76b265b95d4a13cd127010c6629a6df464d67d1e872d02",
+            "5b52022446fac8dd647674d5dc39c3cd67efbccd295da2a00c2b184d73a90f32"
+          ]
         },
         "producer": {
           "status": "Ambiguous",
           "valueCount": 2,
           "valueSha256": [
-            "c3ffd3cbfa9ee31e3bf97fa25793f9492d5c05561690073b8a30920badba5348",
-            "f4a46211004481d500e0331f04e53c3ee05c59fdce8b78c861c48e2bbe23659c"
+            "766a69a8a746905d2ce62ebbca31fb60d1dca733112bcfc3f6953f802ace1b05",
+            "d76e66a94571ba6940db74aafa51ad5e1201812417718fe82e05e8c2b2fd4593"
           ]
         },
         "proof": {
@@ -3369,8 +3400,8 @@
           "label": "Warning wording",
           "applicable": true,
           "state": "Review",
-          "reasonCode": "warning_ocr_difference_uncertain",
-          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
+          "reasonCode": "warning_punctuation_uncertain",
+          "reasonText": "The words match, but exact punctuation requires review"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -3435,7 +3466,7 @@
         "happy_path",
         "beer"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -3450,11 +3481,10 @@
         "Warning heading uppercase: The heading is uppercase, but exact punctuation requires review",
         "Warning body not bold: The warning body appears bold",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required",
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3051.321,
+      "durationMs": 3160.306,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -3469,7 +3499,7 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 13,
+      "ocrLineCount": 14,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -3496,7 +3526,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "1d1e29885e4836661e8b872b90f0ea9ca1499784bb436915363e956e31d9cba8"
+            "8b37af1c43a74813616fbb71f8f00cf08d49154eb47eddf7834d41971ef31994"
           ]
         },
         "producer": {
@@ -3523,7 +3553,7 @@
         "headingBold": true,
         "bodyBold": true,
         "separated": null,
-        "continuous": null,
+        "continuous": true,
         "contrastSufficient": null,
         "legible": null
       },
@@ -3572,9 +3602,9 @@
           "checkId": "warning_continuity",
           "label": "Warning continuity",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning appears continuous"
         },
         {
           "checkId": "warning_contrast",
@@ -3600,7 +3630,7 @@
         "distilled_spirits",
         "small_text"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -3620,7 +3650,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 1967.94,
+      "durationMs": 2185.619,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -3635,7 +3665,7 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 5,
+      "ocrLineCount": 6,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -3766,7 +3796,7 @@
         "warning_presentation",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -3776,7 +3806,7 @@
       "bytes": 2763517,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
+        "Candidate presence is ambiguous: net_contents",
         "Warning wording: The required warning text was not found or was unreadable",
         "Warning heading uppercase: The warning heading was not found or was unreadable",
         "Warning heading emphasis: The required warning evidence was not found in the submitted panels",
@@ -3786,7 +3816,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 2495.304,
+      "durationMs": 2268.128,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -3811,9 +3841,11 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "6d5b92a2b382722143d1e5b89bba465b404fafd9dc4132c4cd9909bc2aba17a0"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -3823,9 +3855,10 @@
           ]
         },
         "net_contents": {
-          "status": "Found",
-          "valueCount": 1,
+          "status": "Ambiguous",
+          "valueCount": 2,
           "valueSha256": [
+            "d3c5a33aaa7a3820ff9e340edf80a06a61f0069692fbd05055ea26b9b607b30c",
             "ecb7f0248adef2b9e67b30e28ec7d93e0faff2a97bf7b5131bc61390e25d10ae"
           ]
         },
@@ -3833,7 +3866,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "e6a20d37a44b0a3d4baf98663d3b7cb58c8b06edd38c107ee7ea3b3a96009267"
+            "0c0580b871e8f5b26251c735810ed714fdd345b86a2df343e3d5152478451766"
           ]
         },
         "proof": {
@@ -3930,7 +3963,7 @@
         "warning_presentation",
         "beer"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -3951,7 +3984,7 @@
         "Warning legibility: The required warning evidence was not found in the submitted panels",
         "The image-quality check requires review"
       ],
-      "durationMs": 2817.251,
+      "durationMs": 2712.26,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -3966,13 +3999,13 @@
         "qualityClass": "Review"
       },
       "coverageState": "Review",
-      "ocrLineCount": 15,
+      "ocrLineCount": 14,
       "candidates": {
         "brand": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "dbc3f9dc69b4ddbc2b0b05fc0a9c39ca56974d42a96aa3264d54f7314aab0e73"
+            "33b7515ab479ff09e9cd5d9ae3b65f1e00abf375dab372cfa374b971ba5541e0"
           ]
         },
         "class_type": {
@@ -4097,7 +4130,7 @@
         "distilled_spirits",
         "reflective_surface"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -4105,20 +4138,12 @@
       "relativePath": "tests/Test_Images/Test_TTB_Image_0015.jpeg",
       "sha256": "9e7acdf374dedc625f5387695b8d1191b3b309f7d2e4b6ece2525b9ae58b9aed",
       "bytes": 3129257,
-      "harnessDisposition": "NEEDS_REVIEW",
+      "harnessDisposition": "DO_NOT_PASS",
       "harnessReasons": [
-        "Candidate not found: class_type, net_contents",
-        "Candidate presence is ambiguous: producer",
-        "Warning wording: The required warning text was not found or was unreadable",
-        "Warning heading uppercase: The warning heading was not found or was unreadable",
-        "Warning heading emphasis: The required warning evidence was not found in the submitted panels",
-        "Warning body not bold: The required warning evidence was not found in the submitted panels",
-        "Warning separation: The required warning evidence was not found in the submitted panels",
-        "Warning continuity: The required warning evidence was not found in the submitted panels",
-        "Warning contrast: The required warning evidence was not found in the submitted panels",
-        "Warning legibility: The required warning evidence was not found in the submitted panels"
+        "Candidate presence is ambiguous: class_type, net_contents, producer",
+        "Warning separation: The warning does not appear separate from surrounding text"
       ],
-      "durationMs": 4484.755,
+      "durationMs": 4927.729,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -4133,19 +4158,22 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 21,
+      "ocrLineCount": 18,
       "candidates": {
         "brand": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "73caef6f4c1d54531a71d4a438ede9cfad845fd5dc5446c48945398ea8ab8f72"
+            "eae90ac221089b766cb10ee208ee55353348870742ee5e2e33222563aa5f098f"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Ambiguous",
+          "valueCount": 2,
+          "valueSha256": [
+            "43eb10fc70a13911f94e58d20fc6d143db16313b0be982a26dbb000850ef4c5d",
+            "f732a7a6c90e8ad534d36d2373876ff2b0a59e0f3c7bb099ac0c89d009573076"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -4155,17 +4183,20 @@
           ]
         },
         "net_contents": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Ambiguous",
+          "valueCount": 2,
+          "valueSha256": [
+            "5295edd3bf95ea92e30a45e2a9aa4160392695e20b7abdaeb90162b3452593af",
+            "dce888572895d77bad76b265b95d4a13cd127010c6629a6df464d67d1e872d02"
+          ]
         },
         "producer": {
           "status": "Ambiguous",
           "valueCount": 3,
           "valueSha256": [
-            "c52c92f01b16aa61578f324fbb427e0005914827e4bfde5dd6105f04f5527f68",
-            "e1ad5dda84591e470de8c2ecebe25de3f608c8c754a584a4a1f7f9c89625618e",
-            "74a63eae58b8faaa72e2d67ff6d20720daefc70d0b683043a2e38d0252e17941"
+            "66907eac05691cfa8005e2aeea3d938690e7af6b4945ebce52d9325273dd3007",
+            "977841566199b27c618affd96764f978820231bde6ac10e436b7159f8cf60ce7",
+            "73caef6f4c1d54531a71d4a438ede9cfad845fd5dc5446c48945398ea8ab8f72"
           ]
         },
         "proof": {
@@ -4180,11 +4211,11 @@
         }
       },
       "warningObservation": {
-        "headingDetected": false,
-        "bodyDetected": false,
+        "headingDetected": true,
+        "bodyDetected": true,
         "headingBold": null,
-        "bodyBold": null,
-        "separated": null,
+        "bodyBold": false,
+        "separated": false,
         "continuous": null,
         "contrastSufficient": null,
         "legible": null
@@ -4194,65 +4225,65 @@
           "checkId": "warning_wording",
           "label": "Warning wording",
           "applicable": true,
-          "state": "Not verified",
-          "reasonCode": "warning_not_found",
-          "reasonText": "The required warning text was not found or was unreadable"
+          "state": "Review",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
         },
         {
           "checkId": "warning_heading_uppercase",
           "label": "Warning heading uppercase",
           "applicable": true,
-          "state": "Not verified",
-          "reasonCode": "warning_heading_not_found",
-          "reasonText": "The warning heading was not found or was unreadable"
+          "state": "Match",
+          "reasonCode": "warning_heading_exact",
+          "reasonText": "The warning heading is exact and uppercase"
         },
         {
           "checkId": "warning_heading_emphasis",
           "label": "Warning heading emphasis",
           "applicable": true,
-          "state": "Not verified",
-          "reasonCode": "warning_not_found",
-          "reasonText": "The required warning evidence was not found in the submitted panels"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_body_not_bold",
           "label": "Warning body not bold",
           "applicable": true,
-          "state": "Not verified",
-          "reasonCode": "warning_not_found",
-          "reasonText": "The required warning evidence was not found in the submitted panels"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning body does not appear bold"
         },
         {
           "checkId": "warning_separation",
           "label": "Warning separation",
           "applicable": true,
-          "state": "Not verified",
-          "reasonCode": "warning_not_found",
-          "reasonText": "The required warning evidence was not found in the submitted panels"
+          "state": "Mismatch",
+          "reasonCode": "presentation_failure",
+          "reasonText": "The warning does not appear separate from surrounding text"
         },
         {
           "checkId": "warning_continuity",
           "label": "Warning continuity",
           "applicable": true,
-          "state": "Not verified",
-          "reasonCode": "warning_not_found",
-          "reasonText": "The required warning evidence was not found in the submitted panels"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_contrast",
           "label": "Warning contrast",
           "applicable": true,
-          "state": "Not verified",
-          "reasonCode": "warning_not_found",
-          "reasonText": "The required warning evidence was not found in the submitted panels"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         },
         {
           "checkId": "warning_legibility",
           "label": "Warning legibility",
           "applicable": true,
-          "state": "Not verified",
-          "reasonCode": "warning_not_found",
-          "reasonText": "The required warning evidence was not found in the submitted panels"
+          "state": "Review",
+          "reasonCode": "presentation_requires_review",
+          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
         }
       ],
       "oracleDisposition": "DO_NOT_PASS",
@@ -4263,8 +4294,8 @@
         "warning_wording",
         "rotated_text"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
-      "comparison": "CONSERVATIVE_DEFECT_HOLD"
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
+      "comparison": "TRUE_DEFECT"
     },
     {
       "filename": "Test_TTB_Image_0016.jpeg",
@@ -4273,7 +4304,7 @@
       "bytes": 2646355,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, producer",
+        "Candidate not found: producer",
         "Warning wording: The required warning text was not found or was unreadable",
         "Warning heading uppercase: The warning heading was not found or was unreadable",
         "Warning heading emphasis: The required warning evidence was not found in the submitted panels",
@@ -4283,7 +4314,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 2803.166,
+      "durationMs": 2451.767,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -4304,13 +4335,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "97ec28753bd574b22661ddce5cf5ab8419bf4ae9745c625b5e670a2b4bbb9ed8"
+            "20da60a3f4c2ec93dd89010826a1a0483f8e65b257489dc36c9934d86fe08fd0"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "b52bb0c5595dd21a9ba2ce2703fe645f95cbedc0ea88601f48ece658e69ffbe7"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -4425,7 +4458,7 @@
         "wine",
         "mixed_scale"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -4435,7 +4468,7 @@
       "bytes": 2669244,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, producer",
+        "Candidate not found: producer",
         "Warning wording: The required warning text was not found or was unreadable",
         "Warning heading uppercase: The warning heading was not found or was unreadable",
         "Warning heading emphasis: The required warning evidence was not found in the submitted panels",
@@ -4445,7 +4478,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 2291.873,
+      "durationMs": 1974.143,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -4460,7 +4493,7 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 10,
+      "ocrLineCount": 9,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -4470,9 +4503,11 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "f92544da0d8bb2e730d9ffa9d89d733a42c083f8f8c17158af9403562d25d41d"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -4587,7 +4622,7 @@
         "warning_presentation",
         "wine"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -4597,7 +4632,7 @@
       "bytes": 3068650,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, abv, net_contents, producer",
+        "Candidate not found: abv, producer",
         "Warning wording: The required warning text was not found or was unreadable",
         "Warning heading uppercase: The warning heading was not found or was unreadable",
         "Warning heading emphasis: The required warning evidence was not found in the submitted panels",
@@ -4607,7 +4642,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 1932.3,
+      "durationMs": 1872.682,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -4628,13 +4663,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "86ddebd5d4146903289e6fcf169d721cda3a0ee0de7192280c11bbc2b6a6b565"
+            "dff0fb53e86e02a097956f426273ea659f5bc6c650c07ec727f221b734a9cbcf"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "2dda73f7568ca5900369a40a7037dbf79421ffb68251a189bdae0c641ab47fda"
+          ]
         },
         "abv": {
           "status": "Not found",
@@ -4642,9 +4679,11 @@
           "valueSha256": []
         },
         "net_contents": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "f400cd629eeaadacd8d49b7a694b818f82d83c34334de2de76e9e9ea9850b5b3"
+          ]
         },
         "producer": {
           "status": "Not found",
@@ -4745,7 +4784,7 @@
         "warning_presentation",
         "beer"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -4758,7 +4797,7 @@
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 4905.397,
+      "durationMs": 4619.918,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -4905,7 +4944,7 @@
         "happy_path",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -4918,7 +4957,7 @@
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3621.895,
+      "durationMs": 3378.294,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5065,7 +5104,7 @@
         "happy_path",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -5075,15 +5114,14 @@
       "bytes": 241511,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
-        "Candidate presence is ambiguous: abv, net_contents",
+        "Candidate presence is ambiguous: abv, net_contents, producer",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required",
         "The image-quality check requires review"
       ],
-      "durationMs": 5967.463,
+      "durationMs": 5742.502,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5098,19 +5136,21 @@
         "qualityClass": "Review"
       },
       "coverageState": "Review",
-      "ocrLineCount": 33,
+      "ocrLineCount": 34,
       "candidates": {
         "brand": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "c849a4670e484704c77484588b4c4a7631194fb74ea4decb8a5b7e717084578f"
+            "3a7d3099bb40f5c17bdaa9c7979baa1391ef4c8ae9b06a0f9dfd86226e2e3d20"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "13ac920385753d98c9125baa1a2bf8876a2a5e9aac32152ba30e18cc15a50286"
+          ]
         },
         "abv": {
           "status": "Ambiguous",
@@ -5129,9 +5169,10 @@
           ]
         },
         "producer": {
-          "status": "Found",
-          "valueCount": 1,
+          "status": "Ambiguous",
+          "valueCount": 2,
           "valueSha256": [
+            "21b9c963adb78037dc3171fdfca7c5ad841417dfcdcba188afa47710e686b4b7",
             "50222885b12ac2a9ab628dde859f04d83bd853d6566fae5ccb4476a57ecdd3b0"
           ]
         },
@@ -5228,7 +5269,7 @@
         "happy_path",
         "wine"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -5238,11 +5279,11 @@
       "bytes": 258899,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
-        "Warning wording: The words match, but exact punctuation requires review",
+        "Candidate presence is ambiguous: class_type",
+        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 4563.936,
+      "durationMs": 4950.732,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5267,9 +5308,12 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Ambiguous",
+          "valueCount": 2,
+          "valueSha256": [
+            "278487ad08e1af339d27f08f079c7e1439009a0aabc4a8e9d1187acd9c6df494",
+            "2c65d02dd958d3867a900c43f8e443888b6c3c6f1b98b82646e51069709ed59b"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -5289,7 +5333,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "10d574230b3dd2717913a8dddfe3de2c76a3ebc3d7be2a31c12f520bbf00eb7b"
+            "9699eec2b5d10df1564c063a26a3b42f3704146389a1cc4a8184fd22492e4f6b"
           ]
         },
         "proof": {
@@ -5298,9 +5342,11 @@
           "valueSha256": []
         },
         "country": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "2898e16d4e4ee2ae2fa8815d719efb385f0b40ca912e06fc2940658547c30237"
+          ]
         }
       },
       "warningObservation": {
@@ -5319,8 +5365,8 @@
           "label": "Warning wording",
           "applicable": true,
           "state": "Review",
-          "reasonCode": "warning_punctuation_uncertain",
-          "reasonText": "The words match, but exact punctuation requires review"
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -5385,7 +5431,7 @@
         "happy_path",
         "wine"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -5397,10 +5443,9 @@
       "harnessReasons": [
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning body not bold: The warning body appears bold",
-        "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
+        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3097.228,
+      "durationMs": 3109.858,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5421,7 +5466,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "159e68b5c9befde1cbee2a10771690eba5df669b3cd74d3c0958f38ca133bfaa"
+            "69a23dbe0bf6401a1ad1f265ebf0a81ec7a2529a223f2fee2b16c7ed6dc0d4a7"
           ]
         },
         "class_type": {
@@ -5449,7 +5494,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "cc39e522e5e1a9d04172a18be87eca25058f1dbc3324165886d333febe0881c5"
+            "aa866cc2f0d70a7364ddbcbe42a4ed6ce843f713c30b3028359545a8c2ca8514"
           ]
         },
         "proof": {
@@ -5471,7 +5516,7 @@
         "headingBold": true,
         "bodyBold": true,
         "separated": null,
-        "continuous": null,
+        "continuous": true,
         "contrastSufficient": true,
         "legible": true
       },
@@ -5520,9 +5565,9 @@
           "checkId": "warning_continuity",
           "label": "Warning continuity",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning appears continuous"
         },
         {
           "checkId": "warning_contrast",
@@ -5548,7 +5593,7 @@
         "warning_presentation",
         "beer"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -5558,13 +5603,12 @@
       "bytes": 653383,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, net_contents",
-        "Candidate presence is ambiguous: producer",
+        "Candidate presence is ambiguous: net_contents, producer",
         "Warning wording: The words match, but exact punctuation requires review",
         "Warning body not bold: The warning body appears bold",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3582.383,
+      "durationMs": 3464.922,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -5585,13 +5629,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "8d3ab2274d38426e75cc0142c473ef2a8e7b15d22b905ba584399989c644ea26"
+            "26801dc97ede7aeeed820818f22424108c3e353987d3f52152e133c3d54dda6c"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "f3fde0e2da95695f3f6cd82327383b707af3d481670769e197e6c6243966754b"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -5601,17 +5647,21 @@
           ]
         },
         "net_contents": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Ambiguous",
+          "valueCount": 3,
+          "valueSha256": [
+            "257575d8562ca718cc44dbbb439408ad038abc7fd0a09b70f3c8ffa16d96642f",
+            "e089921cacffe71b8485cace7a0d7dcb9c6795d152596dd87c2c2798a2537dfd",
+            "dce888572895d77bad76b265b95d4a13cd127010c6629a6df464d67d1e872d02"
+          ]
         },
         "producer": {
           "status": "Ambiguous",
           "valueCount": 3,
           "valueSha256": [
-            "a481bc08ba9f081ff0b965239b2c91e0cfd8f03ed463e68c64e10b828810eeac",
+            "cfe4a77b31a113daf33613b540ff3967ff2beb5c1741bf46a44068e2fa7bf9c2",
             "d5c7972928a1f8bb40db8bb03b1e416537160a6ba909626ea275291478b0e104",
-            "3dafd24cd3d604d4a5e1d1fb292932dcde42af4ad8e314e3b00d957f4a5d8f6f"
+            "766a69a8a746905d2ce62ebbca31fb60d1dca733112bcfc3f6953f802ace1b05"
           ]
         },
         "proof": {
@@ -5708,7 +5758,7 @@
         "warning_presentation",
         "beer"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -5718,10 +5768,10 @@
       "bytes": 319458,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Warning wording: The words match, but exact punctuation requires review",
+        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 4179.719,
+      "durationMs": 3752.053,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5770,14 +5820,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "3d424ec1993af6d2238e68a7da9bc90b0d10904b4f2bf6241a7f450b7cdd1c03"
+            "7ecba12332187be68c6565052a171d6c5e5053d31debe91b7a0b71bcdba7a331"
           ]
         },
         "proof": {
-          "status": "Found",
-          "valueCount": 1,
+          "status": "Ambiguous",
+          "valueCount": 2,
           "valueSha256": [
-            "c369cfc489a8c074e950b4208041aba17a553a593c5b10342c9730855efa8c34"
+            "c369cfc489a8c074e950b4208041aba17a553a593c5b10342c9730855efa8c34",
+            "17f90f6f41e373b5df1d4a1164173f9f0d457e5de12caaae6ab1a00273e69118"
           ]
         },
         "country": {
@@ -5802,8 +5853,8 @@
           "label": "Warning wording",
           "applicable": true,
           "state": "Review",
-          "reasonCode": "warning_punctuation_uncertain",
-          "reasonText": "The words match, but exact punctuation requires review"
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -5869,7 +5920,7 @@
         "distilled_spirits",
         "imported"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -5879,12 +5930,9 @@
       "bytes": 320201,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, net_contents",
-        "Warning wording: The words match, but exact punctuation requires review",
-        "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
+        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2492.24,
+      "durationMs": 2147.255,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5909,9 +5957,11 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "1610d2715f301f368ea79792b06d315839c133b69c684a96fc1d38f00a2395d2"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -5921,9 +5971,11 @@
           ]
         },
         "net_contents": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "9a7fb95f16326c0faa30f70c60f199a7004fd6fdb381336c1542bf242aa1a988"
+          ]
         },
         "producer": {
           "status": "Found",
@@ -5949,7 +6001,7 @@
         "headingBold": true,
         "bodyBold": false,
         "separated": null,
-        "continuous": null,
+        "continuous": true,
         "contrastSufficient": true,
         "legible": true
       },
@@ -5958,9 +6010,9 @@
           "checkId": "warning_wording",
           "label": "Warning wording",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "warning_punctuation_uncertain",
-          "reasonText": "The words match, but exact punctuation requires review"
+          "state": "Match",
+          "reasonCode": "warning_wording_exact",
+          "reasonText": "The warning body wording and punctuation exactly match the prescribed statement"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -5998,9 +6050,9 @@
           "checkId": "warning_continuity",
           "label": "Warning continuity",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning appears continuous"
         },
         {
           "checkId": "warning_contrast",
@@ -6026,7 +6078,7 @@
         "beer",
         "dark_scene"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -6036,14 +6088,14 @@
       "bytes": 445393,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
+        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required",
         "The image-quality check requires review"
       ],
-      "durationMs": 4896.148,
+      "durationMs": 4960.948,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -6058,19 +6110,21 @@
         "qualityClass": "Review"
       },
       "coverageState": "Review",
-      "ocrLineCount": 23,
+      "ocrLineCount": 22,
       "candidates": {
         "brand": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "c588218bc1c2a5c82566463a748ac1b04bcd31edea96bc04c595a20a3d10a986"
+            "ca04d5318d9caaa74bfea8ec3290f858de464a96769d9345e828d6380cc80b7f"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "56e7dfdaf521aa6cc5ba2fed11c229f6231cce082e55e016baf905dd6b5c0200"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -6119,9 +6173,9 @@
           "checkId": "warning_wording",
           "label": "Warning wording",
           "applicable": true,
-          "state": "Match",
-          "reasonCode": "warning_wording_exact",
-          "reasonText": "The warning body wording and punctuation exactly match the prescribed statement"
+          "state": "Review",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -6186,7 +6240,7 @@
         "happy_path",
         "wine"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -6196,7 +6250,6 @@
       "bytes": 188131,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
         "Candidate presence is ambiguous: producer",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
@@ -6206,7 +6259,7 @@
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2897.416,
+      "durationMs": 2699.326,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -6221,7 +6274,7 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 19,
+      "ocrLineCount": 20,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -6231,9 +6284,11 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "809f5a3777b62808532ec6eed36f491d00fba5bfd31557e7768014fd334f338c"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -6253,7 +6308,7 @@
           "status": "Ambiguous",
           "valueCount": 2,
           "valueSha256": [
-            "56147f5b3769d848b250a83b8b5dfc30be4fc80cfe6c682c9338f77d58de3dbf",
+            "1bb8cc5d56d23011b409af10af5bd09640d159aff07c64af014b42d2259dcb35",
             "fc88c36058d71c4111e96f644570bd1d48741bbedc49e042484a8b94747c9a0a"
           ]
         },
@@ -6351,7 +6406,7 @@
         "wine",
         "small_text"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -6361,13 +6416,10 @@
       "bytes": 310015,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
-        "Candidate presence is ambiguous: abv, producer",
-        "Warning wording: The words match, but exact punctuation requires review",
-        "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
+        "Candidate presence is ambiguous: abv, net_contents, producer",
+        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3765.793,
+      "durationMs": 3835.0,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -6388,13 +6440,15 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "f64b12cccfd39133e5a931a3c99a79647f9e69c952160cf87ecb9b8385b2150e"
+            "af96cddeb689725899d54a411068b587db9dab10e20d957e00011d9a827f4309"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "056007a0a5ffec0b1bf2738f626650b15ce380c5ed732dc9df0f56f9fe3178e3"
+          ]
         },
         "abv": {
           "status": "Ambiguous",
@@ -6405,9 +6459,10 @@
           ]
         },
         "net_contents": {
-          "status": "Found",
-          "valueCount": 1,
+          "status": "Ambiguous",
+          "valueCount": 2,
           "valueSha256": [
+            "f400cd629eeaadacd8d49b7a694b818f82d83c34334de2de76e9e9ea9850b5b3",
             "0a087b31bfdddb035261767d890b5d7c44f65415e280ea811f36c872992dff3e"
           ]
         },
@@ -6415,8 +6470,8 @@
           "status": "Ambiguous",
           "valueCount": 2,
           "valueSha256": [
-            "69010cdb3312319fef2ce4dc0d0898440b219cc6749ef105280459db233c188b",
-            "1a746d9b9ea14d2ee9631f08e01997a38d279146fd6255b6e2e3aa20a7465bc0"
+            "ea658bd022ab63ef6230cb532f6b00575193387b852718d696cd05961807ae06",
+            "de1aabe72341c406254741de4c142938b62abb66bf51d2fe80418129363ec8dd"
           ]
         },
         "proof": {
@@ -6436,7 +6491,7 @@
         "headingBold": true,
         "bodyBold": false,
         "separated": null,
-        "continuous": null,
+        "continuous": true,
         "contrastSufficient": true,
         "legible": true
       },
@@ -6445,9 +6500,9 @@
           "checkId": "warning_wording",
           "label": "Warning wording",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "warning_punctuation_uncertain",
-          "reasonText": "The words match, but exact punctuation requires review"
+          "state": "Match",
+          "reasonCode": "warning_wording_exact",
+          "reasonText": "The warning body wording and punctuation exactly match the prescribed statement"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -6485,9 +6540,9 @@
           "checkId": "warning_continuity",
           "label": "Warning continuity",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning appears continuous"
         },
         {
           "checkId": "warning_contrast",
@@ -6513,7 +6568,7 @@
         "warning_presentation",
         "beer"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -6523,10 +6578,10 @@
       "bytes": 243114,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
+        "Warning wording: The words match, but exact punctuation requires review",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2804.6,
+      "durationMs": 2806.929,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -6575,7 +6630,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "1852943fcc98352c3ae5fc506f86f76012678a2d7ce31b4ba229c8f8fbfd3afb"
+            "ca231133051fef23a9d59313e49e4aa9925c3e3b07402a7772fe90040a39d628"
           ]
         },
         "proof": {
@@ -6607,8 +6662,8 @@
           "label": "Warning wording",
           "applicable": true,
           "state": "Review",
-          "reasonCode": "warning_ocr_difference_uncertain",
-          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
+          "reasonCode": "warning_punctuation_uncertain",
+          "reasonText": "The words match, but exact punctuation requires review"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -6673,7 +6728,7 @@
         "happy_path",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -6683,7 +6738,7 @@
       "bytes": 187081,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
+        "Candidate presence is ambiguous: net_contents",
         "Warning wording: The required warning text was not found or was unreadable",
         "Warning heading uppercase: The warning heading was not found or was unreadable",
         "Warning heading emphasis: The required warning evidence was not found in the submitted panels",
@@ -6693,7 +6748,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 2843.427,
+      "durationMs": 2724.414,
       "dimensions": {
         "width": 784,
         "height": 1168
@@ -6708,7 +6763,7 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 29,
+      "ocrLineCount": 28,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -6718,9 +6773,11 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "2f4aeff2f2459fec3af36e03c27c808cdf4d829847c40efbb520fdedd1ca06ef"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -6730,17 +6787,18 @@
           ]
         },
         "net_contents": {
-          "status": "Found",
-          "valueCount": 1,
+          "status": "Ambiguous",
+          "valueCount": 2,
           "valueSha256": [
-            "035653ef70f740db44d4bc198caf8b566bffb88d1989047d776a1226bcef7e7a"
+            "035653ef70f740db44d4bc198caf8b566bffb88d1989047d776a1226bcef7e7a",
+            "e7c246fbf9969d2c82c1b9b7f0f43f75c823f24101547f3797f2d5cc1d329a35"
           ]
         },
         "producer": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "397e1fd412521f82c62a8170aee5bf13f35f8252382c21ceb2f4a7300704d240"
+            "15fcbe655389e09a67e20d4033176c6ad2230feec9dc1ddafbf9873333c6de7f"
           ]
         },
         "proof": {
@@ -6838,7 +6896,7 @@
         "perspective",
         "side_label"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -6848,11 +6906,10 @@
       "bytes": 374200,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
-        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
+        "Candidate presence is ambiguous: abv",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 4224.452,
+      "durationMs": 4326.561,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -6873,19 +6930,22 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "7a22b5964eaccae8db451f6c9743a3e42c103f3c1e922a099975ae7b5e976bad"
+            "154b61311c6281eab1456a7c6e264f27dd805155c3bdc39156fde060b8f903b0"
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
-        },
-        "abv": {
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "92f5aee30ebab6d0e7c095d4f698b0cfa56635c551165e3389435d6eec199582"
+            "17982fe82f9d5d9ea61033872d4bc36bfe9ede8a33bdfc38ca1f410d87ffac52"
+          ]
+        },
+        "abv": {
+          "status": "Ambiguous",
+          "valueCount": 2,
+          "valueSha256": [
+            "92f5aee30ebab6d0e7c095d4f698b0cfa56635c551165e3389435d6eec199582",
+            "23ec5e7f20a2bcc3fca42ac6f74643066b90a0458cf4f309bc2dc517869c7f39"
           ]
         },
         "net_contents": {
@@ -6928,9 +6988,9 @@
           "checkId": "warning_wording",
           "label": "Warning wording",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "warning_ocr_difference_uncertain",
-          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
+          "state": "Match",
+          "reasonCode": "warning_wording_exact",
+          "reasonText": "The warning body wording and punctuation exactly match the prescribed statement"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -6995,7 +7055,7 @@
         "happy_path",
         "wine"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -7005,7 +7065,6 @@
       "bytes": 243318,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type",
         "Candidate presence is ambiguous: abv, net_contents",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
@@ -7013,7 +7072,7 @@
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required",
         "The image-quality check requires review"
       ],
-      "durationMs": 4408.572,
+      "durationMs": 4611.46,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7028,7 +7087,7 @@
         "qualityClass": "Review"
       },
       "coverageState": "Review",
-      "ocrLineCount": 16,
+      "ocrLineCount": 17,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -7038,9 +7097,11 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "54852ab7c42b019328566fb74788ea754f8e17aef2146ad45c0014d118369b92"
+          ]
         },
         "abv": {
           "status": "Ambiguous",
@@ -7054,8 +7115,8 @@
           "status": "Ambiguous",
           "valueCount": 2,
           "valueSha256": [
-            "035653ef70f740db44d4bc198caf8b566bffb88d1989047d776a1226bcef7e7a",
-            "321d769efe35153c1d3b365e12b8b633dd4438d69340c4b39ab946a55c271e0a"
+            "321d769efe35153c1d3b365e12b8b633dd4438d69340c4b39ab946a55c271e0a",
+            "035653ef70f740db44d4bc198caf8b566bffb88d1989047d776a1226bcef7e7a"
           ]
         },
         "producer": {
@@ -7158,7 +7219,7 @@
         "happy_path",
         "wine"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -7168,11 +7229,10 @@
       "bytes": 222253,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
-        "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
+        "Warning wording: The words match, but exact punctuation requires review",
+        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 4086.855,
+      "durationMs": 4432.69,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7221,7 +7281,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "72e801e533976787b1fd727b28c98ab4ff30472c0775be3dd516f41709261bd7"
+            "281c8f4427d4e013bd031c2985b1af39ef736342a2fe7ae9f2a0990de92a79c8"
           ]
         },
         "proof": {
@@ -7243,7 +7303,7 @@
         "headingBold": true,
         "bodyBold": false,
         "separated": null,
-        "continuous": null,
+        "continuous": true,
         "contrastSufficient": true,
         "legible": true
       },
@@ -7253,8 +7313,8 @@
           "label": "Warning wording",
           "applicable": true,
           "state": "Review",
-          "reasonCode": "warning_ocr_difference_uncertain",
-          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
+          "reasonCode": "warning_punctuation_uncertain",
+          "reasonText": "The words match, but exact punctuation requires review"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -7292,9 +7352,9 @@
           "checkId": "warning_continuity",
           "label": "Warning continuity",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning appears continuous"
         },
         {
           "checkId": "warning_contrast",
@@ -7320,7 +7380,7 @@
         "distilled_spirits",
         "imported"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -7330,12 +7390,10 @@
       "bytes": 278133,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning body not bold: The warning body appears bold",
-        "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
+        "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 4063.098,
+      "durationMs": 4277.408,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7350,7 +7408,7 @@
         "qualityClass": "Sufficient"
       },
       "coverageState": "Sufficient",
-      "ocrLineCount": 14,
+      "ocrLineCount": 15,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -7406,7 +7464,7 @@
         "headingBold": true,
         "bodyBold": true,
         "separated": null,
-        "continuous": null,
+        "continuous": true,
         "contrastSufficient": true,
         "legible": true
       },
@@ -7415,9 +7473,9 @@
           "checkId": "warning_wording",
           "label": "Warning wording",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "warning_ocr_difference_uncertain",
-          "reasonText": "OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted"
+          "state": "Match",
+          "reasonCode": "warning_wording_exact",
+          "reasonText": "The warning body wording and punctuation exactly match the prescribed statement"
         },
         {
           "checkId": "warning_heading_uppercase",
@@ -7455,9 +7513,9 @@
           "checkId": "warning_continuity",
           "label": "Warning continuity",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning appears continuous"
         },
         {
           "checkId": "warning_contrast",
@@ -7483,7 +7541,7 @@
         "warning_presentation",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_DEFECT_HOLD"
     },
     {
@@ -7493,14 +7551,14 @@
       "bytes": 284138,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, producer",
+        "Candidate not found: producer",
+        "Candidate presence is ambiguous: net_contents",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
-        "Warning body not bold: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1649.187,
+      "durationMs": 1540.159,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7525,9 +7583,11 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "8efc9737fb319b9771be7b9729f4b4e038f3db67b7019f362b6f5fd326f00894"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -7537,9 +7597,10 @@
           ]
         },
         "net_contents": {
-          "status": "Found",
-          "valueCount": 1,
+          "status": "Ambiguous",
+          "valueCount": 2,
           "valueSha256": [
+            "49ac9cec6ab9292225c9fdf3ff6969d55108e32d898478d0fd0e5ad95f2acf94",
             "0a087b31bfdddb035261767d890b5d7c44f65415e280ea811f36c872992dff3e"
           ]
         },
@@ -7563,7 +7624,7 @@
         "headingDetected": true,
         "bodyDetected": true,
         "headingBold": null,
-        "bodyBold": null,
+        "bodyBold": false,
         "separated": null,
         "continuous": null,
         "contrastSufficient": true,
@@ -7598,9 +7659,9 @@
           "checkId": "warning_body_not_bold",
           "label": "Warning body not bold",
           "applicable": true,
-          "state": "Review",
-          "reasonCode": "presentation_requires_review",
-          "reasonText": "The image provides heuristic evidence but reviewer judgment is required"
+          "state": "Match",
+          "reasonCode": "presentation_supported",
+          "reasonText": "The warning body does not appear bold"
         },
         {
           "checkId": "warning_separation",
@@ -7642,7 +7703,7 @@
         "beer",
         "dark_scene"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -7652,11 +7713,11 @@
       "bytes": 195464,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate not found: class_type, producer",
+        "Candidate not found: producer",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3038.785,
+      "durationMs": 2340.424,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7681,9 +7742,11 @@
           ]
         },
         "class_type": {
-          "status": "Not found",
-          "valueCount": 0,
-          "valueSha256": []
+          "status": "Found",
+          "valueCount": 1,
+          "valueSha256": [
+            "798d03ab3d1b1c0212b79d845f339817c043897b7e4181df93536e0c25a115a9"
+          ]
         },
         "abv": {
           "status": "Found",
@@ -7797,7 +7860,7 @@
         "happy_path",
         "wine"
       ],
-      "scope": "EXPLORATORY_OUT_OF_SCOPE",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -7815,7 +7878,7 @@
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1969.915,
+      "durationMs": 2106.675,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7843,7 +7906,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "80f013552f90d5cf85113c486147ab36082ec8fb021adac7cdcce24f14da3513"
+            "d5c17cac65437b4332af2c8ab2b5d886b8af049a8e0bf0bbc7ffe0db2f439709"
           ]
         },
         "abv": {
@@ -7961,7 +8024,7 @@
         "distilled_spirits",
         "imported"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -7971,14 +8034,14 @@
       "bytes": 256898,
       "harnessDisposition": "NEEDS_REVIEW",
       "harnessReasons": [
-        "Candidate presence is ambiguous: class_type",
+        "Candidate presence is ambiguous: class_type, net_contents",
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required",
         "The image-quality check requires review"
       ],
-      "durationMs": 4606.845,
+      "durationMs": 4152.916,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7993,7 +8056,7 @@
         "qualityClass": "Review"
       },
       "coverageState": "Review",
-      "ocrLineCount": 20,
+      "ocrLineCount": 24,
       "candidates": {
         "brand": {
           "status": "Found",
@@ -8007,7 +8070,7 @@
           "valueCount": 2,
           "valueSha256": [
             "d0c0dd1a27f0bcb398a2c447d6d1ecc45ec88ada17237f17ba5b54418ff1dbca",
-            "115230b8755c092910ec86da5974ccbd40af3b6578f7f0e7fa2107ae55d4af2a"
+            "d3c788c30886a1d29c6fad93a949a0d64d18c6ae820ac37f74f01138fbb38cb6"
           ]
         },
         "abv": {
@@ -8018,9 +8081,10 @@
           ]
         },
         "net_contents": {
-          "status": "Found",
-          "valueCount": 1,
+          "status": "Ambiguous",
+          "valueCount": 2,
           "valueSha256": [
+            "2ae0c39015d3e70126173ad60a22ab631e6204afc5848f6f1d7924c1ca39cc5c",
             "407a2527e75045bac6a2b9a88e15013816ccffeb5bd85447f870a2634a325921"
           ]
         },
@@ -8028,7 +8092,7 @@
           "status": "Found",
           "valueCount": 1,
           "valueSha256": [
-            "0cbc65e753d5df2435e9d47909860f5091534c184a323cff952fd808e8fe1c76"
+            "27e694f685f4a00b4f63e77a3f277c5e4bfb4bbf2fed6e5fbf6e07d9a75b10aa"
           ]
         },
         "proof": {
@@ -8127,7 +8191,7 @@
         "distilled_spirits",
         "large_container"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "CONSERVATIVE_NON_CLEAR"
     },
     {
@@ -8140,7 +8204,7 @@
         "Candidate presence is ambiguous: class_type",
         "Warning wording: Readable warning wording or punctuation differs from the prescribed statement"
       ],
-      "durationMs": 3368.391,
+      "durationMs": 3320.752,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -8289,7 +8353,7 @@
         "warning_wording",
         "distilled_spirits"
       ],
-      "scope": "IN_SCOPE_DISTILLED_SPIRITS",
+      "scope": "IN_SCOPE_ALL_BEVERAGES",
       "comparison": "TRUE_DEFECT"
     }
   ]

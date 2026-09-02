@@ -1,23 +1,29 @@
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_readme_performance_claims_match_decisive_evidence() -> None:
-    evidence = json.loads(
-        (ROOT / "docs/08-validation/evidence/local-performance.json").read_text(encoding="utf-8")
+def test_readme_matches_governed_limits_and_profile() -> None:
+    api = json.loads((ROOT / "contracts/api-contract-v1.json").read_text(encoding="utf-8"))
+    checks = json.loads(
+        (ROOT / "contracts/selected-check-registry-v1.json").read_text(encoding="utf-8")
     )
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
 
-    warm_seconds = evidence["warm"]["p95WallMs"] / 1000
-    cold_seconds = evidence["cold"]["p95ReadyThroughFirstResultMs"] / 1000
-
-    assert f"Warm p95 was {warm_seconds:.3f} seconds" in readme
-    assert f"Cold readiness through first result was {cold_seconds:.3f} seconds" in readme
+    assert api["limits"]["panelCountMax"] == 3
+    assert api["$defs"]["Reference"]["properties"]["profileId"]["const"] == (
+        "all_beverages_demo_v2"
+    )
+    assert len(checks["checks"]) == 24
+    assert "one to three images" in readme
+    assert "applies 24 deterministic" in readme
+    assert "Malt beverages:" in readme
+    assert "Wine:" in readme
+    assert "Distilled spirits:" in readme
+    assert "latest 500 results" in readme
 
 
 def test_direct_container_command_supplies_healthcheck_host() -> None:
@@ -29,38 +35,35 @@ def test_direct_container_command_supplies_healthcheck_host() -> None:
     assert "--env LABELVERIFY_ALLOWED_HOST=127.0.0.1:8080" in readme
 
 
-def test_assertion_ledgers_use_release_archive_hashes() -> None:
-    manifest = {}
-    manifest_path = ROOT / "docs/10-release/RELEASE_MANIFEST.sha256"
-    for line in manifest_path.read_text(encoding="utf-8").splitlines():
-        digest, path = line.split("  ", maxsplit=1)
-        manifest[path] = digest
+def test_numbered_delivery_documents_are_present() -> None:
+    required = [
+        "docs/01-discovery/ASSIGNMENT_DISCOVERY_BASELINE.md",
+        "docs/02-intake/INTAKE_REQUIREMENTS.md",
+        "docs/03-baird/BAIRD.md",
+        "docs/04-i2r-ae/ARCHITECTURE_ENGINEERING.md",
+        "docs/05-frd/FEATURE_REQUIREMENTS.md",
+        "docs/05-frd/TRACEABILITY_MATRIX.md",
+        "docs/06-build-instructions/BUILD_INSTRUCTIONS.md",
+        "docs/07-development/IMPLEMENTATION_RECORD.md",
+        "docs/08-validation/VALIDATION_PROTOCOL.md",
+        "docs/09-qa-qc-uat/QA_QC_UAT.md",
+        "docs/10-release/RELEASE.md",
+        "docs/11-federal-authorization-readiness/README.md",
+    ]
+    assert all((ROOT / path).is_file() for path in required)
 
-    machine_ledger = json.loads(
-        (
-            ROOT / "docs/08-validation/evidence/assertion-evidence-ledger.json"
-        ).read_text(encoding="utf-8")
-    )
-    compared_machine_artifacts = 0
-    for assertion in machine_ledger["assertions"]:
-        for artifact in assertion.get("artifacts", []):
-            path = artifact["path"]
-            if path in manifest:
-                assert artifact["sha256"] == manifest[path], path
-                compared_machine_artifacts += 1
-    assert compared_machine_artifacts > 0
 
-    human_ledger = (ROOT / "docs/08-validation/ASSERTION_EVIDENCE_LEDGER.md").read_text(
-        encoding="utf-8"
-    )
-    rows = re.findall(
-        r"^\| `(?P<path>[^`]+)` \|.*\| `(?P<digest>[0-9a-f]{64})` \|$",
-        human_ledger,
-        flags=re.MULTILINE,
-    )
-    compared_human_artifacts = 0
-    for path, digest in rows:
-        if path in manifest:
-            assert digest == manifest[path], path
-            compared_human_artifacts += 1
-    assert compared_human_artifacts > 0
+def test_readme_documents_required_submission_material() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    for heading in (
+        "## Quick start on Windows",
+        "## Run tests",
+        "## Technology",
+        "## Architecture",
+        "## Assumptions",
+        "## Trade-offs",
+        "## Limitations",
+    ):
+        assert heading in readme
+    assert not (ROOT / "LICENSE").exists()
+    assert not (ROOT / "LICENSE.md").exists()

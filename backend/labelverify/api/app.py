@@ -14,6 +14,7 @@ from labelverify.api.routes import router
 from labelverify.api.static import SpaStaticFiles
 from labelverify.contracts.loader import contracts
 from labelverify.orchestration.supervisor import WorkerSupervisor
+from labelverify.persistence.history import HistoryRepository
 from labelverify.security.boundary import BoundaryMiddleware
 from labelverify.settings.config import Settings
 
@@ -27,12 +28,17 @@ def create_app(
         worker_deadline_seconds=float(contracts().api["limits"]["workerDeadlineSeconds"]),
         build_id=runtime.build_id,
     )
+    history = HistoryRepository(
+        runtime.history_root or runtime.spool_root.parent / "labelverify-history"
+    )
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         app.state.settings = runtime
         app.state.supervisor = worker
+        app.state.history = history
         runtime.spool_root.mkdir(parents=True, exist_ok=True, mode=0o700)
+        await asyncio.to_thread(history.initialize)
         await asyncio.to_thread(worker.start)
         try:
             yield
@@ -49,6 +55,7 @@ def create_app(
     )
     app.state.settings = runtime
     app.state.supervisor = worker
+    app.state.history = history
     app.include_router(router)
 
     @app.api_route(

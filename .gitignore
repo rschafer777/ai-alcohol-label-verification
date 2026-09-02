@@ -42,10 +42,12 @@ Thumbs.db
 
 # Local agent controls and non-redistributable validation images
 AGENTS.md
+design_handoff_labelverify/
 tests/Test_Images/*.jpg
 tests/Test_Images/*.jpeg
 tests/Test_Images/*.png
 tests/Test_Images/*.webp
+tests/New_Examples/
 
 # Temporary files
 *.tmp

@@ -9,6 +9,8 @@ export {
 
 export type {
   BrowserErrorCode,
+  AnalysisDraft,
+  AnalysisResult,
   CheckAlternative,
   CheckId,
   CheckResult,
@@ -25,7 +27,12 @@ export type {
   VerificationSummary,
 } from "../api/generated-contract";
 
-import type { ReferenceRecord, VerificationResult } from "../api/generated-contract";
+import type { AnalysisResult, ReferenceRecord, VerificationResult } from "../api/generated-contract";
+
+export interface AnalysisRequest {
+  panels: File[];
+  signal: AbortSignal;
+}
 
 export interface VerificationRequest {
   reference: ReferenceRecord;
@@ -34,6 +41,7 @@ export interface VerificationRequest {
 }
 
 export interface VerificationClient {
+  analyze(request: AnalysisRequest): Promise<AnalysisResult>;
   verify(request: VerificationRequest): Promise<VerificationResult>;
 }
 

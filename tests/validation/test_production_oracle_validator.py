@@ -63,16 +63,14 @@ def test_compare_result_accepts_exact_order_state_applicability_and_evidence() -
     assert compare_result("D001", actual, oracle, ordered) == []
 
 
-def test_compare_result_reports_summary_state_applicability_and_evidence() -> None:
+def test_compare_result_reports_state_and_applicability_on_conservative_summary() -> None:
     actual, oracle, ordered = exact_pair()
     actual["summary"] = "Review needed"
     actual["checks"][0]["state"] = "Review"
     actual["checks"][0]["applicable"] = False
     actual["checks"][0]["evidenceRef"] = None
-    categories = {
-        item["category"] for item in compare_result("D001", actual, oracle, ordered)
-    }
-    assert categories == {"summary", "state", "applicable", "evidence_required"}
+    categories = {item["category"] for item in compare_result("D001", actual, oracle, ordered)}
+    assert categories == {"state", "applicable"}
 
 
 def test_compare_result_reports_order_count_and_missing_evidence_target() -> None:
@@ -80,9 +78,7 @@ def test_compare_result_reports_order_count_and_missing_evidence_target() -> Non
     actual["checks"][0], actual["checks"][1] = actual["checks"][1], actual["checks"][0]
     actual["checks"] = actual["checks"][:-1]
     actual["evidence"] = []
-    categories = {
-        item["category"] for item in compare_result("D001", actual, oracle, ordered)
-    }
+    categories = {item["category"] for item in compare_result("D001", actual, oracle, ordered)}
     assert {"production_order", "check_count"} <= categories
 
 
@@ -93,16 +89,12 @@ def test_compare_result_enforces_forbidden_evidence_and_minimum_alternatives() -
     actual["checks"][1]["evidenceRef"] = "ev_forbidden"
     actual["checks"][2]["alternatives"] = [{"evidenceRef": "ev_one"}]
     actual["evidence"].extend([{"evidenceId": "ev_forbidden"}, {"evidenceId": "ev_one"}])
-    categories = {
-        item["category"] for item in compare_result("D001", actual, oracle, ordered)
-    }
+    categories = {item["category"] for item in compare_result("D001", actual, oracle, ordered)}
     assert categories == {"evidence_forbidden", "alternatives"}
 
 
 def test_compare_error_requires_exact_status_code_and_result_absence() -> None:
-    oracle = {
-        "error": {"http": 422, "code": "invalid_image", "resultMustBeAbsent": True}
-    }
+    oracle = {"error": {"http": 422, "code": "invalid_image", "resultMustBeAbsent": True}}
     assert compare_error("D019", 422, {"code": "invalid_image"}, oracle) == []
     failures = compare_error(
         "D019",
