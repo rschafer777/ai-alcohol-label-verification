@@ -24,7 +24,7 @@ Build LabelVerify as a same-origin modular monolith:
 - one synchronous verification API and one long-lived killable OCR child process;
 - no application database, object store, durable queue, user account, or server session;
 - one multi-stage OCI image containing the built UI, API, rules, and hash-verified OCR assets;
-- Azure Container Apps Consumption as the selected demo host, using one 1 vCPU, 2 GiB container with zero to one replicas, subject to deployment readback and performance proof.
+- Azure Container Apps Consumption as the selected demo host, using one 2 vCPU, 4 GiB container with zero to one replicas, subject to deployment readback and performance proof.
 
 This shape is appropriate for a take-home because it minimizes operational surface, provides one public URL, keeps inference independent of outbound ML endpoints, and still enforces clean internal module contracts.
 
@@ -115,7 +115,7 @@ The deterministic domain contains contracts, parsers, comparison policies, rule 
 | Rules | Deterministic Python | Explainable and independently testable. Deliberately avoids generative judgment. |
 | Storage | Request-scoped files and memory only | Minimizes privacy scope. Refresh loses the result, which is disclosed. |
 | API style | Synchronous complete-result POST | Matches the five-second goal and avoids a queue or polling surface. Capacity must be bounded. |
-| Deployment | One same-origin OCI service on Azure Container Apps | One artifact and URL, GitHub OIDC deployment, managed-identity ACR pull, application-aware probes, and a bounded 1 vCPU/2 GiB Consumption profile. Scale to zero controls demo cost but can add cold-start delay. Final configuration and performance require platform readback. |
+| Deployment | One same-origin OCI service on Azure Container Apps | One artifact and URL, GitHub OIDC deployment, managed-identity ACR pull, application-aware probes, and a bounded 2 vCPU/4 GiB Consumption profile. Scale to zero controls demo cost but can add cold-start delay. Final configuration and performance require platform readback. |
 | Batch | GO for the bounded release extension | The single-submission core passed its gate. A browser-managed sequential coordinator reuses the existing API and supervised OCR worker for 1 to 300 manifest rows without a database, durable queue, ZIP parser, or second verification pipeline. |
 
 Primary technical references:
@@ -143,7 +143,7 @@ Primary technical references:
 | `BQ-008` Data lifecycle | Request-scoped only, content-free logs, no database, explicit cleanup, no required inference egress. |
 | `BQ-009` Limits | 6 files, 4 MiB each, 8 MiB aggregate encoded payload, 8,650,752 raw multipart bytes, 12 MP each, 36 MP cumulative, 20 second body deadline, 30 second server deadline, 35 second browser terminal deadline, 6.25 second worker deadline, one OCR job, and two admitted requests. Cancellation and response races follow LV-I2R-002. |
 | `BQ-010` Languages and dependencies | Python 3.12 and TypeScript, exact lockfiles, reviewed licenses, hash-verified models, multi-stage container. |
-| `BQ-011` Deployment | Azure Container Apps Consumption in Central US, one non-root container with 1 vCPU, 2 GiB, zero to one replicas, single-revision ingress, application-aware startup/liveness/readiness probes, private ACR pull through a user-assigned identity limited to image pull, and GitHub OIDC deployment. |
+| `BQ-011` Deployment | Azure Container Apps Consumption in Central US, one non-root container with 2 vCPU, 4 GiB, zero to one replicas, single-revision ingress, application-aware startup/liveness/readiness probes, private ACR pull through a user-assigned identity limited to image pull, and GitHub OIDC deployment. |
 | `BQ-012` Validation corpus | At least 24 deterministic submissions with 6 sealed holdouts; current architecture evidence uses 37 cases and 74 repeated runs but does not replace the product fixture gate. |
 | `BQ-013` Batch | GO. Implement and validate the bounded client coordinator defined in the batch architecture addendum. |
 | `BQ-014` Operations | Liveness, fail-closed readiness, safe metadata endpoint, allowlisted stage timings, request IDs, no raw content, immutable release manifest, post-deploy smoke and rollback digest. |
@@ -160,7 +160,7 @@ The retained I2R feasibility slice supports the architecture direction:
 | Security controls | Parser, raw-body, slow upload, two-copy spool, admission, rate, and recovery probes pass | Selected limits are implementable on the real stack |
 | Runtime controls | Timeout, repeated cancellation, abort storm, shutdown, child replacement, and cleanup probes pass | Killable worker design is feasible |
 | Cold start | 5 runs, conservative p95 10,949.98 ms | BR-026 is not yet closed; development must optimize startup and deployed restart proof must pass |
-| Peak observed process memory | 801,320,960 bytes during cold testing | Supports 2 GiB deployment with margin, subject to deployed readback |
+| Peak observed process memory | 801,320,960 bytes during cold testing | Supports the 4 GiB Azure deployment with margin, subject to deployed readback |
 
 Evidence resides under `docs/baird/evidence` because it was produced before the process correction. It is classified as I2R technical evidence. It is not BAIRD requirements authority.
 

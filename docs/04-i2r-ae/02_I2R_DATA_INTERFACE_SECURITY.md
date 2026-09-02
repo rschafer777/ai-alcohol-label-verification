@@ -254,7 +254,7 @@ Response headers:
 - Multi-stage build: Node builds static UI; Python runtime receives only production Python dependencies, UI output, rules, sample assets, and OCR models.
 - Runtime user is non-root with a read-only application filesystem and one writable request spool.
 - Static UI and API share one origin.
-- Azure Container Apps Consumption runs one 1 vCPU, 2 GiB non-root container with zero to one replicas and single-revision ingress.
+- Azure Container Apps Consumption runs one 2 vCPU, 4 GiB non-root container with zero to one replicas and single-revision ingress. The two vCPU allocation matches the two governed OCR lanes and prevents the public two-panel sample from competing four ONNX Runtime threads on a single vCPU.
 - Startup and liveness probes call `/health/live`; readiness calls `/health/ready`. Each internal HTTP probe supplies the governed Host value so production Host validation remains enabled.
 - The ACR pull identity is available to the platform for image pull but is configured with identity lifecycle `None`, so application code cannot obtain its access token.
 - GitHub Actions authenticates through the environment-scoped OIDC federation and deploys an immutable image digest. No client secret, registry password, or publishing profile is used.

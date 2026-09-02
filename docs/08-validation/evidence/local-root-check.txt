@@ -38,7 +38,7 @@ tests\validation\test_test_images_validator.py ..................        [100%]
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 197 passed, 1 warning in 43.26s =======================
+======================= 197 passed, 1 warning in 43.42s =======================
 
 > labelverify-frontend@0.1.0 lint
 > eslint . --max-warnings 0
@@ -57,8 +57,8 @@ tests\validation\test_test_images_validator.py ..................        [100%]
 
  Test Files  9 passed (9)
       Tests  46 passed (46)
-   Start at  19:47:19
-   Duration  5.36s (transform 892ms, setup 4.04s, import 2.23s, tests 4.92s, environment 17.77s)
+   Start at  20:06:43
+   Duration  5.39s (transform 912ms, setup 3.94s, import 2.24s, tests 4.87s, environment 17.45s)
 
 
 > labelverify-frontend@0.1.0 build
@@ -73,7 +73,7 @@ dist/index.html                   0.48 kB │ gzip:  0.30 kB
 dist/assets/index-DG0b-J5j.css   13.64 kB │ gzip:  4.01 kB
 dist/assets/index-BWuhx4XN.js   298.15 kB │ gzip: 89.43 kB
 
-✓ built in 157ms
+✓ built in 162ms
 
 > labelverify-frontend@0.1.0 test:e2e
 > playwright test
@@ -89,12 +89,12 @@ Running 6 tests using 1 worker
   -  6 [edge] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free
 
   3 skipped
-  3 passed (21.4s)
-[WebServer] INFO:     Started server process [87576]
+  3 passed (21.3s)
+[WebServer] INFO:     Started server process [60480]
 [WebServer] INFO:     Waiting for application startup.
 [WebServer] INFO:     Application startup complete.
 [WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-(node:51460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:81540) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
-(node:25552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:47720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)

@@ -15,7 +15,7 @@ The demo uses:
 
 - one Azure Container Apps Consumption environment in Central US;
 - one externally accessible Container App in single-revision mode;
-- one non-root LabelVerify container with 1 vCPU and 2 GiB memory;
+- one non-root LabelVerify container with 2 vCPU and 4 GiB memory;
 - zero to one replicas with an HTTP concurrency threshold of one;
 - one private Azure Container Registry;
 - one user-assigned identity with AcrPull for platform image retrieval;
@@ -77,7 +77,7 @@ The workflow fails unless Azure readback proves:
 - the expected FQDN and external TLS-only ingress;
 - single-revision mode;
 - the exact immutable image digest;
-- exactly one 1 vCPU/2 GiB container;
+- exactly one 2 vCPU/4 GiB container;
 - zero to one replicas and concurrency one;
 - exactly one ACR registry binding using the pull identity;
 - pull-identity lifecycle `None`;
@@ -85,7 +85,7 @@ The workflow fails unless Azure readback proves:
 - all three application-aware probes and their Host header;
 - zero application secrets and zero volumes.
 
-The public smoke gate then requires application readiness, build metadata equal to the deployed Git revision, the governed sample, one complete 19-check verification, HTTP to HTTPS redirect, and HSTS.
+The public smoke gate then requires application readiness, build metadata equal to the deployed Git revision, the governed sample, three consecutive complete 19-check verifications, a mean server duration below 5 seconds, no duration at or above 9 seconds, retained duration statistics, HTTP to HTTPS redirect, and HSTS.
 
 ## 7. Data movement and storage
 

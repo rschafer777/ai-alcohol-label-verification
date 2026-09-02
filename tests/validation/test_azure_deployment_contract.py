@@ -56,7 +56,7 @@ def test_deployment_template_has_the_governed_runtime_shape() -> None:
     assert len(runtime["containers"]) == 1
     container = runtime["containers"][0]
     assert container["name"] == "labelverify"
-    assert container["resources"] == {"cpu": 1.0, "memory": "2Gi"}
+    assert container["resources"] == {"cpu": 2.0, "memory": "4Gi"}
     assert {item["name"]: item["value"] for item in container["env"]}[
         "LABELVERIFY_CLIENT_IDENTITY_SOURCE"
     ] == "azure_container_apps"
@@ -103,6 +103,14 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
     assert "Origin: $base_url" in workflow
     assert "selectedCheckCount == 19" in workflow
     assert '.summary == "Review needed"' in workflow
+    assert "for attempt in 1 2 3; do" in workflow
+    assert 'length == 3 and' in workflow
+    assert '(.serverDurationMs | type) == "number"' in workflow
+    assert ".serverDurationMs >= 0" in workflow
+    assert '((map(.serverDurationMs) | add) / length) < 5000' in workflow
+    assert '(map(.serverDurationMs) | max) < 9000' in workflow
+    assert "durationsMs: map(.serverDurationMs)" in workflow
+    assert "Full-sample server durations and statistics" in workflow
     assert "scripts/validate_product_corpus.py" in workflow
     assert "$global:LASTEXITCODE = 0" in root_gate
     assert "git grep -n -I -P" in root_gate
@@ -139,6 +147,8 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
     assert deployment_gate in workflow[deploy_start:deploy_end]
     assert "docker logs \"$container_name\"" in workflow
     assert ".properties.configuration.ingress.fqdn == $host" in workflow
+    assert ".properties.template.containers[0].resources.cpu == 2" in workflow
+    assert '.properties.template.containers[0].resources.memory == "4Gi"' in workflow
     assert '.properties.configuration.identitySettings[0].lifecycle == "None"' in workflow
     assert ".identity.userAssignedIdentities | keys | map(ascii_downcase)" in workflow
     assert '.httpGet.path == "/health/ready"' in workflow

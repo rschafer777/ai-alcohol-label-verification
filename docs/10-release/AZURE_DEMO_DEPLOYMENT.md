@@ -1,7 +1,7 @@
 # Azure Demo Deployment
 
 **Document ID:** LV-REL-004  
-**Status:** Deployment contract implemented, runtime font correction pending live proof  
+**Status:** Deployment contract implemented, Azure performance correction pending live proof  
 **Environment:** GitHub environment `demo`
 
 ## 1. Purpose
@@ -56,7 +56,7 @@ The workflow fails before Azure authentication if a required non-secret value is
 - external ingress on port 8080;
 - automatic HTTP transport with insecure ingress disabled;
 - single revision mode;
-- one container, one vCPU, and 2 GiB memory;
+- one container, two vCPU, and 4 GiB memory;
 - minimum zero and maximum one replica;
 - HTTP concurrency scale threshold of one;
 - local RapidOCR inference inside the container;
@@ -72,7 +72,7 @@ The workflow reads the effective Azure resource and fails unless the actual FQDN
 1. the public readiness endpoint;
 2. build metadata bound to the deployed commit;
 3. the built-in sample package;
-4. a complete 19-check governed-sample verification with the exact expected Review outcome, no Mismatch, and only the two documented warning limitations;
+4. three consecutive complete 19-check governed-sample verifications with the exact expected Review outcome, no Mismatch, only the two documented warning limitations, a mean server duration below 5 seconds, and no run at or above 9 seconds;
 5. HTTP redirection to HTTPS;
 6. the HSTS response header.
 
@@ -101,3 +101,5 @@ Run `33570716009` passed the complete release gate, privacy scan, and 30-case pr
 Run `33572176211` proved the corrected OIDC exchange, governed prior-state check, and private-registry authentication. The multi-stage image build then exposed that the frontend stage copied `frontend/` but not the root `contracts/` registry imported during TypeScript compilation. The build stopped before image push completion and before the workflow's Container App mutation boundary. The Dockerfile now copies the root contracts into the frontend build context before compilation, and a deployment-contract regression test enforces that order. The corrected local gate passed 192 Python tests, 46 frontend tests, the production build, and the required browser journeys.
 
 Run `33573352505` passed the release gate, privacy scan, product corpus, OIDC exchange, registry authentication, immutable image build and push, and Azure ARM deployment. The new revision never became ready because RapidOCR warmup attempted to download its default `FZYTK.TTF` visualization font into the read-only Python package directory. The container correctly denied that write, but the worker exited before readiness. A live read-only container console diagnostic established the exact exception. The governed rollback job then succeeded and removed the failed first application. The application now fetches DejaVu Sans 2.37 from its official release archive only during controlled setup or build, verifies both archive and extracted-file SHA-256 values, marks the font read-only, and passes its local absolute path to RapidOCR. The workflow now runs the built digest locally and requires readiness plus metadata before marking the Container App mutation boundary.
+
+Run `33577226574` passed every protected source gate, the exact-archive privacy scan, all 30 governed product cases, OIDC authentication, immutable OCI build and push, local digest readiness, Azure effective-configuration readback, HTTPS controls, and one complete public sample verification. It deployed commit `4024aded5beae416d471f13cbdb5563572a06328` with image digest `sha256:5521af5a3714cfb78f5329f91213ae1ef1a79c392a502b16c94697e345803715`. Independent browser UAT then reproduced a real 504 worker timeout on the two-panel built-in sample, including a retry. A direct public API attempt reached the same 6.25-second boundary. The original 1 vCPU profile forced two OCR lanes, each configured for two ONNX Runtime threads, to compete for one vCPU. The correction assigns 2 vCPU and 4 GiB to the single scale-to-zero replica, keeps concurrency at one, and strengthens the deployment gate from one sample attempt to three consecutive attempts with a mean below 5 seconds and no attempt at or above 9 seconds. This correction requires a new immutable workflow result before the deployed performance assertion can pass.

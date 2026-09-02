@@ -352,8 +352,8 @@ jobs:
               (.properties.template.containers | length) == 1 and
               .properties.template.containers[0].name == "labelverify" and
               .properties.template.containers[0].image == $image and
-              .properties.template.containers[0].resources.cpu == 1 and
-              .properties.template.containers[0].resources.memory == "2Gi" and
+              .properties.template.containers[0].resources.cpu == 2 and
+              .properties.template.containers[0].resources.memory == "4Gi" and
               (any(.properties.template.containers[0].env[];
                 .name == "LABELVERIFY_RUNTIME_MODE" and .value == "production")) and
               (any(.properties.template.containers[0].env[];
@@ -426,26 +426,38 @@ jobs:
             panel_args+=(--form "panels=@${panel_path}")
           done
           reference="$(jq -c '.reference' "$work/sample.json")"
-          curl --fail --silent --show-error --max-time 40 \
-            --header "Origin: $base_url" \
-            --form-string "reference=$reference" \
-            "${panel_args[@]}" \
-            "$base_url/api/v1/verifications" >"$work/result.json"
-          jq -e --arg sha "$GITHUB_SHA" \
-            '.buildId == $sha and
-             .profileId == "distilled_spirits_demo_v1" and
-             (.checks | length) == 19 and
-             .summary == "Review needed" and
-             ([.checks[] |
-               select(.applicable == true and .state == "Mismatch")] |
-               length) == 0 and
-             ([.checks[] |
-               select(.applicable == true and .state != "Match") |
-               [.checkId, .state]] | sort) ==
-               [["warning_physical_size", "Not verified"],
-                ["warning_wording", "Review"]] and
-             .serverDurationMs < 30000' \
-            "$work/result.json" >/dev/null
+          for attempt in 1 2 3; do
+            curl --fail --silent --show-error --max-time 40 \
+              --header "Origin: $base_url" \
+              --form-string "reference=$reference" \
+              "${panel_args[@]}" \
+              "$base_url/api/v1/verifications" >"$work/result-${attempt}.json"
+          done
+          jq -s -e --arg sha "$GITHUB_SHA" \
+            'length == 3 and
+             all(.[];
+               .buildId == $sha and
+               .profileId == "distilled_spirits_demo_v1" and
+               (.serverDurationMs | type) == "number" and
+               .serverDurationMs >= 0 and
+               (.checks | length) == 19 and
+               .summary == "Review needed" and
+               ([.checks[] |
+                 select(.applicable == true and .state == "Mismatch")] |
+                 length) == 0 and
+               ([.checks[] |
+                 select(.applicable == true and .state != "Match") |
+                 [.checkId, .state]] | sort) ==
+                 [["warning_physical_size", "Not verified"],
+                  ["warning_wording", "Review"]]) and
+             ((map(.serverDurationMs) | add) / length) < 5000 and
+             (map(.serverDurationMs) | max) < 9000' \
+            "$work"/result-*.json >/dev/null
+          performance_json="$(jq -s -c \
+            '{durationsMs: map(.serverDurationMs),
+              meanMs: ((map(.serverDurationMs) | add) / length),
+              maximumMs: (map(.serverDurationMs) | max)}' \
+            "$work"/result-*.json)"
 
           redirect_status="$(curl --silent --show-error --output /dev/null \
             --write-out '%{http_code}' --max-time 20 \
@@ -461,7 +473,8 @@ jobs:
             echo "- Revision: \`${GITHUB_SHA}\`"
             echo "- Image digest: \`${{ steps.build.outputs.digest }}\`"
             echo "- Public URL: ${base_url}"
-            echo "- ARM contract, HTTPS redirect, readiness, build metadata, and full sample verification: PASS"
+            echo "- ARM contract, HTTPS redirect, readiness, build metadata, and three-run full-sample performance gate: PASS"
+            echo "- Full-sample server durations and statistics: \`${performance_json}\`"
           } >>"$GITHUB_STEP_SUMMARY"
 
 
