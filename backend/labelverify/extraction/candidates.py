@@ -94,6 +94,10 @@ _SCALE = re.compile(r"\b(?:reference|synthetic)?\s*scale\s*:\s*(\d+(?:\.\d+)?)\s
 _ADMINISTRATIVE = re.compile(
     r"\b(?:test\s+label|reference\s+scale|synthetic\s+scale|lot\s*:)\b", re.I
 )
+_NON_BRAND_CONTEXT = re.compile(
+    r"(?:\b(?:enjoy|drink)\s+responsibl[a-z]*\b|https?://|www\.|\.(?:com|org|net)\b)",
+    re.I,
+)
 _WARNING_THRESHOLDS = contracts().rules["warning"]["visualDecisionThresholds"]
 
 
@@ -342,6 +346,8 @@ def _brand_candidates(
         and 2 <= len(whitespace(line.text)) <= 160
         and any(character.isalpha() for character in line.text)
         and not _ADMINISTRATIVE.search(line.text)
+        and not _NON_BRAND_CONTEXT.search(line.text)
+        and not _looks_like_ocr_noise(line.text)
         and not _looks_like_warning_body_text(line.text)
     ]
     if not eligible:
@@ -363,6 +369,11 @@ def _brand_candidates(
         status="Found",
         candidates=[Candidate(value=value, evidence=factory.from_lines("brand", group, value))],
     )
+
+
+def _looks_like_ocr_noise(value: str) -> bool:
+    letters = [character.casefold() for character in value if character.isalpha()]
+    return len(letters) >= 12 and len(set(letters)) <= 3
 
 
 def _warning_interruption_orders(lines: list[OcrLine]) -> set[int]:

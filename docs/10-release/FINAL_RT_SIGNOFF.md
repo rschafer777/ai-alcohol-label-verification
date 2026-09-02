@@ -2,8 +2,8 @@
 
 Document ID: LV-RT-001  
 Review date: 2026-09-02  
-Release manifest SHA-256: `BC8DC3AB3D61B9E0FAB4B1C04A47E96773496ECD0981F3BBA2826C441161F8E8`  
-Manifest entries: 301
+Release manifest SHA-256: `E9735E8EAD2F6407C0E818CA86ED17BD44F9CF9E9DEDFB18DD05BF4FA9E5C483`  
+Manifest entries: 302
 
 ## Decisions
 
@@ -19,7 +19,8 @@ Manifest entries: 301
 - The working tree contained no unstaged or untracked release content during review.
 - Beer or malt beverage, wine, distilled spirits, and unresolved conflicts use the documented 24-row rule contract.
 - Single-product, batch, evidence, warning, human disposition, and 500-record history workflows match the requirements.
-- Validation evidence binds to the reviewed source and reports 224 Python tests, 9 frontend tests, 30 of 30 governed products, 576 of 576 expected rows, 8 of 8 mutation controls, and a passing 50-image diagnostic.
+- Validation evidence binds to the reviewed source and reports 225 Python tests, 9 frontend tests, 30 of 30 governed products, 576 of 576 expected rows, 8 of 8 mutation controls, and a passing 50-image diagnostic.
+- A private difficult-beer diagnostic confirms generic OCR noise exclusion, correct malt-beverage routing, 24 checks, conservative human review, and completion within the difficult-image target without redistributing the image.
 - Warm, cold, difficult-image, and sequential batch timing gates pass.
 - No release-blocking security, delivery, requirements, or public-documentation issue remains.
 

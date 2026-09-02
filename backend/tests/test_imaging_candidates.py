@@ -216,6 +216,22 @@ def test_brand_selection_is_independent_of_panel_order() -> None:
     assert mixed_case.field("brand").candidates[0].value == "Stone's Throw"
 
 
+def test_brand_selection_rejects_ocr_texture_responsibility_and_web_noise() -> None:
+    observed = locate_candidates(
+        [
+            line("OOOENNENNONNNNNEONNNENNNNNENNNONNONNNNNN", 0, y=10, height=180),
+            line("ENJOY RESPONSIBLYA", 1, y=210, height=110),
+            line("REVOLVERBREWING.COM", 2, y=340, height=90),
+            line("REVOLVER BREWING", 3, y=450, height=60),
+            line("TEXAS STYLE ALE", 4, y=530, height=40),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").status == "Found"
+    assert observed.field("brand").candidates[0].value == "REVOLVER BREWING"
+
+
 def test_warning_body_interruption_cannot_become_brand() -> None:
     observed = locate_candidates(
         [

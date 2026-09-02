@@ -1,0 +1,42 @@
+{
+  "evidenceId": "T-035-C-PRIVATE-DIFFICULT-BEER-DIAGNOSTIC",
+  "executedAt": "2026-09-02T18:05:00-05:00",
+  "status": "PASS",
+  "scope": "Private real-image diagnostic for a difficult malt-beverage label",
+  "fixture": {
+    "name": "RevolverBrewing.png",
+    "sha256": "134d76be05e4adaf2953c38103ba21578f48cc7b314893b640cd41ef061f73a8",
+    "bytes": 2735706,
+    "widthPixels": 1800,
+    "heightPixels": 1350,
+    "imageRedistributed": false,
+    "redistributionReason": "Public redistribution rights were not established"
+  },
+  "acceptance": {
+    "admittedWithinUploadLimits": true,
+    "expectedBeverageType": "malt_beverage",
+    "observedBeverageType": "malt_beverage",
+    "expectedClassOrType": "TEXAS STYLE ALE",
+    "observedClassOrType": "TEXAS STYLE ALE",
+    "selectedCheckCount": 24,
+    "summary": "Review needed",
+    "falseClear": false,
+    "falseDeterministicRejection": false,
+    "serverDurationMs": 4579,
+    "difficultImageTargetMs": 9000
+  },
+  "candidateObservation": {
+    "brandDraft": "REVOLVERBRE",
+    "interpretation": "The generic noise filter removed a repeated-character bottle-edge artifact, responsibility text, and a web address. The remaining partial OCR draft requires human confirmation and is not presented as a verified application value."
+  },
+  "imageConditions": [
+    "Front and side views are composited into one image",
+    "The warning is small and rotated relative to the image",
+    "Some mandatory statements are cropped or below recommended character density"
+  ],
+  "sourceBindings": {
+    "backend/labelverify/extraction/candidates.py": "03eaaeb1ccee46b78075f4343995fbe80babaad34c101f116a53a47f68c240c7",
+    "backend/labelverify/orchestration/pipeline.py": "3c8fc666000c010edf5869bdd2a71a9ec6d2473825d85d0e77b764ff8f201a24",
+    "contracts/regulatory-rules-v1.json": "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149"
+  }
+}

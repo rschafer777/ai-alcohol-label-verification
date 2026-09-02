@@ -10,7 +10,7 @@ Status: Local release gates passed; immutable deployment verification follows co
 | --- | --- |
 | Ruff | PASS, zero findings |
 | Strict mypy | PASS, 36 source files |
-| Pytest | PASS, 224 tests |
+| Pytest | PASS, 225 tests |
 | ESLint | PASS, zero findings |
 | TypeScript | PASS, zero errors |
 | Vitest and Testing Library | PASS, 9 tests |
@@ -33,16 +33,16 @@ The governed 50-image diagnostic reported:
 - zero false clearances
 - zero false deterministic rejections
 - 30 of 33 positive images meeting the evidence-recognition gate, or 90.909 percent
-- all-image mean 3,358.920 ms
+- all-image mean 3,215.774 ms
 - 23 of 24 normal images within 5 seconds, or 95.833 percent
-- all 13 difficult images within 9 seconds, with a maximum of 4,927.729 ms
+- all 13 difficult images within 9 seconds, with a maximum of 4,448.189 ms
 - overall diagnostic result PASS
 
 The diagnostic is intentionally conservative because the raw images do not contain independent COLA records, formula facts, chemistry, or trustworthy physical scale. Its detailed per-image report is `TEST_IMAGES_VALIDATION_REPORT.md`; raw images are not included in the public repository.
 
 ## Performance validation
 
-The governed full-sample profile completed 30 warm runs with a p95 of 3,107.692 ms and a maximum of 4,006.515 ms. Five cold worker-readiness-through-first-result runs had a p95 and maximum of 6,846.503 ms, below the separate 10-second cold threshold. The 20-product sequential batch completed in 58.137 seconds with a 2,903.200 ms arithmetic mean and a 4,390.521 ms maximum. Every run returned the expected summary and all 24 checks. The warm, cold, and batch performance gates passed.
+The governed full-sample profile completed 30 warm runs with a p95 of 2,813.064 ms and a maximum of 3,661.129 ms. Five cold worker-readiness-through-first-result runs had a p95 and maximum of 6,524.414 ms, below the separate 10-second cold threshold. The 20-product sequential batch completed in 54.099 seconds with a 2,701.306 ms arithmetic mean and a 4,176.903 ms maximum. Every run returned the expected summary and all 24 checks. The warm, cold, and batch performance gates passed.
 
 ## Security and dependency validation
 
@@ -63,6 +63,8 @@ No critical or high security finding remains unresolved. Python and production n
 ## Integrated interface validation
 
 The Fable interface was exercised against the real local API and OCR worker. The built-in two-panel distilled-spirits sample completed in 4.0 seconds. The reviewer could inspect the 24 checks, select brand evidence and see `OLD TOM DISTILLERY` on the original image, open the exact-warning view, save an Approve disposition without changing machine findings, and reopen the result, source panels, note, checks, and evidence from History.
+
+A private 1,800 by 1,350 real-image beer diagnostic exercised a composited front-and-side view with small rotated warning text. It completed in 4,579 ms, inferred `malt_beverage`, read `TEXAS STYLE ALE`, returned all 24 checks, and conservatively produced Review needed. Generic candidate controls excluded a repeated-character bottle-edge artifact, responsibility text, and a web address from the brand draft. The remaining partial brand reading stays subject to human confirmation. The image is not redistributed; its hash, conditions, result, and exact source bindings are recorded in `evidence/private-difficult-beer-diagnostic.json`.
 
 ## Remaining release-bound checks
 

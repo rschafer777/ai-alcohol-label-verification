@@ -36,7 +36,7 @@ QC verifies the produced artifact:
 
 ## QA and QC execution result
 
-The release candidate passed the 224-test Python suite, strict typing, Python and frontend linting, nine frontend component and contract tests, the production frontend build, Chrome and Edge primary workflows, the Chrome privacy matrix, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The 50-image diagnostic contained every expected defect with no false clearance or false deterministic rejection. Warm, cold, and 20-product sequential timing gates passed. Security boundary tests, staged-source inspection, and production dependency audits found no unresolved release blocker. Detailed measurements and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
+The release candidate passed the 225-test Python suite, strict typing, Python and frontend linting, nine frontend component and contract tests, the production frontend build, Chrome and Edge primary workflows, the Chrome privacy matrix, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The 50-image diagnostic contained every expected defect with no false clearance or false deterministic rejection. Warm, cold, and 20-product sequential timing gates passed. Security boundary tests, staged-source inspection, and production dependency audits found no unresolved release blocker. Detailed measurements and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
 
 ## UAT script
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "evidenceId": "T-032-B-LOCAL-PRODUCT-CORPUS",
-  "createdAtUtc": "2026-09-02T22:32:31.198828+00:00",
+  "createdAtUtc": "2026-09-02T23:06:26.928953+00:00",
   "command": "uv run python scripts/validate_product_corpus.py",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
@@ -39,7 +39,7 @@
       "backend/labelverify/domain/types.py": "1ce049986bc54c1684abef1e0fc05a2c4bd26be1106a88e1eb055f42b3073f41",
       "backend/labelverify/domain/warnings.py": "dd79e461c2d03bd40f9afeeb8b11da1e7fda9d28fbf318de1607c535ab5a7867",
       "backend/labelverify/extraction/__init__.py": "fae7cbfab6eb987a5d8cd1dfdebaaca2a0bbfe527d0f1ec4f27fda0e71d366d8",
-      "backend/labelverify/extraction/candidates.py": "12b913224d693e7197bb689c116abae3595a4b1584066adaf505624c7d822ac9",
+      "backend/labelverify/extraction/candidates.py": "03eaaeb1ccee46b78075f4343995fbe80babaad34c101f116a53a47f68c240c7",
       "backend/labelverify/extraction/port.py": "e76ff239aa65e8ab9e3aa580205b915a006bc8e5b8faca6fa0e65634c81a221d",
       "backend/labelverify/extraction/rapidocr_adapter.py": "dd034682f5df1073054b67468140d46d98e596af3c185eb920ca9925834d2333",
       "backend/labelverify/imaging/__init__.py": "80133b1eb3bbb463edc17e33de6d31d09d92809a960bbb31d4e35f7e2ed14a78",
@@ -148,7 +148,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4690.056,
+        "durationMs": 4330.196,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -160,7 +160,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 4687.0,
+          "serverDurationMs": 4328.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -175,7 +175,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3679.306,
+        "durationMs": 3642.1,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -187,7 +187,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 3656.0,
+          "serverDurationMs": 3625.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -202,7 +202,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3797.779,
+        "durationMs": 3487.575,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -214,7 +214,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 3781.0,
+          "serverDurationMs": 3468.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -229,7 +229,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4072.012,
+        "durationMs": 3505.027,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -241,7 +241,7 @@
           "summary": "Differences detected",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 4062.0,
+          "serverDurationMs": 3500.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -256,7 +256,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3398.053,
+        "durationMs": 3042.5,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -268,7 +268,7 @@
           "summary": "Differences detected",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 3375.0,
+          "serverDurationMs": 3031.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -283,7 +283,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3568.368,
+        "durationMs": 3283.509,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -295,7 +295,7 @@
           "summary": "Differences detected",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 3547.0,
+          "serverDurationMs": 3265.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -310,7 +310,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4681.18,
+        "durationMs": 4459.117,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -322,7 +322,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 9,
-          "serverDurationMs": 4672.0,
+          "serverDurationMs": 4437.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -337,7 +337,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3505.381,
+        "durationMs": 3432.63,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -349,7 +349,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 7,
-          "serverDurationMs": 3485.0,
+          "serverDurationMs": 3422.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -364,7 +364,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4424.803,
+        "durationMs": 3809.272,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -376,7 +376,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 10,
-          "serverDurationMs": 4406.0,
+          "serverDurationMs": 3797.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -391,7 +391,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3397.606,
+        "durationMs": 3118.449,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -403,7 +403,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 9,
-          "serverDurationMs": 3375.0,
+          "serverDurationMs": 3094.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -418,7 +418,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4327.833,
+        "durationMs": 4164.684,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -430,7 +430,7 @@
           "summary": "Differences detected",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 4312.0,
+          "serverDurationMs": 4157.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -445,7 +445,34 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4147.277,
+        "durationMs": 3799.59,
+        "expected": {
+          "summary": "Review needed",
+          "errorCode": null,
+          "checkCount": 24
+        },
+        "observed": {
+          "kind": "result",
+          "httpStatus": 200,
+          "summary": "Review needed",
+          "checkCount": 24,
+          "evidenceCount": 8,
+          "serverDurationMs": 3796.0,
+          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+          "buildId": "local-release"
+        },
+        "falseClean": false,
+        "failureCount": 0,
+        "failures": [],
+        "pass": true
+      },
+      {
+        "caseId": "D013",
+        "partition": "development",
+        "sealed": false,
+        "expectedKind": "result",
+        "executionPath": "production_api",
+        "durationMs": 4135.047,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -467,39 +494,12 @@
         "pass": true
       },
       {
-        "caseId": "D013",
-        "partition": "development",
-        "sealed": false,
-        "expectedKind": "result",
-        "executionPath": "production_api",
-        "durationMs": 4385.911,
-        "expected": {
-          "summary": "Review needed",
-          "errorCode": null,
-          "checkCount": 24
-        },
-        "observed": {
-          "kind": "result",
-          "httpStatus": 200,
-          "summary": "Review needed",
-          "checkCount": 24,
-          "evidenceCount": 8,
-          "serverDurationMs": 4375.0,
-          "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "local-release"
-        },
-        "falseClean": false,
-        "failureCount": 0,
-        "failures": [],
-        "pass": true
-      },
-      {
         "caseId": "D014",
         "partition": "development",
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3636.3,
+        "durationMs": 3558.981,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -511,7 +511,7 @@
           "summary": "Differences detected",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 3625.0,
+          "serverDurationMs": 3547.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -526,7 +526,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4244.055,
+        "durationMs": 4061.113,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -538,7 +538,7 @@
           "summary": "Differences detected",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 4234.0,
+          "serverDurationMs": 4046.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -553,7 +553,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4705.447,
+        "durationMs": 4460.783,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -565,7 +565,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 4703.0,
+          "serverDurationMs": 4453.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -580,7 +580,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2539.119,
+        "durationMs": 2488.44,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -592,7 +592,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 0,
-          "serverDurationMs": 2515.0,
+          "serverDurationMs": 2469.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -607,7 +607,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 1779.992,
+        "durationMs": 1753.112,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -619,7 +619,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 5,
-          "serverDurationMs": 1766.0,
+          "serverDurationMs": 1750.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -634,7 +634,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 49.601,
+        "durationMs": 144.275,
         "expected": {
           "summary": null,
           "errorCode": "invalid_image",
@@ -657,7 +657,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 10.244,
+        "durationMs": 9.195,
         "expected": {
           "summary": null,
           "errorCode": "unsupported_media_type",
@@ -680,7 +680,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 4.393,
+        "durationMs": 4.667,
         "expected": {
           "summary": null,
           "errorCode": "invalid_panel_count",
@@ -703,7 +703,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 7.684,
+        "durationMs": 7.388,
         "expected": {
           "summary": null,
           "errorCode": "multipart_limit_exceeded",
@@ -726,7 +726,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 17.084,
+        "durationMs": 34.707,
         "expected": {
           "summary": null,
           "errorCode": "decoded_pixel_limit",
@@ -749,7 +749,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api_controlled_timeout",
-        "durationMs": 55.958,
+        "durationMs": 39.334,
         "expected": {
           "summary": null,
           "errorCode": "inference_timeout",
@@ -772,7 +772,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4266.271,
+        "durationMs": 3877.584,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -784,7 +784,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 9,
-          "serverDurationMs": 4250.0,
+          "serverDurationMs": 3859.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -799,7 +799,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4765.687,
+        "durationMs": 4223.921,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -811,7 +811,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 7,
-          "serverDurationMs": 4750.0,
+          "serverDurationMs": 4203.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -826,7 +826,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3699.052,
+        "durationMs": 3355.033,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -838,7 +838,7 @@
           "summary": "Differences detected",
           "checkCount": 24,
           "evidenceCount": 10,
-          "serverDurationMs": 3687.0,
+          "serverDurationMs": 3344.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -853,7 +853,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4440.67,
+        "durationMs": 4238.598,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -865,7 +865,7 @@
           "summary": "Differences detected",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 4437.0,
+          "serverDurationMs": 4234.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -880,7 +880,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 4356.263,
+        "durationMs": 3997.381,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -892,7 +892,7 @@
           "summary": "Review needed",
           "checkCount": 24,
           "evidenceCount": 8,
-          "serverDurationMs": 4344.0,
+          "serverDurationMs": 3984.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -907,7 +907,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2115.551,
+        "durationMs": 2015.075,
         "expected": {
           "summary": "No differences found in checked fields",
           "errorCode": null,
@@ -919,7 +919,7 @@
           "summary": "No differences found in checked fields",
           "checkCount": 24,
           "evidenceCount": 6,
-          "serverDurationMs": 2109.0,
+          "serverDurationMs": 2000.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
           "buildId": "local-release"
         },
@@ -936,7 +936,7 @@
         "operation": "rename_case_id",
         "target": "caseId",
         "invariant": "Results must not depend on fixture ID.",
-        "durationMs": 3370.761,
+        "durationMs": 3045.426,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [],
@@ -978,7 +978,7 @@
         "operation": "reverse_panels",
         "target": "panels",
         "invariant": "Evidence panel IDs may change but machine states must not.",
-        "durationMs": 3272.768,
+        "durationMs": 3093.102,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [],
@@ -1020,7 +1020,7 @@
         "operation": "replace_label_text",
         "target": "brand",
         "invariant": "A semantic brand mutation must change the brand result.",
-        "durationMs": 3852.386,
+        "durationMs": 3528.194,
         "expectedSummary": "Differences detected",
         "observedSummary": "Differences detected",
         "expectedChangedChecks": [
@@ -1066,7 +1066,7 @@
         "operation": "replace_label_text",
         "target": "warning_heading_uppercase",
         "invariant": "Warning capitalization cannot be inferred from the fixture name.",
-        "durationMs": 3856.989,
+        "durationMs": 3881.089,
         "expectedSummary": "Differences detected",
         "observedSummary": "Differences detected",
         "expectedChangedChecks": [
@@ -1112,7 +1112,7 @@
         "operation": "add_conflicting_candidate",
         "target": "country",
         "invariant": "Reference value cannot choose among conflicting observed candidates.",
-        "durationMs": 3502.423,
+        "durationMs": 3429.849,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [
@@ -1158,7 +1158,7 @@
         "operation": "replace_reference_value",
         "target": "abvPercent",
         "invariant": "Observed OCR must remain unchanged when only reference data changes.",
-        "durationMs": 3163.476,
+        "durationMs": 3020.12,
         "expectedSummary": "Differences detected",
         "observedSummary": "Differences detected",
         "expectedChangedChecks": [
@@ -1206,7 +1206,7 @@
         "operation": "remove_panel",
         "target": "back",
         "invariant": "Missing evidence cannot remain Match or clean.",
-        "durationMs": 1967.304,
+        "durationMs": 1896.17,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [
@@ -1268,7 +1268,7 @@
         "operation": "apply_blur",
         "target": "all_panels",
         "invariant": "Material degradation must affect quality and cannot create a clean result.",
-        "durationMs": 1361.496,
+        "durationMs": 1282.555,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [
@@ -1345,39 +1345,39 @@
     ],
     "workerStartups": [
       {
-        "readyMs": 3316.561,
+        "readyMs": 3375.841,
         "generation": 1,
-        "childPid": 78676,
+        "childPid": 78180,
         "workerDeadlineSeconds": 9.0
       },
       {
-        "readyMs": 3360.317,
+        "readyMs": 3200.456,
         "generation": 1,
-        "childPid": 54816,
+        "childPid": 41664,
         "workerDeadlineSeconds": 9.0
       },
       {
-        "readyMs": 3202.429,
+        "readyMs": 3161.619,
         "generation": 1,
-        "childPid": 54804,
+        "childPid": 4004,
         "workerDeadlineSeconds": 9.0
       },
       {
-        "readyMs": 3173.916,
+        "readyMs": 3165.882,
         "generation": 1,
-        "childPid": 52872,
+        "childPid": 54988,
         "workerDeadlineSeconds": 0.001
       },
       {
-        "readyMs": 3417.439,
+        "readyMs": 3175.164,
         "generation": 1,
-        "childPid": 27068,
+        "childPid": 43216,
         "workerDeadlineSeconds": 9.0
       },
       {
-        "readyMs": 3369.704,
+        "readyMs": 3176.598,
         "generation": 1,
-        "childPid": 44556,
+        "childPid": 44156,
         "workerDeadlineSeconds": 9.0
       }
     ]
