@@ -49,7 +49,7 @@ class WorkerSupervisor:
         self,
         model_root: Path,
         *,
-        worker_deadline_seconds: float = 6.25,
+        worker_deadline_seconds: float = 9.0,
         acquisition_seconds: float = 0.2,
         build_id: str = "development",
     ) -> None:

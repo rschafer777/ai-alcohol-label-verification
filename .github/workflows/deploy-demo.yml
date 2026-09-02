@@ -433,6 +433,16 @@ jobs:
               "${panel_args[@]}" \
               "$base_url/api/v1/verifications" >"$work/result-${attempt}.json"
           done
+          performance_json="$(jq -s -c \
+            '{durationsMs: map(.serverDurationMs),
+              meanMs: ((map(.serverDurationMs) | add) / length),
+              maximumMs: (map(.serverDurationMs) | max)}' \
+            "$work"/result-*.json)"
+          {
+            echo "## Azure public verification timings"
+            echo
+            echo "- Full-sample server durations and statistics: \`${performance_json}\`"
+          } >>"$GITHUB_STEP_SUMMARY"
           jq -s -e --arg sha "$GITHUB_SHA" \
             'length == 3 and
              all(.[];
@@ -453,12 +463,6 @@ jobs:
              ((map(.serverDurationMs) | add) / length) < 5000 and
              (map(.serverDurationMs) | max) < 9000' \
             "$work"/result-*.json >/dev/null
-          performance_json="$(jq -s -c \
-            '{durationsMs: map(.serverDurationMs),
-              meanMs: ((map(.serverDurationMs) | add) / length),
-              maximumMs: (map(.serverDurationMs) | max)}' \
-            "$work"/result-*.json)"
-
           redirect_status="$(curl --silent --show-error --output /dev/null \
             --write-out '%{http_code}' --max-time 20 \
             "http://${AZURE_CONTAINER_APP_FQDN}/")"
@@ -474,7 +478,6 @@ jobs:
             echo "- Image digest: \`${{ steps.build.outputs.digest }}\`"
             echo "- Public URL: ${base_url}"
             echo "- ARM contract, HTTPS redirect, readiness, build metadata, and three-run full-sample performance gate: PASS"
-            echo "- Full-sample server durations and statistics: \`${performance_json}\`"
           } >>"$GITHUB_STEP_SUMMARY"
 
 

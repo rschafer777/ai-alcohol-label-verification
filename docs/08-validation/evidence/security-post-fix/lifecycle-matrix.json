@@ -1,22 +1,22 @@
 {
   "schemaVersion": "1.0.0",
   "evidenceId": "T-029-T-041-SECURITY-POST-FIX",
-  "createdAtUtc": "2026-09-01T20:57:24.020858+00:00",
-  "completedAtUtc": "2026-09-01T20:58:06.890310+00:00",
+  "createdAtUtc": "2026-09-02T02:10:10.851238+00:00",
+  "completedAtUtc": "2026-09-02T02:11:12.955854+00:00",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
     "python": "3.12.10",
     "logicalCpuCount": 24
   },
   "snapshot": {
-    "snapshotId": "639d44283e0f97f0a08672d27de5087bb20b3090a8b0295b930589f759c49baa",
+    "snapshotId": "436322f067536eddbde0b59bb4b390e004cdc06b2798df067705b473ed17a47f",
     "files": {
       "backend/labelverify/api/app.py": "466705314eb1a4eecd32722de2b88dad3bbbf37d2de53902ac85aa886c428103",
       "backend/labelverify/api/multipart.py": "ff509d99122721533d2712fb37851bae2af91fbbb2cfc257cd8d76d44e949b57",
       "backend/labelverify/api/routes.py": "7b236eee1edade30ea1f17b3c9b0c196a15de317812c9ecff78419af3fda1a84",
       "backend/labelverify/imaging/decode.py": "117ce27a22f2775f0e14f863793153037d07bcbff615528c6a04c01ad4e677b4",
       "backend/labelverify/orchestration/pipeline.py": "9d81005d9069d30acc9fe4a0d5832ee64b2d5d17654c97efe4165c09f2299b8d",
-      "backend/labelverify/orchestration/supervisor.py": "fcd4647a938352939377326481256baa3da738d3ef60e3c6ba20e5e8c66a1908",
+      "backend/labelverify/orchestration/supervisor.py": "f1527c11f29ffbf75252fff398e3e993eb3983f6514379ce78768ccf8ec22e18",
       "backend/labelverify/security/boundary.py": "6d2268b8699c626536fe4840b118c05a3af6293ad02f3f6217da0993fe6cf7b6",
       "backend/labelverify/security/identity.py": "fd0bb4adc0f0c4592df98735dcfd8edb5b069c66b08d9c1e24bb164cb0c7ae04",
       "backend/labelverify/security/rate_limit.py": "97f62e717ca7b72a5e04df2419f3c8b117469530c57ff7b622ba20ce74191ed8",
@@ -25,12 +25,12 @@
       "backend/tests/test_multipart.py": "e6901c9615c7ccf5ed21c43c6dca8d4eb60818290fa564b7deca3ec37ed6c1e2",
       "backend/tests/test_security.py": "0840ec313cd511ff4454454abeacd26b780714d19959e4a53940b5d0cb44d12b",
       "backend/tests/test_supervisor_boundary.py": "3d3b8864f09ea4b9e553c233a60ccca00a823a51e8e6ebc97d0976dc8e5dafc9",
-      "contracts/api-contract-v1.json": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47",
+      "contracts/api-contract-v1.json": "cc6e9463792efd50447fce6303fb8307bd6b462f5695cafd3e7880298a71e72a",
       "contracts/error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
       "frontend/src/api/verification-client.ts": "cfd5279c0864263ade2cba1ca49dc8bed4d2385325566ea04afea2f6e2893843",
       "frontend/src/features/intake/sample-adapter.ts": "5b9de712227fbeb08ef813db25f02d4980deabe3deddd5bac8a8f21ff0d4f8cf",
       "pyproject.toml": "5ebc9abcc054f92d3f84226031c2e94f98896c9b406bf5d55cb91287e76d3da1",
-      "scripts/run_security_post_fix_validation.py": "c1272ccadc308ff11edf30c38bfbfa1eedd5df703b3d8cf81b436661b99b04fc",
+      "scripts/run_security_post_fix_validation.py": "3bfddfc138913f57dc4068317d45a562156320a555fc48ae44de5d476f53dfd7",
       "uv.lock": "10c5df8d6f51523afa40c38ef7a1f1660330ce8da2a2526d45afe6495aa1cc4c"
     }
   },
@@ -41,7 +41,7 @@
     "aggregateFileBytes": 8388608,
     "uploadDeadlineSeconds": 20.0,
     "serverDeadlineSeconds": 30.0,
-    "workerDeadlineSeconds": 6.25,
+    "workerDeadlineSeconds": 9.0,
     "admissions": 2,
     "reservationBytesPerAdmission": 17301504
   },
@@ -273,9 +273,9 @@
       "commandId": "focused-security-lifecycle",
       "command": "uv run pytest -q backend/tests/test_lifecycle_matrix.py backend/tests/test_api.py backend/tests/test_multipart.py backend/tests/test_security.py backend/tests/test_supervisor_boundary.py",
       "exitCode": 0,
-      "durationMs": 8277.44,
+      "durationMs": 8554.447,
       "status": "PASS",
-      "stdoutTail": "..................................................                       [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n50 passed, 1 warning in 7.48s",
+      "stdoutTail": "..................................................                       [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n50 passed, 1 warning in 7.67s",
       "stderrTail": "",
       "junit": [
         {
@@ -534,7 +534,7 @@
       "commandId": "ruff-check",
       "command": "uv run ruff check backend tests scripts ops",
       "exitCode": 0,
-      "durationMs": 783.164,
+      "durationMs": 821.276,
       "status": "PASS",
       "stdoutTail": "All checks passed!",
       "stderrTail": ""
@@ -543,7 +543,7 @@
       "commandId": "ruff-format-check",
       "command": "uv run ruff format --check backend/labelverify/orchestration/supervisor.py backend/labelverify/security/rate_limit.py backend/tests/test_lifecycle_matrix.py scripts/run_security_post_fix_validation.py",
       "exitCode": 0,
-      "durationMs": 753.665,
+      "durationMs": 823.795,
       "status": "PASS",
       "stdoutTail": "4 files already formatted",
       "stderrTail": ""
@@ -552,7 +552,7 @@
       "commandId": "strict-mypy",
       "command": "uv run mypy",
       "exitCode": 0,
-      "durationMs": 556.207,
+      "durationMs": 589.326,
       "status": "PASS",
       "stdoutTail": "Success: no issues found in 34 source files",
       "stderrTail": ""
@@ -561,9 +561,9 @@
       "commandId": "full-backend-validation",
       "command": "uv run pytest -q backend/tests tests",
       "exitCode": 0,
-      "durationMs": 32404.648,
+      "durationMs": 51207.7,
       "status": "PASS",
-      "stdoutTail": "........................................................................ [ 37%]\n........................................................................ [ 75%]\n...............................................                          [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n191 passed, 1 warning in 31.52s",
+      "stdoutTail": "........................................................................ [ 36%]\n........................................................................ [ 73%]\n.....................................................                    [100%]\n============================== warnings summary ===============================\n.venv\\Lib\\site-packages\\fastapi\\testclient.py:1\n  <repo>\\.venv\\Lib\\site-packages\\fastapi\\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n    from starlette.testclient import TestClient as TestClient  # noqa\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n197 passed, 1 warning in 50.29s",
       "stderrTail": ""
     }
   ],

@@ -158,7 +158,7 @@ Prohibited in logs: form values, OCR text, image bytes, filenames, evidence crop
 | Per-file / aggregate file payload | 4,194,304 / 8,388,608 bytes |
 | Total request-body deadline | 20.0 seconds from pre-body admission; activity does not reset it |
 | Worker acquisition deadline | 200 ms |
-| Worker execution safety deadline | 6.25 seconds |
+| Worker execution safety deadline | 9 seconds |
 | Server admission-to-response safety deadline | 30.0 seconds, including body, validation, decode, queue, inference, serialization, and response start |
 | Browser Verify-to-terminal safety deadline | 35.0 seconds, including client validation, upload, server work, transfer, render, and announcement |
 | Per-client start policy | 20 starts per 10 minutes and 1 active request |
@@ -184,7 +184,7 @@ Performance profiles are separate from maximum accepted input:
 3. After parent schema, byte, and signature validation, one admitted request acquires the worker. A second may wait up to 200 ms. Later requests are rejected before body read.
 4. A separate supervisor owns request files and worker capacity independently of caller cancellation. The child opens and fully decodes the files, enforces decoded-pixel limits, preprocesses, extracts, locates candidates, compares, and aggregates.
 5. Client disconnect suppresses response delivery but does not release capacity or delete files while the worker may still read them.
-6. At 6.25 seconds, including a stalled or malicious decode, the parent terminates and joins the child, clears readiness, returns a result-free 504 when delivery is possible, and cleans only after confirmed exit.
+6. At 9 seconds, including a stalled or malicious decode, the parent terminates and joins the child, clears readiness, returns a result-free 504 when delivery is possible, and cleans only after confirmed exit.
 7. A background replacement initializes and warms. New verification starts return 503 until readiness passes.
 8. Shutdown stops intake, drains supervisors through the deadline, terminates and joins any remaining child, deletes request directories, and confirms zero reservations.
 
@@ -193,7 +193,7 @@ Performance profiles are separate from maximum accepted input:
 - The server admission clock starts before any request body byte is read.
 - The non-resetting 20 second body deadline is nested inside the non-resetting 30 second server deadline.
 - Parent-side schema, byte, signature, and multipart validation remains inside the 30 second server deadline and performs no full image decode.
-- Full image decode, decoded-pixel enforcement, preprocessing, OCR, candidate location, comparison, and aggregation execute as one supervised child job. Worker acquisition is at most 200 ms and child execution is at most 6.25 seconds, both inside the 30 second server deadline.
+- Full image decode, decoded-pixel enforcement, preprocessing, OCR, candidate location, comparison, and aggregation execute as one supervised child job. Worker acquisition is at most 200 ms and child execution is at most 9 seconds, both inside the 30 second server deadline.
 - Serialization and response start must occur before the 30 second deadline. If not, the server returns `504 request_deadline_exceeded` when delivery remains possible.
 - The browser clock starts at Verify activation. It aborts the fetch and shows `client_deadline_exceeded` at 35 seconds if no complete result or typed error has rendered and been announced.
 - A visible Cancel verification action is available throughout client validation, upload, and processing. Activation aborts client work and enters Cancelled within 1 second.
@@ -254,7 +254,7 @@ Response headers:
 - Multi-stage build: Node builds static UI; Python runtime receives only production Python dependencies, UI output, rules, sample assets, and OCR models.
 - Runtime user is non-root with a read-only application filesystem and one writable request spool.
 - Static UI and API share one origin.
-- Azure Container Apps Consumption runs one 2 vCPU, 4 GiB non-root container with zero to one replicas and single-revision ingress. The two vCPU allocation matches the two governed OCR lanes and prevents the public two-panel sample from competing four ONNX Runtime threads on a single vCPU.
+- Azure Container Apps Consumption runs one 2 vCPU, 4 GiB non-root container with zero to one replicas and single-revision ingress. The two vCPU allocation matches the two governed OCR lanes. Each lane uses one ONNX Runtime intra-operation thread, and both lanes complete representative warmup before readiness, so the first two-panel request does not enter an unwarmed lane or oversubscribe the Consumption-only environment's two vCPU maximum.
 - Startup and liveness probes call `/health/live`; readiness calls `/health/ready`. Each internal HTTP probe supplies the governed Host value so production Host validation remains enabled.
 - The ACR pull identity is available to the platform for image pull but is configured with identity lifecycle `None`, so application code cannot obtain its access token.
 - GitHub Actions authenticates through the environment-scoped OIDC federation and deploys an immutable image digest. No client secret, registry password, or publishing profile is used.

@@ -85,6 +85,8 @@ The workflow fails unless Azure readback proves:
 - all three application-aware probes and their Host header;
 - zero application secrets and zero volumes.
 
+Azure readback proves the platform configuration in this list. Source inspection, focused adapter tests, contract tests, and the predeployment local-digest readiness check establish that the application constructs two OCR lanes, limits each lane to one ONNX Runtime intra-operation thread, and warms both lanes before readiness. The public verification gate then tests the externally observable correctness and timing outcome without claiming that Azure can inspect those application internals.
+
 The public smoke gate then requires application readiness, build metadata equal to the deployed Git revision, the governed sample, three consecutive complete 19-check verifications, a mean server duration below 5 seconds, no duration at or above 9 seconds, retained duration statistics, HTTP to HTTPS redirect, and HSTS.
 
 ## 7. Data movement and storage

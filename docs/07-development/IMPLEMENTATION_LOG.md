@@ -158,7 +158,7 @@ The first complete product-corpus execution correctly found no false-clean resul
 | `VAL-001` | Unreadable evidence could create false field mismatches or unsupported confidence. | Gated field comparison and evidence-dependent checks on actual readable evidence. | Degraded and unreadable cases returned conservative Review or Not verified states. |
 | `VAL-002` | Warning punctuation, heading, body, contrast, continuity, separation, and imported-producer edge cases were not consistently classified. | Refined reference-blind candidate extraction and deterministic warning subchecks. | Development and sealed warning variants matched their independent oracles. |
 | `VAL-003` | The six-panel holdout exceeded the 6.25 second worker deadline. | Reused exact duplicate image inference and added two deterministic inference lanes inside the same one-job supervised child. | Six-panel result completed in 4.51 seconds in the decisive corpus; reversed order completed without semantic change. |
-| `VAL-004` | Concurrent cold construction of both OCR engines briefly exceeded the selected 2 GiB RSS envelope. | Preserved two deterministic inference lanes, initialized their engines sequentially, ran the readiness probe on the first identical model configuration, and explicitly closed worker queues during shutdown. | Governed warm, cold, batch, and memory evidence must remain below the selected threshold. |
+| `VAL-004` | Concurrent cold construction of both OCR engines exceeded the original 2 GiB cold-start target, and the first Azure profile oversubscribed one vCPU. | Preserved two deterministic inference lanes, initialized their engines sequentially, assigned one ONNX intra-operation thread per lane, warmed both lanes concurrently before readiness, selected a 2 vCPU and 4 GiB Azure profile, and explicitly closed worker queues during shutdown. | Warm processing must stay below 2 GiB, transient cold initialization must stay below the selected 4 GiB deployment envelope, warm p95 must stay below 5 seconds, and readiness through first result must stay below 10 seconds. |
 | `VAL-004` | Several oracle rows encoded generator-only panel roles or demanded exact classification where the contract permits safe equivalence. | Corrected the independent oracle, regenerated fixtures, and resealed the holdout manifest. | Fixture validator and 20 oracle-integrity tests passed before product rerun. |
 | `VAL-005` | An uppercase promotional interruption one pixel taller than the brand won brand ranking. | Excluded only lines structurally located between warning parts from brand eligibility. | D015 retained brand Match and warning-continuity Mismatch. |
 
@@ -174,10 +174,11 @@ The decisive rerun passed all 30 cases, all 456 expected result rows, and all 8 
 - Chrome and Edge integrated journeys: 3 passed; 3 intentionally duplicated matrix cases skipped.
 - Axe serious and critical findings: zero.
 - Product corpus: 30 of 30 cases and 8 of 8 mutations passed.
-- Warm performance: 30 of 30 complete, p95 2,374.123 ms against 5,000 ms.
-- Cold readiness through first result: 5 of 5 complete, p95 7,531.501 ms against the exclusive 10,000 ms threshold.
-- Peak observed parent plus worker RSS: 1,578,123,264 bytes inside the planned 2 GiB envelope.
+- Warm performance: 30 of 30 complete, p95 2,996.256 ms against 5,000 ms.
+- Cold readiness through first result: 5 of 5 complete, p95 9,659.653 ms against the exclusive 10,000 ms threshold.
+- Batch performance: 300 of 300 unique requests complete in 836.881 seconds, mean 2,789.590 ms, maximum 3,947.798 ms, zero false-clean results, and 847,306,752-byte peak combined RSS.
+- Peak observed parent plus worker RSS: 1,466,265,600 bytes during warm processing and 2,997,751,808 bytes during cold initialization, inside the separate 2 GiB operating and 4 GiB deployment envelopes.
 - Python dependency audit: no known vulnerabilities.
 - Production npm audit: zero vulnerabilities.
 
-The local implementation completed internal UAT and final independent RT inspection with the documented automatic-clear recognition gate. OCI proof, public deployment, and requester acceptance remain separate gates.
+The local implementation completed internal UAT and independent RT inspection with the documented automatic-clear recognition gate. The protected GitHub workflow subsequently proved OCI construction, non-root local-container readiness, Azure deployment, configuration readback, and rollback on prior revisions. The current OCR lane correction must repeat the protected deployment and independent live UAT before its deployed performance evidence can pass. Requester acceptance remains separate.

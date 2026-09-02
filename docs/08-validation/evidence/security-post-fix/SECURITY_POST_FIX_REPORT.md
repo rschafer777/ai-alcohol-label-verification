@@ -4,7 +4,7 @@ Status: PASS
 
 ## Snapshot binding
 
-Snapshot ID: `639d44283e0f97f0a08672d27de5087bb20b3090a8b0295b930589f759c49baa`
+Snapshot ID: `436322f067536eddbde0b59bb4b390e004cdc06b2798df067705b473ed17a47f`
 
 The evidence hashes the runtime boundary, parser, routes, supervisor, imaging path, focused tests, contracts, lock, and this runner. Hashes are in `lifecycle-matrix.json`.
 

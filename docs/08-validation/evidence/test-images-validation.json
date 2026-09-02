@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0",
-  "generatedAt": "2026-09-02T00:36:04.345102+00:00",
+  "generatedAt": "2026-09-02T01:53:52.461767+00:00",
   "inputRoot": "tests/Test_Images",
   "corpusInventorySha256": "84287db2c8e5b84947c876967e982a44750dfebf2d90da6df13832f724e99a01",
   "ignoredUnsupportedFiles": [
@@ -57,7 +57,7 @@
       },
       {
         "path": "backend/labelverify/extraction/rapidocr_adapter.py",
-        "sha256": "0e0fe7f839e9f7cf82728f2286aea6c6f66b6115633bb6889ce54cb4cc8607ff"
+        "sha256": "1dbddfd36b7093800f20154a1d1c15d559592018aa82f54e5e7521b3f79accc1"
       },
       {
         "path": "backend/labelverify/imaging/decode.py",
@@ -77,7 +77,7 @@
       },
       {
         "path": "contracts/api-contract-v1.json",
-        "sha256": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47"
+        "sha256": "cc6e9463792efd50447fce6303fb8307bd6b462f5695cafd3e7880298a71e72a"
       },
       {
         "path": "contracts/regulatory-rules-v1.json",
@@ -209,19 +209,19 @@
         "batchMeanPerImageTargetMs": 5000,
         "normalWithinTargetMinimumPercent": 90
       },
-      "allCorpusMeanMs": 2384.884,
+      "allCorpusMeanMs": 3421.195,
       "normalImageRows": {
         "files": 24,
-        "meanMs": 2612.985,
-        "maxMs": 4138.077,
-        "withinTargetCount": 24,
-        "withinTargetPercent": 100.0,
+        "meanMs": 3785.361,
+        "maxMs": 5967.463,
+        "withinTargetCount": 23,
+        "withinTargetPercent": 95.833,
         "targetMs": 5000
       },
       "difficultImageRows": {
         "files": 13,
-        "meanMs": 2138.835,
-        "maxMs": 3060.215,
+        "meanMs": 3054.818,
+        "maxMs": 4484.755,
         "withinTargetCount": 13,
         "withinTargetPercent": 100.0,
         "targetMs": 9000
@@ -240,7 +240,7 @@
       "overallDiagnosticPass": false,
       "status": "FAIL"
     },
-    "totalDurationMs": 119244.221
+    "totalDurationMs": 171059.748
   },
   "results": [
     {
@@ -258,7 +258,7 @@
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2268.153,
+      "durationMs": 3062.214,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -415,7 +415,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2105.652,
+      "durationMs": 3000.453,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -573,7 +573,7 @@
         "Warning body not bold: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2214.744,
+      "durationMs": 3254.104,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -739,7 +739,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2162.719,
+      "durationMs": 3051.175,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -900,7 +900,7 @@
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2495.914,
+      "durationMs": 3566.458,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1056,7 +1056,7 @@
         "Candidate presence is ambiguous: net_contents",
         "Warning contrast: The warning contrast is visibly insufficient"
       ],
-      "durationMs": 2500.975,
+      "durationMs": 3572.0,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1215,7 +1215,7 @@
         "Warning wording: Readable warning wording or punctuation differs from the prescribed statement",
         "Warning contrast: The warning contrast is visibly insufficient"
       ],
-      "durationMs": 1488.594,
+      "durationMs": 2166.844,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1375,7 +1375,7 @@
         "Warning body not bold: The warning body appears bold",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2375.822,
+      "durationMs": 3386.722,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1535,7 +1535,7 @@
         "Warning wording: The words match, but exact punctuation requires review",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2050.639,
+      "durationMs": 2876.247,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1700,7 +1700,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3024.555,
+      "durationMs": 4317.389,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -1860,7 +1860,7 @@
         "Warning body not bold: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1936.043,
+      "durationMs": 2706.298,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -2015,7 +2015,7 @@
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3077.357,
+      "durationMs": 4453.939,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -2172,7 +2172,7 @@
       "harnessReasons": [
         "Warning heading uppercase: The warning heading capitalization or punctuation is not exact"
       ],
-      "durationMs": 2988.078,
+      "durationMs": 4349.473,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -2332,7 +2332,7 @@
       "harnessReasons": [
         "Warning wording: Readable warning wording or punctuation differs from the prescribed statement"
       ],
-      "durationMs": 2349.994,
+      "durationMs": 3491.658,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -2495,7 +2495,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2219.175,
+      "durationMs": 3218.898,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -2656,7 +2656,7 @@
         "Warning wording: The words match, but exact punctuation requires review",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2987.107,
+      "durationMs": 4220.718,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -2817,7 +2817,7 @@
         "Warning wording: The words match, but exact punctuation requires review",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1904.012,
+      "durationMs": 3104.777,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -2979,7 +2979,7 @@
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2452.295,
+      "durationMs": 3562.518,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -3134,7 +3134,7 @@
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1986.32,
+      "durationMs": 2887.572,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -3293,7 +3293,7 @@
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2711.535,
+      "durationMs": 3932.636,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -3454,7 +3454,7 @@
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2214.784,
+      "durationMs": 3051.321,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -3620,7 +3620,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 1405.933,
+      "durationMs": 1967.94,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -3786,7 +3786,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 1770.859,
+      "durationMs": 2495.304,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -3951,7 +3951,7 @@
         "Warning legibility: The required warning evidence was not found in the submitted panels",
         "The image-quality check requires review"
       ],
-      "durationMs": 2214.193,
+      "durationMs": 2817.251,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -4118,7 +4118,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 3060.215,
+      "durationMs": 4484.755,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -4283,7 +4283,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 2063.511,
+      "durationMs": 2803.166,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -4445,7 +4445,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 1650.782,
+      "durationMs": 2291.873,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -4607,7 +4607,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 1450.209,
+      "durationMs": 1932.3,
       "dimensions": {
         "width": 2816,
         "height": 1536
@@ -4758,7 +4758,7 @@
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3280.308,
+      "durationMs": 4905.397,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -4918,7 +4918,7 @@
         "Warning heading emphasis: The image provides heuristic evidence but reviewer judgment is required",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2172.076,
+      "durationMs": 3621.895,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5083,7 +5083,7 @@
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required",
         "The image-quality check requires review"
       ],
-      "durationMs": 4138.077,
+      "durationMs": 5967.463,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5242,7 +5242,7 @@
         "Warning wording: The words match, but exact punctuation requires review",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3033.176,
+      "durationMs": 4563.936,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5400,7 +5400,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2257.53,
+      "durationMs": 3097.228,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5564,7 +5564,7 @@
         "Warning body not bold: The warning body appears bold",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2603.784,
+      "durationMs": 3582.383,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -5721,7 +5721,7 @@
         "Warning wording: The words match, but exact punctuation requires review",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2892.239,
+      "durationMs": 4179.719,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -5884,7 +5884,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1659.302,
+      "durationMs": 2492.24,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -6043,7 +6043,7 @@
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required",
         "The image-quality check requires review"
       ],
-      "durationMs": 3590.149,
+      "durationMs": 4896.148,
       "dimensions": {
         "width": 1712,
         "height": 1152
@@ -6206,7 +6206,7 @@
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1886.496,
+      "durationMs": 2897.416,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -6367,7 +6367,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2542.156,
+      "durationMs": 3765.793,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -6526,7 +6526,7 @@
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1924.167,
+      "durationMs": 2804.6,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -6693,7 +6693,7 @@
         "Warning contrast: The required warning evidence was not found in the submitted panels",
         "Warning legibility: The required warning evidence was not found in the submitted panels"
       ],
-      "durationMs": 1815.225,
+      "durationMs": 2843.427,
       "dimensions": {
         "width": 784,
         "height": 1168
@@ -6852,7 +6852,7 @@
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2919.633,
+      "durationMs": 4224.452,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7013,7 +7013,7 @@
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required",
         "The image-quality check requires review"
       ],
-      "durationMs": 3158.885,
+      "durationMs": 4408.572,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7172,7 +7172,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2754.552,
+      "durationMs": 4086.855,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7335,7 +7335,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 3029.894,
+      "durationMs": 4063.098,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7500,7 +7500,7 @@
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required",
         "Warning continuity: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1218.378,
+      "durationMs": 1649.187,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7656,7 +7656,7 @@
         "Warning wording: OCR differs from the prescribed statement, but the pixels require review before a label defect is asserted",
         "Warning separation: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 2230.743,
+      "durationMs": 3038.785,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7815,7 +7815,7 @@
         "Warning contrast: The image provides heuristic evidence but reviewer judgment is required",
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required"
       ],
-      "durationMs": 1367.449,
+      "durationMs": 1969.915,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -7978,7 +7978,7 @@
         "Warning legibility: The image provides heuristic evidence but reviewer judgment is required",
         "The image-quality check requires review"
       ],
-      "durationMs": 3273.194,
+      "durationMs": 4606.845,
       "dimensions": {
         "width": 1168,
         "height": 784
@@ -8140,7 +8140,7 @@
         "Candidate presence is ambiguous: class_type",
         "Warning wording: Readable warning wording or punctuation differs from the prescribed statement"
       ],
-      "durationMs": 2366.639,
+      "durationMs": 3368.391,
       "dimensions": {
         "width": 1168,
         "height": 784

@@ -130,7 +130,7 @@ def main() -> int:
         "assertionId": "T-041-A-COMPLETE-PHASE-MATRIX",
         "createdAtUtc": datetime.now(UTC).isoformat(),
         "environment": {"platform": platform.platform(), "python": platform.python_version()},
-        "governedDeadlinesSeconds": {"upload": 20, "server": 30, "browser": 35, "worker": 6.25},
+        "governedDeadlinesSeconds": {"upload": 20, "server": 30, "browser": 35, "worker": 9.0},
         "sourceHashes": {path.relative_to(ROOT).as_posix(): sha256(path) for path in source_paths},
         "phases": phases,
         "commands": command_results,

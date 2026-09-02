@@ -104,7 +104,7 @@ npm run build
 
 The deterministic test corpus contains 24 development cases, 6 sealed holdouts, and a separate two-panel built-in sample. It covers all 19 selected checks and includes ambiguity, warning, bad-image, input-limit, error, and anti-hard-coding controls. The decisive local run passed all 30 cases, all 456 expected result rows, and all 8 mutation controls with zero false-clean results. The current full regression contains 197 passing Python tests and 46 passing frontend tests.
 
-Measured on the documented Windows development host, Warm p95 was 2.374 seconds across 30 two-panel verification runs. Cold readiness through first result was 7.532 seconds across 5 runs. A single warmed worker processed 10 applications in 18.665 seconds, 20 in 36.301 seconds, and all 300 in 521.963 seconds. Peak parent-plus-worker RSS was 1,578,123,264 bytes during the cold run and 847,986,688 bytes during the batch run, both below the selected 2 GiB limit. The machine-readable evidence is in `docs/08-validation/evidence/local-performance.json` and `docs/08-validation/evidence/local-batch-performance.json`. These are local measurements, not guarantees for different hardware or image complexity.
+Measured on the documented Windows development host, Warm p95 was 2.996 seconds across 30 two-panel verification runs. Cold readiness through first result was 9.660 seconds across 5 runs. A single warmed worker processed 10 applications in 28.775 seconds, 20 in 57.221 seconds, and all 300 in 836.881 seconds. The complete run averaged 2.790 seconds per application, reached a 3.948-second maximum, completed all 300 unique requests, and produced zero false-clean results. Peak parent-plus-worker RSS was 1,466,265,600 bytes during warm processing, 847,306,752 bytes during the 300-application batch, and 2,997,751,808 bytes during the transient cold initialization path. Warm and batch processing remain inside a 2 GiB operating target, while cold initialization remains inside the selected Azure 4 GiB runtime envelope. The complete machine-readable evidence is in `docs/08-validation/evidence/local-performance.json` and `docs/08-validation/evidence/local-batch-performance.json`. These are local measurements, not guarantees for different hardware or image complexity.
 
 ## Container build
 
@@ -117,9 +117,9 @@ docker run --rm --publish 127.0.0.1:8080:8080 --env LABELVERIFY_RUNTIME_MODE=dir
 
 Then open `http://127.0.0.1:8080`.
 
-The current development host did not have an OCI builder installed. Container construction and runtime proof therefore remain explicitly blocked until a builder is available. They are not recorded as passed based on file inspection alone.
+The current development host does not have an OCI builder installed. The protected GitHub workflow built the exact repository revision into an OCI image, ran that digest locally on the hosted Linux runner, verified non-root readiness and metadata, deployed the immutable digest, and read back the effective Azure configuration. Those hosted results are retained in the linked workflow record and are not inferred from file inspection.
 
-`ops/azure-container-app.json` and `.github/workflows/deploy-demo.yml` define the selected Azure demo deployment. The workflow uses GitHub OIDC, a private registry, an immutable image digest, a pull-only managed identity, application-aware health probes, effective-configuration readback, and public smoke tests. `ops/fly.toml.example` remains a non-active portability example. The source repository is [rschafer777/ai-alcohol-label-verification](https://github.com/rschafer777/ai-alcohol-label-verification). Live deployment evidence is not claimed until the authorized workflow completes.
+`ops/azure-container-app.json` and `.github/workflows/deploy-demo.yml` define the selected Azure demo deployment. The workflow uses GitHub OIDC, a private registry, an immutable image digest, a pull-only managed identity, application-aware health probes, effective-configuration readback, and public smoke tests. `ops/fly.toml.example` remains a non-active portability example. The source repository is [rschafer777/ai-alcohol-label-verification](https://github.com/rschafer777/ai-alcohol-label-verification). The current public application is [LabelVerify on Azure](https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io). The release record distinguishes the proven live revision from a newer correction until the protected deployment workflow passes for that exact commit.
 
 ## Architecture and engineering approach
 
@@ -191,7 +191,7 @@ These boundaries are part of the product contract and are not hidden future-work
 - The prototype has no database, account system, durable queue, automatic browser persistence, analytics, or content logging. Server request files are temporary and browser state disappears on refresh or Start over. User-initiated CSV and detailed JSON exports are durable downloaded files under the user's browser and filesystem control; they can contain application values, panel paths, findings, evidence text, timings, and errors.
 - Evaluation should use synthetic or sanitized inputs. Production data categories, PII analysis, records schedules, retention, legal hold, and audit requirements depend on the selected agency workflow.
 - The legacy COLA system is .NET. This standalone prototype uses React, TypeScript, Python, FastAPI, RapidOCR, ONNX Runtime, OpenCV, and Pillow because that stack is implemented and measured here. The versioned API boundary permits a later .NET adapter or reimplementation after an actual integration and procurement decision.
-- A container definition, governed Azure template, and OIDC deployment workflow are included. Local OCI proof remains blocked because this development host has no OCI builder. The GitHub workflow must build, deploy, read back, and smoke-test the exact public revision before deployed evidence can pass.
+- A container definition, governed Azure template, and OIDC deployment workflow are included. The protected GitHub workflow has proved OCI construction, non-root local-container readiness, Azure deployment, effective-configuration readback, HTTPS controls, and rollback behavior. Each later candidate must repeat those controls for its exact commit before its deployed evidence can pass.
 - [`docs/11-federal-authorization-readiness/`](docs/11-federal-authorization-readiness/) provides current starter materials for choosing and beginning an agency RMF/ATO or FedRAMP 20x path. Production boundary, impact, Azure services, identity, logging, retention, assessor, and operating evidence remain inputs to that process.
 
 ## Resource and privacy boundaries
@@ -200,7 +200,7 @@ These boundaries are part of the product contract and are not hidden future-work
 - 4 MiB per image and 8 MiB aggregate image bytes;
 - 12 megapixels per image and 36 megapixels cumulative;
 - 32 KiB reference JSON;
-- 20-second request-body deadline, 6.25-second child deadline, 30-second server deadline, and 35-second browser deadline;
+- 20-second request-body deadline, 9-second child deadline, 30-second server deadline, and 35-second browser deadline;
 - one active OCR job with bounded admission;
 - no content logging, database, durable queue, browser persistence, or required runtime cloud inference.
 
@@ -224,4 +224,4 @@ The root [`contracts/`](contracts/) directory is the versioned machine-readable 
 
 ## Submission status
 
-The source code and documentation package is published through [rschafer777/ai-alcohol-label-verification](https://github.com/rschafer777/ai-alcohol-label-verification). A public application deployment and deployed URL remain outstanding assignment deliverables.
+The source code and documentation package is published through [rschafer777/ai-alcohol-label-verification](https://github.com/rschafer777/ai-alcohol-label-verification). The public application is available at [LabelVerify on Azure](https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io). Final submission readiness still requires the corrected revision to pass the protected workflow, independent live UAT, and the documented requester acceptance gates.

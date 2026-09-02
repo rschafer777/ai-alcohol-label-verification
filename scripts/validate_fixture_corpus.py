@@ -87,7 +87,7 @@ def validate_contracts(project_root: Path) -> tuple[list[str], dict[str, Any]]:
         "uploadDeadlineSeconds": 20,
         "serverDeadlineSeconds": 30,
         "browserDeadlineSeconds": 35,
-        "workerDeadlineSeconds": 6.25,
+        "workerDeadlineSeconds": 9.0,
     }
     if limits != expected_limits:
         errors.append("CG-001 request or runtime limits differ from the cleared values")

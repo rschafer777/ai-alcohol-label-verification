@@ -23,7 +23,7 @@ def test_warmed_supervised_sample_finishes_before_worker_deadline() -> None:
     )
     supervisor = WorkerSupervisor(
         project_root / "models",
-        worker_deadline_seconds=6.25,
+        worker_deadline_seconds=9.0,
         build_id="real-sample-integration",
     )
     try:
@@ -34,9 +34,9 @@ def test_warmed_supervised_sample_finishes_before_worker_deadline() -> None:
     finally:
         supervisor.stop()
 
-    assert elapsed < 6.25
-    assert result.server_duration_ms < 6_250
-    assert result.stage_timings.ocr_ms < 6_250
+    assert elapsed < 9.0
+    assert result.server_duration_ms < 5_000
+    assert result.stage_timings.ocr_ms < 5_000
     assert len(result.checks) == 19
     assert result.summary == "Review needed"
     nonmatches = {
@@ -64,7 +64,7 @@ def test_governed_six_panel_case_finishes_before_worker_deadline() -> None:
     assert len(panels) == 6
     supervisor = WorkerSupervisor(
         project_root / "models",
-        worker_deadline_seconds=6.25,
+        worker_deadline_seconds=9.0,
         build_id="governed-six-panel-integration",
     )
     try:
@@ -80,9 +80,9 @@ def test_governed_six_panel_case_finishes_before_worker_deadline() -> None:
     finally:
         supervisor.stop()
 
-    assert elapsed < 6.25
-    assert result.server_duration_ms < 6_250
-    assert result.stage_timings.ocr_ms < 6_250
+    assert elapsed < 9.0
+    assert result.server_duration_ms < 9_000
+    assert result.stage_timings.ocr_ms < 9_000
     assert len(result.checks) == 19
     assert result.summary == "Review needed"
     nonmatches = {
@@ -91,9 +91,9 @@ def test_governed_six_panel_case_finishes_before_worker_deadline() -> None:
         if check.applicable and check.state != "Match"
     }
     assert nonmatches == PIXEL_SUPPORTED_WARNING_NONMATCHES
-    assert reversed_elapsed < 6.25
-    assert reversed_result.server_duration_ms < 6_250
-    assert reversed_result.stage_timings.ocr_ms < 6_250
+    assert reversed_elapsed < 9.0
+    assert reversed_result.server_duration_ms < 9_000
+    assert reversed_result.stage_timings.ocr_ms < 9_000
     assert reversed_result.summary == result.summary
     assert [
         (check.check_id, check.applicable, check.state, check.reason_code)

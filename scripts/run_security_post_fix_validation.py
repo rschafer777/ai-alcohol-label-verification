@@ -506,7 +506,7 @@ def main() -> int:
             "aggregateFileBytes": 8_388_608,
             "uploadDeadlineSeconds": 20.0,
             "serverDeadlineSeconds": 30.0,
-            "workerDeadlineSeconds": 6.25,
+            "workerDeadlineSeconds": 9.0,
             "admissions": 2,
             "reservationBytesPerAdmission": 17_301_504,
         },

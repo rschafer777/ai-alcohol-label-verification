@@ -33,7 +33,7 @@ This addendum records the implemented architecture after development, independen
 2. The complete request remains subject to the 8,650,752 byte raw ceiling, 20 second body deadline, and 30 second server deadline.
 3. The controlled multipart parser accepts one reference field and at most six files, keeps disk spills under the governed spool root, and closes partial resources on every exceptional path.
 4. The route validates the reference, copies panels under generated names, enforces per-file and aggregate encoded limits, and checks media signatures.
-5. One spawned worker performs source-dimension checks, decode, bounded transforms, local OCR, reference-blind candidate location, deterministic comparison, aggregation, and result validation under the 6.25 second worker deadline.
+5. One spawned worker performs source-dimension checks, decode, bounded transforms, local OCR, reference-blind candidate location, deterministic comparison, aggregation, and result validation under the 9 second worker deadline.
 6. The parent validates the typed result and evidence geometry before returning a no-store response. Browser response parsing validates the same contract before rendering.
 7. Cancellation suppresses delivery but does not release worker or file ownership early. Cleanup occurs only after worker completion or confirmed termination.
 

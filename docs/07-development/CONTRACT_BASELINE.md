@@ -9,7 +9,7 @@ The following root-controlled files implement the initial contract handoff:
 
 | Contract | SHA-256 |
 |---|---|
-| `contracts/api-contract-v1.json` | `b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47` |
+| `contracts/api-contract-v1.json` | `cc6e9463792efd50447fce6303fb8307bd6b462f5695cafd3e7880298a71e72a` |
 | `contracts/error-registry-v1.json` | `41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7` |
 | `contracts/selected-check-registry-v1.json` | `521d7a1dbdb3872086083e92a6f37e459c48ad5471a09f3f92c23472b7dc8b13` |
 | `contracts/regulatory-rules-v1.json` | `6d1c9866738a1b863ff8572c29881195005861b2198c2e364c4b5ff0fbf2e6c2` |

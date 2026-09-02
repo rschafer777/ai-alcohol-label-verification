@@ -33,7 +33,7 @@ Status: Controlled through post-build validation change
 | Finding | Resolution | Controlled artifacts |
 |---|---|---|
 | Conflicting 3/20 second body deadlines | Removed the stale 3 second threat-table value. All active contracts now use 20 seconds. | LV-I2R-002, `FR-008`, `FR-031`, `FR-041` |
-| Decode timeout not killable | Moved full decode, pixel enforcement, preprocessing, OCR, candidates, comparison, and aggregation into the supervised child job under the 6.25 second killable deadline. | LV-I2R-001, LV-I2R-002, `FR-009`, `FR-029`, `FR-041` |
+| Decode timeout not killable | Moved full decode, pixel enforcement, preprocessing, OCR, candidates, comparison, and aggregation into the supervised child job under the 9 second killable deadline. | LV-I2R-001, LV-I2R-002, `FR-009`, `FR-029`, `FR-041` |
 | OCR comparison not reproducible | Removed historical Tesseract field/timing claims from the decision basis, classified those runs as exploratory, qualified RapidOCR on its controlled positive full-contract evidence, and explicitly superseded stale report metrics. | LV-I2R-008 |
 | Retry/cancel preservation and destructive reset confirmation | Made form/file preservation binary for retry and cancel and made Start over confirmation/cancel/confirm behavior binary. | LV-I2R-003, `FR-025`, `FR-027`, `FR-041` |
 | FRD authority excluded required contracts | Expanded the FRD authority line through LV-I2R-008 and the 19-check registry. | LV-FRD-001 |

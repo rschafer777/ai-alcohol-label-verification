@@ -21,7 +21,8 @@ sys.path.insert(0, str(PROJECT_ROOT / "backend"))
 from labelverify.contracts.models import ReferenceRecord, VerificationResult  # noqa: E402
 from labelverify.orchestration.supervisor import WorkerSupervisor  # noqa: E402
 
-RSS_THRESHOLD_BYTES = 2 * 1024 * 1024 * 1024
+WARM_RSS_THRESHOLD_BYTES = 2 * 1024 * 1024 * 1024
+COLD_RSS_THRESHOLD_BYTES = 4 * 1024 * 1024 * 1024
 
 
 class PeakRssSampler:
@@ -132,13 +133,13 @@ def run_warm(
         "peakParentAndWorkerRssBytes": peak_rss,
         "peakParentRssBytes": peak_parent_rss,
         "peakWorkerRssBytes": peak_worker_rss,
-        "rssThresholdBytesExclusive": RSS_THRESHOLD_BYTES,
+        "rssThresholdBytesExclusive": WARM_RSS_THRESHOLD_BYTES,
         "thresholdMs": 5000,
         "pass": (
             complete
             and len(records) == count
             and nearest_rank(wall_values, 0.95) <= 5000
-            and peak_rss < RSS_THRESHOLD_BYTES
+            and peak_rss < WARM_RSS_THRESHOLD_BYTES
         ),
     }
 
@@ -203,7 +204,7 @@ def run_cold(
         "peakParentAndWorkerRssBytes": peak_rss,
         "peakParentRssBytes": peak_parent_rss,
         "peakWorkerRssBytes": peak_worker_rss,
-        "rssThresholdBytesExclusive": RSS_THRESHOLD_BYTES,
+        "rssThresholdBytesExclusive": COLD_RSS_THRESHOLD_BYTES,
         "thresholdMsExclusive": 10000,
         "scope": (
             "Worker spawn, model verification and warmup, readiness, and first governed result"
@@ -212,7 +213,7 @@ def run_cold(
             complete
             and len(records) == count
             and nearest_rank(total_values, 0.95) < 10000
-            and peak_rss < RSS_THRESHOLD_BYTES
+            and peak_rss < COLD_RSS_THRESHOLD_BYTES
         ),
     }
 

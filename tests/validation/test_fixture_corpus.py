@@ -18,7 +18,7 @@ from scripts.validate_fixture_corpus import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_HASHES = {
-    "api-contract-v1.json": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47",
+    "api-contract-v1.json": "cc6e9463792efd50447fce6303fb8307bd6b462f5695cafd3e7880298a71e72a",
     "error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
     "regulatory-rules-v1.json": "6d1c9866738a1b863ff8572c29881195005861b2198c2e364c4b5ff0fbf2e6c2",
     "selected-check-registry-v1.json": (

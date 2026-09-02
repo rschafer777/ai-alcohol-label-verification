@@ -111,6 +111,9 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
     assert '(map(.serverDurationMs) | max) < 9000' in workflow
     assert "durationsMs: map(.serverDurationMs)" in workflow
     assert "Full-sample server durations and statistics" in workflow
+    assert workflow.index('performance_json="$(jq -s -c') < workflow.index(
+        'jq -s -e --arg sha "$GITHUB_SHA"'
+    )
     assert "scripts/validate_product_corpus.py" in workflow
     assert "$global:LASTEXITCODE = 0" in root_gate
     assert "git grep -n -I -P" in root_gate

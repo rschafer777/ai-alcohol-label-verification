@@ -31,6 +31,7 @@ FONT_ASSET = {
 }
 RUNTIME_ASSETS = MODEL_ASSETS | FONT_ASSET
 OCR_INFERENCE_LANES = 2
+OCR_INTRA_OP_THREADS_PER_LANE = 1
 _MIN_LOCAL_CONTRAST = 24.0
 _MIN_FOREGROUND_FRACTION = 0.02
 _MAX_FOREGROUND_FRACTION = 0.65
@@ -76,7 +77,7 @@ class RapidOcrAdapter:
         params = {
             "Rec.lang_type": LangRec.EN,
             "Det.lang_type": LangDet.EN,
-            "EngineConfig.onnxruntime.intra_op_num_threads": 2,
+            "EngineConfig.onnxruntime.intra_op_num_threads": OCR_INTRA_OP_THREADS_PER_LANE,
             "EngineConfig.onnxruntime.inter_op_num_threads": 1,
             "EngineConfig.onnxruntime.enable_cpu_mem_arena": False,
             "Global.font_path": str(self._model_root / "DejaVuSans.ttf"),
@@ -89,14 +90,13 @@ class RapidOcrAdapter:
         }
         warmup = np.full((96, 384, 3), 255, dtype=np.uint8)
         cv2.putText(warmup, "LABEL VERIFY", (8, 62), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 2)
-        self._engines = tuple(
-            _initialize_engine(
-                RapidOCR,
-                params,
-                warmup.copy() if lane == 0 else None,
-            )
-            for lane in range(OCR_INFERENCE_LANES)
+        engines = tuple(
+            _initialize_engine(RapidOCR, params, None)
+            for _ in range(OCR_INFERENCE_LANES)
         )
+        with ThreadPoolExecutor(max_workers=OCR_INFERENCE_LANES) as executor:
+            list(executor.map(_warm_engine, engines, (warmup.copy() for _ in engines)))
+        self._engines = engines
 
     def extract(self, views: Sequence[ImageView]) -> list[OcrLine]:
         if not self._engines:
@@ -183,6 +183,10 @@ def _initialize_engine(
     if warmup is not None:
         engine(warmup)
     return engine
+
+
+def _warm_engine(engine: Any, warmup: Any) -> None:
+    engine(warmup)
 
 
 def _deduplicate(lines: list[OcrLine]) -> list[OcrLine]:

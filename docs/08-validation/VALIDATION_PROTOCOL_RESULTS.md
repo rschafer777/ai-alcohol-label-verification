@@ -31,12 +31,12 @@ The implemented product remains a standalone, human-in-the-loop verification ass
 | Frontend quality | PASS | ESLint, strict TypeScript, 46 Vitest tests, production Vite build |
 | Integrated browser | PASS for runnable matrix | Three Playwright journeys passed: Chrome core, Chrome full privacy, and Edge core. One intentional duplicate Edge privacy run was skipped. Axe found no serious or critical violations. |
 | Privacy | PASS locally | Full success, error, cancel, refresh, reopen, and Start over browser matrix remained content-free; API responses were no-store; request-scoped server resources cleaned |
-| Warm performance | PASS | 30 of 30 complete; p95 2,374.123 ms; maximum 3,204.222 ms; threshold 5,000 ms |
-| Cold readiness plus first result | PASS | 5 of 5 complete; p95 and maximum 7,531.501 ms; exclusive threshold 10,000 ms |
-| Batch capacity and elapsed time | PASS | One warmed worker completed 10 in 18.665 seconds, 20 in 36.301 seconds, and 300 in 521.963 seconds; average 1,739.864 ms; zero false-clean results |
+| Warm performance | PASS | 30 of 30 complete; p95 2,996.256 ms; maximum 4,333.205 ms; threshold 5,000 ms |
+| Cold readiness plus first result | PASS | 5 of 5 complete; p95 and maximum 9,659.653 ms; exclusive threshold 10,000 ms |
+| Batch capacity and elapsed time | PASS | One warmed worker completed 10 in 28.775 seconds, 20 in 57.221 seconds, and 300 in 836.881 seconds; average 2,789.590 ms; maximum 3,947.798 ms; zero false-clean results |
 | User-supplied 50-image diagnostic | FAIL for automatic-clear recognition | Human oracle 33 pass and 17 do not pass; harness 0 pass, 45 review, and 5 do not pass; all 17 defects contained; zero false clearances; zero false deterministic rejections; selected-profile clear recognition 0 of 14 |
-| Resource envelope | PASS locally | Warm peak parent plus worker RSS 1,466,724,352 bytes, cold peak 1,578,123,264 bytes, and batch peak 847,986,688 bytes inside the 2 GiB plan |
-| Security correction | PASS locally | Local lifecycle and security assertions passed; the retained security-correction matrix contains 191 passing tests, and the current root regression contains 197 passing tests including Azure identity, evidence binding, and deployment contracts |
+| Resource envelope | PASS locally | Warm peak parent plus worker RSS 1,466,265,600 bytes and 300-application batch peak 847,306,752 bytes are inside the 2 GiB operating target; transient cold initialization peak 2,997,751,808 bytes is inside the selected 4 GiB Azure runtime envelope |
+| Security correction | PASS locally | Local lifecycle and security assertions passed; the current security-correction matrix and root regression each contain 197 passing tests including Azure identity, evidence binding, and deployment contracts |
 | Independent UAT | PASS locally | Two non-UI implementers passed both no-help timed journeys within the 3-minute and 7-minute limits |
 | Accessibility | INCOMPLETE | Automated Chrome/Edge and manual keyboard/focus evidence pass; native 200 percent zoom/manual Edge and NVDA are BLOCKED by the current environment |
 | Python dependency audit | PASS | No known vulnerabilities |
@@ -85,13 +85,13 @@ The accepted local workflow supports:
 
 | Gate | Status | Reason |
 |---|---|---|
-| Local OCI build and runtime proof | BLOCKED | No Docker, Podman, nerdctl, or Buildah is installed locally; the authorized GitHub workflow must prove the public image separately |
+| OCI build and runtime proof | PASS FOR PROVEN LIVE REVISION; CURRENT CORRECTION PENDING | The protected GitHub workflow built the immutable OCI digest and proved non-root readiness and metadata on its Linux runner. The corrected revision must repeat that proof. |
 | Native 200 percent zoom and live manual Edge | BLOCKED | The permitted browser connection cannot expose this native manual state |
 | NVDA manual journey | BLOCKED | NVDA is not installed and portable execution requires requester confirmation at action time |
 | Deployed network-egress enforcement | BLOCKED | The Azure Consumption environment does not establish the final deny-by-default federal egress policy |
-| Git repository and clean-checkout replay | PASS FOR PUBLISHED PRE-AZURE SNAPSHOT | Repository creation, source publication, clean clone, and exact manifest replay passed; the current Azure snapshot must repeat this after push |
-| Public deployment and URL | AUTHORIZED, EXECUTION PENDING | The dispatch-only Azure workflow must build, deploy, read back, and smoke-test the current RT-cleared snapshot |
-| Final official TTB source recheck | PENDING_REQUESTER_GATE | Must occur immediately before public release |
+| Git repository and clean-checkout replay | PASS FOR PUBLISHED REVISION; CURRENT CORRECTION PENDING | Repository creation, source publication, clean clone, and exact manifest replay passed; the current correction must repeat the protected source gates after push. |
+| Public deployment and URL | LIVE, CORRECTION PENDING | The Azure URL is live on the last governed digest. The corrected revision must pass immutable deployment, configuration readback, and three-run public performance evidence. |
+| Final official TTB source recheck | PASS | The dated official-source release check was completed on 2026-09-01 and is retained in the regulatory and technical source registers. |
 | Requester code review and UAT | PENDING_REQUESTER_GATE | Follows internal clearance |
 
 ## 7. Validation disposition

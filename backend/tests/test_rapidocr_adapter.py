@@ -45,13 +45,16 @@ def test_initialize_supplies_the_governed_local_font_path(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     captured: list[dict[str, object]] = []
+    warmup_calls = 0
 
     class FakeRapidOcr:
         def __init__(self, *, params: dict[str, object]) -> None:
             captured.append(params)
 
         def __call__(self, image: object) -> SimpleNamespace:
+            nonlocal warmup_calls
             del image
+            warmup_calls += 1
             return SimpleNamespace(boxes=None, txts=None, scores=None)
 
     adapter = RapidOcrAdapter(tmp_path, require_read_only=False)
@@ -61,8 +64,13 @@ def test_initialize_supplies_the_governed_local_font_path(
     adapter.initialize()
 
     assert len(captured) == 2
+    assert warmup_calls == 2
     assert all(
         params["Global.font_path"] == str(tmp_path / "DejaVuSans.ttf")
+        for params in captured
+    )
+    assert all(
+        params["EngineConfig.onnxruntime.intra_op_num_threads"] == 1
         for params in captured
     )
 

@@ -15,7 +15,7 @@ export const limits = {
   uploadDeadlineSeconds: 20,
   serverDeadlineSeconds: 30,
   browserDeadlineSeconds: 35,
-  workerDeadlineSeconds: 6.25
+  workerDeadlineSeconds: 9.0
 } as const;
 
 export const checkIds = [

@@ -11,7 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 CONTRACT_ROOT = PROJECT_ROOT / "contracts"
 
 CONTRACT_HASHES = {
-    "api-contract-v1.json": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47",
+    "api-contract-v1.json": "cc6e9463792efd50447fce6303fb8307bd6b462f5695cafd3e7880298a71e72a",
     "error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
     "selected-check-registry-v1.json": (
         "521d7a1dbdb3872086083e92a6f37e459c48ad5471a09f3f92c23472b7dc8b13"

@@ -1,13 +1,13 @@
 # Local Release Candidate Status
 
 Document control ID: LV-REL-002  
-Revision: 2.6  
+Revision: 2.7  
 Date: 2026-09-01  
-Status: Azure performance correction pending proof; composite INCOMPLETE
+Status: Azure OCR lane correction pending proof; composite INCOMPLETE
 
 ## 1. Current conclusion
 
-The source, README, numbered lifecycle documentation, governed fixtures, validation evidence, lockfiles, SBOMs, model manifest, container source, and deployment template form a complete local review package. Single-label and client-managed batch workflows are implemented. Current local gates include 197 passing Python tests, 46 passing frontend tests, 30 of 30 product-corpus cases, 456 of 456 expected check rows, 8 of 8 mutations, zero false-clean results, and a successful 300-application sequential capacity run. The later user-supplied 50-image automatic-clear recognition gate remains failed at 0 of 14 selected-profile visual passes, despite containing all 17 known defects with zero false clearances and zero false deterministic rejections. Run `33577226574` proved the complete protected source, privacy, OCI, Azure, and one-attempt public smoke path. Independent UAT then reproduced a two-panel timeout on the 1 vCPU profile. The active correction assigns 2 vCPU and 4 GiB and requires three consecutive public sample passes with a mean below 5 seconds and no attempt at or above 9 seconds before final deployment evidence can pass.
+The source, README, numbered lifecycle documentation, governed fixtures, validation evidence, lockfiles, SBOMs, model manifest, container source, and deployment template form a complete local review package. Single-label and client-managed batch workflows are implemented. Current local gates include 197 passing Python tests, 46 passing frontend tests, 30 of 30 product-corpus cases, 456 of 456 expected check rows, 8 of 8 mutations, zero false-clean results, and a successful 300-application sequential capacity run. The later user-supplied 50-image automatic-clear recognition gate remains failed at 0 of 14 selected-profile visual passes, despite containing all 17 known defects with zero false clearances and zero false deterministic rejections. Run `33577226574` proved the complete protected source, privacy, OCI, Azure, and one-attempt public smoke path. Independent UAT then reproduced a two-panel timeout on the 1 vCPU profile. Run `33578923408` proved the corrected 2 vCPU resource and strengthened gate, but that gate rejected the deployment and rollback restored the prior digest. The active correction matches the two OCR lanes to the two available vCPU with one ONNX thread per lane, warms both lanes before readiness, and retains three-run timing statistics even on a failed statistical assertion.
 
 The pre-Azure source candidate received three independent RT verdicts. Source publication and clean-checkout replay are complete. Initial deployment runs closed action-policy, Linux portability, Unicode-scan portability, OIDC-subject, container-build, and runtime-font failures without bypassing their controls. Run `33577226574` then completed the protected workflow and established the first live URL. Independent UAT did not rely on that single success. It exposed the Azure CPU mismatch and reopened the deployed-performance gate. The active workflow still adds only an immutable image to the private registry, proves that digest locally before resource mutation, receives omitted personal-detail terms from a non-public environment value, and repeats the exact-archive scan before Azure authentication. Requester UAT and final submission approval remain separate. The local official-source release recheck passed on 2026-09-01.
 
@@ -44,7 +44,7 @@ The pre-Azure source candidate received three independent RT verdicts. Source pu
 
 ## 5. Remaining release sequence
 
-1. Commit and dispatch the corrected 2 vCPU Azure candidate from `main`.
+1. Commit and dispatch the corrected two-lane OCR Azure candidate from `main`.
 2. Require the effective-configuration readback and three consecutive public sample performance checks to pass.
 3. Repeat independent browser and public API UAT.
 4. Update the README and release evidence to the proven deployment revision, then rerun regression and three independent RTs.
