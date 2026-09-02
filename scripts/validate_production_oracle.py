@@ -18,7 +18,7 @@ from typing import Any
 from fastapi.testclient import TestClient
 from labelverify.api.app import create_app
 from labelverify.contracts.models import VerificationResult
-from labelverify.extraction.rapidocr_adapter import MODEL_ASSETS
+from labelverify.extraction.rapidocr_adapter import RUNTIME_ASSETS
 from labelverify.orchestration.supervisor import WorkerSupervisor
 from labelverify.settings.config import Settings
 
@@ -225,10 +225,10 @@ def verify_model_assets(
 ) -> tuple[list[dict[str, Any]], list[str]]:
     manifest = load_json(manifest_path)
     declared = {row["filename"]: row["sha256"] for row in manifest.get("artifacts", [])}
-    expected = expected_assets if expected_assets is not None else MODEL_ASSETS
+    expected = expected_assets if expected_assets is not None else RUNTIME_ASSETS
     errors: list[str] = []
     if declared != expected:
-        errors.append("The model manifest and production model registry differ")
+        errors.append("The asset manifest and production runtime registry differ")
     records: list[dict[str, Any]] = []
     for filename, expected_hash in sorted(expected.items()):
         path = model_root / filename

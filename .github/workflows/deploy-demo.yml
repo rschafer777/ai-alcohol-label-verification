@@ -225,13 +225,63 @@ jobs:
           provenance: mode=max
           sbom: true
 
-      - name: Mark the deployment mutation boundary
+      - name: Prove container readiness before the Container App mutation boundary
+        id: predeploy
+        shell: bash
+        env:
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          set -euo pipefail
+          image_reference="${AZURE_ACR_LOGIN_SERVER}/${AZURE_IMAGE_NAME}@${IMAGE_DIGEST}"
+          container_name="labelverify-predeploy-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          cleanup() {
+            docker rm --force "$container_name" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+          docker pull "$image_reference"
+          docker run --detach \
+            --name "$container_name" \
+            --publish 127.0.0.1:18080:8080 \
+            --env LABELVERIFY_ALLOWED_HOST=127.0.0.1:18080 \
+            --env LABELVERIFY_CLIENT_IDENTITY_SOURCE=azure_container_apps \
+            "$image_reference" >/dev/null
+          ready=false
+          for _ in $(seq 1 60); do
+            if curl --fail --silent --show-error --max-time 3 \
+              http://127.0.0.1:18080/health/ready >"$RUNNER_TEMP/predeploy-ready.json"; then
+              ready=true
+              break
+            fi
+            sleep 2
+          done
+          if [[ "$ready" != "true" ]]; then
+            docker logs "$container_name" >&2
+            exit 1
+          fi
+          jq -e '.ready == true and .profileId == "distilled_spirits_demo_v1"' \
+            "$RUNNER_TEMP/predeploy-ready.json" >/dev/null
+          curl --fail --silent --show-error --max-time 10 \
+            http://127.0.0.1:18080/api/v1/meta >"$RUNNER_TEMP/predeploy-meta.json"
+          jq -e --arg sha "$GITHUB_SHA" \
+            '.buildId == $sha and .ready == true and .selectedCheckCount == 19' \
+            "$RUNNER_TEMP/predeploy-meta.json" >/dev/null
+          echo "ready=true" >>"$GITHUB_OUTPUT"
+
+      - name: Mark the Container App mutation boundary
         id: mutation
         shell: bash
-        run: echo "started=true" >>"$GITHUB_OUTPUT"
+        env:
+          PREDEPLOY_READY: ${{ steps.predeploy.outputs.ready }}
+        run: |
+          set -euo pipefail
+          [[ "$PREDEPLOY_READY" == "true" ]]
+          echo "started=true" >>"$GITHUB_OUTPUT"
 
       - name: Deploy the image digest through ARM
         id: deploy
+        if: >-
+          ${{ steps.predeploy.outputs.ready == 'true' &&
+              steps.mutation.outputs.started == 'true' }}
         shell: bash
         env:
           IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
@@ -344,10 +394,17 @@ jobs:
           work="$(mktemp -d)"
           trap 'rm -rf "$work"' EXIT
 
-          curl --fail --silent --show-error \
-            --retry 30 --retry-delay 5 --retry-all-errors \
-            --connect-timeout 10 --max-time 40 \
-            "$base_url/health/ready" >"$work/ready.json"
+          ready=false
+          for _ in $(seq 1 60); do
+            if curl --fail --silent --show-error \
+              --connect-timeout 3 --max-time 3 \
+              "$base_url/health/ready" >"$work/ready.json"; then
+              ready=true
+              break
+            fi
+            sleep 2
+          done
+          [[ "$ready" == "true" ]]
           jq -e '.ready == true and .profileId == "distilled_spirits_demo_v1"' \
             "$work/ready.json" >/dev/null
 

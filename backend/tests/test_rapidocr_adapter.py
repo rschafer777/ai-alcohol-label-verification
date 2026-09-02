@@ -1,12 +1,17 @@
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 from threading import Barrier
 from types import SimpleNamespace
 
 import cv2
+import labelverify.extraction.rapidocr_adapter as rapidocr_adapter_module
 import numpy as np
+import pytest
+import rapidocr
 from labelverify.extraction.rapidocr_adapter import (
+    ModelIntegrityError,
     RapidOcrAdapter,
     _ink_density,
     _local_contrast,
@@ -14,6 +19,52 @@ from labelverify.extraction.rapidocr_adapter import (
 )
 from labelverify.imaging.transforms import ImageView
 from numpy.typing import NDArray
+
+
+def test_runtime_font_is_hash_verified_with_the_models(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    font = tmp_path / "DejaVuSans.ttf"
+    font.write_bytes(b"governed open font")
+    expected_hash = hashlib.sha256(font.read_bytes()).hexdigest()
+    monkeypatch.setattr(
+        rapidocr_adapter_module,
+        "RUNTIME_ASSETS",
+        {font.name: expected_hash},
+    )
+    adapter = RapidOcrAdapter(tmp_path, require_read_only=False)
+
+    adapter.verify_assets()
+    font.write_bytes(b"tampered")
+
+    with pytest.raises(ModelIntegrityError, match="DejaVuSans.ttf"):
+        adapter.verify_assets()
+
+
+def test_initialize_supplies_the_governed_local_font_path(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    captured: list[dict[str, object]] = []
+
+    class FakeRapidOcr:
+        def __init__(self, *, params: dict[str, object]) -> None:
+            captured.append(params)
+
+        def __call__(self, image: object) -> SimpleNamespace:
+            del image
+            return SimpleNamespace(boxes=None, txts=None, scores=None)
+
+    adapter = RapidOcrAdapter(tmp_path, require_read_only=False)
+    monkeypatch.setattr(adapter, "verify_assets", lambda: None)
+    monkeypatch.setattr(rapidocr, "RapidOCR", FakeRapidOcr)
+
+    adapter.initialize()
+
+    assert len(captured) == 2
+    assert all(
+        params["Global.font_path"] == str(tmp_path / "DejaVuSans.ttf")
+        for params in captured
+    )
 
 
 class CountingEngine:

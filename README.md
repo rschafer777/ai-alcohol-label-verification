@@ -8,7 +8,7 @@ This is an unofficial standalone prototype. It is not affiliated with TTB, is no
 
 - A first-time reviewer can try a complete built-in synthetic sample or enter an application manually.
 - One to six JPEG, PNG, or WebP label panels can be previewed, reordered, removed, and verified together.
-- Local RapidOCR models extract text without a required cloud API or runtime outbound connection.
+- Local RapidOCR models and a governed rendering font extract text without a required cloud API, runtime download, or runtime outbound connection.
 - Nineteen selected checks cover brand, class or type, alcohol content, proof, net contents, producer, country of origin when applicable, panel coverage, and ten government-warning properties.
 - Deterministic rules distinguish exact matches, definite differences, items requiring judgment, and items the prototype cannot verify.
 - Every reported observation is linked to its image, original-pixel polygon, and transform provenance.
@@ -48,7 +48,7 @@ If Windows reports that the `uv` cache cannot create compatible hardlinks, rerun
 
 Open `http://127.0.0.1:8000`. Choose **Try the built-in sample** for the fastest single-label evaluation path, or choose **Batch** and **Try a 10-application batch** for the fastest batch path.
 
-The first worker start loads and warms the local OCR models. Readiness is available at `http://127.0.0.1:8000/health/ready`.
+The controlled fetch verifies the three OCR model files, the DejaVu release archive, and the extracted DejaVu Sans font by SHA-256. The first worker start loads and warms those local assets. Readiness is available at `http://127.0.0.1:8000/health/ready`.
 
 ### Run a folder batch
 
@@ -102,13 +102,13 @@ npm run test
 npm run build
 ```
 
-The deterministic test corpus contains 24 development cases, 6 sealed holdouts, and a separate two-panel built-in sample. It covers all 19 selected checks and includes ambiguity, warning, bad-image, input-limit, error, and anti-hard-coding controls. The decisive local run passed all 30 cases, all 456 expected result rows, and all 8 mutation controls with zero false-clean results. The current full regression contains 192 passing Python tests and 46 passing frontend tests.
+The deterministic test corpus contains 24 development cases, 6 sealed holdouts, and a separate two-panel built-in sample. It covers all 19 selected checks and includes ambiguity, warning, bad-image, input-limit, error, and anti-hard-coding controls. The decisive local run passed all 30 cases, all 456 expected result rows, and all 8 mutation controls with zero false-clean results. The current full regression contains 197 passing Python tests and 46 passing frontend tests.
 
 Measured on the documented Windows development host, Warm p95 was 2.374 seconds across 30 two-panel verification runs. Cold readiness through first result was 7.532 seconds across 5 runs. A single warmed worker processed 10 applications in 18.665 seconds, 20 in 36.301 seconds, and all 300 in 521.963 seconds. Peak parent-plus-worker RSS was 1,578,123,264 bytes during the cold run and 847,986,688 bytes during the batch run, both below the selected 2 GiB limit. The machine-readable evidence is in `docs/08-validation/evidence/local-performance.json` and `docs/08-validation/evidence/local-batch-performance.json`. These are local measurements, not guarantees for different hardware or image complexity.
 
 ## Container build
 
-The repository includes a multi-stage, non-root `Dockerfile`. It builds the React UI, creates the locked Python environment, downloads and hash-verifies the governed OCR models during the build, and produces one same-origin runtime image.
+The repository includes a multi-stage, non-root `Dockerfile`. It builds the React UI, creates the locked Python environment, downloads and hash-verifies the governed OCR models and open font during the build, and produces one same-origin runtime image.
 
 ```powershell
 docker build --build-arg LABELVERIFY_BUILD_ID=local-evaluation --tag labelverify:local .
@@ -144,7 +144,7 @@ Core technology choices:
 
 - React 19.2, strict TypeScript, Vite 8, Vitest, and Testing Library;
 - Python 3.12, FastAPI, Pydantic, and Uvicorn;
-- RapidOCR 3.4.2, ONNX Runtime 1.22.1 CPU, OpenCV, and Pillow;
+- RapidOCR 3.4.2, ONNX Runtime 1.22.1 CPU, OpenCV, Pillow, and the governed DejaVu Sans 2.37 font;
 - versioned JSON request, result, error, selected-check, and regulatory-rule contracts;
 - deterministic synthetic fixtures, independent oracles, and sealed holdouts;
 - one multi-stage OCI image with a non-root runtime identity.
@@ -163,7 +163,7 @@ These boundaries are part of the product contract and are not hidden future-work
 
 ### AI, runtime, and network
 
-- Runtime text extraction uses bundled, hash-verified RapidOCR ONNX models on the host CPU. The application has no required runtime cloud inference, analytics, model download, or external API call.
+- Runtime text extraction uses bundled, hash-verified RapidOCR ONNX models and a local hash-verified rendering font on the host CPU. The application has no required runtime cloud inference, analytics, model or font download, or external API call.
 - Initial provisioning still requires dependency and model acquisition unless an organization prepares an approved offline bundle. The source does not itself prove a fully air-gapped installation process.
 - Source behavior does not replace network policy. A production deployment must enforce and test its selected outbound allowlist or deny rule at the platform boundary.
 - OCR confidence is an engine signal, not a calibrated probability or a compliance score.

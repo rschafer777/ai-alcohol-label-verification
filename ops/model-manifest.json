@@ -1,6 +1,6 @@
 {
   "manifestId": "labelverify-rapidocr-models",
-  "manifestVersion": "1.0.0",
+  "manifestVersion": "1.1.0",
   "rapidocrVersion": "3.4.2",
   "modelOrigin": "PaddleOCR models distributed by RapidOCR",
   "license": "Apache-2.0",
@@ -23,6 +23,16 @@
       "filename": "ch_ppocr_mobile_v2.0_cls_infer.onnx",
       "url": "https://www.modelscope.cn/models/RapidAI/RapidOCR/resolve/v3.4.0/onnx/PP-OCRv4/cls/ch_ppocr_mobile_v2.0_cls_infer.onnx",
       "sha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c"
+    },
+    {
+      "role": "ocr_visualization_font",
+      "filename": "DejaVuSans.ttf",
+      "url": "https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.tar.bz2",
+      "sourceSha256": "fa9ca4d13871dd122f61258a80d01751d603b4d3ee14095d65453b4e846e17d7",
+      "archiveMember": "dejavu-fonts-ttf-2.37/ttf/DejaVuSans.ttf",
+      "sha256": "7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954",
+      "license": "DejaVu Fonts License",
+      "licenseSource": "https://dejavu-fonts.github.io/License.html"
     }
   ]
 }

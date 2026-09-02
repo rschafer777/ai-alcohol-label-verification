@@ -1,7 +1,7 @@
 # Azure Demo Deployment
 
 **Document ID:** LV-REL-004  
-**Status:** Deployment contract implemented, container packaging correction pending live proof  
+**Status:** Deployment contract implemented, runtime font correction pending live proof  
 **Environment:** GitHub environment `demo`
 
 ## 1. Purpose
@@ -98,4 +98,6 @@ The first portability correction retained exclusions for `research/` and checksu
 
 Run `33570716009` passed the complete release gate, privacy scan, and 30-case product corpus. Azure OIDC authentication then rejected the original classic repository subject because GitHub presented its immutable organization-and-repository identity form. No image build, registry push, or Azure resource mutation occurred. The existing environment-scoped federated credential was corrected in place and read back through Azure before another dispatch.
 
-Run `33572176211` proved the corrected OIDC exchange, governed prior-state check, and private-registry authentication. The multi-stage image build then exposed that the frontend stage copied `frontend/` but not the root `contracts/` registry imported during TypeScript compilation. The build stopped before image push completion and before the workflow's Azure mutation boundary. The Dockerfile now copies the root contracts into the frontend build context before compilation, and a deployment-contract regression test enforces that order. The corrected local gate passed 192 Python tests, 46 frontend tests, the production build, and the required browser journeys.
+Run `33572176211` proved the corrected OIDC exchange, governed prior-state check, and private-registry authentication. The multi-stage image build then exposed that the frontend stage copied `frontend/` but not the root `contracts/` registry imported during TypeScript compilation. The build stopped before image push completion and before the workflow's Container App mutation boundary. The Dockerfile now copies the root contracts into the frontend build context before compilation, and a deployment-contract regression test enforces that order. The corrected local gate passed 192 Python tests, 46 frontend tests, the production build, and the required browser journeys.
+
+Run `33573352505` passed the release gate, privacy scan, product corpus, OIDC exchange, registry authentication, immutable image build and push, and Azure ARM deployment. The new revision never became ready because RapidOCR warmup attempted to download its default `FZYTK.TTF` visualization font into the read-only Python package directory. The container correctly denied that write, but the worker exited before readiness. A live read-only container console diagnostic established the exact exception. The governed rollback job then succeeded and removed the failed first application. The application now fetches DejaVu Sans 2.37 from its official release archive only during controlled setup or build, verifies both archive and extracted-file SHA-256 values, marks the font read-only, and passes its local absolute path to RapidOCR. The workflow now runs the built digest locally and requires readiness plus metadata before marking the Container App mutation boundary.

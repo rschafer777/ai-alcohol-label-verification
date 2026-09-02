@@ -121,6 +121,23 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
     assert "labelverify-rollback-" in workflow
     assert "The prior digest was restored and verified." in workflow
     assert "The new Container App was removed." in workflow
+    readiness_step = "Prove container readiness before the Container App mutation boundary"
+    mutation_step = "Mark the Container App mutation boundary"
+    assert readiness_step in workflow
+    assert workflow.index(readiness_step) < (
+        workflow.index(mutation_step)
+    )
+    assert 'echo "ready=true" >>"$GITHUB_OUTPUT"' in workflow
+    assert "PREDEPLOY_READY: ${{ steps.predeploy.outputs.ready }}" in workflow
+    assert '[[ "$PREDEPLOY_READY" == "true" ]]' in workflow
+    deployment_gate = (
+        "${{ steps.predeploy.outputs.ready == 'true' &&\n"
+        "              steps.mutation.outputs.started == 'true' }}"
+    )
+    deploy_start = workflow.index("Deploy the image digest through ARM")
+    deploy_end = workflow.index("Validate the effective Azure configuration")
+    assert deployment_gate in workflow[deploy_start:deploy_end]
+    assert "docker logs \"$container_name\"" in workflow
     assert ".properties.configuration.ingress.fqdn == $host" in workflow
     assert '.properties.configuration.identitySettings[0].lifecycle == "None"' in workflow
     assert ".identity.userAssignedIdentities | keys | map(ascii_downcase)" in workflow

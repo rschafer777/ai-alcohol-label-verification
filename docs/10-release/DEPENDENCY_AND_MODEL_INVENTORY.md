@@ -11,7 +11,7 @@ Status: Local release candidate preparation
 |---|---|---|
 | `sbom-python.cdx.json` | Locked production Python dependency graph in CycloneDX 1.5 format | `841a763a43be2123b4b4a3dd80b368883f40d9c2cf6a880f6c9b7c7e9d90af8a` |
 | `sbom-frontend.cdx.json` | Locked production frontend dependency graph in CycloneDX 1.5 format | `db160ac9c3417df87cd66abedfb2b520dcdb34c00eaa14ffedd20aec4b86804a` |
-| `../../ops/model-manifest.json` | Governed OCR model source, identity, license, filename, and SHA-256 values | `7714d5092c8458c8b2a94975ad6ab1f350b8ff087e5713102c94ea4d0aa6d8dc` |
+| `../../ops/model-manifest.json` | Governed OCR model and runtime-font sources, identities, licenses, filenames, and SHA-256 values | `bbfd95dd0383941198b86903242ca99f44247965c40511f424e2441d2aee157e` |
 
 The Python SBOM was regenerated from `uv.lock` with uv 0.11.32 after the security correction loop upgraded FastAPI to 0.141.1, Starlette to 1.6.0, Pillow to 12.3.0, and python-multipart to 0.0.32. The frontend SBOM was constructed deterministically from `frontend/package-lock.json` after npm 11.9.0 produced an empty graph for this private package. Its four production components and three direct root dependencies were verified against `npm ls --omit=dev --all --json`. The lockfiles remain the installation authority.
 
@@ -24,12 +24,14 @@ On 2026-09-01, `pip-audit` reported no known vulnerabilities in the complete syn
 | Detector | `en_PP-OCRv3_det_infer.onnx` | `ea07c15d38ac40cd69da3c493444ec75b44ff23840553ff8ba102c1219ed39c2` |
 | Recognizer | `en_PP-OCRv4_rec_infer.onnx` | `e8770c967605983d1570cdf5352041dfb68fa0c21664f49f47b155abd3e0e318` |
 | Orientation classifier | `ch_ppocr_mobile_v2.0_cls_infer.onnx` | `e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c` |
+| OCR rendering font | `DejaVuSans.ttf` | `7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954` |
 
-The models originate from PaddleOCR distributions published through RapidOCR. RapidOCR identifies the project as Apache-2.0 and notes that OCR model copyright belongs to Baidu. The exact source URLs and governed hashes are recorded in `ops/model-manifest.json`.
+The models originate from PaddleOCR distributions published through RapidOCR. RapidOCR identifies the project as Apache-2.0 and notes that OCR model copyright belongs to Baidu. The open font comes from the official DejaVu Fonts 2.37 release archive. The source archive hash, archive member, extracted font hash, source URLs, and governed model hashes are recorded in `ops/model-manifest.json`.
 
 ## License handling
 
 - Third-party components remain subject to their own licenses and notices.
+- Core OCR and font notices are collected in `THIRD_PARTY_NOTICES.md`, with exact license texts under `third-party-licenses/`.
 - The SBOM and package lockfiles identify the exact dependency versions used by this candidate.
 - The requester has not selected a license for the take-home project's original source. No project-source license is asserted here.
 - A final repository should include any license and notice files required by the selected distribution posture before public publication.

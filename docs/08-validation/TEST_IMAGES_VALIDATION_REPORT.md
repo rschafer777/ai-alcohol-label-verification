@@ -1,6 +1,6 @@
 # Test Images Validation Report
 
-Generated: 2026-09-01T18:29:04.671001+00:00
+Generated: 2026-09-02T00:36:04.345102+00:00
 
 ## Outcome
 
@@ -43,7 +43,7 @@ If mandatory evidence is truly absent or unreadable, the correct outcome is NEED
 - Normal readable-image target: at most 5 seconds for at least 90% of cases
 - Difficult recoverable-image target: at most 9 seconds
 - Sequential batch mean target: at most 5 seconds per image
-- Current partial-harness all-corpus mean: 2421.764 ms
+- Current partial-harness all-corpus mean: 2384.884 ms
 - Current normal-image results within 5 seconds: 24 of 24
 - Current difficult-image results within 9 seconds: 13 of 13
 These timings cover the partial local image harness, not browser upload, production orchestration, or network transfer.

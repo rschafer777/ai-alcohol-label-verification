@@ -7,25 +7,26 @@ configfile: pyproject.toml
 testpaths: backend/tests, tests
 plugins: anyio-4.14.2, asyncio-1.4.0, cov-6.3.0
 asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
-collected 192 items
+collected 197 items
 
 backend\tests\test_api.py .......                                        [  3%]
 backend\tests\test_contracts.py .....                                    [  6%]
-backend\tests\test_domain.py ........................................... [ 28%]
-                                                                         [ 28%]
-backend\tests\test_imaging_candidates.py ............................    [ 43%]
-backend\tests\test_lifecycle_matrix.py ................                  [ 51%]
-backend\tests\test_multipart.py ...                                      [ 53%]
-backend\tests\test_pipeline.py .....                                     [ 55%]
-backend\tests\test_rapidocr_adapter.py ..........                        [ 60%]
+backend\tests\test_domain.py ........................................... [ 27%]
+                                                                         [ 27%]
+backend\tests\test_imaging_candidates.py ............................    [ 42%]
+backend\tests\test_lifecycle_matrix.py ................                  [ 50%]
+backend\tests\test_multipart.py ...                                      [ 51%]
+backend\tests\test_pipeline.py .....                                     [ 54%]
+backend\tests\test_rapidocr_adapter.py ............                      [ 60%]
 backend\tests\test_real_sample_integration.py ..                         [ 61%]
-backend\tests\test_security.py ..............                            [ 69%]
-backend\tests\test_supervisor_boundary.py ..........                     [ 74%]
-tests\validation\test_azure_deployment_contract.py ....                  [ 76%]
-tests\validation\test_evidence_sanitization.py ..                        [ 77%]
-tests\validation\test_fixture_corpus.py ..........                       [ 82%]
-tests\validation\test_fixture_generator_determinism.py .                 [ 83%]
-tests\validation\test_product_corpus_validator.py ...                    [ 84%]
+backend\tests\test_security.py ..............                            [ 68%]
+backend\tests\test_supervisor_boundary.py ..........                     [ 73%]
+tests\validation\test_azure_deployment_contract.py ....                  [ 75%]
+tests\validation\test_evidence_sanitization.py ..                        [ 76%]
+tests\validation\test_fixture_corpus.py ..........                       [ 81%]
+tests\validation\test_fixture_generator_determinism.py .                 [ 82%]
+tests\validation\test_model_asset_acquisition.py ...                     [ 83%]
+tests\validation\test_product_corpus_validator.py ...                    [ 85%]
 tests\validation\test_production_oracle_validator.py .......             [ 88%]
 tests\validation\test_release_claims.py ...                              [ 90%]
 tests\validation\test_release_manifest_generator.py .                    [ 90%]
@@ -37,7 +38,7 @@ tests\validation\test_test_images_validator.py ..................        [100%]
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================= 192 passed, 1 warning in 43.08s =======================
+======================= 197 passed, 1 warning in 43.26s =======================
 
 > labelverify-frontend@0.1.0 lint
 > eslint . --max-warnings 0
@@ -56,8 +57,8 @@ tests\validation\test_test_images_validator.py ..................        [100%]
 
  Test Files  9 passed (9)
       Tests  46 passed (46)
-   Start at  18:52:04
-   Duration  5.34s (transform 841ms, setup 4.03s, import 2.23s, tests 4.96s, environment 17.11s)
+   Start at  19:47:19
+   Duration  5.36s (transform 892ms, setup 4.04s, import 2.23s, tests 4.92s, environment 17.77s)
 
 
 > labelverify-frontend@0.1.0 build
@@ -72,7 +73,7 @@ dist/index.html                   0.48 kB │ gzip:  0.30 kB
 dist/assets/index-DG0b-J5j.css   13.64 kB │ gzip:  4.01 kB
 dist/assets/index-BWuhx4XN.js   298.15 kB │ gzip: 89.43 kB
 
-✓ built in 164ms
+✓ built in 157ms
 
 > labelverify-frontend@0.1.0 test:e2e
 > playwright test
@@ -81,19 +82,19 @@ dist/assets/index-BWuhx4XN.js   298.15 kB │ gzip: 89.43 kB
 Running 6 tests using 1 worker
 
   -  1 [chrome] › e2e\batch-capacity.spec.ts:45:1 › governed 300-application browser batch is complete, mixed, cancellable, and exportable
-  ok 2 [chrome] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (5.3s)
-  ok 3 [chrome] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free (3.8s)
+  ok 2 [chrome] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (5.2s)
+  ok 3 [chrome] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free (3.2s)
   -  4 [edge] › e2e\batch-capacity.spec.ts:45:1 › governed 300-application browser batch is complete, mixed, cancellable, and exportable
-  ok 5 [edge] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (4.4s)
+  ok 5 [edge] › e2e\labelverify.spec.ts:12:1 › sample journey is accessible, truthful, non-persistent, and reversible (4.2s)
   -  6 [edge] › e2e\privacy-matrix.spec.ts:50:1 › complete browser privacy lifecycle remains content-free
 
   3 skipped
-  3 passed (22.5s)
-[WebServer] INFO:     Started server process [15496]
+  3 passed (21.4s)
+[WebServer] INFO:     Started server process [87576]
 [WebServer] INFO:     Waiting for application startup.
 [WebServer] INFO:     Application startup complete.
 [WebServer] INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-(node:29892) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:51460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)
-(node:69440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(node:25552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
 (Use `node --trace-warnings ...` to show where the warning was created)

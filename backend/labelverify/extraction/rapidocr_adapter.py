@@ -26,6 +26,10 @@ MODEL_ASSETS = {
         "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c"
     ),
 }
+FONT_ASSET = {
+    "DejaVuSans.ttf": "7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954"
+}
+RUNTIME_ASSETS = MODEL_ASSETS | FONT_ASSET
 OCR_INFERENCE_LANES = 2
 _MIN_LOCAL_CONTRAST = 24.0
 _MIN_FOREGROUND_FRACTION = 0.02
@@ -57,7 +61,7 @@ class RapidOcrAdapter:
         return self._model_identity
 
     def verify_assets(self) -> None:
-        for filename, expected_hash in MODEL_ASSETS.items():
+        for filename, expected_hash in RUNTIME_ASSETS.items():
             path = self._model_root / filename
             if not path.is_file() or _sha256(path) != expected_hash:
                 raise ModelIntegrityError(f"OCR model asset failed integrity: {filename}")
@@ -75,6 +79,7 @@ class RapidOcrAdapter:
             "EngineConfig.onnxruntime.intra_op_num_threads": 2,
             "EngineConfig.onnxruntime.inter_op_num_threads": 1,
             "EngineConfig.onnxruntime.enable_cpu_mem_arena": False,
+            "Global.font_path": str(self._model_root / "DejaVuSans.ttf"),
             "Global.log_level": "error",
             "Global.max_side_len": 3000,
             "Det.limit_side_len": 1600,

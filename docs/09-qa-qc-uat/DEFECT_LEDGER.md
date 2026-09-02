@@ -54,6 +54,7 @@ No open defect is silently waived. Environment and authorization gates are track
 | `PKG-F004` | Build toolchain and OS artifact could drift. | Digest-pinned image sources, checksum-pinned exact Debian artifact, frozen uv/npm graphs, and no mutable external Dockerfile frontend. | CLOSED |
 | `PKG-F005` | Broad build context could capture local or sensitive artifacts. | Deny-all Docker context allowlist with explicit artifact exclusions. | CLOSED |
 | `PKG-F006` | Build provenance identifier could be generic or omitted. | Nonempty `LABELVERIFY_BUILD_ID` is mandatory and persisted. | CLOSED |
+| `PKG-F007` | RapidOCR warmup attempted to download its default visualization font into the read-only package directory. | Fetch DejaVu Sans 2.37 only during controlled setup or build, verify source and extracted hashes, pass its absolute local path to RapidOCR, and prove container readiness before the serving Container App mutation. | CLOSED |
 
 ## 4. Security defect ledger
 

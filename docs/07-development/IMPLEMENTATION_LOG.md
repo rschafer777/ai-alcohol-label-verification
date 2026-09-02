@@ -102,7 +102,8 @@ The backend workstream completed the modular monolith and its supervised OCR bou
 - all 19 selected checks with deterministic aggregation and typed evidence;
 - exact request, upload, timeout, error, privacy, and cleanup boundaries;
 - liveness, fail-closed readiness, safe metadata, governed sample, and same-origin SPA routes;
-- no required runtime egress, database, durable queue, account, or content logging; and
+- no required runtime egress, database, durable queue, account, or content logging;
+- an explicit hash-verified DejaVu Sans runtime font that prevents RapidOCR warmup from attempting a network download; and
 - successful governed sample verification with every applicable check at Match.
 
 ## 9. Integrated correction loop

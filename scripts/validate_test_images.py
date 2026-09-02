@@ -24,7 +24,7 @@ from labelverify.contracts.loader import contracts  # noqa: E402
 from labelverify.domain.warnings import warning_checks  # noqa: E402
 from labelverify.extraction.candidates import locate_candidates  # noqa: E402
 from labelverify.extraction.rapidocr_adapter import (  # noqa: E402
-    MODEL_ASSETS,
+    RUNTIME_ASSETS,
     RapidOcrAdapter,
 )
 from labelverify.imaging.decode import (  # noqa: E402
@@ -625,7 +625,7 @@ def source_binding(path: Path) -> dict[str, str]:
 
 def evidence_bindings(oracle_metadata: dict[str, Any]) -> dict[str, Any]:
     model_bindings = []
-    for filename, expected_hash in MODEL_ASSETS.items():
+    for filename, expected_hash in RUNTIME_ASSETS.items():
         path = PROJECT_ROOT / "models" / filename
         actual_hash = sha256(path)
         model_bindings.append(

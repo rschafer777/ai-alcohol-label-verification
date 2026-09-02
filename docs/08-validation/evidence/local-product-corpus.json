@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "evidenceId": "T-032-B-LOCAL-PRODUCT-CORPUS",
-  "createdAtUtc": "2026-09-01T22:38:10.728176+00:00",
+  "createdAtUtc": "2026-09-02T00:25:45.392318+00:00",
   "command": "uv run python scripts/validate_product_corpus.py",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
@@ -13,7 +13,7 @@
     "pipelineSha256": "9d81005d9069d30acc9fe4a0d5832ee64b2d5d17654c97efe4165c09f2299b8d",
     "corpusManifestSha256": "4de5acc46344dfc93416b687949add6ff0435d302c92ca1c3797538f578942bd",
     "holdoutSealSha256": "ae2f97015a27783a41f54ca2cbf5f0dc5db0dd78974309a932ea4f9b350bd5cd",
-    "modelManifestSha256": "7714d5092c8458c8b2a94975ad6ab1f350b8ff087e5713102c94ea4d0aa6d8dc",
+    "modelManifestSha256": "bbfd95dd0383941198b86903242ca99f44247965c40511f424e2441d2aee157e",
     "contracts": {
       "api-contract-v1.json": "b7eb6b2e0c4082259f01fe5339dc2fe8ca3191a7831b11629c9fa202d852bb47",
       "error-registry-v1.json": "41fa16e582d528e1fe9df7ad13feed557d788daa253bf7f2b628f87dde970fa7",
@@ -41,7 +41,7 @@
       "backend/labelverify/extraction/__init__.py": "fae7cbfab6eb987a5d8cd1dfdebaaca2a0bbfe527d0f1ec4f27fda0e71d366d8",
       "backend/labelverify/extraction/candidates.py": "9825a6288e8b88c84e9c696f57c9e0efcff37e86b5b967fcb38e81e22d810c40",
       "backend/labelverify/extraction/port.py": "e76ff239aa65e8ab9e3aa580205b915a006bc8e5b8faca6fa0e65634c81a221d",
-      "backend/labelverify/extraction/rapidocr_adapter.py": "b968f08fa12e06f92a1039d91b7284617e0d285f341e1bad673d43db8a674e69",
+      "backend/labelverify/extraction/rapidocr_adapter.py": "0e0fe7f839e9f7cf82728f2286aea6c6f66b6115633bb6889ce54cb4cc8607ff",
       "backend/labelverify/imaging/__init__.py": "80133b1eb3bbb463edc17e33de6d31d09d92809a960bbb31d4e35f7e2ed14a78",
       "backend/labelverify/imaging/decode.py": "117ce27a22f2775f0e14f863793153037d07bcbff615528c6a04c01ad4e677b4",
       "backend/labelverify/imaging/transforms.py": "877d6e1bebda2c447f0a926eec1e236f9fe1625a75b811663333ea578b03535c",
@@ -56,7 +56,7 @@
       "backend/labelverify/settings/__init__.py": "8dbc95fd20a64287250fdf320929193cc89c48fbe532fdde65d9bc2a50a27439",
       "backend/labelverify/settings/config.py": "17c8de8a5bad38304113b65144e807d2ccc07aeb37f18343eecbc419599c03f5",
       "scripts/generate_fixture_corpus.py": "24986839de3a88a8efa79c9276054028253a28db9ce72b742e11c559ac4710a6",
-      "scripts/validate_production_oracle.py": "3f9963320ac6e1c779956a438dcc80db987de6bf27b59135ffdb463772722558"
+      "scripts/validate_production_oracle.py": "a96b6f87360e06ddebecfc668734224b6db31c4d12ad01ab2661b7127cd44cf4"
     },
     "oracles": {
       "fixtures/oracle/development/D001.json": "13496eaf5d209b50410960c50f3202e238f17d2f88a02aeeeae4c1e9f05ad9e9",
@@ -105,6 +105,13 @@
     },
     "modelAssets": [
       {
+        "filename": "DejaVuSans.ttf",
+        "expectedSha256": "7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954",
+        "actualSha256": "7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954",
+        "bytes": 757076,
+        "matches": true
+      },
+      {
         "filename": "ch_ppocr_mobile_v2.0_cls_infer.onnx",
         "expectedSha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c",
         "actualSha256": "e47acedf663230f8863ff1ab0e64dd2d82b838fceb5957146dab185a89d6215c",
@@ -139,7 +146,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3522.938,
+        "durationMs": 3303.834,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -151,9 +158,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 3516.0,
+          "serverDurationMs": 3297.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -166,7 +173,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2458.256,
+        "durationMs": 2252.521,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -178,9 +185,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2453.0,
+          "serverDurationMs": 2250.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -193,7 +200,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2451.865,
+        "durationMs": 2303.963,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -205,9 +212,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2437.0,
+          "serverDurationMs": 2296.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -220,7 +227,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2093.186,
+        "durationMs": 1975.972,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -232,9 +239,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2078.0,
+          "serverDurationMs": 1969.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -247,7 +254,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2101.062,
+        "durationMs": 1896.365,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -259,9 +266,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2093.0,
+          "serverDurationMs": 1890.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -274,7 +281,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2177.467,
+        "durationMs": 1943.324,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -286,9 +293,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2172.0,
+          "serverDurationMs": 1938.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -301,7 +308,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2168.134,
+        "durationMs": 1893.119,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -313,9 +320,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2156.0,
+          "serverDurationMs": 1890.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -328,7 +335,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2092.898,
+        "durationMs": 1894.922,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -340,9 +347,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2094.0,
+          "serverDurationMs": 1891.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -355,7 +362,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3412.35,
+        "durationMs": 3132.535,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -367,9 +374,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 9,
-          "serverDurationMs": 3422.0,
+          "serverDurationMs": 3125.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -382,7 +389,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2454.56,
+        "durationMs": 2222.186,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -394,9 +401,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 7,
-          "serverDurationMs": 2453.0,
+          "serverDurationMs": 2219.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -409,7 +416,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3391.761,
+        "durationMs": 3211.491,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -421,9 +428,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 3390.0,
+          "serverDurationMs": 3219.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -436,7 +443,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2750.62,
+        "durationMs": 2606.122,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -448,9 +455,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2750.0,
+          "serverDurationMs": 2609.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -463,7 +470,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3108.611,
+        "durationMs": 2924.949,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -475,9 +482,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 3110.0,
+          "serverDurationMs": 2922.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -490,7 +497,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2290.746,
+        "durationMs": 2156.419,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -502,9 +509,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2281.0,
+          "serverDurationMs": 2156.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -517,7 +524,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2582.745,
+        "durationMs": 2337.935,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -529,9 +536,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2578.0,
+          "serverDurationMs": 2344.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -544,7 +551,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2865.885,
+        "durationMs": 2765.806,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -556,9 +563,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2859.0,
+          "serverDurationMs": 2766.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -571,7 +578,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2365.898,
+        "durationMs": 2213.705,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -583,9 +590,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 0,
-          "serverDurationMs": 2359.0,
+          "serverDurationMs": 2218.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -598,7 +605,7 @@
         "sealed": false,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 1440.571,
+        "durationMs": 1363.781,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -610,9 +617,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 5,
-          "serverDurationMs": 1438.0,
+          "serverDurationMs": 1360.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -625,7 +632,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 66.431,
+        "durationMs": 67.709,
         "expected": {
           "summary": null,
           "errorCode": "invalid_image",
@@ -648,7 +655,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 5.851,
+        "durationMs": 6.219,
         "expected": {
           "summary": null,
           "errorCode": "unsupported_media_type",
@@ -671,7 +678,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 2.958,
+        "durationMs": 3.13,
         "expected": {
           "summary": null,
           "errorCode": "invalid_panel_count",
@@ -694,7 +701,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 7.428,
+        "durationMs": 8.426,
         "expected": {
           "summary": null,
           "errorCode": "multipart_limit_exceeded",
@@ -717,7 +724,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api",
-        "durationMs": 17.214,
+        "durationMs": 17.393,
         "expected": {
           "summary": null,
           "errorCode": "decoded_pixel_limit",
@@ -740,7 +747,7 @@
         "sealed": false,
         "expectedKind": "error",
         "executionPath": "production_api_controlled_timeout",
-        "durationMs": 46.061,
+        "durationMs": 49.654,
         "expected": {
           "summary": null,
           "errorCode": "inference_timeout",
@@ -763,7 +770,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 5049.831,
+        "durationMs": 4614.49,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -775,9 +782,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 9,
-          "serverDurationMs": 5047.0,
+          "serverDurationMs": 4609.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -790,7 +797,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 3132.954,
+        "durationMs": 2949.133,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -802,9 +809,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 7,
-          "serverDurationMs": 3141.0,
+          "serverDurationMs": 2953.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -817,7 +824,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2468.896,
+        "durationMs": 2357.038,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -829,9 +836,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 9,
-          "serverDurationMs": 2468.0,
+          "serverDurationMs": 2360.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -844,7 +851,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2840.916,
+        "durationMs": 2692.81,
         "expected": {
           "summary": "Differences detected",
           "errorCode": null,
@@ -856,9 +863,9 @@
           "summary": "Differences detected",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2844.0,
+          "serverDurationMs": 2687.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -871,7 +878,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 2983.272,
+        "durationMs": 2844.631,
         "expected": {
           "summary": "Review needed",
           "errorCode": null,
@@ -883,9 +890,9 @@
           "summary": "Review needed",
           "checkCount": 19,
           "evidenceCount": 8,
-          "serverDurationMs": 2984.0,
+          "serverDurationMs": 2844.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -898,7 +905,7 @@
         "sealed": true,
         "expectedKind": "result",
         "executionPath": "production_api",
-        "durationMs": 1505.826,
+        "durationMs": 1410.988,
         "expected": {
           "summary": "No differences found in checked fields",
           "errorCode": null,
@@ -910,9 +917,9 @@
           "summary": "No differences found in checked fields",
           "checkCount": 19,
           "evidenceCount": 6,
-          "serverDurationMs": 1500.0,
+          "serverDurationMs": 1406.0,
           "modelIdentity": "rapidocr-3.4.2:e8770c967605",
-          "buildId": "vv-product-corpus-v1"
+          "buildId": "local-font-correction"
         },
         "falseClean": false,
         "failureCount": 0,
@@ -927,7 +934,7 @@
         "operation": "rename_case_id",
         "target": "caseId",
         "invariant": "Results must not depend on fixture ID.",
-        "durationMs": 1982.387,
+        "durationMs": 1903.613,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [],
@@ -964,7 +971,7 @@
         "operation": "reverse_panels",
         "target": "panels",
         "invariant": "Evidence panel IDs may change but machine states must not.",
-        "durationMs": 3460.125,
+        "durationMs": 3117.652,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [],
@@ -1001,7 +1008,7 @@
         "operation": "replace_label_text",
         "target": "brand",
         "invariant": "A semantic brand mutation must change the brand result.",
-        "durationMs": 2270.447,
+        "durationMs": 2156.517,
         "expectedSummary": "Differences detected",
         "observedSummary": "Differences detected",
         "expectedChangedChecks": [
@@ -1042,7 +1049,7 @@
         "operation": "replace_label_text",
         "target": "warning_heading_uppercase",
         "invariant": "Warning capitalization cannot be inferred from the fixture name.",
-        "durationMs": 2382.07,
+        "durationMs": 2217.558,
         "expectedSummary": "Differences detected",
         "observedSummary": "Differences detected",
         "expectedChangedChecks": [
@@ -1083,7 +1090,7 @@
         "operation": "add_conflicting_candidate",
         "target": "country",
         "invariant": "Reference value cannot choose among conflicting observed candidates.",
-        "durationMs": 3197.727,
+        "durationMs": 3018.315,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [
@@ -1124,7 +1131,7 @@
         "operation": "replace_reference_value",
         "target": "abvPercent",
         "invariant": "Observed OCR must remain unchanged when only reference data changes.",
-        "durationMs": 1927.997,
+        "durationMs": 1937.437,
         "expectedSummary": "Differences detected",
         "observedSummary": "Differences detected",
         "expectedChangedChecks": [
@@ -1167,7 +1174,7 @@
         "operation": "remove_panel",
         "target": "back",
         "invariant": "Missing evidence cannot remain Match or clean.",
-        "durationMs": 1357.27,
+        "durationMs": 1261.237,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [
@@ -1224,7 +1231,7 @@
         "operation": "apply_blur",
         "target": "all_panels",
         "invariant": "Material degradation must affect quality and cannot create a clean result.",
-        "durationMs": 1231.909,
+        "durationMs": 1166.362,
         "expectedSummary": "Review needed",
         "observedSummary": "Review needed",
         "expectedChangedChecks": [
@@ -1294,39 +1301,39 @@
     ],
     "workerStartups": [
       {
-        "readyMs": 4323.879,
+        "readyMs": 4209.541,
         "generation": 1,
-        "childPid": 56548,
+        "childPid": 82556,
         "workerDeadlineSeconds": 6.25
       },
       {
-        "readyMs": 4313.125,
+        "readyMs": 4124.005,
         "generation": 1,
-        "childPid": 95592,
+        "childPid": 75036,
         "workerDeadlineSeconds": 6.25
       },
       {
-        "readyMs": 4225.638,
+        "readyMs": 4175.623,
         "generation": 1,
-        "childPid": 85332,
+        "childPid": 82516,
         "workerDeadlineSeconds": 6.25
       },
       {
-        "readyMs": 4171.27,
+        "readyMs": 4118.077,
         "generation": 1,
-        "childPid": 64840,
+        "childPid": 19772,
         "workerDeadlineSeconds": 0.001
       },
       {
-        "readyMs": 4163.532,
+        "readyMs": 4147.283,
         "generation": 1,
-        "childPid": 31116,
+        "childPid": 89304,
         "workerDeadlineSeconds": 6.25
       },
       {
-        "readyMs": 4249.796,
+        "readyMs": 4154.886,
         "generation": 1,
-        "childPid": 11296,
+        "childPid": 76876,
         "workerDeadlineSeconds": 6.25
       }
     ]
