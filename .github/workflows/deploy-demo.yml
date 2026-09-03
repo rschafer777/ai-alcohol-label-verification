@@ -467,10 +467,11 @@ jobs:
                  (.state == "Match" or .state == "Review"))] |
                length) == 1 and
              ([.checks[] |
-               select(.applicable == true and .state != "Match" and
-                 !(.checkId == "warning_physical_size" and .state == "Not verified") and
-                 !(.checkId == "warning_wording" and .state == "Review"))] |
-               length) == 0 and
+               select(.applicable == true and .state != "Match") |
+               [.checkId, .state]] |
+               all(.[];
+                 (. == ["warning_physical_size", "Not verified"]) or
+                 (. == ["warning_wording", "Review"]))) and
              ((map(.serverDurationMs) | add) / length) < 5000 and
              (map(.serverDurationMs) | max) < 9000' \
             "$work"/result-*.json >/dev/null
