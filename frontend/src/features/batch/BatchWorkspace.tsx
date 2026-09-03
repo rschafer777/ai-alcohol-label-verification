@@ -1,28 +1,30 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from "react";
 
+import { createHistoryClient, type HistoryClient } from "../../api/history-client";
 import { VerificationClientError } from "../../api/verification-client";
-import type { VerificationClient } from "../../contracts/types";
-import { ResultWorkspace } from "../verification/ResultWorkspace";
-import {
-  canonicalPath,
-  imageSelectionIssue,
-  spreadsheetSafeCsvCell,
-  suggestProductGroups,
-  type SuggestedGroup,
-} from "./grouping";
+import { Corners } from "../../components/Blueprint";
+import { icons } from "../../components/icons";
+import { Spinner } from "../../components/Spinner";
+import { FilePreview } from "../../components/FilePreview";
+import { StateCard } from "../../components/StateCard";
+import type { Disposition } from "../../components/status";
+import type { GroupingImage, PublicError, VerificationClient } from "../../contracts/types";
+import { slotTitle } from "../verification/review-images";
+import { ReviewWorkspace } from "../verification/ReviewWorkspace";
+import { batchProgress, confirmAllReady, confirmGroup, groupFromSuggestion, isException, mergeGroups, moveImage, renameGroup, splitGroup, summaryOf, type BatchGroup, type BatchImage, type BatchStage } from "./batch-state";
+import { BatchRail } from "./BatchRail";
+import { BatchRun } from "./BatchRun";
+import { canonicalPath, spreadsheetSafeCsvCell, suggestProductGroups } from "./grouping";
+import { GroupingWall } from "./GroupingWall";
 
 interface BatchWorkspaceProps {
   initialFiles: File[];
-  onFilesConsumed: () => void;
+  batchName: string;
   verificationClient: VerificationClient;
-}
-
-function machineLabel(group: SuggestedGroup): string {
-  if (group.status === "running") return "Running";
-  if (group.status === "queued") return "Queued";
-  if (group.status === "cancelled") return "Cancelled";
-  if (group.status === "failed") return "Failed";
-  return group.result?.summary ?? "Waiting";
+  historyClient?: HistoryClient;
+  onExit: () => void;
+  onHistoryChanged: () => void;
+  onScreenTitle: (title: string) => void;
 }
 
 function download(filename: string, content: string, type: string) {
@@ -34,191 +36,289 @@ function download(filename: string, content: string, type: string) {
   URL.revokeObjectURL(url);
 }
 
-function FilePreview({ file }: { file: File }) {
-  const url = useMemo(() => URL.createObjectURL(file), [file]);
-  useEffect(() => () => URL.revokeObjectURL(url), [url]);
-  return <img alt="" loading="lazy" src={url} />;
+function toPublicError(caught: unknown): PublicError {
+  if (caught instanceof VerificationClientError) return caught.detail;
+  return { requestId: "unavailable", code: "network_unavailable", message: "The verifier could not be reached.", retryable: true, nextAction: "Check the connection and retry", fieldOrPanel: null };
 }
 
-export function BatchWorkspace({ initialFiles, onFilesConsumed, verificationClient }: BatchWorkspaceProps) {
-  const initialIssue = imageSelectionIssue(initialFiles, 900);
-  const [groups, setGroups] = useState<SuggestedGroup[]>(() => initialIssue ? [] : suggestProductGroups(initialFiles));
-  const [stage, setStage] = useState<"select" | "confirm" | "run">(initialFiles.length && !initialIssue ? "confirm" : "select");
-  const [selectionIssue, setSelectionIssue] = useState(initialIssue ?? "");
-  const [selected, setSelected] = useState<Set<string>>(new Set());
-  const [activeId, setActiveId] = useState<string | null>(null);
-  const [filter, setFilter] = useState<"all" | "attention" | "complete" | "failed">("all");
-  const [elapsedMs, setElapsedMs] = useState(0);
-  const input = useRef<HTMLInputElement>(null);
-  const consumedInitialFiles = useRef(false);
+export function BatchWorkspace({ initialFiles, batchName, verificationClient, historyClient, onExit, onHistoryChanged, onScreenTitle }: BatchWorkspaceProps): ReactElement {
+  const history = useMemo(() => historyClient ?? createHistoryClient(), [historyClient]);
+  const [images] = useState<BatchImage[]>(() => initialFiles.map((file, index) => ({ id: `img-${index + 1}`, file, url: URL.createObjectURL(file), path: canonicalPath(file) })));
+  const imageMap = useMemo(() => new Map(images.map((image) => [image.id, image])), [images]);
+  const [stage, setStage] = useState<BatchStage>("analyzing");
+  const [analyzed, setAnalyzed] = useState(0);
+  const [failed, setFailed] = useState(0);
+  const [analysisMs, setAnalysisMs] = useState(0);
+  const [groups, setGroups] = useState<BatchGroup[]>([]);
+  const [undoStack, setUndoStack] = useState<BatchGroup[][]>([]);
+  const [activeMs, setActiveMs] = useState(0);
+  const [retries, setRetries] = useState(0);
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [saveState, setSaveState] = useState("");
+  const [fatal, setFatal] = useState<PublicError | null>(null);
   const cancel = useRef(false);
   const controller = useRef<AbortController | null>(null);
-  const runTimer = useRef<number | null>(null);
-
+  const timer = useRef<number | null>(null);
+  const started = useRef(false);
+  const groupsRef = useRef<BatchGroup[]>([]);
   useEffect(() => {
-    if (!consumedInitialFiles.current && initialFiles.length) {
-      consumedInitialFiles.current = true;
-      onFilesConsumed();
-    }
-  }, [initialFiles.length, onFilesConsumed]);
+    groupsRef.current = groups;
+  }, [groups]);
+
+  const patchGroup = useCallback((id: string, patch: Partial<BatchGroup> | ((group: BatchGroup) => Partial<BatchGroup>)) => {
+    setGroups((current) => current.map((group) => group.id === id ? { ...group, ...(typeof patch === "function" ? patch(group) : patch) } : group));
+  }, []);
+
   useEffect(() => () => {
     cancel.current = true;
     controller.current?.abort();
-    if (runTimer.current !== null) window.clearInterval(runTimer.current);
+    if (timer.current !== null) window.clearInterval(timer.current);
+    images.forEach((image) => URL.revokeObjectURL(image.url));
+  }, [images]);
+
+  useEffect(() => {
+    onScreenTitle(openId ? "Batch · review" : stage === "analyzing" ? "Batch · analyzing" : stage === "confirmation" || stage === "grouping" ? "Batch · confirm groups" : "Batch · run");
+  }, [openId, stage, onScreenTitle]);
+
+  const edit = useCallback((update: (current: BatchGroup[]) => BatchGroup[]) => {
+    setGroups((current) => {
+      const next = update(current);
+      if (next !== current) setUndoStack((stack) => [...stack.slice(-19), current]);
+      return next;
+    });
   }, []);
 
-  const completed = groups.filter((group) => group.status === "complete").length;
-  const failed = groups.filter((group) => group.status === "failed").length;
-  const remaining = groups.filter((group) => ["queued", "running"].includes(group.status)).length;
-  const durations = groups.flatMap((group) => group.durationMs == null ? [] : [group.durationMs]);
-  const averageMs = durations.length ? durations.reduce((sum, value) => sum + value, 0) / durations.length : 0;
-  const active = groups.find((group) => group.id === activeId) ?? null;
-  const filtered = useMemo(() => groups.filter((group) => filter === "all" || filter === "attention" && (group.status === "failed" || group.result?.summary !== "No differences found in checked fields") || filter === "complete" && group.status === "complete" || filter === "failed" && group.status === "failed"), [filter, groups]);
+  // Step 1: read every image once (not stored), then ask the server for grouping suggestions.
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+    let active = true;
+    (async () => {
+      const startedAt = performance.now();
+      const rows: GroupingImage[] = [];
+      const failedIds = new Set<string>();
+      for (const image of images) {
+        if (!active || cancel.current) return;
+        const nextController = new AbortController();
+        controller.current = nextController;
+        try {
+          const analysis = await verificationClient.analyze({ panels: [image.file], signal: nextController.signal, persist: false });
+          setAnalyzed((value) => value + 1);
+          rows.push({ imageId: image.id, fileName: image.file.name, path: image.path, brandName: analysis.draft.brandName, classType: analysis.draft.classType, beverageType: analysis.beverageInference?.type ?? analysis.draft.beverageType, typeConfidence: analysis.beverageInference?.confidence ?? (analysis.draft.beverageType ? "medium" : "low"), failed: false });
+        } catch {
+          if (nextController.signal.aborted) return;
+          failedIds.add(image.id);
+          setFailed((value) => value + 1);
+          rows.push({ imageId: image.id, fileName: image.file.name, path: image.path, failed: true });
+        }
+        setAnalysisMs(performance.now() - startedAt);
+      }
+      if (!active) return;
+      try {
+        if (verificationClient.suggestGroups) {
+          const suggestion = await verificationClient.suggestGroups({ images: rows });
+          setGroups(suggestion.groups.map(groupFromSuggestion));
+        } else {
+          setGroups(suggestProductGroups(images.filter((image) => !failedIds.has(image.id)).map((image) => image.file)).map((group, index) => groupFromSuggestion({ groupId: `group-${index + 1}`, panelIds: group.files.map((file) => images.find((image) => image.file === file)?.id ?? ""), suggestedName: group.name, inferredType: null, confidence: "low", status: "needs_review", reasons: [group.reason], conflict: false })));
+        }
+        setStage("confirmation");
+      } catch (caught) {
+        setFatal(toPublicError(caught));
+      }
+    })();
+    return () => { active = false; };
+  }, [images, verificationClient]);
 
-  function choose(files: File[]) {
-    const issue = imageSelectionIssue(files, 900);
-    if (issue) {
-      setGroups([]);
-      setStage("select");
-      setSelectionIssue(issue);
-      return;
-    }
-    setSelectionIssue("");
-    setGroups(suggestProductGroups(files));
-    setStage(files.length ? "confirm" : "select");
-    setSelected(new Set());
-  }
-
-  function update(id: string, patch: Partial<SuggestedGroup>) {
-    setGroups((current) => current.map((group) => group.id === id ? { ...group, ...patch } : group));
-  }
-
-  function confirm(id: string) {
-    const group = groups.find((item) => item.id === id);
-    if (!group?.name.trim()) return;
-    update(id, { name: group.name.trim(), confirmed: true, status: "ready" });
-  }
-
-  function mergeSelected() {
-    const merge = groups.filter((group) => selected.has(group.id));
-    const files = merge.flatMap((group) => group.files);
-    if (merge.length < 2 || files.length > 3) return;
-    const first = merge[0];
-    if (!first) return;
-    setGroups((current) => [{ ...first, files, name: first.name, confirmed: false, status: "needs_confirmation", reason: "Manually merged. Confirm before running." }, ...current.filter((group) => !selected.has(group.id))]);
-    setSelected(new Set());
-  }
-
-  function splitSelected() {
-    const split = groups.filter((group) => selected.has(group.id) && group.files.length > 1);
-    if (!split.length) return;
-    setGroups((current) => current.flatMap((group) => selected.has(group.id) && group.files.length > 1 ? group.files.map((file, index) => ({ ...group, id: `${group.id}-split-${index + 1}`, name: `${group.name} ${index + 1}`, files: [file], confirmed: false, status: "needs_confirmation" as const, reason: "Manually split. Confirm as a separate product." })) : [group]));
-    setSelected(new Set());
-  }
-
-  async function processGroup(group: SuggestedGroup): Promise<void> {
+  // Step 3: run confirmed products one at a time through the same analysis endpoint.
+  async function processGroup(id: string): Promise<void> {
+    const group = groupsRef.current.find((item) => item.id === id);
+    if (!group) return;
+    const files = group.imageIds.map((imageId) => imageMap.get(imageId)?.file).filter((file): file is File => !!file);
     const nextController = new AbortController();
     controller.current = nextController;
-    update(group.id, { status: "running", attempts: group.attempts + 1, error: null });
-    const started = performance.now();
+    patchGroup(id, (current) => ({ runStatus: "running", attempts: current.attempts + 1, error: null }));
+    const t0 = performance.now();
     try {
-      const analysis = await verificationClient.analyze({ panels: group.files, signal: nextController.signal });
-      const durationMs = performance.now() - started;
-      if (cancel.current || nextController.signal.aborted) update(group.id, { status: "cancelled", durationMs });
-      else if (analysis.verification) update(group.id, { analysis, result: analysis.verification, status: "complete", durationMs });
-      else update(group.id, { analysis, status: "failed", durationMs, error: "Beverage type needs human confirmation before rule checks can run." });
+      const analysis = await verificationClient.analyze({ panels: files, signal: nextController.signal });
+      const durationMs = performance.now() - t0;
+      if (cancel.current || nextController.signal.aborted) patchGroup(id, { runStatus: "cancelled", durationMs });
+      else if (analysis.verification) patchGroup(id, { analysis, result: analysis.verification, runStatus: "complete", durationMs });
+      else patchGroup(id, { analysis, runStatus: "failed", durationMs, error: { requestId: analysis.requestId, code: "beverage_type_uncertain", message: "Beverage type needs human confirmation before the checks can run.", retryable: true, nextAction: "Confirm the type", fieldOrPanel: null } });
     } catch (caught) {
-      const durationMs = performance.now() - started;
-      if (cancel.current || nextController.signal.aborted) update(group.id, { status: "cancelled", durationMs });
-      else update(group.id, { status: "failed", durationMs, error: caught instanceof VerificationClientError ? caught.detail.message : "Processing failed." });
+      const durationMs = performance.now() - t0;
+      if (cancel.current || nextController.signal.aborted) patchGroup(id, { runStatus: "cancelled", durationMs });
+      else patchGroup(id, { runStatus: "failed", durationMs, error: toPublicError(caught) });
     }
+    onHistoryChanged();
   }
 
-  async function run() {
-    if (
-      !groups.length
-      || groups.length > 300
-      || groups.some((group) => !group.confirmed || !group.name.trim())
-    ) return;
+  async function runAll(ids: string[]) {
     cancel.current = false;
-    setStage("run");
-    const started = performance.now();
-    runTimer.current = window.setInterval(
-      () => setElapsedMs(performance.now() - started),
-      100,
-    );
-    setGroups((current) => current.map((group) => ({ ...group, status: "queued", error: null })));
+    setStage("running");
+    const startedAt = performance.now() - activeMs;
+    timer.current = window.setInterval(() => setActiveMs(performance.now() - startedAt), 100);
+    setGroups((current) => current.map((group) => ids.includes(group.id) ? { ...group, runStatus: "queued", error: null } : group));
     try {
-      for (const snapshot of groups) {
+      for (const id of ids) {
         if (cancel.current) break;
-        await processGroup(snapshot);
+        await processGroup(id);
       }
     } finally {
-      if (runTimer.current !== null) window.clearInterval(runTimer.current);
-      runTimer.current = null;
-      setElapsedMs(performance.now() - started);
+      if (timer.current !== null) window.clearInterval(timer.current);
+      timer.current = null;
+      setActiveMs(performance.now() - startedAt);
     }
-    if (cancel.current) setGroups((current) => current.map((group) => group.status === "queued" ? { ...group, status: "cancelled" } : group));
+    setGroups((current) => {
+      const next = current.map((group) => group.runStatus === "queued" ? { ...group, runStatus: "cancelled" as const } : group);
+      const anyFailed = next.some((group) => group.runStatus === "failed");
+      const anyCancelled = next.some((group) => group.runStatus === "cancelled");
+      setStage(cancel.current || anyCancelled ? "cancelled" : anyFailed ? "completed_with_errors" : "completed");
+      return next;
+    });
   }
 
-  async function retry(group: SuggestedGroup) {
-    cancel.current = false;
-    await processGroup(group);
+  function start() {
+    void runAll(groups.map((group) => group.id));
   }
 
-  async function retryFailed() {
-    for (const group of groups.filter((item) => item.status === "failed")) {
-      if (cancel.current) break;
-      await retry(group);
-    }
+  function retryFailed() {
+    const ids = groups.filter((group) => group.runStatus === "failed" || group.runStatus === "cancelled").map((group) => group.id);
+    if (!ids.length) return;
+    setRetries((value) => value + ids.length);
+    void runAll(ids);
+  }
+
+  function retryOne(id: string) {
+    setRetries((value) => value + 1);
+    void runAll([id]);
+  }
+
+  function nextException(afterId: string | null) {
+    const list = groups.filter((group) => group.result && isException(group) && group.disposition === null);
+    if (!list.length) { setOpenId(null); return; }
+    const index = afterId ? list.findIndex((group) => group.id === afterId) : -1;
+    const next = list[index + 1] ?? list[0];
+    if (next) setOpenId(next.id);
+  }
+
+  async function saveDisposition(group: BatchGroup, disposition: Disposition, note: string) {
+    patchGroup(group.id, { disposition, note });
+    const historyId = group.result?.historyId;
+    if (!historyId) return;
+    const ok = await history.setDisposition(historyId, disposition, note);
+    setSaveState(ok ? "Saved" : "Could not save. Retry before leaving.");
+    if (ok) onHistoryChanged();
   }
 
   function exportCsv() {
-    const header = "product,machine_result,duration_seconds,attempts,request_id";
-    const rows = groups.map((group) => [group.name, machineLabel(group), ((group.durationMs ?? 0) / 1000).toFixed(2), group.attempts, group.result?.requestId ?? ""].map(spreadsheetSafeCsvCell).join(","));
+    const header = "product,type,images,machine_result,why,duration_seconds,attempts,disposition,note,request_id";
+    const rows = groups.map((group) => [group.name, group.analysis?.draft.beverageType ?? group.inferredType ?? "", group.imageIds.length, summaryOf(group) ?? "", group.error?.message ?? "", ((group.durationMs ?? 0) / 1000).toFixed(2), group.attempts, group.disposition ?? "", group.note, group.result?.requestId ?? ""].map(spreadsheetSafeCsvCell).join(","));
     download("labelverify-batch-results.csv", [header, ...rows].join("\r\n"), "text/csv;charset=utf-8");
   }
 
-  if (active?.analysis && active.result) return <div><button className="btn ghost" onClick={() => setActiveId(null)} type="button">Back to batch</button><ResultWorkspace analysis={active.analysis} onStartOver={() => setActiveId(null)} result={active.result} sourcePanels={active.files} /></div>;
+  function exportJson() {
+    download("labelverify-batch-details.json", JSON.stringify(groups.map((group) => ({ name: group.name, files: group.imageIds.map((id) => imageMap.get(id)?.file.name), status: group.runStatus, attempts: group.attempts, durationMs: group.durationMs, disposition: group.disposition, note: group.note, result: group.result, error: group.error })), null, 2), "application/json");
+  }
 
-  if (stage === "select") return <section className="batch-select blueprint"><p className="kicker">Check a batch | step 1 of 3</p><h1>Choose a folder of label images</h1><p>No spreadsheet is required. Folder and filename cues create conservative product suggestions. You confirm every group before processing.</p>{selectionIssue ? <p className="form-error" role="alert">{selectionIssue}</p> : null}<button className="btn primary" onClick={() => input.current?.click()} type="button">Choose batch folder</button><input aria-label="Choose batch folder" ref={input} className="sr-only" {...({ webkitdirectory: "", directory: "" } as Record<string, string>)} multiple onChange={(event) => { choose(Array.from(event.target.files ?? [])); event.target.value = ""; }} type="file" /></section>;
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      const target = event.target as HTMLElement | null;
+      if (target && /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
+      if (openId === null && (stage === "running" || stage === "completed" || stage === "completed_with_errors" || stage === "cancelled") && event.key.toLowerCase() === "e") nextException(null);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
 
-  if (stage === "confirm") return (
-    <section className="grouping-page">
-      <div className="page-heading">
-        <div>
-          <p className="kicker">Check a batch | step 2 of 3</p>
-          <h1>Confirm how the images group into products</h1>
-          {groups.length > 300 ? <p className="form-error" role="alert">This batch currently has {groups.length} product groups. Merge related images until there are no more than 300 products.</p> : null}
-        </div>
-        <dl className="heading-stats">
-          <div><dt>Images</dt><dd>{groups.reduce((sum, group) => sum + group.files.length, 0)}</dd></div>
-          <div><dt>Suggested products</dt><dd>{groups.length}</dd></div>
-          <div><dt>Need confirmation</dt><dd>{groups.filter((group) => !group.confirmed).length}</dd></div>
-        </dl>
-      </div>
-      <div className="group-toolbar">
-        <span>Select cards to merge or split. Rename any product before confirming.</span>
-        <button className="btn secondary" disabled={selected.size < 2 || groups.filter((group) => selected.has(group.id)).reduce((sum, group) => sum + group.files.length, 0) > 3} onClick={mergeSelected} type="button">Merge selected</button>
-        <button className="btn secondary" disabled={!groups.some((group) => selected.has(group.id) && group.files.length > 1)} onClick={splitSelected} type="button">Split into separate products</button>
-        <button className="btn ghost" disabled={groups.some((group) => !group.name.trim())} onClick={() => setGroups((current) => current.map((group) => ({ ...group, name: group.name.trim(), confirmed: true, status: "ready" })))} type="button">Confirm all ready</button>
-        <button className="btn primary" disabled={!groups.length || groups.length > 300 || groups.some((group) => !group.confirmed || !group.name.trim())} onClick={() => void run()} type="button">Run {groups.length} products</button>
-      </div>
-      <div className="group-wall">
-        {groups.map((group, ordinal) => (
-          <article className={`blueprint group-card ${group.confirmed ? "ready" : ""}`} key={group.id}>
-            <label className="group-select"><input checked={selected.has(group.id)} onChange={(event) => setSelected((current) => { const next = new Set(current); if (event.target.checked) next.add(group.id); else next.delete(group.id); return next; })} type="checkbox" /> Select</label>
-            <div className="section-row"><p className="kicker">Product {ordinal + 1}</p><span className={`status-tag ${group.confirmed ? "pass" : "warn"}`}>{group.confirmed ? "Ready" : "Needs confirmation"}</span></div>
-            <div className="group-thumbs">{group.files.map((file) => <figure key={canonicalPath(file)}><FilePreview file={file} /><figcaption>{file.name}</figcaption></figure>)}</div>
-            <label className="group-name">Product name<input aria-label={`Product ${ordinal + 1} name`} maxLength={80} onChange={(event) => update(group.id, { name: event.target.value, confirmed: false, status: "needs_confirmation" })} value={group.name} /></label>
-            {!group.name.trim() ? <p className="form-error" role="alert">Enter a product name before confirming.</p> : null}
-            <p>{group.reason}</p>
-            <div className="section-row"><span>{group.files.length} of 3 images</span><button className="btn secondary" disabled={group.confirmed || !group.name.trim()} onClick={() => confirm(group.id)} type="button">{group.confirmed ? "Confirmed" : "Confirm as product"}</button></div>
-          </article>
-        ))}
-      </div>
-    </section>
+  if (fatal) return <div className="states"><StateCard error={fatal} onPrimary={onExit} onSecondary={onExit} standalone /></div>;
+
+  const open = openId ? groups.find((group) => group.id === openId) : null;
+  if (open?.result && open.analysis) {
+    const files = open.imageIds.map((id) => imageMap.get(id)).filter((image): image is BatchImage => !!image);
+    const reviewImages = files.map((image, index) => ({ src: image.url, name: image.file.name, alt: `${image.file.name} label image`, title: slotTitle(index, files.length) }));
+    return (
+      <ReviewWorkspace
+        beverageType={open.analysis.draft.beverageType}
+        brandName={open.analysis.draft.brandName ?? open.name}
+        disposition={open.disposition}
+        imported={open.analysis.draft.isImported}
+        images={reviewImages}
+        inBatch
+        note={open.note}
+        onBack={() => { setOpenId(null); setSaveState(""); }}
+        onDisposition={(value) => void saveDisposition(open, value, open.note)}
+        onNextException={() => nextException(open.id)}
+        onNote={(value) => patchGroup(open.id, { note: value })}
+        onSave={() => void saveDisposition(open, open.disposition, open.note)}
+        rail={<BatchRail currentId={open.id} groups={groups} images={imageMap} onOpen={(id) => { setOpenId(id); setSaveState(""); }} />}
+        result={open.result}
+        saveState={saveState}
+      />
+    );
+  }
+
+  if (stage === "analyzing") {
+    const total = images.length;
+    const done = analyzed + failed;
+    return (
+      <main aria-live="polite" className="batch-analyzing" data-screen-label="Batch analyzing">
+        <div className="processing-head"><h6 className="kicker">Check a batch · step 1 of 3</h6><button className="btn btn-ghost" onClick={() => { cancel.current = true; controller.current?.abort(); onExit(); }} type="button">Cancel</button></div>
+        <section className="card blueprint processing-card">
+          <Corners />
+          <div className="processing-main">
+            <div className="processing-title"><h2 tabIndex={-1}>Reading {total} image{total === 1 ? "" : "s"}</h2><span className="elapsed">{(analysisMs / 1000).toFixed(1)} s</span></div>
+            <ol className="stages">
+              <li className="reached"><span className="stage-label">{done < total ? <Spinner /> : icons.check()} Analyze</span><span className="stage-detail text-muted">{done} of {total} read · {failed} failed{done ? ` · ${(analysisMs / done / 1000).toFixed(1)} s per image` : ""}</span></li>
+              <li className={done === total ? "reached" : ""}><span className="stage-label">{icons.clock()} Confirm groups</span><span className="stage-detail text-muted">We suggest one product per brand or folder; you confirm.</span></li>
+              <li><span className="stage-label">{icons.clock()} Work exceptions</span><span className="stage-detail text-muted">Only what needs a human.</span></li>
+            </ol>
+            <div className="analyze-grid">
+              {images.map((image, index) => <div className={`scan-thumb${index < done ? " done" : ""}`} key={image.id}><FilePreview alt={image.file.name} file={image.file} />{index === done ? <div aria-hidden="true" className="scan-sweep" /> : null}</div>)}
+            </div>
+            <p className="processing-note text-muted">Every image is read once so we can group it by the brand on the label. Nothing is stored until you confirm the products.</p>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  if (stage === "confirmation" || stage === "grouping") {
+    return (
+      <GroupingWall
+        analysisMs={analysisMs}
+        analyzed={analyzed}
+        canUndo={undoStack.length > 0}
+        failed={failed}
+        groups={groups}
+        images={imageMap}
+        onConfirm={(id) => setGroups((current) => confirmGroup(current, id))}
+        onConfirmAll={() => setGroups((current) => confirmAllReady(current))}
+        onDropImage={(imageId, target) => edit((current) => moveImage(current, imageId, target))}
+        onMerge={(ids) => edit((current) => mergeGroups(current, ids))}
+        onMove={(imageId, target) => edit((current) => moveImage(current, imageId, target))}
+        onRename={(id, name) => setGroups((current) => renameGroup(current, id, name))}
+        onRun={start}
+        onSplit={(id) => edit((current) => splitGroup(current, id))}
+        onUndo={() => setUndoStack((stack) => { const previous = stack.at(-1); if (previous) setGroups(previous); return stack.slice(0, -1); })}
+      />
+    );
+  }
+
+  const progress = batchProgress(groups, groups.reduce((sum, group) => sum + group.imageIds.length, 0), stage, activeMs, retries);
+  return (
+    <BatchRun
+      batchName={batchName}
+      groups={groups}
+      images={imageMap}
+      onBack={() => { if (stage === "running") { cancel.current = true; controller.current?.abort(); } setStage("confirmation"); }}
+      onCancel={() => { cancel.current = true; controller.current?.abort(); }}
+      onExportCsv={exportCsv}
+      onExportJson={exportJson}
+      onNextException={() => nextException(null)}
+      onOpen={(id) => { setOpenId(id); setSaveState(""); }}
+      onRetry={retryOne}
+      onRetryFailed={retryFailed}
+      progress={progress}
+    />
   );
-
-  return <section className="batch-run-page"><div className="page-heading"><div><p className="kicker">Check a batch | step 3 of 3</p><h1>{groups.length} products | {groups.reduce((sum, group) => sum + group.files.length, 0)} images</h1></div><div className="button-row"><button className="btn secondary" onClick={() => { cancel.current = true; controller.current?.abort(); }} type="button">Cancel remaining</button><button className="btn secondary" disabled={!failed} onClick={() => void retryFailed()} type="button">Retry failed ({failed})</button><button className="btn secondary" disabled={!completed} onClick={exportCsv} type="button">CSV</button><button className="btn secondary" disabled={!completed} onClick={() => download("labelverify-batch-details.json", JSON.stringify(groups.map((group) => ({ name: group.name, files: group.files.map((file) => file.name), result: group.result, error: group.error })), null, 2), "application/json")} type="button">Detailed JSON</button></div></div><div className="stats-strip">{[["Products", groups.length], ["Images", groups.reduce((sum, group) => sum + group.files.length, 0)], ["Processed", completed + failed], ["Remaining", remaining], ["Running", groups.filter((group) => group.status === "running").length], ["Queued", groups.filter((group) => group.status === "queued").length], ["Review", groups.filter((group) => group.result?.summary === "Review needed").length], ["Differences", groups.filter((group) => group.result?.summary === "Differences detected").length], ["Failed", failed], ["Active time", `${(elapsedMs / 1000).toFixed(1)}s`], ["Average", averageMs ? `${(averageMs / 1000).toFixed(1)}s` : "Pending"], ["ETA", averageMs ? `${Math.ceil(remaining * averageMs / 1000)}s` : "Pending"]].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><progress max={groups.length} value={completed + failed}>{completed + failed} of {groups.length}</progress><div className="batch-filters">{(["all", "attention", "complete", "failed"] as const).map((value) => <button aria-pressed={filter === value} key={value} onClick={() => setFilter(value)} type="button">{value}</button>)}</div><div className="table-wrap"><table><thead><tr><th>Product</th><th>Type</th><th>Images</th><th>Machine result</th><th>Why</th><th>Time</th><th>Attempts</th><th>Action</th></tr></thead><tbody>{filtered.map((group) => <tr key={group.id}><th scope="row">{group.name}</th><td>{group.analysis?.draft.beverageType?.replaceAll("_", " ") ?? "Pending"}</td><td>{group.files.length}</td><td>{machineLabel(group)}</td><td>{group.error ?? group.result?.checks.find((check) => check.state !== "Match")?.reasonText ?? "No exception"}</td><td>{group.durationMs == null ? "-" : `${(group.durationMs / 1000).toFixed(1)}s`}</td><td>{group.attempts}</td><td>{group.result ? <button className="show-btn" onClick={() => setActiveId(group.id)} type="button">Open</button> : group.status === "failed" ? <button className="show-btn" onClick={() => void retry(group)} type="button">Retry</button> : null}</td></tr>)}</tbody></table></div></section>;
 }

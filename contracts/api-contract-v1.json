@@ -74,7 +74,52 @@
           "items": {"type": "object", "required": ["value", "evidenceRef"], "properties": {"value": {"type": "string"}, "evidenceRef": {"type": "string"}}}
         },
         "capability": {"type": "string"},
-        "policyVersion": {"type": "string"}
+        "policyVersion": {"type": "string"},
+        "group": {"enum": ["identity", "content", "profile", "warning", "image", null]},
+        "shortLabel": {"type": ["string", "null"]},
+        "ruleExpectation": {"type": ["string", "null"]},
+        "reasonShort": {"type": ["string", "null"], "maxLength": 40},
+        "wordingDiff": {"type": ["array", "null"], "items": {"$ref": "#/$defs/WordingToken"}},
+        "matchedWords": {"type": ["integer", "null"], "minimum": 0},
+        "totalWords": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "WordingToken": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "expected": {"type": ["string", "null"]},
+        "observed": {"type": ["string", "null"]},
+        "status": {"enum": ["match", "missing", "extra", "different"]}
+      }
+    },
+    "QualitySummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grade", "issues"],
+      "properties": {
+        "grade": {"enum": ["good", "poor", "unreadable"]},
+        "issues": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "BeverageInference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confidence", "reason", "conflicting"],
+      "properties": {
+        "type": {"enum": ["malt_beverage", "wine", "distilled_spirits", null]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "reason": {"type": "string"},
+        "conflicting": {"type": "boolean"}
+      }
+    },
+    "WarningEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "headingRef": {"type": ["string", "null"]},
+        "bodyRef": {"type": ["string", "null"]}
       }
     },
     "PublicError": {

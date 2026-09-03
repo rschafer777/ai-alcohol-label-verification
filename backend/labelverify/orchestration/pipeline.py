@@ -24,6 +24,14 @@ from labelverify.contracts.models import (
 )
 from labelverify.domain.engine import ComparisonInputs, compare_all, mark_unresolved_beverage
 from labelverify.domain.normalize import parse_abv, parse_proof
+from labelverify.domain.presentation import (
+    bad_image,
+    beverage_inference,
+    present_checks,
+    present_panels,
+    present_wording,
+    warning_evidence,
+)
 from labelverify.domain.types import ObservedCandidates
 from labelverify.extraction.candidates import locate_candidates
 from labelverify.extraction.port import ExtractionPort
@@ -97,6 +105,8 @@ def execute_pipeline(job: PipelineJob, adapter: ExtractionPort) -> VerificationR
 
     stage_started = time.perf_counter()
     validate_result_integrity(public_panels, observed.evidence, checks)
+    checks = present_wording(present_checks(checks, job.reference.beverage_type), observed)
+    public_panels = present_panels(public_panels)
     aggregate_ms = _elapsed_ms(stage_started)
     rules = contracts().rules
     return VerificationResult(
@@ -125,6 +135,8 @@ def execute_pipeline(job: PipelineJob, adapter: ExtractionPort) -> VerificationR
             "Label-derived values do not establish agreement with an independent COLA application",
         ],
         summary=summary,
+        warningEvidence=warning_evidence(observed),
+        badImage=bad_image(public_panels),
     )
 
 
@@ -162,7 +174,8 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
     public_panels = [panel.public_panel() for panel in decoded]
     observed = locate_candidates(lines, public_panels)
     candidates_ms = _elapsed_ms(stage_started)
-    beverage_type, confidence, reason = _infer_beverage_type(observed)
+    beverage_type, confidence, reason, conflicting = _infer_beverage_type(observed)
+    inference = beverage_inference(beverage_type, confidence, reason, conflicting=conflicting)
     detected = {
         name: _detected_value(observed.field(name))
         for name in (
@@ -221,6 +234,8 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
     compare_ms = _elapsed_ms(compare_started)
     verify_started = time.perf_counter()
     validate_result_integrity(public_panels, observed.evidence, checks)
+    checks = present_wording(present_checks(checks, beverage_type), observed)
+    public_panels = present_panels(public_panels)
     aggregate_ms = _elapsed_ms(verify_started)
     rules = contracts().rules
     verification = VerificationResult(
@@ -249,6 +264,9 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
             "Label-derived values do not establish agreement with an independent COLA application",
         ],
         summary=summary,
+        beverageInference=inference,
+        warningEvidence=warning_evidence(observed),
+        badImage=bad_image(public_panels),
     )
     validate_result_integrity(public_panels, observed.evidence, [])
     return AnalysisResult(
@@ -263,6 +281,7 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
         detected=detected,
         beverageTypeConfidence=confidence,
         beverageTypeReason=reason,
+        beverageInference=inference,
         limitations=[
             "Detected values came from label images and are not independent application data",
             "Review the beverage type and any uncertain field before recording a disposition",
@@ -299,7 +318,7 @@ def _selected_text(candidates: CandidateSet) -> str | None:
 
 def _infer_beverage_type(
     observed: ObservedCandidates,
-) -> tuple[BeverageType | None, float | None, str]:
+) -> tuple[BeverageType | None, float | None, str, bool]:
     values = " ".join(item.value.casefold() for item in observed.field("class_type").candidates)
     groups: dict[BeverageType, tuple[str, ...]] = {
         "distilled_spirits": (
@@ -352,11 +371,16 @@ def _infer_beverage_type(
     }
     matched_families = [name for name, score in scores.items() if score > 0]
     if len(matched_families) != 1:
-        return None, None, "The label did not provide one unambiguous beverage-type signal"
+        return (
+            None,
+            None,
+            "The label did not provide one unambiguous beverage-type signal",
+            len(matched_families) > 1,
+        )
     winner = matched_families[0]
     best = scores[winner]
     confidence = min(0.98, 0.72 + 0.08 * best)
-    return winner, confidence, f"Detected class or type terms support {winner}"
+    return winner, confidence, f"Detected class or type terms support {winner}", False
 
 
 _NET_COMPONENTS = re.compile(

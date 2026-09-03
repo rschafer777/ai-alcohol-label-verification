@@ -19,7 +19,13 @@ from starlette.formparsers import MultiPartException
 from labelverify.api.errors import PublicApiError
 from labelverify.api.multipart import ControlledMultiPartParser
 from labelverify.contracts.loader import CONTRACT_HASHES, contracts
-from labelverify.contracts.models import AnalysisResult, ReferenceRecord, VerificationResult
+from labelverify.contracts.models import (
+    AnalysisResult,
+    GroupingRequest,
+    ReferenceRecord,
+    VerificationResult,
+)
+from labelverify.domain.grouping import suggest_groups
 from labelverify.orchestration.supervisor import (
     WorkerExecutionFailed,
     WorkerNotReady,
@@ -221,7 +227,10 @@ async def analyze(request: Request) -> JSONResponse:
         if total_ms > float(contracts().api["limits"]["serverDeadlineSeconds"]) * 1000:
             raise PublicApiError("request_deadline_exceeded", request_id)
         result = result.model_copy(update={"server_duration_ms": total_ms})
-        if result.verification is not None:
+        # Batch step 1 reads every image only to suggest product groups; those reads are not
+        # kept so History holds one record per confirmed product, not one per image.
+        persist = request.query_params.get("persist", "true") != "false"
+        if result.verification is not None and persist:
             reference = (
                 _reference_from_analysis(result)
                 if result.draft.beverage_type is not None
@@ -238,6 +247,100 @@ async def analyze(request: Request) -> JSONResponse:
                 )
                 verification = result.verification.model_copy(update={"history_id": history_id})
                 result = result.model_copy(update={"verification": verification})
+        return JSONResponse(result.model_dump(by_alias=True, mode="json"))
+    finally:
+        for upload in uploads:
+            await upload.close()
+        if request_dir is not None:
+            shutil.rmtree(request_dir, ignore_errors=True)
+
+
+@router.post("/api/v1/grouping-suggestions")
+async def grouping_suggestions(request: Request) -> JSONResponse:
+    """Suggest product groups from per-image label-derived facts (handoff REQ-14)."""
+
+    request_id = request.state.request_id
+    try:
+        body = await request.json()
+        payload = GroupingRequest.model_validate(body)
+    except (ValidationError, ValueError, TypeError) as exc:
+        raise PublicApiError("invalid_reference", request_id, "images") from exc
+    limits = contracts().api["limits"]
+    if len(payload.images) > int(limits["panelCountMax"]) * 300:
+        raise PublicApiError("invalid_reference", request_id, "images")
+    result = suggest_groups(payload.images)
+    return JSONResponse(result.model_dump(by_alias=True, mode="json"))
+
+
+@router.post("/api/v1/history/{record_id}/panels")
+async def add_history_panel(request: Request, record_id: str) -> JSONResponse:
+    """Add one image to a stored record and re-read the enlarged panel set (handoff REQ-21).
+
+    The earlier record and its disposition are kept; the new result links back through
+    ``supersedes`` so the reviewer can see both attempts in History.
+    """
+
+    request_id = request.state.request_id
+    settings: Settings = request.app.state.settings
+    supervisor: WorkerSupervisor = request.app.state.supervisor
+    history: HistoryRepository = request.app.state.history
+    if not supervisor.ready:
+        raise PublicApiError("not_ready", request_id)
+    scope_id = _history_scope(request)
+    detail = await asyncio.to_thread(history.get, record_id, scope_id=scope_id)
+    if detail is None:
+        return JSONResponse({"detail": "Not Found"}, status_code=404)
+    stored_panels = detail.get("panels")
+    if not isinstance(stored_panels, list):
+        raise PublicApiError("internal_error", request_id)
+    limits = contracts().api["limits"]
+    if len(stored_panels) >= int(limits["panelCountMax"]):
+        raise PublicApiError("invalid_panel_count", request_id, "panels")
+    settings.spool_root.mkdir(parents=True, exist_ok=True, mode=0o700)
+    uploads = await _parse_panel_form(request, request_id, settings.spool_root)
+    request_dir: Path | None = None
+    try:
+        if len(uploads) != 1:
+            raise PublicApiError("invalid_panel_count", request_id, "panels")
+        request_dir = Path(tempfile.mkdtemp(prefix="analysis-", dir=settings.spool_root))
+        existing: list[Path] = []
+        for index, panel in enumerate(stored_panels, start=1):
+            source = await asyncio.to_thread(
+                history.panel_path, record_id, str(panel.get("panelId")), scope_id=scope_id
+            )
+            if source is None:
+                raise PublicApiError("internal_error", request_id)
+            target = request_dir / f"panel-{index}.img"
+            shutil.copyfile(source, target)
+            existing.append(target)
+        upload_dir = request_dir / "added"
+        upload_dir.mkdir(mode=0o700)
+        added = await _copy_panels(uploads, upload_dir, request_id)
+        renamed = request_dir / f"panel-{len(existing) + 1}.img"
+        added[0].rename(renamed)
+        panel_paths = (*existing, renamed)
+        result = await _run_analysis_owned(supervisor, request_id, panel_paths)
+        started = float(request.scope["state"].get("admission_started", time.monotonic()))
+        total_ms = round((time.monotonic() - started) * 1000, 3)
+        if total_ms > float(limits["serverDeadlineSeconds"]) * 1000:
+            raise PublicApiError("request_deadline_exceeded", request_id)
+        result = result.model_copy(update={"server_duration_ms": total_ms})
+        if result.verification is not None:
+            reference = (
+                _reference_from_analysis(result)
+                if result.draft.beverage_type is not None
+                else result.draft
+            )
+            verification = result.verification.model_copy(update={"supersedes": record_id})
+            history_id = await asyncio.to_thread(
+                history.add,
+                reference,
+                verification,
+                panel_paths,
+                scope_id=scope_id,
+            )
+            verification = verification.model_copy(update={"history_id": history_id})
+            result = result.model_copy(update={"verification": verification})
         return JSONResponse(result.model_dump(by_alias=True, mode="json"))
     finally:
         for upload in uploads:
@@ -321,9 +424,7 @@ async def update_history_disposition(request: Request, record_id: str) -> JSONRe
 @router.delete("/api/v1/history/{record_id}")
 async def delete_history(request: Request, record_id: str) -> JSONResponse:
     history: HistoryRepository = request.app.state.history
-    deleted = await asyncio.to_thread(
-        history.delete, record_id, scope_id=_history_scope(request)
-    )
+    deleted = await asyncio.to_thread(history.delete, record_id, scope_id=_history_scope(request))
     if not deleted:
         return JSONResponse({"detail": "Not Found"}, status_code=404)
     return JSONResponse({"deleted": True, "id": record_id})

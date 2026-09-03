@@ -16,11 +16,7 @@ def found_with_source(value: str, source: str, role: str = "abv") -> CandidateSe
         status="Found",
         candidates=[
             candidate.model_copy(
-                update={
-                    "evidence": candidate.evidence.model_copy(
-                        update={"text_snippet": source}
-                    )
-                }
+                update={"evidence": candidate.evidence.model_copy(update={"text_snippet": source})}
             )
         ],
     )
@@ -171,9 +167,7 @@ def test_wine_brand_and_class_split_across_panels_requires_review() -> None:
     observed = clean_observed()
     observed.fields["brand"] = found("CEDAR RIDGE", "brand")
     class_candidate = found("Chardonnay", "class_type").candidates[0]
-    second_panel_evidence = class_candidate.evidence.model_copy(
-        update={"panel_id": "panel-2"}
-    )
+    second_panel_evidence = class_candidate.evidence.model_copy(update={"panel_id": "panel-2"})
     observed.fields["class_type"] = CandidateSet(
         status="Found",
         candidates=[class_candidate.model_copy(update={"evidence": second_panel_evidence})],
@@ -216,7 +210,7 @@ def test_beverage_type_inference_distinguishes_all_three_profiles() -> None:
         observed = clean_observed()
         observed.fields["class_type"] = found(class_type, "class_type")
 
-        beverage_type, confidence, _ = _infer_beverage_type(observed)
+        beverage_type, confidence, _, _ = _infer_beverage_type(observed)
 
         assert beverage_type == expected
         assert confidence is not None and confidence >= 0.72
@@ -226,9 +220,7 @@ def test_spirits_proof_requires_supported_distinction_and_same_panel() -> None:
     observed = clean_observed()
     abv = observed.fields["abv"].candidates[0]
     proof = observed.fields["proof"].candidates[0]
-    shared = abv.evidence.model_copy(
-        update={"text_snippet": "45% Alc./Vol. 90 Proof"}
-    )
+    shared = abv.evidence.model_copy(update={"text_snippet": "45% Alc./Vol. 90 Proof"})
     observed.fields["abv"] = CandidateSet(
         status="Found", candidates=[abv.model_copy(update={"evidence": shared})]
     )
@@ -247,29 +239,25 @@ def test_spirits_proof_requires_supported_distinction_and_same_panel() -> None:
         status="Found", candidates=[proof.model_copy(update={"evidence": enclosed})]
     )
     checks, _ = compare_all(ComparisonInputs(reference(), observed))
-    assert by_id(checks, "proof").reason_code == (
-        "proof_abv_relationship_and_placement_match"
-    )
+    assert by_id(checks, "proof").reason_code == ("proof_abv_relationship_and_placement_match")
 
 
 def test_beverage_type_inference_uses_whole_terms_and_routes_conflicts_to_review() -> None:
     observed = clean_observed()
     observed.fields["class_type"] = found("Original Recipe", "class_type")
-    beverage_type, _, _ = _infer_beverage_type(observed)
+    beverage_type, _, _, _ = _infer_beverage_type(observed)
     assert beverage_type is None
 
     observed.fields["class_type"] = found("Hard Seltzer", "class_type")
-    beverage_type, _, _ = _infer_beverage_type(observed)
+    beverage_type, _, _, _ = _infer_beverage_type(observed)
     assert beverage_type is None
 
     observed.fields["class_type"] = found("Wine barrel aged beer", "class_type")
-    beverage_type, _, _ = _infer_beverage_type(observed)
+    beverage_type, _, _, _ = _infer_beverage_type(observed)
     assert beverage_type is None
 
-    observed.fields["class_type"] = found(
-        "Bourbon Whiskey Barrel Aged Stout", "class_type"
-    )
-    beverage_type, _, _ = _infer_beverage_type(observed)
+    observed.fields["class_type"] = found("Bourbon Whiskey Barrel Aged Stout", "class_type")
+    beverage_type, _, _, _ = _infer_beverage_type(observed)
     assert beverage_type is None
 
 

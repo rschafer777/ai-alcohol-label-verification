@@ -1,0 +1,81 @@
+/* LabelVerify design tokens.
+   Source of truth: design_handoff_labelverify/labelverify-tokens.css (TTB.gov / USWDS palette).
+   Fonts are vendored under /fonts so the app renders identically on an agency network. */
+
+@font-face {
+  font-family: "Merriweather";
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("/fonts/Merriweather-variable.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Public Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/PublicSans-variable.woff2") format("woff2");
+}
+
+:root {
+  /* Ground and text (USWDS gray) */
+  --lv-bg: #ffffff;
+  --lv-surface: #f0f0f0;
+  --lv-text: #1b1b1b;
+  --lv-divider: color-mix(in srgb, #1b1b1b 16%, transparent);
+  /* Muted text is 66% ink (design: 55%) so 11 to 13 px copy meets WCAG AA 4.5:1 on every ground. */
+  --lv-muted: color-mix(in srgb, #1b1b1b 66%, transparent);
+  --lv-neutral-100: #f9f9f9; --lv-neutral-200: #f0f0f0; --lv-neutral-300: #dfe1e2; --lv-neutral-400: #c6cace;
+  --lv-neutral-500: #a9aeb1; --lv-neutral-600: #71767a; --lv-neutral-700: #565c65; --lv-neutral-800: #3d4551; --lv-neutral-900: #1b1b1b;
+
+  /* Accent = USWDS primary blue. 800 = TTB header navy. */
+  --lv-accent: #005ea2;
+  --lv-accent-100: #eff6fb; --lv-accent-200: #d9e8f6; --lv-accent-300: #aacdec; --lv-accent-400: #73b3e7;
+  --lv-accent-500: #2378c3; --lv-accent-600: #005ea2; --lv-accent-700: #1a4480; --lv-accent-800: #162e51; --lv-accent-900: #0f1f38;
+
+  /* Semantic states: green passes, amber questionable, red rejected (USWDS success / warning / error) */
+  --lv-pass: #2e8540;  --lv-pass-bg: #ecf3ec;  --lv-pass-text: #1b5e2a;
+  --lv-warn: #e5a000;  --lv-warn-bg: #faf3d1;  --lv-warn-text: #7a5a00;
+  --lv-fail: #d83933;  --lv-fail-bg: #f4e3db;  --lv-fail-text: #8b0a03;
+  --lv-none: #a9aeb1;
+
+  /* Notice band (TTB pale green) */
+  --lv-band-bg: #ecf3ec; --lv-band-border: #c5d9c8;
+
+  /* Type */
+  --lv-font-heading: "Merriweather", Georgia, serif;
+  --lv-font-body: "Public Sans", system-ui, sans-serif;
+  --lv-h1: 34px; --lv-h2: 26px; --lv-h3: 22px; --lv-h4: 18px; --lv-body: 15px; --lv-small: 13px; --lv-micro: 11px;
+
+  /* Spacing (0.85x scale) and radius: square corners throughout */
+  --lv-space-1: 3.4px; --lv-space-2: 6.8px; --lv-space-3: 10.2px; --lv-space-4: 13.6px; --lv-space-6: 20.4px; --lv-space-8: 27.2px;
+  --lv-radius: 0;
+  --lv-hit: 44px;
+
+  --lv-shadow-sm: 0 1px 2px color-mix(in srgb, #2b2b2d 14%, transparent);
+  --lv-shadow-md: 0 3px 10px color-mix(in srgb, #2b2b2d 16%, transparent);
+  --lv-shadow-lg: 0 12px 32px color-mix(in srgb, #2b2b2d 22%, transparent);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { color-scheme: light; }
+body { margin: 0; background: var(--lv-bg); color: var(--lv-text); font-family: var(--lv-font-body); font-size: var(--lv-body); line-height: 1.55; font-weight: 400; }
+h1, h2, h3, h4 { font-family: var(--lv-font-heading); font-weight: 700; line-height: 1.15; letter-spacing: 0; margin: 0 0 var(--lv-space-2); }
+h1 { font-size: var(--lv-h1); } h2 { font-size: var(--lv-h2); } h3 { font-size: var(--lv-h3); } h4 { font-size: var(--lv-h4); }
+h5, h6 { font-family: var(--lv-font-body); font-weight: 700; line-height: 1.12; margin: 0; }
+h5 { font-size: 16px; }
+h6 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+p { margin: 0 0 var(--lv-space-3); }
+a { color: var(--lv-accent); text-underline-offset: 3px; } a:hover { color: var(--lv-accent-700); }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+button, input, select, textarea { font-family: inherit; }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--lv-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--lv-accent) 30%, transparent); }
+.text-muted { color: var(--lv-muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@keyframes lv-spin { to { transform: rotate(360deg); } }
+@keyframes lv-sweep { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

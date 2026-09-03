@@ -41,8 +41,31 @@ const checkSchema = z
     ),
     capability: z.string().min(1),
     policyVersion: z.string().min(1),
+    group: z.enum(["identity", "content", "profile", "warning", "image"]).nullable().optional(),
+    shortLabel: z.string().nullable().optional(),
+    ruleExpectation: z.string().nullable().optional(),
+    reasonShort: z.string().max(40).nullable().optional(),
+    wordingDiff: z
+      .array(
+        z.object({
+          expected: z.string().nullable().optional(),
+          observed: z.string().nullable().optional(),
+          status: z.enum(["match", "missing", "extra", "different"]),
+        }).strict(),
+      )
+      .nullable()
+      .optional(),
+    matchedWords: z.number().int().nonnegative().nullable().optional(),
+    totalWords: z.number().int().nonnegative().nullable().optional(),
   })
   .strict();
+
+const beverageInferenceSchema = z.object({
+  type: z.enum(["malt_beverage", "wine", "distilled_spirits"]).nullable().optional(),
+  confidence: z.enum(["high", "medium", "low"]),
+  reason: z.string().min(1),
+  conflicting: z.boolean(),
+}).strict();
 
 const resultSchema = z
   .object({
@@ -66,6 +89,10 @@ const resultSchema = z
             z.union([z.number(), z.boolean(), z.string(), z.null()]),
           ),
           coverageState: z.string(),
+          qualitySummary: z.object({
+            grade: z.enum(["good", "poor", "unreadable"]),
+            issues: z.array(z.string()),
+          }).strict().nullable().optional(),
         })
         .passthrough(),
     ),
@@ -78,6 +105,13 @@ const resultSchema = z
       "Differences detected",
     ]),
     historyId: z.string().nullable().optional(),
+    beverageInference: beverageInferenceSchema.nullable().optional(),
+    warningEvidence: z.object({
+      headingRef: z.string().nullable().optional(),
+      bodyRef: z.string().nullable().optional(),
+    }).strict().nullable().optional(),
+    badImage: z.boolean().optional(),
+    supersedes: z.string().nullable().optional(),
   })
   .passthrough();
 
@@ -115,6 +149,7 @@ const analysisSchema = z.object({
   detected: z.record(z.string(), detectedValueSchema),
   beverageTypeConfidence: z.number().min(0).max(1).nullable(),
   beverageTypeReason: z.string().min(1),
+  beverageInference: beverageInferenceSchema.nullable().optional(),
   limitations: z.array(z.string()),
   verification: resultSchema.nullable(),
 }).strict();

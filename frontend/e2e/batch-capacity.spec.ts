@@ -13,10 +13,12 @@ test("browser confirms and completes 300 conservatively grouped products", async
   test.setTimeout(300_000);
 
   await page.goto("/");
+  const gotIt = page.getByRole("button", { name: "Got it" });
+  if (await gotIt.isVisible().catch(() => false)) await gotIt.click();
   const sampleResponsePromise = page.waitForResponse(
     (response) => response.url().endsWith("/api/v1/analyses") && response.request().method() === "POST",
   );
-  await page.getByRole("button", { name: "Use built-in sample" }).click();
+  await page.getByRole("button", { name: "Use the built-in sample" }).click();
   const samplePayload = await (await sampleResponsePromise).json();
   await page.getByRole("button", { name: "Start over" }).click();
 
@@ -29,15 +31,10 @@ test("browser confirms and completes 300 conservatively grouped products", async
       await copyFile(source, target);
     }
 
-    await page.getByRole("button", { name: /^Check a batch/ }).first().click();
-    await page.locator('input[type="file"][webkitdirectory]').setInputFiles(temporaryRoot);
-    await expect(page.getByRole("heading", { name: "Confirm how the images group into products" })).toBeVisible();
-    const suggestedProducts = page.getByText("Suggested products").locator("..");
-    await expect(suggestedProducts.getByText("300", { exact: true })).toBeVisible();
-    await page.getByRole("button", { name: "Confirm all ready" }).click();
-
+    // Step 1 reads every image once; the step-3 run re-reads each confirmed product. Both go
+    // through the analysis endpoint, which this capacity run answers with the sample payload.
     let sequence = 0;
-    await page.route("**/api/v1/analyses", async (route) => {
+    await page.route("**/api/v1/analyses**", async (route) => {
       sequence += 1;
       const payload = {
         ...samplePayload,
@@ -51,9 +48,17 @@ test("browser confirms and completes 300 conservatively grouped products", async
       await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(payload) });
     });
 
-    await page.getByRole("button", { name: "Run 300 products" }).click();
-    await expect(page.getByText("300 products | 300 images")).toBeVisible();
-    await expect(page.locator("progress")).toHaveAttribute("value", "300", { timeout: 180_000 });
+    await page.locator('input[type="file"][webkitdirectory]').setInputFiles(temporaryRoot);
+    await page.getByRole("button", { name: /Analyze images/ }).click();
+    await expect(page.getByRole("heading", { name: "Confirm how the images group into products" })).toBeVisible({ timeout: 180_000 });
+    const suggestedProducts = page.getByText("Suggested products").locator("..");
+    await expect(suggestedProducts.getByText("300", { exact: true })).toBeVisible();
+    await page.getByRole("button", { name: /Confirm all ready/ }).click();
+    sequence = 0;
+
+    await page.getByRole("button", { name: /^Run 300 products/ }).click();
+    await expect(page.getByRole("heading", { name: /300 products, 300 images/ })).toBeVisible();
+    await expect(page.getByText("Processed").locator("..").getByText("300", { exact: true })).toBeVisible({ timeout: 180_000 });
     expect(sequence).toBe(300);
 
     const csvEvent = page.waitForEvent("download");

@@ -94,6 +94,40 @@ class Alternative(ContractModel):
     evidence_ref: str = Field(alias="evidenceRef")
 
 
+CheckGroup = Literal["identity", "content", "profile", "warning", "image"]
+
+
+class WordingToken(ContractModel):
+    """One statutory-token slot of the government warning diff (handoff REQ-11)."""
+
+    expected: str | None = None
+    observed: str | None = None
+    status: Literal["match", "missing", "extra", "different"]
+
+
+class QualitySummary(ContractModel):
+    """Plain-language image quality for one panel (handoff REQ-9)."""
+
+    grade: Literal["good", "poor", "unreadable"]
+    issues: list[str] = Field(default_factory=list)
+
+
+class BeverageInference(ContractModel):
+    """Beverage type inference summary for the review header (handoff REQ-10)."""
+
+    type: BeverageType | None = None
+    confidence: Literal["high", "medium", "low"]
+    reason: str
+    conflicting: bool = False
+
+
+class WarningEvidence(ContractModel):
+    """Separate heading and body evidence for the warning crop (handoff REQ-12)."""
+
+    heading_ref: str | None = Field(default=None, alias="headingRef")
+    body_ref: str | None = Field(default=None, alias="bodyRef")
+
+
 class CheckResult(ContractModel):
     check_id: str = Field(alias="checkId")
     label: str
@@ -107,6 +141,14 @@ class CheckResult(ContractModel):
     alternatives: list[Alternative] = Field(default_factory=list)
     capability: str
     policy_version: str = Field(alias="policyVersion")
+    # Display-only presentation fields (handoff REQ-3, REQ-4, REQ-5, REQ-11).
+    group: CheckGroup | None = None
+    short_label: str | None = Field(default=None, alias="shortLabel")
+    rule_expectation: str | None = Field(default=None, alias="ruleExpectation")
+    reason_short: str | None = Field(default=None, max_length=40, alias="reasonShort")
+    wording_diff: list[WordingToken] | None = Field(default=None, alias="wordingDiff")
+    matched_words: int | None = Field(default=None, ge=0, alias="matchedWords")
+    total_words: int | None = Field(default=None, ge=0, alias="totalWords")
 
 
 class OriginalDimensions(ContractModel):
@@ -119,6 +161,7 @@ class PanelResult(ContractModel):
     original_dimensions: OriginalDimensions = Field(alias="originalDimensions")
     quality_signals: dict[str, float | bool | str] = Field(alias="qualitySignals")
     coverage_state: Literal["Sufficient", "Review", "Unreadable"] = Field(alias="coverageState")
+    quality_summary: QualitySummary | None = Field(default=None, alias="qualitySummary")
 
 
 class StageTimings(ContractModel):
@@ -145,6 +188,10 @@ class VerificationResult(ContractModel):
     limitations: list[str]
     summary: SummaryState
     history_id: str | None = Field(default=None, alias="historyId")
+    beverage_inference: BeverageInference | None = Field(default=None, alias="beverageInference")
+    warning_evidence: WarningEvidence | None = Field(default=None, alias="warningEvidence")
+    bad_image: bool = Field(default=False, alias="badImage")
+    supersedes: str | None = None
 
 
 class DetectedValue(ContractModel):
@@ -189,8 +236,45 @@ class AnalysisResult(ContractModel):
         default=None, ge=0, le=1, alias="beverageTypeConfidence"
     )
     beverage_type_reason: str = Field(alias="beverageTypeReason")
+    beverage_inference: BeverageInference | None = Field(default=None, alias="beverageInference")
     limitations: list[str]
     verification: VerificationResult | None = None
+
+
+class GroupingImage(ContractModel):
+    """One analyzed image submitted for grouping (handoff REQ-14)."""
+
+    image_id: str = Field(min_length=1, max_length=120, alias="imageId")
+    file_name: str = Field(min_length=1, max_length=260, alias="fileName")
+    path: str | None = Field(default=None, max_length=1024)
+    brand_name: str | None = Field(default=None, max_length=160, alias="brandName")
+    class_type: str | None = Field(default=None, max_length=240, alias="classType")
+    beverage_type: BeverageType | None = Field(default=None, alias="beverageType")
+    type_confidence: Literal["high", "medium", "low"] | None = Field(
+        default=None, alias="typeConfidence"
+    )
+    failed: bool = False
+
+
+class GroupingRequest(ContractModel):
+    images: list[GroupingImage] = Field(min_length=1, max_length=900)
+
+
+class GroupSuggestion(ContractModel):
+    group_id: str = Field(alias="groupId")
+    panel_ids: list[str] = Field(min_length=1, max_length=3, alias="panelIds")
+    suggested_name: str = Field(alias="suggestedName")
+    inferred_type: BeverageType | None = Field(default=None, alias="inferredType")
+    confidence: Literal["high", "medium", "low"]
+    status: Literal["ready_to_confirm", "needs_review"]
+    reasons: list[str]
+    conflict: bool = False
+
+
+class GroupingResult(ContractModel):
+    groups: list[GroupSuggestion]
+    analyzed: int = Field(ge=0)
+    failed: int = Field(ge=0)
 
 
 class PublicError(ContractModel):

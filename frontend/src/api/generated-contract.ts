@@ -131,6 +131,31 @@ export interface AnalysisDraft {
   maltAlcoholSource: ReferenceRecord["maltAlcoholSource"];
 }
 
+export type CheckGroup = "identity" | "content" | "profile" | "warning" | "image";
+
+export interface WordingToken {
+  expected?: string | null;
+  observed?: string | null;
+  status: "match" | "missing" | "extra" | "different";
+}
+
+export interface QualitySummary {
+  grade: "good" | "poor" | "unreadable";
+  issues: string[];
+}
+
+export interface BeverageInference {
+  type?: ReferenceRecord["beverageType"] | null;
+  confidence: "high" | "medium" | "low";
+  reason: string;
+  conflicting: boolean;
+}
+
+export interface WarningEvidence {
+  headingRef?: string | null;
+  bodyRef?: string | null;
+}
+
 export interface AnalysisResult {
   requestId: string;
   buildId: string;
@@ -143,6 +168,7 @@ export interface AnalysisResult {
   detected: Record<string, DetectedValue>;
   beverageTypeConfidence: number | null;
   beverageTypeReason: string;
+  beverageInference?: BeverageInference | null;
   limitations: string[];
   verification: VerificationResult | null;
 }
@@ -173,6 +199,7 @@ export interface PanelResult {
   originalDimensions: { width: number; height: number };
   qualitySignals: Record<string, number | boolean | string | null>;
   coverageState: string;
+  qualitySummary?: QualitySummary | null;
 }
 
 export interface CheckAlternative {
@@ -193,6 +220,13 @@ export interface CheckResult {
   alternatives: CheckAlternative[];
   capability: string;
   policyVersion: string;
+  group?: CheckGroup | null;
+  shortLabel?: string | null;
+  ruleExpectation?: string | null;
+  reasonShort?: string | null;
+  wordingDiff?: WordingToken[] | null;
+  matchedWords?: number | null;
+  totalWords?: number | null;
 }
 
 export interface VerificationResult {
@@ -210,6 +244,38 @@ export interface VerificationResult {
   limitations: string[];
   summary: VerificationSummary;
   historyId?: string | null;
+  beverageInference?: BeverageInference | null;
+  warningEvidence?: WarningEvidence | null;
+  badImage?: boolean;
+  supersedes?: string | null;
+}
+
+export interface GroupingImage {
+  imageId: string;
+  fileName: string;
+  path?: string | null;
+  brandName?: string | null;
+  classType?: string | null;
+  beverageType?: ReferenceRecord["beverageType"] | null;
+  typeConfidence?: "high" | "medium" | "low" | null;
+  failed?: boolean;
+}
+
+export interface GroupSuggestion {
+  groupId: string;
+  panelIds: string[];
+  suggestedName: string;
+  inferredType?: ReferenceRecord["beverageType"] | null;
+  confidence: "high" | "medium" | "low";
+  status: "ready_to_confirm" | "needs_review";
+  reasons: string[];
+  conflict: boolean;
+}
+
+export interface GroupingResult {
+  groups: GroupSuggestion[];
+  analyzed: number;
+  failed: number;
 }
 
 export interface PublicError {

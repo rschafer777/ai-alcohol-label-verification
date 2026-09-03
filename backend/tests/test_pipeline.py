@@ -112,7 +112,7 @@ def test_label_first_spirits_without_readable_abv_remains_reviewable(
     monkeypatch.setattr(
         pipeline_module,
         "_infer_beverage_type",
-        lambda _observed: ("distilled_spirits", 0.9, "Test type evidence"),
+        lambda _observed: ("distilled_spirits", 0.9, "Test type evidence", False),
     )
     result = execute_analysis(
         AnalysisJob("request", "build", (path,)),

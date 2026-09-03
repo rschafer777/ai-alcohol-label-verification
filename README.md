@@ -140,14 +140,18 @@ The user-supplied validation folder is expected at `tests/Test_Images/`. Its 50 
 | `GET /health/live` | Liveness |
 | `GET /health/ready` | OCR readiness |
 | `GET /api/v1/meta` | Build, contract, limits, and rule identity |
-| `POST /api/v1/analyses` | Label-first OCR, checks, and persistence |
-| `POST /api/v1/verifications` | Optional trusted-reference comparison |
+| `POST /api/v1/analyses` | Label-first OCR, checks, and persistence (`?persist=false` reads without storing, used by batch grouping) |
+| `POST /api/v1/verifications` | Optional trusted-reference comparison, also used for reviewer corrections |
+| `POST /api/v1/grouping-suggestions` | Conservative product grouping from per-image label facts |
 | `GET /api/v1/history` | Filtered and paged history |
 | `GET /api/v1/history/{id}` | Stored result |
 | `GET /api/v1/history/{id}/panels/{panelId}` | Retained evidence image |
+| `POST /api/v1/history/{id}/panels` | Add one image to a stored record and re-read the enlarged panel set (new record, `supersedes` the old) |
 | `PATCH /api/v1/history/{id}/disposition` | Human disposition and note |
 | `DELETE /api/v1/history/{id}` | Delete one record and images |
 | `DELETE /api/v1/history` | Clear history |
+
+Every check row also carries display-only presentation fields (`group`, `shortLabel`, `ruleExpectation`, `reasonShort`, and for the warning wording check `wordingDiff`, `matchedWords`, `totalWords`), every panel carries `qualitySummary`, and every result carries `beverageInference`, `warningEvidence`, and `badImage`. They render governed states in plain language; they never change a state.
 
 ## Image guidance
 

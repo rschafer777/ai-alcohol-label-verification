@@ -17,10 +17,14 @@ Status: Implementation complete; local release validation passed
 | Deterministic rules | `backend/labelverify/domain/` | Normalization, family selection, comparison, warning, and 24-check aggregation |
 | History repository | `backend/labelverify/persistence/` | SQLite metadata, image retention, FIFO, disposition, and deletion |
 | Frontend API | `frontend/src/api/` | Typed multipart, result, metadata, and history clients |
-| Application shell | `frontend/src/app/` | Fable interface, navigation, home, processing, and global state |
-| Review workspace | `frontend/src/features/verification/` | Evidence viewer, check layouts, warning detail, and disposition |
-| Batch workspace | `frontend/src/features/batch/` | Grouping, confirmation, sequential queue, status, retry, cancel, export |
-| History workspace | `frontend/src/features/history/` | Filter, paging, detail, images, evidence, disposition, and deletion |
+| Application shell | `frontend/src/app/` | TTB application bar, notice band, left tray, shortcuts dialog, hash routing, single-label session, design tokens with vendored Merriweather and Public Sans |
+| Shared status vocabulary | `frontend/src/components/` | Status tags and badges (color + icon + word), Lucide-style icons, blueprint frame, governed state cards |
+| Home | `frontend/src/features/home/` | Two doors, drop zones, recent checks, first-run tips |
+| Review workspace | `frontend/src/features/verification/` | Processing stepper, evidence viewer with three image slots and add-image progress, table, cards and image-first layouts, warning inspect with crop and word diff, reviewer corrections, decision bar |
+| Batch workspace | `frontend/src/features/batch/` | Per-image analysis, server grouping suggestions, card wall with drag and drop, merge, split, move, undo, sequential run, stats strip, exceptions, batch rail review, retry, cancel, export |
+| History workspace | `frontend/src/features/history/` | Filter, paging, stored-result drawer with image slots, colored evidence regions, 24-check list, disposition override, and deletion |
+| Presentation layer | `backend/labelverify/domain/presentation.py` | Display-only check groups, rule expectations, short reasons, quality summaries, beverage inference, warning wording diff |
+| Grouping suggestions | `backend/labelverify/domain/grouping.py` | Folder, filename, and brand based product suggestions with conflict flags |
 | Deployment | `Dockerfile`, `ops/`, `.github/workflows/` | Reproducible OCI build and Azure Container Apps release |
 
 ## Implemented data movement

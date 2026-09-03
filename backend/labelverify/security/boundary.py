@@ -18,12 +18,17 @@ from labelverify.settings.config import Settings
 
 VERIFY_PATH = "/api/v1/verifications"
 ANALYZE_PATH = "/api/v1/analyses"
+GROUPING_PATH = "/api/v1/grouping-suggestions"
 EXPENSIVE_PATHS = frozenset({VERIFY_PATH, ANALYZE_PATH})
 HISTORY_PATH = "/api/v1/history"
+# POST /api/v1/history/{record_id}/panels re-runs OCR on a stored record plus one new image.
+HISTORY_PANEL_ADD_PATTERN = re.compile(r"/api/v1/history/hist_[0-9a-f]+/panels\Z")
 HISTORY_SCOPE_COOKIE = "labelverify_scope"
 HISTORY_SCOPE_PATTERN = re.compile(r"[A-Za-z0-9_-]{43}\Z")
 HISTORY_SCOPE_MAX_AGE = 7 * 24 * 60 * 60
 JSON_BODY_LIMIT = 8 * 1024
+# Grouping requests carry one small JSON row per analyzed image, up to 900 images.
+GROUPING_BODY_LIMIT = 512 * 1024
 
 
 class BoundaryMiddleware:
@@ -86,7 +91,13 @@ class BoundaryMiddleware:
             mutation = _is_state_change(scope)
             if expensive or mutation:
                 client_key = self.identity.resolve(scope, self.settings, request_id)
-                body_limit = self.raw_limit if expensive else JSON_BODY_LIMIT
+                body_limit = (
+                    self.raw_limit
+                    if expensive
+                    else GROUPING_BODY_LIMIT
+                    if scope.get("path") == GROUPING_PATH
+                    else JSON_BODY_LIMIT
+                )
                 declared = self._validate_content_length(scope, request_id, body_limit)
                 if scope.get("method") == "DELETE" and declared not in {None, 0}:
                     raise PublicApiError("invalid_content_length", request_id)
@@ -205,15 +216,22 @@ class BoundaryMiddleware:
 
 
 def _is_expensive(scope: dict[str, Any]) -> bool:
-    return scope.get("method") == "POST" and scope.get("path") in EXPENSIVE_PATHS
+    if scope.get("method") != "POST":
+        return False
+    path = str(scope.get("path", ""))
+    return path in EXPENSIVE_PATHS or HISTORY_PANEL_ADD_PATTERN.fullmatch(path) is not None
 
 
 def _is_state_change(scope: dict[str, Any]) -> bool:
     method = scope.get("method")
     path = str(scope.get("path", ""))
-    return _is_expensive(scope) or (
-        method in {"PATCH", "DELETE"}
-        and (path == HISTORY_PATH or path.startswith(f"{HISTORY_PATH}/"))
+    return (
+        _is_expensive(scope)
+        or (method == "POST" and path == GROUPING_PATH)
+        or (
+            method in {"PATCH", "DELETE"}
+            and (path == HISTORY_PATH or path.startswith(f"{HISTORY_PATH}/"))
+        )
     )
 
 
