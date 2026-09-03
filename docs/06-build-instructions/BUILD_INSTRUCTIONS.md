@@ -9,9 +9,9 @@ Status: Approved execution baseline
 | Work package | Scope | Required evidence |
 | --- | --- | --- |
 | WP-01 Contracts | API schema, rule registry, 24-check registry, errors, generated TypeScript | Integrity hashes and contract tests |
-| WP-02 Image ingress | Multipart limits, signatures, pixel limits, decode, orientation, recovery views | Boundary and imaging tests |
+| WP-02 Image ingress | Browser-side proportional preparation, multipart limits, signatures, pixel limits, decode, orientation, recovery views | Boundary, browser preparation, and imaging tests |
 | WP-03 OCR and candidates | Local RapidOCR, bounded exact-pixel result reuse, strict equivalent-panel deduplication, field extraction, alternatives, provenance, coordinate inversion | OCR, cache, deduplication, candidate, and evidence tests |
-| WP-04 Regulatory engine | Beverage inference, common rules, family rules, warning rules, aggregation | Unit, mutation, and beverage-profile tests |
+| WP-04 Regulatory engine | Beverage inference, common rules, family rules, panel-scoped warning reads, conservative cross-image warning aggregation | Unit, mutation, multi-panel warning, and beverage-profile tests |
 | WP-05 Orchestration | One-pass analysis, independent verification, supervised execution, cancellation and timeout | Pipeline, supervisor, and API tests |
 | WP-06 Persistence | SQLite schema, image store, browser-scope authorization, FIFO 500, disposition, delete, reopen | Repository and API isolation tests |
 | WP-07 Frontend shell | Approved TTB visual system, two entry doors, navigation, responsive and accessibility behavior | Component, accessibility, and browser tests |

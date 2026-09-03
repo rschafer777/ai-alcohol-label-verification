@@ -24,14 +24,14 @@ QC verifies the produced artifact:
 | Single product | 1, 2, and 3 panels; remove and retry; no manual source fields |
 | Beverage types | Malt beverage, wine, spirits, unknown, and conflicting signals |
 | Evidence | Correct panel, original-pixel polygon, text snippet, and Show on label |
-| Warning | Exact text, title-case heading, missing sentence, bold body, contrast, legibility, and unknown size |
+| Warning | Exact text, title-case heading, missing sentence, bold body, contrast, legibility, unknown size, best complete read across panels, and conservative word confirmation across partial panel reads |
 | Human judgment | STONE'S THROW compared with Stone's Throw routes to Review when an independent reference is used |
 | Imperfect image | Angle, low light, glare, blur, and partial coverage do not become automatic label defects |
 | Equivalent panels | Cross-format duplicate uploads preserve both panel records, identify the canonical panel, avoid repeat OCR, and do not restart the worker |
 | Batch | Auto-group, merge, split, confirm, progress, failure isolation, retry, cancel, and export |
 | Capacity | Up to 300 products and 900 images with no group above 3 images |
 | History | 500-record FIFO, originating-browser isolation, filters, detail, evidence, disposition, delete, and clear |
-| Errors | Unsupported type, corrupt file, too many panels, too many pixels, timeout, rate, capacity, and service unavailable |
+| Errors | Unsupported type, corrupt file, too many panels, browser preparation of supported oversized photos, authoritative server pixel and byte limits, timeout, rate, capacity, and service unavailable |
 | Accessibility | Keyboard, focus, labels, headings, status text, target size, contrast, responsive reflow |
 | Security | History isolation, bounded bodies, formula-safe CSV, rate fairness, safe errors, no content logs, cleanup, non-root runtime, pinned actions, OIDC, no secrets in source |
 
@@ -61,7 +61,8 @@ Run against the release URL in a new browser session.
 12. Open History. Filter records, open an image and evidence highlight, edit a disposition, delete a record, and verify newest-first order.
 13. Navigate by keyboard at 1366 by 768 and at a narrow mobile width. Confirm focus remains visible and no required action depends on color.
 14. Upload a fourth panel, unsupported file, and corrupt image. Confirm clear, safe next actions.
-15. Upload an image above the decoded-pixel limit. Confirm the error shows expected width, actual width, expected height, actual height, expected decoded pixels, actual decoded pixels, the offending rows in red, and an exact resize action.
+15. Upload a supported browser-decodable image above the decoded-pixel limit. Confirm it is proportionally prepared and uploaded without external editing. Exercise the API directly or use an undecodable input to confirm the authoritative server error still shows expected width, actual width, expected height, actual height, expected decoded pixels, actual decoded pixels, the offending rows in red, and an exact resize action.
+18. Submit two views of one product where glare or curvature hides different warning lines. Confirm an exact complete panel read governs when available; otherwise confirm complementary statutory words remain Review with punctuation explicitly left to the reviewer.
 16. Exercise the Jack Daniel's, Organic Vodka, Cascade Light, Peak Farm, and Blood & Honey files. Confirm the extracted values listed in `../08-validation/VALIDATION_RESULTS.md` and inspect each evidence highlight.
 17. Upload the same label panel as JPEG and PNG in one product. Confirm both uploads remain visible, the duplicate panel identifies the canonical panel, the result completes within 9 seconds, and readiness still reports the same worker generation.
 

@@ -257,6 +257,51 @@ def test_interruption_inside_a_clean_read_is_a_mismatch() -> None:
     assert by_id(checks, "warning_continuity").state == "Mismatch"
 
 
+def test_best_read_panel_decides_the_warning_when_several_images_carry_it() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    truncated = replace(
+        observed.warning, body="(1) ACCORDING TO THE SURGEON GENERAL WOMEN SHOULD NOT DRINK"
+    )
+    exact = observed.warning
+
+    checks = warning_checks_across(Decimal("45"), truncated, [exact])
+
+    assert by_id(checks, "warning_wording").state == "Match"
+    assert by_id(checks, "warning_wording").reason_code == "warning_wording_exact"
+
+
+def test_statutory_words_are_confirmed_across_partial_reads_on_two_images() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"]
+    first_half, second_half = body.split(" (2) ", maxsplit=1)
+    front = replace(observed.warning, body=first_half)
+    back = replace(observed.warning, body="of the risk of birth defects. (2) " + second_half)
+
+    checks = warning_checks_across(Decimal("45"), front, [back])
+    wording = by_id(checks, "warning_wording")
+
+    assert wording.state == "Review"
+    assert wording.reason_code == "warning_words_confirmed_across_images"
+    assert "across 2 images" in wording.reason_text
+
+
+def test_a_substitution_seen_on_every_image_stays_a_mismatch() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"].replace("car or operate", "car and operate")
+    front = replace(observed.warning, body=body)
+    back = replace(observed.warning, body=body)
+
+    checks = warning_checks_across(Decimal("45"), front, [back])
+
+    assert by_id(checks, "warning_wording").state == "Mismatch"
+
+
 def test_heavily_damaged_noisy_read_is_a_review_item_not_a_mismatch() -> None:
     observed = clean_observed()
     body = (

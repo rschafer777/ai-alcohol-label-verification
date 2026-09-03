@@ -1,4 +1,5 @@
 import { internalError, parseAnalysisResult, parseGroupingResult, parsePublicError, parseVerificationResult, ResponseContractError } from "../contracts/runtime";
+import { preparePanels } from "./prepare-panels";
 import type {
   AddPanelRequest,
   AnalysisRequest,
@@ -105,7 +106,7 @@ async function postMultipartWithFetch(fetcher: typeof fetch, url: string, body: 
   return { ok: response.ok, payload };
 }
 
-export function createVerificationClient(fetcher: typeof fetch = fetch, transport: "xhr" | "fetch" = typeof XMLHttpRequest === "undefined" ? "fetch" : "xhr"): VerificationClient {
+export function createVerificationClient(fetcher: typeof fetch = fetch, transport: "xhr" | "fetch" = typeof XMLHttpRequest === "undefined" ? "fetch" : "xhr", prepare: (files: File[]) => Promise<File[]> = preparePanels): VerificationClient {
   async function post(url: string, body: FormData, signal: AbortSignal, onUploadProgress?: (progress: UploadProgress) => void): Promise<RawResponse> {
     if (transport === "xhr") return postMultipart(url, body, signal, onUploadProgress);
     return postMultipartWithFetch(fetcher, url, body, signal);
@@ -114,7 +115,7 @@ export function createVerificationClient(fetcher: typeof fetch = fetch, transpor
   return {
     async analyze(request: AnalysisRequest) {
       const body = new FormData();
-      request.panels.forEach((panel) => body.append("panels", panel, panel.name));
+      (await prepare(request.panels)).forEach((panel) => body.append("panels", panel, panel.name));
       const url = request.persist === false ? "/api/v1/analyses?persist=false" : "/api/v1/analyses";
       const response = await post(url, body, request.signal, request.onUploadProgress);
       if (!response.ok) throw new VerificationClientError(parsePublicError(response.payload) ?? internalError());
@@ -126,7 +127,8 @@ export function createVerificationClient(fetcher: typeof fetch = fetch, transpor
     },
     async addPanel(request: AddPanelRequest) {
       const body = new FormData();
-      body.append("panels", request.panel, request.panel.name);
+      const [panel = request.panel] = await prepare([request.panel]);
+      body.append("panels", panel, panel.name);
       const response = await post(`/api/v1/history/${encodeURIComponent(request.historyId)}/panels`, body, request.signal, request.onUploadProgress);
       if (!response.ok) throw new VerificationClientError(parsePublicError(response.payload) ?? internalError());
       try {
@@ -138,7 +140,7 @@ export function createVerificationClient(fetcher: typeof fetch = fetch, transpor
     async verify(request: VerificationRequest) {
       const body = new FormData();
       body.append("reference", JSON.stringify(request.reference));
-      request.panels.forEach((panel) => body.append("panels", panel, panel.name));
+      (await prepare(request.panels)).forEach((panel) => body.append("panels", panel, panel.name));
       const response = await postMultipartWithFetch(fetcher, "/api/v1/verifications", body, request.signal);
       if (!response.ok) throw new VerificationClientError(parsePublicError(response.payload) ?? internalError());
       try {

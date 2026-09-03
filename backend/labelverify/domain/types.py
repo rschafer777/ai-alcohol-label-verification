@@ -34,6 +34,10 @@ class ObservedCandidates:
     # Every readable line, so a supplied application value can be located anywhere on the
     # label after extraction has chosen its own candidates.
     lines: list[OcrLine] = field(default_factory=list)
+    # The statement as read on each further panel that carries it (a second photograph of
+    # the same back label); the comparison keeps the best-read one and confirms words
+    # across them.
+    warning_alternates: list[WarningObservation] = field(default_factory=list)
 
     def field(self, name: str) -> CandidateSet:
         return self.fields.get(name, CandidateSet(status="Not found"))

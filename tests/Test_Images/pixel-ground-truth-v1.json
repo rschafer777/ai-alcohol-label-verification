@@ -1136,7 +1136,7 @@
         ],
         "readability": "clear"
       },
-      "image_quality_notes": "Two 16 oz cans side by side on a weathered picnic table outdoors, front artwork left and back panel right. Rendered mockup with simulated water droplets across both cans. Bright daylight with a heavily blurred green park background. Droplets overlay parts of the warning text but no word is obscured. Mild cylindrical distortion at the panel edges.",
+      "image_quality_notes": "Two 16 oz cans side by side on a weathered picnic table outdoors, front artwork left and back panel right. Rendered mockup with simulated water droplets across both cans. Bright daylight with a heavily blurred green outdoor background. Droplets overlay parts of the warning text but no word is obscured. Mild cylindrical distortion at the panel edges.",
       "notes": "Container is a can, so 'rendered_bottle_mockup' is the nearest available image_kind. Front separates ABV and net contents with a vertical bar: '5.0% ALC/VOL | 16 FL. OZ.'. The producer line ends the company name with a period rather than a comma: 'Brewed and canned by Sun Dock Brewing.' then 'San Diego, California' on the next line. Warning wording is word for word the statutory text; the heading is clearly heavier than the body.",
       "imageSha256": "9d0696e152bd1c163b204ff4ca6582346ab34f47b24f4c373b13a8a6da40d6c3"
     },

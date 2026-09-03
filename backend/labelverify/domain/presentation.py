@@ -189,6 +189,7 @@ _REASON_SHORT: dict[str, str] = {
     "wine_appellation_not_found": "No appellation read",
     "wine_appellation_found": "Appellation read",
     "wine_appellation_placement_review": "Appellation on another panel",
+    "warning_words_confirmed_across_images": "Words confirmed across images; confirm punctuation",
     "reference_found_on_label": "Application value found on label",
     "reference_found_within_label_text": "Found inside a longer statement",
     "reference_within_longer_text": "Inside a longer line; confirm",

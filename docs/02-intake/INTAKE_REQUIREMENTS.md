@@ -16,12 +16,12 @@ Primary users are TTB label compliance agents with widely varying technical comf
 | ID | Requirement | Acceptance measure |
 | --- | --- | --- |
 | INT-001 | Provide two obvious entry paths: one product and batch | Both are visible on initial load and keyboard reachable |
-| INT-002 | Accept 1 to 3 JPEG, PNG, or WebP images for one product | The API and UI reject unsupported or excessive input without silent loss; measurable limit errors compare submitted and supported values and state the exact correction |
+| INT-002 | Accept 1 to 3 JPEG, PNG, or WebP images for one product | The browser proportionally prepares supported phone photos that exceed upload limits; the API remains authoritative and the UI rejects unsupported or excessive input without silent loss; measurable limit errors compare submitted and supported values and state the exact correction |
 | INT-003 | OCR label images without requiring manual data entry, and compare the label with application values when the reviewer supplies them | No application field is required; an optional application form turns the read into a label-to-application comparison in which every entered value is searched across all readable lines |
 | INT-004 | Infer beer or malt beverage, wine, or distilled spirits | A unique supported class/type signal selects the profile; conflicts remain unresolved |
 | INT-005 | Extract brand, class/type, alcohol content, net contents, producer/name and address, import country when visible, proof when shown, and selected type-specific fields | Each found value has status, evidence reference, and original-pixel polygon |
 | INT-006 | Apply common and beverage-specific deterministic checks | The ordered 24-check registry is complete in every result |
-| INT-007 | Check the government warning exactly | Wording, capitalization, heading emphasis, body weight, separation, continuity, contrast, legibility, applicability, and physical-size capability are reported independently |
+| INT-007 | Check the government warning exactly | Each panel carrying the warning is evaluated independently; the clearest complete read is used, complementary partial reads may confirm statutory words across images, and wording, capitalization, heading emphasis, body weight, separation, continuity, contrast, legibility, applicability, and physical-size capability are reported independently |
 | INT-008 | Preserve reasonable human judgment | Case-only or punctuation-only brand differences route to Review rather than deterministic rejection |
 | INT-009 | Handle recoverable imperfect images | EXIF orientation, bounded resize, deskew or perspective correction, and contrast recovery are attempted without inventing obscured text |
 | INT-010 | Show evidence on the original image | Selecting a finding highlights the corresponding original-pixel region |

@@ -61,6 +61,98 @@ def _presentation(
     ).model_copy(update={"evidence_ref": evidence.evidence_id if evidence else None})
 
 
+def warning_checks_across(
+    abv: Decimal | None,
+    observed: WarningObservation,
+    alternates: list[WarningObservation],
+    net_contents_value: Decimal = Decimal("750"),
+    net_contents_unit: str = "mL",
+    *,
+    beverage_type: BeverageType | None = None,
+    class_type: str | None = None,
+) -> list[CheckResult]:
+    """Evaluate the statement on every panel that carries it and keep the best-read one.
+
+    Up to three photographs of one product may each show part of the statement: a curved
+    bottle or glare hides a line in one photograph and shows it in the next. The same
+    printed statement cannot differ between photographs, so a complete clean read on one
+    panel outranks a partial or noisy read on another, and a statutory word read in place
+    on any panel is confirmed for the product. Punctuation stays with the reviewer: the
+    machine never clears it from a photograph.
+    """
+
+    observations = [observed, *alternates]
+    evaluated = [
+        (
+            observation,
+            warning_checks(
+                abv,
+                observation,
+                net_contents_value,
+                net_contents_unit,
+                beverage_type=beverage_type,
+                class_type=class_type,
+            ),
+        )
+        for observation in observations
+    ]
+    # max keeps the first of equal ranks, so the primary panel wins ties.
+    best_observation, best = max(evaluated, key=lambda item: _wording_rank(_row(item[1])))
+    wording = _row(best)
+    if len(observations) < 2 or wording.state == "Match":
+        return best
+    if wording.reason_code == "warning_punctuation_uncertain":
+        return best
+    readers = [observation for observation in observations if observation.body]
+    if len(readers) < 2:
+        return best
+    expected_words = warning_words(str(contracts().rules["warning"]["bodyExact"])).split()
+    covered: set[int] = set()
+    for observation in readers:
+        actual_words = warning_words(warning_text(observation.body or "")).split()
+        for tag, expected_start, expected_end, _start, _end in SequenceMatcher(
+            None, expected_words, actual_words, autojunk=False
+        ).get_opcodes():
+            if tag == "equal":
+                covered.update(range(expected_start, expected_end))
+    if len(covered) < len(expected_words):
+        return best
+    confirmed = _result(
+        "warning_wording",
+        "Warning wording",
+        "Review",
+        "warning_words_confirmed_across_images",
+        (
+            f"Every statutory word was read in its place across {len(readers)} images; no "
+            "single image shows the whole statement cleanly, so confirm the punctuation on "
+            "the label"
+        ),
+        observed=best_observation.body,
+    ).model_copy(update={"evidence_ref": wording.evidence_ref})
+    return [confirmed if item.check_id == "warning_wording" else item for item in best]
+
+
+def _row(checks: list[CheckResult]) -> CheckResult:
+    return next(item for item in checks if item.check_id == "warning_wording")
+
+
+def _wording_rank(check: CheckResult) -> int:
+    """Higher is better evidence: a complete clean read, then a complete read with a
+    difference, then partial or noisy reads, then nothing found."""
+
+    if check.state == "Match":
+        return 6 if check.reason_code == "warning_wording_exact" else 5
+    if check.state == "Review" and check.reason_code == "warning_punctuation_uncertain":
+        return 4
+    if check.state == "Mismatch":
+        return 3
+    if check.state == "Review":
+        return 2
+    if check.reason_code in {"warning_not_found", "observed_unreadable"}:
+        return 0
+    return 1
+
+
 def warning_checks(
     abv: Decimal | None,
     observed: WarningObservation,

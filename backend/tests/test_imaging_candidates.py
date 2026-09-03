@@ -872,6 +872,36 @@ def test_all_capital_glued_class_words_are_split() -> None:
     assert observed.field("class_type").candidates[0].value == "GRAPE WINE WITH NATURAL FLAVORS"
 
 
+def test_each_panel_that_carries_the_warning_is_read_on_its_own() -> None:
+    observed = locate_candidates(
+        [
+            line("GOVERNMENT WARNING:", 0, y=100, panel="panel-1"),
+            line("(1) According to the Surgeon General, women should", 1, y=140, panel="panel-1"),
+            line("GOVERNMENT WARNING:", 2, y=100, panel="panel-2"),
+            line(
+                "(1) According to the Surgeon General, women should not drink",
+                3,
+                y=140,
+                panel="panel-2",
+            ),
+            line(
+                "(2) Consumption of alcoholic beverages impairs your ability",
+                4,
+                y=180,
+                panel="panel-2",
+            ),
+        ],
+        [panel(), panel().model_copy(update={"panel_id": "panel-2"})],
+    )
+
+    assert observed.warning.heading_evidence is not None
+    assert observed.warning.heading_evidence.panel_id == "panel-1"
+    assert len(observed.warning_alternates) == 1
+    assert observed.warning_alternates[0].heading_evidence is not None
+    assert observed.warning_alternates[0].heading_evidence.panel_id == "panel-2"
+    assert "(2) Consumption" in (observed.warning_alternates[0].body or "")
+
+
 def test_a_dated_establishment_line_is_not_a_brand() -> None:
     observed = locate_candidates(
         [

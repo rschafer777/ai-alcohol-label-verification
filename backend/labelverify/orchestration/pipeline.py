@@ -537,7 +537,6 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
 
     recovery: list[ImageView] = []
     warning = observed.warning
-    warning_settled = _warning_settled(warning)
     missing_content = any(
         observed.field(field).status in {"Not found", "Unreadable"}
         for field in ("abv", "net_contents")
@@ -547,15 +546,21 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
 
     for panel in decoded:
         panel_views: list[ImageView] = []
+        panel_warning = _warning_for_panel(observed, panel.panel_id)
         warning_anchor = _warning_anchor(observed, panel.panel_id)
         heading_anchor = _warning_heading_anchor(observed, panel.panel_id)
-        if warning_anchor is not None and heading_anchor is not None and not warning_settled:
+        if (
+            panel_warning is not None
+            and warning_anchor is not None
+            and heading_anchor is not None
+            and not _warning_settled(panel_warning)
+        ):
             panel_views.append(
                 _warning_detail_view(
                     panel,
                     warning_anchor,
                     heading_anchor,
-                    body_complete=_warning_body_complete(warning),
+                    body_complete=_warning_body_complete(panel_warning),
                 )
             )
         elif warning.heading is None:
@@ -644,7 +649,8 @@ def _warning_body_complete(warning: WarningObservation) -> bool:
 def _warning_heading_anchor(
     observed: ObservedCandidates, panel_id: str
 ) -> tuple[int, int, int, int] | None:
-    evidence = observed.warning.heading_evidence
+    observation = _warning_for_panel(observed, panel_id)
+    evidence = observation.heading_evidence if observation is not None else None
     if evidence is None or evidence.panel_id != panel_id:
         return None
     return _evidence_bounds(evidence)
@@ -749,10 +755,23 @@ def _field_anchor(
     return _evidence_bounds(evidence)
 
 
+def _warning_for_panel(observed: ObservedCandidates, panel_id: str) -> WarningObservation | None:
+    """The statement as read on one panel, whichever panel carried the primary read."""
+
+    for observation in (observed.warning, *observed.warning_alternates):
+        evidence = observation.heading_evidence or observation.body_evidence
+        if evidence is not None and evidence.panel_id == panel_id:
+            return observation
+    return None
+
+
 def _warning_anchor(
     observed: ObservedCandidates, panel_id: str
 ) -> tuple[int, int, int, int] | None:
-    evidence = observed.warning.body_evidence or observed.warning.heading_evidence
+    observation = _warning_for_panel(observed, panel_id)
+    if observation is None:
+        return None
+    evidence = observation.body_evidence or observation.heading_evidence
     if evidence is None or evidence.panel_id != panel_id:
         return None
     return _evidence_bounds(evidence)

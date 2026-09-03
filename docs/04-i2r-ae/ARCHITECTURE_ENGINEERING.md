@@ -131,7 +131,9 @@ Each evidence item includes an opaque ID, panel ID, four original-pixel points, 
 
 ## Image engineering
 
-The decoder applies EXIF orientation and enforces 12 megapixels per image and 36 megapixels per request. It measures blur, exposure, coverage, and glare indicators. The recovery path may create bounded resize, contrast, deskew, or clear trapezoid views. It never fills missing pixels or fabricates text. Coordinates from derived views are inverted to original pixels before delivery.
+The browser applies EXIF orientation when decoding supported images and proportionally prepares a photo that exceeds 12 megapixels or 4 MiB. It uses a small pixel headroom, bounded JPEG quality ladder, and bounded size reductions before upload. The server remains authoritative and enforces 12 megapixels per image, 36 megapixels per request, bytes, signatures, and counts. The backend decoder measures blur, exposure, coverage, and glare indicators. The recovery path may create bounded resize, contrast, deskew, or clear trapezoid views. It never fills missing pixels or fabricates text. Coordinates from derived server views are inverted to the admitted panel pixels before delivery.
+
+Warning extraction is panel-scoped. Every submitted panel containing a warning produces its own observation and evidence. A complete exact read outranks a partial read. When no panel is complete, statutory words may be confirmed only when their expected positions are covered across independent panel reads; that outcome remains Review so punctuation and physical presentation are not inferred across images.
 
 Full-frame visual deduplication uses a 64 by 64 grayscale fingerprint, an aspect-ratio tolerance of 0.2 percent, normalized correlation of at least 0.999, and normalized mean absolute error of at most 0.025. This narrow gate removes redundant OCR work for equivalent JPEG and PNG encodings while preserving distinct product surfaces. The API retains all submitted panels and marks only the duplicate panel with `duplicateOfPanelId`.
 

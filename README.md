@@ -12,12 +12,12 @@ The application also groups and processes batches of up to 300 products and reta
 ## What it does
 
 - Starts from label images. Typing the application (COLA form) values is optional; when they are entered, the label is compared with them and every entered value is searched across all readable lines of the label.
-- Accepts 1 to 3 JPEG, PNG, or WebP panels per product.
+- Accepts 1 to 3 JPEG, PNG, or WebP panels per product. Oversized browser-selected photos are proportionally resized and re-encoded locally before upload, with server limits still enforced as the authoritative boundary.
 - Runs OCR locally with bundled ONNX models. Label processing requires no external ML API.
 - Infers malt beverage, wine, or distilled spirits from whole-term evidence and exposes conflicts for review.
 - Extracts brand, class/type, ABV, proof, net contents, producer/address, origin, warning, and selected family-specific evidence, reading each panel once at a bounded size and then re-reading the government warning and any missing field from an enlarged crop of the region it located.
 - Applies 24 ordered checks with Match, Mismatch, Review, and Not verified states.
-- Evaluates the government warning through separate applicability, wording, capitalization, emphasis, separation, continuity, contrast, legibility, and size checks. Wording is compared word for word against 27 CFR 16.21, and a punctuation difference is a review item that names the marks in question, never cleared by the machine; heading and body weight are measured from stroke width against letter height; contrast is measured as a WCAG luminance ratio confirmed by the gray-level range; the millimeter type-size rule is reported for the reviewer because a photograph carries no scale.
+- Evaluates the government warning through separate applicability, wording, capitalization, emphasis, separation, continuity, contrast, legibility, and size checks. Each submitted panel carrying the warning is read independently so the clearest complete statement wins and complementary partial reads can confirm statutory words across images while punctuation remains for human review. Wording is compared word for word against 27 CFR 16.21, and a punctuation difference is a review item that names the marks in question, never cleared by the machine; heading and body weight are measured from stroke width against letter height; contrast is measured as a WCAG luminance ratio confirmed by the gray-level range; the millimeter type-size rule is reported for the reviewer because a photograph carries no scale.
 - Maps every located field to an original-pixel polygon and provides Show on label.
 - Preserves human judgment for case-only and punctuation-only variations such as `STONE'S THROW` and `Stone's Throw`.
 - Attempts bounded orientation, deskew, perspective, and contrast recovery without inventing obscured text.

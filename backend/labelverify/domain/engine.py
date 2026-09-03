@@ -24,7 +24,7 @@ from labelverify.domain.normalize import (
 )
 from labelverify.domain.reference_search import apply_reference_search
 from labelverify.domain.types import ObservedCandidates
-from labelverify.domain.warnings import warning_checks
+from labelverify.domain.warnings import warning_checks_across
 
 
 @dataclass(frozen=True)
@@ -53,9 +53,10 @@ def compare_all(inputs: ComparisonInputs) -> tuple[list[CheckResult], SummarySta
         _wine_sulfites(reference, observed),
         _spirits_field_of_vision(reference, observed),
         _malt_class_designation(reference),
-        *warning_checks(
+        *warning_checks_across(
             _warning_abv(reference),
             observed.warning,
+            observed.warning_alternates,
             reference.net_contents_value,
             reference.net_contents_unit,
             beverage_type=reference.beverage_type,

@@ -9,7 +9,7 @@ Status: Approved build baseline
 | ID | Feature and acceptance criteria | Source |
 | --- | --- | --- |
 | FR-001 | Home presents Check one product and Check a batch as the two primary actions | INT-001 |
-| FR-002 | Single intake accepts 1 to 3 JPEG, PNG, or WebP images with preview, reorder, remove, and clear validation | INT-002 |
+| FR-002 | Single intake accepts 1 to 3 JPEG, PNG, or WebP images with preview, reorder, remove, and clear validation; supported browser images above the server pixel or byte limit are proportionally resized and re-encoded before upload | INT-002 |
 | FR-003 | Verify starts OCR without requiring typed label or application fields | INT-003 |
 | FR-004 | OCR executes with local ONNX assets and no runtime external inference request | INT-Q-003 |
 | FR-005 | Decode honors orientation and creates only bounded recovery views | INT-009 |
@@ -22,7 +22,7 @@ Status: Approved build baseline
 | FR-012 | Wine rules cover numeric ABV, permitted range span and 14 percent boundary, table/light wine exception, conditional appellation, and conditional sulfite declaration | INT-006 |
 | FR-013 | Spirits rules require ABV and evaluate brand, class/type, and ABV field of vision; optional proof is compared with twice ABV and its visual distinction remains reviewable | INT-006 |
 | FR-014 | Warning applicability is based on known ABV at the 0.5 percent boundary; unknown ABV remains Review | INT-007 |
-| FR-015 | Warning text comparison normalizes whitespace, line wrapping, letter case, and OCR-glued clause markers for the statutory words; the separate heading-capitalization check enforces `GOVERNMENT WARNING:` in capitals, and any other punctuation difference remains Review | INT-007 |
+| FR-015 | Warning text comparison reads every panel carrying the statement, selects the clearest complete read, and may confirm statutory words in expected positions across complementary partial reads while retaining Review for punctuation; it normalizes whitespace, line wrapping, letter case, and OCR-glued clause markers for the statutory words; the separate heading-capitalization check enforces `GOVERNMENT WARNING:` in capitals, and any other punctuation difference remains Review | INT-007 |
 | FR-016 | Warning presentation reports capitalization, heading emphasis, body weight, separation, continuity, contrast, legibility, and size capability independently using the closed measurement boundaries in LV-I2R-001; intermediate evidence routes to Review | INT-007 |
 | FR-017 | Missing or unreadable evidence never becomes a deterministic label failure by itself | INT-Q-005 |
 | FR-018 | Case-only or punctuation-only brand variations route to Review | INT-008 |

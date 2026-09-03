@@ -310,11 +310,26 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
     ]
     appellation = _line_candidates(appellation_lines, _APPELLATION, "wine_appellation", factory)
     sulfites = _line_candidates(ordered, _SULFITES, "wine_sulfites", factory)
-    warning = _warning_observation(
-        ordered,
-        panels,
-        factory,
-        source_unreadable=bool(unreadable_panel_ids),
+    # Each panel is read for the statement on its own: a curved bottle or glare can hide
+    # part of it in one photograph and show it in the next.
+    observations = [
+        observation
+        for panel in panels
+        if panel.panel_id not in unreadable_panel_ids
+        and (
+            observation := _warning_observation(
+                [item for item in ordered if item.panel_id == panel.panel_id],
+                panels,
+                factory,
+                source_unreadable=bool(unreadable_panel_ids),
+            )
+        ).heading
+        is not None
+    ]
+    warning = (
+        observations[0]
+        if observations
+        else WarningObservation(source_unreadable=bool(unreadable_panel_ids))
     )
     excluded = {
         item.reading_order
@@ -356,7 +371,12 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
             for field, candidates in fields.items()
         }
     return ObservedCandidates(
-        fields=fields, warning=warning, panels=panels, evidence=evidence, lines=list(ordered)
+        fields=fields,
+        warning=warning,
+        panels=panels,
+        evidence=evidence,
+        lines=list(ordered),
+        warning_alternates=observations[1:],
     )
 
 
@@ -866,9 +886,7 @@ def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Can
                 break
             group.append(next_line)
             split_name_line = bool(
-                split_role
-                and len(group) == 2
-                and re.match(r"^\s*by\b", next_line.text, re.I)
+                split_role and len(group) == 2 and re.match(r"^\s*by\b", next_line.text, re.I)
             )
             if _looks_like_domestic_location(next_line.text) and not split_name_line:
                 break
