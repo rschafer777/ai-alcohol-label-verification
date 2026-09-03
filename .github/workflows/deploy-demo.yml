@@ -248,7 +248,9 @@ jobs:
           ready=false
           for _ in $(seq 1 60); do
             if curl --fail --silent --show-error --max-time 3 \
-              http://127.0.0.1:18080/health/ready >"$RUNNER_TEMP/predeploy-ready.json"; then
+              http://127.0.0.1:18080/health/ready >"$RUNNER_TEMP/predeploy-ready.json" && \
+              jq -e '.ready == true and .profileId == "all_beverages_demo_v2"' \
+                "$RUNNER_TEMP/predeploy-ready.json" >/dev/null; then
               ready=true
               break
             fi
@@ -398,7 +400,9 @@ jobs:
           for _ in $(seq 1 60); do
             if curl --fail --silent --show-error \
               --connect-timeout 3 --max-time 3 \
-              "$base_url/health/ready" >"$work/ready.json"; then
+              "$base_url/health/ready" >"$work/ready.json" && \
+              jq -e '.ready == true and .profileId == "all_beverages_demo_v2"' \
+                "$work/ready.json" >/dev/null; then
               ready=true
               break
             fi
