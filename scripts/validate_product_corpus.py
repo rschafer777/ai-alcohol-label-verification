@@ -484,7 +484,7 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--build-id", default=DEFAULT_BUILD_ID)
     parser.add_argument("--readiness-timeout", type=float, default=30.0)
-    parser.add_argument("--worker-deadline", type=float, default=9.0)
+    parser.add_argument("--worker-deadline", type=float, default=15.0)
     parser.add_argument("--timeout-fault-deadline", type=float, default=0.001)
     args = parser.parse_args()
     if min(args.readiness_timeout, args.worker_deadline, args.timeout_fault_deadline) <= 0:

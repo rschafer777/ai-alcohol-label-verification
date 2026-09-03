@@ -23,6 +23,8 @@ def expected_contract_data(project_root: Path) -> dict[str, Any]:
     checks = load_json(contracts / "selected-check-registry-v1.json")
     errors = load_json(contracts / "error-registry-v1.json")
     regulatory = load_json(contracts / "regulatory-rules-v1.json")
+    grouping_image = api["$defs"]["GroupingImage"]["properties"]
+    grouping_request = api["$defs"]["GroupingRequest"]["properties"]["images"]
     check_ids = [row["checkId"] for row in checks["checks"]]
     server_codes = [row["code"] for row in errors["errors"]]
     browser_codes = list(errors["browserOnly"])
@@ -44,6 +46,15 @@ def expected_contract_data(project_root: Path) -> dict[str, Any]:
         "contractVersion": api["contractVersion"],
         "profileId": api["$defs"]["Reference"]["properties"]["profileId"]["const"],
         "limits": api["limits"],
+        "groupingLimits": {
+            "imageCountMax": grouping_request["maxItems"],
+            "imageIdLengthMax": grouping_image["imageId"]["maxLength"],
+            "fileNameLengthMax": grouping_image["fileName"]["maxLength"],
+            "pathLengthMax": grouping_image["path"]["maxLength"],
+            "brandNameLengthMax": grouping_image["brandName"]["maxLength"],
+            "classTypeLengthMax": grouping_image["classType"]["maxLength"],
+            "panelCountMax": api["$defs"]["GroupSuggestion"]["properties"]["panelIds"]["maxItems"],
+        },
         "checkIds": check_ids,
         "serverErrorCodes": server_codes,
         "browserErrorCodes": browser_codes,
@@ -66,9 +77,11 @@ def extract_string_array(text: str, name: str) -> list[str] | None:
     return json.loads(match.group(1))
 
 
-def extract_limits(text: str, expected_keys: set[str]) -> dict[str, int | float] | None:
+def extract_numeric_object(
+    text: str, name: str, expected_keys: set[str]
+) -> dict[str, int | float] | None:
     match = re.search(
-        r"export\s+const\s+limits\s*=\s*\{(.*?)\}\s+as\s+const",
+        rf"export\s+const\s+{re.escape(name)}\s*=\s*\{{(.*?)\}}\s+as\s+const",
         text,
         re.DOTALL,
     )
@@ -95,8 +108,13 @@ def validate_frontend_contract(project_root: Path) -> list[str]:
         errors.append("contractVersion differs from api-contract-v1.json")
     if extract_string(text, "profileId") != expected["profileId"]:
         errors.append("profileId differs from api-contract-v1.json")
-    if extract_limits(text, set(expected["limits"])) != expected["limits"]:
+    if extract_numeric_object(text, "limits", set(expected["limits"])) != expected["limits"]:
         errors.append("limits differ from api-contract-v1.json")
+    if (
+        extract_numeric_object(text, "groupingLimits", set(expected["groupingLimits"]))
+        != expected["groupingLimits"]
+    ):
+        errors.append("groupingLimits differ from api-contract-v1.json")
     if extract_string_array(text, "checkIds") != expected["checkIds"]:
         errors.append("checkIds differ from selected-check-registry-v1.json")
     if extract_string_array(text, "serverErrorCodes") != expected["serverErrorCodes"]:

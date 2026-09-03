@@ -1,7 +1,6 @@
 /* LabelVerify application styles.
-   Recreates the approved Fable design (design_handoff_labelverify/LabelVerify.dc.html) on the
-   Industry component grammar re-themed to the TTB.gov / USWDS palette. Values are taken from the
-   prototype verbatim; tokens live in labelverify-tokens.css. */
+   Uses the Industry component grammar with the TTB.gov and USWDS palette.
+   Shared design tokens live in labelverify-tokens.css. */
 
 /* ───────── component grammar (Industry DS, blueprint variant) ───────── */
 .blueprint { position: relative; border: 1px solid var(--lv-divider); border-radius: 0; }
@@ -169,6 +168,7 @@ select.input { width: auto; }
 .file-chip img { width: 64px; height: 44px; object-fit: cover; }
 .file-chip figcaption { margin: 0; font-size: 12px; }
 .file-chip .btn-icon { width: 32px; height: 32px; }
+.file-chip-actions { display: flex; gap: 2px; align-items: center; }
 .door-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: auto; }
 .door-foot .note { font-size: 13px; }
 .door-foot .btn { min-height: 44px; padding-inline: 20px; font-size: 16px; }
@@ -177,6 +177,12 @@ select.input { width: auto; }
 .batch-steps li { border-top: 2px solid var(--lv-accent); padding-top: 8px; }
 .batch-steps strong { font-family: var(--lv-font-body); font-size: 15px; font-weight: 700; }
 .form-error { margin: 0; font-size: 13px; color: var(--lv-fail-text); }
+.batch-selection-status, .batch-live-progress { display: grid; gap: 8px; padding: 10px 0; }
+.batch-selection-status > div, .batch-live-progress > div:first-child { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.batch-selection-status progress, .batch-live-progress progress { width: 100%; height: 12px; accent-color: var(--lv-accent); }
+.batch-selection-status details { font-size: 12px; }
+.batch-selection-status ul { margin: 6px 0 0; max-height: 110px; overflow: auto; }
+.batch-progress-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; font-size: 12px; font-variant-numeric: tabular-nums; }
 .recent { display: grid; gap: 10px; }
 .recent-head { display: flex; justify-content: space-between; align-items: baseline; }
 .recent-head h4 { margin: 0; }
@@ -217,6 +223,13 @@ select.input { width: auto; }
 .state-body { display: flex; gap: 10px; align-items: flex-start; }
 .state-body > span { color: var(--lv-accent-700); flex: none; margin-top: 2px; }
 .state-body .card-body { margin-top: 4px; font-size: 13px; }
+.error-comparison-wrap { overflow-x: auto; margin: 12px 0; }
+.error-comparison { width: 100%; border-collapse: collapse; font-size: 13px; }
+.error-comparison th, .error-comparison td { border: 1px solid var(--lv-divider); padding: 8px 10px; text-align: left; }
+.error-comparison thead th { background: var(--lv-neutral-100); font-weight: 700; }
+.error-comparison tbody th { font-weight: 600; }
+.error-comparison td.fail { color: var(--lv-fail-text); background: var(--lv-fail-bg); font-weight: 700; }
+.error-comparison td.pass { color: var(--lv-pass-text); }
 .state-meta { justify-content: space-between; }
 .state-meta > span:last-child { display: flex; gap: 6px; }
 .state-meta .btn { font-size: 12px; }

@@ -606,7 +606,13 @@ async def _run_owned(
     except WorkerTimedOut as exc:
         raise PublicApiError("inference_timeout", request_id) from exc
     except WorkerExecutionFailed as exc:
-        raise PublicApiError(exc.code, request_id, exc.field_or_panel) from exc
+        raise PublicApiError(
+            exc.code,
+            request_id,
+            exc.field_or_panel,
+            comparisons=exc.comparisons,
+            next_action=exc.next_action,
+        ) from exc
 
 
 async def _run_analysis_owned(
@@ -628,7 +634,13 @@ async def _run_analysis_owned(
     except WorkerTimedOut as exc:
         raise PublicApiError("inference_timeout", request_id) from exc
     except WorkerExecutionFailed as exc:
-        raise PublicApiError(exc.code, request_id, exc.field_or_panel) from exc
+        raise PublicApiError(
+            exc.code,
+            request_id,
+            exc.field_or_panel,
+            comparisons=exc.comparisons,
+            next_action=exc.next_action,
+        ) from exc
 
 
 def _reference_locator(exc: Exception) -> str | None:

@@ -4,6 +4,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { BatchWorkspace } from "../src/features/batch/BatchWorkspace";
 import { batchProgress, groupFromSuggestion, mergeGroups, moveImage, splitGroup } from "../src/features/batch/batch-state";
+import { filterBatchSelection } from "../src/features/batch/grouping";
 import { analysis } from "./fixtures";
 
 const historyClient = { meta: vi.fn(async () => null), list: vi.fn(), get: vi.fn(), setDisposition: vi.fn(async () => true), remove: vi.fn(), clear: vi.fn() };
@@ -60,5 +61,19 @@ describe("batch state helpers", () => {
     expect(progress.counts).toMatchObject({ total: 2, remaining: 2, running: 1, queued: 1, complete: 0 });
     expect(progress.current?.productId).toBe("g1");
     expect(progress.timing.etaMs).toBeNull();
+  });
+
+  it("accepts supported folder images while reporting non-image and oversized files", () => {
+    const image = new File(["image"], "front.jpg", { type: "image/jpeg" });
+    const metadata = new File(["{}"], "test-oracle-v1.json", { type: "application/json" });
+    const oversized = new File([new Uint8Array(4_194_305)], "large.png", { type: "image/png" });
+
+    const selection = filterBatchSelection([image, metadata, oversized]);
+
+    expect(selection.accepted).toEqual([image]);
+    expect(selection.skipped).toEqual([
+      { name: "test-oracle-v1.json", reason: "unsupported type" },
+      { name: "large.png", reason: "over 4 MB" },
+    ]);
   });
 });

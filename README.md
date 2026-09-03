@@ -105,7 +105,7 @@ The fast code-quality gate is:
 ./scripts/check.ps1
 ```
 
-The complete release-candidate gate adds the governed product corpus, warm and cold OCR timing, a 20-product sequential batch, dependency audits, release-manifest verification, and the 50-image diagnostic when its non-redistributable local images are installed:
+The complete release-candidate gate adds the governed product corpus, warm and cold OCR timing, a 20-product sequential batch, dependency audits, release-manifest verification, and the private API and batch image corpus when at least 50 non-redistributable local images are installed:
 
 ```powershell
 ./scripts/release-check.ps1
@@ -120,7 +120,8 @@ uv run pytest
 uv run python scripts/validate_product_corpus.py
 uv run python scripts/run_performance_validation.py
 uv run python scripts/run_batch_performance_validation.py --count 20
-uv run python scripts/validate_test_images.py
+uv run python scripts/normalize_test_images.py
+uv run python scripts/validate_private_uat_corpus_e2e.py
 
 Push-Location frontend
 npm run lint
@@ -131,7 +132,9 @@ npm run test:e2e
 Pop-Location
 ```
 
-The user-supplied validation folder is expected at `tests/Test_Images/`. Its 50 governed images are identified by `test-oracle-v1.json`; additional local files are ignored and reported. Raw images remain excluded from the public repository because public redistribution rights were not established.
+The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 70 accepted images plus one skipped JSON file. The production multipart API processed all 70 images and all 50 server-suggested product groups. Individual-image mean latency was 3.622 seconds, p95 was 5.997 seconds, and the maximum was 6.521 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
+
+The local visual oracle predates the current folder contents. It has 50 cases, 42 exact current filename matches, 28 current images without an oracle row, and 8 oracle filenames that are absent. The release evidence therefore distinguishes a passing 70-image technical and performance gate from the still-required complete human field-accuracy oracle. It does not claim that every OCR value or legal label outcome has been independently verified.
 
 ## API
 
@@ -187,6 +190,7 @@ The UI label `Approve` records a reviewer's prototype disposition. It does not a
 - Anonymous browser-scope history avoids an account setup step for UAT. Production requires agency identity and role-based authorization.
 - Typography and image heuristics can identify strong visual evidence, but uncertain emphasis, contrast, or physical size remains human review.
 - Silent type inference reduces user work, but unresolved or conflicting signals are shown rather than guessed.
+- Bounded exact-pixel OCR result reuse makes confirmed batch reruns fast without using filenames or product-specific expected values. Cache misses always execute the same local OCR and rules pipeline.
 
 ## Limitations
 
@@ -194,7 +198,9 @@ The UI label `Approve` records a reviewer's prototype disposition. It does not a
 - Formula-dependent malt rules, chemistry-dependent sulfite rules, wine below 7 percent jurisdiction, state requirements, permit truth, and production records cannot be decided from pixels alone.
 - Ordinary images do not provide reliable physical type size.
 - Glare removal, curved-bottle unwarping, and restoration of missing pixels are not guaranteed. Unreadable evidence requests review or another image.
+- Highly stylized, curved, very small, or decorative text can be read partially. Generic layout and context ranking support the validated spirits, wine, vodka, and beer cases, but uncertain fields remain Review and require the reviewer to inspect the highlighted pixels.
 - OCR engine confidence is not a calibrated compliance probability.
+- The current 70-image private corpus has complete technical execution evidence but not a complete current human field oracle. Field-level and legal-label accuracy remain a UAT activity and are not represented by the 70 of 70 processing count.
 - Local history in the Azure demo can reset on container revision or instance lifecycle. Production needs durable storage, identity, audit, retention, backup, legal hold, and recovery controls.
 - Clearing browser storage loses access to that browser scope's retained demo history. The cookie is intentionally unreadable to JavaScript, SameSite Strict, and Secure on the Azure deployment.
 - The prototype supports one active OCR job and one Azure replica. It is designed for functional evaluation, not production multi-user scale.

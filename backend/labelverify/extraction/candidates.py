@@ -22,6 +22,9 @@ _ABV_CONTEXT = re.compile(
     r"\b(?:alc(?:ohol)?\.?\s*(?:/|by)?\s*vol\.?|abv)\b",
     re.I,
 )
+_ALC_PREFIX = re.compile(r"\balc(?:ohol)?\.?\s*$", re.I)
+_BY_VOL_SUFFIX = re.compile(r"^\s*(?:by\s*|/\s*)vol\.?\b", re.I)
+_ALC_VOLUME_LOOSE = re.compile(r"\balc[a-z0-9]{0,10}.*\bvol(?:ume)?\b", re.I)
 _PROOF = re.compile(r"\b\d{1,3}(?:\.\d+)?\s*proof\b", re.I)
 _NET = re.compile(
     r"\b\d+(?:\.\d+)?\s*(?:fl\.?\s*(?:oz|0z)\.?|fluid\s+ounces?|pints?|pts?\.?|"
@@ -30,26 +33,37 @@ _NET = re.compile(
 )
 _CLASS = re.compile(
     r"\b(?:bourbon|whisk(?:e)?y|vodka|gin|rum|tequila|brandy|liqueur|cordial|spirits?|"
-    r"wine|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
-    r"syrah|shiraz|muscat|sangria|vermouth|port|sherry|champagne|sparkling\s+wine|"
+    r"(?:grape\s*)?wine(?:\s*with)?|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
+    r"syrah|shiraz|muscat|sangiovese|malbec|tempranillo|grenache|prosecco|"
+    r"sangria|vermouth|port|sherry|champagne|sparkling\s+wine|"
     r"malt\s+beverage|beer|ale|lager|stout|porter|pilsner|ipa|india\s+pale\s+ale|"
     r"near\s+beer|cereal\s+beverage|hard\s+seltzer)\b",
     re.I,
 )
 _STRONG_CLASS = re.compile(
     r"\b(?:bourbon|whisk(?:e)?y|vodka|gin|rum|tequila|brandy|liqueur|cordial|"
-    r"wine|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
-    r"syrah|shiraz|muscat|sangria|vermouth|port|sherry|champagne|beer|ale|lager|"
+    r"neutral\s+spirits?|grain\s+spirits?|distilled\s+spirits?|"
+    r"(?:grape\s*)?wine(?:\s*with)?|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
+    r"syrah|shiraz|muscat|sangiovese|malbec|tempranillo|grenache|prosecco|"
+    r"sangria|vermouth|port|sherry|champagne|beer|ale|lager|"
     r"stout|porter|pilsner|india\s+pale\s+ale|near\s+beer|hard\s+seltzer)\b",
     re.I,
 )
-_PRODUCER = re.compile(
-    r"\b(?:(?:bottled|distilled|produced|manufactured|blended|imported|packed|brewed|canned|filled)\s+(?:and\s+(?:bottled|canned|packed|filled)\s+)?by|"
-    r"(?:llc|l\.l\.c\.|inc\.?|corp\.?|corporation|ltd\.?|company|co\.?|imports?))\b",
+_PRODUCER_ROLE = re.compile(
+    r"\b(?:bottled|distilled|produced|manufactured|blended|imported|packed|brewed|"
+    r"canned|filled|vinted|cellared)\s*(?:(?:and|&)\s*"
+    r"(?:bottled|canned|packed|filled)\s+)?by\b",
     re.I,
 )
+_PRODUCER_ENTITY = re.compile(
+    r"\b(?:llc|l\.l\.c\.|inc\.?|corp\.?|corporation|ltd\.?|company|co\.?|imports?)\b",
+    re.I,
+)
+_PRODUCER = re.compile(f"(?:{_PRODUCER_ROLE.pattern}|{_PRODUCER_ENTITY.pattern})", re.I)
+_INDUSTRY_ORGANIZATION = re.compile(r"\b(?:brewery|brewing|winery|distillery)\b", re.I)
 _COUNTRY = re.compile(
-    r"\b(?:product\s+of|country\s+of\s+origin\s*:?|imported\s+from)\s+([A-Za-z][A-Za-z .'-]{1,60})",
+    r"\b(?:product\s+of|country\s+of\s+origin\s*:?|imported\s+from|hecho\s+en)\s+"
+    r"([A-Za-z][A-Za-z .'-]{1,60})",
     re.I,
 )
 _WARNING = re.compile(r"government\s+warning\s*:?", re.I)
@@ -92,10 +106,36 @@ _WARNING_BODY_WORDS = {
 }
 _SCALE = re.compile(r"\b(?:reference|synthetic)?\s*scale\s*:\s*(\d+(?:\.\d+)?)\s*mm\b", re.I)
 _ADMINISTRATIVE = re.compile(
-    r"\b(?:test\s+label|reference\s+scale|synthetic\s+scale|lot\s*:)\b", re.I
+    r"\b(?:test\s+label|reference\s+scale|synthetic\s+scale|lot\s*:|"
+    r"front\s*/?\s*brand\s+label|back\s+label)\b",
+    re.I,
 )
 _NON_BRAND_CONTEXT = re.compile(
-    r"(?:\b(?:enjoy|drink)\s+responsibl[a-z]*\b|https?://|www\.|\.(?:com|org|net)\b)",
+    r"(?:\bgovernment\s*warning|"
+    r"\b(?:enjoy|drink)\s+responsibl[a-z]*\b|\bcertified\s+organic\b|"
+    r"\bgluten\s+free\b|\b(?:ca\s*)?crv\b|\b(?:ia|me|vt)\s*ref\b|"
+    r"\bproudly\s+crafted\s+in\b|(?:^|\b)[a-z]{0,2}arning\s*:|"
+    r"\bdrink\b.{0,30}\bproud\b|\b[a-z]+\s+proud\b|"
+    r"\bmore\s+flavou?r\b|\bmoref[a-z]{0,5}\b|"
+    r"\bwithout\s+manners\b|"
+    r"\bfrom\s+(?:certified\s+)?(?:organic\s+)?(?:sugar\s+cane|grapes?|grain|corn|fruit)\b|"
+    r"\b(?:orange|lemon|lime|citrus)\s+peel\b|"
+    r"\bhoney\s+and\s+spices?\b|"
+    r"\bconta[a-z]{0,5}\s+sulf[a-z]*\b|"
+    r"https?://|www\.|\.(?:com|org|net)\b)",
+    re.I,
+)
+_INCOMPLETE_CLASS_CONTEXT = re.compile(
+    r"\b(?:brewed|made|produced|distilled|flavored)\s+with\s*$", re.I
+)
+_REGISTRATION_CONTEXT = re.compile(
+    r"\b(?:est\.?\s*(?:&|and)\s*reg\.?|permit|registry|lot\s*:?)\b", re.I
+)
+_PRODUCTION_DESCRIPTOR = re.compile(
+    r"^(?:brewed|bottled|distilled|produced|manufactured|blended|packed|canned|"
+    r"filled|vinted|cellared)(?:\s*(?:and|&)\s*"
+    r"(?:brewed|bottled|distilled|produced|"
+    r"packed|canned|filled))?(?:\s+by)?\s*:?$",
     re.I,
 )
 _WARNING_THRESHOLDS = contracts().rules["warning"]["visualDecisionThresholds"]
@@ -131,7 +171,7 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
         or _PROOF.search(item.text)
         or _NET.search(item.text)
         or _CLASS.search(item.text)
-        or _PRODUCER.search(item.text)
+        or _PRODUCER_ROLE.search(item.text)
         or _COUNTRY.search(item.text)
         or _APPELLATION.search(item.text)
         or _WARNING.search(item.text)
@@ -219,8 +259,23 @@ class _EvidenceFactory:
 
 
 def _candidate_set(items: list[Candidate]) -> CandidateSet:
-    unique: dict[str, Candidate] = {}
+    # Multiple OCR views can produce different readings for the same physical
+    # line. One region is one piece of evidence, so retain only its strongest
+    # reading before deciding whether independently located values conflict.
+    by_region: dict[tuple[str, tuple[tuple[int, int], ...]], Candidate] = {}
     for item in items:
+        region_key = (
+            item.evidence.panel_id,
+            tuple((point.x, point.y) for point in item.evidence.polygon_original_pixels),
+        )
+        current = by_region.get(region_key)
+        if current is None or (item.evidence.confidence_provenance.signal or 0) > (
+            current.evidence.confidence_provenance.signal or 0
+        ):
+            by_region[region_key] = item
+
+    unique: dict[str, Candidate] = {}
+    for item in by_region.values():
         key = casefolded(item.value)
         current = unique.get(key)
         if current is None or (item.evidence.confidence_provenance.signal or 0) > (
@@ -252,10 +307,7 @@ def _abv_candidates(lines: Iterable[OcrLine], factory: _EvidenceFactory) -> Cand
         contexts = list(_ABV_CONTEXT.finditer(line.text))
         for match in percentages:
             standalone = re.fullmatch(r"\s*\d{1,3}(?:\.\d+)?\s*%\s*", line.text) is not None
-            contextual = any(
-                min(abs(match.end() - item.start()), abs(item.end() - match.start())) <= 18
-                for item in contexts
-            )
+            contextual = _percent_has_abv_context(line.text, match, contexts)
             if standalone or contextual:
                 items.append(
                     Candidate(value=match.group(0), evidence=factory.from_line("abv", line))
@@ -270,11 +322,22 @@ def _line_has_abv(value: str) -> bool:
     contexts = list(_ABV_CONTEXT.finditer(value))
     if re.fullmatch(r"\s*\d{1,3}(?:\.\d+)?\s*%\s*", value):
         return True
-    return any(
+    return any(_percent_has_abv_context(value, percent, contexts) for percent in percentages)
+
+
+def _percent_has_abv_context(
+    value: str, percent: re.Match[str], contexts: list[re.Match[str]]
+) -> bool:
+    if any(
         min(abs(percent.end() - context.start()), abs(context.end() - percent.start())) <= 18
-        for percent in percentages
         for context in contexts
-    )
+    ):
+        return True
+    if _ALC_VOLUME_LOOSE.search(value):
+        return True
+    before = value[max(0, percent.start() - 20) : percent.start()]
+    after = value[percent.end() : percent.end() + 20]
+    return bool(_BY_VOL_SUFFIX.search(after) or _ALC_PREFIX.search(before))
 
 
 def _line_candidates(
@@ -302,23 +365,49 @@ def _class_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Candid
         and not _COUNTRY.search(line.text)
     ]
     selected = preferred or strong or matched
+    complete = [line for line in selected if not _INCOMPLETE_CLASS_CONTEXT.search(line.text)]
+    if complete:
+        selected = complete
     return _line_candidates(selected, _CLASS, "class_type", factory)
 
 
 def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
     items: list[Candidate] = []
     for index, line in enumerate(lines):
-        if not _PRODUCER.search(line.text):
+        following = lines[index + 1 : index + 7]
+        industry_with_location = bool(
+            _INDUSTRY_ORGANIZATION.search(line.text)
+            and _industry_location_is_connected(line, following)
+        )
+        if not _PRODUCER.search(line.text) and not industry_with_location:
             continue
         group = [line]
-        if index + 1 < len(lines) and lines[index + 1].panel_id == line.panel_id:
-            next_line = lines[index + 1]
-            if not _line_has_abv(next_line.text) and not any(
+        if _US_STATE_CODE.search(line.text) or re.search(
+            r"\b(?:u\.?s\.?a\.?|united\s+states)\b", line.text, re.I
+        ):
+            following = []
+        for next_line in following:
+            if next_line.panel_id != line.panel_id or not _same_column(line, next_line):
+                continue
+            if (
+                _REGISTRATION_CONTEXT.search(next_line.text)
+                or _NON_BRAND_CONTEXT.search(next_line.text)
+                or _looks_like_warning_body_text(next_line.text)
+            ):
+                break
+            if any(_same_normalized_line(next_line.text, item.text) for item in group):
+                continue
+            if _line_has_abv(next_line.text) or any(
                 pattern.search(next_line.text) for pattern in (_WARNING, _PROOF, _NET, _CLASS)
             ):
-                group.append(next_line)
+                break
+            group.append(next_line)
+            if _looks_like_domestic_location(next_line.text):
+                break
         text = whitespace(" ".join(item.text for item in group))
         items.append(Candidate(value=text, evidence=factory.from_lines("producer", group, text)))
+    items = [item for item in items if _producer_is_structured(item.value)]
+    items = _drop_contained_candidates(items)
     return _candidate_set(items)
 
 
@@ -345,17 +434,59 @@ def _brand_candidates(
         if line.reading_order not in excluded
         and 2 <= len(whitespace(line.text)) <= 160
         and any(character.isalpha() for character in line.text)
+        and (line.confidence or 0) >= 0.60
+        and re.match(r"^\s*&", line.text) is None
         and not _ADMINISTRATIVE.search(line.text)
         and not _NON_BRAND_CONTEXT.search(line.text)
+        and not _looks_like_domestic_location(line.text)
+        and not _PRODUCTION_DESCRIPTOR.fullmatch(whitespace(line.text))
+        and re.match(r"^\s*\d+(?:\.\d+)?\s*%", line.text) is None
         and not _looks_like_ocr_noise(line.text)
+        and not _looks_like_prose(line.text)
         and not _looks_like_warning_body_text(line.text)
     ]
     if not eligible:
         return CandidateSet(status="Not found")
+    horizontal = [line for line in eligible if _is_horizontal_text(line)]
+    if horizontal:
+        eligible = horizontal
+    class_lines = [line for line in lines if _STRONG_CLASS.search(line.text)]
+    associated = [line for line in eligible if _near_class_designation(line, class_lines)]
+    if associated:
+        adjacent = [
+            line
+            for line in eligible
+            if any(_adjacent_brand_line(line, anchor) for anchor in associated)
+        ]
+        associated_height = max(_line_height(line) for line in associated)
+        prominent = [
+            line
+            for line in eligible
+            if _line_height(line) >= associated_height * 1.5
+            and (line.confidence or 0) >= 0.70
+        ]
+        eligible = [
+            *associated,
+            *(line for line in adjacent if line not in associated),
+            *(
+                line
+                for line in prominent
+                if line not in associated and line not in adjacent
+            ),
+        ]
     groups = [_brand_group(line, eligible) for line in eligible]
+    groups = [
+        items
+        for items in groups
+        if not _looks_like_prose(" ".join(item.text for item in items))
+        and not _NON_BRAND_CONTEXT.search(" ".join(item.text for item in items))
+    ]
+    if not groups:
+        return CandidateSet(status="Not found")
     group = min(
         groups,
         key=lambda items: (
+            -sum(len(re.findall(r"[A-Za-z]", item.text)) for item in items),
             -_line_height(items[0]),
             -len(items),
             -(items[0].confidence or 0),
@@ -374,6 +505,46 @@ def _brand_candidates(
 def _looks_like_ocr_noise(value: str) -> bool:
     letters = [character.casefold() for character in value if character.isalpha()]
     return len(letters) >= 12 and len(set(letters)) <= 3
+
+
+def _looks_like_prose(value: str) -> bool:
+    words = re.findall(r"[A-Za-z][A-Za-z'-]*", value)
+    lowercase_words = [word for word in words if word[:1].islower()]
+    return len(words) >= 3 and len(lowercase_words) / len(words) >= 0.60
+
+
+def _is_horizontal_text(line: OcrLine) -> bool:
+    width = max(point.x for point in line.polygon) - min(point.x for point in line.polygon)
+    height = max(point.y for point in line.polygon) - min(point.y for point in line.polygon)
+    return width >= max(1, height * 1.15)
+
+
+def _near_class_designation(line: OcrLine, class_lines: list[OcrLine]) -> bool:
+    line_bottom = max(point.y for point in line.polygon)
+    for class_line in class_lines:
+        if class_line.panel_id != line.panel_id or not _same_column(line, class_line):
+            continue
+        gap = min(point.y for point in class_line.polygon) - line_bottom
+        if 0 <= gap <= max(_line_height(line), _line_height(class_line)) * 3:
+            return True
+    return False
+
+
+def _adjacent_brand_line(line: OcrLine, anchor: OcrLine) -> bool:
+    if line.panel_id != anchor.panel_id or not _same_column(line, anchor):
+        return False
+    line_top = min(point.y for point in line.polygon)
+    line_bottom = max(point.y for point in line.polygon)
+    anchor_top = min(point.y for point in anchor.polygon)
+    anchor_bottom = max(point.y for point in anchor.polygon)
+    gap = max(0, max(line_top, anchor_top) - min(line_bottom, anchor_bottom))
+    return gap <= max(_line_height(line), _line_height(anchor)) * 1.5
+
+
+def _same_normalized_line(first: str, second: str) -> bool:
+    return re.sub(r"[^a-z0-9]", "", first.casefold()) == re.sub(
+        r"[^a-z0-9]", "", second.casefold()
+    )
 
 
 def _warning_interruption_orders(lines: list[OcrLine]) -> set[int]:
@@ -464,6 +635,17 @@ def _same_column(first: OcrLine, second: OcrLine) -> bool:
 
 
 def _brand_group(first: OcrLine, eligible: list[OcrLine]) -> list[OcrLine]:
+    same_row = [
+        line
+        for line in eligible
+        if line is not first
+        and line.panel_id == first.panel_id
+        and _same_text_row(first, line)
+        and len(re.findall(r"[A-Za-z]", line.text)) >= 4
+        and casefolded(whitespace(line.text)) != casefolded(whitespace(first.text))
+    ]
+    if same_row:
+        return sorted([first, *same_row], key=lambda item: min(point.x for point in item.polygon))
     group = [first]
     first_bottom = max(point.y for point in first.polygon)
     adjacent = [
@@ -473,6 +655,7 @@ def _brand_group(first: OcrLine, eligible: list[OcrLine]) -> list[OcrLine]:
         and line.panel_id == first.panel_id
         and _same_column(first, line)
         and _line_height(line) >= max(10, round(_line_height(first) * 0.55))
+        and len(re.findall(r"[A-Za-z]", line.text)) >= 4
         and 0
         <= min(point.y for point in line.polygon) - first_bottom
         <= max(12, _line_height(first))
@@ -489,6 +672,135 @@ def _brand_group(first: OcrLine, eligible: list[OcrLine]) -> list[OcrLine]:
             )
         )
     return group
+
+
+def _same_text_row(first: OcrLine, second: OcrLine) -> bool:
+    first_left = min(point.x for point in first.polygon)
+    first_right = max(point.x for point in first.polygon)
+    second_left = min(point.x for point in second.polygon)
+    second_right = max(point.x for point in second.polygon)
+    first_top = min(point.y for point in first.polygon)
+    first_bottom = max(point.y for point in first.polygon)
+    second_top = min(point.y for point in second.polygon)
+    second_bottom = max(point.y for point in second.polygon)
+    vertical_overlap = max(0, min(first_bottom, second_bottom) - max(first_top, second_top))
+    smaller_height = max(1, min(first_bottom - first_top, second_bottom - second_top))
+    horizontal_gap = max(0, max(first_left, second_left) - min(first_right, second_right))
+    horizontal_overlap = max(0, min(first_right, second_right) - max(first_left, second_left))
+    smaller_width = max(1, min(first_right - first_left, second_right - second_left))
+    if horizontal_overlap / smaller_width > 0.35:
+        return False
+    height = max(first_bottom - first_top, second_bottom - second_top, 1)
+    return vertical_overlap / smaller_height >= 0.35 and horizontal_gap <= height * 1.5
+
+
+_US_STATE_NAMES = re.compile(
+    r"\b(?:alabama|alaska|arizona|arkansas|california|colorado|connecticut|delaware|"
+    r"florida|georgia|hawaii|idaho|illinois|indiana|iowa|kansas|kentucky|louisiana|"
+    r"maine|maryland|massachusetts|michigan|minnesota|mississippi|missouri|montana|"
+    r"nebraska|nevada|new\s+hampshire|new\s+jersey|new\s+mexico|new\s+york|"
+    r"north\s+carolina|north\s+dakota|ohio|oklahoma|oregon|pennsylvania|"
+    r"rhode\s+island|south\s+carolina|south\s+dakota|tennessee|texas|utah|"
+    r"vermont|virginia|washington|west\s+virginia|wisconsin|wyoming)\b",
+    re.I,
+)
+_US_STATE_CODE = re.compile(
+    r"(?:,|\.)\s*(?:AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|"
+    r"MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|"
+    r"VT|VA|WA|WV|WI|WY)\b",
+    re.I,
+)
+_LONG_STATE_NAMES = (
+    "alabama",
+    "arizona",
+    "arkansas",
+    "california",
+    "colorado",
+    "connecticut",
+    "delaware",
+    "florida",
+    "georgia",
+    "hawaii",
+    "illinois",
+    "indiana",
+    "kentucky",
+    "louisiana",
+    "maryland",
+    "michigan",
+    "minnesota",
+    "mississippi",
+    "missouri",
+    "montana",
+    "nebraska",
+    "oklahoma",
+    "pennsylvania",
+    "tennessee",
+    "vermont",
+    "virginia",
+    "washington",
+    "wisconsin",
+    "wyoming",
+)
+
+
+def _looks_like_domestic_location(value: str) -> bool:
+    if bool(
+        re.search(r"\b(?:u\.?s\.?a\.?|united\s+states)\b", value, re.I)
+        or _US_STATE_NAMES.search(value)
+        or _US_STATE_CODE.search(value)
+    ):
+        return True
+    tokens = re.findall(r"[a-z]{6,}", value.casefold())
+    return any(
+        SequenceMatcher(None, token, state).ratio() >= 0.70
+        for token in tokens
+        for state in _LONG_STATE_NAMES
+    )
+
+
+def _industry_location_is_connected(line: OcrLine, following: list[OcrLine]) -> bool:
+    """Require an address to be part of the organization block, not elsewhere below it."""
+
+    if _looks_like_domestic_location(line.text):
+        return True
+    for candidate in following:
+        if candidate.panel_id != line.panel_id or not _same_column(line, candidate):
+            continue
+        if (
+            _REGISTRATION_CONTEXT.search(candidate.text)
+            or _NON_BRAND_CONTEXT.search(candidate.text)
+            or _looks_like_warning_body_text(candidate.text)
+            or _line_has_abv(candidate.text)
+            or any(pattern.search(candidate.text) for pattern in (_WARNING, _PROOF, _NET, _CLASS))
+        ):
+            return False
+        if _looks_like_domestic_location(candidate.text):
+            return True
+    return False
+
+
+def _producer_is_structured(value: str) -> bool:
+    normalized = whitespace(value)
+    if (
+        _looks_like_domestic_location(normalized)
+        or _PRODUCER_ENTITY.search(normalized)
+        or _INDUSTRY_ORGANIZATION.search(normalized)
+    ):
+        return True
+    remainder = whitespace(_PRODUCER_ROLE.sub("", normalized)).strip(" .,:;-&")
+    return len(re.findall(r"[A-Za-z]", remainder)) >= 3
+
+
+def _drop_contained_candidates(items: list[Candidate]) -> list[Candidate]:
+    normalized = [(item, casefolded(whitespace(item.value))) for item in items]
+    return [
+        item
+        for item, value in normalized
+        if not any(
+            value != other_value and value in other_value
+            for _, other_value in normalized
+        )
+    ]
 
 
 def _line_height(line: OcrLine) -> int:

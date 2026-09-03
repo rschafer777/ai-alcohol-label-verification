@@ -32,11 +32,11 @@ Status: Approved build baseline
 | FR-022 | Warning detail shows prescribed and observed text plus all warning subchecks | INT-007 |
 | FR-023 | Reviewer can record Approve, Reject, or Request more information and an optional note | INT-011 |
 | FR-024 | Keyboard shortcuts operate reviewer disposition without trapping focus | INT-Q-004 |
-| FR-025 | Batch accepts up to 900 images and suggests at most 300 product groups | INT-012 |
-| FR-026 | Grouping uses folder and filename cues and never silently places more than three images in a product | INT-012 |
+| FR-025 | Batch accepts up to 900 supported images, skips unsupported selected files individually, and reports accepted and skipped counts and reasons | INT-012 |
+| FR-026 | Grouping uses directory, filename, OCR brand, class/type, and beverage-family cues and never silently places more than three images in a product | INT-012 |
 | FR-027 | User can inspect, merge, split, name, and confirm groups before processing | INT-012 |
 | FR-028 | Batch reuses the analysis endpoint sequentially with failure isolation | INT-012 |
-| FR-029 | Batch reports products, images, processed, remaining, running, queued, review, differences, failures, active time, mean, ETA, and attempts | INT-013 |
+| FR-029 | Batch begins at 0 of N and reports products, images, processed, remaining, running, queued, review, differences, failures, active time, rate, mean, ETA, and attempts | INT-013 |
 | FR-030 | User can cancel remaining work and retry failed groups | INT-013 |
 | FR-031 | Batch exports formula-safe CSV and detailed JSON | INT-014 |
 | FR-032 | Every successful analysis or reference verification creates a history record with images | INT-015 |
@@ -47,17 +47,18 @@ Status: Approved build baseline
 | FR-037 | Insertion 501 evicts the oldest metadata and image directory | INT-015 |
 | FR-038 | Built-in sample completes the primary workflow without a network dependency | INT-017 |
 | FR-039 | UI is semantic, keyboard reachable, visibly focused, non-color dependent, and usable at 1366 by 768 | INT-Q-004 |
-| FR-040 | Public errors are bounded, content-safe, actionable, and include retry behavior | INT-Q-006 |
-| FR-041 | Upload, pixel, timeout, rate, capacity, cleanup, and non-root controls match the versioned contracts | INT-Q-006 |
+| FR-040 | Public errors are bounded, content-safe, actionable, and include retry behavior; measurable limit errors show supported, submitted, pass or fail, and exact correction values | INT-002, INT-Q-006 |
+| FR-041 | Upload, pixel, timeout, rate, capacity, cleanup, and non-root controls match the versioned contracts; the 15-second worker safety limit remains distinct from the 5-second typical and 9-second difficult-image quality targets | INT-Q-001, INT-Q-006 |
 | FR-042 | Normal readable labels target about 5 seconds and difficult recoverable labels target no more than 9 seconds | INT-Q-001 |
 | FR-043 | Warm sequential batches target about 5 seconds mean per product | INT-Q-002 |
 | FR-044 | Metadata exposes build, contract, profile, check count, rules, limits, runtime, and history policy | INT-Q-007 |
 | FR-045 | Independent-reference verification remains available for a future trusted COLA adapter and does not influence OCR candidate discovery | BAIRD unknown 1 |
 | FR-046 | History reads and mutations require the originating opaque browser scope; mutation bodies are bounded and production mutations require exact same-origin evidence | INT-Q-006 |
+| FR-047 | The OCR worker may reuse a bounded result only for byte-identical decoded view pixels and dimensions; filenames, product names, expected fields, and oracle data never form a cache key or extraction override | INT-Q-001, INT-Q-002 |
 
 ## UX states
 
-The frontend must provide Home, single intake, grouping, processing, review workspace, government warning detail, batch queue and exceptions, history list and detail, unsupported input, bad image, timeout, capacity, cancellation, and service unavailable states. Every state provides a plain-language next action.
+The frontend must provide Home, single intake, grouping, processing, review workspace, government warning detail, batch queue and exceptions, history list and detail, unsupported input, decoded-pixel comparison, bad image, timeout, capacity, cancellation, and service unavailable states. Every state provides a plain-language next action.
 
 ## Definition of feature complete
 
@@ -71,6 +72,6 @@ A feature is complete only when its contract, implementation, automated tests, b
 | EP-2 Single review experience | FR-001 through FR-003, FR-019 through FR-024, FR-038 | Medium |
 | EP-3 Batch | FR-025 through FR-031 | Medium |
 | EP-4 History | FR-032 through FR-037 | Medium |
-| EP-5 Platform and quality | FR-039 through FR-046 | Large |
+| EP-5 Platform and quality | FR-039 through FR-047 | Large |
 
 Sizing describes relative delivery effort, not elapsed time.

@@ -55,6 +55,18 @@ def panel() -> PanelResult:
     )
 
 
+def test_candidate_set_treats_one_physical_region_as_one_piece_of_evidence() -> None:
+    weak = line("115%", 0, y=100, confidence=0.51)
+    strong = line("11.5%", 1, y=100, confidence=0.96).model_copy(
+        update={"source_view": "derived", "transform_id": "transform-panel-1-detail-v1"}
+    )
+
+    observed = locate_candidates([weak, strong], [panel()])
+
+    assert observed.field("abv").status == "Found"
+    assert [item.value for item in observed.field("abv").candidates] == ["11.5%"]
+
+
 def test_decode_and_bounded_views_preserve_original_coordinates(tmp_path: Path) -> None:
     path = tmp_path / "panel.jpg"
     path.write_bytes(jpeg_bytes())
@@ -110,6 +122,270 @@ def test_clear_trapezoid_adds_perspective_recovery_with_original_coordinate_mapp
     assert all(0 <= point.x < decoded.width and 0 <= point.y < decoded.height for point in mapped)
     assert min(point.x for point in mapped) < 120
     assert max(point.x for point in mapped) > 490
+
+
+def test_abv_accepts_standard_and_ocr_collapsed_by_volume_suffixes() -> None:
+    for value in (
+        "ALC. 11.5% BY VOL. 750 ML",
+        "11.5%BYVOL.750 ML",
+        "7.2% ALCOHGET VOLUME",
+    ):
+        observed = locate_candidates([line(value, 0, y=100)], [panel()])
+
+        assert observed.field("abv").status == "Found"
+        assert observed.field("abv").candidates[0].value in {"11.5%", "7.2%"}
+
+
+def test_brand_joins_same_row_fragments_without_a_product_lookup() -> None:
+    observed = locate_candidates(
+        [
+            line("JACK", 0, x=100, y=100, width=140, height=70),
+            line("DANIEL'S", 1, x=250, y=105, width=260, height=65),
+            line("TENNESSEE WHISKEY", 2, x=120, y=220, width=380, height=50),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").status == "Found"
+    assert observed.field("brand").candidates[0].value == "JACK DANIEL'S"
+
+
+def test_brand_prefers_product_name_near_class_over_vertical_location_copy() -> None:
+    observed = locate_candidates(
+        [
+            line("NORTH CAROLINA", 0, x=30, y=100, width=35, height=300),
+            line("SYCAMORE BREWING", 1, x=130, y=150, width=330, height=60),
+            line("PEAK FARM", 2, x=160, y=360, width=280, height=70),
+            line("DOUBLE PALE ALE", 3, x=150, y=445, width=310, height=45),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").candidates[0].value == "PEAK FARM"
+
+
+def test_producer_joins_industry_name_to_following_us_address() -> None:
+    observed = locate_candidates(
+        [
+            line("SYCAMORE BREWING", 0, y=100),
+            line("2161 HAWKINS STREET", 1, y=140),
+            line("CHARLOTTE, NC 28203", 2, y=180),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("producer").status == "Found"
+    assert observed.field("producer").candidates[0].value == (
+        "SYCAMORE BREWING 2161 HAWKINS STREET CHARLOTTE, NC 28203"
+    )
+
+
+def test_producer_block_tolerates_duplicate_ocr_lines_before_the_address() -> None:
+    observed = locate_candidates(
+        [
+            line("SYCAMORE BREWING", 0, y=100),
+            line("2161 HAWKINS STREET", 1, y=140),
+            line("2161HAWKINSSTREET", 2, y=140),
+            line("UNRELATED SIDE COPY", 3, x=500, y=150),
+            line("OTHER SIDE COPY", 4, x=500, y=170),
+            line("CHARLOTTE, NC 28203", 5, y=180),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("producer").status == "Found"
+
+
+def test_brand_industry_word_does_not_create_a_second_producer_candidate() -> None:
+    observed = locate_candidates(
+        [
+            line("OLD TOM DISTILLERY", 0, y=100, height=70),
+            line("BOURBON WHISKEY", 1, y=190),
+            line("45% ALC./VOL. 90 PROOF", 2, y=230),
+            line("BOTTLED BY", 3, y=350),
+            line("OLD TOM DISTILLERY LLC", 4, y=390),
+            line("FRANKFORT, KENTUCKY 40601", 5, y=430),
+        ],
+        [panel()],
+    )
+
+    producer = observed.field("producer")
+    assert producer.status == "Found"
+    assert len(producer.candidates) == 1
+    assert producer.candidates[0].value == (
+        "BOTTLED BY OLD TOM DISTILLERY LLC FRANKFORT, KENTUCKY 40601"
+    )
+
+
+def test_joined_wine_with_text_remains_a_class_candidate() -> None:
+    observed = locate_candidates(
+        [
+            line("STRAWBERRY", 0, y=100, height=60),
+            line("GRAPE WINEWITH NATURAL FLAVORS", 1, y=220),
+            line("ALC. 16% BY VOL.", 2, y=270),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("class_type").status == "Found"
+    assert observed.field("class_type").candidates[0].value == (
+        "GRAPE WINEWITH NATURAL FLAVORS"
+    )
+
+
+def test_domestic_certification_and_location_copy_cannot_become_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("OrganicVodka", 0, y=100, height=80, panel="panel-1"),
+            line("100% NEUTRAL SPIRITS DISTILLED", 1, y=300, panel="panel-2"),
+            line("IN KULA, MAUI, HAWAII", 2, y=340, panel="panel-2"),
+            line("CERTIFIED ORGANIC BY: OTCO", 3, y=380, panel="panel-2"),
+            line("FROM ORGANIC SUGAR CANE", 4, y=420, panel="panel-2"),
+            line("DISTILLED &BOTTLED", 5, y=460, panel="panel-2"),
+        ],
+        [panel(), panel().model_copy(update={"panel_id": "panel-2"})],
+    )
+
+    assert observed.field("brand").status == "Found"
+    assert observed.field("brand").candidates[0].value == "OrganicVodka"
+
+
+def test_brewery_name_can_be_brand_while_producer_role_stays_excluded() -> None:
+    observed = locate_candidates(
+        [
+            line("IRON ANCHOR BREWING CO.", 0, y=100, height=70),
+            line("INDIA PALE ALE", 1, y=220, height=45),
+            line("BREWED AND BOTTLED BY", 2, y=400),
+            line("IRON ANCHOR BREWING CO.", 3, y=440),
+            line("PORTLAND, MAINE", 4, y=480),
+            line("PROUDLY CRAFTED IN THE USA", 5, y=520),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").candidates[0].value == "IRON ANCHOR BREWING CO."
+    assert observed.field("producer").status == "Found"
+
+
+def test_stacked_brand_retains_line_immediately_above_class_associated_line() -> None:
+    observed = locate_candidates(
+        [
+            line("BLACKBIRD", 0, y=100, height=80),
+            line("RESERVE", 1, y=185, height=75),
+            line("KENTUCKY STRAIGHT BOURBON WHISKEY", 2, y=280, height=35),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").candidates[0].value == "BLACKBIRD RESERVE"
+
+
+def test_percentage_composition_and_warning_fragments_cannot_become_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("CASA DE LUNA", 0, y=100, height=90),
+            line("100% BLUE AGAVE", 1, y=220, height=50),
+            line("REPOSADO TEQUILA", 2, y=280, height=45),
+            line("ARNING:", 3, y=500, height=100),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").candidates[0].value == "CASA DE LUNA"
+
+
+def test_hecho_en_origin_is_country_evidence_and_not_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("CASA DE LUNA", 0, y=100, height=90),
+            line("REPOSADO TEQUILA", 1, y=260, height=45),
+            line("Imported by Casa de Luna Spirits, Houston, Texas", 2, y=500),
+            line("Hecho en Mexico", 3, y=540),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").candidates[0].value == "CASA DE LUNA"
+    assert observed.field("country").candidates[0].value == "Mexico"
+
+
+def test_ocr_damaged_state_name_is_still_location_not_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("PALE ALE", 0, y=100, height=45),
+            line("Seattle. Wshington", 1, y=500, height=80),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").status == "Not found"
+
+
+def test_joined_grape_wine_class_and_promotional_copy_are_not_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("VAL", 0, y=100, height=90, confidence=0.55),
+            line("More flavor, more intensity", 1, y=300, height=80),
+            line("WITHOUT MANNERS", 2, y=390, height=70),
+            line("GRAPEWINE WITH NATURAL FLAVORS", 3, y=600),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").status == "Not found"
+    assert observed.field("class_type").status == "Found"
+
+
+def test_sentence_copy_is_not_selected_as_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("Plump red strawberries combine to create a", 0, y=100),
+            line("STRAWBERRY", 1, y=300, height=60),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").candidates[0].value == "STRAWBERRY"
+
+
+def test_overlapping_repeat_reads_do_not_duplicate_brand_text() -> None:
+    observed = locate_candidates(
+        [
+            line("OrganicVodka", 0, x=100, y=100, width=350, height=80),
+            line("OrganicVodka", 1, x=103, y=102, width=348, height=78),
+            line("VODKA", 2, y=300),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").candidates[0].value == "OrganicVodka"
+
+
+def test_short_product_qualifier_is_not_appended_to_primary_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("JACK DANIEL'S", 0, y=100, height=100),
+            line("OLD", 1, y=205, height=60),
+            line("WHISKEY", 2, y=350),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").candidates[0].value == "JACK DANIEL'S"
+
+
+def test_ampersand_production_descriptor_and_promotional_copy_are_not_brands() -> None:
+    observed = locate_candidates(
+        [
+            line("PEAK FARM", 0, y=100, height=80),
+            line("DOUBLE PALE ALE", 1, y=200, height=45),
+            line("DISTILLED & BOTTLED", 2, y=400, height=90),
+            line("DRINK CAROLINA PROUD", 3, y=500, height=100),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").candidates[0].value == "PEAK FARM"
 
 
 def test_small_angle_and_low_light_add_one_bounded_recovery_view(tmp_path: Path) -> None:
@@ -230,6 +506,35 @@ def test_brand_selection_rejects_ocr_texture_responsibility_and_web_noise() -> N
 
     assert observed.field("brand").status == "Found"
     assert observed.field("brand").candidates[0].value == "REVOLVER BREWING"
+
+
+def test_ingredient_copy_and_collapsed_warning_cannot_become_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("BLOOD & HONEY", 0, y=100, height=60),
+            line("TEXAS STYLE ALE", 1, y=170, height=40),
+            line("BLOOD ORANGE PEEL", 2, y=230, height=44),
+            line("HONEY AND SPICES", 3, y=280, height=44),
+            line("GOVERNMENTWARNING1ACCORDING", 4, y=340, height=40),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").status == "Found"
+    assert observed.field("brand").candidates[0].value == "BLOOD & HONEY"
+
+
+def test_producer_role_without_a_name_is_not_a_producer_candidate() -> None:
+    observed = locate_candidates(
+        [
+            line("DISTILLED AND BOTTLED BY", 0, y=100),
+            line("GOVERNMENTWARNING1ACCORDING", 1, y=160),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("producer").status == "Not found"
+    assert observed.field("brand").status == "Not found"
 
 
 def test_warning_body_interruption_cannot_become_brand() -> None:

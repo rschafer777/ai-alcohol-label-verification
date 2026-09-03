@@ -17,10 +17,42 @@ export interface SuggestedGroup {
 
 const ROLE_WORDS = /(?:^|[-_.\s])(front|back|rear|neck|side|panel|label|left|right|photo|image|img)(?:[-_.\s]|$)/gi;
 const SUPPORTED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
+const SUPPORTED_IMAGE_NAME = /\.(?:jpe?g|png|webp)$/i;
+
+export interface SkippedBatchFile {
+  name: string;
+  reason: "unsupported type" | "over 4 MB" | "over batch limit";
+}
+
+export interface BatchSelection {
+  accepted: File[];
+  skipped: SkippedBatchFile[];
+}
+
+export function isSupportedImage(file: File): boolean {
+  return SUPPORTED_IMAGE_TYPES.has(file.type) || (!file.type && SUPPORTED_IMAGE_NAME.test(file.name));
+}
+
+export function filterBatchSelection(files: File[], maximumCount = 900): BatchSelection {
+  const accepted: File[] = [];
+  const skipped: SkippedBatchFile[] = [];
+  for (const file of files) {
+    if (!isSupportedImage(file)) {
+      skipped.push({ name: file.name, reason: "unsupported type" });
+    } else if (file.size > limits.fileBytes) {
+      skipped.push({ name: file.name, reason: "over 4 MB" });
+    } else if (accepted.length >= maximumCount) {
+      skipped.push({ name: file.name, reason: "over batch limit" });
+    } else {
+      accepted.push(file);
+    }
+  }
+  return { accepted, skipped };
+}
 
 export function imageSelectionIssue(files: File[], maximumCount: number): string | null {
   if (files.length > maximumCount) return `Choose no more than ${maximumCount} images.`;
-  const unsupported = files.find((file) => !SUPPORTED_IMAGE_TYPES.has(file.type));
+  const unsupported = files.find((file) => !isSupportedImage(file));
   if (unsupported) return `${unsupported.name} is not a JPEG, PNG, or WebP image.`;
   const oversized = files.find((file) => file.size > limits.fileBytes);
   if (oversized) return `${oversized.name} is larger than 4 MB.`;

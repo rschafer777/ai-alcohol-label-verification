@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
@@ -18,6 +19,16 @@ class InvalidImageError(ValueError):
 
 class ImageLimitError(ValueError):
     """Raised when decoded image dimensions exceed the governed limit."""
+
+    def __init__(self, width: int, height: int, max_pixels: int) -> None:
+        super().__init__("Decoded image exceeds the available pixel limit")
+        self.width = width
+        self.height = height
+        self.pixels = width * height
+        self.max_pixels = max_pixels
+        scale = math.sqrt(max_pixels / self.pixels)
+        self.suggested_width = max(1, math.floor(width * scale))
+        self.suggested_height = max(1, math.floor(height * scale))
 
 
 @dataclass(frozen=True)
@@ -92,7 +103,7 @@ def _validate_dimensions(dimensions: tuple[int, int], max_pixels: int) -> None:
     if width <= 0 or height <= 0:
         raise InvalidImageError("Decoded image dimensions are invalid")
     if width * height > max_pixels:
-        raise ImageLimitError("Decoded image exceeds the available pixel limit")
+        raise ImageLimitError(width, height, max_pixels)
 
 
 def _estimated_skew_degrees(gray: NDArray[np.uint8]) -> float:

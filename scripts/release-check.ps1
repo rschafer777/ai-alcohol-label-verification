@@ -19,8 +19,8 @@ try {
 
     $testImageCount = @(Get-ChildItem tests/Test_Images -File -ErrorAction SilentlyContinue | Where-Object Extension -In '.jpg', '.jpeg', '.png', '.webp').Count
     if ($testImageCount -ge 50) {
-        uv run python scripts/validate_test_images.py --json-output (Join-Path $validationRoot "test-images.json") --report-output (Join-Path $validationRoot "test-images.md")
-        if ($LASTEXITCODE -ne 0) { throw "Governed 50-image validation failed." }
+        uv run python scripts/validate_private_uat_corpus_e2e.py --output (Join-Path $validationRoot "private-uat-corpus-e2e.json") --report-output (Join-Path $validationRoot "private-uat-corpus-e2e.md")
+        if ($LASTEXITCODE -ne 0) { throw "Private UAT API and batch corpus failed." }
     }
     else {
         Write-Output "Governed raw-image validation skipped because public redistribution images are not installed."

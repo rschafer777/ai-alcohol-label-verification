@@ -8,6 +8,7 @@ export const limits = {
   referenceBytes: 32_768,
   fileBytes: 4_194_304,
   aggregateFileBytes: 12_582_912,
+  groupingRequestBytes: 8_388_608,
   panelCountMin: 1,
   panelCountMax: 3,
   pixelsPerImage: 12_000_000,
@@ -15,7 +16,17 @@ export const limits = {
   uploadDeadlineSeconds: 20,
   serverDeadlineSeconds: 30,
   browserDeadlineSeconds: 35,
-  workerDeadlineSeconds: 9.0
+  workerDeadlineSeconds: 15.0
+} as const;
+
+export const groupingLimits = {
+  imageCountMax: 900,
+  imageIdLengthMax: 120,
+  fileNameLengthMax: 260,
+  pathLengthMax: 1_024,
+  brandNameLengthMax: 160,
+  classTypeLengthMax: 240,
+  panelCountMax: 3
 } as const;
 
 export const checkIds = [
@@ -285,4 +296,12 @@ export interface PublicError {
   fieldOrPanel?: string | null;
   retryable: boolean;
   nextAction: string;
+  comparisons?: ErrorComparison[];
+}
+
+export interface ErrorComparison {
+  label: string;
+  expected: string;
+  actual: string;
+  passed: boolean;
 }

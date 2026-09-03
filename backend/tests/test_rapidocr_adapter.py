@@ -68,7 +68,7 @@ def test_initialize_supplies_the_governed_local_font_path(
     assert all(
         params["Global.font_path"] == str(tmp_path / "DejaVuSans.ttf") for params in captured
     )
-    assert all(params["EngineConfig.onnxruntime.intra_op_num_threads"] == 1 for params in captured)
+    assert all(params["EngineConfig.onnxruntime.intra_op_num_threads"] == 2 for params in captured)
 
 
 class CountingEngine:
@@ -131,6 +131,20 @@ def test_identical_views_reuse_inference_and_preserve_panel_identity(tmp_path: P
         "transform-panel-1-bounded-v1",
         "transform-panel-2-bounded-v1",
     ]
+
+
+def test_identical_pixels_reuse_inference_across_analysis_calls(tmp_path: Path) -> None:
+    image = np.full((40, 80, 3), 255, dtype=np.uint8)
+    adapter = RapidOcrAdapter(tmp_path, require_read_only=False)
+    engine = CountingEngine()
+    adapter._engines = (engine,)
+
+    first = adapter.extract([view("panel-1", image)])
+    second = adapter.extract([view("panel-2", image.copy())])
+
+    assert engine.calls == 1
+    assert first[0].panel_id == "panel-1"
+    assert second[0].panel_id == "panel-2"
 
 
 def test_cached_pixels_replay_each_views_coordinate_mapping(tmp_path: Path) -> None:

@@ -10,16 +10,16 @@ Status: Approved execution baseline
 | --- | --- | --- |
 | WP-01 Contracts | API schema, rule registry, 24-check registry, errors, generated TypeScript | Integrity hashes and contract tests |
 | WP-02 Image ingress | Multipart limits, signatures, pixel limits, decode, orientation, recovery views | Boundary and imaging tests |
-| WP-03 OCR and candidates | Local RapidOCR, field extraction, alternatives, provenance, coordinate inversion | OCR, candidate, and evidence tests |
+| WP-03 OCR and candidates | Local RapidOCR, bounded exact-pixel result reuse, field extraction, alternatives, provenance, coordinate inversion | OCR, cache, candidate, and evidence tests |
 | WP-04 Regulatory engine | Beverage inference, common rules, family rules, warning rules, aggregation | Unit, mutation, and beverage-profile tests |
 | WP-05 Orchestration | One-pass analysis, independent verification, supervised execution, cancellation and timeout | Pipeline, supervisor, and API tests |
 | WP-06 Persistence | SQLite schema, image store, browser-scope authorization, FIFO 500, disposition, delete, reopen | Repository and API isolation tests |
-| WP-07 Frontend shell | Fable visual system, two entry doors, navigation, responsive and accessibility behavior | Component, accessibility, and browser tests |
+| WP-07 Frontend shell | Approved TTB visual system, two entry doors, navigation, responsive and accessibility behavior | Component, accessibility, and browser tests |
 | WP-08 Review | Evidence viewer, 24 checks, warning detail, disposition, keyboard use | Component and live browser evidence |
-| WP-09 Batch | Grouping, confirmation, queue, progress, retry, cancel, CSV and JSON | Unit, capacity, and browser tests |
+| WP-09 Batch | Mixed-folder filtering, per-image reads, server grouping, confirmation, queue, live count, rate, ETA, retry, cancel, CSV and JSON | Unit, full-corpus API, capacity, and browser tests |
 | WP-10 History | Filter, paging, detail, retained images, evidence, disposition, delete | Component and browser tests |
 | WP-11 Packaging | Build, non-root container, local run, Azure template and OIDC workflow | Container and deployment contract tests |
-| WP-12 Verification | Full regression, 50-image diagnostic, performance, security, RT, UAT | Versioned reports and release record |
+| WP-12 Verification | Full regression, governed visual-oracle diagnostic, complete private-corpus individual and grouped-product API run, performance, security, RT, UAT | Versioned reports and release record |
 
 ## Agent and team ownership model
 
@@ -53,11 +53,12 @@ One contributor may hold multiple roles for this take-home project, but evidence
 3. Integration tests exercise API uploads, analysis, verification, history, sample, and public errors.
 4. Browser tests cover home, intake, processing, result, keyboard, batch capacity, history, error states, responsive layout, and accessibility.
 5. Fixture tests use synthetic development and sealed holdout cases with independent expected outcomes.
-6. The user-supplied 50-image corpus is evaluated against its governed visual oracle without publishing raw images.
-7. Performance tests report cold, warm, difficult-image, and batch behavior without hiding outliers.
-8. Security validation covers source, dependencies, upload and JSON abuse, history isolation, CSV neutralization, rate fairness, timeouts, cleanup, identity, headers, container, and deployment.
-9. Three RT reviews run only after the code and documents are frozen by manifest.
-10. Requester UAT begins only after automated and independent gates are complete.
+6. Every supported image installed in the private UAT folder is exercised individually through the production API, grouped without product-specific runtime overrides, and exercised again by product group.
+7. The governed subset is evaluated against its independent visual oracle without publishing raw images. New images without oracle entries remain technical UAT coverage until independently classified.
+8. Performance tests report cold, warm, difficult-image, individual-corpus, grouped-product, and batch behavior without hiding outliers.
+9. Security validation covers source, dependencies, upload and JSON abuse, history isolation, CSV neutralization, rate fairness, timeouts, cleanup, identity, headers, container, and deployment.
+10. Three RT reviews run only after the code and documents are frozen by manifest.
+11. Requester UAT begins only after automated and independent gates are complete.
 
 ## Definition of Done
 
@@ -65,10 +66,12 @@ One contributor may hold multiple roles for this take-home project, but evidence
 - The frontend, API, middleware, rule engine, and persistence use the same contracts.
 - Beer or malt beverage, wine, and distilled spirits paths are tested.
 - One product supports 1 to 3 images and batch supports up to 300 confirmed products and 900 images.
+- A mixed folder cannot be blocked by an unrelated file; selection and processing status expose accepted, skipped, completed, rate, and ETA values.
 - History retains at most 500 records with usable evidence images.
 - All 24 rows are returned in order and uncertainty cannot become a false deterministic clearance.
 - Lint, strict types, unit, integration, frontend, browser, and deployment-contract tests pass.
 - Performance evidence is reported against the 5-second and 9-second targets.
+- The worker safety timeout is verified independently from the performance targets.
 - Security scan has no unresolved release-blocking finding.
 - README contains accurate setup, run, test, architecture, tools, assumptions, trade-offs, and limitations.
 - Public staging scan finds no secret, credential, personal detail, machine path, raw unlicensed image, local agent instruction, cache, report scratch, or oversized file.

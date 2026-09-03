@@ -49,6 +49,7 @@ export function BatchWorkspace({ initialFiles, batchName, verificationClient, hi
   const [analyzed, setAnalyzed] = useState(0);
   const [failed, setFailed] = useState(0);
   const [analysisMs, setAnalysisMs] = useState(0);
+  const [activeImageName, setActiveImageName] = useState("");
   const [groups, setGroups] = useState<BatchGroup[]>([]);
   const [undoStack, setUndoStack] = useState<BatchGroup[][]>([]);
   const [activeMs, setActiveMs] = useState(0);
@@ -99,6 +100,7 @@ export function BatchWorkspace({ initialFiles, batchName, verificationClient, hi
       const failedIds = new Set<string>();
       for (const image of images) {
         if (!active || cancel.current) return;
+        setActiveImageName(image.file.name);
         const nextController = new AbortController();
         controller.current = nextController;
         try {
@@ -113,6 +115,7 @@ export function BatchWorkspace({ initialFiles, batchName, verificationClient, hi
         }
         setAnalysisMs(performance.now() - startedAt);
       }
+      setActiveImageName("");
       if (!active) return;
       try {
         if (verificationClient.suggestGroups) {
@@ -260,13 +263,17 @@ export function BatchWorkspace({ initialFiles, batchName, verificationClient, hi
   if (stage === "analyzing") {
     const total = images.length;
     const done = analyzed + failed;
+    const averageMs = done ? analysisMs / done : 0;
+    const ratePerMinute = averageMs ? 60_000 / averageMs : 0;
+    const remainingMs = averageMs * Math.max(0, total - done);
     return (
       <main aria-live="polite" className="batch-analyzing" data-screen-label="Batch analyzing">
         <div className="processing-head"><h6 className="kicker">Check a batch · step 1 of 3</h6><button className="btn btn-ghost" onClick={() => { cancel.current = true; controller.current?.abort(); onExit(); }} type="button">Cancel</button></div>
         <section className="card blueprint processing-card">
           <Corners />
           <div className="processing-main">
-            <div className="processing-title"><h2 tabIndex={-1}>Reading {total} image{total === 1 ? "" : "s"}</h2><span className="elapsed">{(analysisMs / 1000).toFixed(1)} s</span></div>
+            <div className="processing-title"><h2 tabIndex={-1}>Reading {total} image{total === 1 ? "" : "s"}</h2><span className="elapsed">{(analysisMs / 1000).toFixed(1)} s elapsed</span></div>
+            <div className="batch-live-progress"><div><strong>{done} / {total} processed</strong><span className="text-muted">{activeImageName ? `Reading ${activeImageName}` : "Preparing results"}</span></div><progress aria-label={`${done} of ${total} batch images processed`} max={total} value={done} /><div className="batch-progress-metrics"><span>{averageMs ? `${(averageMs / 1000).toFixed(1)} s per image` : "Measuring speed"}</span><span>{ratePerMinute ? `${ratePerMinute.toFixed(1)} images per minute` : "Rate pending"}</span><span>{done < total && remainingMs ? `About ${Math.ceil(remainingMs / 1000)} s remaining` : done === total ? "Analysis complete" : "Estimate pending"}</span><span>{failed} skipped after read error</span></div></div>
             <ol className="stages">
               <li className="reached"><span className="stage-label">{done < total ? <Spinner /> : icons.check()} Analyze</span><span className="stage-detail text-muted">{done} of {total} read · {failed} failed{done ? ` · ${(analysisMs / done / 1000).toFixed(1)} s per image` : ""}</span></li>
               <li className={done === total ? "reached" : ""}><span className="stage-label">{icons.clock()} Confirm groups</span><span className="stage-detail text-muted">We suggest one product per brand or folder; you confirm.</span></li>

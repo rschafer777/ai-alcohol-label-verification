@@ -59,13 +59,17 @@ The solution is a modular monolith. This keeps local setup and deployment small 
 ### Batch
 
 1. The user selects a directory containing up to 900 supported images.
-2. Browser grouping uses relative directory and conservative filename cues.
-3. Each suggested product contains at most three images. Ambiguous images remain visible and require confirmation.
-4. The user may merge, split, or rename groups, then confirms no more than 300 products.
-5. The browser submits one confirmed product at a time to the same analysis endpoint.
-6. Progress records queued, running, completed, review, difference, failure, retry, elapsed time, mean, and ETA.
-7. One failed product does not stop later products. Failed products can be retried.
-8. CSV and JSON exports are generated from completed result records. Spreadsheet formulas are neutralized in CSV cells.
+2. The browser accepts supported image signatures and sizes, skips unrelated or oversized files individually, and displays accepted and skipped counts with reasons.
+3. The browser submits each accepted image for a non-persistent label read. Live progress begins at 0 of N and reports count, current image, rate, mean, and ETA.
+4. The server combines explicit relative-directory cues, normalized filename cues, and OCR-derived brand, class, and beverage family to suggest product groups.
+5. Each suggested product contains at most three images. Ambiguous images remain visible and require confirmation.
+6. The user may merge, split, or rename groups, then confirms no more than 300 products.
+7. The browser submits one confirmed product at a time to the same analysis endpoint.
+8. Product progress records queued, running, completed, review, difference, failure, retry, elapsed time, mean, and ETA.
+9. One failed product does not stop later products. Failed products can be retried.
+10. CSV and JSON exports are generated from completed result records. Spreadsheet formulas are neutralized in CSV cells.
+
+The OCR worker keeps a bounded in-memory cache of at most 2,048 exact decoded view results. Its key contains image shape, pixel type, and a SHA-256 digest of the view pixels. It never contains a filename, product name, expected field, oracle value, or reviewer decision. A cache miss runs local OCR normally. The cache is cleared when the worker initializes and is lost when the process exits. This accelerates the confirmed-product rerun after the same images were read for grouping without changing extraction behavior for a new image.
 
 ### History
 
@@ -127,6 +131,8 @@ Each evidence item includes an opaque ID, panel ID, four original-pixel points, 
 
 The decoder applies EXIF orientation and enforces 12 megapixels per image and 36 megapixels per request. It measures blur, exposure, coverage, and glare indicators. The recovery path may create bounded resize, contrast, deskew, or clear trapezoid views. It never fills missing pixels or fabricates text. Coordinates from derived views are inverted to original pixels before delivery.
 
+Decoded-pixel errors carry image width, height, total decoded pixels, aspect-preserving target dimensions, supported maximum, pass or fail state for each comparison, and a precise retry instruction. These values cross the typed API boundary and are rendered side by side in the browser.
+
 Recommended UAT input is 2400 by 3200 pixels in portrait, or 3200 by 2400 in landscape, with 300 PPI metadata, JPEG quality 85 to 92, and roughly 1 to 4 MiB per file. The label should occupy at least 60 percent of the frame and important character height should be at least 20 pixels. PPI metadata is not a reliable physical scale. A 736 by 532 image is accepted when readable but is below the recommended evidence density.
 
 ## Security and reliability
@@ -135,7 +141,7 @@ Recommended UAT input is 2400 by 3200 pixels in portrait, or 3200 by 2400 in lan
 - Enforce 4 MiB per file, 12 MiB aggregate file content, 3 files, 12 MP per image, and 36 MP total.
 - Bound raw multipart input at 13 MiB plus the defined envelope and reject malformed or mismatched lengths.
 - Enforce Host and Origin controls, browser-scoped history authorization, bounded multipart and JSON bodies, per-client and global start rates, and one governed OCR worker.
-- Use upload, worker, server, and browser deadlines of 20, 9, 30, and 35 seconds.
+- Use upload, worker safety, server, and browser deadlines of 20, 15, 30, and 35 seconds. The 15-second worker boundary is a fault-containment limit, not the performance goal. Typical and difficult-image quality targets remain about 5 seconds and no more than 9 seconds.
 - Run expensive processing in a killable child and clean temporary files after success, error, cancellation, disconnect, and shutdown.
 - Do not log label content, notes, or OCR text.
 - Serve UI and API from one origin with security headers.
@@ -156,9 +162,11 @@ Local SQLite and file persistence are correct for a single-instance demonstratio
 | `GET /api/v1/samples/distilled-spirits-v1/panels/{panelId}` | Built-in sample panel |
 | `POST /api/v1/analyses` | Label-first OCR, inference, checks, and persistence |
 | `POST /api/v1/verifications` | Independent trusted-reference comparison |
+| `POST /api/v1/grouping-suggestions` | Analyze batch image facts without persistence, propose conservative product groups, and identify groups that require reviewer confirmation |
 | `GET /api/v1/history` | Filtered and paged history |
 | `GET /api/v1/history/{id}` | Full stored result |
 | `GET /api/v1/history/{id}/panels/{panelId}` | Retained source image |
+| `POST /api/v1/history/{id}/panels` | Add a panel to an existing result, reprocess the complete panel set, and persist a new record linked through `supersedes` |
 | `PATCH /api/v1/history/{id}/disposition` | Reviewer disposition and note |
 | `DELETE /api/v1/history/{id}` | Delete one record and images |
 | `DELETE /api/v1/history` | Clear all history |

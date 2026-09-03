@@ -34,10 +34,19 @@ class WorkerTimedOut(RuntimeError):
 
 
 class WorkerExecutionFailed(RuntimeError):
-    def __init__(self, code: str, field_or_panel: str | None = None) -> None:
+    def __init__(
+        self,
+        code: str,
+        field_or_panel: str | None = None,
+        *,
+        comparisons: list[dict[str, object]] | None = None,
+        next_action: str | None = None,
+    ) -> None:
         super().__init__(code)
         self.code = code
         self.field_or_panel = field_or_panel
+        self.comparisons = comparisons or []
+        self.next_action = next_action
 
 
 @dataclass(frozen=True)
@@ -179,7 +188,10 @@ class WorkerSupervisor:
                 raise WorkerExecutionFailed("internal_error")
             if response.get("kind") == "error":
                 raise WorkerExecutionFailed(
-                    str(response.get("code", "internal_error")), response.get("fieldOrPanel")
+                    str(response.get("code", "internal_error")),
+                    response.get("fieldOrPanel"),
+                    comparisons=response.get("comparisons"),
+                    next_action=response.get("nextAction"),
                 )
             if response.get("kind") != "result":
                 raise WorkerExecutionFailed("internal_error")
@@ -227,7 +239,10 @@ class WorkerSupervisor:
                 raise WorkerExecutionFailed("internal_error")
             if response.get("kind") == "error":
                 raise WorkerExecutionFailed(
-                    str(response.get("code", "internal_error")), response.get("fieldOrPanel")
+                    str(response.get("code", "internal_error")),
+                    response.get("fieldOrPanel"),
+                    comparisons=response.get("comparisons"),
+                    next_action=response.get("nextAction"),
                 )
             if response.get("kind") != "analysis_result":
                 raise WorkerExecutionFailed("internal_error")
@@ -390,6 +405,8 @@ def _worker_main(commands: Any, results: Any, model_root: str, generation: int) 
                     "jobId": job_id,
                     "code": exc.code,
                     "fieldOrPanel": exc.field_or_panel,
+                    "comparisons": exc.comparisons,
+                    "nextAction": exc.next_action,
                 }
             )
         except Exception:

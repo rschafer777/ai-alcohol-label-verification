@@ -6,6 +6,7 @@ from decimal import Decimal
 
 from labelverify.contracts.models import CheckResult, ReferenceRecord, SummaryState
 from labelverify.domain.aggregation import aggregate, validate_check_set
+from labelverify.domain.beverage import beverage_type_hits
 from labelverify.domain.comparison import (
     _result,
     compare_abv,
@@ -38,11 +39,7 @@ def compare_all(inputs: ComparisonInputs) -> tuple[list[CheckResult], SummarySta
         _net_contents(reference, observed),
         compare_producer(reference.producer_name_address, observed.field("producer")),
         compare_country(
-            (
-                None
-                if reference.reference_provenance == "label_ocr" and not reference.is_imported
-                else reference.is_imported
-            ),
+            _import_status(reference, observed),
             reference.country_of_origin,
             observed.field("country"),
         ),
@@ -134,57 +131,36 @@ def _label_derived_reference_guard(
     ]
 
 
-def _beverage_type(reference: ReferenceRecord, observed: ObservedCandidates) -> CheckResult:
-    class_values = " ".join(
-        item.value.casefold() for item in observed.field("class_type").candidates
+_DOMESTIC_LOCATION = re.compile(
+    r"\b(?:u\.?s\.?a\.?|united\s+states|alabama|alaska|arizona|arkansas|california|"
+    r"colorado|connecticut|delaware|florida|georgia|hawaii|idaho|illinois|indiana|"
+    r"iowa|kansas|kentucky|louisiana|maine|maryland|massachusetts|michigan|minnesota|"
+    r"mississippi|missouri|montana|nebraska|nevada|new\s+hampshire|new\s+jersey|"
+    r"new\s+mexico|new\s+york|north\s+carolina|north\s+dakota|ohio|oklahoma|oregon|"
+    r"pennsylvania|rhode\s+island|south\s+carolina|south\s+dakota|tennessee|texas|"
+    r"utah|vermont|virginia|washington|west\s+virginia|wisconsin|wyoming)\b|"
+    r"(?:,|\.)\s*(?:AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|"
+    r"MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|"
+    r"VT|VA|WA|WV|WI|WY)\b",
+    re.I,
+)
+def _import_status(reference: ReferenceRecord, observed: ObservedCandidates) -> bool | None:
+    if reference.reference_provenance != "label_ocr":
+        return reference.is_imported
+    if observed.field("country").status in {"Found", "Ambiguous"}:
+        return True
+    producer_text = " ".join(
+        candidate.value for candidate in observed.field("producer").candidates
     )
-    vocabularies = {
-        "distilled_spirits": (
-            "bourbon",
-            "whiskey",
-            "whisky",
-            "vodka",
-            "gin",
-            "rum",
-            "tequila",
-            "brandy",
-            "liqueur",
-            "cordial",
-        ),
-        "wine": (
-            "wine",
-            "merlot",
-            "cabernet",
-            "chardonnay",
-            "pinot",
-            "riesling",
-            "rose",
-            "rosé",
-            "sauvignon",
-            "zinfandel",
-            "syrah",
-            "shiraz",
-            "muscat",
-            "sangria",
-            "vermouth",
-            "champagne",
-        ),
-        "malt_beverage": (
-            "malt beverage",
-            "beer",
-            "ale",
-            "lager",
-            "stout",
-            "porter",
-            "pilsner",
-            "ipa",
-        ),
-    }
-    hits = {
-        kind
-        for kind, terms in vocabularies.items()
-        if any(_contains_term(class_values, term) for term in terms)
-    }
+    if re.search(r"\bimported\s+by\b", producer_text, re.I):
+        return True
+    if _DOMESTIC_LOCATION.search(producer_text):
+        return False
+    return None
+
+
+def _beverage_type(reference: ReferenceRecord, observed: ObservedCandidates) -> CheckResult:
+    hits = beverage_type_hits(observed)
     if reference.beverage_type in hits and len(hits) == 1:
         return _result(
             "beverage_type",
@@ -213,12 +189,6 @@ def _beverage_type(reference: ReferenceRecord, observed: ObservedCandidates) -> 
         "The label does not provide one unambiguous beverage-type signal",
         reference=reference.beverage_type,
     )
-
-
-def _contains_term(value: str, term: str) -> bool:
-    return bool(re.search(rf"(?<!\w){re.escape(term)}(?!\w)", value, re.I))
-
-
 def _class_type(reference: ReferenceRecord, observed: ObservedCandidates) -> CheckResult:
     result = compare_class(reference.class_type, observed.field("class_type"))
     if reference.beverage_type != "wine" or result.state != "Match":

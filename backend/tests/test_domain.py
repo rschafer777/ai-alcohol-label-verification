@@ -99,15 +99,16 @@ def test_domestic_country_is_explicit_non_applicable() -> None:
     assert country.applicable is False
 
 
-def test_label_derived_missing_country_keeps_import_status_unresolved() -> None:
+def test_label_derived_domestic_producer_makes_country_not_applicable() -> None:
     label_reference = reference().model_copy(update={"reference_provenance": "label_ocr"})
 
     checks, summary = compare_all(ComparisonInputs(label_reference, clean_observed()))
 
     country = by_id(checks, "country")
-    assert country.state == "Review"
-    assert country.reason_code == "import_status_unknown"
-    assert summary == "Review needed"
+    assert country.state == "Not verified"
+    assert country.reason_code == "not_applicable_domestic"
+    assert country.applicable is False
+    assert summary == "No differences found in checked fields"
 
 
 @pytest.mark.parametrize(

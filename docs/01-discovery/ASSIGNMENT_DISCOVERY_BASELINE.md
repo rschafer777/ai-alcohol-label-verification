@@ -20,9 +20,11 @@ TTB compliance agents review approximately 150,000 label applications each year.
 - A product accepts one to three label images so front, back, side, or neck evidence can be evaluated together.
 - Beer or malt beverage, wine, and distilled spirits profiles are supported.
 - Batch intake accepts up to 300 products and 900 images. The application suggests conservative image groups and requires human confirmation before processing.
+- Batch folder intake skips unsupported files without blocking supported images and reports selection, processing count, rate, and estimated time.
 - Results retain evidence locations, machine findings, reviewer disposition, and images in a 500-record FIFO history.
 - The prototype uses local OCR and deterministic rule code. No cloud LLM or remote inference endpoint is required at runtime.
 - Image quality alone is not a compliance defect. Readable evidence is evaluated; uncertain or absent evidence is routed to review or another-image request.
+- Input errors state the submitted value, supported value, and exact corrective action when that information is measurable.
 
 ## Regulatory source baseline
 

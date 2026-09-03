@@ -16,7 +16,7 @@ Primary users are TTB label compliance agents with widely varying technical comf
 | ID | Requirement | Acceptance measure |
 | --- | --- | --- |
 | INT-001 | Provide two obvious entry paths: one product and batch | Both are visible on initial load and keyboard reachable |
-| INT-002 | Accept 1 to 3 JPEG, PNG, or WebP images for one product | The API and UI reject unsupported or excessive input without silent loss |
+| INT-002 | Accept 1 to 3 JPEG, PNG, or WebP images for one product | The API and UI reject unsupported or excessive input without silent loss; measurable limit errors compare submitted and supported values and state the exact correction |
 | INT-003 | OCR label images without initial manual data entry | The primary UI contains no required application-value form |
 | INT-004 | Infer beer or malt beverage, wine, or distilled spirits | A unique supported class/type signal selects the profile; conflicts remain unresolved |
 | INT-005 | Extract brand, class/type, alcohol content, net contents, producer/name and address, import country when visible, proof when shown, and selected type-specific fields | Each found value has status, evidence reference, and original-pixel polygon |
@@ -26,8 +26,8 @@ Primary users are TTB label compliance agents with widely varying technical comf
 | INT-009 | Handle recoverable imperfect images | EXIF orientation, bounded resize, deskew or perspective correction, and contrast recovery are attempted without inventing obscured text |
 | INT-010 | Show evidence on the original image | Selecting a finding highlights the corresponding original-pixel region |
 | INT-011 | Support reviewer disposition | Approve, Reject, and Request more information stay separate from immutable machine findings |
-| INT-012 | Support batches of up to 300 products and 900 images | Images are conservatively grouped to a maximum of 3 per product and confirmed by a reviewer |
-| INT-013 | Show batch operating status | Products, images, processed, remaining, running, queued, reviews, differences, failures, active time, average, ETA, attempts, retry, and cancel are available |
+| INT-012 | Support batches of up to 300 products and 900 images | Supported images are accepted even when the selected folder also contains non-images; skipped files and reasons are reported; images are conservatively grouped to a maximum of 3 per product and confirmed by a reviewer |
+| INT-013 | Show batch operating status | Selection begins at 0 of N; products, images, processed, remaining, running, queued, reviews, differences, failures, active time, rate, average, ETA, attempts, retry, and cancel are available |
 | INT-014 | Export batch results | Formula-safe CSV summary and detailed JSON are downloadable |
 | INT-015 | Retain a manageable history | Up to 500 results and their images are browsable, filterable, editable by disposition, and deletable within the originating browser scope; insertion 501 evicts the oldest |
 | INT-016 | Reopen historical evidence | A stored check can relocalize its evidence on the retained image |
@@ -73,6 +73,7 @@ The federal health warning applies at 0.5 percent alcohol by volume or more for 
 
 - COLAs Online integration is not part of the prototype. The primary interface therefore performs label-first regulatory evidence review rather than pretending OCR-derived values are an independent application record.
 - Product grouping uses conservative directory and filename cues, followed by mandatory human confirmation. It favors avoiding false merges over automatic grouping recall.
+- OCR-derived brand, class, and beverage-family evidence supplements directory and filename cues. OCR disagreement keeps the suggested group visible for confirmation instead of silently splitting or merging it.
 - Physical type size cannot be proven from an ordinary unscaled photograph. The check reports the applicable requirement and remains Not verified unless reliable scale exists.
 - Formula, chemistry, permit, source, production-method, state-law, and product-origin truth require independent records.
 - General glare removal, curved-bottle reconstruction, and recovery of pixels outside the frame are not promised.

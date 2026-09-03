@@ -277,6 +277,13 @@ class GroupingResult(ContractModel):
     failed: int = Field(ge=0)
 
 
+class ErrorComparison(ContractModel):
+    label: str
+    expected: str
+    actual: str
+    passed: bool
+
+
 class PublicError(ContractModel):
     request_id: str = Field(alias="requestId")
     code: str
@@ -284,6 +291,7 @@ class PublicError(ContractModel):
     field_or_panel: str | None = Field(default=None, alias="fieldOrPanel")
     retryable: bool
     next_action: str = Field(alias="nextAction")
+    comparisons: list[ErrorComparison] = Field(default_factory=list)
 
 
 class OcrLine(ContractModel):

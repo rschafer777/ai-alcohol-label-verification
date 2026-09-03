@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from fastapi.testclient import TestClient
 from labelverify.api.app import create_app
+from labelverify.contracts.loader import contracts
 from labelverify.contracts.models import (
     AnalysisDraft,
     AnalysisResult,
@@ -151,7 +153,7 @@ def test_grouping_merges_same_brand_neighbours_and_flags_conflicts() -> None:
     same_brand = by_panels[frozenset({"a", "b"})]
     assert same_brand.status == "ready_to_confirm"
     assert same_brand.suggested_name == "CEDAR CREEK"
-    assert "Same brand read on each image" in same_brand.reasons
+    assert "Same brand and compatible class read" in same_brand.reasons
     unread = by_panels[frozenset({"c"})]
     assert unread.status == "needs_review"
     assert unread.suggested_name.startswith("Product ")
@@ -160,6 +162,75 @@ def test_grouping_merges_same_brand_neighbours_and_flags_conflicts() -> None:
     assert folder.status == "needs_review"
     assert "Two different brands read" in folder.reasons
     assert all(len(group.panel_ids) <= 3 for group in result.groups)
+
+
+def test_grouping_merges_nonadjacent_same_product_but_keeps_distinct_classes() -> None:
+    images = [
+        GroupingImage(
+            imageId="front",
+            fileName="alpha.jpg",
+            brandName="NORTHWIND",
+            classType="Pale Ale",
+            beverageType="malt_beverage",
+            typeConfidence="high",
+        ),
+        GroupingImage(
+            imageId="other",
+            fileName="middle.jpg",
+            brandName="CEDAR RIDGE",
+            classType="Riesling",
+            beverageType="wine",
+            typeConfidence="high",
+        ),
+        GroupingImage(
+            imageId="back",
+            fileName="zulu.jpg",
+            brandName="Northwind",
+            classType=None,
+            beverageType="malt_beverage",
+            typeConfidence="high",
+        ),
+        GroupingImage(
+            imageId="stout",
+            fileName="stout.jpg",
+            brandName="NORTHWIND",
+            classType="Stout",
+            beverageType="malt_beverage",
+            typeConfidence="high",
+        ),
+    ]
+
+    result = suggest_groups(images)
+    by_panels = {frozenset(group.panel_ids): group for group in result.groups}
+
+    assert frozenset({"front", "back"}) in by_panels
+    assert frozenset({"stout"}) in by_panels
+
+
+def test_grouping_prefers_fuller_compatible_brand_read() -> None:
+    images = [
+        GroupingImage(
+            imageId="back",
+            fileName="Vodka_Back.jpg",
+            brandName="ORGANIC",
+            beverageType="distilled_spirits",
+            typeConfidence="high",
+        ),
+        GroupingImage(
+            imageId="front",
+            fileName="Vodka_Front.jpg",
+            brandName="OrganicVodka",
+            beverageType="distilled_spirits",
+            typeConfidence="medium",
+        ),
+    ]
+
+    result = suggest_groups(images)
+
+    assert len(result.groups) == 1
+    assert result.groups[0].status == "ready_to_confirm"
+    assert result.groups[0].conflict is False
+    assert result.groups[0].suggested_name == "OrganicVodka"
 
 
 class AddPanelSupervisor:
@@ -249,3 +320,36 @@ def test_grouping_endpoint_and_add_panel_supersede_flow(tmp_path: Path) -> None:
             files={"panels": ("third.jpg", jpeg_bytes(), "image/jpeg")},
         )
         assert missing.status_code == 404
+
+
+def test_grouping_endpoint_accepts_maximum_shape_request(tmp_path: Path) -> None:
+    supervisor = AddPanelSupervisor()
+    app = create_app(settings=runtime(tmp_path), supervisor=supervisor)  # type: ignore[arg-type]
+    long_path = "batch/product/" + ("p" * 1010)
+    images = [
+        {
+            "imageId": f"{index:03d}" + ("i" * 117),
+            "fileName": ("f" * 256) + ".jpg",
+            "path": long_path,
+            "brandName": "B" * 160,
+            "classType": "C" * 240,
+            "beverageType": "wine",
+            "typeConfidence": "high",
+            "failed": False,
+        }
+        for index in range(900)
+    ]
+    payload = {"images": images}
+    encoded = json.dumps(payload, separators=(",", ":")).encode("utf-8")
+    assert len(encoded) > 512 * 1024
+    assert len(encoded) < int(contracts().api["limits"]["groupingRequestBytes"])
+
+    with TestClient(app, client=("127.0.0.1", 50000)) as client:
+        response = client.post("/api/v1/grouping-suggestions", json=payload)
+
+    assert response.status_code == 200, response.text
+    body = response.json()
+    assert body["analyzed"] == 900
+    assert body["failed"] == 0
+    assert len(body["groups"]) == 300
+    assert all(len(group["panelIds"]) == 3 for group in body["groups"])

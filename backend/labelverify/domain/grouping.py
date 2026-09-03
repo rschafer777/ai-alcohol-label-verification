@@ -29,6 +29,12 @@ def _brand_key(value: str | None) -> str:
     return _NON_WORD.sub(" ", value.casefold()).strip()
 
 
+def _class_key(value: str | None) -> str:
+    if not value:
+        return ""
+    return _NON_WORD.sub(" ", value.casefold()).strip()
+
+
 def _folder_key(image: GroupingImage) -> str | None:
     path = (image.path or "").replace("\\", "/")
     parts = [part for part in path.split("/") if part]
@@ -51,16 +57,37 @@ def _display_name(images: list[GroupingImage], ordinal: int) -> str:
     OCR noise, so its brand should not name the product when a better read exists.
     """
 
+    candidates = [
+        image for image in images if image.brand_name and image.brand_name.strip()
+    ]
+    brand_keys = {_brand_key(image.brand_name) for image in candidates}
+    if candidates and _brands_are_compatible(brand_keys):
+        return (
+            max(candidates, key=lambda image: len(_brand_key(image.brand_name))).brand_name
+            or ""
+        ).strip()
+
     ranked = sorted(
-        (image for image in images if image.brand_name and image.brand_name.strip()),
+        candidates,
         key=lambda image: (
             image.beverage_type is None,
             {"high": 0, "medium": 1, "low": 2, None: 3}[image.type_confidence],
+            -len(_brand_key(image.brand_name)),
         ),
     )
     if ranked:
         return (ranked[0].brand_name or "").strip()
     return f"Product {ordinal}"
+
+
+def _brands_are_compatible(values: set[str]) -> bool:
+    """Treat a shorter OCR read as compatible when it is contained in the fuller read."""
+
+    if len(values) <= 1:
+        return True
+    compact = {_NON_WORD.sub("", value) for value in values}
+    longest = max(compact, key=len)
+    return all(len(value) >= 4 and value in longest for value in compact)
 
 
 def _confidence(images: list[GroupingImage]) -> Literal["high", "medium", "low"]:
@@ -86,10 +113,11 @@ def suggest_groups(images: list[GroupingImage]) -> GroupingResult:
         key = f"folder:{folder}" if folder else f"stem:{_stem_key(image)}"
         buckets.setdefault(key, []).append(image)
 
-    # Pass 2: merge neighbouring buckets that read the same brand.
-    # A folder is an explicit statement of intent, so folder buckets never merge with their
-    # neighbours; only loose files (stem buckets) join a neighbour that read the same brand.
+    # Pass 2: merge loose buckets that read the same product identity. A folder is an explicit
+    # statement of intent and remains isolated. Loose images can be separated by unrelated
+    # filenames, so they merge globally when their brand matches and any readable class agrees.
     merged: list[tuple[list[GroupingImage], list[str], bool]] = []
+    loose_brand_indexes: dict[str, list[int]] = {}
     for key, bucket in buckets.items():
         reasons: list[str] = []
         is_folder = key.startswith("folder:")
@@ -100,20 +128,24 @@ def suggest_groups(images: list[GroupingImage]) -> GroupingResult:
         brand = next(
             (_brand_key(item.brand_name) for item in bucket if _brand_key(item.brand_name)), ""
         )
-        if (
-            merged
-            and not is_folder
-            and not merged[-1][2]
-            and brand
-            and len(merged[-1][0]) + len(bucket) <= MAX_PANELS
-            and any(_brand_key(item.brand_name) == brand for item in merged[-1][0])
-        ):
-            previous_images, previous_reasons, _ = merged[-1]
-            previous_images.extend(bucket)
-            if "Same brand read on each image" not in previous_reasons:
-                previous_reasons.append("Same brand read on each image")
-            continue
+        if brand and not is_folder:
+            candidate_index = next(
+                (
+                    index
+                    for index in loose_brand_indexes.get(brand, [])
+                    if _classes_are_compatible(merged[index][0], bucket)
+                ),
+                None,
+            )
+            if candidate_index is not None:
+                previous_images, previous_reasons, _ = merged[candidate_index]
+                previous_images.extend(bucket)
+                if "Same brand and compatible class read" not in previous_reasons:
+                    previous_reasons.append("Same brand and compatible class read")
+                continue
         merged.append((bucket, reasons, is_folder))
+        if brand and not is_folder:
+            loose_brand_indexes.setdefault(brand, []).append(len(merged) - 1)
 
     groups: list[GroupSuggestion] = []
     ordinal = 0
@@ -125,16 +157,27 @@ def suggest_groups(images: list[GroupingImage]) -> GroupingResult:
     return GroupingResult(groups=groups, analyzed=len(usable), failed=failed)
 
 
+def _classes_are_compatible(
+    first: list[GroupingImage], second: list[GroupingImage]
+) -> bool:
+    values = {
+        _class_key(image.class_type)
+        for image in [*first, *second]
+        if _class_key(image.class_type)
+    }
+    return len(values) <= 1
+
+
 def _suggestion(
     chunk: list[GroupingImage], reasons: list[str], ordinal: int, overflow: bool
 ) -> GroupSuggestion:
     brands = {_brand_key(item.brand_name) for item in chunk if _brand_key(item.brand_name)}
     types = {item.beverage_type for item in chunk if item.beverage_type}
-    conflict = len(brands) > 1 or len(types) > 1
+    conflict = not _brands_are_compatible(brands) or len(types) > 1
     confidence = _confidence(chunk)
     status: Literal["ready_to_confirm", "needs_review"]
     if conflict:
-        if len(brands) > 1:
+        if not _brands_are_compatible(brands):
             reasons.append("Two different brands read")
         if len(types) > 1:
             reasons.append("Different beverage types read")

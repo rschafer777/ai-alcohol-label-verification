@@ -27,8 +27,6 @@ HISTORY_SCOPE_COOKIE = "labelverify_scope"
 HISTORY_SCOPE_PATTERN = re.compile(r"[A-Za-z0-9_-]{43}\Z")
 HISTORY_SCOPE_MAX_AGE = 7 * 24 * 60 * 60
 JSON_BODY_LIMIT = 8 * 1024
-# Grouping requests carry one small JSON row per analyzed image, up to 900 images.
-GROUPING_BODY_LIMIT = 512 * 1024
 
 
 class BoundaryMiddleware:
@@ -48,6 +46,7 @@ class BoundaryMiddleware:
         self.admissions = admissions or AdmissionController()
         limits = contracts().api["limits"]
         self.raw_limit = int(limits["rawRequestBytes"])
+        self.grouping_body_limit = int(limits["groupingRequestBytes"])
         self.upload_deadline = float(limits["uploadDeadlineSeconds"])
         self.server_deadline = float(limits["serverDeadlineSeconds"])
 
@@ -94,7 +93,7 @@ class BoundaryMiddleware:
                 body_limit = (
                     self.raw_limit
                     if expensive
-                    else GROUPING_BODY_LIMIT
+                    else self.grouping_body_limit
                     if scope.get("path") == GROUPING_PATH
                     else JSON_BODY_LIMIT
                 )

@@ -77,8 +77,8 @@ def test_wine_profile_activates_wine_rules_and_common_fields() -> None:
     assert by_id(checks, "wine_sulfites").state == "Match"
     assert by_id(checks, "spirits_field_of_vision").applicable is False
     assert by_id(checks, "malt_class_designation").applicable is False
-    assert by_id(checks, "country").reason_code == "import_status_unknown"
-    assert summary == "Review needed"
+    assert by_id(checks, "country").reason_code == "not_applicable_domestic"
+    assert summary == "No differences found in checked fields"
 
 
 def test_malt_profile_activates_malt_rules_and_customary_volume() -> None:
@@ -102,8 +102,8 @@ def test_malt_profile_activates_malt_rules_and_customary_volume() -> None:
     assert by_id(checks, "net_contents").state == "Match"
     assert by_id(checks, "wine_appellation").applicable is False
     assert by_id(checks, "spirits_field_of_vision").applicable is False
-    assert by_id(checks, "country").reason_code == "import_status_unknown"
-    assert summary == "Review needed"
+    assert by_id(checks, "country").reason_code == "not_applicable_domestic"
+    assert summary == "No differences found in checked fields"
 
 
 def test_malt_profile_accepts_common_ocr_zero_for_fluid_ounce_unit() -> None:
@@ -214,6 +214,45 @@ def test_beverage_type_inference_distinguishes_all_three_profiles() -> None:
 
         assert beverage_type == expected
         assert confidence is not None and confidence >= 0.72
+
+
+def test_beverage_type_uses_class_evidence_when_brand_contains_a_type_word() -> None:
+    observed = clean_observed()
+    observed.fields["brand"] = found("OrganicVodka", "brand")
+    observed.fields["class_type"] = found("100% NEUTRAL SPIRITS DISTILLED", "class_type")
+
+    beverage_type, confidence, _, conflicting = _infer_beverage_type(observed)
+
+    assert beverage_type == "distilled_spirits"
+    assert confidence is not None and confidence >= 0.80
+    assert conflicting is False
+
+
+def test_beverage_type_does_not_use_brand_only_as_regulatory_class_evidence() -> None:
+    for brand in ("OrganicVodka", "Tequila Mockingbird", "Beer Garden", "Wine Country"):
+        observed = clean_observed()
+        observed.fields["brand"] = found(brand, "brand")
+        observed.fields["class_type"] = CandidateSet(status="Not found", candidates=[])
+
+        beverage_type, confidence, _, conflicting = _infer_beverage_type(observed)
+
+        assert beverage_type is None
+        assert confidence is None
+        assert conflicting is False
+
+
+def test_beverage_type_repairs_joined_ocr_connector_without_product_knowledge() -> None:
+    observed = clean_observed()
+    observed.fields["brand"] = found("STRAWBERRY", "brand")
+    observed.fields["class_type"] = found(
+        "GRAPE WINEWITH NATURAL FLAVORS", "class_type"
+    )
+
+    beverage_type, confidence, _, conflicting = _infer_beverage_type(observed)
+
+    assert beverage_type == "wine"
+    assert confidence is not None and confidence >= 0.80
+    assert conflicting is False
 
 
 def test_spirits_proof_requires_supported_distinction_and_same_panel() -> None:

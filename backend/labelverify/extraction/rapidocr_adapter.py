@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import os
 import re
+from collections import OrderedDict
 from collections.abc import Sequence
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -29,7 +30,8 @@ MODEL_ASSETS = {
 FONT_ASSET = {"DejaVuSans.ttf": "7da195a74c55bef988d0d48f9508bd5d849425c1770dba5d7bfc6ce9ed848954"}
 RUNTIME_ASSETS = MODEL_ASSETS | FONT_ASSET
 OCR_INFERENCE_LANES = 2
-OCR_INTRA_OP_THREADS_PER_LANE = 1
+OCR_INTRA_OP_THREADS_PER_LANE = 2
+OCR_OUTPUT_CACHE_ENTRIES = 2048
 _MIN_LOCAL_CONTRAST = 24.0
 _MIN_FOREGROUND_FRACTION = 0.02
 _MAX_FOREGROUND_FRACTION = 0.65
@@ -53,6 +55,7 @@ class RapidOcrAdapter:
         self._model_root = model_root
         self._require_read_only = require_read_only
         self._engines: tuple[Any, ...] = ()
+        self._output_cache: OrderedDict[tuple[object, ...], Any] = OrderedDict()
         self._model_identity = "rapidocr-3.4.2:" + MODEL_ASSETS["en_PP-OCRv4_rec_infer.onnx"][:12]
 
     @property
@@ -69,6 +72,7 @@ class RapidOcrAdapter:
 
     def initialize(self) -> None:
         self.verify_assets()
+        self._output_cache.clear()
         from rapidocr import RapidOCR  # type: ignore[import-untyped]
         from rapidocr.utils.typings import LangDet, LangRec  # type: ignore[import-untyped]
 
@@ -148,11 +152,29 @@ class RapidOcrAdapter:
                 )
                 lines.append(line)
                 reading_order += 1
-        return _deduplicate(lines)
+        return deduplicate_ocr_lines(lines)
 
     def _run_inference(self, views: Sequence[ImageView]) -> list[Any]:
         if not views:
             return []
+        keys = [_view_cache_key(view) for view in views]
+        missing_indexes: list[int] = []
+        for index, key in enumerate(keys):
+            cached = self._output_cache.pop(key, None)
+            if cached is None:
+                missing_indexes.append(index)
+            else:
+                self._output_cache[key] = cached
+        if missing_indexes:
+            missing_views = [views[index] for index in missing_indexes]
+            missing_outputs = self._run_engine_inference(missing_views)
+            for index, output in zip(missing_indexes, missing_outputs, strict=True):
+                self._output_cache[keys[index]] = output
+            while len(self._output_cache) > OCR_OUTPUT_CACHE_ENTRIES:
+                self._output_cache.popitem(last=False)
+        return [self._output_cache[key] for key in keys]
+
+    def _run_engine_inference(self, views: Sequence[ImageView]) -> list[Any]:
         lane_count = min(len(self._engines), len(views))
         if lane_count == 1:
             return [self._engines[0](view.image) for view in views]
@@ -195,7 +217,7 @@ def _warm_engine(engine: Any, warmup: Any) -> None:
     engine(warmup)
 
 
-def _deduplicate(lines: list[OcrLine]) -> list[OcrLine]:
+def deduplicate_ocr_lines(lines: list[OcrLine]) -> list[OcrLine]:
     selected: dict[tuple[str, str, int, int], OcrLine] = {}
     for line in lines:
         key = (

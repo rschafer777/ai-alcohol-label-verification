@@ -4,7 +4,7 @@ from functools import lru_cache
 from typing import Any
 
 from labelverify.contracts.loader import contracts
-from labelverify.contracts.models import PublicError
+from labelverify.contracts.models import ErrorComparison, PublicError
 
 LOCATOR_ALLOWED = {
     "invalid_reference",
@@ -42,11 +42,21 @@ MESSAGES = {
 
 
 class PublicApiError(Exception):
-    def __init__(self, code: str, request_id: str, field_or_panel: str | None = None) -> None:
+    def __init__(
+        self,
+        code: str,
+        request_id: str,
+        field_or_panel: str | None = None,
+        *,
+        comparisons: list[dict[str, object]] | None = None,
+        next_action: str | None = None,
+    ) -> None:
         super().__init__(code)
         self.code = code if code in error_map() else "internal_error"
         self.request_id = request_id
         self.field_or_panel = field_or_panel if self.code in LOCATOR_ALLOWED else None
+        self.comparisons = comparisons or []
+        self.next_action = next_action
 
     @property
     def http_status(self) -> int:
@@ -60,7 +70,8 @@ class PublicApiError(Exception):
             message=MESSAGES[self.code],
             fieldOrPanel=self.field_or_panel,
             retryable=bool(row["retryable"]),
-            nextAction=str(row["action"]),
+            nextAction=self.next_action or str(row["action"]),
+            comparisons=[ErrorComparison.model_validate(item) for item in self.comparisons],
         )
 
 

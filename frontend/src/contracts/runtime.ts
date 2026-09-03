@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 import errorRegistryJson from "../../../contracts/error-registry-v1.json";
-import { checkIds, profileId } from "../api/generated-contract";
+import { checkIds, groupingLimits, profileId } from "../api/generated-contract";
 
-import type { AnalysisResult, PublicError, VerificationResult } from "./types";
+import type { AnalysisResult, GroupingResult, PublicError, VerificationResult } from "./types";
 
 const pointSchema = z.object({ x: z.number().int().nonnegative(), y: z.number().int().nonnegative() }).strict();
 
@@ -162,8 +162,33 @@ const publicErrorSchema = z
     fieldOrPanel: z.string().nullable().optional(),
     retryable: z.boolean(),
     nextAction: z.string().min(1),
+    comparisons: z.array(z.object({
+      label: z.string().min(1),
+      expected: z.string().min(1),
+      actual: z.string().min(1),
+      passed: z.boolean(),
+    }).strict()).optional(),
   })
   .strict();
+
+const groupingResultSchema = z.object({
+  groups: z.array(z.object({
+    groupId: z.string().min(1),
+    panelIds: z.array(z.string().min(1)).min(1).max(groupingLimits.panelCountMax),
+    suggestedName: z.string().min(1),
+    inferredType: z.enum(["malt_beverage", "wine", "distilled_spirits"]).nullable().optional(),
+    confidence: z.enum(["high", "medium", "low"]),
+    status: z.enum(["ready_to_confirm", "needs_review"]),
+    reasons: z.array(z.string()),
+    conflict: z.boolean(),
+  }).strict()).max(groupingLimits.imageCountMax),
+  analyzed: z.number().int().min(0).max(groupingLimits.imageCountMax),
+  failed: z.number().int().min(0).max(groupingLimits.imageCountMax),
+}).strict().superRefine((value, context) => {
+  if (value.analyzed + value.failed > groupingLimits.imageCountMax) {
+    context.addIssue({ code: "custom", message: "Total image count exceeds the grouping limit" });
+  }
+});
 
 const errorRegistrySchema = z.object({
   errors: z.array(
@@ -315,6 +340,14 @@ export function parseAnalysisResult(value: unknown): AnalysisResult {
   return result as unknown as AnalysisResult;
 }
 
+export function parseGroupingResult(value: unknown): GroupingResult {
+  const parsed = groupingResultSchema.safeParse(value);
+  if (!parsed.success) {
+    throw new ResponseContractError("The grouping response was incomplete or invalid.");
+  }
+  return parsed.data as GroupingResult;
+}
+
 export function parsePublicError(value: unknown): PublicError | null {
   const parsed = publicErrorSchema.safeParse(value);
   if (!parsed.success) return null;
@@ -323,7 +356,7 @@ export function parsePublicError(value: unknown): PublicError | null {
   return {
     ...parsed.data,
     retryable: registered.retryable,
-    nextAction: registered.action,
+    nextAction: parsed.data.nextAction,
     fieldOrPanel: registered.locatorAllowed ? parsed.data.fieldOrPanel : null,
   };
 }

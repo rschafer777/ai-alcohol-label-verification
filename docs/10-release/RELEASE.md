@@ -1,7 +1,7 @@
 # Release and Operational Handoff
 
 Document ID: LV-REL-001  
-Status: Local release candidate validated; independent RT review pending
+Status: Local engineering candidate validated; independent RT review and deployment pending
 
 ## Deliverable contents
 
@@ -11,6 +11,7 @@ Status: Local release candidate validated; independent RT review pending
 - Local OCR model acquisition manifest with hashes
 - Synthetic sample and test fixtures
 - Unit, integration, browser, accessibility, performance, security, and deployment tests
+- Private 70-image production-API and server-grouping evidence without redistributing the raw images
 - Numbered documentation from discovery through UAT
 - OCI Dockerfile, Azure template, and GitHub OIDC workflow
 - README with setup, run, test, approach, tools, assumptions, trade-offs, and limitations
@@ -41,9 +42,10 @@ GitHub Actions uses OIDC to authenticate to Azure. It validates the source, buil
 - Liveness: `/health/live`
 - Readiness: `/health/ready`
 - Build and contract metadata: `/api/v1/meta`
-- Runtime inference: local ONNX CPU
+- Runtime inference: local RapidOCR and ONNX Runtime CPU, with no external inference endpoint
 - Scale: zero to one replica for the demo
 - OCR concurrency: one governed job
+- OCR reuse: bounded exact-pixel result cache for repeated confirmed-product processing
 - Local history: maximum 500 records with FIFO eviction and opaque originating-browser access scope
 - Incident action: stop new intake, preserve commit and deployment evidence, classify the fault, then restore the prior verified digest if required
 

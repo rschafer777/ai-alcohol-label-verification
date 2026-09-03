@@ -80,6 +80,7 @@ def validate_contracts(project_root: Path) -> tuple[list[str], dict[str, Any]]:
         "referenceBytes": 32_768,
         "fileBytes": 4_194_304,
         "aggregateFileBytes": 12_582_912,
+        "groupingRequestBytes": 8_388_608,
         "panelCountMin": 1,
         "panelCountMax": 3,
         "pixelsPerImage": 12_000_000,
@@ -87,7 +88,7 @@ def validate_contracts(project_root: Path) -> tuple[list[str], dict[str, Any]]:
         "uploadDeadlineSeconds": 20,
         "serverDeadlineSeconds": 30,
         "browserDeadlineSeconds": 35,
-        "workerDeadlineSeconds": 9.0,
+        "workerDeadlineSeconds": 15.0,
     }
     if limits != expected_limits:
         errors.append("CG-001 request or runtime limits differ from the cleared values")

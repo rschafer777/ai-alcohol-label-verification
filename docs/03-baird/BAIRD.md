@@ -33,6 +33,7 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 | Identity and authorization model | Needed for production reviewer attribution | Keep demo single-user and local; define external identity as a production boundary decision |
 | Azure durable data service | Needed for revision-safe history | Use local persistence for the prototype; select managed durable storage during authorization design |
 | Expected file naming and folder discipline | Affects automatic grouping accuracy | Use conservative cues, never exceed 3 images per suggested group, and require explicit confirmation |
+| Non-image files in selected folders | A folder can contain manifests or unrelated files | Skip unsupported entries individually, retain supported images, and report every skipped file and reason |
 
 ## Derived requirements
 
@@ -48,6 +49,8 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 10. Provide stable API contracts and machine-readable rule/check registries.
 11. Validate the complete flow in both local and deployed environments.
 12. Keep the UI usable at 1366 by 768 and on smaller responsive layouts.
+13. Make limit failures actionable by returning submitted values, supported limits, and a precise next action.
+14. Keep the worker safety timeout separate from the latency quality target so a recoverable multi-panel product is not killed at the target boundary.
 
 ## Feasibility assessment
 
@@ -56,7 +59,7 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 | OCR | Local RapidOCR ONNX models provide bounded CPU inference and word polygons | Feasible |
 | Deterministic comparison | Pydantic models and rule modules can express the selected checks | Feasible |
 | Image recovery | Pillow and OpenCV can provide bounded orientation, deskew, perspective, resize, and contrast views | Feasible with declared limitations |
-| Batch | Browser coordination can reuse the same single-pass server endpoint sequentially | Feasible for a prototype |
+| Batch | Per-image local analysis can drive server-side grouping, human confirmation, and sequential product analysis through the same bounded endpoint | Feasible for a prototype |
 | History | SQLite plus controlled image storage supports FIFO 500, evidence reopening, and opaque browser-scope authorization | Feasible for one replica |
 | Azure | One non-root OCI image can serve React and FastAPI on the same origin | Feasible |
 | Production federal operation | Requires finalized boundary, identity, logging, retention, storage, assessment, and authorization evidence | Starter package required |

@@ -90,6 +90,66 @@ def create_ocr_views(panel: DecodedPanel, max_working_pixels: int = 2_073_600) -
     return [original, enhanced]
 
 
+def create_crop_ocr_view(
+    panel: DecodedPanel,
+    bounds: tuple[int, int, int, int],
+    transform_id: str,
+    *,
+    rotate_clockwise: bool = False,
+    max_side: int = 1440,
+) -> ImageView:
+    """Create a focused OCR view while preserving original-pixel evidence coordinates."""
+
+    x0, y0, x1, y1 = bounds
+    x0 = max(0, min(panel.width - 1, x0))
+    y0 = max(0, min(panel.height - 1, y0))
+    x1 = max(x0 + 1, min(panel.width, x1))
+    y1 = max(y0 + 1, min(panel.height, y1))
+    crop = np.asarray(panel.rgb[y0:y1, x0:x1], dtype=np.uint8)
+    crop_height, crop_width = crop.shape[:2]
+    scale = min(2.0, max_side / max(crop_width, crop_height))
+    width = max(1, round(crop_width * scale))
+    height = max(1, round(crop_height * scale))
+    resized = (
+        crop
+        if width == crop_width and height == crop_height
+        else cv2.resize(
+            crop,
+            (width, height),
+            interpolation=cv2.INTER_CUBIC if scale > 1 else cv2.INTER_AREA,
+        )
+    )
+    if rotate_clockwise:
+        image = np.asarray(cv2.rotate(resized, cv2.ROTATE_90_CLOCKWISE), dtype=np.uint8)
+        inverse = np.asarray(
+            [
+                [0.0, 1.0 / scale, float(x0)],
+                [-1.0 / scale, 0.0, float(y0) + (height - 1) / scale],
+            ],
+            dtype=np.float64,
+        )
+    else:
+        image = np.asarray(resized, dtype=np.uint8)
+        inverse = np.asarray(
+            [
+                [1.0 / scale, 0.0, float(x0)],
+                [0.0, 1.0 / scale, float(y0)],
+            ],
+            dtype=np.float64,
+        )
+    return ImageView(
+        panel.panel_id,
+        image,
+        "derived",
+        transform_id,
+        panel.width,
+        panel.height,
+        1.0,
+        1.0,
+        inverse,
+    )
+
+
 def _deskew_recovery(
     image: NDArray[np.uint8],
 ) -> tuple[NDArray[np.uint8], NDArray[np.float64], str] | None:

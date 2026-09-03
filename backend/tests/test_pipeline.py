@@ -21,6 +21,7 @@ from labelverify.orchestration.pipeline import (
     execute_pipeline,
     validate_result_integrity,
 )
+from PIL import Image
 
 from .helpers import evidence, jpeg_bytes, reference
 
@@ -135,6 +136,33 @@ def test_pipeline_invalid_image_is_typed_and_result_free(tmp_path: Path) -> None
     assert caught.value.field_or_panel == "panel-1"
 
 
+def test_decoded_pixel_error_gives_actual_limit_and_exact_correction(
+    tmp_path: Path,
+) -> None:
+    path = tmp_path / "large.png"
+    Image.new("RGB", (4_000, 3_001), "white").save(path)
+
+    with pytest.raises(PipelineFailure) as caught:
+        execute_analysis(AnalysisJob("request", "build", (path,)), FakeAdapter())
+
+    failure = caught.value
+    assert failure.code == "decoded_pixel_limit"
+    assert failure.field_or_panel == "panel-1"
+    assert [item["label"] for item in failure.comparisons] == [
+        "Image width",
+        "Image height",
+        "Decoded pixels",
+    ]
+    assert failure.comparisons[-1] == {
+        "label": "Decoded pixels",
+        "expected": "12,000,000 or fewer",
+        "actual": "12,004,000",
+        "passed": False,
+    }
+    assert failure.next_action is not None
+    assert "preserving its aspect ratio" in failure.next_action
+
+
 def test_cumulative_pixel_budget_is_passed_before_fourth_decode(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -160,6 +188,51 @@ def test_cumulative_pixel_budget_is_passed_before_fourth_decode(
     assert caught.value.code == "decoded_pixel_limit"
     assert caught.value.field_or_panel == "panel-4"
     assert limits_seen == [12_000_000, 12_000_000, 12_000_000]
+
+
+def test_brand_recovery_detects_brand_candidate_below_class_as_suspicious() -> None:
+    observed = pipeline_module.locate_candidates(
+        [
+            OcrLine(
+                panelId="panel-1",
+                text="PALE ALE",
+                polygon=[
+                    Point(x=100, y=300),
+                    Point(x=300, y=300),
+                    Point(x=300, y=340),
+                    Point(x=100, y=340),
+                ],
+                confidence=0.95,
+                readingOrder=0,
+                sourceView="original",
+                transformId="transform-panel-1-v1",
+            ),
+            OcrLine(
+                panelId="panel-1",
+                text="SEATTLE.WHINGION",
+                polygon=[
+                    Point(x=100, y=600),
+                    Point(x=300, y=600),
+                    Point(x=300, y=640),
+                    Point(x=100, y=640),
+                ],
+                confidence=0.95,
+                readingOrder=1,
+                sourceView="original",
+                transformId="transform-panel-1-v1",
+            ),
+        ],
+        [
+            PanelResult(
+                panelId="panel-1",
+                originalDimensions=OriginalDimensions(width=800, height=1000),
+                qualitySignals={},
+                coverageState="Sufficient",
+            )
+        ],
+    )
+
+    assert pipeline_module._brand_needs_recovery(observed) is True
 
 
 def test_integrity_rejects_out_of_bounds_evidence() -> None:

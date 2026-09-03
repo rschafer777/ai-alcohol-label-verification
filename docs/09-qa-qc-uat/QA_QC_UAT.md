@@ -36,7 +36,9 @@ QC verifies the produced artifact:
 
 ## QA and QC execution result
 
-The release candidate passed the 225-test Python suite, strict typing, Python and frontend linting, nine frontend component and contract tests, the production frontend build, Chrome and Edge primary workflows, the Chrome privacy matrix, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The 50-image diagnostic contained every expected defect with no false clearance or false deterministic rejection. Warm, cold, and 20-product sequential timing gates passed. Security boundary tests, staged-source inspection, and production dependency audits found no unresolved release blocker. Detailed measurements and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
+The release candidate passed 261 Python tests, strict typing, Python and frontend linting, 24 frontend component and contract tests, the production frontend build, browser workflows, privacy checks, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The private current-image corpus completed 70 of 70 individual API analyses and 50 of 50 server-suggested grouped-product analyses, with no group above three images. Its 3.622-second individual mean and 6.521-second maximum passed the declared targets. Security boundary tests, staged-source inspection, and production dependency audits found no unresolved release blocker. Detailed measurements, oracle coverage, and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
+
+The 70 of 70 count is a technical processing result. The current folder does not have a complete independent human field oracle, so field-level and legal-label accuracy remain part of requester UAT.
 
 ## UAT script
 
@@ -51,10 +53,13 @@ Run against the release URL in a new browser session.
 7. Upload an incomplete or unreadable image. Confirm the result requests review or another image and does not invent a pass.
 8. Record Approve, Reject, and Request more information on separate cases. Confirm machine findings remain unchanged.
 9. Select a folder with product filenames or subfolders. Confirm suggested groups contain no more than three images. Rename one product, merge or split one group, and confirm all groups.
-10. Run a batch. Confirm progress, remaining work, active time, average, ETA, isolated failures, retry, cancel, CSV, and JSON.
-11. Open History. Filter records, open an image and evidence highlight, edit a disposition, delete a record, and verify newest-first order.
-12. Navigate by keyboard at 1366 by 768 and at a narrow mobile width. Confirm focus remains visible and no required action depends on color.
-13. Upload a fourth panel, unsupported file, and corrupt image. Confirm clear, safe next actions.
+10. Include one JSON or other unsupported file in that folder. Confirm the UI reports it as skipped, shows the accepted image count, and continues without stopping the batch.
+11. Run a batch. Confirm the live processed/total counter, progress bar, current item, rate, average, ETA, remaining work, isolated failures, retry, cancel, CSV, and JSON.
+12. Open History. Filter records, open an image and evidence highlight, edit a disposition, delete a record, and verify newest-first order.
+13. Navigate by keyboard at 1366 by 768 and at a narrow mobile width. Confirm focus remains visible and no required action depends on color.
+14. Upload a fourth panel, unsupported file, and corrupt image. Confirm clear, safe next actions.
+15. Upload an image above the decoded-pixel limit. Confirm the error shows expected width, actual width, expected height, actual height, expected decoded pixels, actual decoded pixels, the offending rows in red, and an exact resize action.
+16. Exercise the Jack Daniel's, Organic Vodka, Cascade Light, Peak Farm, and Blood & Honey files. Confirm the extracted values listed in `../08-validation/VALIDATION_RESULTS.md` and inspect each evidence highlight.
 
 ## UAT acceptance record
 

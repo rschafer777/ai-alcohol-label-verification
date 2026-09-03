@@ -63,6 +63,50 @@ describe("LabelVerify application", () => {
     expect(screen.queryByAltText("front.jpg preview")).not.toBeInTheDocument();
   });
 
+  it("rejects a four-image single-product selection without silently discarding a file", async () => {
+    const user = userEvent.setup();
+    render(<App historyClient={historyClient} sampleAdapter={{ load: vi.fn() }} verificationClient={{ analyze: vi.fn(), verify: vi.fn() }} />);
+    const files = ["front", "back", "neck", "side"].map((name, index) => new File([name], `${name}.jpg`, { type: "image/jpeg", lastModified: index + 1 }));
+
+    await user.upload(screen.getByLabelText("Choose label images"), files);
+
+    expect(screen.getByRole("alert")).toHaveTextContent("Choose no more than 3 images.");
+    expect(screen.getByRole("button", { name: "Read & check label" })).toBeDisabled();
+    expect(screen.queryByAltText("front.jpg preview")).not.toBeInTheDocument();
+    expect(screen.queryByAltText("side.jpg preview")).not.toBeInTheDocument();
+  });
+
+  it("submits single-product panels in the order selected by the reviewer", async () => {
+    const user = userEvent.setup();
+    const analyze = vi.fn(async () => analysis);
+    render(<App historyClient={historyClient} sampleAdapter={{ load: vi.fn() }} verificationClient={{ analyze, verify: vi.fn() }} />);
+    const front = new File(["front"], "front.jpg", { type: "image/jpeg", lastModified: 1 });
+    const back = new File(["back"], "back.jpg", { type: "image/jpeg", lastModified: 2 });
+    await user.upload(screen.getByLabelText("Choose label images"), [front, back]);
+
+    await user.click(screen.getByRole("button", { name: "Move back.jpg earlier" }));
+    await user.click(screen.getByRole("button", { name: "Read & check label" }));
+
+    await waitFor(() => expect(analyze).toHaveBeenCalledTimes(1));
+    expect(analyze).toHaveBeenCalledWith(expect.objectContaining({ panels: [back, front] }));
+  });
+
+  it("accepts supported batch images and reports non-image files without blocking", async () => {
+    const user = userEvent.setup();
+    render(<App historyClient={historyClient} sampleAdapter={{ load: vi.fn() }} verificationClient={{ analyze: vi.fn(), verify: vi.fn() }} />);
+    const front = new File(["front"], "front.jpg", { type: "image/jpeg" });
+    const back = new File(["back"], "back.png", { type: "image/png" });
+    const oracle = new File(["{}"], "test-oracle-v1.json", { type: "application/json" });
+
+    await user.upload(screen.getByLabelText("Choose batch folder"), [front, oracle, back]);
+
+    expect(screen.getByText("0 of 2 processed")).toBeInTheDocument();
+    expect(screen.getByText(/2 supported images ready.*1 file skipped/)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Analyze images" })).toBeEnabled();
+    await user.click(screen.getByText("Skipped files"));
+    expect(screen.getByText("test-oracle-v1.json: unsupported type")).toBeInTheDocument();
+  });
+
   it("navigates to History from the tray and shows the drawer placeholder", async () => {
     const user = userEvent.setup();
     render(<App historyClient={historyClient} sampleAdapter={{ load: vi.fn() }} verificationClient={{ analyze: vi.fn(), verify: vi.fn() }} />);

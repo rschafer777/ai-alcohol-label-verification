@@ -1,4 +1,4 @@
-import { internalError, parseAnalysisResult, parsePublicError, parseVerificationResult, ResponseContractError } from "../contracts/runtime";
+import { internalError, parseAnalysisResult, parseGroupingResult, parsePublicError, parseVerificationResult, ResponseContractError } from "../contracts/runtime";
 import type {
   AddPanelRequest,
   AnalysisRequest,
@@ -167,7 +167,11 @@ export function createVerificationClient(fetcher: typeof fetch = fetch, transpor
         throw new VerificationClientError(internalError());
       }
       if (!response.ok) throw new VerificationClientError(parsePublicError(payload) ?? internalError());
-      return payload as GroupingResult;
+      try {
+        return parseGroupingResult(payload);
+      } catch (error) {
+        throw contractError(error, "grouping suggestions");
+      }
     },
   };
 }

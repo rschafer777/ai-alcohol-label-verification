@@ -22,6 +22,7 @@ from labelverify.contracts.models import (
     VerificationResult,
     VolumeUnit,
 )
+from labelverify.domain.beverage import infer_beverage_type
 from labelverify.domain.engine import ComparisonInputs, compare_all, mark_unresolved_beverage
 from labelverify.domain.normalize import parse_abv, parse_proof
 from labelverify.domain.presentation import (
@@ -35,15 +36,30 @@ from labelverify.domain.presentation import (
 from labelverify.domain.types import ObservedCandidates
 from labelverify.extraction.candidates import locate_candidates
 from labelverify.extraction.port import ExtractionPort
-from labelverify.imaging.decode import ImageLimitError, InvalidImageError, decode_panel
-from labelverify.imaging.transforms import create_ocr_views
+from labelverify.extraction.rapidocr_adapter import deduplicate_ocr_lines
+from labelverify.imaging.decode import (
+    DecodedPanel,
+    ImageLimitError,
+    InvalidImageError,
+    decode_panel,
+)
+from labelverify.imaging.transforms import ImageView, create_crop_ocr_view, create_ocr_views
 
 
 class PipelineFailure(RuntimeError):
-    def __init__(self, code: str, field_or_panel: str | None = None) -> None:
+    def __init__(
+        self,
+        code: str,
+        field_or_panel: str | None = None,
+        *,
+        comparisons: list[dict[str, object]] | None = None,
+        next_action: str | None = None,
+    ) -> None:
         super().__init__(code)
         self.code = code
         self.field_or_panel = field_or_panel
+        self.comparisons = comparisons or []
+        self.next_action = next_action
 
 
 @dataclass(frozen=True)
@@ -76,28 +92,16 @@ def execute_pipeline(job: PipelineJob, adapter: ExtractionPort) -> VerificationR
         try:
             panel = decode_panel(path, panel_id, panel_pixel_limit)
         except ImageLimitError as exc:
-            raise PipelineFailure("decoded_pixel_limit", panel_id) from exc
+            raise _decoded_pixel_failure(panel_id, exc) from exc
         except InvalidImageError as exc:
             raise PipelineFailure("invalid_image", panel_id) from exc
         cumulative_pixels += panel.pixels
         decoded.append(panel)
     decode_ms = _elapsed_ms(stage_started)
 
-    stage_started = time.perf_counter()
-    views = [view for panel in decoded for view in create_ocr_views(panel)]
-    preprocess_ms = _elapsed_ms(stage_started)
-
-    stage_started = time.perf_counter()
-    try:
-        lines = adapter.extract(views)
-    except Exception as exc:
-        raise PipelineFailure("inference_failed") from exc
-    ocr_ms = _elapsed_ms(stage_started)
-
-    stage_started = time.perf_counter()
-    public_panels = [panel.public_panel() for panel in decoded]
-    observed = locate_candidates(lines, public_panels)
-    candidates_ms = _elapsed_ms(stage_started)
+    public_panels, observed, preprocess_ms, ocr_ms, candidates_ms = _extract_observed(
+        decoded, adapter
+    )
 
     stage_started = time.perf_counter()
     checks, summary = compare_all(ComparisonInputs(reference=job.reference, observed=observed))
@@ -155,25 +159,15 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
         try:
             panel = decode_panel(path, panel_id, panel_pixel_limit)
         except ImageLimitError as exc:
-            raise PipelineFailure("decoded_pixel_limit", panel_id) from exc
+            raise _decoded_pixel_failure(panel_id, exc) from exc
         except InvalidImageError as exc:
             raise PipelineFailure("invalid_image", panel_id) from exc
         cumulative_pixels += panel.pixels
         decoded.append(panel)
     decode_ms = _elapsed_ms(stage_started)
-    stage_started = time.perf_counter()
-    views = [view for panel in decoded for view in create_ocr_views(panel)]
-    preprocess_ms = _elapsed_ms(stage_started)
-    stage_started = time.perf_counter()
-    try:
-        lines = adapter.extract(views)
-    except Exception as exc:
-        raise PipelineFailure("inference_failed") from exc
-    ocr_ms = _elapsed_ms(stage_started)
-    stage_started = time.perf_counter()
-    public_panels = [panel.public_panel() for panel in decoded]
-    observed = locate_candidates(lines, public_panels)
-    candidates_ms = _elapsed_ms(stage_started)
+    public_panels, observed, preprocess_ms, ocr_ms, candidates_ms = _extract_observed(
+        decoded, adapter
+    )
     beverage_type, confidence, reason, conflicting = _infer_beverage_type(observed)
     inference = beverage_inference(beverage_type, confidence, reason, conflicting=conflicting)
     detected = {
@@ -291,6 +285,283 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
     )
 
 
+def _extract_observed(
+    decoded: list[DecodedPanel], adapter: ExtractionPort
+) -> tuple[list[PanelResult], ObservedCandidates, float, float, float]:
+    preprocess_started = time.perf_counter()
+    views = [view for panel in decoded for view in create_ocr_views(panel)]
+    preprocess_ms = _elapsed_ms(preprocess_started)
+    ocr_started = time.perf_counter()
+    try:
+        lines = adapter.extract(views)
+    except Exception as exc:
+        raise PipelineFailure("inference_failed") from exc
+    ocr_ms = _elapsed_ms(ocr_started)
+    candidates_started = time.perf_counter()
+    public_panels = [panel.public_panel() for panel in decoded]
+    observed = locate_candidates(lines, public_panels)
+    candidates_ms = _elapsed_ms(candidates_started)
+
+    preprocess_started = time.perf_counter()
+    recovery_views = _recovery_views(decoded, observed)
+    preprocess_ms += _elapsed_ms(preprocess_started)
+    if recovery_views:
+        ocr_started = time.perf_counter()
+        try:
+            recovery_lines = adapter.extract(recovery_views)
+        except Exception as exc:
+            raise PipelineFailure("inference_failed") from exc
+        ocr_ms += _elapsed_ms(ocr_started)
+        candidates_started = time.perf_counter()
+        lines = deduplicate_ocr_lines([*lines, *recovery_lines])
+        observed = locate_candidates(lines, public_panels)
+        candidates_ms += _elapsed_ms(candidates_started)
+    return public_panels, observed, preprocess_ms, ocr_ms, candidates_ms
+
+
+def _decoded_pixel_failure(panel_id: str, exc: ImageLimitError) -> PipelineFailure:
+    return PipelineFailure(
+        "decoded_pixel_limit",
+        panel_id,
+        comparisons=[
+            {
+                "label": "Image width",
+                "expected": f"{exc.suggested_width:,} px or fewer at this aspect ratio",
+                "actual": f"{exc.width:,} px",
+                "passed": exc.width <= exc.suggested_width,
+            },
+            {
+                "label": "Image height",
+                "expected": f"{exc.suggested_height:,} px or fewer at this aspect ratio",
+                "actual": f"{exc.height:,} px",
+                "passed": exc.height <= exc.suggested_height,
+            },
+            {
+                "label": "Decoded pixels",
+                "expected": f"{exc.max_pixels:,} or fewer",
+                "actual": f"{exc.pixels:,}",
+                "passed": False,
+            },
+        ],
+        next_action=(
+            f"Resize this image to {exc.suggested_width:,} x {exc.suggested_height:,} pixels "
+            "or smaller while preserving its aspect ratio, keep it at or below 4 MB, and retry."
+        ),
+    )
+
+
+def _recovery_views(
+    decoded: list[DecodedPanel], observed: ObservedCandidates
+) -> list[ImageView]:
+    recovery: list[ImageView] = []
+    missing_content = any(
+        observed.field(field).status in {"Not found", "Unreadable"}
+        for field in ("abv", "net_contents")
+    )
+    missing_brand = _brand_needs_recovery(observed)
+    missing_producer = observed.field("producer").status in {"Not found", "Unreadable"}
+    missing_warning = observed.warning.heading is None or observed.warning.body is None
+    if not (missing_brand or missing_content or missing_producer or missing_warning):
+        return recovery
+
+    for panel in decoded:
+        panel_views: list[ImageView] = []
+        if missing_brand:
+            class_anchor = _field_anchor(observed, "class_type", panel.panel_id)
+            if class_anchor is not None:
+                left, top, right, bottom = class_anchor
+                center_x = (left + right) // 2
+                if panel.coverage_state == "Sufficient":
+                    half_width = max(
+                        round((right - left) * 0.85), round(panel.width * 0.16)
+                    )
+                    crop_top = top - round(panel.height * 0.24)
+                else:
+                    half_width = max(
+                        round((right - left) * 0.85), round(panel.width * 0.10)
+                    )
+                    crop_top = top - round(panel.height * 0.10)
+                panel_views.append(
+                    create_crop_ocr_view(
+                        panel,
+                        (
+                            center_x - half_width,
+                            crop_top,
+                            center_x + half_width,
+                            bottom + round(panel.height * 0.04),
+                        ),
+                        f"transform-{panel.panel_id}-brand-detail-v1",
+                        max_side=1800,
+                    )
+                )
+        landscape_rotated_detail = (
+            panel.width >= panel.height
+            and panel.coverage_state == "Sufficient"
+            and (missing_producer or missing_warning)
+        )
+        if missing_content and not landscape_rotated_detail:
+            anchor = _field_anchor(observed, "class_type", panel.panel_id) or _field_anchor(
+                observed, "brand", panel.panel_id
+            )
+            if anchor is not None:
+                left, top, right, bottom = anchor
+                center_x = (left + right) // 2
+                if (
+                    panel.width < panel.height
+                    and abs(center_x - panel.width / 2) >= panel.width * 0.15
+                ):
+                    crop_left = 0 if center_x < panel.width / 2 else panel.width // 2
+                    crop_right = crop_left + panel.width // 2
+                else:
+                    half_width = max((right - left) * 2, round(panel.width * 0.25))
+                    crop_left = center_x - half_width
+                    crop_right = center_x + half_width
+                panel_views.append(
+                    create_crop_ocr_view(
+                        panel,
+                        (
+                            crop_left,
+                            bottom + round(panel.height * 0.026),
+                            crop_right,
+                            bottom + round(panel.height * 0.111),
+                        ),
+                        f"transform-{panel.panel_id}-content-detail-v1",
+                    )
+                )
+        if missing_producer:
+            content_anchor = _field_anchor(
+                observed, "net_contents", panel.panel_id
+            ) or _field_anchor(observed, "abv", panel.panel_id)
+            if content_anchor is not None:
+                left, top, right, bottom = content_anchor
+                center_x = (left + right) // 2
+                half_width = max((right - left) * 2, round(panel.width * 0.14))
+                panel_views.append(
+                    create_crop_ocr_view(
+                        panel,
+                        (
+                            center_x - half_width,
+                            top - round(panel.height * 0.03),
+                            center_x + half_width,
+                            bottom + round(panel.height * 0.16),
+                        ),
+                        f"transform-{panel.panel_id}-producer-detail-v1",
+                        max_side=1400,
+                    )
+                )
+        warning_anchor = _warning_anchor(observed, panel.panel_id)
+        if missing_producer and warning_anchor is not None:
+            left, top, right, bottom = warning_anchor
+            center_x = (left + right) // 2
+            half_width = max((right - left), round(panel.width * 0.30))
+            panel_views.append(
+                create_crop_ocr_view(
+                    panel,
+                    (
+                        center_x - half_width,
+                        top - round(panel.height * 0.03),
+                        center_x + half_width,
+                        bottom + round(panel.height * 0.30),
+                    ),
+                    f"transform-{panel.panel_id}-warning-detail-v1",
+                )
+            )
+        if (
+            warning_anchor is None
+            and panel.width < panel.height
+            and (missing_producer or missing_warning)
+        ):
+            panel_views.append(
+                create_crop_ocr_view(
+                    panel,
+                    (
+                        round(panel.width * 0.12),
+                        round(panel.height * 0.48),
+                        round(panel.width * 0.88),
+                        round(panel.height * 0.92),
+                    ),
+                    f"transform-{panel.panel_id}-lower-label-detail-v1",
+                )
+            )
+        if panel.width >= panel.height and (missing_producer or missing_warning):
+            detail_top = round(panel.height * 0.12)
+            detail_bottom = round(panel.height * 0.94)
+            right_left = round(panel.width * 0.62)
+            right_bounds = (right_left, detail_top, panel.width, detail_bottom)
+            if panel.coverage_state == "Sufficient":
+                panel_views.append(
+                    create_crop_ocr_view(
+                        panel,
+                        right_bounds,
+                        f"transform-{panel.panel_id}-right-detail-rotated-v1",
+                        rotate_clockwise=True,
+                        max_side=1200,
+                    )
+                )
+            else:
+                panel_views.append(
+                    create_crop_ocr_view(
+                        panel,
+                        right_bounds,
+                        f"transform-{panel.panel_id}-right-detail-v1",
+                        max_side=1200,
+                    )
+                )
+        recovery.extend(panel_views[:3])
+    return recovery
+
+
+def _brand_needs_recovery(observed: ObservedCandidates) -> bool:
+    brand = _selected_candidate(observed.field("brand"))
+    class_type = _selected_candidate(observed.field("class_type"))
+    if brand is None:
+        return True
+    if class_type is None or brand.evidence.panel_id != class_type.evidence.panel_id:
+        return False
+    brand_bounds = _evidence_bounds(brand.evidence)
+    class_bounds = _evidence_bounds(class_type.evidence)
+    brand_height = max(1, brand_bounds[3] - brand_bounds[1])
+    class_height = max(1, class_bounds[3] - class_bounds[1])
+    vertical_gap = class_bounds[1] - brand_bounds[3]
+    return not (0 <= vertical_gap <= max(brand_height, class_height) * 6)
+
+
+def _field_anchor(
+    observed: ObservedCandidates, field: str, panel_id: str
+) -> tuple[int, int, int, int] | None:
+    candidates = [
+        candidate
+        for candidate in observed.field(field).candidates
+        if candidate.evidence.panel_id == panel_id
+    ]
+    if not candidates:
+        return None
+    evidence = max(
+        candidates,
+        key=lambda item: item.evidence.confidence_provenance.signal or 0.0,
+    ).evidence
+    return _evidence_bounds(evidence)
+
+
+def _warning_anchor(
+    observed: ObservedCandidates, panel_id: str
+) -> tuple[int, int, int, int] | None:
+    evidence = observed.warning.body_evidence or observed.warning.heading_evidence
+    if evidence is None or evidence.panel_id != panel_id:
+        return None
+    return _evidence_bounds(evidence)
+
+
+def _evidence_bounds(evidence: Evidence) -> tuple[int, int, int, int]:
+    points = evidence.polygon_original_pixels
+    return (
+        min(point.x for point in points),
+        min(point.y for point in points),
+        max(point.x for point in points),
+        max(point.y for point in points),
+    )
+
+
 def _detected_value(candidates: CandidateSet) -> DetectedValue:
     selected = _selected_candidate(candidates)
     return DetectedValue(
@@ -319,68 +590,7 @@ def _selected_text(candidates: CandidateSet) -> str | None:
 def _infer_beverage_type(
     observed: ObservedCandidates,
 ) -> tuple[BeverageType | None, float | None, str, bool]:
-    values = " ".join(item.value.casefold() for item in observed.field("class_type").candidates)
-    groups: dict[BeverageType, tuple[str, ...]] = {
-        "distilled_spirits": (
-            "bourbon",
-            "whiskey",
-            "whisky",
-            "vodka",
-            "gin",
-            "rum",
-            "tequila",
-            "brandy",
-            "liqueur",
-            "cordial",
-            "distilled spirits",
-        ),
-        "wine": (
-            "wine",
-            "merlot",
-            "cabernet",
-            "chardonnay",
-            "pinot",
-            "riesling",
-            "rose",
-            "rosé",
-            "sauvignon",
-            "zinfandel",
-            "syrah",
-            "shiraz",
-            "muscat",
-            "sangria",
-            "vermouth",
-            "champagne",
-        ),
-        "malt_beverage": (
-            "malt beverage",
-            "beer",
-            "ale",
-            "lager",
-            "stout",
-            "porter",
-            "pilsner",
-            "ipa",
-        ),
-    }
-    scores = {
-        name: sum(
-            bool(re.search(rf"(?<!\w){re.escape(term)}(?!\w)", values, re.I)) for term in terms
-        )
-        for name, terms in groups.items()
-    }
-    matched_families = [name for name, score in scores.items() if score > 0]
-    if len(matched_families) != 1:
-        return (
-            None,
-            None,
-            "The label did not provide one unambiguous beverage-type signal",
-            len(matched_families) > 1,
-        )
-    winner = matched_families[0]
-    best = scores[winner]
-    confidence = min(0.98, 0.72 + 0.08 * best)
-    return winner, confidence, f"Detected class or type terms support {winner}", False
+    return infer_beverage_type(observed)
 
 
 _NET_COMPONENTS = re.compile(
