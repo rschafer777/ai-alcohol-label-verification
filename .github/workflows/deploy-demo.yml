@@ -471,9 +471,9 @@ jobs:
                [.checkId, .state]] |
                all(.[];
                  (. == ["warning_physical_size", "Not verified"]) or
-                 (. == ["warning_wording", "Review"]))) and
+                 (. == ["warning_wording", "Review"])))) and
              ((map(.serverDurationMs) | add) / length) < 5000 and
-             (map(.serverDurationMs) | max) < 9000)' \
+             (map(.serverDurationMs) | max) < 9000' \
             "$work"/result-*.json >/dev/null
 
           curl --fail --silent --show-error --max-time 40 \
