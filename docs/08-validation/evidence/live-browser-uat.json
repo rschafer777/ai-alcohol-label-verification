@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "1.0",
+  "documentId": "LV-VP-EVIDENCE-BROWSER-001",
+  "executedAtUtc": "2026-09-03T11:35:31Z",
+  "executor": "Codex release validation",
+  "environment": "Azure demo",
+  "url": "https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/",
+  "applicationCommit": "6863ea8eaa4074ba209cc273f79db19f84917641",
+  "result": "PASS",
+  "scope": "Agent-executed live-browser UAT before requester acceptance",
+  "checks": [
+    {
+      "id": "LB-01",
+      "name": "Single-product OCR and verification",
+      "result": "PASS",
+      "evidence": "Jack Daniel's front and back completed in the deployed interface with distilled spirits at high confidence, JACK DANIEL'S, WHISKEY, 40 percent ABV, 80 PROOF, 375ML, producer and location, 24 checks, and two retained panels."
+    },
+    {
+      "id": "LB-02",
+      "name": "Original-pixel evidence",
+      "result": "PASS",
+      "evidence": "Show on label opened the field evidence card and identified the source panel, observed text, and original-pixel polygon."
+    },
+    {
+      "id": "LB-03",
+      "name": "Government warning inspection",
+      "result": "PASS",
+      "evidence": "The warning inspector displayed the prescribed text, observed crop, token comparison, and all ten warning subchecks. OCR ambiguity remained Review and physical size remained Not verified."
+    },
+    {
+      "id": "LB-04",
+      "name": "Folder admission and unsupported-file isolation",
+      "result": "PASS",
+      "evidence": "The Test_Images folder selected 71 files, admitted 70 supported images, reported one skipped JSON file, and enabled analysis without blocking the batch."
+    },
+    {
+      "id": "LB-05",
+      "name": "Live batch progress",
+      "result": "PASS",
+      "evidence": "The deployed interface showed processed and total count, progress bar, current filename, elapsed time, seconds per image, images per minute, estimated time remaining, and read-failure count throughout the run."
+    },
+    {
+      "id": "LB-06",
+      "name": "Full private-image browser read",
+      "result": "PASS",
+      "metrics": {
+        "selectedFiles": 71,
+        "acceptedImages": 70,
+        "skippedUnsupportedFiles": 1,
+        "readSuccesses": 70,
+        "readFailures": 0,
+        "analysisSeconds": 313.1,
+        "averageSecondsPerImage": 4.5
+      }
+    },
+    {
+      "id": "LB-07",
+      "name": "Product grouping confirmation",
+      "result": "PASS",
+      "metrics": {
+        "suggestedProducts": 50,
+        "readyGroups": 36,
+        "reviewGroups": 14,
+        "maximumPanelsPerGroup": 3
+      },
+      "evidence": "Run remained locked until all groups were confirmed. A focused follow-up verified merge, split, undo, rename, and reconfirm behavior."
+    },
+    {
+      "id": "LB-08",
+      "name": "Confirmed batch execution and exception queue",
+      "result": "PASS",
+      "metrics": {
+        "products": 50,
+        "images": 70,
+        "processedProducts": 50,
+        "remainingProducts": 0,
+        "failedProducts": 0,
+        "activeSeconds": 46.4,
+        "averageSecondsPerProduct": 0.9,
+        "review": 39,
+        "differences": 5,
+        "badImage": 6
+      },
+      "evidence": "The queue exposed status filters, timing, attempts, reasons, isolated records, and Open next exception."
+    },
+    {
+      "id": "LB-09",
+      "name": "Focused grouping execution",
+      "result": "PASS",
+      "metrics": {
+        "products": 2,
+        "images": 4,
+        "failedProducts": 0,
+        "activeSeconds": 2.8
+      },
+      "evidence": "Cointreau panels were manually merged and renamed, the Jack Daniel's pair was confirmed, and both products completed."
+    },
+    {
+      "id": "LB-10",
+      "name": "History and filtering",
+      "result": "PASS",
+      "evidence": "The 50-product run created 50 history records. History displayed newest first, documented FIFO eviction at 500, and filtered the current records to 15 wine results."
+    },
+    {
+      "id": "LB-11",
+      "name": "Keyboard help",
+      "result": "PASS",
+      "evidence": "The deployed dialog exposed optional shortcuts for dispositions, next exception, check movement, panel selection, warning inspection, and close or back."
+    },
+    {
+      "id": "LB-12",
+      "name": "Decoded-pixel error guidance",
+      "result": "PASS",
+      "metrics": {
+        "submittedWidthPixels": 5712,
+        "submittedHeightPixels": 4284,
+        "submittedDecodedPixels": 24470208,
+        "supportedDecodedPixels": 12000000,
+        "recommendedWidthPixels": 3999,
+        "recommendedHeightPixels": 3000,
+        "maximumFileSizeMiB": 4
+      },
+      "evidence": "The error displayed supported and submitted width, height, and decoded-pixel values side by side, then gave an exact aspect-preserving resize action and a choose-resized-image control."
+    }
+  ],
+  "limitations": [
+    "This is agent-executed live-browser evidence. The requester acceptance signature remains open.",
+    "The 70-image run proves technical execution and observable OCR output. Complete current-corpus field and legal-label accuracy still require the independent human oracle defined by the Validation Protocol.",
+    "Federal production authorization, agency identity, durable managed storage, audit integration, retention, backup, disaster recovery, COLA integration, independent assessment, and authorization to operate remain external deployment activities."
+  ]
+}

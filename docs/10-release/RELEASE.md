@@ -69,5 +69,6 @@ GitHub Actions uses OIDC to authenticate to Azure. It validates the source, buil
 | Effective compute | 4 vCPU and 8 GiB |
 | Health and metadata | HTTPS 200, live, ready, exact build ID, profile `all_beverages_demo_v2`, 24 checks, history cap 500 |
 | Public difficult-image execution | PASS, 9 of 9 fresh analyses, 24 checks each, 7.148-second mean and 8.752-second maximum |
+| Live browser pre-UAT | PASS, 70 of 70 images read, 50 of 50 products executed, zero failures, grouping and error guidance verified |
 
 The deployed demo is ready for requester UAT. Federal production use remains outside the authority of this take-home release and requires the agency controls, integrations, operating boundary, independent testing, and authorization activities identified in `../11-federal-authorization-readiness/`.

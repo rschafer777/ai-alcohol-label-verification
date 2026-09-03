@@ -6,8 +6,8 @@ Status: CLEAR for deployment and requester UAT
 
 ## Frozen candidate
 
-- Governed content manifest entries: 347
-- Manifest SHA-256: `972078427CB5B766D0026694B5B3F997BEFB5D376935D901F552F5BE114FB355`
+- Governed content manifest entries: 348
+- Manifest SHA-256: `389433043B3ACDF3376E8384D4FD81CE12050B2DB5C99DA05A3A2AA2FC26D749`
 - Manifest verification: PASS with zero staged-blob mismatches
 - Staged diff whitespace check: PASS
 
@@ -45,6 +45,7 @@ This signoff is intentionally excluded from the governed content manifest becaus
 | Python dependency audit | PASS, no known vulnerabilities |
 | Frontend production dependency audit | PASS, zero vulnerabilities |
 | Full release gate | PASS |
+| Live Azure browser pre-UAT | PASS, single label, evidence, warning, 70-image batch, grouping edits, 50-product run, history, keyboard help, and actionable pixel-limit error |
 
 Technical execution and performance gates are complete. Field-level semantic accuracy and legal compliance scoring remain subject to the complete human oracle and requester UAT, as defined in the Validation Protocol and QA/QC/UAT plan.
 
@@ -57,4 +58,7 @@ Technical execution and performance gates are complete. Field-level semantic acc
 - Effective Azure allocation: 4 vCPU and 8 GiB
 - Live readiness and metadata: PASS
 - Public difficult-image processing: PASS, 9 of 9, 7.148-second mean, 8.752-second maximum
+- Live browser full-folder read: PASS, 70 of 70, zero failures, 313.1 seconds total, 4.5-second average
+- Live browser confirmed-product run: PASS, 50 of 50, zero failures, 46.4 seconds total
+- Live browser grouping controls: PASS, merge, split, undo, rename, confirm, and three-panel maximum
 - Requester UAT entry: OPEN

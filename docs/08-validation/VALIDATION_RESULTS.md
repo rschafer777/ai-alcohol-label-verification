@@ -102,3 +102,13 @@ Nine additional fresh difficult-image analyses were then submitted through the p
 | XXL, two panels | Wine | `STRAWBERRY`, grape wine with natural flavor, 16 percent, 750 mL | 6.586 seconds |
 
 Missing or unreadable source fields remain Review or Not verified. Domestic Hawaii and Tennessee addresses correctly do not create a foreign country-of-origin value. These public checks prove technical processing and the recorded extraction results, not final legal compliance or agreement with an independent COLA application.
+
+## Live-browser UAT execution
+
+An agent-executed UAT pass was completed against the public Azure interface in a fresh browser session. The single-product workflow correctly read the two Jack Daniel's panels and exposed field-level original-pixel evidence and the full government-warning inspector. The private folder selection admitted 70 supported images, skipped the JSON oracle without blocking, and displayed live count, progress, current filename, elapsed time, processing rate, throughput, ETA, and failure count.
+
+All 70 images completed with zero read failures in 313.1 seconds, averaging 4.5 seconds per image. The interface proposed 50 products, with 36 ready groups and 14 review-required groups, while enforcing the three-panel maximum. After confirmation, all 50 products completed with zero execution failures in 46.4 seconds. The exception queue reported 39 Review, 5 Differences, and 6 Bad image outcomes rather than turning incomplete evidence into false clearance.
+
+A focused four-image follow-up verified merge, split, undo, rename, and reconfirm behavior before successfully executing two corrected product groups. The history browser retained the resulting records, displayed newest first, documented the 500-record FIFO rule, and correctly filtered to 15 wine records. The keyboard-help dialog was accessible. A 5712 by 4284 image correctly exercised the decoded-pixel error and received a side-by-side comparison plus the exact 3999 by 3000 resize target.
+
+Machine-readable details are in `evidence/live-browser-uat.json`. This closes the agent-executed browser-validation gate. Requester acceptance and the complete current-corpus human oracle remain open.

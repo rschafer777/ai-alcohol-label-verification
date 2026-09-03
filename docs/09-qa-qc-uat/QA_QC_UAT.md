@@ -41,6 +41,8 @@ The release candidate passed 262 Python tests, strict typing, Python and fronten
 
 The Azure deployment workflow also passed its exact-build, effective 4 vCPU and 8 GiB configuration, health, metadata, public verification, and latency gates. Nine additional fresh public difficult-image analyses returned HTTP 200 with 24 checks each, correct beverage families, a 7.148-second mean, and an 8.752-second maximum. The 70 of 70 count is a technical processing result. The current folder does not have a complete independent human field oracle, so field-level and legal-label accuracy remain part of requester UAT.
 
+The agent-executed live-browser UAT also passed the deployed single-label, evidence, warning, full-folder batch, manual grouping, exception-queue, history-filter, keyboard-help, and decoded-pixel error flows. The full browser batch admitted 70 images, skipped one JSON file, read 70 of 70 with zero failures at a 4.5-second average, proposed 50 groups with a three-panel maximum, and executed 50 of 50 confirmed products with zero failures. The browser evidence is `../08-validation/evidence/live-browser-uat.json`. The requester acceptance record below remains intentionally unsigned.
+
 ## UAT script
 
 Run against the release URL in a new browser session.
@@ -74,6 +76,8 @@ Run against the release URL in a new browser session.
 | Result | Engineering and deployment entry gates passed; pending requester execution |
 | Accepted by | Requester entry |
 | Findings | Requester entry |
+
+Agent-executed browser pre-UAT: PASS on 2026-09-03. This is engineering evidence and is not a substitute for requester acceptance.
 
 ## Definition of acceptance
 
