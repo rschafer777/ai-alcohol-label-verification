@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "documentId": "LV-PIXEL-GT-001",
   "purpose": "Evaluation-only field-level ground truth for the private Test_Images corpus. The runtime never reads this file; it is used by scripts/score_ground_truth.py to measure extraction and warning accuracy.",
-  "method": "Four independent visual transcription passes (one per file group) by Claude agents reading the original pixels and enlarged crops only, with no access to machine outputs or the earlier disposition oracle. Values are recorded exactly as printed; anything unreadable is null with a note.",
+  "method": "Four independent visual transcription passes, one per file group, reading the original pixels and enlarged crops only, with no access to machine outputs or the disposition oracle. Values are recorded exactly as printed; anything unreadable is null with a note.",
   "reviewedAtUtc": "2026-09-03T15:30:00Z",
   "limitations": [
     "Transcriptions are AI visual readings, not TTB reviewer determinations",

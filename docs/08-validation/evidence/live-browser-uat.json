@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "documentId": "LV-VP-EVIDENCE-BROWSER-001",
   "executedAtUtc": "2026-09-03T11:35:31Z",
-  "executor": "Codex release validation",
+  "executor": "Independent release validation",
   "environment": "Azure demo",
   "url": "https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/",
   "applicationCommit": "6863ea8eaa4074ba209cc273f79db19f84917641",

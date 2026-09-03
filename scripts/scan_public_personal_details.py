@@ -115,6 +115,14 @@ def main() -> int:
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
+    if findings:
+        for finding in findings:
+            indexes = ",".join(str(value) for value in finding["termIndexes"])
+            print(
+                f"public-detail finding: {finding['path']} "
+                f"surface={finding['surface']} termIndexes={indexes}",
+                file=sys.stderr,
+            )
     print(
         json.dumps(
             {

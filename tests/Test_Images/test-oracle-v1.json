@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "oracleMethod": "Independent original-detail visual review by three agents using visible pixel evidence only; disagreements were re-reviewed against explicit image-quality, exact-wording, contrast, and font-weight rules; classifications did not use machine outcomes",
-  "reviewerRole": "Three independent Codex visual review agents with adjudication",
+  "reviewerRole": "Three independent visual reviews with adjudication",
   "reviewProcedureId": "TEST-IMAGES-VISUAL-ORACLE-V1",
   "reviewProcedureVersion": "2.0",
   "reviewedAtUtc": "2026-09-01T15:32:07.3824097Z",
