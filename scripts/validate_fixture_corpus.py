@@ -41,6 +41,12 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def sha256_governed_text(path: Path) -> str:
+    """Hash governed text with LF line endings on every operating system."""
+    payload = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def project_path(project_root: Path, relative: str) -> Path:
     candidate = (project_root / relative).resolve()
     fixtures_root = (project_root / "fixtures").resolve()
@@ -100,7 +106,7 @@ def validate_contracts(project_root: Path) -> tuple[list[str], dict[str, Any]]:
         "checkIds": checks,
         "errorCodes": set(server_errors + browser_errors),
         "hashes": {
-            path.name: sha256(path)
+            path.name: sha256_governed_text(path)
             for path in sorted(contracts_root.glob("*-v1.json"), key=lambda item: item.name)
         },
     }

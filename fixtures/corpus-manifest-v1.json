@@ -941,7 +941,7 @@
   "contractHashes": {
     "api-contract-v1.json": "2753b5fd2a5e6f9e6c32f2d321079cac0bfdc1660fc1a245bc38036cb451dc30",
     "error-registry-v1.json": "0e78225cbee9ae166e5d5154a231cf302051ffbb4ddc9dfc1b9a2624d9993b65",
-    "regulatory-rules-v1.json": "b50dd2a682d0138ccf984d3bc886d565ae27cc9902c91773c40c65502a541fe1",
+    "regulatory-rules-v1.json": "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149",
     "selected-check-registry-v1.json": "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
   },
   "corpusId": "labelverify-fixtures-v1",

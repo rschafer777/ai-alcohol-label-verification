@@ -555,6 +555,12 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def sha256_governed_text(path: Path) -> str:
+    """Hash governed text with LF line endings on every operating system."""
+    payload = path.read_bytes().replace(b"\r\n", b"\n")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def write_json(path: Path, value: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -571,7 +577,10 @@ def contract_hashes(project_root: Path) -> dict[str, str]:
         "selected-check-registry-v1.json",
         "regulatory-rules-v1.json",
     ]
-    return {name: sha256(project_root / "contracts" / name) for name in names}
+    return {
+        name: sha256_governed_text(project_root / "contracts" / name)
+        for name in names
+    }
 
 
 def check_expectations(spec: dict[str, Any]) -> list[dict[str, Any]]:
