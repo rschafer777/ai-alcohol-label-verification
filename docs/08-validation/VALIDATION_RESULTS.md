@@ -10,10 +10,10 @@ Status: Engineering, governed-corpus, private-corpus, and performance gates pass
 | --- | --- |
 | Ruff | PASS, zero findings |
 | Strict mypy | PASS, source package |
-| Pytest | PASS, 306 tests (backend and validation suites) |
+| Pytest | PASS, 318 tests (backend and validation suites) |
 | ESLint | PASS, zero findings |
 | TypeScript | PASS, zero errors |
-| Vitest and Testing Library | PASS, 29 tests in 5 files |
+| Vitest and Testing Library | PASS, 33 tests in 6 files |
 | Vite production build | PASS, 131 modules |
 | Browser and accessibility workflows | PASS, 3 applicable tests and 3 declared browser-matrix skips |
 
@@ -25,16 +25,16 @@ The governed product corpus passed 30 of 30 cases, including 24 development case
 
 ## Private current-image API and batch validation
 
-The private UAT folder contained 75 selected files. The browser and server admission rule accepted 73 JPEG or PNG images and skipped the 2 JSON files (the disposition oracle and the pixel ground truth) without failing the selection. The production multipart API then produced:
+The private UAT folder contained 78 selected files. The browser and server admission rule accepted 76 JPEG or PNG images and skipped the 2 JSON files (the disposition oracle and the pixel ground truth) without failing the selection. The production multipart API then produced:
 
-- 73 of 73 successful individual image analyses
+- 76 of 76 successful individual image analyses
 - 24 ordered checks and valid original-pixel evidence references in every successful result
-- 45 server-suggested product groups
+- 48 server-suggested product groups
 - no group above the three-image product limit
-- 45 of 45 successful grouped-product analyses
+- 48 of 48 successful grouped-product analyses
 - no filename, product-name, or expected-value override in the runtime or validator
 
-Individual analysis averaged 3.252 seconds, with a 3.200-second median, 4.803-second p95, and 5.499-second maximum. Grouped-product reruns averaged 0.680 seconds, with a 0.509-second median, 1.310-second p95, and 2.213-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed.
+Individual analysis averaged 3.573 seconds, with a 3.693-second median, 5.186-second p95, and 6.206-second maximum. Grouped-product reruns averaged 0.716 seconds, with a 0.533-second median, 1.420-second p95, and 2.258-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed.
 
 The detailed per-file report is `PRIVATE_UAT_CORPUS_REPORT.md`, and machine-readable evidence is `evidence/private-uat-corpus-e2e.json`. Raw images are excluded from the public repository because public redistribution rights were not established.
 
@@ -64,7 +64,7 @@ is `evidence/ground-truth-scores.json`.
 
 | Measure | Result |
 | --- | --- |
-| Images processed | 73 |
+| Images processed | 76 |
 | Oracle images reported clean that the oracle rejects (false clean) | 1 |
 | Oracle images reported as a difference that the oracle passes (false reject) | 0 |
 | Oracle images with the same disposition as the oracle | 6 of 42 |
@@ -75,11 +75,11 @@ is `evidence/ground-truth-scores.json`.
 | Alcohol content exact | 65 of 65 |
 | Proof exact | 28 of 28 |
 | Net contents exact | 64 of 64 |
-| Producer exact, contained, or partial | 31 exact, 9 contained, 9 partial of 65 |
+| Producer exact, contained, or partial | 31 exact, 9 contained, 10 partial of 65 |
 | Country of origin exact or contained | 9 exact and 2 contained of 19 |
 | Warning located when present | 64 of 70 |
 | Warning wording (labels whose wording is exact) | 22 confirmed, 36 routed to review, 0 rejected in error of 63 |
-| Mean time per image | 3.316 s (median 3.223 s, p95 4.747 s, maximum 5.282 s, 3 over 5 s) |
+| Mean time per image | 3.53 s (median 3.43 s, p95 5.33 s, maximum 5.72 s, 6 over 5 s) |
 
 The one false clean is `Test_TTB_Image_0031.jpg`, whose oracle row records a bold warning body;
 visual inspection of the pixels shows the body in regular weight and the label compliant, so

@@ -139,7 +139,7 @@ npm run test:e2e
 Pop-Location
 ```
 
-The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 73 accepted images plus 2 skipped JSON files (the disposition oracle and the pixel ground truth). The production multipart API processed all 73 images and all 45 server-suggested product groups. Individual-image mean latency was 3.252 seconds on the development workstation, p95 was 4.803 seconds, and the maximum was 5.499 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
+The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 76 accepted images plus 2 skipped JSON files (the disposition oracle and the pixel ground truth). The production multipart API processed all 76 images and all 48 server-suggested product groups. Individual-image mean latency was 3.573 seconds on the development workstation, p95 was 5.186 seconds, and the maximum was 6.206 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
 
 The disposition oracle covers 42 images and the pixel-level ground truth covers 70 current filenames; `scripts/score_ground_truth.py` scores the production path against both. The current result is 0 false rejects, 1 disputed false clean (an oracle row contradicted by the pixels), 65 of 65 alcohol contents, 64 of 64 net contents, 68 of 70 beverage types, and 61 of 70 brand names read exactly or within a longer line; the full table is in `docs/08-validation/VALIDATION_RESULTS.md`. The ground truth was read by people from the pixels and is not an independent COLA record.
 

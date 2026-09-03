@@ -1,7 +1,7 @@
 # Release and Operational Handoff
 
 Document ID: LV-REL-001  
-Status: Local release gates passed; final commit-bound Azure verification and requester UAT pending
+Status: Local release gates passed; the multi-image warning read, browser photo preparation, and vocabulary changes landed after the frozen manifest of the independent review, so the manifest was regenerated and the three independent reviews must be repeated on it; final commit-bound Azure verification and requester UAT pending
 
 ## Deliverable contents
 
@@ -11,7 +11,7 @@ Status: Local release gates passed; final commit-bound Azure verification and re
 - Local OCR model acquisition manifest with cryptographic hashes
 - Synthetic sample and governed test fixtures
 - Unit, integration, browser, accessibility, performance, security, and deployment tests
-- Private 73-image production-API and server-grouping evidence
+- Private 76-image production-API and server-grouping evidence
 - Field-level pixel ground truth for 70 private images and a 42-image disposition oracle
 - Numbered documentation from discovery through UAT
 - OCI Dockerfile, Azure infrastructure template, and GitHub OIDC workflow
