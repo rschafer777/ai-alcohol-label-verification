@@ -2,7 +2,7 @@
 
 Document ID: LV-VP-RESULT-001  
 Execution date: 2026-09-03  
-Status: Engineering gates re-executed for the accuracy revision of 2026-09-03; the independent RT and immutable Azure deployment records below describe the previous candidate, and the revision awaits its own RT, requester UAT, and deployment
+Status: Engineering, governed-corpus, private-corpus, and performance gates passed; final independent RT, commit-bound Azure verification, and requester UAT pending
 
 ## Automated code and interface gates
 
@@ -10,12 +10,12 @@ Status: Engineering gates re-executed for the accuracy revision of 2026-09-03; t
 | --- | --- |
 | Ruff | PASS, zero findings |
 | Strict mypy | PASS, source package |
-| Pytest | PASS, 302 tests (backend and validation suites) |
+| Pytest | PASS, 306 tests (backend and validation suites) |
 | ESLint | PASS, zero findings |
 | TypeScript | PASS, zero errors |
-| Vitest and Testing Library | PASS, 25 tests in 5 files |
-| Vite production build | PASS, 129 modules |
-| Browser and accessibility workflows | PASS |
+| Vitest and Testing Library | PASS, 29 tests in 5 files |
+| Vite production build | PASS, 131 modules |
+| Browser and accessibility workflows | PASS, 3 applicable tests and 3 declared browser-matrix skips |
 
 One third-party Starlette TestClient deprecation warning is non-blocking and does not occur in the production Uvicorn path.
 
@@ -25,17 +25,16 @@ The governed product corpus passed 30 of 30 cases, including 24 development case
 
 ## Private current-image API and batch validation
 
-The private UAT folder contained 73 selected files. The browser and server admission rule accepted 71 JPEG or PNG images and skipped the 2 JSON files (the disposition oracle and the pixel ground truth) without failing the selection. The production multipart API then produced:
+The private UAT folder contained 75 selected files. The browser and server admission rule accepted 73 JPEG or PNG images and skipped the 2 JSON files (the disposition oracle and the pixel ground truth) without failing the selection. The production multipart API then produced:
 
-- 71 of 71 successful individual image analyses
+- 73 of 73 successful individual image analyses
 - 24 ordered checks and valid original-pixel evidence references in every successful result
 - 45 server-suggested product groups
-- 35 groups ready to confirm and 10 groups requiring confirmation review
 - no group above the three-image product limit
 - 45 of 45 successful grouped-product analyses
 - no filename, product-name, or expected-value override in the runtime or validator
 
-Individual analysis averaged 3.456 seconds, with a 3.425-second median, 4.926-second p95, and 6.434-second maximum. Grouped-product reruns averaged 0.798 seconds, with a 0.523-second median, 1.600-second p95, and 4.159-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed. The Azure Consumption replica measured about 1.5 times slower than this workstation on the previous candidate, so the deployed mean is expected near 5 seconds and the deployed p95 above it.
+Individual analysis averaged 3.252 seconds, with a 3.200-second median, 4.803-second p95, and 5.499-second maximum. Grouped-product reruns averaged 0.680 seconds, with a 0.509-second median, 1.310-second p95, and 2.213-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed.
 
 The detailed per-file report is `PRIVATE_UAT_CORPUS_REPORT.md`, and machine-readable evidence is `evidence/private-uat-corpus-e2e.json`. Raw images are excluded from the public repository because public redistribution rights were not established.
 
@@ -51,7 +50,7 @@ The current difficult-image cases were exercised through the production multipar
 | Peak Farm | Malt beverage, `PEAK FARM`, `DOUBLE PALE ALE`, 7.2 percent ABV, 16 fl oz, and producer/address read |
 | Blood & Honey | Malt beverage, `BLOOD & HONEY`, `TEXAS STYLE ALE`, and producer/location read; the supplied image does not visibly include a reliable ABV or net-contents statement |
 
-The machine-readable private-corpus evidence records a content-only cross-format equivalence test. The first analysis request after fresh application readiness returned HTTP 200 in 6.015 seconds, retained both submitted panel records, marked panel 2 with `duplicateOfPanelId: panel-1`, and kept the OCR worker at generation 1 with zero restarts. The evidence binds the result to SHA-256 hashes of the validator, pipeline, supervisor, and submitted files. Product names, filenames, and expected values do not participate in runtime selection or extraction.
+The machine-readable private-corpus evidence records a content-only cross-format equivalence test. The first analysis request after fresh application readiness returned HTTP 200 in 6.086 seconds, retained both submitted panel records, marked panel 2 with `duplicateOfPanelId: panel-1`, and kept the OCR worker at generation 1 with zero restarts. The evidence binds the result to SHA-256 hashes of the validator, pipeline, supervisor, and submitted files. Product names, filenames, and expected values do not participate in runtime selection or extraction.
 
 The processing behavior uses generic OCR layout, semantic-noise exclusion, token-boundary beverage inference, and context ranking. Production logic contains no list of these products and does not read expected values from filenames or test manifests.
 
@@ -65,7 +64,7 @@ is `evidence/ground-truth-scores.json`.
 
 | Measure | Result |
 | --- | --- |
-| Images processed | 71 |
+| Images processed | 73 |
 | Oracle images reported clean that the oracle rejects (false clean) | 1 |
 | Oracle images reported as a difference that the oracle passes (false reject) | 0 |
 | Oracle images with the same disposition as the oracle | 6 of 42 |
@@ -73,14 +72,14 @@ is `evidence/ground-truth-scores.json`.
 | Beverage type exact | 68 of 70 |
 | Brand name exact, or contained in a longer read | 53 exact and 8 contained of 70 |
 | Class or type exact, contained, or partial | 54 exact, 5 contained, 1 partial of 67 |
-| Alcohol content exact | 63 of 65 |
+| Alcohol content exact | 65 of 65 |
 | Proof exact | 28 of 28 |
-| Net contents exact | 63 of 64 |
-| Producer exact, contained, or partial | 31 exact, 9 contained, 8 partial of 65 |
+| Net contents exact | 64 of 64 |
+| Producer exact, contained, or partial | 31 exact, 9 contained, 9 partial of 65 |
 | Country of origin exact or contained | 9 exact and 2 contained of 19 |
 | Warning located when present | 64 of 70 |
 | Warning wording (labels whose wording is exact) | 22 confirmed, 36 routed to review, 0 rejected in error of 63 |
-| Mean time per image | 3.56 s (median 3.28 s, p95 5.28 s, maximum 6.40 s, 6 over 5 s) |
+| Mean time per image | 3.316 s (median 3.223 s, p95 4.747 s, maximum 5.282 s, 3 over 5 s) |
 
 The one false clean is `Test_TTB_Image_0031.jpg`, whose oracle row records a bold warning body;
 visual inspection of the pixels shows the body in regular weight and the label compliant, so
@@ -118,38 +117,16 @@ The security review covers the public HTTP boundary, uploads, image decoding, wo
 
 Python and production npm dependency audits are part of the complete release gate. No critical or high security finding may remain unresolved.
 
+The completed security diff scan `b8501684-ed2e-4d83-8fe9-5775bc5f81d7` reviewed all 34 changed source and validation surfaces in its fixed integration range. Coverage was complete, no surface was deferred, and no plausible security finding remained after upload, decode, OCR supervision, history, rendering, export, and deployment-control traces.
+
 ## Release-bound checks
 
-Three independent RT reviewers returned Clear decisions for requirements fidelity, architecture and security, and delivery and UAT readiness against the same 346-entry frozen manifest. The release manifest SHA-256 is `6C3E824D9E2B174B20A65DD650FAD23EE03B9EF1F3113BC2D70EC91BAB01AD57`.
+The frozen manifest, three independent RT decisions, final application commit, protected deployment, immutable image digest, live contract checks, and browser pre-UAT are recorded only after those gates complete. Their authoritative records are `../10-release/FINAL_RT_SIGNOFF.md`, `../10-release/DEPLOYMENT_EVIDENCE.json`, and `evidence/live-browser-uat.json`.
 
 ## Public Azure deployment validation
 
-GitHub Actions run `33746505754` validated and deployed application commit `6863ea8eaa4074ba209cc273f79db19f84917641`. The immutable image digest is `sha256:9ab566a7a604dd558c8aefbe19af75edddc4b57165054a200b6a3698b6d8fd41`. GitHub deployment `6242353833` reports success for environment `demo`. The rollback job was not invoked.
-
-The workflow read back 4 vCPU and 8 GiB before public verification. The live service returned HTTPS 200, liveness true, readiness true at worker generation 1, exact build metadata, profile `all_beverages_demo_v2`, RapidOCR 3.4.2, 24 selected checks, three panels per product, and a 500-record history cap. Its protected sample gate required three complete public results with a server-duration mean below 5 seconds and maximum below 9 seconds, and passed.
-
-Nine additional fresh difficult-image analyses were then submitted through the public production-mode demo API with the required Origin control. Every request returned HTTP 200, 24 checks, and the correct beverage family. Server duration averaged 7.148 seconds and never exceeded 8.752 seconds.
-
-| Public case | Type | Core extraction | Server duration |
-| --- | --- | --- | --- |
-| Tuscan wine | Wine | `Tuscan`, `Sangiovese`, 13.5 percent, 750 mL | 8.093 seconds |
-| Valle di Pietra wine | Wine | `VALLE DI PIETRA`, `Sangiovese`, 13.5 percent, 750 mL | 7.019 seconds |
-| Northveil Vodka | Distilled spirits | `NORTHVEIL`, `VODKA`, 40 percent, 80 proof, 750 mL | 7.623 seconds |
-| Jack Daniel's, two panels | Distilled spirits | `JACK DANIEL'S`, `WHISKEY`, 40 percent, 80 proof, 375 mL, producer/location | 5.973 seconds |
-| Organic Vodka, two panels | Distilled spirits | `OrganicVodka`, neutral spirits, 40 percent, 80 proof, 750 mL, Hawaii producer/location | 6.474 seconds |
-| Cascade Light | Wine | `CASCADE LIGHT`, `RIESLING`, 11.5 percent, 750 mL, producer/location | 8.752 seconds |
-| Peak Farm | Malt beverage | `PEAK FARM`, `DOUBLE PALE ALE`, 7.2 percent, 16 fl oz, producer/address | 6.388 seconds |
-| Blood & Honey equivalent pair | Malt beverage | `BLOOD & HONEY`, `TEXAS STYLE ALE`; both panels retained with one duplicate link | 7.428 seconds |
-| XXL, two panels | Wine | `STRAWBERRY`, grape wine with natural flavor, 16 percent, 750 mL | 6.586 seconds |
-
-Missing or unreadable source fields remain Review or Not verified. Domestic Hawaii and Tennessee addresses correctly do not create a foreign country-of-origin value. These public checks prove technical processing and the recorded extraction results, not final legal compliance or agreement with an independent COLA application.
+The protected deployment must validate the exact application commit, build and deploy an immutable image, verify the 4 vCPU and 8 GiB resource contract, pass public health and sample latency gates, and record the GitHub deployment. Values for the final candidate are populated after that workflow completes. No earlier deployment is used as evidence for this release candidate.
 
 ## Live-browser UAT execution
 
-An agent-executed UAT pass was completed against the public Azure interface in a fresh browser session. The single-product workflow correctly read the two Jack Daniel's panels and exposed field-level original-pixel evidence and the full government-warning inspector. The private folder selection admitted 70 supported images, skipped the JSON oracle without blocking, and displayed live count, progress, current filename, elapsed time, processing rate, throughput, ETA, and failure count.
-
-All 70 images completed with zero read failures in 313.1 seconds, averaging 4.5 seconds per image. The interface proposed 50 products, with 36 ready groups and 14 review-required groups, while enforcing the three-panel maximum. After confirmation, all 50 products completed with zero execution failures in 46.4 seconds. The exception queue reported 39 Review, 5 Differences, and 6 Bad image outcomes rather than turning incomplete evidence into false clearance.
-
-A focused four-image follow-up verified merge, split, undo, rename, and reconfirm behavior before successfully executing two corrected product groups. The history browser retained the resulting records, displayed newest first, documented the 500-record FIFO rule, and correctly filtered to 15 wine records. The keyboard-help dialog was accessible. A 5712 by 4284 image correctly exercised the decoded-pixel error and received a side-by-side comparison plus the exact 3999 by 3000 resize target.
-
-Machine-readable details are in `evidence/live-browser-uat.json`. This closes the agent-executed browser-validation gate. Requester acceptance and the complete current-corpus human oracle remain open.
+The engineering browser pre-UAT is run against the final commit-bound Azure deployment. It covers the single-product OCR flow, evidence locations, warning detail, beverage profiles, folder admission, live batch progress, grouping controls, exception queue, history, keyboard help, view controls, and decoded-pixel guidance. Machine-readable results are written to `evidence/live-browser-uat.json`. Requester acceptance remains open after engineering pre-UAT passes.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "measuredAtUtc": "2026-09-03T17:01:35.813167+00:00",
+  "measuredAtUtc": "2026-09-03T20:42:58.334616+00:00",
   "environment": {
     "platform": "Windows",
     "python": "3.12.10",
@@ -25,13 +25,13 @@
       "Differences detected": 6
     },
     "falseCleanCount": 0,
-    "elapsedSeconds": 8.583,
-    "totalIncludingReadinessSeconds": 10.97,
-    "averageItemMs": 425.726,
-    "maximumItemMs": 2859.386,
-    "peakParentAndWorkerRssBytes": 623964160,
-    "peakParentRssBytes": 63852544,
-    "peakWorkerRssBytes": 560304128,
+    "elapsedSeconds": 8.544,
+    "totalIncludingReadinessSeconds": 10.807,
+    "averageItemMs": 424.049,
+    "maximumItemMs": 2817.166,
+    "peakParentAndWorkerRssBytes": 624381952,
+    "peakParentRssBytes": 64053248,
+    "peakWorkerRssBytes": 560537600,
     "rssThresholdBytesExclusive": 2147483648,
     "initialSupervisorSnapshot": {
       "ready": true,
@@ -39,7 +39,7 @@
       "active_jobs": 0,
       "timeouts": 0,
       "restarts": 0,
-      "child_pid": 568
+      "child_pid": 51880
     },
     "finalSupervisorSnapshot": {
       "ready": true,
@@ -47,16 +47,16 @@
       "active_jobs": 0,
       "timeouts": 0,
       "restarts": 0,
-      "child_pid": 568
+      "child_pid": 51880
     },
     "checkpoints": {
       "10": {
-        "elapsedSeconds": 7.555,
+        "elapsedSeconds": 7.527,
         "thresholdSeconds": 50.0,
         "pass": true
       },
       "20": {
-        "elapsedSeconds": 8.516,
+        "elapsedSeconds": 8.482,
         "thresholdSeconds": 100.0,
         "pass": true
       }

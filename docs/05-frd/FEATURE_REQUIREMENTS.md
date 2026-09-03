@@ -22,7 +22,7 @@ Status: Approved build baseline
 | FR-012 | Wine rules cover numeric ABV, permitted range span and 14 percent boundary, table/light wine exception, conditional appellation, and conditional sulfite declaration | INT-006 |
 | FR-013 | Spirits rules require ABV and evaluate brand, class/type, and ABV field of vision; optional proof is compared with twice ABV and its visual distinction remains reviewable | INT-006 |
 | FR-014 | Warning applicability is based on known ABV at the 0.5 percent boundary; unknown ABV remains Review | INT-007 |
-| FR-015 | Warning text comparison normalizes only whitespace and line wrapping | INT-007 |
+| FR-015 | Warning text comparison normalizes whitespace, line wrapping, letter case, and OCR-glued clause markers for the statutory words; the separate heading-capitalization check enforces `GOVERNMENT WARNING:` in capitals, and any other punctuation difference remains Review | INT-007 |
 | FR-016 | Warning presentation reports capitalization, heading emphasis, body weight, separation, continuity, contrast, legibility, and size capability independently using the closed measurement boundaries in LV-I2R-001; intermediate evidence routes to Review | INT-007 |
 | FR-017 | Missing or unreadable evidence never becomes a deterministic label failure by itself | INT-Q-005 |
 | FR-018 | Case-only or punctuation-only brand variations route to Review | INT-008 |

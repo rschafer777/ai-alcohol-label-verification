@@ -299,7 +299,7 @@ def write_markdown_report(report: dict[str, Any], output: Path) -> None:
             f"{scope['unscoredCurrentImageCount']} current images are not covered, and "
             f"{scope['missingGovernedOracleImageCount']} oracle filenames are absent. "
             "A complete current-corpus human oracle is therefore required before claiming "
-            "70-image field-level or legal-label accuracy."
+            "field-level or legal-label accuracy for the current corpus."
         ),
         "",
         "## Per-image production API results",

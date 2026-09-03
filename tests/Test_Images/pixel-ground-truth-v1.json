@@ -5,7 +5,7 @@
   "method": "Four independent visual transcription passes, one per file group, reading the original pixels and enlarged crops only, with no access to machine outputs or the disposition oracle. Values are recorded exactly as printed; anything unreadable is null with a note.",
   "reviewedAtUtc": "2026-09-03T15:30:00Z",
   "limitations": [
-    "Transcriptions are AI visual readings, not TTB reviewer determinations",
+    "Transcriptions are independent visual readings, not TTB reviewer determinations",
     "Type weight and contrast judgments are visual and marked uncertain where the transcriber could not decide",
     "Several rendered mockups carry deliberately garbled or placeholder text; those are recorded as printed",
     "Three re-encoded duplicate pairs exist in the corpus (see notes) and are counted once in accuracy rates where stated"
@@ -780,7 +780,7 @@
       "imageSha256": "1f18394599daee0988413d936dcc0f8b636c12d07a6ab388f5c754dade7f044c"
     },
     {
-      "filename": "Gemini_Generated_Image_auilqqauilqqauil (1).jpg",
+      "filename": "London_Dry_Gin_Synthetic.jpg",
       "image_kind": "rendered_bottle_mockup",
       "panels_visible": [
         "front"
@@ -1218,7 +1218,7 @@
         "readability": "clear"
       },
       "image_quality_notes": "Two clear glass bottles side by side on a marble surface against a marble backdrop, front label left and back label right. Rendered mockup. Because the glass is clear and the liquid colourless, the veined marble background shows through the bottles, but the paper labels are opaque and unaffected. Bright even lighting, no glare over the text. The two bottles carry different capsule colours (dark green left, black right), a continuity slip in the mockup.",
-      "notes": "Same brand and class as Gemini_Generated_Image_auilqqauilqqauil (1).jpg but a completely different label design and layout, with the warning on a separate back label instead of a boxed panel on the front. Warning wording is word for word the statutory text with a blank line between clause (1) and clause (2). Producer is stated as being in London, which would make this an imported product, yet there is no country of origin statement and no importer name and address anywhere on either visible panel; imported is left null because the label never states it, though the London address strongly implies it. Net contents given as '1 Liter'.",
+      "notes": "Same brand and class as London_Dry_Gin_Synthetic.jpg but a completely different label design and layout, with the warning on a separate back label instead of a boxed panel on the front. Warning wording is word for word the statutory text with a blank line between clause (1) and clause (2). Producer is stated as being in London, which would make this an imported product, yet there is no country of origin statement and no importer name and address anywhere on either visible panel; imported is left null because the label never states it, though the London address strongly implies it. Net contents given as '1 Liter'.",
       "imageSha256": "2cfc80945da0e2fa8ec4440aa35f41c71785915d01bc48cad8446896aeccde29"
     },
     {

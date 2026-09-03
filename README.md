@@ -27,7 +27,7 @@ The application also groups and processes batches of up to 300 products and reta
 - Guides the grouping step: shows how many products are confirmed, filters to the cards that still need a decision, confirms the remaining suggestions in one step, and states why the run is locked until every product is confirmed.
 - Stores the latest 500 results and images with filtering, paging, evidence reopening, disposition editing, deletion, and FIFO eviction. An opaque HttpOnly browser-scope cookie isolates history access in the public demo.
 - Includes a complete built-in synthetic sample.
-- Ships an evaluation harness (`scripts/score_ground_truth.py`) that scores every private test image against a pixel-level field ground truth and the disposition oracle; the runtime never reads either file.
+- Ships an evaluation harness (`scripts/score_ground_truth.py`) that processes every private test image, scores the 70 images with pixel-level field ground truth, and compares the 42 images covered by the disposition oracle; the runtime never reads either file.
 
 ## Technology
 
@@ -136,9 +136,9 @@ npm run test:e2e
 Pop-Location
 ```
 
-The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 71 accepted images plus 2 skipped JSON files (the disposition oracle and the pixel ground truth). The production multipart API processed all 71 images and all 45 server-suggested product groups. Individual-image mean latency was 3.456 seconds on the development workstation, p95 was 4.926 seconds, and the maximum was 6.434 seconds; the Azure Consumption replica runs about 1.5 times slower. Raw images remain excluded from the public repository because public redistribution rights were not established.
+The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 73 accepted images plus 2 skipped JSON files (the disposition oracle and the pixel ground truth). The production multipart API processed all 73 images and all 45 server-suggested product groups. Individual-image mean latency was 3.252 seconds on the development workstation, p95 was 4.803 seconds, and the maximum was 5.499 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
 
-The disposition oracle covers 42 of the images and a pixel-level field ground truth covers every image; `scripts/score_ground_truth.py` scores the production path against both. The current result is 0 false rejects, 1 disputed false clean (an oracle row contradicted by the pixels), 63 of 65 alcohol contents, 63 of 64 net contents, 68 of 70 beverage types, and 61 of 70 brand names read exactly or within a longer line; the full table is in `docs/08-validation/VALIDATION_RESULTS.md`. The ground truth was read by people from the pixels and is not an independent COLA record.
+The disposition oracle covers 42 images and the pixel-level ground truth covers 70 current filenames; `scripts/score_ground_truth.py` scores the production path against both. The current result is 0 false rejects, 1 disputed false clean (an oracle row contradicted by the pixels), 65 of 65 alcohol contents, 64 of 64 net contents, 68 of 70 beverage types, and 61 of 70 brand names read exactly or within a longer line; the full table is in `docs/08-validation/VALIDATION_RESULTS.md`. The ground truth was read by people from the pixels and is not an independent COLA record.
 
 ## API
 
@@ -210,6 +210,8 @@ The UI label `Approve` records a reviewer's prototype disposition. It does not a
 - The private corpus is scored against a pixel ground truth and a disposition oracle by an evaluation harness the runtime never reads. Most real labels are routed to review rather than reported clean, because warning punctuation, type weight, and contrast are measured from a photograph and left to the reviewer when not decisive; requester UAT still decides field-level and legal-label acceptance.
 - Local history in the Azure demo can reset on container revision or instance lifecycle. Production needs durable storage, identity, audit, retention, backup, legal hold, and recovery controls.
 - Clearing browser storage loses access to that browser scope's retained demo history. The cookie is intentionally unreadable to JavaScript, SameSite Strict, and Secure on the Azure deployment.
+- The 500-record FIFO is global within the single-instance demo. A busy browser scope can therefore evict the oldest record created by another scope even though record access remains scope-isolated.
+- Selecting the maximum 900-image batch keeps browser `File` objects and preview URLs in memory while the workspace is open. Server requests remain bounded, but practical browser memory depends on the operator workstation and image sizes.
 - The prototype supports one active OCR job and one Azure replica. It is designed for functional evaluation, not production multi-user scale.
 - Initial dependency and model setup needs package and artifact access unless an approved offline bundle is prepared. Label processing itself has no runtime cloud inference dependency.
 

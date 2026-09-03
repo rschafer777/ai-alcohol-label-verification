@@ -1,6 +1,6 @@
 {
-  "createdAtUtc": "2026-09-03T16:59:20.555131+00:00",
-  "imageCount": 71,
+  "createdAtUtc": "2026-09-03T20:30:15.591197+00:00",
+  "imageCount": 73,
   "oracleMatchedCount": 42,
   "oracleExactAgreement": 6,
   "falseClean": 1,
@@ -32,8 +32,7 @@
       "partial": 1
     },
     "abv": {
-      "exact": 63,
-      "miss": 2,
+      "exact": 65,
       "n/a": 5
     },
     "proof": {
@@ -41,15 +40,14 @@
       "exact": 28
     },
     "net": {
-      "exact": 63,
-      "n/a": 6,
-      "miss": 1
+      "exact": 64,
+      "n/a": 6
     },
     "producer": {
-      "miss": 13,
+      "miss": 12,
       "wrong": 4,
       "exact": 31,
-      "partial": 8,
+      "partial": 9,
       "contain": 9,
       "n/a": 5
     },
@@ -72,16 +70,16 @@
     }
   },
   "timing": {
-    "meanSeconds": 3.565,
-    "medianSeconds": 3.282,
-    "p95Seconds": 5.279,
-    "maxSeconds": 6.396,
-    "overFiveSeconds": 6
+    "meanSeconds": 3.316,
+    "medianSeconds": 3.223,
+    "p95Seconds": 4.747,
+    "maxSeconds": 5.282,
+    "overFiveSeconds": 3
   },
   "rows": [
     {
       "file": "0wLM9.jpg",
-      "seconds": 4.486,
+      "seconds": 4.387,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -100,7 +98,7 @@
     },
     {
       "file": "111_Wine_Valle_Front.png",
-      "seconds": 3.764,
+      "seconds": 3.649,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -119,7 +117,7 @@
     },
     {
       "file": "222_Silverpine_Wine.png",
-      "seconds": 4.327,
+      "seconds": 4.145,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -138,7 +136,7 @@
     },
     {
       "file": "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg",
-      "seconds": 6.396,
+      "seconds": 4.718,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -146,7 +144,7 @@
         "type": "exact",
         "brand": "wrong",
         "class": "exact",
-        "abv": "miss",
+        "abv": "exact",
         "proof": "n/a",
         "net": "exact",
         "producer": "wrong",
@@ -157,7 +155,7 @@
     },
     {
       "file": "333_CascadeLight_Wine.png",
-      "seconds": 4.919,
+      "seconds": 4.702,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -176,7 +174,7 @@
     },
     {
       "file": "3urY2.jpg",
-      "seconds": 2.8,
+      "seconds": 2.459,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -195,7 +193,7 @@
     },
     {
       "file": "555_Northveil_Vodka.png",
-      "seconds": 4.799,
+      "seconds": 4.604,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -214,7 +212,7 @@
     },
     {
       "file": "888SilverPine_Wine.png",
-      "seconds": 4.573,
+      "seconds": 4.219,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -233,7 +231,7 @@
     },
     {
       "file": "8Gf8v.jpg",
-      "seconds": 4.372,
+      "seconds": 4.234,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -252,7 +250,7 @@
     },
     {
       "file": "AnMXl.jpg",
-      "seconds": 2.848,
+      "seconds": 2.67,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -271,7 +269,7 @@
     },
     {
       "file": "BMgMY.jpg",
-      "seconds": 3.822,
+      "seconds": 3.896,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
@@ -290,7 +288,7 @@
     },
     {
       "file": "bsxs4.jpg",
-      "seconds": 5.518,
+      "seconds": 5.014,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -309,7 +307,7 @@
     },
     {
       "file": "Cointeau_Front.jpg",
-      "seconds": 3.993,
+      "seconds": 3.809,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -328,7 +326,7 @@
     },
     {
       "file": "Cointreau_Back.jpg",
-      "seconds": 4.962,
+      "seconds": 4.746,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -347,7 +345,7 @@
     },
     {
       "file": "coTpD.jpg",
-      "seconds": 4.223,
+      "seconds": 4.084,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
@@ -366,7 +364,7 @@
     },
     {
       "file": "DDqT2.jpg",
-      "seconds": 5.193,
+      "seconds": 4.97,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
@@ -385,7 +383,7 @@
     },
     {
       "file": "DmK94.jpg",
-      "seconds": 4.297,
+      "seconds": 3.933,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -404,7 +402,7 @@
     },
     {
       "file": "EqTB7.jpg",
-      "seconds": 4.599,
+      "seconds": 4.229,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
@@ -422,27 +420,8 @@
       }
     },
     {
-      "file": "Gemini_Generated_Image_auilqqauilqqauil (1).jpg",
-      "seconds": 5.279,
-      "machineDisposition": "NEEDS_REVIEW",
-      "oracleDisposition": null,
-      "summary": "Review needed",
-      "fields": {
-        "type": "exact",
-        "brand": "contain",
-        "class": "exact",
-        "abv": "exact",
-        "proof": "exact",
-        "net": "exact",
-        "producer": "n/a",
-        "country": "n/a",
-        "warning_found": "miss",
-        "wording": "miss"
-      }
-    },
-    {
       "file": "GuCzO.jpg",
-      "seconds": 4.593,
+      "seconds": 3.99,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -461,7 +440,7 @@
     },
     {
       "file": "iFZ0Q.jpg",
-      "seconds": 4.267,
+      "seconds": 3.892,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -480,7 +459,7 @@
     },
     {
       "file": "J3YuX.jpg",
-      "seconds": 3.012,
+      "seconds": 2.818,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -499,7 +478,7 @@
     },
     {
       "file": "JackDaniels_Back.jpg",
-      "seconds": 4.264,
+      "seconds": 4.091,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -518,7 +497,7 @@
     },
     {
       "file": "JackDaniels_Front.jpg",
-      "seconds": 3.211,
+      "seconds": 3.088,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -537,7 +516,7 @@
     },
     {
       "file": "jsP3W.jpg",
-      "seconds": 2.745,
+      "seconds": 2.704,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -556,7 +535,7 @@
     },
     {
       "file": "leTeL.jpg",
-      "seconds": 4.401,
+      "seconds": 4.298,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -574,8 +553,27 @@
       }
     },
     {
+      "file": "London_Dry_Gin_Synthetic.jpg",
+      "seconds": 4.601,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "n/a",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "miss"
+      }
+    },
+    {
       "file": "MXteB.jpg",
-      "seconds": 2.6,
+      "seconds": 2.426,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
@@ -594,7 +592,7 @@
     },
     {
       "file": "O0P0Z.jpg",
-      "seconds": 4.438,
+      "seconds": 4.324,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -613,7 +611,7 @@
     },
     {
       "file": "PtNj9.jpg",
-      "seconds": 2.69,
+      "seconds": 2.458,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -631,8 +629,15 @@
       }
     },
     {
+      "file": "RevolverBrewing - Copy.png",
+      "seconds": 5.282,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed"
+    },
+    {
       "file": "RevolverBrewing.jpg",
-      "seconds": 5.734,
+      "seconds": 5.231,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -651,7 +656,7 @@
     },
     {
       "file": "RevolverBrewing.png",
-      "seconds": 5.349,
+      "seconds": 0.228,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -669,15 +674,22 @@
       }
     },
     {
+      "file": "RevolverBrewing_2 - Copy.jpg",
+      "seconds": 2.818,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed"
+    },
+    {
       "file": "RevolverBrewing_2.jpg",
-      "seconds": 2.914,
+      "seconds": 0.394,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed"
     },
     {
       "file": "Test_TTB_Image_0001.jpg",
-      "seconds": 3.282,
+      "seconds": 3.223,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -696,7 +708,7 @@
     },
     {
       "file": "Test_TTB_Image_0002.jpg",
-      "seconds": 2.808,
+      "seconds": 2.786,
       "machineDisposition": "DO_NOT_PASS",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Differences detected",
@@ -715,7 +727,7 @@
     },
     {
       "file": "Test_TTB_Image_0003.jpg",
-      "seconds": 4.065,
+      "seconds": 3.936,
       "machineDisposition": "DO_NOT_PASS",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Differences detected",
@@ -734,7 +746,7 @@
     },
     {
       "file": "Test_TTB_Image_0004.jpg",
-      "seconds": 3.28,
+      "seconds": 3.25,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -753,7 +765,7 @@
     },
     {
       "file": "Test_TTB_Image_0005.jpg",
-      "seconds": 3.021,
+      "seconds": 2.981,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -772,7 +784,7 @@
     },
     {
       "file": "Test_TTB_Image_0006.jpg",
-      "seconds": 2.039,
+      "seconds": 1.941,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -791,7 +803,7 @@
     },
     {
       "file": "Test_TTB_Image_0007.jpg",
-      "seconds": 2.749,
+      "seconds": 2.721,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -810,7 +822,7 @@
     },
     {
       "file": "Test_TTB_Image_0008.jpg",
-      "seconds": 2.82,
+      "seconds": 2.832,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -829,7 +841,7 @@
     },
     {
       "file": "Test_TTB_Image_0009.jpg",
-      "seconds": 2.703,
+      "seconds": 2.59,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -848,7 +860,7 @@
     },
     {
       "file": "Test_TTB_Image_0011.jpg",
-      "seconds": 0.171,
+      "seconds": 0.172,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -868,7 +880,7 @@
     },
     {
       "file": "Test_TTB_Image_0021.jpg",
-      "seconds": 3.224,
+      "seconds": 3.166,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -887,7 +899,7 @@
     },
     {
       "file": "Test_TTB_Image_0022.jpg",
-      "seconds": 2.267,
+      "seconds": 2.33,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -906,7 +918,7 @@
     },
     {
       "file": "Test_TTB_Image_0023.jpg",
-      "seconds": 3.96,
+      "seconds": 3.728,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -925,7 +937,7 @@
     },
     {
       "file": "Test_TTB_Image_0024.jpg",
-      "seconds": 2.997,
+      "seconds": 2.897,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -944,7 +956,7 @@
     },
     {
       "file": "Test_TTB_Image_0025.jpg",
-      "seconds": 2.74,
+      "seconds": 2.72,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
@@ -964,7 +976,7 @@
     },
     {
       "file": "Test_TTB_Image_0026.jpg",
-      "seconds": 1.819,
+      "seconds": 1.746,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
@@ -983,7 +995,7 @@
     },
     {
       "file": "Test_TTB_Image_0027.jpg",
-      "seconds": 3.011,
+      "seconds": 2.892,
       "machineDisposition": "PASS",
       "oracleDisposition": "PASS",
       "summary": "No differences found in checked fields",
@@ -1002,7 +1014,7 @@
     },
     {
       "file": "Test_TTB_Image_0028.jpg",
-      "seconds": 1.956,
+      "seconds": 1.887,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1021,7 +1033,7 @@
     },
     {
       "file": "Test_TTB_Image_0029.jpg",
-      "seconds": 3.908,
+      "seconds": 3.812,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1040,7 +1052,7 @@
     },
     {
       "file": "Test_TTB_Image_0030.jpg",
-      "seconds": 2.99,
+      "seconds": 3.051,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1059,7 +1071,7 @@
     },
     {
       "file": "Test_TTB_Image_0031.jpg",
-      "seconds": 2.934,
+      "seconds": 2.933,
       "machineDisposition": "PASS",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "No differences found in checked fields",
@@ -1078,7 +1090,7 @@
     },
     {
       "file": "Test_TTB_Image_0032.jpg",
-      "seconds": 2.008,
+      "seconds": 1.988,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1097,7 +1109,7 @@
     },
     {
       "file": "Test_TTB_Image_0033.jpg",
-      "seconds": 4.144,
+      "seconds": 4.007,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1116,7 +1128,7 @@
     },
     {
       "file": "Test_TTB_Image_0034.jpg",
-      "seconds": 2.89,
+      "seconds": 2.899,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1135,7 +1147,7 @@
     },
     {
       "file": "Test_TTB_Image_0035.jpg",
-      "seconds": 3.69,
+      "seconds": 3.521,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1154,7 +1166,7 @@
     },
     {
       "file": "Test_TTB_Image_0036.jpg",
-      "seconds": 4.471,
+      "seconds": 4.325,
       "machineDisposition": "PASS",
       "oracleDisposition": "PASS",
       "summary": "No differences found in checked fields",
@@ -1173,7 +1185,7 @@
     },
     {
       "file": "Test_TTB_Image_0037.jpg",
-      "seconds": 2.999,
+      "seconds": 2.92,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
@@ -1192,7 +1204,7 @@
     },
     {
       "file": "Test_TTB_Image_0038.jpg",
-      "seconds": 3.231,
+      "seconds": 3.063,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1211,7 +1223,7 @@
     },
     {
       "file": "Test_TTB_Image_0039.jpg",
-      "seconds": 4.871,
+      "seconds": 4.747,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1230,7 +1242,7 @@
     },
     {
       "file": "Test_TTB_Image_0040.jpg",
-      "seconds": 2.729,
+      "seconds": 2.678,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
@@ -1249,7 +1261,7 @@
     },
     {
       "file": "Test_TTB_Image_0041.jpg",
-      "seconds": 3.524,
+      "seconds": 3.39,
       "machineDisposition": "PASS",
       "oracleDisposition": "PASS",
       "summary": "No differences found in checked fields",
@@ -1268,7 +1280,7 @@
     },
     {
       "file": "Test_TTB_Image_0042.jpg",
-      "seconds": 3.997,
+      "seconds": 4.0,
       "machineDisposition": "DO_NOT_PASS",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Differences detected",
@@ -1287,7 +1299,7 @@
     },
     {
       "file": "uqgyU.jpg",
-      "seconds": 2.65,
+      "seconds": 2.607,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -1306,7 +1318,7 @@
     },
     {
       "file": "Vodka_Back.jpg",
-      "seconds": 4.528,
+      "seconds": 4.28,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -1317,7 +1329,7 @@
         "abv": "n/a",
         "proof": "n/a",
         "net": "n/a",
-        "producer": "miss",
+        "producer": "partial",
         "country": "n/a",
         "warning_found": "exact",
         "wording": "review"
@@ -1325,7 +1337,7 @@
     },
     {
       "file": "Vodka_Front.jpg",
-      "seconds": 2.229,
+      "seconds": 2.252,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -1333,9 +1345,9 @@
         "type": "exact",
         "brand": "miss",
         "class": "wrong",
-        "abv": "miss",
+        "abv": "exact",
         "proof": "exact",
-        "net": "miss",
+        "net": "exact",
         "producer": "n/a",
         "country": "n/a",
         "warning_found": "exact",
@@ -1344,7 +1356,7 @@
     },
     {
       "file": "wKE1J.jpg",
-      "seconds": 3.355,
+      "seconds": 3.266,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -1363,7 +1375,7 @@
     },
     {
       "file": "XjPpA.jpg",
-      "seconds": 2.443,
+      "seconds": 2.322,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -1382,7 +1394,7 @@
     },
     {
       "file": "XXL_Back.jpg",
-      "seconds": 2.204,
+      "seconds": 2.186,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
@@ -1401,7 +1413,7 @@
     },
     {
       "file": "XXL_Front.jpg",
-      "seconds": 3.006,
+      "seconds": 2.918,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",

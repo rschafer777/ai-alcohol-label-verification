@@ -2,7 +2,7 @@ import type { BeverageType, CheckGroup, CheckId, CheckResult, Evidence, PanelRes
 
 /* Display helpers for the 24-check result. Everything here renders contract values; nothing
    recomputes a state. Presentation fields (group, ruleExpectation, reasonShort, shortLabel)
-   come from the API; the fallbacks below only cover records stored before those fields existed. */
+   come from the API; the defaults keep rendering total when an optional display field is absent. */
 
 export const GROUP_ORDER: Array<{ id: CheckGroup; title: string }> = [
   { id: "identity", title: "Identity" },
@@ -12,7 +12,7 @@ export const GROUP_ORDER: Array<{ id: CheckGroup; title: string }> = [
   { id: "image", title: "Image & coverage" },
 ];
 
-const LEGACY_GROUPS: Record<CheckId, CheckGroup> = {
+const DEFAULT_GROUPS: Record<CheckId, CheckGroup> = {
   beverage_type: "identity", brand: "identity", class_type: "identity",
   abv: "content", proof: "content", net_contents: "content", producer: "content", country: "content",
   wine_appellation: "profile", wine_sulfites: "profile", spirits_field_of_vision: "profile", malt_class_designation: "profile",
@@ -21,7 +21,7 @@ const LEGACY_GROUPS: Record<CheckId, CheckGroup> = {
   warning_legibility: "warning", warning_physical_size: "warning", panel_coverage: "image", image_quality: "image",
 };
 
-const LEGACY_SHORT: Record<CheckId, string> = {
+const DEFAULT_SHORT_LABELS: Record<CheckId, string> = {
   beverage_type: "Type", brand: "Brand", class_type: "Class", abv: "Alcohol", proof: "Proof", net_contents: "Contents", producer: "Bottler", country: "Origin",
   wine_appellation: "Appellation", wine_sulfites: "Sulfites", spirits_field_of_vision: "Field of vision", malt_class_designation: "Malt class",
   warning_applicability: "Required", warning_wording: "Wording", warning_heading_uppercase: "Caps", warning_heading_emphasis: "Bold", warning_body_not_bold: "Body weight",
@@ -29,15 +29,15 @@ const LEGACY_SHORT: Record<CheckId, string> = {
   panel_coverage: "Coverage", image_quality: "Quality",
 };
 
-export const WARNING_IDS: ReadonlySet<string> = new Set(Object.entries(LEGACY_GROUPS).filter(([, group]) => group === "warning").map(([id]) => id));
+export const WARNING_IDS: ReadonlySet<string> = new Set(Object.entries(DEFAULT_GROUPS).filter(([, group]) => group === "warning").map(([id]) => id));
 export const EDITABLE_IDS: ReadonlySet<string> = new Set(["beverage_type", "brand", "class_type", "abv", "proof", "net_contents", "producer", "country", "wine_appellation"]);
 
 export function checkGroup(check: CheckResult): CheckGroup {
-  return check.group ?? LEGACY_GROUPS[check.checkId];
+  return check.group ?? DEFAULT_GROUPS[check.checkId];
 }
 
 export function shortLabel(check: CheckResult): string {
-  return check.shortLabel ?? LEGACY_SHORT[check.checkId];
+  return check.shortLabel ?? DEFAULT_SHORT_LABELS[check.checkId];
 }
 
 /** Friendly check title used in tables and cards (the contract label minus the "Warning " prefix). */

@@ -2,63 +2,45 @@
 
 Document ID: LV-RT-001  
 Review date: 2026-09-03  
-Status: CLEAR for deployment and requester UAT
+Status: CLEAR, three independent frozen-manifest reviews complete
 
 ## Frozen candidate
 
-- Governed content manifest entries: 348
-- Manifest SHA-256: `389433043B3ACDF3376E8384D4FD81CE12050B2DB5C99DA05A3A2AA2FC26D749`
-- Manifest verification: PASS with zero staged-blob mismatches
-- Staged diff whitespace check: PASS
+The reviewed release manifest contains 357 entries and has SHA-256 `9538a8656bfd416c186e0bef01964d970e879de5c2632606ae5cc947f8adade3`. The manifest validator passed, the staged diff check passed, and no unstaged file remained. This signoff file is excluded from the governed content manifest because the review decisions are recorded after the reviewed candidate is frozen.
 
-This signoff is intentionally excluded from the governed content manifest because the three final review decisions were recorded after the candidate was frozen.
+## Required independent decisions
 
-## Independent review decisions
-
-| Review | Decision | Scope |
-|---|---|---|
+| Review | Required decision | Scope |
+| --- | --- | --- |
 | Requirements and traceability RT | CLEAR | Assignment, Intake, BAIRD, I2R, FRD, BI, Development, Validation Protocol, QA/QC, UAT, Release, and README traceability |
 | Architecture and engineering RT | CLEAR | OCR isolation, beverage inference, evidence coordinates, deterministic checks, batch failure isolation, runtime contracts, persistence, security boundaries, and performance |
 | Delivery and documentation RT | CLEAR | Setup, operation, testing, trade-offs, limitations, privacy, packaging, Azure deployment, repository hygiene, and evidence consistency |
 
-## Verified release evidence
+All three reviewers returned CLEAR against the same frozen candidate. The requirements review confirmed precise 73-image processing, 70-image field-ground-truth coverage, and 42-image disposition-oracle coverage. The architecture review confirmed that current validator, pipeline, supervisor, history, contract, and evidence hashes match and found no runtime oracle access, product-specific override, false-clean, security, contract, or cross-platform blocker. The delivery review confirmed consistent metrics, repository hygiene, no prohibited dash, no credential or machine path, no public private-image file, no tracked local agent file, no root license, and no oversized file.
+
+## Verified engineering evidence
 
 | Gate | Result |
-|---|---|
-| Python tests | PASS, 262 tests |
-| Python formatting, linting, and strict typing | PASS, 39 source files type checked |
-| Frontend tests | PASS, 24 tests in 5 files |
-| Frontend lint, type check, and production build | PASS, 129 modules built |
+| --- | --- |
+| Python tests | PASS, 306 tests |
+| Python lint and strict typing | PASS |
+| Frontend tests | PASS, 29 tests in 5 files |
+| Frontend lint, type check, and production build | PASS, 131 modules built |
 | Browser workflows | PASS, 3 applicable tests with 3 declared browser-matrix skips |
 | Governed product corpus | PASS, 30 of 30 cases and 576 of 576 expected check rows |
 | Mutation controls | PASS, 8 of 8 with zero false-clean outcomes |
-| Private individual-image technical UAT | PASS, 70 of 70 API runs |
-| Private grouped-product technical UAT | PASS, 50 of 50 API runs, no group above 3 images |
-| Private grouping disposition | 36 ready to confirm, 14 need review |
-| Private individual-image timing | 3.559-second mean, 3.378-second median, 5.943-second p95, 6.449-second maximum |
-| Private grouped-product timing | 0.546-second mean, 0.469-second median, 0.892-second p95, 1.359-second maximum |
-| Equivalent cross-format panels | PASS, HTTP 200 in 6.015 seconds, 2 panels retained, 1 duplicate link, generation 1 to 1, zero restarts |
-| Warm processing timing | PASS, 151.344 ms p95 and 2,640.653 ms maximum |
-| Cold readiness through first result | PASS, 5,293.636 ms p95 and maximum |
-| Sequential 20-item batch | PASS, 9.032 seconds total and 8.955 seconds at the 20-item checkpoint |
+| Private individual-image technical UAT | PASS, 73 of 73 API runs |
+| Private grouped-product technical UAT | PASS, 45 of 45 API runs, no group above 3 images |
+| Private individual-image timing | PASS, 3.252-second mean and 5.499-second maximum |
+| Private grouped-product timing | PASS, 0.680-second mean and 2.213-second maximum |
+| Equivalent cross-format panels | PASS, HTTP 200 in 6.086 seconds, 2 panels retained, 1 duplicate link, worker generation unchanged |
+| Warm processing timing | PASS, 191.336 ms p95 and 2,618.353 ms maximum |
+| Cold readiness through first result | PASS, 4,931.981 ms p95 and maximum |
+| Sequential 20-item batch | PASS, 8.544 seconds active processing and 10.807 seconds including readiness |
 | Azure resource contract | PASS, template and readback require 4 vCPU and 8 GiB before smoke testing |
 | Python dependency audit | PASS, no known vulnerabilities |
 | Frontend production dependency audit | PASS, zero vulnerabilities |
+| Security diff scan | PASS, scan `b8501684-ed2e-4d83-8fe9-5775bc5f81d7`, 34 of 34 surfaces reviewed, no deferred surface, no finding |
 | Full release gate | PASS |
-| Live Azure browser pre-UAT | PASS, single label, evidence, warning, 70-image batch, grouping edits, 50-product run, history, keyboard help, and actionable pixel-limit error |
 
-Technical execution and performance gates are complete. Field-level semantic accuracy and legal compliance scoring remain subject to the complete human oracle and requester UAT, as defined in the Validation Protocol and QA/QC/UAT plan.
-
-## Deployment verification after signoff
-
-- Application commit: `6863ea8eaa4074ba209cc273f79db19f84917641`
-- Workflow: `https://github.com/rschafer777/ai-alcohol-label-verification/actions/runs/33746505754`, PASS
-- Image digest: `sha256:9ab566a7a604dd558c8aefbe19af75edddc4b57165054a200b6a3698b6d8fd41`
-- GitHub deployment: `6242353833`, `demo`, success
-- Effective Azure allocation: 4 vCPU and 8 GiB
-- Live readiness and metadata: PASS
-- Public difficult-image processing: PASS, 9 of 9, 7.148-second mean, 8.752-second maximum
-- Live browser full-folder read: PASS, 70 of 70, zero failures, 313.1 seconds total, 4.5-second average
-- Live browser confirmed-product run: PASS, 50 of 50, zero failures, 46.4 seconds total
-- Live browser grouping controls: PASS, merge, split, undo, rename, confirm, and three-panel maximum
-- Requester UAT entry: OPEN
+Field-level scores, oracle coverage, disputed observations, and limitations are in `../08-validation/VALIDATION_RESULTS.md`. Deployment values and engineering browser pre-UAT results are added after the exact candidate is deployed. Requester UAT remains open after engineering signoff.

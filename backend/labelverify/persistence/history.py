@@ -50,7 +50,7 @@ class HistoryRepository:
             }
             if "scope_id" not in columns:
                 connection.execute(
-                    "ALTER TABLE history ADD COLUMN scope_id TEXT NOT NULL DEFAULT 'legacy'"
+                    "ALTER TABLE history ADD COLUMN scope_id TEXT NOT NULL DEFAULT 'unscoped'"
                 )
             connection.executescript(
                 """

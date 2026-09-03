@@ -1,67 +1,23 @@
 {
   "documentId": "LV-DEPLOY-EVIDENCE-001",
-  "verifiedAt": "2026-09-03T11:04:18Z",
+  "status": "PENDING",
+  "verifiedAt": null,
   "repository": "https://github.com/rschafer777/ai-alcohol-label-verification",
   "branch": "main",
-  "applicationCommit": "6863ea8eaa4074ba209cc273f79db19f84917641",
-  "workflow": {
-    "runId": 33746505754,
-    "url": "https://github.com/rschafer777/ai-alcohol-label-verification/actions/runs/33746505754",
-    "conclusion": "success",
-    "validationJob": "success",
-    "deploymentJob": "success",
-    "rollbackJob": "skipped"
-  },
+  "applicationCommit": null,
+  "documentationCommit": null,
+  "workflow": null,
   "deployment": {
-    "id": 6242353833,
     "environment": "demo",
-    "status": "success",
-    "statusRecordedAt": "2026-09-03T10:58:46Z",
-    "url": "https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/",
-    "imageDigest": "sha256:9ab566a7a604dd558c8aefbe19af75edddc4b57165054a200b6a3698b6d8fd41",
-    "cpu": 4,
-    "memory": "8Gi"
+    "url": "https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/"
   },
-  "liveContract": {
-    "rootHttpStatus": 200,
-    "live": true,
-    "ready": true,
-    "workerGeneration": 1,
-    "profileId": "all_beverages_demo_v2",
-    "modelIdentity": "rapidocr-3.4.2",
-    "selectedCheckCount": 24,
-    "panelMaximum": 3,
-    "historyCap": 500,
-    "buildIdMatched": true
-  },
-  "workflowPublicSampleGate": {
-    "result": "pass",
-    "attempts": 3,
-    "requiredMeanMsLessThan": 5000,
-    "requiredMaximumMsLessThan": 9000
-  },
-  "freshDifficultImageGate": {
-    "result": "pass",
-    "requestCount": 9,
-    "http200Count": 9,
-    "twentyFourCheckCount": 9,
-    "meanServerDurationMs": 7148.426,
-    "maximumServerDurationMs": 8751.862,
-    "cases": [
-      {"name": "Tuscan wine", "type": "wine", "serverDurationMs": 8093.173},
-      {"name": "Valle di Pietra wine", "type": "wine", "serverDurationMs": 7018.713},
-      {"name": "Northveil Vodka", "type": "distilled_spirits", "serverDurationMs": 7622.813},
-      {"name": "Jack Daniel's", "type": "distilled_spirits", "serverDurationMs": 5973.415},
-      {"name": "Organic Vodka", "type": "distilled_spirits", "serverDurationMs": 6473.516},
-      {"name": "Cascade Light", "type": "wine", "serverDurationMs": 8751.862},
-      {"name": "Peak Farm", "type": "malt_beverage", "serverDurationMs": 6387.957},
-      {"name": "Blood & Honey equivalent pair", "type": "malt_beverage", "serverDurationMs": 7428.009, "submittedPanels": 2, "duplicateLinks": 1},
-      {"name": "XXL", "type": "wine", "serverDurationMs": 6586.372}
-    ]
-  },
+  "liveContract": null,
+  "workflowPublicSampleGate": null,
+  "freshDifficultImageGate": null,
   "readiness": {
-    "demoRequesterUat": "open",
-    "federalProduction": "requires external agency controls, integrations, testing, and authorization",
-    "humanOracle": "incomplete for the current 70-image private corpus"
+    "engineeringBrowserPreUat": "pending final commit-bound deployment",
+    "demoRequesterUat": "pending engineering deployment entry gates",
+    "federalOperationalUse": "requires agency controls, integrations, testing, and authorization",
+    "humanOracle": "field-level ground truth covers 70 of 73 current private images and is not an agency legal determination"
   }
 }

@@ -1,7 +1,7 @@
 # QA, QC, and User Acceptance
 
 Document ID: LV-QA-001  
-Status: QA and QC release gates and deployment verification passed; requester UAT pending
+Status: Local QA and QC gates passed; final commit-bound deployment verification and requester UAT pending
 
 ## Quality assurance controls
 
@@ -37,11 +37,11 @@ QC verifies the produced artifact:
 
 ## QA and QC execution result
 
-The accuracy revision passed 302 Python tests, strict typing, Python and frontend linting, 25 frontend component and contract tests, the production frontend build, browser workflows, privacy checks, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The private current-image corpus completed 71 of 71 individual API analyses and 45 of 45 server-suggested grouped-product analyses, with no group above three images. Its 3.456-second individual mean and 6.434-second maximum passed the declared targets. Against the pixel ground truth and the disposition oracle, the revision reports 0 false rejects and 1 disputed false clean over 42 oracle images (see the Validation Results accuracy section). The source-bound integration record shows a cross-format two-panel request completed in 6.015 seconds, retained both panels, recorded the duplicate linkage, and kept worker generation at 1 with zero restarts. Security boundary tests, staged-source inspection, and production dependency audits found no unresolved release blocker. Detailed measurements, oracle coverage, and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
+The release candidate passed 306 Python tests, strict typing, Python and frontend linting, 29 frontend component and contract tests, the production frontend build, browser workflows, privacy checks, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The private current-image corpus completed 73 of 73 individual API analyses and 45 of 45 server-suggested grouped-product analyses, with no group above three images. Its 3.252-second individual mean and 5.499-second maximum passed the declared targets. Against the pixel ground truth and the disposition oracle, the candidate reports 0 false rejects and 1 disputed false clean over 42 oracle images (see the Validation Results accuracy section). The source-bound integration record shows a cross-format two-panel request completed in 6.086 seconds, retained both panels, recorded the duplicate linkage, and kept worker generation at 1 with zero restarts. Security boundary tests, staged-source inspection, production dependency audits, and security scan `b8501684-ed2e-4d83-8fe9-5775bc5f81d7` found no unresolved release blocker. That scan completed all 34 changed surfaces in its fixed integration range with no deferred surface and no plausible finding. Detailed measurements, oracle coverage, and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
 
-The Azure deployment workflow also passed its exact-build, effective 4 vCPU and 8 GiB configuration, health, metadata, public verification, and latency gates. Nine additional fresh public difficult-image analyses returned HTTP 200 with 24 checks each, correct beverage families, a 7.148-second mean, and an 8.752-second maximum. The 70 of 70 count is a technical processing result. The current folder does not have a complete independent human field oracle, so field-level and legal-label accuracy remain part of requester UAT.
+The Azure deployment workflow verifies the exact build, effective 4 vCPU and 8 GiB configuration, health, metadata, public analysis, and latency gates. The 73 of 73 count is a technical processing result. The current folder has field-level ground truth for 70 images, not an agency-approved oracle for every current image, so final legal-label acceptance remains part of requester UAT.
 
-The agent-executed live-browser UAT also passed the deployed single-label, evidence, warning, full-folder batch, manual grouping, exception-queue, history-filter, keyboard-help, and decoded-pixel error flows. The full browser batch admitted 70 images, skipped one JSON file, read 70 of 70 with zero failures at a 4.5-second average, proposed 50 groups with a three-panel maximum, and executed 50 of 50 confirmed products with zero failures. The browser evidence is `../08-validation/evidence/live-browser-uat.json`. The requester acceptance record below remains intentionally unsigned.
+Commit-bound live-browser evidence is recorded in `../08-validation/evidence/live-browser-uat.json` after the protected Azure deployment succeeds. The requester acceptance record below remains intentionally unsigned.
 
 ## UAT script
 
@@ -69,15 +69,15 @@ Run against the release URL in a new browser session.
 
 | Field | Entry |
 | --- | --- |
-| Release commit | `6863ea8eaa4074ba209cc273f79db19f84917641` |
+| Release commit | Recorded after the protected deployment succeeds |
 | Public URL | `https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/` |
 | Browser and version | Requester entry |
 | Date | Requester entry |
-| Result | Engineering and deployment entry gates passed; pending requester execution |
+| Result | Local engineering gates passed; deployment verification and requester execution pending |
 | Accepted by | Requester entry |
 | Findings | Requester entry |
 
-Agent-executed browser pre-UAT: PASS on 2026-09-03. This is engineering evidence and is not a substitute for requester acceptance.
+The engineering browser pre-UAT is recorded after final deployment. It is not a substitute for requester acceptance.
 
 ## Definition of acceptance
 

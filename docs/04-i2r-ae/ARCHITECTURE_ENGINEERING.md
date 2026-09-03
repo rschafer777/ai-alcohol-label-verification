@@ -43,8 +43,8 @@ The solution is a modular monolith. This keeps local setup and deployment small 
 
 ### Single product
 
-1. The user selects 1 to 3 images.
-2. The browser shows filenames and local previews. No label values are requested.
+1. The user selects 1 to 3 images. Label-first analysis is the default and requires no typing.
+2. The browser shows filenames and local previews. An optional application-values drawer accepts a trusted COLA transcription when the reviewer wants label-to-application comparison; blank fields continue to use the label read.
 3. The API validates multipart size, file count, signatures, and request deadlines.
 4. The worker decodes each panel, identifies strictly equivalent full-frame duplicates, and creates bounded recovery views for canonical panels.
 5. OCR produces text lines, engine signals, and view coordinates. Every submitted panel remains in the result, and an equivalent duplicate names its canonical panel in quality signals.
@@ -59,7 +59,7 @@ The solution is a modular monolith. This keeps local setup and deployment small 
 ### Batch
 
 1. The user selects a directory containing up to 900 supported images.
-2. The browser accepts supported image signatures and sizes, skips unrelated or oversized files individually, and displays accepted and skipped counts with reasons.
+2. The browser screens supported filename extensions, MIME declarations, and file sizes, skips unrelated or oversized files individually, and displays accepted and skipped counts with reasons. The API remains authoritative for file-signature and decoded-image validation.
 3. The browser submits each accepted image for a non-persistent label read. Live progress begins at 0 of N and reports count, current image, rate, mean, and ETA.
 4. The server combines explicit relative-directory cues, normalized filename cues, and OCR-derived brand, class, and beverage family to suggest product groups.
 5. Each suggested product contains at most three images. Ambiguous images remain visible and require confirmation.
@@ -82,6 +82,8 @@ The OCR worker keeps a bounded in-memory cache of at most 2,048 exact decoded vi
 7. Every record carries an opaque browser scope. All listing, detail, image, disposition, and deletion queries require that scope.
 8. The API issues the scope as an HttpOnly, SameSite Strict cookie, adding Secure in production. The identifier is high entropy and is not available to application JavaScript.
 9. Insertion above 500 records evicts the oldest record and images in FIFO order.
+
+The 500-record ceiling is global within the demo repository, while access to each record remains browser-scope filtered. This is an accepted demonstration retention trade-off, not the production records design.
 
 ## Beverage classification
 
@@ -153,6 +155,8 @@ Recommended UAT input is 2400 by 3200 pixels in portrait, or 3200 by 2400 in lan
 ## Storage and deployment boundaries
 
 Local SQLite and file persistence are correct for a single-instance demonstration and preserve the 500-record workflow. Azure Container Apps may replace local instance storage during revision changes or scale-to-zero lifecycle events. A production boundary must select durable managed storage, identity, audit logging, encryption-key policy, records retention, backup, legal hold, and recovery objectives. Those decisions do not change the result contract.
+
+The browser retains the selected `File` objects and preview URLs while a batch workspace is open. The API bounds every request and product, but the maximum 900-image selection can consume significant operator-workstation memory. Production rollout must validate browser memory on the agency workstation baseline and may add staged selection or virtualized preview loading without changing the server contract.
 
 ## External interfaces
 
