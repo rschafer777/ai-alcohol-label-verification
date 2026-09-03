@@ -2,45 +2,49 @@
 
 Document ID: LV-RT-001  
 Review date: 2026-09-03  
-Status: CLEAR, three independent frozen-manifest reviews complete
+Status: CLEAR; three independent frozen-candidate reviews complete
 
 ## Frozen candidate
 
-The reviewed release manifest contains 357 entries and has SHA-256 `9538a8656bfd416c186e0bef01964d970e879de5c2632606ae5cc947f8adade3`. The manifest validator passed, the staged diff check passed, and no unstaged file remained. This signoff file is excluded from the governed content manifest because the review decisions are recorded after the reviewed candidate is frozen.
+The candidate is documentation commit `4e7844de1e1f3021545db78126460e6103de60cb`. Its release manifest contains 359 entries and has SHA-256 `a2f549e81d47dba6e0e396d954bbe8aa6e0626a6cc3b9c13b3d071cf38f88ac4`. The manifest validator passed, the diff check passed, and the working tree was clean when the candidate was frozen. This signoff file is excluded from the governed content manifest because review decisions are recorded after the candidate is frozen.
+
+The deployed application commit is `4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961`. Deployment evidence binds it to GitHub Actions run `33815343738`, attempt 2, and immutable image digest `sha256:c439dea1a608b4e1ba08d364eabee979d20a388c3a44fae2187c9da8dc208d9c`.
 
 ## Required independent decisions
 
-| Review | Required decision | Scope |
+| Review | Decision | Scope |
 | --- | --- | --- |
 | Requirements and traceability RT | CLEAR | Assignment, Intake, BAIRD, I2R, FRD, BI, Development, Validation Protocol, QA/QC, UAT, Release, and README traceability |
 | Architecture and engineering RT | CLEAR | OCR isolation, beverage inference, evidence coordinates, deterministic checks, batch failure isolation, runtime contracts, persistence, security boundaries, and performance |
 | Delivery and documentation RT | CLEAR | Setup, operation, testing, trade-offs, limitations, privacy, packaging, Azure deployment, repository hygiene, and evidence consistency |
 
-All three reviewers returned CLEAR against the same frozen candidate. The requirements review confirmed precise 73-image processing, 70-image field-ground-truth coverage, and 42-image disposition-oracle coverage. The architecture review confirmed that current validator, pipeline, supervisor, history, contract, and evidence hashes match and found no runtime oracle access, product-specific override, false-clean, security, contract, or cross-platform blocker. The delivery review confirmed consistent metrics, repository hygiene, no prohibited dash, no credential or machine path, no public private-image file, no tracked local agent file, no root license, and no oversized file.
+All three reviewers returned CLEAR against the same frozen candidate. They confirmed the 76-image technical-processing scope, 70-image field-ground-truth scope, 42-image disposition-oracle scope, current test and timing evidence, protected Azure deployment, engineering browser pre-UAT, ordered SDLC traceability, and repository hygiene. No requirements-drift, architecture, engineering, security, performance, delivery, or documentation blocker remained.
 
-## Verified engineering evidence
+## Frozen engineering evidence
 
 | Gate | Result |
 | --- | --- |
-| Python tests | PASS, 306 tests |
+| Python tests | PASS, 318 tests |
 | Python lint and strict typing | PASS |
-| Frontend tests | PASS, 29 tests in 5 files |
+| Frontend tests | PASS, 33 tests in 6 files |
 | Frontend lint, type check, and production build | PASS, 131 modules built |
 | Browser workflows | PASS, 3 applicable tests with 3 declared browser-matrix skips |
 | Governed product corpus | PASS, 30 of 30 cases and 576 of 576 expected check rows |
 | Mutation controls | PASS, 8 of 8 with zero false-clean outcomes |
-| Private individual-image technical UAT | PASS, 73 of 73 API runs |
-| Private grouped-product technical UAT | PASS, 45 of 45 API runs, no group above 3 images |
-| Private individual-image timing | PASS, 3.252-second mean and 5.499-second maximum |
-| Private grouped-product timing | PASS, 0.680-second mean and 2.213-second maximum |
+| Private individual-image technical UAT | PASS, 76 of 76 API runs |
+| Private grouped-product technical UAT | PASS, 48 of 48 API runs, no group above 3 images |
+| Private individual-image timing | PASS, 3.573-second mean and 6.206-second maximum |
+| Private grouped-product timing | PASS, 0.716-second mean and 2.258-second maximum |
 | Equivalent cross-format panels | PASS, HTTP 200 in 6.086 seconds, 2 panels retained, 1 duplicate link, worker generation unchanged |
-| Warm processing timing | PASS, 191.336 ms p95 and 2,618.353 ms maximum |
-| Cold readiness through first result | PASS, 4,931.981 ms p95 and maximum |
-| Sequential 20-item batch | PASS, 8.544 seconds active processing and 10.807 seconds including readiness |
-| Azure resource contract | PASS, template and readback require 4 vCPU and 8 GiB before smoke testing |
+| Warm processing timing | PASS, 182.147 ms p95 and 2,601.487 ms maximum |
+| Cold readiness through first result | PASS, 5,071.931 ms p95 and maximum |
+| Sequential 20-item batch | PASS, 9.316 seconds active processing and 11.691 seconds including readiness |
+| Azure resource contract | PASS, 4 vCPU and 8 GiB verified by workflow readback |
+| Protected Azure deployment | PASS, commit, digest, health, metadata, HSTS, and public analysis verified |
+| Engineering browser pre-UAT | PASS, single, evidence, warning, views, history, batch progress, grouping, and help inspected live |
 | Python dependency audit | PASS, no known vulnerabilities |
 | Frontend production dependency audit | PASS, zero vulnerabilities |
 | Security diff scan | PASS, scan `b8501684-ed2e-4d83-8fe9-5775bc5f81d7`, 34 of 34 surfaces reviewed, no deferred surface, no finding |
 | Full release gate | PASS |
 
-Field-level scores, oracle coverage, disputed observations, and limitations are in `../08-validation/VALIDATION_RESULTS.md`. Deployment values and engineering browser pre-UAT results are added after the exact candidate is deployed. Requester UAT remains open after engineering signoff.
+Field-level scores, oracle coverage, disputed observations, and limitations are in `../08-validation/VALIDATION_RESULTS.md`. Deployment values are in `DEPLOYMENT_EVIDENCE.json`. Requester UAT remains open.
