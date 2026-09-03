@@ -352,8 +352,8 @@ jobs:
               (.properties.template.containers | length) == 1 and
               .properties.template.containers[0].name == "labelverify" and
               .properties.template.containers[0].image == $image and
-              .properties.template.containers[0].resources.cpu == 2 and
-              .properties.template.containers[0].resources.memory == "4Gi" and
+              .properties.template.containers[0].resources.cpu == 4 and
+              .properties.template.containers[0].resources.memory == "8Gi" and
               (any(.properties.template.containers[0].env[];
                 .name == "LABELVERIFY_RUNTIME_MODE" and .value == "production")) and
               (any(.properties.template.containers[0].env[];

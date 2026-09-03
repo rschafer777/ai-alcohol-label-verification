@@ -19,3 +19,4 @@ Document ID: LV-TRACE-001
 | INT-Q-005 | Fail-safe uncertainty | FR-017 | aggregation and warning rules | Negative, bad-image, ambiguity, and mutation tests |
 | INT-Q-006 | Security | FR-040 to FR-041, FR-046 | boundary, supervisor, history repository, container, deployment | Security tests, isolation tests, dependency audit, security scan |
 | INT-Q-007 | Traceability | FR-044 | metadata and documentation set | Contract tests, release review, RT gate |
+| INT-Q-008 | Deployed performance parity | FR-049 | 4-vCPU and 8-GiB ARM template plus effective-configuration readback | Deployment contract tests and live uncached image timing |

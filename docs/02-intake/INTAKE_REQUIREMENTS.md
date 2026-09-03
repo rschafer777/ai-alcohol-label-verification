@@ -44,6 +44,7 @@ Primary users are TTB label compliance agents with widely varying technical comf
 | INT-Q-005 | Safety | Unreadable or incomplete evidence cannot become a deterministic mismatch solely due to image quality and cannot be invented as a pass |
 | INT-Q-006 | Security | Bounded multipart and JSON input, signature validation, decode limits, Host and Origin controls, browser-scoped history access, per-client and global rate controls, supervised worker timeout, non-root container, content-safe errors, and no content logging |
 | INT-Q-007 | Traceability | Every feature traces to intake, design, code, and verification evidence |
+| INT-Q-008 | Deployed performance parity | The Azure demo allocates the maximum 4 vCPU and 8 GiB available to its Consumption workload profile so uncached local OCR can remain within the declared latency bands |
 
 ## Regulatory rule selection
 

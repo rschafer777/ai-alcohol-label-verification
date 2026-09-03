@@ -37,7 +37,7 @@ The solution is a modular monolith. This keeps local setup and deployment small 
 | Rules | Pure deterministic Python modules plus versioned JSON registries | Explainable results and testable regulatory decisions |
 | Persistence | SQLite and controlled image directory | Simple FIFO history with transactional metadata and reopenable evidence |
 | Packaging | Multi-stage OCI container, non-root runtime | Repeatable local and Azure deployment |
-| Azure | Azure Container Apps and private Azure Container Registry | Existing Azure context, HTTPS ingress, identity-based image pull, bounded scale |
+| Azure | Azure Container Apps and private Azure Container Registry | Existing Azure context, HTTPS ingress, identity-based image pull, bounded scale, 4-vCPU and 8-GiB OCR allocation |
 
 ## Primary flows
 
@@ -144,6 +144,7 @@ Recommended UAT input is 2400 by 3200 pixels in portrait, or 3200 by 2400 in lan
 - Bound raw multipart input at 13 MiB plus the defined envelope and reject malformed or mismatched lengths.
 - Enforce Host and Origin controls, browser-scoped history authorization, bounded multipart and JSON bodies, per-client and global start rates, and one governed OCR worker.
 - Use upload, worker safety, server, and browser deadlines of 20, 15, 30, and 35 seconds. The 15-second worker boundary is a fault-containment limit, not the performance goal. Typical and difficult-image quality targets remain about 5 seconds and no more than 9 seconds.
+- Allocate 4 vCPU and 8 GiB to the Azure Consumption workload profile so the local ONNX inference path has sufficient parallel CPU for the same latency bands used by local validation.
 - Run expensive processing in a killable child and clean temporary files after success, error, cancellation, disconnect, and shutdown.
 - Do not log label content, notes, or OCR text.
 - Serve UI and API from one origin with security headers.

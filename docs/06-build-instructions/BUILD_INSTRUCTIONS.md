@@ -57,9 +57,10 @@ One contributor may hold multiple roles for this take-home project, but evidence
 7. The governed subset is evaluated against its independent visual oracle without publishing raw images. New images without oracle entries remain technical UAT coverage until independently classified.
 8. Performance tests report cold, warm, difficult-image, individual-corpus, grouped-product, and batch behavior without hiding outliers.
 9. Multi-panel performance includes equivalent cross-format inputs and proves completion within the worker limit without a worker-generation restart.
-10. Security validation covers source, dependencies, upload and JSON abuse, history isolation, CSV neutralization, rate fairness, timeouts, cleanup, identity, headers, container, and deployment.
-11. Three RT reviews run only after the code and documents are frozen by manifest.
-12. Requester UAT begins only after automated and independent gates are complete.
+10. The governed Azure template allocates 4 vCPU and 8 GiB, and deployment verification rejects any effective configuration that differs.
+11. Security validation covers source, dependencies, upload and JSON abuse, history isolation, CSV neutralization, rate fairness, timeouts, cleanup, identity, headers, container, and deployment.
+12. Three RT reviews run only after the code and documents are frozen by manifest.
+13. Requester UAT begins only after automated and independent gates are complete.
 
 ## Definition of Done
 

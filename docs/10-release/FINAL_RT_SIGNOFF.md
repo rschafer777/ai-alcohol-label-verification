@@ -7,7 +7,7 @@ Status: CLEAR for deployment and requester UAT
 ## Frozen candidate
 
 - Governed content manifest entries: 346
-- Manifest SHA-256: `B38C506DAFFDFA6EFA60E981CAD2C9D7EAADB6ABA69A1DBD414B09428915BB3F`
+- Manifest SHA-256: `6C3E824D9E2B174B20A65DD650FAD23EE03B9EF1F3113BC2D70EC91BAB01AD57`
 - Manifest verification: PASS with zero staged-blob mismatches
 - Staged diff whitespace check: PASS
 
@@ -41,6 +41,7 @@ This signoff is intentionally excluded from the governed content manifest becaus
 | Warm processing timing | PASS, 151.344 ms p95 and 2,640.653 ms maximum |
 | Cold readiness through first result | PASS, 5,293.636 ms p95 and maximum |
 | Sequential 20-item batch | PASS, 9.032 seconds total and 8.955 seconds at the 20-item checkpoint |
+| Azure resource contract | PASS, template and readback require 4 vCPU and 8 GiB before smoke testing |
 | Python dependency audit | PASS, no known vulnerabilities |
 | Frontend production dependency audit | PASS, zero vulnerabilities |
 | Full release gate | PASS |

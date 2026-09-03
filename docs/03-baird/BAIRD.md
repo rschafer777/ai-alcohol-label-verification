@@ -35,6 +35,7 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 | Expected file naming and folder discipline | Affects automatic grouping accuracy | Use conservative cues, never exceed 3 images per suggested group, and require explicit confirmation |
 | Non-image files in selected folders | A folder can contain manifests or unrelated files | Skip unsupported entries individually, retain supported images, and report every skipped file and reason |
 | Duplicate panels in different image encodings | Repeating OCR adds latency without adding evidence | Detect only near-identical full-frame images using strict aspect, correlation, and error thresholds; retain each upload record and identify its canonical panel |
+| Cloud CPU allocation for local OCR | Undersized CPU changes uncached image latency even when code and models are identical | Use the 4-vCPU and 8-GiB maximum of the selected Azure Consumption workload profile and verify the effective allocation after deployment |
 
 ## Derived requirements
 
@@ -53,6 +54,7 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 13. Make limit failures actionable by returning submitted values, supported limits, and a precise next action.
 14. Keep the worker safety timeout separate from the latency quality target so a recoverable multi-panel product is not killed at the target boundary.
 15. Avoid repeat OCR for strictly equivalent panels while retaining submitted-panel accountability and never collapsing distinct front, back, neck, or side evidence.
+16. Bind deployed performance to a governed compute allocation and reject configuration drift before public verification.
 
 ## Feasibility assessment
 

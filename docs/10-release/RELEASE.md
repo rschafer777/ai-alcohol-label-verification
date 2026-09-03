@@ -44,6 +44,7 @@ GitHub Actions uses OIDC to authenticate to Azure. It validates the source, buil
 - Build and contract metadata: `/api/v1/meta`
 - Runtime inference: local RapidOCR and ONNX Runtime CPU, with no external inference endpoint
 - Scale: zero to one replica for the demo
+- Compute: 4 vCPU and 8 GiB on the Consumption workload profile
 - OCR concurrency: one governed job
 - OCR reuse: bounded exact-pixel result cache plus strict equivalent-panel canonicalization for redundant cross-format uploads
 - Local history: maximum 500 records with FIFO eviction and opaque originating-browser access scope

@@ -55,6 +55,8 @@ Environment settings control runtime mode, allowed host, client identity source,
 
 The request contract uses a 15-second worker safety timeout inside the 30-second server boundary. Performance acceptance remains separate: about 5 seconds for typical work and no more than 9 seconds for difficult recoverable images.
 
+The governed Azure Consumption deployment assigns 4 vCPU and 8 GiB to the single application replica. The workflow reads the effective resource configuration back from Azure and blocks the release if the allocation, immutable digest, or other deployment controls differ from the template.
+
 ## Implementation completion criteria
 
 Implementation is complete when code compiles, typed contracts agree, all component and integration tests pass, frontend production assets build, and the validation protocol has no open release-blocking defect. Requester acceptance remains the UAT gate.

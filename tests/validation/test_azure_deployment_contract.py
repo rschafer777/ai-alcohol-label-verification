@@ -56,7 +56,7 @@ def test_deployment_template_has_the_governed_runtime_shape() -> None:
     assert len(runtime["containers"]) == 1
     container = runtime["containers"][0]
     assert container["name"] == "labelverify"
-    assert container["resources"] == {"cpu": 2.0, "memory": "4Gi"}
+    assert container["resources"] == {"cpu": 4.0, "memory": "8Gi"}
     assert {item["name"]: item["value"] for item in container["env"]}[
         "LABELVERIFY_CLIENT_IDENTITY_SOURCE"
     ] == "azure_container_apps"
@@ -148,8 +148,8 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
     assert deployment_gate in workflow[deploy_start:deploy_end]
     assert 'docker logs "$container_name"' in workflow
     assert ".properties.configuration.ingress.fqdn == $host" in workflow
-    assert ".properties.template.containers[0].resources.cpu == 2" in workflow
-    assert '.properties.template.containers[0].resources.memory == "4Gi"' in workflow
+    assert ".properties.template.containers[0].resources.cpu == 4" in workflow
+    assert '.properties.template.containers[0].resources.memory == "8Gi"' in workflow
     assert '.properties.configuration.identitySettings[0].lifecycle == "None"' in workflow
     assert ".identity.userAssignedIdentities | keys | map(ascii_downcase)" in workflow
     assert '.httpGet.path == "/health/ready"' in workflow
