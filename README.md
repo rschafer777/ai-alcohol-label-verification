@@ -23,6 +23,7 @@ The application also groups and processes batches of up to 300 products and reta
 - Attempts bounded orientation, deskew, perspective, and contrast recovery without inventing obscured text.
 - Suggests product groups for folders containing up to 900 images, requires reviewer confirmation, and processes up to 300 products.
 - Reports batch progress, remaining work, active time, average, ETA, attempts, exceptions, retry, cancel, CSV, and JSON.
+- Guides the grouping step: shows how many products are confirmed, filters to the cards that still need a decision, confirms the remaining suggestions in one step, and states why the run is locked until every product is confirmed.
 - Stores the latest 500 results and images with filtering, paging, evidence reopening, disposition editing, deletion, and FIFO eviction. An opaque HttpOnly browser-scope cookie isolates history access in the public demo.
 - Includes a complete built-in synthetic sample.
 - Ships an evaluation harness (`scripts/score_ground_truth.py`) that scores every private test image against a pixel-level field ground truth and the disposition oracle; the runtime never reads either file.

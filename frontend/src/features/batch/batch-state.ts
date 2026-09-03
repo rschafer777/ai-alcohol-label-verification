@@ -120,6 +120,12 @@ export function confirmAllReady(groups: BatchGroup[]): BatchGroup[] {
   return groups.map((group) => group.status === "ready" ? { ...group, confirmed: true } : group);
 }
 
+/** Accept the suggested grouping of every unconfirmed product except conflicts, which need a
+    person to split them or confirm them anyway on the card, and over-full groups. */
+export function confirmAllPending(groups: BatchGroup[]): BatchGroup[] {
+  return groups.map((group) => !group.confirmed && group.status !== "conflict" && group.imageIds.length <= 3 ? { ...group, confirmed: true, status: "ready" } : group);
+}
+
 export function renameGroup(groups: BatchGroup[], id: string, name: string): BatchGroup[] {
   return groups.map((group) => group.id === id ? { ...group, name } : group);
 }

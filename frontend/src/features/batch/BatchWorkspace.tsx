@@ -11,7 +11,7 @@ import type { Disposition } from "../../components/status";
 import type { GroupingImage, PublicError, VerificationClient } from "../../contracts/types";
 import { slotTitle } from "../verification/review-images";
 import { ReviewWorkspace } from "../verification/ReviewWorkspace";
-import { batchProgress, confirmAllReady, confirmGroup, groupFromSuggestion, isException, mergeGroups, moveImage, renameGroup, splitGroup, summaryOf, type BatchGroup, type BatchImage, type BatchStage } from "./batch-state";
+import { batchProgress, confirmAllPending, confirmAllReady, confirmGroup, groupFromSuggestion, isException, mergeGroups, moveImage, renameGroup, splitGroup, summaryOf, type BatchGroup, type BatchImage, type BatchStage } from "./batch-state";
 import { BatchRail } from "./BatchRail";
 import { BatchRun } from "./BatchRun";
 import { canonicalPath, spreadsheetSafeCsvCell, suggestProductGroups } from "./grouping";
@@ -300,6 +300,7 @@ export function BatchWorkspace({ initialFiles, batchName, verificationClient, hi
         images={imageMap}
         onConfirm={(id) => setGroups((current) => confirmGroup(current, id))}
         onConfirmAll={() => setGroups((current) => confirmAllReady(current))}
+        onConfirmPending={() => setGroups((current) => confirmAllPending(current))}
         onDropImage={(imageId, target) => edit((current) => moveImage(current, imageId, target))}
         onMerge={(ids) => edit((current) => mergeGroups(current, ids))}
         onMove={(imageId, target) => edit((current) => moveImage(current, imageId, target))}

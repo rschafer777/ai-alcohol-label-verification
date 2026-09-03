@@ -412,6 +412,11 @@ select.input { width: auto; }
 .grouping-toolbar .hint { font-size: 13px; }
 .grouping-toolbar .btn-hit { min-height: 44px; }
 .grouping-helper { margin: -8px 0 0; font-size: 12px; }
+.grouping-next { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; padding: 12px 16px; border: 1px solid var(--lv-accent); background: var(--lv-accent-100); }
+.grouping-next.done { border-color: var(--lv-pass); background: var(--lv-pass-bg); }
+.grouping-next-text { flex: 1 1 420px; margin: 0; font-size: 14px; line-height: 1.45; }
+.grouping-next-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.grouping-run-reason { flex-basis: 100%; font-size: 12px; font-weight: 600; color: var(--lv-warn-text); }
 .group-wall { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .group-card { padding: 14px; gap: 10px; }
 .group-card.ready { border-color: var(--lv-pass); }

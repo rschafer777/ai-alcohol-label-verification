@@ -37,6 +37,62 @@ describe("batch grouping workspace", () => {
   });
 });
 
+describe("batch grouping guidance", () => {
+  it("shows what is left to confirm, filters to it, and confirms the remaining suggestions in one step", async () => {
+    const user = userEvent.setup();
+    const files = [new File(["image"], "a.jpg", { type: "image/jpeg" }), new File(["image"], "b.jpg", { type: "image/jpeg" })];
+    const analyze = vi.fn(async () => analysis);
+    const suggestGroups = vi.fn(async () => ({ groups: [
+      { groupId: "group-1", panelIds: ["img-1"], suggestedName: "OLD TOM DISTILLERY", inferredType: "distilled_spirits" as const, confidence: "high" as const, status: "ready_to_confirm" as const, reasons: ["One image, one product"], conflict: false },
+      { groupId: "group-2", panelIds: ["img-2"], suggestedName: "Product 2", inferredType: null, confidence: "low" as const, status: "needs_review" as const, reasons: ["Brand not read; confirm this product"], conflict: false },
+    ], analyzed: 2, failed: 0 }));
+    render(<BatchWorkspace batchName="Test batch" historyClient={historyClient} initialFiles={files} onExit={vi.fn()} onHistoryChanged={vi.fn()} onScreenTitle={vi.fn()} verificationClient={{ analyze, verify: vi.fn(), suggestGroups }} />);
+
+    expect(await screen.findByRole("heading", { name: "Confirm how the images group into products" })).toBeInTheDocument();
+    expect(screen.getByText(/0 of 2 products confirmed/)).toBeInTheDocument();
+    const run = screen.getByRole("button", { name: "Run 2 products" });
+    expect(run).toBeDisabled();
+    expect(screen.getByText("Confirm 2 more products to unlock the run.")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Confirm all ready (1)" }));
+    expect(screen.getByText(/1 of 2 products confirmed/)).toBeInTheDocument();
+    expect(screen.getByText("Confirm 1 more product to unlock the run.")).toBeInTheDocument();
+    expect(run).toBeDisabled();
+
+    await user.click(screen.getByRole("button", { name: "Show the 1 that still need confirmation" }));
+    expect(screen.queryByLabelText("Product 1 name")).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Product 2 name")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Confirm the remaining 1 as suggested" }));
+    expect(screen.getByText(/All 2 products are confirmed/)).toBeInTheDocument();
+    expect(run).toBeEnabled();
+    // The filter clears itself once nothing is left to confirm.
+    expect(screen.getByLabelText("Product 1 name")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Show all/ })).not.toBeInTheDocument();
+  });
+
+  it("leaves conflicts out of the one-step confirmation and says so", async () => {
+    const user = userEvent.setup();
+    const files = [new File(["image"], "a.jpg", { type: "image/jpeg" }), new File(["image"], "b.jpg", { type: "image/jpeg" }), new File(["image"], "c.jpg", { type: "image/jpeg" })];
+    const analyze = vi.fn(async () => analysis);
+    const suggestGroups = vi.fn(async () => ({ groups: [
+      { groupId: "group-1", panelIds: ["img-1"], suggestedName: "Product 1", inferredType: null, confidence: "low" as const, status: "needs_review" as const, reasons: ["Brand not read; confirm this product"], conflict: false },
+      { groupId: "group-2", panelIds: ["img-2", "img-3"], suggestedName: "JACK DANIEL'S", inferredType: "distilled_spirits" as const, confidence: "low" as const, status: "needs_review" as const, reasons: ["Filename cues match", "Two different brands read"], conflict: true },
+    ], analyzed: 3, failed: 0 }));
+    render(<BatchWorkspace batchName="Test batch" historyClient={historyClient} initialFiles={files} onExit={vi.fn()} onHistoryChanged={vi.fn()} onScreenTitle={vi.fn()} verificationClient={{ analyze, verify: vi.fn(), suggestGroups }} />);
+
+    expect(await screen.findByRole("heading", { name: "Confirm how the images group into products" })).toBeInTheDocument();
+    expect(screen.getByText(/One card shows a/)).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Confirm the remaining 1 as suggested" }));
+
+    expect(screen.getByText(/1 of 2 products confirmed/)).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Confirm the remaining/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Run 2 products" })).toBeDisabled();
+    await user.click(screen.getByRole("button", { name: "Confirm anyway" }));
+    expect(screen.getByRole("button", { name: "Run 2 products" })).toBeEnabled();
+  });
+});
+
 describe("batch state helpers", () => {
   const groups = [
     groupFromSuggestion({ groupId: "g1", panelIds: ["a", "b"], suggestedName: "A", inferredType: "wine", confidence: "high", status: "ready_to_confirm", reasons: [], conflict: false }),

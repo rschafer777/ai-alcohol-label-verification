@@ -64,7 +64,7 @@ export function GroupCard({ group, ordinal, images, selected, selectedImageId, o
       <div className="card-meta" style={{ position: "relative" }}>
         <span>{group.imageIds.length} of 3 images</span>
         <span>
-          <button className="btn btn-ghost" disabled={group.imageIds.length < 2} onClick={onSplit} type="button">Split</button>
+          <button className="btn btn-ghost" disabled={group.imageIds.length < 2} onClick={onSplit} title="Make each image of this product its own product" type="button">Split</button>
           <button aria-expanded={menu} aria-haspopup="menu" className="btn btn-ghost" disabled={!selectedImageId || !group.imageIds.includes(selectedImageId)} onClick={() => setMenu((value) => !value)} type="button">Move…</button>
           <button className="btn btn-secondary" disabled={group.confirmed || !group.name.trim() || group.imageIds.length > 3} onClick={onConfirm} type="button">{cta}</button>
         </span>

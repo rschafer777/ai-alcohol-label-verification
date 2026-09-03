@@ -55,7 +55,7 @@ Run against the release URL in a new browser session.
 6. Upload an imperfect but readable image. Confirm recoverable fields are evaluated and the angle or lighting alone is not marked a label defect.
 7. Upload an incomplete or unreadable image. Confirm the result requests review or another image and does not invent a pass.
 8. Record Approve, Reject, and Request more information on separate cases. Confirm machine findings remain unchanged.
-9. Select a folder with product filenames or subfolders. Confirm suggested groups contain no more than three images. Rename one product, merge or split one group, and confirm all groups.
+9. Select a folder with product filenames or subfolders. Confirm suggested groups contain no more than three images. Rename one product, merge or split one group, and confirm all groups. Confirm that the step states how many products are confirmed, that Show the N that still need confirmation hides the confirmed cards, that Confirm the remaining N as suggested confirms them, and that Run reports why it is locked until then.
 10. Include one JSON or other unsupported file in that folder. Confirm the UI reports it as skipped, shows the accepted image count, and continues without stopping the batch.
 11. Run a batch. Confirm the live processed/total counter, progress bar, current item, rate, average, ETA, remaining work, isolated failures, retry, cancel, CSV, and JSON.
 12. Open History. Filter records, open an image and evidence highlight, edit a disposition, delete a record, and verify newest-first order.
