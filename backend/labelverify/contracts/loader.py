@@ -17,7 +17,7 @@ CONTRACT_HASHES = {
         "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
     ),
     "regulatory-rules-v1.json": (
-        "b50dd2a682d0138ccf984d3bc886d565ae27cc9902c91773c40c65502a541fe1"
+        "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149"
     ),
 }
 
@@ -27,10 +27,10 @@ class ContractIntegrityError(RuntimeError):
 
 
 def sha256_file(path: Path) -> str:
+    # Governed JSON is text. Hash its repository-canonical LF representation so a Windows
+    # editor cannot make integrity checks pass locally and fail after Git checks out on Linux.
     digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
+    digest.update(path.read_bytes().replace(b"\r\n", b"\n"))
     return digest.hexdigest()
 
 

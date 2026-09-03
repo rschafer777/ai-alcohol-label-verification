@@ -67,7 +67,10 @@ _PRODUCER_ROLE = re.compile(
     re.I,
 )
 _PRODUCER_ENTITY = re.compile(
-    r"\b(?:llc|l\.l\.c\.|inc\.?|corp\.?|corporation|ltd\.?|company|co\.?|imports?)\b",
+    # A single trailing letter commonly appears when small legal suffixes touch a border or
+    # bottle texture ("LLCE"). The suffix remains a reliable organization anchor while the
+    # retained evidence preserves the OCR transcription for human review.
+    r"\b(?:llc[a-z]?|l\.l\.c\.|inc\.?|corp\.?|corporation|ltd\.?|company|co\.?|imports?)\b",
     re.I,
 )
 _PRODUCER = re.compile(f"(?:{_PRODUCER_ROLE.pattern}|{_PRODUCER_ENTITY.pattern})", re.I)
@@ -193,11 +196,41 @@ _NON_BRAND_CONTEXT = re.compile(
     r"\b(?:orange|lemon|lime|citrus)\s+peel\b|"
     r"\bhoney\s+and\s+spices?\b|"
     r"\bconta[a-z]{0,5}\s*sulf[a-z]*\b|"
-    r"^\s*drink\b|ref\s*\d+\s*[c\u00a2]|\bdeposit\b|\brefund\b|\brecycl[a-z]*\b|"
-    r"^\s*(?:usda\s+)?organic\s*$|"
+    r"^\s*drink\b|ref\s*\d+\s*[c\u00a2]|\b(?:ca\s*)?crv(?=\d|\b)|"
+    r"\bdeposit\b|\brefund\b|\brecycl[a-z]*\b|"
+    r"^\s*usda\s*$|^\s*(?:usda\s+)?organic\s*$|"
     r"\b(?:est(?:ablished)?\.?|since|founded|anno)\s*(?:in\s+)?\d{4}\b|^\s*\d{4}\s*$|"
     r"https?://|www\.|\.(?:com|org|net)\b)",
     re.I,
+)
+_LOCATION_INTRO = re.compile(
+    r"^\s*in\s+[A-Za-z][A-Za-z'-]+(?:\s*[.,]\s*[A-Za-z][A-Za-z'-]+){1,}\s*$",
+    re.I,
+)
+_WEB_DOMAIN = re.compile(
+    r"\b(?:https?://)?(?:www\.)?([a-z0-9][a-z0-9-]{2,62})\."
+    r"(?:com|org|net|us|co|io)\b",
+    re.I,
+)
+_DOMAIN_CLASS_SUFFIXES = (
+    "distillery",
+    "brewery",
+    "brewing",
+    "winery",
+    "spirits",
+    "whiskey",
+    "whisky",
+    "vodka",
+    "tequila",
+    "brandy",
+    "liqueur",
+    "bourbon",
+    "wine",
+    "beer",
+    "ale",
+    "lager",
+    "gin",
+    "rum",
 )
 _INCOMPLETE_CLASS_CONTEXT = re.compile(
     r"\b(?:brewed|made|produced|distilled|flavored)\s+with\s*$", re.I
@@ -287,8 +320,8 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
         item.reading_order
         for item in ordered
         if _line_has_abv(item.text)
-        or _PROOF.search(item.text)
-        or _NET.search(item.text)
+        or _PROOF.search(_numeric_scan_text(item.text))
+        or _NET.search(_numeric_scan_text(item.text))
         or _CLASS.search(_class_text(item.text))
         or _PRODUCER_ROLE.search(item.text)
         or _COUNTRY.search(item.text)
@@ -300,6 +333,8 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
     }
     excluded.update(_warning_interruption_orders(ordered))
     excluded.update(_warning_body_orders(ordered))
+    excluded.update(_split_producer_by_orders(ordered))
+    excluded.update(_certification_badge_orders(ordered))
     brand = _brand_candidates(ordered, excluded, factory)
     evidence = list(factory.evidence.values())
     fields = {
@@ -416,7 +451,8 @@ def _regex_candidates(
 ) -> CandidateSet:
     items: list[Candidate] = []
     for line in lines:
-        for match in pattern.finditer(line.text):
+        scan_text = _numeric_scan_text(line.text)
+        for match in pattern.finditer(scan_text):
             value = match.group(0)
             if role == "net_contents":
                 # OCR reads the O of "OZ" as a zero on small type; the unit is still ounces.
@@ -437,11 +473,12 @@ def _volume_key(value: str) -> str:
 def _abv_candidates(lines: Iterable[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
     items: list[Candidate] = []
     for line in lines:
-        percentages = list(_PERCENT.finditer(line.text))
-        contexts = list(_ABV_CONTEXT.finditer(line.text))
+        scan_text = _numeric_scan_text(line.text)
+        percentages = list(_PERCENT.finditer(scan_text))
+        contexts = list(_ABV_CONTEXT.finditer(scan_text))
         for match in percentages:
-            standalone = re.fullmatch(r"\s*\d{1,3}(?:\.\d+)?\s*%\s*", line.text) is not None
-            contextual = _percent_has_abv_context(line.text, match, contexts)
+            standalone = re.fullmatch(r"\s*\d{1,3}(?:\.\d+)?\s*%\s*", scan_text) is not None
+            contextual = _percent_has_abv_context(scan_text, match, contexts)
             if standalone or contextual:
                 items.append(
                     Candidate(value=match.group(0), evidence=factory.from_line("abv", line))
@@ -450,13 +487,14 @@ def _abv_candidates(lines: Iterable[OcrLine], factory: _EvidenceFactory) -> Cand
 
 
 def _line_has_abv(value: str) -> bool:
-    percentages = list(_PERCENT.finditer(value))
+    scan_text = _numeric_scan_text(value)
+    percentages = list(_PERCENT.finditer(scan_text))
     if not percentages:
         return False
-    contexts = list(_ABV_CONTEXT.finditer(value))
-    if re.fullmatch(r"\s*\d{1,3}(?:\.\d+)?\s*%\s*", value):
+    contexts = list(_ABV_CONTEXT.finditer(scan_text))
+    if re.fullmatch(r"\s*\d{1,3}(?:\.\d+)?\s*%\s*", scan_text):
         return True
-    return any(_percent_has_abv_context(value, percent, contexts) for percent in percentages)
+    return any(_percent_has_abv_context(scan_text, percent, contexts) for percent in percentages)
 
 
 def _percent_has_abv_context(
@@ -471,7 +509,39 @@ def _percent_has_abv_context(
         return True
     before = value[max(0, percent.start() - 20) : percent.start()]
     after = value[percent.end() : percent.end() + 20]
-    return bool(_BY_VOL_SUFFIX.search(after) or _ALC_PREFIX.search(before))
+    if _BY_VOL_SUFFIX.search(after) or _ALC_PREFIX.search(before):
+        return True
+    # Compact OCR can merge the entire statement and can confuse one character in
+    # "alcohol by volume" (for example, ALCONOLATTOLUME). Requiring both the alcohol
+    # prefix and the distinctive volume tail near the percentage remains specific to ABV
+    # while recovering these evidence-backed transcriptions.
+    nearby = re.sub(
+        r"[^a-z0-9]",
+        "",
+        value[max(0, percent.start() - 24) : percent.end() + 28].lower(),
+    )
+    return "alc" in nearby and any(token in nearby for token in ("vol", "olume"))
+
+
+def _numeric_scan_text(value: str) -> str:
+    """Expose numeric statement boundaries that OCR visually merged.
+
+    The returned string is used only for pattern matching. Evidence continues to carry the
+    exact OCR transcription and original-pixel polygon.
+    """
+
+    expanded = _ZERO_FOR_O_OUNCE.sub(
+        lambda unit: unit.group(0).replace("0", "O"),
+        value,
+    )
+    expanded = re.sub(
+        r"(?<=[0-9%])(?=[A-Za-z])|(?<=[A-Za-z])(?=[0-9])",
+        " ",
+        expanded,
+    )
+    expanded = re.sub(r"\balc(?=vol\b)", "ALC ", expanded, flags=re.I)
+    expanded = re.sub(r"\bpro0f\b", "PROOF", expanded, flags=re.I)
+    return expanded
 
 
 def _line_candidates(
@@ -493,8 +563,8 @@ def _class_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Candid
         line
         for line in strong
         if not _line_has_abv(line.text)
-        and not _NET.search(line.text)
-        and not _PROOF.search(line.text)
+        and not _NET.search(_numeric_scan_text(line.text))
+        and not _PROOF.search(_numeric_scan_text(line.text))
         and not _PRODUCER.search(line.text)
         and not _COUNTRY.search(line.text)
     ]
@@ -748,12 +818,24 @@ def _class_families(value: str) -> set[str]:
 def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
     items: list[Candidate] = []
     for index, line in enumerate(lines):
+        if index > 0:
+            previous = lines[index - 1]
+            if (
+                previous.panel_id == line.panel_id
+                and _PRODUCTION_DESCRIPTOR.fullmatch(whitespace(previous.text))
+                and re.match(r"^\s*by\b", line.text, re.I)
+                and _same_column(previous, line)
+            ):
+                # The preceding split role owns this name line. Starting another block here
+                # would produce overlapping, ambiguous producer candidates.
+                continue
         following = lines[index + 1 : index + 7]
         industry_with_location = bool(
             _INDUSTRY_ORGANIZATION.search(line.text)
             and _industry_location_is_connected(line, following)
         )
-        if not _PRODUCER.search(line.text) and not industry_with_location:
+        split_role = _is_split_producer_start(line, following)
+        if not _PRODUCER.search(line.text) and not industry_with_location and not split_role:
             continue
         group = [line]
         if US_STATE_CODE.search(line.text) or re.search(
@@ -772,7 +854,8 @@ def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Can
             if any(_same_normalized_line(next_line.text, item.text) for item in group):
                 continue
             if _line_has_abv(next_line.text) or any(
-                pattern.search(next_line.text) for pattern in (_WARNING, _PROOF, _NET)
+                pattern.search(_numeric_scan_text(next_line.text))
+                for pattern in (_WARNING, _PROOF, _NET)
             ):
                 break
             # A company name can carry a weak class word ("Northwind Spirits, Portland,
@@ -782,7 +865,12 @@ def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Can
             ) and not _looks_like_domestic_location(next_line.text):
                 break
             group.append(next_line)
-            if _looks_like_domestic_location(next_line.text):
+            split_name_line = bool(
+                split_role
+                and len(group) == 2
+                and re.match(r"^\s*by\b", next_line.text, re.I)
+            )
+            if _looks_like_domestic_location(next_line.text) and not split_name_line:
                 break
         text = whitespace(" ".join(item.text for item in group))
         items.append(Candidate(value=text, evidence=factory.from_lines("producer", group, text)))
@@ -822,6 +910,7 @@ def _brand_candidates(
         and re.match(r"^\s*&", line.text) is None
         and not _ADMINISTRATIVE.search(line.text)
         and not _NON_BRAND_CONTEXT.search(line.text)
+        and not _LOCATION_INTRO.search(whitespace(line.text))
         and not _looks_like_domestic_location(line.text)
         and not _PRODUCTION_DESCRIPTOR.fullmatch(whitespace(line.text))
         and re.match(r"^\s*\d+(?:\.\d+)?\s*%", line.text) is None
@@ -832,7 +921,7 @@ def _brand_candidates(
         and not _looks_like_warning_body_text(line.text)
     ]
     if not eligible:
-        return CandidateSet(status="Not found")
+        return _domain_brand_candidate(lines, factory)
     horizontal = [line for line in eligible if _is_horizontal_text(line)]
     if horizontal:
         eligible = horizontal
@@ -845,7 +934,7 @@ def _brand_candidates(
         and not _NON_BRAND_CONTEXT.search(" ".join(item.text for item in items))
     ]
     if not groups:
-        return CandidateSet(status="Not found")
+        return _domain_brand_candidate(lines, factory)
     tallest = max(_line_height(item) for items in groups for item in items)
 
     def prominence(items: list[OcrLine]) -> float:
@@ -885,6 +974,31 @@ def _brand_candidates(
 def _looks_like_ocr_noise(value: str) -> bool:
     letters = [character.casefold() for character in value if character.isalpha()]
     return len(letters) >= 12 and len(set(letters)) <= 3
+
+
+def _domain_brand_candidate(lines: list[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
+    """Use a printed product domain only when no direct brand text survived OCR.
+
+    This is a label-derived fallback, not an online lookup. A beverage-class suffix is
+    removed from the domain stem so blueharborvodka.com yields BLUEHARBOR. The source URL
+    and its pixel polygon remain visible evidence.
+    """
+
+    items: list[Candidate] = []
+    for line in lines:
+        match = _WEB_DOMAIN.search(line.text)
+        if match is None:
+            continue
+        stem = match.group(1).strip("-").lower()
+        for suffix in _DOMAIN_CLASS_SUFFIXES:
+            if stem.endswith(suffix) and len(stem) - len(suffix) >= 3:
+                stem = stem[: -len(suffix)].rstrip("-")
+                break
+        value = whitespace(stem.replace("-", " ")).upper()
+        if len(re.findall(r"[A-Z]", value)) < 3:
+            continue
+        items.append(Candidate(value=value, evidence=factory.from_line("brand", line)))
+    return _candidate_set(items)
 
 
 def _looks_like_prose(value: str) -> bool:
@@ -1154,6 +1268,48 @@ def _producer_is_structured(value: str) -> bool:
         return True
     remainder = whitespace(_PRODUCER_ROLE.sub("", normalized)).strip(" .,:;-&")
     return len(re.findall(r"[A-Za-z]", remainder)) >= 3
+
+
+def _is_split_producer_start(line: OcrLine, following: list[OcrLine]) -> bool:
+    if not _PRODUCTION_DESCRIPTOR.fullmatch(whitespace(line.text)):
+        return False
+    return any(
+        candidate.panel_id == line.panel_id
+        and _same_column(line, candidate)
+        and re.match(r"^\s*by\b", candidate.text, re.I)
+        for candidate in following[:2]
+    )
+
+
+def _split_producer_by_orders(lines: list[OcrLine]) -> set[int]:
+    excluded: set[int] = set()
+    for index, line in enumerate(lines):
+        following = lines[index + 1 : index + 3]
+        if not _is_split_producer_start(line, following):
+            continue
+        excluded.add(line.reading_order)
+        excluded.update(
+            candidate.reading_order
+            for candidate in following
+            if candidate.panel_id == line.panel_id
+            and _same_column(line, candidate)
+            and re.match(r"^\s*by\b", candidate.text, re.I)
+        )
+    return excluded
+
+
+def _certification_badge_orders(lines: list[OcrLine]) -> set[int]:
+    excluded: set[int] = set()
+    for first, second in zip(lines, lines[1:], strict=False):
+        if first.panel_id != second.panel_id or not _same_column(first, second):
+            continue
+        pair = (
+            re.sub(r"[^a-z]", "", first.text.casefold()),
+            re.sub(r"[^a-z]", "", second.text.casefold()),
+        )
+        if pair in {("gluten", "free"), ("usda", "organic")}:
+            excluded.update((first.reading_order, second.reading_order))
+    return excluded
 
 
 def _drop_contained_candidates(items: list[Candidate]) -> list[Candidate]:

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+
 import pytest
 from labelverify.api.errors import LOCATOR_ALLOWED, PublicApiError, error_map
 from labelverify.contracts.loader import (
@@ -19,6 +21,13 @@ def test_cg001_hashes_and_counts() -> None:
     assert sum(value.startswith("warning_") for value in bundle.check_ids) == 10
     assert len(bundle.error_codes) == len(set(bundle.error_codes)) == 23
     assert len(bundle.errors["browserOnly"]) == 4
+
+
+def test_governed_text_hash_is_stable_across_line_endings(tmp_path) -> None:
+    contract = tmp_path / "contract.json"
+    contract.write_bytes(b'{\r\n  "version": 1\r\n}\r\n')
+
+    assert sha256_file(contract) == hashlib.sha256(b'{\n  "version": 1\n}\n').hexdigest()
 
 
 def test_public_error_registry_is_exhaustive_and_result_free() -> None:

@@ -136,6 +136,26 @@ def test_abv_accepts_standard_and_ocr_collapsed_by_volume_suffixes() -> None:
         assert observed.field("abv").candidates[0].value in {"11.5%", "7.2%"}
 
 
+def test_compact_numeric_line_recovers_abv_proof_and_net_contents() -> None:
+    observed = locate_candidates(
+        [line("750ML40%ALCVOL 80PROOF", 0, y=100)],
+        [panel()],
+    )
+
+    assert [item.value for item in observed.field("abv").candidates] == ["40%"]
+    assert [item.value for item in observed.field("proof").candidates] == ["80 PROOF"]
+    assert [item.value for item in observed.field("net_contents").candidates] == ["750 ML"]
+
+
+def test_damaged_alcohol_by_volume_words_still_anchor_percentage() -> None:
+    observed = locate_candidates(
+        [line("7.2% ALCONOLATTOLUME", 0, y=100)],
+        [panel()],
+    )
+
+    assert [item.value for item in observed.field("abv").candidates] == ["7.2%"]
+
+
 def test_brand_joins_same_row_fragments_without_a_product_lookup() -> None:
     observed = locate_candidates(
         [
@@ -249,6 +269,27 @@ def test_domestic_certification_and_location_copy_cannot_become_brand() -> None:
     assert observed.field("brand").status == "Not found"
     assert observed.field("class_type").status == "Found"
     assert observed.field("class_type").candidates[0].value == "OrganicVodka"
+
+
+def test_split_producer_role_and_ocr_damaged_llc_are_joined() -> None:
+    observed = locate_candidates(
+        [
+            line("DISTILLED &BOTTLED", 0, y=100),
+            line("BY BLUE HARBOR SPIRITS LLCE", 1, y=140),
+            line("IN KULA.MAUI.HAWAI", 2, y=180),
+            line("OrganicVodka", 3, y=300, height=70, panel="panel-2"),
+            line("GLUTEN", 4, x=600, y=380, width=160),
+            line("FREE", 5, x=620, y=420, width=120),
+            line("www.blueharborvodka.com", 6, y=500),
+        ],
+        [panel(), panel().model_copy(update={"panel_id": "panel-2"})],
+    )
+
+    assert observed.field("producer").status == "Found"
+    assert observed.field("producer").candidates[0].value == (
+        "DISTILLED &BOTTLED BY BLUE HARBOR SPIRITS LLCE IN KULA.MAUI.HAWAI"
+    )
+    assert observed.field("brand").candidates[0].value == "BLUEHARBOR"
 
 
 def test_brewery_name_can_be_brand_while_producer_role_stays_excluded() -> None:
