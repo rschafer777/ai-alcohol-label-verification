@@ -15,6 +15,11 @@ function asDisposition(value: string | null): Disposition {
   return value === "approved" || value === "rejected" || value === "more_info_requested" ? value : null;
 }
 
+/** True when the stored reference came from typed application values rather than the label read. */
+function comparedWithApplication(reference: unknown): boolean {
+  return typeof reference === "object" && reference !== null && (reference as { referenceProvenance?: unknown }).referenceProvenance === "manual";
+}
+
 export function StoredResultDrawer({ detail, onSave, onDelete }: { detail: HistoryDetail | null; onSave: (disposition: Disposition, note: string) => Promise<boolean>; onDelete: () => void }): ReactElement {
   const [panelIndex, setPanelIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -61,7 +66,7 @@ export function StoredResultDrawer({ detail, onSave, onDelete }: { detail: Histo
     <aside aria-label="Stored result" className="card blueprint drawer">
       <Corners />
       <div className="drawer-head"><h6>Stored result</h6><span className="text-muted">{when} · {detail.requestId.slice(0, 10)}</span></div>
-      <div><span className="card-title">{detail.displayName}</span><br /><span className="drawer-sub text-muted">{beverageTypeLabel(detail.beverageType)} · {detail.panelCount} image{detail.panelCount === 1 ? "" : "s"} · reviewed by {AGENT_NAME}</span></div>
+      <div><span className="card-title">{detail.displayName}</span><br /><span className="drawer-sub text-muted">{beverageTypeLabel(detail.beverageType)} · {detail.panelCount} image{detail.panelCount === 1 ? "" : "s"} · reviewed by {AGENT_NAME}{comparedWithApplication(detail.reference) ? " · compared with application values" : ""}</span></div>
       <div className="result-cells">
         <div><span className="dl-label text-muted">Machine result</span><br /><SummaryTag summary={summary} /></div>
         <div><span className="dl-label text-muted">Your disposition</span><br /><DispositionTag value={disposition} /></div>

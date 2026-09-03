@@ -245,7 +245,6 @@ def case_specs() -> list[dict[str, Any]]:
             ref=reference(isImported=True, countryOfOrigin="CANADA"),
             visual={"country": "CANADA"},
             panels=["front", "back", "origin"],
-            overrides={"warning_wording": override("Review", "punctuation_uncertainty")},
         ),
         result_case(
             "D010",
@@ -263,7 +262,11 @@ def case_specs() -> list[dict[str, Any]]:
                 ),
                 "producer": override("Not verified", "missing", evidence="forbidden"),
                 "warning_physical_size": override(
-                    "Not verified", "unsupported_measurement", evidence="optional"
+                    "Not verified",
+                    "unsupported_measurement",
+                    evidence="optional",
+                    applicable=False,
+                    must_appear=False,
                 ),
                 **{
                     check_id: override("Not verified", "missing", evidence="forbidden")
@@ -309,7 +312,11 @@ def case_specs() -> list[dict[str, Any]]:
             visual={"bodyBold": True},
             overrides={
                 "class_type": override("Match", "safe_equivalence"),
-                "warning_wording": override("Review", "punctuation_uncertainty"),
+                # The heading is bold, but so is the body, and the stroke measurement is
+                # relative: a heading no heavier than its body cannot be called bold.
+                "warning_heading_emphasis": override(
+                    "Review", "quality_degradation", observed="heading no heavier than a bold body"
+                ),
                 "warning_body_not_bold": override(
                     "Review", "quality_degradation", observed="bold body"
                 ),
@@ -344,6 +351,7 @@ def case_specs() -> list[dict[str, Any]]:
             visual={"separationUncertain": True},
             overrides={
                 "class_type": override("Match", "safe_equivalence"),
+                # This render's OCR doubles the final period; the reviewer confirms it.
                 "warning_wording": override("Review", "punctuation_uncertainty"),
                 "warning_separation": override(
                     "Review", "ambiguous", observed="adjacent producer text"
@@ -391,7 +399,11 @@ def case_specs() -> list[dict[str, Any]]:
                 "producer": override("Not verified", "missing", evidence="forbidden"),
                 "panel_coverage": override("Not verified", "coverage_gap", evidence="forbidden"),
                 "warning_physical_size": override(
-                    "Not verified", "unsupported_measurement", evidence="optional"
+                    "Not verified",
+                    "unsupported_measurement",
+                    evidence="optional",
+                    applicable=False,
+                    must_appear=False,
                 ),
                 **{
                     check_id: override("Not verified", "missing", evidence="forbidden")
@@ -463,7 +475,6 @@ def case_specs() -> list[dict[str, Any]]:
             ["exact", "three_panel", "holdout", "clean"],
             partition="holdout",
             panels=["front", "back", "details"],
-            overrides={"warning_wording": override("Review", "punctuation_uncertainty")},
         ),
         result_case(
             "H002",
@@ -486,7 +497,6 @@ def case_specs() -> list[dict[str, Any]]:
             panels=["front", "back", "origin"],
             overrides={
                 "country": override("Mismatch", "definite_difference", observed="FRANCE"),
-                "warning_wording": override("Review", "punctuation_uncertainty"),
                 "producer": override(
                     "Mismatch",
                     "definite_difference",
@@ -502,7 +512,6 @@ def case_specs() -> list[dict[str, Any]]:
             visual={"warningFill": 205},
             overrides={
                 "class_type": override("Match", "safe_equivalence"),
-                "warning_wording": override("Review", "punctuation_uncertainty"),
                 "warning_contrast": override(
                     "Mismatch", "definite_difference", observed="low contrast"
                 ),
@@ -519,9 +528,12 @@ def case_specs() -> list[dict[str, Any]]:
             visual={"reliableScale": False},
             overrides={
                 "class_type": override("Match", "safe_equivalence"),
-                "warning_wording": override("Review", "punctuation_uncertainty"),
                 "warning_physical_size": override(
-                    "Not verified", "unsupported_measurement", evidence="optional"
+                    "Not verified",
+                    "unsupported_measurement",
+                    evidence="optional",
+                    applicable=False,
+                    must_appear=False,
                 ),
             },
         ),
@@ -630,8 +642,14 @@ def check_expectations(spec: dict[str, Any]) -> list[dict[str, Any]]:
             evidence = "forbidden"
             state = "Not verified"
         if check_id == "warning_physical_size" and warning_applicable:
+            # An unscaled image cannot yield millimeters, so the row is informational: it
+            # carries its reason when present but does not count toward the machine summary.
             expectations[check_id] = override(
-                "Not verified", "unsupported_measurement", evidence="optional"
+                "Not verified",
+                "unsupported_measurement",
+                evidence="optional",
+                applicable=False,
+                must_appear=False,
             )
             continue
         if check_id in {"panel_coverage", "image_quality"}:
@@ -712,14 +730,21 @@ def text_lines(spec: dict[str, Any], section: str) -> list[tuple[str, bool, int]
         if ref.get("beverageType") == "wine" and ref.get("wineSulfiteStatus") == "present":
             lines.append(("CONTAINS SULFITES", True, 20))
         if not visual.get("omitWarning", False):
+            # A label sets the statement apart with visibly more space than its ordinary
+            # line spacing (27 CFR 16.22, "separate and apart"); the uncertain case puts a
+            # neighbouring line directly above the heading at ordinary spacing instead.
             if visual.get("separationUncertain", False):
                 lines.append(("BOTTLED FOR TEST REVIEW", False, warning_fill))
+                lines.append(TIGHTEN)
+            else:
+                lines.append(SPACER)
             lines.append((warning_heading, bool(visual.get("headingBold", True)), warning_fill))
             first, second = warning_body.split("(2)", maxsplit=1)
             lines.append((first.strip(), bool(visual.get("bodyBold", False)), warning_fill))
             if visual.get("continuityBreak", False):
                 lines.append(("OLD TOM QUALITY SINCE 1998", True, warning_fill))
             lines.append(("(2)" + second, bool(visual.get("bodyBold", False)), warning_fill))
+            lines.append(SPACER)
     if section == "details":
         lines.extend([("LOT: SYNTHETIC-001", False, 20), (net_text, False, 20)])
     if section == "scale":
@@ -743,6 +768,15 @@ def text_lines(spec: dict[str, Any], section: str) -> list[tuple[str, bool, int]
     return lines
 
 
+# A vertical gap entry in a panel's line list: no text, just SPACER_HEIGHT body-font sizes.
+SPACER: tuple[str, bool, int] = ("", False, 0)
+SPACER_HEIGHT = 0.7
+# A negative gap that pulls the next line to within about a third of a line height of the
+# previous one, the "adjoining or uncertain" band of the separation check.
+TIGHTEN: tuple[str, bool, int] = ("", False, -1)
+TIGHTEN_HEIGHT = 0.55
+
+
 def render_panel(spec: dict[str, Any], section: str, path: Path) -> None:
     if section == "corrupt_png":
         path.write_bytes(b"\x89PNG\r\n\x1a\ninvalid png fixture body\x00\x01")
@@ -762,6 +796,12 @@ def render_panel(spec: dict[str, Any], section: str, path: Path) -> None:
     y = margin + 35
     rendered_section = "all" if section == "oversize_pixels" else section
     for text, bold, fill_value in text_lines(spec, rendered_section):
+        if (text, bold, fill_value) == SPACER:
+            y += int(font_body.size * SPACER_HEIGHT)
+            continue
+        if (text, bold, fill_value) == TIGHTEN:
+            y -= int(font_body.size * TIGHTEN_HEIGHT)
+            continue
         font = font_title if bold else font_body
         wrap_width = 48 if width == 1200 else 110
         for wrapped in textwrap.wrap(text, width=wrap_width) or [""]:
@@ -855,7 +895,6 @@ def sample_spec() -> dict[str, Any]:
         "Old Tom deterministic sample",
         ["sample", "exact", "two_panel", "review"],
         panels=["front", "back"],
-        overrides={"warning_wording": override("Review", "punctuation_uncertainty")},
     )
 
 
@@ -913,7 +952,7 @@ def mutation_plan() -> dict[str, Any]:
             "target": "caseId",
             "value": "RANDOMIZED_CASE",
             "expectedChangedChecks": [],
-            "expectedSummary": SUMMARY_REVIEW,
+            "expectedSummary": SUMMARY_CLEAN,
             "invariant": "Results must not depend on fixture ID.",
         },
         {
@@ -923,7 +962,7 @@ def mutation_plan() -> dict[str, Any]:
             "target": "panels",
             "value": None,
             "expectedChangedChecks": [],
-            "expectedSummary": SUMMARY_REVIEW,
+            "expectedSummary": SUMMARY_CLEAN,
             "invariant": "Evidence panel IDs may change but machine states must not.",
         },
         {

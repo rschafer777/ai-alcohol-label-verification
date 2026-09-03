@@ -10,12 +10,13 @@ import labelverify.extraction.rapidocr_adapter as rapidocr_adapter_module
 import numpy as np
 import pytest
 import rapidocr
+from labelverify.contracts.models import OcrLine, Point
 from labelverify.extraction.rapidocr_adapter import (
     ModelIntegrityError,
     RapidOcrAdapter,
-    _ink_density,
-    _local_contrast,
     _restore_warning_separator,
+    deduplicate_ocr_lines,
+    text_metrics,
 )
 from labelverify.imaging.transforms import ImageView
 from numpy.typing import NDArray
@@ -210,8 +211,8 @@ def test_foreground_density_is_polarity_independent_and_bounded() -> None:
     dark[10:30, 20:50] = 245
     polygon = [[0, 0], [99, 0], [99, 39], [0, 39]]
 
-    light_density = _ink_density(light, polygon)
-    dark_density = _ink_density(dark, polygon)
+    light_density = text_metrics(light, polygon).ink_density
+    dark_density = text_metrics(dark, polygon).ink_density
 
     assert light_density is not None
     assert dark_density is not None
@@ -224,7 +225,10 @@ def test_low_local_contrast_has_no_typography_signal() -> None:
     image[10:30, 20:50] = 45
     polygon = [[0, 0], [99, 0], [99, 39], [0, 39]]
 
-    assert _ink_density(image, polygon) is None
+    metrics = text_metrics(image, polygon)
+    assert metrics.ink_density is None
+    assert metrics.stroke_px is None
+    assert metrics.contrast_ratio is None
 
 
 def test_local_contrast_distinguishes_clear_and_faint_text() -> None:
@@ -234,13 +238,146 @@ def test_local_contrast_distinguishes_clear_and_faint_text() -> None:
     faint[10:30, 20:80] = 205
     polygon = [[0, 0], [99, 0], [99, 39], [0, 39]]
 
-    clear_contrast = _local_contrast(clear, polygon)
-    faint_contrast = _local_contrast(faint, polygon)
+    clear_metrics = text_metrics(clear, polygon)
+    faint_metrics = text_metrics(faint, polygon)
 
-    assert clear_contrast is not None
-    assert faint_contrast is not None
-    assert clear_contrast > 0.8
-    assert faint_contrast < 0.3
+    assert clear_metrics.local_contrast is not None
+    assert faint_metrics.local_contrast is not None
+    assert clear_metrics.local_contrast > 0.8
+    assert faint_metrics.local_contrast < 0.3
+    # WCAG relative luminance: near-black on near-white exceeds the 4.5 body-text ratio,
+    # light gray on near-white stays below the 3.0 minimum.
+    assert clear_metrics.contrast_ratio is not None and clear_metrics.contrast_ratio > 10
+    assert faint_metrics.contrast_ratio is not None and faint_metrics.contrast_ratio < 3.0
+
+
+def test_letter_height_ignores_parentheses_and_dots() -> None:
+    from labelverify.extraction.rapidocr_adapter import _letter_height
+
+    mask = np.zeros((60, 400), dtype=np.uint8)
+    # Ten capital letters 30 px tall, two parentheses 40 px tall, three dots 4 px tall.
+    for index in range(10):
+        mask[15:45, 20 + index * 30 : 40 + index * 30] = 1
+    mask[10:50, 330:336] = 1
+    mask[10:50, 350:356] = 1
+    for index in range(3):
+        mask[41:45, 370 + index * 8 : 374 + index * 8] = 1
+
+    assert _letter_height(mask) == 30.0
+
+    # Mixed case: six x-height letters (21 px) and four ascender letters (30 px) measure
+    # the ascender height, the same reference as a capital.
+    mixed = np.zeros((60, 400), dtype=np.uint8)
+    for index in range(6):
+        mixed[24:45, 20 + index * 30 : 40 + index * 30] = 1
+    for index in range(4):
+        mixed[15:45, 220 + index * 30 : 240 + index * 30] = 1
+    assert _letter_height(mixed) == 30.0
+
+
+def test_deduplicate_keeps_distinct_lines_from_one_view_and_dissimilar_reads() -> None:
+    tall = make_line("BOURBON", (100, 100, 700, 400), confidence=0.98, view="original")
+    inside = make_line("750 ML", (300, 200, 500, 260), confidence=0.97, view="original")
+    assert {item.text for item in deduplicate_ocr_lines([tall, inside])} == {"BOURBON", "750 ML"}
+
+    rows = [
+        make_line(
+            text,
+            (100, 100 + index * 10, 700, 130 + index * 10),
+            confidence=0.95,
+            view="original",
+        )
+        for index, text in enumerate(("women should not drink", "because of the risk", "of birth"))
+    ]
+    assert len(deduplicate_ocr_lines(rows)) == 3
+
+    duplicate_detection = [
+        make_line("12 FL. OZ", (100, 100, 300, 140), confidence=0.98, view="original"),
+        make_line("12 FL. 0Z", (102, 101, 298, 139), confidence=0.93, view="original"),
+    ]
+    assert [item.text for item in deduplicate_ocr_lines(duplicate_detection)] == ["12 FL. OZ"]
+
+    other_view = make_line("BOURBON", (102, 98, 698, 402), confidence=0.9, view="crop")
+    fused = deduplicate_ocr_lines([tall, other_view])
+    assert [item.text for item in fused] == ["BOURBON"]
+
+    unrelated = make_line("750 ML", (102, 98, 698, 402), confidence=0.95, view="crop")
+    assert len(deduplicate_ocr_lines([tall, unrelated])) == 2
+
+    # A weak small read inside a tall column of rotated text keeps its own place.
+    column = make_line("GOVERNMENT WARNING (1) ACCORDING", (100, 100, 160, 900), confidence=0.9)
+    small = make_line("750ML", (110, 400, 150, 440), confidence=0.75, view="crop")
+    assert {item.text for item in deduplicate_ocr_lines([column, small])} == {
+        "GOVERNMENT WARNING (1) ACCORDING",
+        "750ML",
+    }
+
+
+def test_stroke_width_follows_bar_thickness_and_ink_height() -> None:
+    thin = np.full((60, 200), 245, dtype=np.uint8)
+    thick = np.full((60, 200), 245, dtype=np.uint8)
+    for start in (20, 60, 100, 140):
+        thin[10:50, start : start + 3] = 10
+        thick[10:50, start : start + 9] = 10
+    polygon = [[0, 0], [199, 0], [199, 59], [0, 59]]
+
+    thin_metrics = text_metrics(thin, polygon)
+    thick_metrics = text_metrics(thick, polygon)
+
+    assert thin_metrics.ink_height_px == 40 and thick_metrics.ink_height_px == 40
+    assert thin_metrics.stroke_px is not None and thick_metrics.stroke_px is not None
+    assert 2.0 <= thin_metrics.stroke_px <= 4.5
+    assert 7.0 <= thick_metrics.stroke_px <= 11.0
+
+
+def make_line(
+    text: str,
+    box: tuple[int, int, int, int],
+    *,
+    confidence: float,
+    panel: str = "panel-1",
+    view: str = "original",
+    ink_height: float | None = None,
+) -> OcrLine:
+    x0, y0, x1, y1 = box
+    return OcrLine(
+        panelId=panel,
+        text=text,
+        polygon=[Point(x=x0, y=y0), Point(x=x1, y=y0), Point(x=x1, y=y1), Point(x=x0, y=y1)],
+        confidence=confidence,
+        readingOrder=0,
+        sourceView="original" if view == "original" else "derived",
+        transformId=f"transform-{panel}-{view}-v1",
+        inkHeightPx=ink_height,
+        strokePx=None if ink_height is None else ink_height / 8,
+    )
+
+
+def test_line_fusion_keeps_the_fullest_reading_of_one_region_and_drops_fragments() -> None:
+    lines = [
+        make_line("Distilled Vodka", (1201, 1311, 1700, 1394), confidence=0.98),
+        make_line("ed Vodka", (1420, 1316, 1699, 1392), confidence=1.0, view="crop", ink_height=40),
+        make_line("DEFECTS.2CONSUMPTION OFALCOHOLIC", (983, 1999, 1476, 2057), confidence=0.92),
+        make_line("DEFECTS.(2C", (984, 1998, 1149, 2051), confidence=0.90, view="crop"),
+        make_line(
+            "CONSUMPTION OF ALCOHOLIC", (1128, 2006, 1478, 2054), confidence=0.96, view="crop"
+        ),
+        make_line("750 mL", (1391, 2018, 1575, 2079), confidence=1.0),
+        make_line("Another panel", (1201, 1311, 1700, 1394), confidence=0.5, panel="panel-2"),
+    ]
+
+    fused = deduplicate_ocr_lines(lines)
+
+    texts = [line.text for line in fused]
+    assert texts == [
+        "Distilled Vodka",
+        "DEFECTS.2CONSUMPTION OFALCOHOLIC",
+        "750 mL",
+        "Another panel",
+    ]
+    assert [line.reading_order for line in fused] == [0, 1, 2, 3]
+    # The higher-resolution crop supplied the typography measurement for the fused region.
+    assert fused[0].ink_height_px == 40 and fused[0].stroke_px == 5.0
 
 
 def test_collapsed_warning_separator_is_restored_when_pixels_show_word_gap() -> None:

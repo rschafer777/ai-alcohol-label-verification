@@ -5,6 +5,7 @@ import time
 from dataclasses import dataclass, replace
 from decimal import Decimal
 from pathlib import Path
+from typing import Literal
 
 import cv2
 import numpy as np
@@ -20,6 +21,7 @@ from labelverify.contracts.models import (
     CheckResult,
     DetectedValue,
     Evidence,
+    OcrLine,
     PanelResult,
     ReferenceRecord,
     StageTimings,
@@ -28,7 +30,7 @@ from labelverify.contracts.models import (
 )
 from labelverify.domain.beverage import infer_beverage_type
 from labelverify.domain.engine import ComparisonInputs, compare_all, mark_unresolved_beverage
-from labelverify.domain.normalize import parse_abv, parse_proof
+from labelverify.domain.normalize import parse_abv, parse_proof, punctuation_folded
 from labelverify.domain.presentation import (
     bad_image,
     beverage_inference,
@@ -37,7 +39,7 @@ from labelverify.domain.presentation import (
     present_wording,
     warning_evidence,
 )
-from labelverify.domain.types import ObservedCandidates
+from labelverify.domain.types import ObservedCandidates, WarningObservation
 from labelverify.extraction.candidates import locate_candidates
 from labelverify.extraction.port import ExtractionPort
 from labelverify.extraction.rapidocr_adapter import deduplicate_ocr_lines
@@ -47,7 +49,12 @@ from labelverify.imaging.decode import (
     InvalidImageError,
     decode_panel,
 )
-from labelverify.imaging.transforms import ImageView, create_crop_ocr_view, create_ocr_views
+from labelverify.imaging.transforms import (
+    ImageView,
+    create_crop_ocr_view,
+    create_enhanced_view,
+    create_ocr_views,
+)
 
 
 class PipelineFailure(RuntimeError):
@@ -113,7 +120,10 @@ def execute_pipeline(job: PipelineJob, adapter: ExtractionPort) -> VerificationR
 
     stage_started = time.perf_counter()
     validate_result_integrity(public_panels, observed.evidence, checks)
-    checks = present_wording(present_checks(checks, job.reference.beverage_type), observed)
+    checks = present_wording(
+        present_checks(checks, job.reference.beverage_type, job.reference.reference_provenance),
+        observed,
+    )
     public_panels = present_panels(public_panels)
     aggregate_ms = _elapsed_ms(stage_started)
     rules = contracts().rules
@@ -302,6 +312,26 @@ def _extract_observed(
     except Exception as exc:
         raise PipelineFailure("inference_failed") from exc
     ocr_ms = _elapsed_ms(ocr_started)
+
+    # Readability is decided by what OCR actually read, not by a global sharpness statistic:
+    # a soft render with a clean warning is readable, a blank or blurred capture is not.
+    ocr_panels = [_refine_coverage(panel, lines) for panel in ocr_panels]
+    enhanced_views = [
+        create_enhanced_view(panel)
+        for panel in ocr_panels
+        if _reads_poorly(panel, lines) and not _already_enhanced(panel, views)
+    ]
+    if enhanced_views:
+        ocr_started = time.perf_counter()
+        try:
+            enhanced_lines = adapter.extract(enhanced_views)
+        except Exception as exc:
+            raise PipelineFailure("inference_failed") from exc
+        ocr_ms += _elapsed_ms(ocr_started)
+        lines = deduplicate_ocr_lines([*lines, *enhanced_lines])
+        ocr_panels = [_refine_coverage(panel, lines) for panel in ocr_panels]
+    result_panels = _propagate_coverage(result_panels, ocr_panels)
+
     candidates_started = time.perf_counter()
     public_panels = [panel.public_panel() for panel in result_panels]
     observed = locate_candidates(lines, public_panels)
@@ -322,6 +352,91 @@ def _extract_observed(
         observed = locate_candidates(lines, public_panels)
         candidates_ms += _elapsed_ms(candidates_started)
     return public_panels, observed, preprocess_ms, ocr_ms, candidates_ms
+
+
+# Focused re-reads per request: two per panel, three per product, warning crops first.
+_MAX_PANEL_RECOVERY_VIEWS = 2
+_MAX_RECOVERY_VIEWS = 3
+# A panel the decoder called unreadable keeps its fields only when OCR returns a dozen lines
+# at reading confidence: a soft photograph of a real label, not a blurred capture that
+# yields a few garbled lines.
+_SUBSTANTIAL_LINE_COUNT = 12
+_SUBSTANTIAL_MEAN_CONFIDENCE = 0.75
+_READABLE_LINE_COUNT = 3
+_READABLE_MEAN_CONFIDENCE = 0.80
+_CONFIDENT_MEAN_CONFIDENCE = 0.90
+_WEAK_MEAN_CONFIDENCE = 0.70
+_UNREADABLE_MEAN_CONFIDENCE = 0.45
+
+
+def _panel_read_statistics(panel: DecodedPanel, lines: list[OcrLine]) -> tuple[int, float]:
+    panel_lines = [line for line in lines if line.panel_id == panel.panel_id]
+    confidences = [line.confidence for line in panel_lines if line.confidence is not None]
+    mean = sum(confidences) / len(confidences) if confidences else 0.0
+    return len(panel_lines), mean
+
+
+def _refine_coverage(panel: DecodedPanel, lines: list[OcrLine]) -> DecodedPanel:
+    count, mean = _panel_read_statistics(panel, lines)
+    signals = dict(panel.quality_signals)
+    signals["ocrLineCount"] = float(count)
+    signals["ocrMeanConfidence"] = round(mean, 3)
+    state: Literal["Sufficient", "Review", "Unreadable"]
+    confident_read = (count >= _READABLE_LINE_COUNT and mean >= _READABLE_MEAN_CONFIDENCE) or (
+        count >= 1 and mean >= _CONFIDENT_MEAN_CONFIDENCE
+    )
+    substantial_read = count >= _SUBSTANTIAL_LINE_COUNT and mean >= _SUBSTANTIAL_MEAN_CONFIDENCE
+    if confident_read:
+        # Decode found a blurred, dark, or blank capture; a confident read shows text was
+        # recovered from it, but the image itself is still a reviewer's call, never clean.
+        state = "Review" if panel.coverage_state == "Unreadable" else "Sufficient"
+    elif panel.coverage_state == "Unreadable":
+        # A soft capture that OCR still reads at length keeps its fields for the reviewer;
+        # a capture that yields only a few weak lines does not.
+        state = "Review" if substantial_read else "Unreadable"
+    elif (
+        count == 0
+        or (count < 2 and mean < _WEAK_MEAN_CONFIDENCE)
+        or mean < _UNREADABLE_MEAN_CONFIDENCE
+    ):
+        state = "Unreadable"
+    else:
+        state = "Review"
+    signals["qualityClass"] = state
+    return replace(panel, quality_signals=signals, coverage_state=state)
+
+
+def _reads_poorly(panel: DecodedPanel, lines: list[OcrLine]) -> bool:
+    count, mean = _panel_read_statistics(panel, lines)
+    return count < _READABLE_LINE_COUNT or mean < _WEAK_MEAN_CONFIDENCE
+
+
+def _already_enhanced(panel: DecodedPanel, views: list[ImageView]) -> bool:
+    return any(view.panel_id == panel.panel_id and "clahe" in view.transform_id for view in views)
+
+
+def _propagate_coverage(
+    result_panels: list[DecodedPanel], ocr_panels: list[DecodedPanel]
+) -> list[DecodedPanel]:
+    """Give retained duplicate uploads the readability of the panel that was actually read."""
+
+    by_id = {panel.panel_id: panel for panel in ocr_panels}
+    propagated: list[DecodedPanel] = []
+    for panel in result_panels:
+        source_id = panel.quality_signals.get("duplicateOfPanelId")
+        source = by_id.get(panel.panel_id)
+        if source is None and isinstance(source_id, str):
+            source = by_id.get(source_id)
+        if source is None:
+            propagated.append(panel)
+            continue
+        signals = dict(source.quality_signals)
+        if isinstance(source_id, str):
+            signals["duplicateOfPanelId"] = source_id
+        propagated.append(
+            replace(panel, quality_signals=signals, coverage_state=source.coverage_state)
+        )
+    return propagated
 
 
 def _deduplicate_visual_panels(
@@ -371,18 +486,12 @@ def _visual_panels_equivalent(
     existing_std = float(existing_thumbnail.std())
     if candidate_std < 1.0 or existing_std < 1.0:
         return float(np.mean(np.abs(candidate_thumbnail - existing_thumbnail))) <= 0.5
-    candidate_normalized = (
-        candidate_thumbnail - float(candidate_thumbnail.mean())
-    ) / candidate_std
-    existing_normalized = (
-        existing_thumbnail - float(existing_thumbnail.mean())
-    ) / existing_std
+    candidate_normalized = (candidate_thumbnail - float(candidate_thumbnail.mean())) / candidate_std
+    existing_normalized = (existing_thumbnail - float(existing_thumbnail.mean())) / existing_std
     correlation = float(
         np.corrcoef(candidate_normalized.ravel(), existing_normalized.ravel())[0, 1]
     )
-    normalized_error = float(
-        np.mean(np.abs(candidate_normalized - existing_normalized))
-    )
+    normalized_error = float(np.mean(np.abs(candidate_normalized - existing_normalized)))
     return correlation >= 0.999 and normalized_error <= 0.025
 
 
@@ -417,36 +526,50 @@ def _decoded_pixel_failure(panel_id: str, exc: ImageLimitError) -> PipelineFailu
     )
 
 
-def _recovery_views(
-    decoded: list[DecodedPanel], observed: ObservedCandidates
-) -> list[ImageView]:
+def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -> list[ImageView]:
+    """Targeted second reads at higher resolution.
+
+    The first pass reads each panel once at a bounded size. Small statutory text, above all
+    the government warning, is then re-read from an enlarged crop of the region the first
+    pass located, and missing fields get one focused crop each. Every crop keeps original
+    pixel coordinates so evidence still points at the source image.
+    """
+
     recovery: list[ImageView] = []
+    warning = observed.warning
+    warning_settled = _warning_settled(warning)
     missing_content = any(
         observed.field(field).status in {"Not found", "Unreadable"}
         for field in ("abv", "net_contents")
     )
-    missing_brand = _brand_needs_recovery(observed)
+    missing_brand = observed.field("brand").status in {"Not found", "Unreadable"}
     missing_producer = observed.field("producer").status in {"Not found", "Unreadable"}
-    missing_warning = observed.warning.heading is None or observed.warning.body is None
-    if not (missing_brand or missing_content or missing_producer or missing_warning):
-        return recovery
 
     for panel in decoded:
         panel_views: list[ImageView] = []
+        warning_anchor = _warning_anchor(observed, panel.panel_id)
+        heading_anchor = _warning_heading_anchor(observed, panel.panel_id)
+        if warning_anchor is not None and heading_anchor is not None and not warning_settled:
+            panel_views.append(
+                _warning_detail_view(
+                    panel,
+                    warning_anchor,
+                    heading_anchor,
+                    body_complete=_warning_body_complete(warning),
+                )
+            )
+        elif warning.heading is None:
+            panel_views.extend(_warning_search_views(panel))
         if missing_brand:
             class_anchor = _field_anchor(observed, "class_type", panel.panel_id)
             if class_anchor is not None:
                 left, top, right, bottom = class_anchor
                 center_x = (left + right) // 2
                 if panel.coverage_state == "Sufficient":
-                    half_width = max(
-                        round((right - left) * 0.85), round(panel.width * 0.16)
-                    )
+                    half_width = max(round((right - left) * 0.85), round(panel.width * 0.16))
                     crop_top = top - round(panel.height * 0.24)
                 else:
-                    half_width = max(
-                        round((right - left) * 0.85), round(panel.width * 0.10)
-                    )
+                    half_width = max(round((right - left) * 0.85), round(panel.width * 0.10))
                     crop_top = top - round(panel.height * 0.10)
                 panel_views.append(
                     create_crop_ocr_view(
@@ -458,51 +581,38 @@ def _recovery_views(
                             bottom + round(panel.height * 0.04),
                         ),
                         f"transform-{panel.panel_id}-brand-detail-v1",
-                        max_side=1800,
+                        max_side=1200,
                     )
                 )
-        landscape_rotated_detail = (
-            panel.width >= panel.height
-            and panel.coverage_state == "Sufficient"
-            and (missing_producer or missing_warning)
-        )
-        if missing_content and not landscape_rotated_detail:
+        if missing_content and len(panel_views) < 3:
             anchor = _field_anchor(observed, "class_type", panel.panel_id) or _field_anchor(
                 observed, "brand", panel.panel_id
             )
             if anchor is not None:
                 left, top, right, bottom = anchor
                 center_x = (left + right) // 2
-                if (
-                    panel.width < panel.height
-                    and abs(center_x - panel.width / 2) >= panel.width * 0.15
-                ):
-                    crop_left = 0 if center_x < panel.width / 2 else panel.width // 2
-                    crop_right = crop_left + panel.width // 2
-                else:
-                    half_width = max((right - left) * 2, round(panel.width * 0.25))
-                    crop_left = center_x - half_width
-                    crop_right = center_x + half_width
+                half_width = max((right - left) * 2, round(panel.width * 0.30))
                 panel_views.append(
                     create_crop_ocr_view(
                         panel,
                         (
-                            crop_left,
-                            bottom + round(panel.height * 0.026),
-                            crop_right,
-                            bottom + round(panel.height * 0.111),
+                            center_x - half_width,
+                            bottom + round(panel.height * 0.01),
+                            center_x + half_width,
+                            bottom + round(panel.height * 0.16),
                         ),
                         f"transform-{panel.panel_id}-content-detail-v1",
+                        max_side=1200,
                     )
                 )
-        if missing_producer:
+        if missing_producer and len(panel_views) < 3:
             content_anchor = _field_anchor(
                 observed, "net_contents", panel.panel_id
             ) or _field_anchor(observed, "abv", panel.panel_id)
             if content_anchor is not None:
                 left, top, right, bottom = content_anchor
                 center_x = (left + right) // 2
-                half_width = max((right - left) * 2, round(panel.width * 0.14))
+                half_width = max((right - left) * 2, round(panel.width * 0.20))
                 panel_views.append(
                     create_crop_ocr_view(
                         panel,
@@ -513,84 +623,113 @@ def _recovery_views(
                             bottom + round(panel.height * 0.16),
                         ),
                         f"transform-{panel.panel_id}-producer-detail-v1",
-                        max_side=1400,
-                    )
-                )
-        warning_anchor = _warning_anchor(observed, panel.panel_id)
-        if missing_producer and warning_anchor is not None:
-            left, top, right, bottom = warning_anchor
-            center_x = (left + right) // 2
-            half_width = max((right - left), round(panel.width * 0.30))
-            panel_views.append(
-                create_crop_ocr_view(
-                    panel,
-                    (
-                        center_x - half_width,
-                        top - round(panel.height * 0.03),
-                        center_x + half_width,
-                        bottom + round(panel.height * 0.30),
-                    ),
-                    f"transform-{panel.panel_id}-warning-detail-v1",
-                )
-            )
-        if (
-            warning_anchor is None
-            and panel.width < panel.height
-            and (missing_producer or missing_warning)
-        ):
-            panel_views.append(
-                create_crop_ocr_view(
-                    panel,
-                    (
-                        round(panel.width * 0.12),
-                        round(panel.height * 0.48),
-                        round(panel.width * 0.88),
-                        round(panel.height * 0.92),
-                    ),
-                    f"transform-{panel.panel_id}-lower-label-detail-v1",
-                )
-            )
-        if panel.width >= panel.height and (missing_producer or missing_warning):
-            detail_top = round(panel.height * 0.12)
-            detail_bottom = round(panel.height * 0.94)
-            right_left = round(panel.width * 0.62)
-            right_bounds = (right_left, detail_top, panel.width, detail_bottom)
-            if panel.coverage_state == "Sufficient":
-                panel_views.append(
-                    create_crop_ocr_view(
-                        panel,
-                        right_bounds,
-                        f"transform-{panel.panel_id}-right-detail-rotated-v1",
-                        rotate_clockwise=True,
                         max_side=1200,
                     )
                 )
-            else:
-                panel_views.append(
-                    create_crop_ocr_view(
-                        panel,
-                        right_bounds,
-                        f"transform-{panel.panel_id}-right-detail-v1",
-                        max_side=1200,
-                    )
-                )
-        recovery.extend(panel_views[:3])
-    return recovery
+        # At most two focused reads per panel keep the second pass inside the time budget.
+        recovery.extend(panel_views[:_MAX_PANEL_RECOVERY_VIEWS])
+    # Across a multi-panel product the warning re-reads come first and the total stays
+    # inside three views so a two-panel request keeps its latency budget.
+    recovery.sort(key=lambda view: 0 if "warning-detail" in view.transform_id else 1)
+    return recovery[:_MAX_RECOVERY_VIEWS]
 
 
-def _brand_needs_recovery(observed: ObservedCandidates) -> bool:
-    brand = _selected_candidate(observed.field("brand"))
-    class_type = _selected_candidate(observed.field("class_type"))
-    if brand is None:
-        return True
-    if class_type is None or brand.evidence.panel_id != class_type.evidence.panel_id:
+def _warning_body_complete(warning: WarningObservation) -> bool:
+    """True when the read body already carries about as many words as the statute."""
+
+    expected = len(str(contracts().rules["warning"]["bodyExact"]).split())
+    return warning.body is not None and len(warning.body.split()) >= expected - 3
+
+
+def _warning_heading_anchor(
+    observed: ObservedCandidates, panel_id: str
+) -> tuple[int, int, int, int] | None:
+    evidence = observed.warning.heading_evidence
+    if evidence is None or evidence.panel_id != panel_id:
+        return None
+    return _evidence_bounds(evidence)
+
+
+def _warning_settled(warning: WarningObservation) -> bool:
+    """True when the first read already carries the statutory body with high confidence."""
+
+    if warning.heading is None or warning.body is None or warning.body_evidence is None:
         return False
-    brand_bounds = _evidence_bounds(brand.evidence)
-    class_bounds = _evidence_bounds(class_type.evidence)
-    brand_height = max(1, brand_bounds[3] - brand_bounds[1])
-    class_height = max(1, class_bounds[3] - class_bounds[1])
-    vertical_gap = class_bounds[1] - brand_bounds[3]
-    return not (0 <= vertical_gap <= max(brand_height, class_height) * 6)
+    expected = punctuation_folded(str(contracts().rules["warning"]["bodyExact"]))
+    signal = warning.body_evidence.confidence_provenance.signal or 0.0
+    return punctuation_folded(warning.body) == expected and signal >= 0.9
+
+
+def _warning_detail_view(
+    panel: DecodedPanel,
+    anchor: tuple[int, int, int, int],
+    heading_anchor: tuple[int, int, int, int],
+    *,
+    body_complete: bool,
+) -> ImageView:
+    """Crop the statement region at up to twice its native size for a second read.
+
+    The heading height is the scale unit. A body that is still short of the statutory word
+    count is extended well below the last line read, so lines the first pass missed are
+    inside the crop; a complete body only gets a small margin.
+    """
+
+    left, top, right, bottom = anchor
+    width = max(1, right - left)
+    line_height = max(4, heading_anchor[3] - heading_anchor[1])
+    margin_x = max(round(width * 0.15), round(panel.width * 0.02))
+    extend_below = round(line_height * 1.5) if body_complete else line_height * 12
+    return create_crop_ocr_view(
+        panel,
+        (
+            min(left, heading_anchor[0]) - margin_x,
+            min(top, heading_anchor[1]) - round(line_height * 0.6),
+            max(right, heading_anchor[2]) + margin_x,
+            bottom + extend_below,
+        ),
+        f"transform-{panel.panel_id}-warning-detail-v2",
+        max_side=1400,
+    )
+
+
+def _warning_search_views(panel: DecodedPanel) -> list[ImageView]:
+    """Enlarged reads of where a warning usually sits when the first pass found none."""
+
+    if panel.width >= panel.height:
+        bounds = (
+            round(panel.width * 0.55),
+            round(panel.height * 0.10),
+            panel.width,
+            round(panel.height * 0.95),
+        )
+        if panel.coverage_state == "Sufficient":
+            return [
+                create_crop_ocr_view(
+                    panel,
+                    bounds,
+                    f"transform-{panel.panel_id}-right-detail-rotated-v1",
+                    rotate_clockwise=True,
+                    max_side=1400,
+                )
+            ]
+        return [
+            create_crop_ocr_view(
+                panel, bounds, f"transform-{panel.panel_id}-right-detail-v1", max_side=1400
+            )
+        ]
+    return [
+        create_crop_ocr_view(
+            panel,
+            (
+                round(panel.width * 0.08),
+                round(panel.height * 0.45),
+                round(panel.width * 0.92),
+                round(panel.height * 0.95),
+            ),
+            f"transform-{panel.panel_id}-lower-label-detail-v1",
+            max_side=1800,
+        )
+    ]
 
 
 def _field_anchor(

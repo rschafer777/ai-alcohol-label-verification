@@ -16,12 +16,12 @@
           "width": 1200
         },
         {
-          "bytes": 72480,
+          "bytes": 72586,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-2",
           "path": "fixtures/holdout/cases/H001/panels/panel-2.png",
-          "sha256": "4e6624bf8de4f6b40ea321f5a24fc7f91bbdf005a7fd3283f34cfa2a560dff9b",
+          "sha256": "3f98bf80bf406b506d82bd1e368a5b7c4f0273cba81e3f53346aef3dc1a9494c",
           "width": 1200
         },
         {
@@ -53,12 +53,12 @@
       "oraclePath": "fixtures/oracle/holdout/H002.json",
       "panels": [
         {
-          "bytes": 89431,
+          "bytes": 89498,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/holdout/cases/H002/panels/panel-1.png",
-          "sha256": "0612c359f423230870fd81e00ee32d7ad15ed757a6acd57ce5518b60428f998f",
+          "sha256": "94649c2777b5e3f0b731ffa23ab1d407b6611eaa5b9e8ee70b19637d554ada3a",
           "width": 1200
         }
       ],
@@ -89,12 +89,12 @@
           "width": 1200
         },
         {
-          "bytes": 72622,
+          "bytes": 72729,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-2",
           "path": "fixtures/holdout/cases/H003/panels/panel-2.png",
-          "sha256": "ceb48de180e296e00523a254e495e3cdafb1e9bb2d5bf4081f5735271afb0d76",
+          "sha256": "fa08270474d6055097a41c413340a986a13161369b59a8d9693d27eead34e6a9",
           "width": 1200
         },
         {
@@ -126,12 +126,12 @@
       "oraclePath": "fixtures/oracle/holdout/H004.json",
       "panels": [
         {
-          "bytes": 81880,
+          "bytes": 81951,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/holdout/cases/H004/panels/panel-1.png",
-          "sha256": "b872454c718b3220115bc1e723029dce9486efda07b3bfc521b49a267b6cc9d9",
+          "sha256": "5f1305da51aeb8dc0e0371983dbb46ac1bc4c525aefb254e811e2cde6735a0c5",
           "width": 1200
         }
       ],
@@ -154,12 +154,12 @@
       "oraclePath": "fixtures/oracle/holdout/H005.json",
       "panels": [
         {
-          "bytes": 87804,
+          "bytes": 87879,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/holdout/cases/H005/panels/panel-1.png",
-          "sha256": "f192356fbea1b92c6dbacf70869500ac51735a0b7b8429dd4c18810370c07df6",
+          "sha256": "3ec8086c25a9e00694e574ecf56ed5a01077c18074043be6fb4072440168a08d",
           "width": 1200
         }
       ],

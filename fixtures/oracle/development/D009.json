@@ -139,8 +139,8 @@
       "minimumAlternatives": 0,
       "mustAppear": true,
       "observedHint": null,
-      "reasonClass": "punctuation_uncertainty",
-      "state": "Review"
+      "reasonClass": "exact",
+      "state": "Match"
     },
     {
       "applicable": true,
@@ -213,11 +213,11 @@
       "state": "Match"
     },
     {
-      "applicable": true,
+      "applicable": false,
       "checkId": "warning_physical_size",
       "evidence": "optional",
       "minimumAlternatives": 0,
-      "mustAppear": true,
+      "mustAppear": false,
       "observedHint": null,
       "reasonClass": "unsupported_measurement",
       "state": "Not verified"
@@ -250,5 +250,5 @@
   "oracleId": "oracle_d009",
   "outcomeKind": "result",
   "schemaVersion": "1.0.0",
-  "summary": "Review needed"
+  "summary": "No differences found in checked fields"
 }

@@ -550,3 +550,13 @@ select.input { width: auto; }
   .table.reflow td { display: block; border: 0; padding: 0; }
   .table.reflow td[data-label]::before { content: attr(data-label); display: block; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--lv-muted); }
 }
+
+/* Optional application (COLA form) values on the single-label door. */
+.application-details { border: 1px solid var(--lv-neutral-500); padding: 10px 14px; margin-top: 12px; background: var(--lv-neutral-100); }
+.application-details summary { cursor: pointer; font-size: 14px; }
+.application-details .small { font-size: 12px; margin: 8px 0 0; }
+.application-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 14px; margin-top: 12px; }
+.application-field { display: grid; gap: 4px; font-size: 13px; }
+.application-field.wide { grid-column: 1 / -1; }
+.application-field.check { grid-template-columns: auto 1fr; align-items: center; align-self: end; gap: 8px; }
+.application-field select.input { min-height: 40px; }

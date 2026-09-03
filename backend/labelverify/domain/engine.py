@@ -4,7 +4,7 @@ import re
 from dataclasses import dataclass
 from decimal import Decimal
 
-from labelverify.contracts.models import CheckResult, ReferenceRecord, SummaryState
+from labelverify.contracts.models import CandidateSet, CheckResult, ReferenceRecord, SummaryState
 from labelverify.domain.aggregation import aggregate, validate_check_set
 from labelverify.domain.beverage import beverage_type_hits
 from labelverify.domain.comparison import (
@@ -17,6 +17,12 @@ from labelverify.domain.comparison import (
     compare_proof,
     compare_text,
 )
+from labelverify.domain.normalize import (
+    is_domestic_origin,
+    looks_like_domestic_location,
+    looks_like_producer_statement,
+)
+from labelverify.domain.reference_search import apply_reference_search
 from labelverify.domain.types import ObservedCandidates
 from labelverify.domain.warnings import warning_checks
 
@@ -52,10 +58,13 @@ def compare_all(inputs: ComparisonInputs) -> tuple[list[CheckResult], SummarySta
             observed.warning,
             reference.net_contents_value,
             reference.net_contents_unit,
+            beverage_type=reference.beverage_type,
+            class_type=reference.class_type,
         ),
         _panel_coverage(observed),
         _image_quality(observed),
     ]
+    checks = apply_reference_search(checks, reference, observed)
     checks = _label_derived_reference_guard(checks, reference)
     checks = _guard_degraded_evidence(checks, observed)
     validate_check_set(checks)
@@ -144,17 +153,19 @@ _DOMESTIC_LOCATION = re.compile(
     r"VT|VA|WA|WV|WI|WY)\b",
     re.I,
 )
+
+
 def _import_status(reference: ReferenceRecord, observed: ObservedCandidates) -> bool | None:
     if reference.reference_provenance != "label_ocr":
         return reference.is_imported
-    if observed.field("country").status in {"Found", "Ambiguous"}:
-        return True
-    producer_text = " ".join(
-        candidate.value for candidate in observed.field("producer").candidates
-    )
+    country = observed.field("country")
+    if country.status in {"Found", "Ambiguous"}:
+        # "Product of USA" is an origin statement for a domestic product, not an import.
+        return not all(is_domestic_origin(candidate.value) for candidate in country.candidates)
+    producer_text = " ".join(candidate.value for candidate in observed.field("producer").candidates)
     if re.search(r"\bimported\s+by\b", producer_text, re.I):
         return True
-    if _DOMESTIC_LOCATION.search(producer_text):
+    if _DOMESTIC_LOCATION.search(producer_text) or looks_like_domestic_location(producer_text):
         return False
     return None
 
@@ -189,6 +200,8 @@ def _beverage_type(reference: ReferenceRecord, observed: ObservedCandidates) -> 
         "The label does not provide one unambiguous beverage-type signal",
         reference=reference.beverage_type,
     )
+
+
 def _class_type(reference: ReferenceRecord, observed: ObservedCandidates) -> CheckResult:
     result = compare_class(reference.class_type, observed.field("class_type"))
     if reference.beverage_type != "wine" or result.state != "Match":
@@ -211,16 +224,12 @@ def _alcohol_content(reference: ReferenceRecord, observed: ObservedCandidates) -
     candidates = observed.field("abv")
     if reference.abv_percent is not None:
         result = compare_abv(reference.abv_percent, candidates)
-        snippets = [
-            item.evidence.text_snippet or item.value for item in candidates.candidates
-        ]
+        snippets = [item.evidence.text_snippet or item.value for item in candidates.candidates]
         statement = " ".join(snippets)
         if re.search(r"\bABV\b", statement, re.I) and re.search(r"\d", statement):
             result.state = "Mismatch"
             result.reason_code = "abv_abbreviation_not_authorized"
-            result.reason_text = (
-                "The alcohol statement uses the unauthorized abbreviation ABV"
-            )
+            result.reason_text = "The alcohol statement uses the unauthorized abbreviation ABV"
             return result
         range_values = _alcohol_range(statement)
         if range_values is not None:
@@ -292,13 +301,17 @@ def _alcohol_content(reference: ReferenceRecord, observed: ObservedCandidates) -
                 applicable=False,
             )
         if reference.malt_alcohol_source == "unknown" and candidates.status == "Not found":
+            # 27 CFR 7.65: the statement is optional unless alcohol comes from added
+            # flavors or other nonbeverage ingredients, a formula fact no image carries.
             return _result(
                 "abv",
                 "Alcohol content",
-                "Review",
-                "malt_abv_trigger_unknown",
-                "Formula information is needed to determine whether a malt-beverage "
-                "alcohol statement is required",
+                "Not verified",
+                "malt_abv_optional_unless_added_alcohol",
+                "No alcohol statement was read; it is optional for a malt beverage unless "
+                "alcohol comes from added flavors or state law requires it",
+                applicable=False,
+                capability="human_confirmation",
             )
     if reference.beverage_type == "wine" and re.search(
         r"\b(?:table|light)\s+wine\b", reference.class_type, re.I
@@ -371,12 +384,18 @@ def _proof(reference: ReferenceRecord, observed: ObservedCandidates) -> CheckRes
         and bool(re.search(r"%", source))
         and bool(re.search(r"\bproof\b", source, re.I))
     )
-    if same_line and not re.search(r"[([]\s*\d{1,3}(?:\.\d+)?\s*proof\s*[)\]]", source, re.I):
-        result.state = "Review"
-        result.reason_code = "proof_distinction_requires_review"
+    if (
+        same_line
+        and result.state == "Match"
+        and not re.search(r"[([]\s*\d{1,3}(?:\.\d+)?\s*proof\s*[)\]]", source, re.I)
+    ):
+        # 27 CFR 5.65 accepts parentheses, brackets, or any other distinction. A separate
+        # "80 PROOF" statement beside the percentage is the common approved form, so the
+        # relationship is a match and the enclosure is noted for the reviewer.
+        result.reason_code = "proof_adjacent_to_abv"
         result.reason_text = (
-            "Proof and alcohol by volume share one line without a reliably detected "
-            "distinguishing enclosure"
+            "Proof matches twice alcohol by volume and is stated beside it as a separate "
+            "term; no parentheses were read, so confirm the distinction by eye"
         )
     elif result.state == "Match":
         result.reason_code = "proof_abv_relationship_and_placement_match"
@@ -394,9 +413,12 @@ def _net_contents(reference: ReferenceRecord, observed: ObservedCandidates) -> C
     )
     if reference.beverage_type == "malt_beverage":
         values = [item.value for item in observed.field("net_contents").candidates]
+        # The unit may follow the number without a space ("16FLOZ"), so the match is
+        # bounded by letters rather than by word boundaries.
         customary = any(
             re.search(
-                r"\b(?:fl\.?\s*[o0]z\.?|fluid\s+ounces?|pints?|pts?\.?|quarts?|qts?\.?|gallons?|gals?\.?)\b",
+                r"(?<![a-z])(?:fl\.?\s*[o0]z\.?|fluid\s+ounces?|pints?|pts?\.?|quarts?|qts?\.?|"
+                r"gallons?|gals?\.?)(?![a-z])",
                 value,
                 re.I,
             )
@@ -422,13 +444,7 @@ def _wine_appellation(reference: ReferenceRecord, observed: ObservedCandidates) 
             "Wine appellation rules do not apply to this beverage profile",
             applicable=False,
         )
-    trigger = bool(
-        re.search(
-            r"\b(?:merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|syrah|shiraz|muscat|vintage|estate\s+bottled)\b",
-            reference.class_type,
-            re.I,
-        )
-    )
+    trigger = bool(_APPELLATION_TRIGGER.search(reference.class_type))
     if not trigger:
         return _result(
             "wine_appellation",
@@ -438,21 +454,76 @@ def _wine_appellation(reference: ReferenceRecord, observed: ObservedCandidates) 
             "No selected varietal, vintage, or estate-bottled trigger was found",
             applicable=False,
         )
-    if reference.wine_appellation:
+    if reference.wine_appellation and reference.reference_provenance != "label_ocr":
         return compare_text(
             "wine_appellation",
             "Wine appellation",
             reference.wine_appellation,
             observed.field("wine_appellation"),
         )
+    read = observed.field("wine_appellation")
+    # The producer's own city and state ("bottled by ..., Napa, California") is an address,
+    # not an appellation of origin, whichever stage handed it over.
+    places = [item for item in read.candidates if not looks_like_producer_statement(item.value)]
+    if read.status in {"Found", "Ambiguous"} and places:
+        read = CandidateSet(status="Found" if len(places) == 1 else "Ambiguous", candidates=places)
+    else:
+        read = CandidateSet(status="Not found")
+    if read.status in {"Found", "Ambiguous"}:
+        # 27 CFR 4.32(a) places the appellation on the brand label, so it has to sit on the
+        # panel that carries the brand name. Several place statements (a viticultural area
+        # and a county) are normal on one label; any of them on the brand panel satisfies
+        # the rule as far as a photograph can show. Whether the wine meets the content
+        # requirement behind the appellation is not visible on the label.
+        brand = observed.field("brand")
+        brand_panels = {
+            item.evidence.panel_id
+            for item in brand.candidates
+            if brand.status in {"Found", "Ambiguous"}
+        }
+        on_brand_panel = [
+            item for item in read.candidates if item.evidence.panel_id in brand_panels
+        ]
+        if brand_panels and not on_brand_panel:
+            return _result(
+                "wine_appellation",
+                "Wine appellation",
+                "Review",
+                "wine_appellation_placement_review",
+                "An appellation of origin was read, but not on the panel that carries the "
+                "brand name; 27 CFR 4.32 places it on the brand label",
+                observed="; ".join(item.value for item in read.candidates),
+                candidate=read.candidates[0],
+            )
+        chosen = on_brand_panel or read.candidates
+        return _result(
+            "wine_appellation",
+            "Wine appellation",
+            "Match",
+            "wine_appellation_found",
+            "An appellation of origin was read on the brand label with the varietal or "
+            "vintage designation",
+            observed="; ".join(item.value for item in chosen),
+            candidate=chosen[0],
+        )
+    # 27 CFR 4.23, 4.27, and 4.26: a varietal, vintage, or estate-bottled designation
+    # requires an appellation of origin on the brand label. None was read, so the label
+    # needs a reviewer's eye rather than a clean pass.
     return _result(
         "wine_appellation",
         "Wine appellation",
-        "Not verified",
+        "Review",
         "wine_appellation_not_found",
-        "This wine designation can require an appellation, but no reliable appellation "
-        "was supplied or read",
+        "This wine designation requires an appellation of origin, but no appellation was read",
     )
+
+
+_APPELLATION_TRIGGER = re.compile(
+    r"\b(?:merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|syrah|"
+    r"shiraz|muscat|sangiovese|malbec|tempranillo|grenache|viognier|gris|grigio|blanc|noir|"
+    r"vintage|estate\s+bottled|(?:19|20)\d{2})\b",
+    re.I,
+)
 
 
 def _wine_sulfites(reference: ReferenceRecord, observed: ObservedCandidates) -> CheckResult:
@@ -494,13 +565,28 @@ def _wine_sulfites(reference: ReferenceRecord, observed: ObservedCandidates) -> 
             "Trusted chemistry indicates the declaration threshold is not triggered",
             applicable=False,
         )
+    if found.status == "Found":
+        candidate = found.candidates[0]
+        return _result(
+            "wine_sulfites",
+            "Wine sulfite declaration",
+            "Match",
+            "sulfite_declaration_found",
+            "A readable sulfite declaration was found",
+            observed=candidate.value,
+            candidate=candidate,
+        )
+    # 27 CFR 4.32(e): the declaration is required at 10 ppm or more of sulfur dioxide,
+    # which nearly every commercial wine reaches. A missing declaration is therefore a
+    # review item for the application's chemistry, not a clean pass.
     return _result(
         "wine_sulfites",
         "Wine sulfite declaration",
-        "Not verified",
-        "sulfite_chemistry_unknown",
-        "A label image cannot establish whether total sulfur dioxide reaches the "
-        "declaration threshold",
+        "Review",
+        "sulfite_declaration_not_found",
+        "No sulfite declaration was read; it is required unless the application shows "
+        "total sulfur dioxide below 10 ppm",
+        capability="human_confirmation",
     )
 
 

@@ -11,13 +11,13 @@ The application also groups and processes batches of up to 300 products and reta
 
 ## What it does
 
-- Starts from label images, not manually typed label fields.
+- Starts from label images. Typing the application (COLA form) values is optional; when they are entered, the label is compared with them and every entered value is searched across all readable lines of the label.
 - Accepts 1 to 3 JPEG, PNG, or WebP panels per product.
 - Runs OCR locally with bundled ONNX models. Label processing requires no external ML API.
 - Infers malt beverage, wine, or distilled spirits from whole-term evidence and exposes conflicts for review.
-- Extracts brand, class/type, ABV, proof, net contents, producer/address, origin, warning, and selected family-specific evidence.
+- Extracts brand, class/type, ABV, proof, net contents, producer/address, origin, warning, and selected family-specific evidence, reading each panel once at a bounded size and then re-reading the government warning and any missing field from an enlarged crop of the region it located.
 - Applies 24 ordered checks with Match, Mismatch, Review, and Not verified states.
-- Evaluates the government warning through separate applicability, wording, capitalization, emphasis, separation, continuity, contrast, legibility, and size-capability checks.
+- Evaluates the government warning through separate applicability, wording, capitalization, emphasis, separation, continuity, contrast, legibility, and size checks. Wording is compared word for word against 27 CFR 16.21, and a punctuation difference is a review item that names the marks in question, never cleared by the machine; heading and body weight are measured from stroke width against letter height; contrast is measured as a WCAG luminance ratio confirmed by the gray-level range; the millimeter type-size rule is reported for the reviewer because a photograph carries no scale.
 - Maps every located field to an original-pixel polygon and provides Show on label.
 - Preserves human judgment for case-only and punctuation-only variations such as `STONE'S THROW` and `Stone's Throw`.
 - Attempts bounded orientation, deskew, perspective, and contrast recovery without inventing obscured text.
@@ -25,6 +25,7 @@ The application also groups and processes batches of up to 300 products and reta
 - Reports batch progress, remaining work, active time, average, ETA, attempts, exceptions, retry, cancel, CSV, and JSON.
 - Stores the latest 500 results and images with filtering, paging, evidence reopening, disposition editing, deletion, and FIFO eviction. An opaque HttpOnly browser-scope cookie isolates history access in the public demo.
 - Includes a complete built-in synthetic sample.
+- Ships an evaluation harness (`scripts/score_ground_truth.py`) that scores every private test image against a pixel-level field ground truth and the disposition oracle; the runtime never reads either file.
 
 ## Technology
 
@@ -122,6 +123,7 @@ uv run python scripts/run_performance_validation.py
 uv run python scripts/run_batch_performance_validation.py --count 20
 uv run python scripts/normalize_test_images.py
 uv run python scripts/validate_private_uat_corpus_e2e.py
+uv run python scripts/score_ground_truth.py
 
 Push-Location frontend
 npm run lint
@@ -132,9 +134,9 @@ npm run test:e2e
 Pop-Location
 ```
 
-The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 70 accepted images plus one skipped JSON file. The production multipart API processed all 70 images and all 50 server-suggested product groups. Individual-image mean latency was 3.559 seconds, p95 was 5.943 seconds, and the maximum was 6.449 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
+The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 71 accepted images plus 2 skipped JSON files (the disposition oracle and the pixel ground truth). The production multipart API processed all 71 images and all 45 server-suggested product groups. Individual-image mean latency was 3.456 seconds on the development workstation, p95 was 4.926 seconds, and the maximum was 6.434 seconds; the Azure Consumption replica runs about 1.5 times slower. Raw images remain excluded from the public repository because public redistribution rights were not established.
 
-The local visual oracle predates the current folder contents. It has 50 cases, 42 exact current filename matches, 28 current images without an oracle row, and 8 oracle filenames that are absent. The release evidence therefore distinguishes a passing 70-image technical and performance gate from the still-required complete human field-accuracy oracle. It does not claim that every OCR value or legal label outcome has been independently verified.
+The disposition oracle covers 42 of the images and a pixel-level field ground truth covers every image; `scripts/score_ground_truth.py` scores the production path against both. The current result is 0 false rejects, 1 disputed false clean (an oracle row contradicted by the pixels), 63 of 65 alcohol contents, 63 of 64 net contents, 68 of 70 beverage types, and 61 of 70 brand names read exactly or within a longer line; the full table is in `docs/08-validation/VALIDATION_RESULTS.md`. The ground truth was read by people from the pixels and is not an independent COLA record.
 
 ## API
 
@@ -164,12 +166,13 @@ PPI metadata does not prove physical type size. Reliable millimeter validation r
 
 ## Regulatory approach
 
-The selected rule registry is based on the current TTB and eCFR sources listed in `contracts/regulatory-rules-v1.json`.
+The selected rule registry is based on the current TTB and eCFR sources listed in `contracts/regulatory-rules-v1.json`. Every applied rule was re-verified against its primary source on 2026-09-03; the rule-by-rule record, including what the application does with each rule and what a photograph cannot decide, is in [`docs/08-validation/REGULATORY_VALIDATION.md`](docs/08-validation/REGULATORY_VALIDATION.md).
 
 - Malt beverages: recognized class/type, limitations on `IPA` alone, U.S. customary net quantity, alcohol-statement triggers, prohibited ranges, decimal precision, and formula or state-law dependencies. `ABV` is not accepted as an abbreviation.
 - Wine: numeric alcohol rules, permitted range span and the 14 percent boundary, the table/light wine exception, conditional appellation, and sulfite declaration dependent on chemistry.
 - Distilled spirits: required alcohol content, same-field-of-vision evaluation for brand, class/type, and ABV, plus optional proof comparison and distinction.
-- All families at 0.5 percent ABV or more: exact government warning content and presentation checks.
+- All families at 0.5 percent ABV or more: exact government warning content and presentation checks. Wine and distilled spirits, and malt beverages with a recognized class designation, are above that threshold by definition, so the warning is required even when the alcohol statement could not be read.
+- Wine: a missing sulfite declaration and a varietal or vintage designation without an appellation are review items, because only the application can waive the first and the second is a brand-label placement rule.
 
 The UI label `Approve` records a reviewer's prototype disposition. It does not alter machine evidence.
 
@@ -180,6 +183,8 @@ The UI label `Approve` records a reviewer's prototype disposition. It does not a
 - The take-home prototype uses synthetic or sanitized data.
 - No trusted COLA application record, formula, chemistry result, physical scale, state rule set, identity provider, or agency records schedule is supplied.
 - The selected federal rules are evidence checks, not a replacement for the complete agency review process.
+- Type weight (bold heading, regular body) and contrast are measured on the OCR view; a measurement that is not clearly decisive is a review item, and type weight is never a rejection on its own.
+- When application values are entered, the label-wide search can only rescue a field that extraction read wrongly or missed; a statement that breaks a format or placement rule stays a difference whatever the application says.
 
 ## Trade-offs
 
@@ -188,7 +193,7 @@ The UI label `Approve` records a reviewer's prototype disposition. It does not a
 - A modular monolith is simpler to build, run, test, and deploy for this scope. Typed boundaries preserve a path to separate services later.
 - SQLite plus local files makes the 500-record workflow easy to evaluate. A production Azure deployment should select durable managed storage.
 - Anonymous browser-scope history avoids an account setup step for UAT. Production requires agency identity and role-based authorization.
-- Typography and image heuristics can identify strong visual evidence, but uncertain emphasis, contrast, or physical size remains human review.
+- Typography and image heuristics can identify strong visual evidence, but uncertain emphasis, contrast, or physical size remains human review. Stroke width measured on OCR boxes is comparable within one statement (heading against body) but not against an absolute scale, so the weight checks only assert bold when the heading is clearly heavier than the body.
 - Silent type inference reduces user work, but unresolved or conflicting signals are shown rather than guessed.
 - Bounded exact-pixel OCR result reuse makes confirmed batch reruns fast without using filenames or product-specific expected values. Cache misses always execute the same local OCR and rules pipeline.
 
@@ -200,7 +205,7 @@ The UI label `Approve` records a reviewer's prototype disposition. It does not a
 - Glare removal, curved-bottle unwarping, and restoration of missing pixels are not guaranteed. Unreadable evidence requests review or another image.
 - Highly stylized, curved, very small, or decorative text can be read partially. Generic layout and context ranking support the validated spirits, wine, vodka, and beer cases, but uncertain fields remain Review and require the reviewer to inspect the highlighted pixels.
 - OCR engine confidence is not a calibrated compliance probability.
-- The current 70-image private corpus has complete technical execution evidence but not a complete current human field oracle. Field-level and legal-label accuracy remain a UAT activity and are not represented by the 70 of 70 processing count.
+- The private corpus is scored against a pixel ground truth and a disposition oracle by an evaluation harness the runtime never reads. Most real labels are routed to review rather than reported clean, because warning punctuation, type weight, and contrast are measured from a photograph and left to the reviewer when not decisive; requester UAT still decides field-level and legal-label acceptance.
 - Local history in the Azure demo can reset on container revision or instance lifecycle. Production needs durable storage, identity, audit, retention, backup, legal hold, and recovery controls.
 - Clearing browser storage loses access to that browser scope's retained demo history. The cookie is intentionally unreadable to JavaScript, SameSite Strict, and Secure on the Azure deployment.
 - The prototype supports one active OCR job and one Azure replica. It is designed for functional evaluation, not production multi-user scale.

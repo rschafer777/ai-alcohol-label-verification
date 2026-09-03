@@ -2,7 +2,7 @@
   "mutations": [
     {
       "expectedChangedChecks": [],
-      "expectedSummary": "Review needed",
+      "expectedSummary": "No differences found in checked fields",
       "invariant": "Results must not depend on fixture ID.",
       "mutationId": "M001_case_id_rename",
       "operation": "rename_case_id",
@@ -12,7 +12,7 @@
     },
     {
       "expectedChangedChecks": [],
-      "expectedSummary": "Review needed",
+      "expectedSummary": "No differences found in checked fields",
       "invariant": "Evidence panel IDs may change but machine states must not.",
       "mutationId": "M002_panel_order",
       "operation": "reverse_panels",

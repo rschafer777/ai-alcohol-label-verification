@@ -228,9 +228,7 @@ def test_joined_wine_with_text_remains_a_class_candidate() -> None:
     )
 
     assert observed.field("class_type").status == "Found"
-    assert observed.field("class_type").candidates[0].value == (
-        "GRAPE WINEWITH NATURAL FLAVORS"
-    )
+    assert observed.field("class_type").candidates[0].value == ("GRAPE WINEWITH NATURAL FLAVORS")
 
 
 def test_domestic_certification_and_location_copy_cannot_become_brand() -> None:
@@ -246,8 +244,11 @@ def test_domestic_certification_and_location_copy_cannot_become_brand() -> None:
         [panel(), panel().model_copy(update={"panel_id": "panel-2"})],
     )
 
-    assert observed.field("brand").status == "Found"
-    assert observed.field("brand").candidates[0].value == "OrganicVodka"
+    # "Organic Vodka" names the class (vodka) even though OCR glued the words, so it is
+    # class evidence rather than the brand; certification and location copy stay out of both.
+    assert observed.field("brand").status == "Not found"
+    assert observed.field("class_type").status == "Found"
+    assert observed.field("class_type").candidates[0].value == "OrganicVodka"
 
 
 def test_brewery_name_can_be_brand_while_producer_role_stays_excluded() -> None:
@@ -348,7 +349,7 @@ def test_sentence_copy_is_not_selected_as_brand() -> None:
     assert observed.field("brand").candidates[0].value == "STRAWBERRY"
 
 
-def test_overlapping_repeat_reads_do_not_duplicate_brand_text() -> None:
+def test_overlapping_repeat_reads_do_not_duplicate_class_text() -> None:
     observed = locate_candidates(
         [
             line("OrganicVodka", 0, x=100, y=100, width=350, height=80),
@@ -358,7 +359,22 @@ def test_overlapping_repeat_reads_do_not_duplicate_brand_text() -> None:
         [panel()],
     )
 
-    assert observed.field("brand").candidates[0].value == "OrganicVodka"
+    # Two reads of one region and a footer repeat of the same family collapse to the most
+    # specific designation instead of an ambiguous set.
+    assert observed.field("class_type").status == "Found"
+    assert observed.field("class_type").candidates[0].value == "OrganicVodka"
+
+
+def test_class_readings_from_different_families_stay_ambiguous() -> None:
+    observed = locate_candidates(
+        [
+            line("GRAPE WINE WITH NATURAL FLAVORS", 0, y=100),
+            line("VODKA", 1, y=300),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("class_type").status == "Ambiguous"
 
 
 def test_short_product_qualifier_is_not_appended_to_primary_brand() -> None:
@@ -701,7 +717,7 @@ def test_ocr_text_claiming_a_scale_is_not_treated_as_calibrated_measurement() ->
     assert all(item.text_snippet != "SYNTHETIC SCALE: 2 mm" for item in observed.evidence)
 
 
-def test_warning_line_join_marks_punctuation_at_lowercase_wrap_as_uncertain() -> None:
+def test_warning_line_join_drops_an_invented_period_at_a_lowercase_wrap() -> None:
     observed = locate_candidates(
         [
             line("GOVERNMENT WARNING:", 0, y=100),
@@ -712,7 +728,119 @@ def test_warning_line_join_marks_punctuation_at_lowercase_wrap_as_uncertain() ->
     )
 
     assert observed.warning.body == "(1) First required sentence women should not drink alcohol."
-    assert observed.warning.punctuation_normalized is True
+
+
+def test_origin_phrases_name_a_country_or_a_domestic_location_only() -> None:
+    observed = locate_candidates(
+        [
+            line("MADE IN SMALL BATCHES", 0, y=100),
+            line("PRODUCT OF SMALL BATCH DISTILLING", 1, y=140),
+            line("WINE OF THE MONTH CLUB", 2, y=180),
+        ],
+        [panel()],
+    )
+    assert observed.field("country").status == "Not found"
+
+    domestic = locate_candidates([line("WINE OF CALIFORNIA", 0, y=100)], [panel()])
+    assert [item.value for item in domestic.field("country").candidates] == ["United States"]
+
+    imported = locate_candidates([line("MADE IN THE PHILIPPINES", 0, y=100)], [panel()])
+    assert [item.value for item in imported.field("country").candidates] == ["THE PHILIPPINES"]
+
+
+def test_same_family_class_readings_collapse_only_when_nested() -> None:
+    nested = locate_candidates(
+        [
+            line("KENTUCKY STRAIGHT BOURBON WHISKEY", 0, y=100),
+            line("BOURBON WHISKEY", 1, y=400),
+        ],
+        [panel()],
+    )
+    assert nested.field("class_type").status == "Found"
+    assert nested.field("class_type").candidates[0].value == "KENTUCKY STRAIGHT BOURBON WHISKEY"
+
+    conflicting = locate_candidates(
+        [
+            line("BLENDED WHISKEY", 0, y=100),
+            line("KENTUCKY STRAIGHT BOURBON WHISKEY", 1, y=400),
+        ],
+        [panel()],
+    )
+    assert conflicting.field("class_type").status == "Ambiguous"
+
+
+def test_marketing_copy_ranks_below_a_pure_class_designation() -> None:
+    observed = locate_candidates(
+        [
+            line("SMOOTH BOURBON WHISKEY EXPERIENCE", 0, y=100),
+            line("STRAIGHT BOURBON WHISKEY", 1, y=400),
+        ],
+        [panel()],
+    )
+    assert observed.field("class_type").candidates[0].value == "STRAIGHT BOURBON WHISKEY"
+
+
+def test_producer_address_is_not_an_appellation() -> None:
+    observed = locate_candidates(
+        [line("BOTTLED BY SILVERPINE CELLARS, NAPA, CALIFORNIA 94558", 0, y=100)],
+        [panel()],
+    )
+    assert observed.field("wine_appellation").status == "Not found"
+
+
+def test_damaged_vol_after_alc_still_reads_as_alcohol_content() -> None:
+    for text in ("40%Alc./Vo 80 Proof)", "40% Alc./ol (80 Proof)", "40% Alc./Vol (80 Proof)"):
+        observed = locate_candidates([line(text, 0, y=100)], [panel()])
+        assert [item.value for item in observed.field("abv").candidates] == ["40%"], text
+
+
+def test_damaged_second_role_word_still_marks_a_producer_statement() -> None:
+    observed = locate_candidates(
+        [
+            line("IRON ANCHOR", 0, y=100, height=80),
+            line("INDIA PALE ALE", 1, y=200),
+            line("Brewed and bottld by Iron Anchor Brewing Co, Portland, Maine", 2, y=400),
+        ],
+        [panel()],
+    )
+    assert observed.field("brand").candidates[0].value == "IRON ANCHOR"
+    assert observed.field("producer").status == "Found"
+
+
+def test_equal_volumes_read_differently_are_one_net_contents_value() -> None:
+    observed = locate_candidates(
+        [
+            line("12 FL. OZ. (355 mL)", 0, y=100),
+            line("12 FL. 0Z. (355 mL) : 5.2% Alc./Vol. Pale Ale", 1, y=600),
+        ],
+        [panel()],
+    )
+    net = observed.field("net_contents")
+    assert net.status == "Found"
+    assert net.candidates[0].value == "12 FL. OZ"
+
+
+def test_zero_read_for_the_o_of_ounces_is_repaired() -> None:
+    observed = locate_candidates([line("12 FL. 0Z. (355 mL)", 0, y=100)], [panel()])
+    assert observed.field("net_contents").candidates[0].value == "12 FL. OZ"
+
+
+def test_all_capital_glued_class_words_are_split() -> None:
+    observed = locate_candidates([line("GRAPEWINE WITH NATURALFLAVORS", 0, y=100)], [panel()])
+    assert observed.field("class_type").status == "Found"
+    assert observed.field("class_type").candidates[0].value == "GRAPE WINE WITH NATURAL FLAVORS"
+
+
+def test_a_dated_establishment_line_is_not_a_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("ESTABLISHED 1897", 0, y=100, height=90),
+            line("OLD TOM DISTILLERY", 1, y=250, height=60),
+            line("1897", 2, y=400, height=120),
+        ],
+        [panel()],
+    )
+    assert observed.field("brand").candidates[0].value == "OLD TOM DISTILLERY"
 
 
 def test_warning_heading_requires_a_separator_between_words() -> None:
@@ -848,7 +976,8 @@ def test_warning_style_heuristics_detect_known_failures_and_uncertainty() -> Non
     assert bold_body.body_bold is True
     assert bold_body.body is not None and bold_body.body.endswith("text..")
 
-    uncertain_separation = locate_candidates(
+    # A caption a full line height above the heading does not adjoin the statement.
+    clear_separation = locate_candidates(
         [
             line("BOTTLED FOR REVIEW", 0, y=100, height=22),
             line("GOVERNMENT WARNING:", 1, y=150, height=30, ink_density=0.4),
@@ -857,10 +986,34 @@ def test_warning_style_heuristics_detect_known_failures_and_uncertainty() -> Non
         ],
         [panel()],
     ).warning
-    assert uncertain_separation.separated is None
+    assert clear_separation.separated is True
+
+    touching = locate_candidates(
+        [
+            line("BOTTLED FOR REVIEW", 0, y=120, height=28),
+            line("GOVERNMENT WARNING:", 1, y=150, height=30, ink_density=0.4),
+            line("(1) Required warning text", 2, y=195, ink_density=0.2),
+            line("(2) Required warning text", 3, y=235, ink_density=0.2),
+        ],
+        [panel()],
+    ).warning
+    assert touching.separated is False
+
+    beside = locate_candidates(
+        [
+            line("GOVERNMENT WARNING:", 0, x=20, y=150, width=300, height=30, ink_density=0.4),
+            line("(1) Required warning text", 1, x=20, y=195, width=300, ink_density=0.2),
+            line("(2) Required warning text", 2, x=20, y=235, width=300, ink_density=0.2),
+            line("TASTING NOTES", 3, x=326, y=200, width=200, height=30),
+        ],
+        [panel()],
+    ).warning
+    assert beside.separated is False
 
 
-def test_missing_or_distant_surrounding_text_cannot_prove_separation() -> None:
+def test_absent_or_distant_surrounding_text_is_separation() -> None:
+    # 27 CFR 16.21 requires the statement to be separate and apart from all other
+    # information; when nothing adjoins the block that requirement is met.
     no_previous = locate_candidates(
         [
             line("GOVERNMENT WARNING:", 0, y=160, ink_density=0.4),
@@ -879,8 +1032,8 @@ def test_missing_or_distant_surrounding_text_cannot_prove_separation() -> None:
         [panel()],
     ).warning
 
-    assert no_previous.separated is None
-    assert distant_previous.separated is None
+    assert no_previous.separated is True
+    assert distant_previous.separated is True
     assert distant_previous.heading_bold is True
 
 

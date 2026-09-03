@@ -4,7 +4,7 @@ Document ID: LV-TRACE-001
 
 | Intake | Design | Feature | Implementation | Verification |
 | --- | --- | --- | --- | --- |
-| INT-001 to INT-003 | Single product flow | FR-001 to FR-003 | `frontend/src/app/App.tsx`, analysis route | Frontend component tests, API tests, browser UAT |
+| INT-001 to INT-003 | Single product flow and optional application comparison | FR-001 to FR-003 | `frontend/src/app/App.tsx`, `frontend/src/features/intake/ApplicationDetails.tsx`, analysis and verification routes, `backend/labelverify/domain/reference_search.py` | Frontend component tests including the application comparison test, reference-search tests, API tests, browser UAT |
 | INT-004 to INT-006 | Classification and rule activation | FR-007 to FR-013 | pipeline, domain engine, contract registries | Beverage-profile tests, contract tests |
 | INT-007 | Warning engine | FR-014 to FR-016, FR-022 | warning and candidate modules | Domain warning tests, synthetic fixtures, governed visual oracle diagnostic |
 | INT-008 | Human judgment | FR-018 | comparison engine | Case and punctuation tests including STONE'S THROW |

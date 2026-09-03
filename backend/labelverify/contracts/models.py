@@ -304,6 +304,12 @@ class OcrLine(ContractModel):
     transform_id: str = Field(alias="transformId")
     ink_density: float | None = Field(default=None, ge=0, le=1, alias="inkDensity")
     local_contrast: float | None = Field(default=None, ge=0, le=1, alias="localContrast")
+    # Typography signals measured on the OCR view that produced the line. Stroke width and
+    # ink height are in view pixels so their ratio is scale-free; the contrast ratio follows
+    # the WCAG 2.x relative-luminance definition (1.0 = no contrast, 21.0 = black on white).
+    stroke_px: float | None = Field(default=None, ge=0, alias="strokePx")
+    ink_height_px: float | None = Field(default=None, ge=0, alias="inkHeightPx")
+    contrast_ratio: float | None = Field(default=None, ge=1, le=21, alias="contrastRatio")
 
 
 class Candidate(ContractModel):

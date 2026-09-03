@@ -213,11 +213,11 @@
       "state": "Not verified"
     },
     {
-      "applicable": true,
+      "applicable": false,
       "checkId": "warning_physical_size",
       "evidence": "optional",
       "minimumAlternatives": 0,
-      "mustAppear": true,
+      "mustAppear": false,
       "observedHint": null,
       "reasonClass": "unsupported_measurement",
       "state": "Not verified"

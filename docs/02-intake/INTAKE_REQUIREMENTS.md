@@ -17,7 +17,7 @@ Primary users are TTB label compliance agents with widely varying technical comf
 | --- | --- | --- |
 | INT-001 | Provide two obvious entry paths: one product and batch | Both are visible on initial load and keyboard reachable |
 | INT-002 | Accept 1 to 3 JPEG, PNG, or WebP images for one product | The API and UI reject unsupported or excessive input without silent loss; measurable limit errors compare submitted and supported values and state the exact correction |
-| INT-003 | OCR label images without initial manual data entry | The primary UI contains no required application-value form |
+| INT-003 | OCR label images without requiring manual data entry, and compare the label with application values when the reviewer supplies them | No application field is required; an optional application form turns the read into a label-to-application comparison in which every entered value is searched across all readable lines |
 | INT-004 | Infer beer or malt beverage, wine, or distilled spirits | A unique supported class/type signal selects the profile; conflicts remain unresolved |
 | INT-005 | Extract brand, class/type, alcohol content, net contents, producer/name and address, import country when visible, proof when shown, and selected type-specific fields | Each found value has status, evidence reference, and original-pixel polygon |
 | INT-006 | Apply common and beverage-specific deterministic checks | The ordered 24-check registry is complete in every result |

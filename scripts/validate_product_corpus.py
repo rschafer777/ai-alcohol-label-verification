@@ -45,6 +45,11 @@ def classify_reason(row: dict[str, Any]) -> str:
             return "safe_equivalence"
     exact = {
         "exact_match",
+        "reference_found_on_label",
+        "warning_required_by_class",
+        "warning_wording_words_exact",
+        "proof_adjacent_to_abv",
+        "wine_appellation_found",
         "numeric_match",
         "proof_abv_relationship_match",
         "proof_abv_relationship_and_placement_match",
@@ -64,7 +69,7 @@ def classify_reason(row: dict[str, Any]) -> str:
     }
     if code in exact:
         return "exact"
-    if code == "safe_representation_match":
+    if code in {"safe_representation_match", "reference_found_within_label_text"}:
         return "safe_equivalence"
     if code == "case_variation":
         return "case_variation"
@@ -99,8 +104,12 @@ def classify_reason(row: dict[str, Any]) -> str:
         "observed_not_found",
         "warning_not_found",
         "warning_heading_not_found",
+        "sulfite_declaration_not_found",
+        "wine_appellation_not_found",
     }:
         return "missing"
+    if code == "malt_abv_optional_unless_added_alcohol":
+        return "not_applicable"
     if code in {"observed_unreadable", "image_unreadable"}:
         return "unreadable"
     if code == "reliable_scale_unavailable":
@@ -135,10 +144,9 @@ def compare_product_result(
         if expected.get("checkId") != check_id or observed.get("checkId") != check_id:
             continue
         expected_code = expected.get("reasonCode")
-        if (
-            expected.get("state") != observed.get("state")
-            and production_validator._state_is_acceptable(expected, observed)
-        ):
+        if expected.get("state") != observed.get(
+            "state"
+        ) and production_validator._state_is_acceptable(expected, observed):
             continue
         if expected_code is not None:
             observed_value = observed.get("reasonCode")
@@ -269,9 +277,7 @@ def mutate_payload(
             raise ValueError(f"Unsupported conflicting candidate target: {target}")
         conflict_spec = copy.deepcopy(spec)
         conflict_spec["visual"]["conflictingCountry"] = value
-        replacement = render_mutated_panels(
-            temporary_root, conflict_spec, ["origin-conflict"]
-        )[0]
+        replacement = render_mutated_panels(temporary_root, conflict_spec, ["origin-conflict"])[0]
         panels[-1] = (panels[-1][0], replacement[1], replacement[2])
     elif operation == "remove_panel":
         matching = [index for index, section in enumerate(spec["panels"]) if section == target]

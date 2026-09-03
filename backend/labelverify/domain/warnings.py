@@ -1,13 +1,28 @@
 from __future__ import annotations
 
+import re
 from decimal import Decimal
 from difflib import SequenceMatcher
 
 from labelverify.contracts.loader import contracts
-from labelverify.contracts.models import CheckResult, CheckState, Evidence
+from labelverify.contracts.models import BeverageType, CheckResult, CheckState, Evidence
 from labelverify.domain.comparison import _result
-from labelverify.domain.normalize import punctuation_folded, reference_volume_ml, warning_text
+from labelverify.domain.normalize import (
+    punctuation_folded,
+    reference_volume_ml,
+    warning_text,
+    warning_words,
+)
 from labelverify.domain.types import WarningObservation
+
+_RECOGNIZED_MALT_CLASS = re.compile(
+    r"\b(?:malt\s+beverage|beer|ale|lager|stout|porter|pilsner|india\s+pale\s+ale|ipa)\b",
+    re.I,
+)
+_BELOW_THRESHOLD_CUE = re.compile(
+    r"non-?\s*alcoholic|alcohol\s*-?\s*free|near\s+beer|cereal\s+beverage|less\s+than\s+0?\.5",
+    re.I,
+)
 
 
 def _presentation(
@@ -51,6 +66,9 @@ def warning_checks(
     observed: WarningObservation,
     net_contents_value: Decimal = Decimal("750"),
     net_contents_unit: str = "mL",
+    *,
+    beverage_type: BeverageType | None = None,
+    class_type: str | None = None,
 ) -> list[CheckResult]:
     warning = contracts().rules["warning"]
     threshold = Decimal(str(warning["applicabilityAbvPercentGte"]))
@@ -58,7 +76,19 @@ def warning_checks(
     actual_heading = warning_text(observed.heading or "")
     actual_body = warning_text(observed.body or "")
     actual_full = warning_text(observed.full_text or "")
-    if abv is None:
+    class_reason = _required_by_class(beverage_type, class_type) if abv is None else None
+    if abv is None and class_reason is not None:
+        required = True
+        applicability = _result(
+            "warning_applicability",
+            "Warning applicability",
+            "Match",
+            "warning_required_by_class",
+            class_reason,
+            reference=f"Required at {threshold}% ABV or more",
+            observed=f"{beverage_type} designation",
+        )
+    elif abv is None:
         applicability = _result(
             "warning_applicability",
             "Warning applicability",
@@ -114,6 +144,7 @@ def warning_checks(
     comparable_body = actual_body.casefold()
     comparable_expected_body = expected_body.casefold()
 
+    body_ref = body_evidence.evidence_id if body_evidence else None
     if not actual_body:
         wording = _result(
             "warning_wording",
@@ -122,17 +153,6 @@ def warning_checks(
             "warning_not_found",
             "The required warning text was not found or was unreadable",
         )
-    elif comparable_body == comparable_expected_body and observed.punctuation_normalized:
-        wording = _result(
-            "warning_wording",
-            "Warning wording",
-            "Review",
-            "ocr_wrap_punctuation_uncertain",
-            (
-                "OCR detected possible punctuation at a visual line wrap; "
-                "exact wording requires review"
-            ),
-        ).model_copy(update={"evidence_ref": body_evidence.evidence_id if body_evidence else None})
     elif comparable_body == comparable_expected_body:
         wording = _result(
             "warning_wording",
@@ -140,8 +160,13 @@ def warning_checks(
             "Match",
             "warning_wording_exact",
             "The warning body wording and punctuation exactly match the prescribed statement",
-        ).model_copy(update={"evidence_ref": body_evidence.evidence_id if body_evidence else None})
-    elif punctuation_folded(actual_body) == punctuation_folded(expected_body):
+        ).model_copy(update={"evidence_ref": body_ref})
+    elif warning_words(actual_body) == warning_words(expected_body):
+        # Every statutory word is present in order. Punctuation is compared separately
+        # because OCR confuses commas, periods, and marker brackets and invents marks at
+        # line wraps. A mark OCR cannot confuse, such as a clearly read exclamation point,
+        # is a wording difference; any other punctuation difference is left to the reviewer
+        # and never cleared by the machine, because the photograph cannot settle it.
         if _clear_terminal_punctuation_difference(actual_body, expected_body, body_evidence):
             wording = _result(
                 "warning_wording",
@@ -150,20 +175,30 @@ def warning_checks(
                 "warning_wording_difference",
                 "Readable terminal punctuation differs from the prescribed statement",
                 observed=actual_body,
-            ).model_copy(
-                update={"evidence_ref": body_evidence.evidence_id if body_evidence else None}
-            )
+            ).model_copy(update={"evidence_ref": body_ref})
+        elif _same_ignoring_case_and_spacing(actual_body, expected_body):
+            wording = _result(
+                "warning_wording",
+                "Warning wording",
+                "Match",
+                "warning_wording_exact",
+                "The warning body wording and punctuation match the prescribed statement",
+                observed=actual_body,
+            ).model_copy(update={"evidence_ref": body_ref})
         else:
             wording = _result(
                 "warning_wording",
                 "Warning wording",
                 "Review",
                 "warning_punctuation_uncertain",
-                "The words match, but exact punctuation requires review",
+                (
+                    "Every word matches the prescribed statement in order, but the "
+                    "punctuation read differs ("
+                    + _punctuation_difference(actual_body, expected_body)
+                    + "); confirm commas, periods, and clause markers on the label"
+                ),
                 observed=actual_body,
-            ).model_copy(
-                update={"evidence_ref": body_evidence.evidence_id if body_evidence else None}
-            )
+            ).model_copy(update={"evidence_ref": body_ref})
     elif _material_wording_difference(actual_body, expected_body, body_evidence):
         wording = _result(
             "warning_wording",
@@ -254,8 +289,12 @@ def warning_checks(
             "Warning heading emphasis",
             observed.heading_bold,
             heading_evidence,
-            pass_reason="The heading appears bold",
-            fail_reason="The heading does not appear bold",
+            pass_reason="The heading appears bold, heavier than the body",
+            fail_reason=(
+                "The heading appears no heavier than the body: either the heading is not "
+                "bold or the body is; confirm on the label"
+            ),
+            # Type weight read from a photograph is never on its own a rejection.
             failure_requires_review=True,
         ),
         _presentation(
@@ -263,8 +302,10 @@ def warning_checks(
             "Warning body not bold",
             None if observed.body_bold is None else not observed.body_bold,
             body_evidence,
-            pass_reason="The warning body does not appear bold",
-            fail_reason="The warning body appears bold",
+            pass_reason="The warning body appears in regular weight, lighter than its heading",
+            fail_reason=(
+                "The warning body appears as heavy as its heading; confirm it is not bold"
+            ),
             failure_requires_review=True,
         ),
         _presentation(
@@ -273,7 +314,10 @@ def warning_checks(
             observed.separated,
             body_evidence,
             pass_reason="The warning appears separate from surrounding text",
-            fail_reason="The warning does not appear separate from surrounding text",
+            fail_reason=("Other text sits close to the warning; confirm it is separate and apart"),
+            # OCR boxes are padded, so a small box gap is not proof that ink adjoins the
+            # statement. Layout separation is a reviewer's call, never a machine rejection.
+            failure_requires_review=True,
         ),
         _presentation(
             "warning_continuity",
@@ -282,6 +326,10 @@ def warning_checks(
             body_evidence,
             pass_reason="The warning appears continuous",
             fail_reason="The warning is interrupted by unrelated text",
+            # An interruption is a rejection only inside a cleanly read statement; a read
+            # that skipped or garbled lines (a curved surface) cannot show what was printed
+            # between the clauses.
+            failure_requires_review=wording.state != "Match",
         ),
         _presentation(
             "warning_contrast",
@@ -342,11 +390,59 @@ def _material_wording_difference(actual: str, expected: str, evidence: Evidence 
     expected_token_overlap = (
         len(actual_tokens & expected_tokens) / len(actual_tokens) if actual_tokens else 0.0
     )
+    if _truncated_read(actual_words, expected_words) and not first_clause_is_clear:
+        return False
     return (
         _has_clear_word_substitution(actual_words, expected_words)
         or first_clause_is_clear
         or (similarity < 0.75 and expected_token_overlap < 0.6)
     )
+
+
+def _same_ignoring_case_and_spacing(actual: str, expected: str) -> bool:
+    """Equal text once letter case and spacing are set aside.
+
+    27 CFR 16.22 fixes the case of the heading only, and OCR drops or invents spaces around
+    the clause markers, so neither is a wording difference.
+    """
+
+    repaired = _GLUED_DIGIT.sub(r"(\1) ", actual)
+    return re.sub(r"\s+", "", repaired).casefold() == re.sub(r"\s+", "", expected).casefold()
+
+
+# A clause number glued to the next word ("1According") is how OCR renders a marker whose
+# brackets it could not resolve; no label prints a digit fused to a word.
+_GLUED_DIGIT = re.compile(r"(?<![\w.(])([12])(?=[A-Za-z])")
+
+
+_PUNCTUATION_NAMES = {
+    ",": "commas",
+    ".": "periods",
+    "(": "opening parentheses",
+    ")": "closing parentheses",
+    ";": "semicolons",
+    ":": "colons",
+    "'": "apostrophes",
+    "-": "hyphens",
+    "!": "exclamation points",
+    "?": "question marks",
+}
+
+
+def _punctuation_difference(actual: str, expected: str) -> str:
+    """Name the punctuation marks whose counts differ between the read and the statute."""
+
+    marks = sorted(
+        {character for character in actual + expected if not character.isalnum()}
+        - {" ", "\t", "\n"}
+    )
+    parts = []
+    for mark in marks:
+        read, wanted = actual.count(mark), expected.count(mark)
+        if read != wanted:
+            name = _PUNCTUATION_NAMES.get(mark, f"'{mark}' marks")
+            parts.append(f"{name} {read} read, {wanted} expected")
+    return "; ".join(parts) if parts else "marks differ in position"
 
 
 def _clear_terminal_punctuation_difference(
@@ -368,26 +464,107 @@ def _clear_terminal_punctuation_difference(
 
 
 def _has_clear_word_substitution(actual: str, expected: str) -> bool:
+    """A word replaced, dropped, or added in an otherwise cleanly read statement.
+
+    One clearly different word is decisive only when the rest of the read is clean. A read
+    peppered with one-letter OCR slips ("stoud", "becanse", "ney") is noise, and heavily
+    damaged words inside it ("epers" for "impairs" on faint gray type) are more noise, not
+    evidence of different wording. Clear differences therefore have to outnumber the noisy
+    ones before the statement is called different; otherwise a reviewer reads it. A
+    statutory word missing from the middle of a cleanly read statement ("women should
+    drink") is a clear difference; a run of words missing at either end is a truncated
+    read and stays with the reviewer.
+    """
+
     actual_tokens = actual.split()
     expected_tokens = expected.split()
     differences = SequenceMatcher(
         None, expected_tokens, actual_tokens, autojunk=False
     ).get_opcodes()
-    for tag, expected_start, expected_end, actual_start, actual_end in differences:
-        if tag != "replace":
+    clear = 0
+    noisy = 0
+    equal_positions = [index for index, opcode in enumerate(differences) if opcode[0] == "equal"]
+    first_equal = equal_positions[0] if equal_positions else len(differences)
+    last_equal = equal_positions[-1] if equal_positions else -1
+    for position, (tag, expected_start, expected_end, actual_start, actual_end) in enumerate(
+        differences
+    ):
+        if tag == "equal":
             continue
-        expected_replacements = expected_tokens[expected_start:expected_end]
-        actual_replacements = actual_tokens[actual_start:actual_end]
-        if len(expected_replacements) != len(actual_replacements):
+        expected_run = expected_tokens[expected_start:expected_end]
+        actual_run = actual_tokens[actual_start:actual_end]
+        if tag == "replace" and len(expected_run) == len(actual_run):
+            for expected_word, actual_word in zip(expected_run, actual_run, strict=True):
+                if _clearly_different_word(expected_word, actual_word):
+                    clear += 1
+                else:
+                    noisy += 1
             continue
-        if any(
-            SequenceMatcher(None, expected_word, actual_word, autojunk=False).ratio() < 0.5
-            for expected_word, actual_word in zip(
-                expected_replacements, actual_replacements, strict=True
+        if tag == "replace":
+            # A run read as a different number of words is a glue or a split when the
+            # letters agree ("Surgeon General" as "SurgeonGeneral"). Counts that differ by
+            # more than one mean the read merged or skipped words, which is noise.
+            if abs(len(expected_run) - len(actual_run)) > 1:
+                noisy += max(len(expected_run), len(actual_run))
+            elif _clearly_different_word("".join(expected_run), "".join(actual_run)):
+                clear += 1
+            else:
+                noisy += 1
+            continue
+        # A single statutory word missing from the middle of the read is an omission; a run
+        # of three or more missing words is a line the read skipped, which is noise.
+        interior = first_equal < position < last_equal
+        run = expected_run if tag == "delete" else actual_run
+        for word in run:
+            if interior and len(word) >= 3 and len(run) < 3:
+                clear += 1
+            else:
+                noisy += 1
+    return clear >= 1 and clear > noisy
+
+
+def _truncated_read(actual: str, expected: str) -> bool:
+    """A read that follows the statute from the start and stops early.
+
+    A crop or a curved surface can cut the statement short; when what was read is an
+    orderly prefix of the statute, the remainder is missing from the read, not from the
+    label, and the statement goes to the reviewer.
+    """
+
+    actual_tokens = actual.split()
+    expected_tokens = expected.split()
+    if not actual_tokens or len(actual_tokens) >= len(expected_tokens) * 0.8:
+        return False
+    prefix = " ".join(expected_tokens[: len(actual_tokens)])
+    return SequenceMatcher(None, actual, prefix, autojunk=False).ratio() >= 0.8
+
+
+def _clearly_different_word(expected: str, actual: str) -> bool:
+    """A word substitution that OCR character noise cannot explain.
+
+    One damaged character in a short word ("may" read as "ney") or two in a long one
+    ("consumption" read as "consungtion") is ordinary OCR noise and stays a review item;
+    a different word ("or" printed as "and") needs more edits than a third of its length.
+    """
+
+    distance = _edit_distance(expected, actual)
+    return distance > max(1, round(len(expected) * 0.34))
+
+
+def _edit_distance(first: str, second: str) -> int:
+    previous = list(range(len(second) + 1))
+    for row, left in enumerate(first, start=1):
+        current = [row]
+        for column, right in enumerate(second, start=1):
+            current.append(
+                min(
+                    previous[column] + 1,
+                    current[column - 1] + 1,
+                    previous[column - 1] + (left != right),
+                )
             )
-        ):
-            return True
-    return False
+        previous = current
+    return previous[-1]
 
 
 def _physical_size(observed: WarningObservation, required_type_size_mm: Decimal) -> CheckResult:
@@ -405,12 +582,19 @@ def _physical_size(observed: WarningObservation, required_type_size_mm: Decimal)
         or observed.physical_size_mm is None
         or observed.scale_evidence is None
     ):
+        # An ordinary photograph carries no physical scale, so the millimeter rule is
+        # reported for the reviewer to check against the artwork specification. It is not
+        # applicable to the machine summary, which otherwise could never be clean.
         return _result(
             "warning_physical_size",
             "Warning physical size",
             "Not verified",
             "reliable_scale_unavailable",
-            "Physical type size and character density cannot be verified from an unscaled image",
+            (
+                "Physical type size and character density cannot be measured from an "
+                "unscaled image; confirm against the artwork dimensions"
+            ),
+            applicable=False,
             reference=reference,
             capability="human_confirmation",
         )
@@ -470,6 +654,33 @@ def _physical_size(observed: WarningObservation, required_type_size_mm: Decimal)
         capability="scale_supported",
     )
     return result.model_copy(update={"evidence_ref": observed.scale_evidence.evidence_id})
+
+
+def _required_by_class(beverage_type: BeverageType | None, class_type: str | None) -> str | None:
+    """Why the warning applies when no alcohol value was read.
+
+    Wine under 27 CFR part 4 and distilled spirits under part 5 are, by definition, above
+    the 0.5 percent applicability threshold in 27 CFR 16.10. A malt beverage carrying a
+    recognized class designation is as well unless the label says it is non-alcoholic.
+    """
+
+    if beverage_type in {"wine", "distilled_spirits"}:
+        family = "Wine" if beverage_type == "wine" else "Distilled spirits"
+        return (
+            f"{family} regulated under the FAA Act contains at least 0.5 percent alcohol "
+            "by volume, so the federal warning applies"
+        )
+    if (
+        beverage_type == "malt_beverage"
+        and class_type
+        and _RECOGNIZED_MALT_CLASS.search(class_type)
+        and not _BELOW_THRESHOLD_CUE.search(class_type)
+    ):
+        return (
+            "A malt beverage with a recognized class designation and no non-alcoholic "
+            "statement contains at least 0.5 percent alcohol by volume"
+        )
+    return None
 
 
 def _warning_labels() -> tuple[tuple[str, str], ...]:

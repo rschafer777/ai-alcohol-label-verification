@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { App } from "../src/app/App";
-import { analysis } from "./fixtures";
+import { analysis, result } from "./fixtures";
 
 const emptyPage = { items: [], total: 0, cap: 500, offset: 0, pageSize: 3, hasMore: false };
 const historyClient = { meta: vi.fn(async () => null), list: vi.fn(async () => emptyPage), get: vi.fn(async () => null), setDisposition: vi.fn(async () => true), remove: vi.fn(async () => true), clear: vi.fn(async () => 0) };
@@ -48,6 +48,27 @@ describe("LabelVerify application", () => {
     await user.click(screen.getByRole("button", { name: /Save & check another/ }));
     await waitFor(() => expect(historyClient.setDisposition).toHaveBeenCalledWith("hist_test", "approved", ""));
     expect(await screen.findByRole("heading", { name: "What are we checking today?" })).toBeInTheDocument();
+  });
+
+  it("compares the label with entered application values through the verification endpoint", async () => {
+    const user = userEvent.setup();
+    const analyze = vi.fn(async () => analysis);
+    const verify = vi.fn(async () => ({ ...result, summary: "Differences detected" as const }));
+    render(<App historyClient={historyClient} sampleAdapter={{ load: vi.fn() }} verificationClient={{ analyze, verify }} />);
+    await user.click(screen.getByText("Compare with the application"));
+    await user.type(screen.getByLabelText("Brand name"), "OLD TOM DISTILLERY");
+    await user.type(screen.getByLabelText("Alcohol content (% by volume)"), "45");
+    await user.upload(screen.getByLabelText("Choose label images"), new File(["front"], "front.jpg", { type: "image/jpeg" }));
+    await user.click(screen.getByRole("button", { name: "Read & check label" }));
+    await waitFor(() => expect(verify).toHaveBeenCalledTimes(1));
+    const calls = verify.mock.calls as unknown as Array<[{ reference: { referenceProvenance: string; brandName: string; abvPercent: number | null; classType: string } }]>;
+    const request = calls[0]![0];
+    expect(request.reference.referenceProvenance).toBe("manual");
+    expect(request.reference.brandName).toBe("OLD TOM DISTILLERY");
+    expect(request.reference.abvPercent).toBe(45);
+    expect(request.reference.classType).toBe("Kentucky Straight Bourbon Whiskey");
+    expect(await screen.findByText(/Compared with application: brand, alcohol content/)).toBeInTheDocument();
+    expect(screen.getByText("Differences detected")).toBeInTheDocument();
   });
 
   it("previews selected images with a remove control before reading", async () => {

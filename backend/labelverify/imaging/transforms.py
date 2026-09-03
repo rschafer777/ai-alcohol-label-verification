@@ -66,15 +66,13 @@ def create_ocr_views(panel: DecodedPanel, max_working_pixels: int = 2_073_600) -
     perspective = _perspective_recovery(base)
     deskew = None if perspective is not None else _deskew_recovery(base)
     recovery = perspective or deskew
-    if panel.coverage_state == "Sufficient" and recovery is None:
+    if recovery is None and not needs_enhancement(panel):
         return [original]
     recovered_image = recovery[0] if recovery is not None else base
     inverse_matrix = recovery[1] if recovery is not None else None
     transform_name = recovery[2] if recovery is not None else "bounded"
     if panel.coverage_state != "Sufficient":
-        gray = cv2.cvtColor(recovered_image, cv2.COLOR_RGB2GRAY)
-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8)).apply(gray)
-        recovered_image = np.asarray(cv2.cvtColor(clahe, cv2.COLOR_GRAY2RGB), dtype=np.uint8)
+        recovered_image = _clahe(recovered_image)
         transform_name += "-clahe"
     enhanced = ImageView(
         panel.panel_id,
@@ -88,6 +86,45 @@ def create_ocr_views(panel: DecodedPanel, max_working_pixels: int = 2_073_600) -
         inverse_matrix,
     )
     return [original, enhanced]
+
+
+def needs_enhancement(panel: DecodedPanel) -> bool:
+    """A soft, dark, bright, or unreadable capture gets a contrast-enhanced second view.
+
+    The two views run in parallel inference lanes, and the enhanced read recovers small
+    statements such as the alcohol content on low-sharpness renders.
+    """
+
+    return panel.coverage_state != "Sufficient"
+
+
+def create_enhanced_view(panel: DecodedPanel, max_working_pixels: int = 2_073_600) -> ImageView:
+    """A contrast-enhanced bounded view requested after a weak first read."""
+
+    scale = min(1.0, (max_working_pixels / panel.pixels) ** 0.5)
+    width = max(1, round(panel.width * scale))
+    height = max(1, round(panel.height * scale))
+    base_raw = (
+        panel.rgb
+        if width == panel.width and height == panel.height
+        else cv2.resize(panel.rgb, (width, height), interpolation=cv2.INTER_AREA)
+    )
+    return ImageView(
+        panel.panel_id,
+        _clahe(np.asarray(base_raw, dtype=np.uint8)),
+        "derived",
+        f"transform-{panel.panel_id}-bounded-clahe-v1",
+        panel.width,
+        panel.height,
+        width / panel.width,
+        height / panel.height,
+    )
+
+
+def _clahe(image: NDArray[np.uint8]) -> NDArray[np.uint8]:
+    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    equalized = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8)).apply(gray)
+    return np.asarray(cv2.cvtColor(equalized, cv2.COLOR_GRAY2RGB), dtype=np.uint8)
 
 
 def create_crop_ocr_view(

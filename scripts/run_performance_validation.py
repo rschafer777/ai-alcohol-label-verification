@@ -116,8 +116,7 @@ def run_warm(
         supervisor.stop()
     wall_values = [float(record["wallMs"]) for record in records]
     complete = all(
-        record["summary"] == expected_summary
-        and record["checkCount"] == len(contracts().check_ids)
+        record["summary"] == expected_summary and record["checkCount"] == len(contracts().check_ids)
         for record in records
     )
     return {
@@ -187,8 +186,7 @@ def run_cold(
         print(f"cold {iteration}/{count}: {record['readyThroughFirstResultMs']} ms", flush=True)
     total_values = [float(record["readyThroughFirstResultMs"]) for record in records]
     complete = all(
-        record["summary"] == expected_summary
-        and record["checkCount"] == len(contracts().check_ids)
+        record["summary"] == expected_summary and record["checkCount"] == len(contracts().check_ids)
         for record in records
     )
     return {

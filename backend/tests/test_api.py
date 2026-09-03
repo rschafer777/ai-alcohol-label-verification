@@ -171,7 +171,7 @@ def test_history_is_private_to_the_browser_scope_and_patch_is_bounded(tmp_path: 
 
         oversized = client.patch(
             f"/api/v1/history/{history_id}/disposition",
-            content=b'{' + b'"reviewerNote":"' + (b"x" * 9000) + b'"}',
+            content=b"{" + b'"reviewerNote":"' + (b"x" * 9000) + b'"}',
             headers={"Content-Type": "application/json"},
         )
         assert oversized.status_code == 413

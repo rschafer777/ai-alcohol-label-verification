@@ -36,12 +36,14 @@ export interface ReviewWorkspaceProps {
   onCorrect?: ((check: CheckResult, value: string) => void) | null;
   correctedIds?: ReadonlySet<string>;
   onConfirmType?: ((type: BeverageType) => void) | null;
+  /** Application fields the reviewer typed; the result compares the label with them. */
+  comparedWith?: string[] | null;
 }
 
 const EMPTY: ReadonlySet<string> = new Set();
 
 export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
-  const { result, brandName, beverageType, imported, images, addedFrom, inBatch = false, rail, disposition, note, saveState = "", onDisposition, onNote, onSave, onNextException, onBack, onAddImage = null, upload = null, onCorrect = null, correctedIds = EMPTY, onConfirmType = null } = props;
+  const { result, brandName, beverageType, imported, images, addedFrom, inBatch = false, rail, disposition, note, saveState = "", onDisposition, onNote, onSave, onNextException, onBack, onAddImage = null, upload = null, onCorrect = null, correctedIds = EMPTY, onConfirmType = null, comparedWith = null } = props;
   const [layout, setLayout] = useState<Layout>("table");
   const [panelIndex, setPanelIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -127,6 +129,7 @@ export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
         <button className="btn btn-ghost" onClick={onBack} type="button">{icons.back()} {inBatch ? "Batch" : "Start over"}</button>
         <h2>{brandName}</h2>
         <span className="tag tag-neutral">{typeTagText(result, beverageType, imported)}</span>
+        {comparedWith && comparedWith.length ? <span className="tag tag-info">Compared with application: {comparedWith.join(", ")}</span> : null}
         <span className="meta text-muted">{count} image{count === 1 ? "" : "s"} · read &amp; checked in {(result.serverDurationMs / 1000).toFixed(1)} s</span>
         <span className="machine"><span className="text-muted">Machine result</span><span ref={summaryRef} tabIndex={-1}><SummaryTag summary={summary} /></span></span>
         <div aria-label="Layout" className="seg" role="radiogroup">

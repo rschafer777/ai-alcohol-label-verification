@@ -11,6 +11,7 @@ import { FirstRunTips } from "../features/home/FirstRunTips";
 import { readFirstRunDismissed, writeFirstRunDismissed } from "../features/home/first-run";
 import { Home } from "../features/home/Home";
 import { History } from "../features/history/History";
+import { enteredFields, hasApplicationValues, referenceFromApplication, type ApplicationInput } from "../features/intake/application";
 import { createSampleAdapter } from "../features/intake/sample-adapter";
 import { ProcessingStage, type ProcessingPhase } from "../features/verification/ProcessingStage";
 import { ReviewWorkspace } from "../features/verification/ReviewWorkspace";
@@ -84,6 +85,7 @@ export function App({ verificationClient, sampleAdapter, historyClient }: AppPro
   const [upload, setUpload] = useState<SlotUpload | null>(null);
   const [sampleLoading, setSampleLoading] = useState(false);
   const [addedFrom, setAddedFrom] = useState<number>(Number.POSITIVE_INFINITY);
+  const [comparedWith, setComparedWith] = useState<string[] | null>(null);
   const controller = useRef<AbortController | null>(null);
   const timer = useRef<number | null>(null);
   const deadline = useRef<number | null>(null);
@@ -148,6 +150,7 @@ export function App({ verificationClient, sampleAdapter, historyClient }: AppPro
     setCorrectedBrand(null);
     setUpload(null);
     setAddedFrom(Number.POSITIVE_INFINITY);
+    setComparedWith(null);
     setPhase("idle");
   }
 
@@ -163,7 +166,7 @@ export function App({ verificationClient, sampleAdapter, historyClient }: AppPro
     setPhase("error");
   }
 
-  async function runSingle(selected: File[]) {
+  async function runSingle(selected: File[], application: ApplicationInput | null = null) {
     controller.current?.abort();
     stopTimers();
     const nextController = new AbortController();
@@ -180,6 +183,7 @@ export function App({ verificationClient, sampleAdapter, historyClient }: AppPro
     setSaveState("");
     setCorrectedIds(new Set());
     setCorrectedBrand(null);
+    setComparedWith(null);
     setPhase("uploading");
     setProcessingPhase("uploading");
     setUploadSeconds(null);
@@ -208,6 +212,19 @@ export function App({ verificationClient, sampleAdapter, historyClient }: AppPro
       if (nextController.signal.aborted) return;
       setProcessingPhase("checking");
       setAnalysis(nextAnalysis);
+      // Application values entered by the reviewer turn the label read into a comparison
+      // with the application: the same images are checked against the typed record.
+      const reference = application && hasApplicationValues(application) ? referenceFromApplication(application, nextAnalysis) : null;
+      if (reference && application) {
+        const compared = await client.verify({ reference, panels: selected, signal: nextController.signal });
+        if (nextController.signal.aborted) return;
+        setResult(compared);
+        setComparedWith(enteredFields(application));
+        if (application.brandName.trim()) setCorrectedBrand(application.brandName.trim());
+        setPhase("complete");
+        void refreshRecent();
+        return;
+      }
       if (!nextAnalysis.verification) {
         setError({ requestId: nextAnalysis.requestId, code: "beverage_type_uncertain", message: "The beverage type could not be inferred reliably from the submitted images.", retryable: true, nextAction: "Add a clearer class or type panel and retry", fieldOrPanel: "panels" });
         setPhase("error");
@@ -361,6 +378,7 @@ export function App({ verificationClient, sampleAdapter, historyClient }: AppPro
         addedFrom={addedFrom}
         beverageType={analysis.draft.beverageType}
         brandName={correctedBrand ?? analysis.draft.brandName ?? "Product label"}
+        comparedWith={comparedWith}
         correctedIds={correctedIds}
         disposition={disposition}
         images={images}
@@ -381,7 +399,7 @@ export function App({ verificationClient, sampleAdapter, historyClient }: AppPro
   } else {
     body = (
       <>
-        <Home historyCap={historyCap} historyTotal={historyTotal} onBatch={(selected) => { setBatchFiles(selected); const first = selected[0] as (File & { webkitRelativePath?: string }) | undefined; setBatchTitle(first?.webkitRelativePath?.split("/")[0] || "Batch"); go({ name: "batch" }); }} onOpenHistory={() => go({ name: "history", recordId: null })} onOpenRecord={(id) => go({ name: "history", recordId: id })} onSample={() => void loadSample()} onSingle={(selected) => void runSingle(selected)} recent={recent} sampleLoading={sampleLoading} />
+        <Home historyCap={historyCap} historyTotal={historyTotal} onBatch={(selected) => { setBatchFiles(selected); const first = selected[0] as (File & { webkitRelativePath?: string }) | undefined; setBatchTitle(first?.webkitRelativePath?.split("/")[0] || "Batch"); go({ name: "batch" }); }} onOpenHistory={() => go({ name: "history", recordId: null })} onOpenRecord={(id) => go({ name: "history", recordId: id })} onSample={() => void loadSample()} onSingle={(selected, application) => void runSingle(selected, application)} recent={recent} sampleLoading={sampleLoading} />
         {firstRun ? <FirstRunTips onClose={() => setFirstRun(false)} onDismissForever={() => { writeFirstRunDismissed(); setFirstRun(false); }} /> : null}
       </>
     );

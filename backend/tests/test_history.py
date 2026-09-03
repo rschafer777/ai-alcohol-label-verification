@@ -15,9 +15,7 @@ def test_history_round_trip_disposition_and_delete(tmp_path: Path) -> None:
     panel = tmp_path / "panel.png"
     panel.write_bytes(b"test-image")
 
-    record_id = repository.add(
-        reference(), fake_result("history-one"), (panel,), scope_id=SCOPE_A
-    )
+    record_id = repository.add(reference(), fake_result("history-one"), (panel,), scope_id=SCOPE_A)
 
     listing = repository.list(scope_id=SCOPE_A)
     assert listing["total"] == 1
@@ -27,9 +25,7 @@ def test_history_round_trip_disposition_and_delete(tmp_path: Path) -> None:
     assert detail["requestId"] == "history-one"
     assert repository.panel_path(record_id, "panel-1", scope_id=SCOPE_A) is not None
 
-    assert repository.update_disposition(
-        record_id, "approved", "Reviewed", scope_id=SCOPE_A
-    )
+    assert repository.update_disposition(record_id, "approved", "Reviewed", scope_id=SCOPE_A)
     updated = repository.get(record_id, scope_id=SCOPE_A)
     assert updated is not None
     assert updated["disposition"] == "approved"
@@ -52,9 +48,7 @@ def test_history_scope_isolates_read_write_and_delete(tmp_path: Path) -> None:
     assert repository.list(scope_id=SCOPE_B)["total"] == 0
     assert repository.get(record_id, scope_id=SCOPE_B) is None
     assert repository.panel_path(record_id, "panel-1", scope_id=SCOPE_B) is None
-    assert not repository.update_disposition(
-        record_id, "approved", "not allowed", scope_id=SCOPE_B
-    )
+    assert not repository.update_disposition(record_id, "approved", "not allowed", scope_id=SCOPE_B)
     assert not repository.delete(record_id, scope_id=SCOPE_B)
     assert repository.clear(scope_id=SCOPE_B) == 0
     assert repository.get(record_id, scope_id=SCOPE_A) is not None

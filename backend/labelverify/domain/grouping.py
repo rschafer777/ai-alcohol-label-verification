@@ -10,6 +10,8 @@ from __future__ import annotations
 
 import re
 from collections import OrderedDict
+from difflib import SequenceMatcher
+from itertools import combinations
 from typing import Literal
 
 from labelverify.contracts.models import GroupingImage, GroupingResult, GroupSuggestion
@@ -57,14 +59,11 @@ def _display_name(images: list[GroupingImage], ordinal: int) -> str:
     OCR noise, so its brand should not name the product when a better read exists.
     """
 
-    candidates = [
-        image for image in images if image.brand_name and image.brand_name.strip()
-    ]
+    candidates = [image for image in images if image.brand_name and image.brand_name.strip()]
     brand_keys = {_brand_key(image.brand_name) for image in candidates}
     if candidates and _brands_are_compatible(brand_keys):
         return (
-            max(candidates, key=lambda image: len(_brand_key(image.brand_name))).brand_name
-            or ""
+            max(candidates, key=lambda image: len(_brand_key(image.brand_name))).brand_name or ""
         ).strip()
 
     ranked = sorted(
@@ -81,13 +80,30 @@ def _display_name(images: list[GroupingImage], ordinal: int) -> str:
 
 
 def _brands_are_compatible(values: set[str]) -> bool:
-    """Treat a shorter OCR read as compatible when it is contained in the fuller read."""
+    """Whether several brand reads can describe one product.
+
+    A shorter read contained in a fuller read is compatible ("VALLE" in "VALLE DI PIETRA"),
+    and so are reads that share a distinctive word or word stem ("JACK DANIEL'S" on the front
+    and "JACK DANIEL DISTILLERY" on the back). Reads with nothing in common stay a conflict.
+    """
 
     if len(values) <= 1:
         return True
-    compact = {_NON_WORD.sub("", value) for value in values}
+    compact = {_NON_WORD.sub("", value.casefold()) for value in values}
     longest = max(compact, key=len)
-    return all(len(value) >= 4 and value in longest for value in compact)
+    if all(len(value) >= 4 and value in longest for value in compact):
+        return True
+    # Reads of one brand damaged by OCR ("HARBOR LIGHTSE" beside "HARBOR LIGHTS") stay
+    # close as strings, and a fuller form of one name shares its opening word ("JACK
+    # DANIEL'S" beside "JACK DANIEL DISTILLERY"). A shared opening word alone ("SILVER OAK"
+    # beside "SILVER SPRINGS BREWING") is two brands.
+    first_words = {value.split()[0].casefold() for value in values if value.split()}
+    shared_opening = len(first_words) == 1 and len(next(iter(first_words))) >= 4
+    floor = 0.6 if shared_opening else 0.8
+    return all(
+        SequenceMatcher(None, left, right, autojunk=False).ratio() >= floor
+        for left, right in combinations(sorted(compact), 2)
+    )
 
 
 def _confidence(images: list[GroupingImage]) -> Literal["high", "medium", "low"]:
@@ -157,13 +173,9 @@ def suggest_groups(images: list[GroupingImage]) -> GroupingResult:
     return GroupingResult(groups=groups, analyzed=len(usable), failed=failed)
 
 
-def _classes_are_compatible(
-    first: list[GroupingImage], second: list[GroupingImage]
-) -> bool:
+def _classes_are_compatible(first: list[GroupingImage], second: list[GroupingImage]) -> bool:
     values = {
-        _class_key(image.class_type)
-        for image in [*first, *second]
-        if _class_key(image.class_type)
+        _class_key(image.class_type) for image in [*first, *second] if _class_key(image.class_type)
     }
     return len(values) <= 1
 

@@ -1,28 +1,29 @@
 {
   "schemaVersion": "1.0.0",
-  "createdAtUtc": "2026-09-03T09:52:52.004272+00:00",
+  "createdAtUtc": "2026-09-03T17:01:53.743067+00:00",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
     "python": "3.12.10"
   },
   "snapshot": {
-    "validatorSha256": "34f5040845b37fb2fe3cb9b9789f54c778f1aa3bea90b91c3938af4200700a8b",
-    "pipelineSha256": "d38a8b32d13a1e593f087c2ad47e6b879a4392f75b07eaf8dde81290a442297e",
+    "validatorSha256": "4aa8f20abba45533bf0659d2e578201cceb6263809f3578d080c9a499e18c850",
+    "pipelineSha256": "ff808f572399d3d0b8c1abf124fc8932ca5d79f109cabaae535ef2d7ee7387f1",
     "supervisorSha256": "8eeb7b9408a9d4574ae951f1c0bfa9d165b8be3dafcd36ed0ce6a6786b6c3028"
   },
   "scope": {
     "input": "Test_Images",
-    "selectedFileCount": 71,
-    "acceptedImageCount": 70,
-    "skippedNonImageCount": 1,
+    "selectedFileCount": 73,
+    "acceptedImageCount": 71,
+    "skippedNonImageCount": 2,
     "skippedFiles": [
+      "pixel-ground-truth-v1.json",
       "test-oracle-v1.json"
     ],
     "productSpecificRuntimeOverrides": false,
     "independentFieldOracleAvailableForCompleteCorpus": false,
     "governedOracleCaseCount": 50,
     "governedOracleExactMatchCount": 42,
-    "unscoredCurrentImageCount": 28,
+    "unscoredCurrentImageCount": 29,
     "missingGovernedOracleImageCount": 8
   },
   "preflightFailures": [],
@@ -38,7 +39,7 @@
     ],
     "correlation": 0.999952972,
     "normalizedMeanAbsoluteError": 0.001955997,
-    "durationSeconds": 6.015,
+    "durationSeconds": 6.247,
     "httpStatus": 200,
     "submittedPanelCount": 2,
     "returnedPanelCount": 2,
@@ -65,31 +66,7 @@
       "files": [
         "0wLM9.jpg"
       ],
-      "durationSeconds": 6.443,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "wine",
-        "brandName": "Tuscan",
-        "classType": "Sangiovese",
-        "abvPercent": 13.5,
-        "proof": null,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 13,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-002",
-      "files": [
-        "111_Wine_Valle_Front.png"
-      ],
-      "durationSeconds": 4.24,
+      "durationSeconds": 4.406,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -102,9 +79,33 @@
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 8,
+        "countryOfOrigin": "Italy",
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 9,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-002",
+      "files": [
+        "111_Wine_Valle_Front.png"
+      ],
+      "durationSeconds": 3.671,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "VALLE DI PIETRA",
+        "classType": "Sangiovese",
+        "abvPercent": 13.5,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": null,
+        "countryOfOrigin": "Italy",
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       }
     },
@@ -113,7 +114,7 @@
       "files": [
         "222_Silverpine_Wine.png"
       ],
-      "durationSeconds": 4.232,
+      "durationSeconds": 3.978,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -128,7 +129,7 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
+        "evidenceRegionCount": 8,
         "machineSummary": "Review needed"
       }
     },
@@ -137,7 +138,7 @@
       "files": [
         "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg"
       ],
-      "durationSeconds": 4.566,
+      "durationSeconds": 6.434,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -145,14 +146,14 @@
         "beverageType": "malt_beverage",
         "brandName": "PEAK FARM",
         "classType": "DOUBLE PALE ALE",
-        "abvPercent": 7.2,
+        "abvPercent": null,
         "proof": null,
         "netContentsValue": 16.0,
         "netContentsUnit": "fl oz",
         "producerNameAddress": "SYCAMORE BREWING 2161HAWKINS STREET CHARLOTTE.NC 28203",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 5,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 4,
         "machineSummary": "Review needed"
       }
     },
@@ -161,7 +162,7 @@
       "files": [
         "333_CascadeLight_Wine.png"
       ],
-      "durationSeconds": 5.049,
+      "durationSeconds": 4.926,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -173,10 +174,10 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Cascade Light Winery, Watkins Glen New York",
+        "producerNameAddress": "Vinted and Bortled by Cascade Light Winery, Watkins Glen New York",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 12,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       }
     },
@@ -185,7 +186,7 @@
       "files": [
         "3urY2.jpg"
       ],
-      "durationSeconds": 2.558,
+      "durationSeconds": 2.469,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -197,10 +198,10 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Fox Hollow Vincyards, Hammondsport New York.",
+        "producerNameAddress": "Produced and bottled by Fox Hollow Vincyards, Hammondsport, New York.",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 10,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
@@ -209,7 +210,7 @@
       "files": [
         "555_Northveil_Vodka.png"
       ],
-      "durationSeconds": 5.684,
+      "durationSeconds": 4.574,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -221,10 +222,10 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": null,
+        "producerNameAddress": "Distilled and Bottled by Northveil Spirits, Portland, Oregon",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 13,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
@@ -233,22 +234,22 @@
       "files": [
         "888SilverPine_Wine.png"
       ],
-      "durationSeconds": 4.811,
+      "durationSeconds": 4.273,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
         "brandName": "SILVERPINE",
-        "classType": "PINOT NOIR",
+        "classType": null,
         "abvPercent": 13.2,
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddress": null,
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 13,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 7,
         "machineSummary": "Review needed"
       }
     },
@@ -257,22 +258,22 @@
       "files": [
         "8Gf8v.jpg"
       ],
-      "durationSeconds": 5.906,
+      "durationSeconds": 4.36,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandName": "CRYSTAL TUNDRA",
-        "classType": "ed Vodka",
+        "classType": "Distilled Vodka",
         "abvPercent": 40.0,
         "proof": 80.0,
         "netContentsValue": 1.75,
         "netContentsUnit": "L",
-        "producerNameAddress": "ed and bottled by Distilled and bottled by",
+        "producerNameAddress": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 22,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       }
     },
@@ -281,7 +282,7 @@
       "files": [
         "AnMXl.jpg"
       ],
-      "durationSeconds": 2.637,
+      "durationSeconds": 2.858,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -293,10 +294,10 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Imported by Clearwater Spirits, Austin Teas Hecho en Mexico",
+        "producerNameAddress": "Imported by Clearwater Spirits, Austin, Texas Hecho en Mexico",
         "countryOfOrigin": "Mexico",
         "detectedFieldCount": 8,
-        "evidenceRegionCount": 15,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       }
     },
@@ -305,22 +306,22 @@
       "files": [
         "BMgMY.jpg"
       ],
-      "durationSeconds": 3.412,
+      "durationSeconds": 3.895,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
+        "beverageType": "wine",
+        "brandName": "MIRROR LAKE",
+        "classType": "WILLAMETTE VALLEY PINOT GRIS",
+        "abvPercent": 12.8,
         "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Produced and bottled by Miror Lake VineyardsDundee.Oregon",
         "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
@@ -329,22 +330,22 @@
       "files": [
         "bsxs4.jpg"
       ],
-      "durationSeconds": 2.958,
+      "durationSeconds": 5.222,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
-        "brandName": "MARITIME Mothode Champenoise",
-        "classType": "Sparkling Wine",
+        "brandName": "MARITIME",
+        "classType": "SPARKLING WINE",
         "abvPercent": 12.5,
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Maritime Cellars Mendocino, California",
+        "producerNameAddress": null,
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 16,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       }
     },
@@ -353,22 +354,22 @@
       "files": [
         "Cointeau_Front.jpg"
       ],
-      "durationSeconds": 3.422,
+      "durationSeconds": 3.956,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "HARMONIED'ESPRIT D'ECORCES D'ORANGES",
+        "brandName": "COINTREAU",
         "classType": "LIQUEUR",
         "abvPercent": 40.0,
         "proof": null,
         "netContentsValue": 375.0,
         "netContentsUnit": "mL",
         "producerNameAddress": null,
-        "countryOfOrigin": "FRANCE-PRODUIT DEFRANCE",
+        "countryOfOrigin": "FRANCE",
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 10,
+        "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       }
     },
@@ -377,19 +378,19 @@
       "files": [
         "Cointreau_Back.jpg"
       ],
-      "durationSeconds": 4.354,
+      "durationSeconds": 4.891,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": null,
-        "brandName": "COUNIN",
+        "brandName": "CONIT",
         "classType": null,
         "abvPercent": null,
         "proof": null,
         "netContentsValue": null,
         "netContentsUnit": null,
-        "producerNameAddress": "IMPORTED BY REMY COINTREAU USA INC. NEW YORKNY",
+        "producerNameAddress": "MPORTED BY REMY COINTREAU USA INC. NEW YORK,NY",
         "countryOfOrigin": "FRANCE",
         "detectedFieldCount": 4,
         "evidenceRegionCount": 6,
@@ -401,22 +402,22 @@
       "files": [
         "coTpD.jpg"
       ],
-      "durationSeconds": 3.667,
+      "durationSeconds": 4.275,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
+        "beverageType": "wine",
+        "brandName": "SUMMER BLUSH",
+        "classType": "PROVENCE-STYLE ROSE",
+        "abvPercent": 12.5,
         "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "PRODUCEOS BOTTLEDBY SUMMER BLUSK WINES.PASO ROBLES.CA",
+        "countryOfOrigin": "United States",
+        "detectedFieldCount": 8,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       }
     },
@@ -425,22 +426,22 @@
       "files": [
         "DDqT2.jpg"
       ],
-      "durationSeconds": 3.023,
+      "durationSeconds": 5.02,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
+        "beverageType": "distilled_spirits",
+        "brandName": "NORTH LIGHT",
+        "classType": "DISTILLED VODKA",
+        "abvPercent": 40.0,
+        "proof": 80.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
         "producerNameAddress": null,
         "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 7,
         "machineSummary": "Review needed"
       }
     },
@@ -449,22 +450,22 @@
       "files": [
         "DmK94.jpg"
       ],
-      "durationSeconds": 3.266,
+      "durationSeconds": 3.931,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
+        "beverageType": "wine",
+        "brandName": "FROST RIDGE",
+        "classType": "Marlborough Sauvignon Blanc",
+        "abvPercent": 12.0,
         "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Imported by Fros Ridge lparts Stattie, Washingion",
+        "countryOfOrigin": "New Zealand",
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
@@ -473,22 +474,22 @@
       "files": [
         "EqTB7.jpg"
       ],
-      "durationSeconds": 2.765,
+      "durationSeconds": 4.289,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
-        "brandName": "Imoported by Smoke & Agave Imports",
+        "beverageType": "distilled_spirits",
+        "brandName": "SMOKE& AGAVE",
         "classType": null,
         "abvPercent": 45.0,
         "proof": 90.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Imoported by Smoke & Agave Imports Imported by Smoke &Agave Imports Los Angeles, California",
+        "producerNameAddress": "Imoported by Smoke & Agave Imports, Los Angeles, California",
         "countryOfOrigin": "Mexico",
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 13,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
@@ -497,13 +498,13 @@
       "files": [
         "Gemini_Generated_Image_auilqqauilqqauil (1).jpg"
       ],
-      "durationSeconds": 2.948,
+      "durationSeconds": 4.733,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "OTANIST'S",
+        "brandName": "SECRET",
         "classType": "London Dry Gin",
         "abvPercent": 47.0,
         "proof": 94.0,
@@ -512,7 +513,7 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 8,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       }
     },
@@ -521,22 +522,22 @@
       "files": [
         "GuCzO.jpg"
       ],
-      "durationSeconds": 5.913,
+      "durationSeconds": 4.225,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "FERRY GOLDENR",
-        "classType": "RUM",
+        "brandName": "FERRY",
+        "classType": "GOLDEN RUM",
         "abvPercent": 40.0,
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": null,
+        "producerNameAddress": "Imported by Old Ferry Spiris, Miami, Flonid Product of Barbados",
         "countryOfOrigin": "Barbados",
-        "detectedFieldCount": 7,
-        "evidenceRegionCount": 21,
+        "detectedFieldCount": 8,
+        "evidenceRegionCount": 10,
         "machineSummary": "Review needed"
       }
     },
@@ -545,7 +546,7 @@
       "files": [
         "iFZ0Q.jpg"
       ],
-      "durationSeconds": 2.702,
+      "durationSeconds": 4.119,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -557,10 +558,10 @@
         "proof": 90.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Distilled and bottled by Blackbird Disuilling Co. Distilled and botted by Blackbird Dsilling Co. Frankfort, Kentucky",
+        "producerNameAddress": "Disilled and botted by Blackbird Dsuilling Co. Frankfort, Kentucky",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 10,
         "machineSummary": "Review needed"
       }
     },
@@ -569,7 +570,7 @@
       "files": [
         "J3YuX.jpg"
       ],
-      "durationSeconds": 3.848,
+      "durationSeconds": 3.015,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -583,8 +584,8 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": "BREWED AND BOTTLED BY IRON ANCHOR BREWING CO. PORTLAND, MAINE",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 14,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 16,
         "machineSummary": "Review needed"
       }
     },
@@ -593,13 +594,13 @@
       "files": [
         "JackDaniels_Back.jpg"
       ],
-      "durationSeconds": 6.449,
+      "durationSeconds": 4.193,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
-        "brandName": "JACK DANIEL DISTILLERY",
+        "beverageType": "distilled_spirits",
+        "brandName": "HPATNELS",
         "classType": null,
         "abvPercent": null,
         "proof": null,
@@ -607,9 +608,9 @@
         "netContentsUnit": null,
         "producerNameAddress": "DISTILLED AND BOTTLED BY JACK DANIEL DISTILLERY LYNCHBURG,TENNESSEE,USA",
         "countryOfOrigin": null,
-        "detectedFieldCount": 2,
-        "evidenceRegionCount": 5,
-        "machineSummary": "Differences detected"
+        "detectedFieldCount": 3,
+        "evidenceRegionCount": 6,
+        "machineSummary": "Review needed"
       }
     },
     {
@@ -617,7 +618,7 @@
       "files": [
         "JackDaniels_Front.jpg"
       ],
-      "durationSeconds": 3.344,
+      "durationSeconds": 3.126,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -632,7 +633,7 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 9,
+        "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       }
     },
@@ -641,7 +642,7 @@
       "files": [
         "jsP3W.jpg"
       ],
-      "durationSeconds": 2.447,
+      "durationSeconds": 2.733,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -655,8 +656,8 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": "Brewed and bottled by Midnight Forge Brewing, Milwaukee, Wisconsin",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
@@ -665,13 +666,13 @@
       "files": [
         "leTeL.jpg"
       ],
-      "durationSeconds": 3.512,
+      "durationSeconds": 4.485,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
-        "brandName": "IRON CREEK CELLARS",
+        "brandName": "IRON CREEK",
         "classType": "Pinot Noir",
         "abvPercent": 13.8,
         "proof": null,
@@ -680,7 +681,7 @@
         "producerNameAddress": "PRODUCED AND BOTTLED BY IRON CREEK CELLARS",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 17,
+        "evidenceRegionCount": 14,
         "machineSummary": "Review needed"
       }
     },
@@ -689,22 +690,22 @@
       "files": [
         "MXteB.jpg"
       ],
-      "durationSeconds": 4.893,
+      "durationSeconds": 2.49,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "malt_beverage",
-        "brandName": "SUN DOCK",
-        "classType": "HEAT ALE",
+        "brandName": "SUNDOCK",
+        "classType": "AMERICAN WHEAT ALE",
         "abvPercent": 5.0,
         "proof": null,
         "netContentsValue": 16.0,
         "netContentsUnit": "fl oz",
-        "producerNameAddress": "un Dock Brewing. ifornia",
+        "producerNameAddress": "Brewed and canned by Sun Dock Brewing. San Diego, California",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
@@ -713,7 +714,7 @@
       "files": [
         "O0P0Z.jpg"
       ],
-      "durationSeconds": 2.686,
+      "durationSeconds": 4.442,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -725,10 +726,10 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Cedar Bend Vincyards Oregon.",
+        "producerNameAddress": "Produced and bottled by Cedar Bend Vineyards Oregon.",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 16,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       }
     },
@@ -737,22 +738,22 @@
       "files": [
         "PtNj9.jpg"
       ],
-      "durationSeconds": 2.521,
+      "durationSeconds": 2.569,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandName": "BOTANIST'S SECRET",
-        "classType": "London Dry Gin",
+        "classType": "-London Dry Gin",
         "abvPercent": 47.0,
         "proof": 94.0,
         "netContentsValue": 1.0,
         "netContentsUnit": "L",
-        "producerNameAddress": "Distilled &bottled by Botanist's Secret Distilley Lonon. Botanist's Secret Distillery, London. seDy.ondon",
+        "producerNameAddress": "Distilled& bottled by Botanist's Secret Distillery, London. B Dy.ondon",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 10,
+        "evidenceRegionCount": 8,
         "machineSummary": "Review needed"
       }
     },
@@ -761,13 +762,13 @@
       "files": [
         "RevolverBrewing.jpg"
       ],
-      "durationSeconds": 0.19,
+      "durationSeconds": 0.217,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "malt_beverage",
-        "brandName": "BLOOD & HONEY",
+        "brandName": "REVOLVER",
         "classType": "TEXAS STYLE ALE",
         "abvPercent": null,
         "proof": null,
@@ -775,7 +776,7 @@
         "netContentsUnit": null,
         "producerNameAddress": "REVOLVER BREWING LITTLETON, CO",
         "countryOfOrigin": null,
-        "detectedFieldCount": 3,
+        "detectedFieldCount": 4,
         "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       }
@@ -785,13 +786,13 @@
       "files": [
         "RevolverBrewing.png"
       ],
-      "durationSeconds": 4.422,
+      "durationSeconds": 5.361,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "malt_beverage",
-        "brandName": "BLOOD & HONEY",
+        "brandName": "REVOLVER",
         "classType": "TEXAS STYLE ALE",
         "abvPercent": null,
         "proof": null,
@@ -799,17 +800,41 @@
         "netContentsUnit": null,
         "producerNameAddress": "REVOLVER BREWING LITTLETON, CO",
         "countryOfOrigin": null,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 5,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-032",
       "files": [
+        "RevolverBrewing_2.jpg"
+      ],
+      "durationSeconds": 2.9,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": null,
+        "brandName": "INGREDIENTS",
+        "classType": null,
+        "abvPercent": 7.0,
+        "proof": null,
+        "netContentsValue": 12.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 3,
+        "evidenceRegionCount": 3,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-033",
+      "files": [
         "Test_TTB_Image_0001.jpg"
       ],
-      "durationSeconds": 4.408,
+      "durationSeconds": 3.307,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -821,31 +846,31 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Stone's Throw. Vineyards, Napa, California.",
+        "producerNameAddress": "Produced and bottled by Stone's Throw Vineyards, Napa, California",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 15,
+        "evidenceRegionCount": 12,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-033",
+      "caseId": "image-034",
       "files": [
         "Test_TTB_Image_0002.jpg"
       ],
-      "durationSeconds": 4.273,
+      "durationSeconds": 2.805,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "DISTILLEDFROM GRAIN",
+        "brandName": "NORTHWIND",
         "classType": "VODKA",
         "abvPercent": 40.0,
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Distilled and bottled by Northwind.",
+        "producerNameAddress": "Distilled and bottled by Northwind. Spirits, Portland, Oregon",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
         "evidenceRegionCount": 12,
@@ -853,11 +878,11 @@
       }
     },
     {
-      "caseId": "image-034",
+      "caseId": "image-035",
       "files": [
         "Test_TTB_Image_0003.jpg"
       ],
-      "durationSeconds": 2.814,
+      "durationSeconds": 4.104,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -869,7 +894,7 @@
         "proof": 76.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Imported by Red Mesa Imports, San Antonio, Texas. Hecho en Mexico.",
+        "producerNameAddress": "Imported by Red Mesa Imports, San Antonio, Texas Hecho en Mexico",
         "countryOfOrigin": "Mexico",
         "detectedFieldCount": 8,
         "evidenceRegionCount": 14,
@@ -877,11 +902,11 @@
       }
     },
     {
-      "caseId": "image-035",
+      "caseId": "image-036",
       "files": [
         "Test_TTB_Image_0004.jpg"
       ],
-      "durationSeconds": 2.047,
+      "durationSeconds": 3.459,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -893,43 +918,19 @@
         "proof": 80.0,
         "netContentsValue": 1.75,
         "netContentsUnit": "L",
-        "producerNameAddress": "Distilled and bottled by Distiled and bottled by",
+        "producerNameAddress": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 15,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-036",
-      "files": [
-        "Test_TTB_Image_0005.jpg"
-      ],
-      "durationSeconds": 3.183,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "distilled_spirits",
-        "brandName": "BOTANIST'S SECRET",
-        "classType": "LONDON DRY GIN",
-        "abvPercent": 47.0,
-        "proof": 94.0,
-        "netContentsValue": 1.0,
-        "netContentsUnit": "L",
-        "producerNameAddress": "Distilled & bottled by. Botanist's Secret Distillery, London.",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-037",
       "files": [
-        "Test_TTB_Image_0006.jpg"
+        "Test_TTB_Image_0005.jpg"
       ],
-      "durationSeconds": 2.083,
+      "durationSeconds": 3.083,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -951,57 +952,81 @@
     {
       "caseId": "image-038",
       "files": [
-        "Test_TTB_Image_0007.jpg"
+        "Test_TTB_Image_0006.jpg"
       ],
-      "durationSeconds": 2.559,
+      "durationSeconds": 2.021,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": "malt_beverage",
-        "brandName": "NIGHT FORGE",
-        "classType": "IMPERIAL OATMEAL STOUT",
-        "abvPercent": 9.5,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": "Brewed and bottled by Midnight Forge Brewing Milwaukee, Wisconsin",
+        "beverageType": "distilled_spirits",
+        "brandName": "BOTANIST'S SECRET",
+        "classType": "LONDON DRY GIN",
+        "abvPercent": 47.0,
+        "proof": 94.0,
+        "netContentsValue": 1.0,
+        "netContentsUnit": "L",
+        "producerNameAddress": "Distilled & bottled by. Botanist's Secret Distillery, London.",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 9,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-039",
       "files": [
-        "Test_TTB_Image_0008.jpg"
+        "Test_TTB_Image_0007.jpg"
       ],
-      "durationSeconds": 2.746,
+      "durationSeconds": 2.876,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
+        "beverageType": "malt_beverage",
+        "brandName": "IGHT FORGE",
+        "classType": "IMPERIAL OATMEAL STOUT",
+        "abvPercent": 9.5,
         "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
+        "netContentsValue": 12.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": "Brewed and bottled by Midnight Forge Brewing. Milwaukee, Wisconsin",
         "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-040",
       "files": [
+        "Test_TTB_Image_0008.jpg"
+      ],
+      "durationSeconds": 2.86,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "FROST RIDGE",
+        "classType": "Marlborough Sauvignon Blanc",
+        "abvPercent": 12.0,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Imported by Fros Ridge lparts Stattie, Washingion",
+        "countryOfOrigin": "New Zealand",
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-041",
+      "files": [
         "Test_TTB_Image_0009.jpg"
       ],
-      "durationSeconds": 2.669,
+      "durationSeconds": 2.624,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1015,23 +1040,23 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": "Brewed and bottled by Iron Anchor Brewing Co., Portland, Maine.",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 12,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-041",
+      "caseId": "image-042",
       "files": [
         "Test_TTB_Image_0011.jpg"
       ],
-      "durationSeconds": 0.172,
+      "durationSeconds": 0.191,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "OTANIST'S",
+        "brandName": "SECRET",
         "classType": "London Dry Gin",
         "abvPercent": 47.0,
         "proof": 94.0,
@@ -1040,64 +1065,64 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 8,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-042",
-      "files": [
-        "Test_TTB_Image_0021.jpg"
-      ],
-      "durationSeconds": 3.617,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "distilled_spirits",
-        "brandName": "BLACKBIRD RESERVE",
-        "classType": "KENTUCKYSTRAIGHT BOURBON WHISKEY",
-        "abvPercent": 45.0,
-        "proof": 90.0,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "Distilled & bottled by Blackbird Distilling Co.,. Bardstown, Kentucky",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-043",
       "files": [
-        "Test_TTB_Image_0022.jpg"
+        "Test_TTB_Image_0021.jpg"
       ],
-      "durationSeconds": 2.847,
+      "durationSeconds": 3.241,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandName": "BLACKBIRD RESERVE",
-        "classType": "KENTUCKYSTRAIGHT BOURBON WHISKEY",
+        "classType": "KENTUCKY STRAIGHT BOURBON WHISKEY",
         "abvPercent": 45.0,
         "proof": 90.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Distilled & bottled by Blackbird Distilling Co.,. Bardstown, Kentucky",
+        "producerNameAddress": "Distilled & bottled by Blackbird Distilling Co., Bardstown, Kentucky",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 14,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-044",
       "files": [
+        "Test_TTB_Image_0022.jpg"
+      ],
+      "durationSeconds": 2.298,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "distilled_spirits",
+        "brandName": "BLACKBIRD RESERVE",
+        "classType": "KENTUCKY STRAIGHT BOURBON WHISKEY",
+        "abvPercent": 45.0,
+        "proof": 90.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Distilled & bottled by Blackbird Distilling Co., Bardstown, Kentucky",
+        "countryOfOrigin": null,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 14,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-045",
+      "files": [
         "Test_TTB_Image_0023.jpg"
       ],
-      "durationSeconds": 3.544,
+      "durationSeconds": 3.887,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1109,43 +1134,43 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Maritime Cellars, Mendocino, California FRONT /BRAND LABEL",
+        "producerNameAddress": "Produced and bottled by Maritime Cellars, Mendocino, California FRONT/BRAND LABEL",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 14,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-045",
-      "files": [
-        "Test_TTB_Image_0024.jpg"
-      ],
-      "durationSeconds": 5.015,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "wine",
-        "brandName": "FROST RIDGE",
-        "classType": "Wine of New Zealand",
-        "abvPercent": 12.0,
-        "proof": null,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "ported by Frost Ridge Imports, Seattle, Washingt Imported by Frost Ridge Imports, Seattle, Washington..",
-        "countryOfOrigin": "New Zealand",
-        "detectedFieldCount": 7,
-        "evidenceRegionCount": 17,
+        "evidenceRegionCount": 10,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-046",
       "files": [
+        "Test_TTB_Image_0024.jpg"
+      ],
+      "durationSeconds": 2.984,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "FROST RIDGE",
+        "classType": "MARLBOROUGH SAUVIGNON BLANC",
+        "abvPercent": 12.0,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Imported by Frost Ridge Imports, Seattle, Washington.",
+        "countryOfOrigin": "New Zealand",
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 13,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-047",
+      "files": [
         "Test_TTB_Image_0025.jpg"
       ],
-      "durationSeconds": 1.911,
+      "durationSeconds": 2.745,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1157,19 +1182,19 @@
         "proof": 90.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Distilled and bottled by Blackbird Disuilling Co. Distilled and botted by Blackbird Dsilling Co. Frankfort, Kentucky",
+        "producerNameAddress": "Disilled and botted by Blackbird Dsuilling Co. Frankfort, Kentucky",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 10,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-047",
+      "caseId": "image-048",
       "files": [
         "Test_TTB_Image_0026.jpg"
       ],
-      "durationSeconds": 2.99,
+      "durationSeconds": 1.86,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1183,17 +1208,17 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": "BREWED AND BOTTLED BY IRON ANCHOR BREWING CO. PORTLAND, MAINE",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 14,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 16,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-048",
+      "caseId": "image-049",
       "files": [
         "Test_TTB_Image_0027.jpg"
       ],
-      "durationSeconds": 3.054,
+      "durationSeconds": 3.053,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1209,15 +1234,15 @@
         "countryOfOrigin": "Mexico",
         "detectedFieldCount": 8,
         "evidenceRegionCount": 14,
-        "machineSummary": "Review needed"
+        "machineSummary": "No differences found in checked fields"
       }
     },
     {
-      "caseId": "image-049",
+      "caseId": "image-050",
       "files": [
         "Test_TTB_Image_0028.jpg"
       ],
-      "durationSeconds": 1.911,
+      "durationSeconds": 1.964,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1231,17 +1256,17 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": "Brewed and bottled by Midnight Forge Brewing, Milwaukee, Wisconsin",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-050",
+      "caseId": "image-051",
       "files": [
         "Test_TTB_Image_0029.jpg"
       ],
-      "durationSeconds": 3.835,
+      "durationSeconds": 3.936,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1256,16 +1281,16 @@
         "producerNameAddress": "Produced and bottled by Fox Hollow Vineyards, Hammondsport, New York",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 14,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-051",
+      "caseId": "image-052",
       "files": [
         "Test_TTB_Image_0030.jpg"
       ],
-      "durationSeconds": 2.217,
+      "durationSeconds": 3.117,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1277,19 +1302,19 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Cedar Bend Vincyards Oregon.",
+        "producerNameAddress": "Produced and bottled by Cedar Bend Vineyards Oregon.",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 16,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-052",
+      "caseId": "image-053",
       "files": [
         "Test_TTB_Image_0031.jpg"
       ],
-      "durationSeconds": 2.969,
+      "durationSeconds": 2.929,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1303,65 +1328,65 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": "Brewed and bottled by Harbor Lights. Brewing Co., Seattle, Washington",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 13,
-        "machineSummary": "Review needed"
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 12,
+        "machineSummary": "No differences found in checked fields"
       }
     },
     {
-      "caseId": "image-053",
+      "caseId": "image-054",
       "files": [
         "Test_TTB_Image_0032.jpg"
       ],
-      "durationSeconds": 1.982,
+      "durationSeconds": 1.984,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandName": "BOTANIST'S SECRET",
-        "classType": "London Dry Gin",
+        "classType": "-London Dry Gin",
         "abvPercent": 47.0,
         "proof": 94.0,
         "netContentsValue": 1.0,
         "netContentsUnit": "L",
-        "producerNameAddress": "Distilled &bottled by Botanist's Secret Distilley Lonon. Botanist's Secret Distillery, London. seDy.ondon",
+        "producerNameAddress": "Distilled& bottled by Botanist's Secret Distillery, London. B Dy.ondon",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 10,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-054",
-      "files": [
-        "Test_TTB_Image_0033.jpg"
-      ],
-      "durationSeconds": 4.065,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
+        "evidenceRegionCount": 8,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-055",
       "files": [
+        "Test_TTB_Image_0033.jpg"
+      ],
+      "durationSeconds": 4.036,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "LARK & LUMEN o:bsxdticbug=",
+        "classType": "ROSE",
+        "abvPercent": 13.0,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Produced and bottled by Lark &Lumen Winery, Sonoma, California",
+        "countryOfOrigin": null,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 9,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-056",
+      "files": [
         "Test_TTB_Image_0034.jpg"
       ],
-      "durationSeconds": 3.229,
+      "durationSeconds": 2.943,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1376,16 +1401,16 @@
         "producerNameAddress": "Produced and bottled by Iron Creek Cellars, McMinnville, Oregon",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-056",
+      "caseId": "image-057",
       "files": [
         "Test_TTB_Image_0035.jpg"
       ],
-      "durationSeconds": 3.179,
+      "durationSeconds": 3.646,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1397,50 +1422,50 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Whispering Pines Estate, Napa, California",
+        "producerNameAddress": "Produced and bottled by Whispering Pines Estate, Napa, California.",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-057",
-      "files": [
-        "Test_TTB_Image_0036.jpg"
-      ],
-      "durationSeconds": 4.584,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "distilled_spirits",
-        "brandName": "LUN",
-        "classType": "REPOSADO TEQUILA",
-        "abvPercent": 40.0,
-        "proof": 80.0,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "Imported by Casa de Luna Spirits, Houston, Texas Hecho en Mexico.",
-        "countryOfOrigin": "Mexico",
-        "detectedFieldCount": 8,
-        "evidenceRegionCount": 15,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-058",
       "files": [
+        "Test_TTB_Image_0036.jpg"
+      ],
+      "durationSeconds": 4.423,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "distilled_spirits",
+        "brandName": "CASA DE LUNA",
+        "classType": "REPOSADO TEQUILA",
+        "abvPercent": 40.0,
+        "proof": 80.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Imported by Casa de Luna Spirits, Houston, Texas Hecho en Mexico",
+        "countryOfOrigin": "Mexico",
+        "detectedFieldCount": 8,
+        "evidenceRegionCount": 15,
+        "machineSummary": "No differences found in checked fields"
+      }
+    },
+    {
+      "caseId": "image-059",
+      "files": [
         "Test_TTB_Image_0037.jpg"
       ],
-      "durationSeconds": 3.045,
+      "durationSeconds": 3.111,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandName": "BOTANIST'S SECRET",
-        "classType": ". LONDON DRY GIN",
+        "classType": ". LONDON DRY GIN -",
         "abvPercent": 47.0,
         "proof": 94.0,
         "netContentsValue": 1.0,
@@ -1453,17 +1478,17 @@
       }
     },
     {
-      "caseId": "image-059",
+      "caseId": "image-060",
       "files": [
         "Test_TTB_Image_0038.jpg"
       ],
-      "durationSeconds": 4.525,
+      "durationSeconds": 3.239,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "malt_beverage",
-        "brandName": null,
+        "brandName": "HARBORLIGHTS",
         "classType": "Pale Ale",
         "abvPercent": 5.2,
         "proof": null,
@@ -1471,41 +1496,41 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": null,
         "countryOfOrigin": null,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 6,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-060",
-      "files": [
-        "Test_TTB_Image_0039.jpg"
-      ],
-      "durationSeconds": 6.14,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "wine",
-        "brandName": "ted by Whisperiog Pines Esulc",
-        "classType": "Cabernet Sauvignon",
-        "abvPercent": 13.5,
-        "proof": null,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "Podoced and bottled by Whisperiog Pites Esulc ted by Whisperiog Pines Esulc Napa, Califocnia",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 13,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 7,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-061",
       "files": [
+        "Test_TTB_Image_0039.jpg"
+      ],
+      "durationSeconds": 4.882,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "WHISPERING PINES -ESTATE",
+        "classType": "California Cabernet Sauvignon",
+        "abvPercent": 13.5,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 7,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-062",
+      "files": [
         "Test_TTB_Image_0040.jpg"
       ],
-      "durationSeconds": 4.713,
+      "durationSeconds": 2.671,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1517,19 +1542,19 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": null,
+        "producerNameAddress": "Imported by Casa de Luna Spirits, Housto Txs Hecho en Mexico",
         "countryOfOrigin": "Mexico",
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-062",
+      "caseId": "image-063",
       "files": [
         "Test_TTB_Image_0041.jpg"
       ],
-      "durationSeconds": 3.589,
+      "durationSeconds": 3.54,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1544,16 +1569,16 @@
         "producerNameAddress": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 14,
-        "machineSummary": "Review needed"
+        "evidenceRegionCount": 11,
+        "machineSummary": "No differences found in checked fields"
       }
     },
     {
-      "caseId": "image-063",
+      "caseId": "image-064",
       "files": [
         "Test_TTB_Image_0042.jpg"
       ],
-      "durationSeconds": 2.65,
+      "durationSeconds": 3.984,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1565,19 +1590,19 @@
         "proof": 80.0,
         "netContentsValue": 1.0,
         "netContentsUnit": "L",
-        "producerNameAddress": "Distilled and bottled by Old Ferry Rum Co. Charleston, South Carolina",
+        "producerNameAddress": "Distilled and bottled by Old Ferry Rum Co., Charleston, South Carolina",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 12,
         "machineSummary": "Differences detected"
       }
     },
     {
-      "caseId": "image-064",
+      "caseId": "image-065",
       "files": [
         "uqgyU.jpg"
       ],
-      "durationSeconds": 3.62,
+      "durationSeconds": 2.805,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1597,49 +1622,25 @@
       }
     },
     {
-      "caseId": "image-065",
+      "caseId": "image-066",
       "files": [
         "Vodka_Back.jpg"
       ],
-      "durationSeconds": 4.644,
+      "durationSeconds": 4.477,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "ORGANIC",
+        "brandName": "IN KULA.MAUI.HAWAI",
         "classType": "100%NEUTRAL SPIRITS DISTILLED",
         "abvPercent": null,
         "proof": null,
         "netContentsValue": null,
         "netContentsUnit": null,
-        "producerNameAddress": "BY HAWAII SEA SPIRITS LLC",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 7,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-066",
-      "files": [
-        "Vodka_Front.jpg"
-      ],
-      "durationSeconds": 3.192,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": null,
-        "brandName": "OrganicVodka",
-        "classType": null,
-        "abvPercent": 40.0,
-        "proof": 80.0,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
         "producerNameAddress": null,
         "countryOfOrigin": null,
-        "detectedFieldCount": 4,
+        "detectedFieldCount": 3,
         "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       }
@@ -1647,33 +1648,57 @@
     {
       "caseId": "image-067",
       "files": [
-        "wKE1J.jpg"
+        "Vodka_Front.jpg"
       ],
-      "durationSeconds": 4.57,
+      "durationSeconds": 2.225,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": "wine",
-        "brandName": "ted by Whisperiog Pines Esulc",
-        "classType": "Cabernet Sauvignon",
-        "abvPercent": 13.5,
-        "proof": null,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "Podoced and bottled by Whisperiog Pites Esulc ted by Whisperiog Pines Esulc Napa, Califocnia",
+        "beverageType": "distilled_spirits",
+        "brandName": null,
+        "classType": "OrganicVodka",
+        "abvPercent": null,
+        "proof": 80.0,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": null,
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 13,
+        "detectedFieldCount": 2,
+        "evidenceRegionCount": 2,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-068",
       "files": [
+        "wKE1J.jpg"
+      ],
+      "durationSeconds": 3.595,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "WHISPERING PINES -ESTATE",
+        "classType": "California Cabernet Sauvignon",
+        "abvPercent": 13.5,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 7,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-069",
+      "files": [
         "XjPpA.jpg"
       ],
-      "durationSeconds": 3.457,
+      "durationSeconds": 2.596,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1685,26 +1710,26 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": null,
+        "producerNameAddress": "Imported by Casa de Luna Spirits, Housto Txs Hecho en Mexico",
         "countryOfOrigin": "Mexico",
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-069",
+      "caseId": "image-070",
       "files": [
         "XXL_Back.jpg"
       ],
-      "durationSeconds": 2.275,
+      "durationSeconds": 2.447,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
-        "brandName": "STRAWBERRY",
-        "classType": "GRAPE WINE WITH NATURAL FLA",
+        "brandName": "OR MOREIN",
+        "classType": "GRAPE WINE WITH NATURAL FLAVORS",
         "abvPercent": 16.0,
         "proof": null,
         "netContentsValue": 750.0,
@@ -1712,22 +1737,22 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 4,
-        "evidenceRegionCount": 8,
+        "evidenceRegionCount": 4,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-070",
+      "caseId": "image-071",
       "files": [
         "XXL_Front.jpg"
       ],
-      "durationSeconds": 5.943,
+      "durationSeconds": 3.425,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": null,
-        "brandName": "strawberries",
+        "brandName": "STRAWBERRY",
         "classType": null,
         "abvPercent": 16.0,
         "proof": null,
@@ -1736,16 +1761,16 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 2,
-        "evidenceRegionCount": 3,
+        "evidenceRegionCount": 2,
         "machineSummary": "Review needed"
       }
     }
   ],
   "grouping": {
     "httpStatus": 200,
-    "groupCount": 50,
-    "readyToConfirmCount": 36,
-    "needsReviewCount": 14,
+    "groupCount": 45,
+    "readyToConfirmCount": 35,
+    "needsReviewCount": 10,
     "maximumImagesPerGroup": 3,
     "pass": true,
     "failures": [],
@@ -1753,38 +1778,10 @@
       {
         "groupId": "group-1",
         "panelIds": [
-          "image-001"
-        ],
-        "suggestedName": "Tuscan",
-        "inferredType": "wine",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "One image, one product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-2",
-        "panelIds": [
+          "image-001",
           "image-002"
         ],
         "suggestedName": "VALLE DI PIETRA",
-        "inferredType": "wine",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "One image, one product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-3",
-        "panelIds": [
-          "image-003",
-          "image-008"
-        ],
-        "suggestedName": "SILVERPINE",
         "inferredType": "wine",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -1794,7 +1791,23 @@
         "conflict": false
       },
       {
-        "groupId": "group-4",
+        "groupId": "group-2",
+        "panelIds": [
+          "image-003",
+          "image-008"
+        ],
+        "suggestedName": "SILVERPINE",
+        "inferredType": "wine",
+        "confidence": "low",
+        "status": "needs_review",
+        "reasons": [
+          "Same brand and compatible class read",
+          "Beverage type uncertain; confirm the type"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-3",
         "panelIds": [
           "image-004"
         ],
@@ -1808,7 +1821,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-5",
+        "groupId": "group-4",
         "panelIds": [
           "image-005"
         ],
@@ -1822,10 +1835,10 @@
         "conflict": false
       },
       {
-        "groupId": "group-6",
+        "groupId": "group-5",
         "panelIds": [
           "image-006",
-          "image-050"
+          "image-051"
         ],
         "suggestedName": "FOX HOLLOW",
         "inferredType": "wine",
@@ -1837,7 +1850,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-7",
+        "groupId": "group-6",
         "panelIds": [
           "image-007"
         ],
@@ -1851,24 +1864,26 @@
         "conflict": false
       },
       {
-        "groupId": "group-8",
+        "groupId": "group-7",
         "panelIds": [
-          "image-009"
+          "image-009",
+          "image-036",
+          "image-063"
         ],
         "suggestedName": "CRYSTAL TUNDRA",
         "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
         "reasons": [
-          "One image, one product"
+          "Same brand and compatible class read"
         ],
         "conflict": false
       },
       {
-        "groupId": "group-9",
+        "groupId": "group-8",
         "panelIds": [
           "image-010",
-          "image-048"
+          "image-049"
         ],
         "suggestedName": "CLEARWATER",
         "inferredType": "distilled_spirits",
@@ -1880,26 +1895,41 @@
         "conflict": false
       },
       {
-        "groupId": "group-10",
+        "groupId": "group-9",
         "panelIds": [
           "image-011"
         ],
-        "suggestedName": "Product 10",
-        "inferredType": null,
-        "confidence": "low",
-        "status": "needs_review",
+        "suggestedName": "MIRROR LAKE",
+        "inferredType": "wine",
+        "confidence": "high",
+        "status": "ready_to_confirm",
         "reasons": [
-          "Brand not read; confirm this product"
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-10",
+        "panelIds": [
+          "image-012",
+          "image-045"
+        ],
+        "suggestedName": "MARITIME",
+        "inferredType": "wine",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "Same brand and compatible class read"
         ],
         "conflict": false
       },
       {
         "groupId": "group-11",
         "panelIds": [
-          "image-012"
+          "image-013"
         ],
-        "suggestedName": "MARITIME Mothode Champenoise",
-        "inferredType": "wine",
+        "suggestedName": "COINTREAU",
+        "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
         "reasons": [
@@ -1910,108 +1940,37 @@
       {
         "groupId": "group-12",
         "panelIds": [
-          "image-013"
+          "image-014"
         ],
-        "suggestedName": "HARMONIED'ESPRIT D'ECORCES D'ORANGES",
-        "inferredType": "distilled_spirits",
-        "confidence": "high",
-        "status": "ready_to_confirm",
+        "suggestedName": "CONIT",
+        "inferredType": null,
+        "confidence": "low",
+        "status": "needs_review",
         "reasons": [
-          "One image, one product"
+          "Beverage type uncertain; confirm the type"
         ],
         "conflict": false
       },
       {
         "groupId": "group-13",
         "panelIds": [
-          "image-014"
+          "image-015"
         ],
-        "suggestedName": "COUNIN",
-        "inferredType": null,
-        "confidence": "low",
-        "status": "needs_review",
+        "suggestedName": "SUMMER BLUSH",
+        "inferredType": "wine",
+        "confidence": "high",
+        "status": "ready_to_confirm",
         "reasons": [
-          "Beverage type uncertain; confirm the type"
+          "One image, one product"
         ],
         "conflict": false
       },
       {
         "groupId": "group-14",
         "panelIds": [
-          "image-015"
-        ],
-        "suggestedName": "Product 14",
-        "inferredType": null,
-        "confidence": "low",
-        "status": "needs_review",
-        "reasons": [
-          "Brand not read; confirm this product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-15",
-        "panelIds": [
           "image-016"
         ],
-        "suggestedName": "Product 15",
-        "inferredType": null,
-        "confidence": "low",
-        "status": "needs_review",
-        "reasons": [
-          "Brand not read; confirm this product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-16",
-        "panelIds": [
-          "image-017"
-        ],
-        "suggestedName": "Product 16",
-        "inferredType": null,
-        "confidence": "low",
-        "status": "needs_review",
-        "reasons": [
-          "Brand not read; confirm this product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-17",
-        "panelIds": [
-          "image-018"
-        ],
-        "suggestedName": "Imoported by Smoke & Agave Imports",
-        "inferredType": null,
-        "confidence": "low",
-        "status": "needs_review",
-        "reasons": [
-          "Beverage type uncertain; confirm the type"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-18",
-        "panelIds": [
-          "image-019",
-          "image-041"
-        ],
-        "suggestedName": "OTANIST'S",
-        "inferredType": "distilled_spirits",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "Same brand and compatible class read"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-19",
-        "panelIds": [
-          "image-020"
-        ],
-        "suggestedName": "FERRY GOLDENR",
+        "suggestedName": "NORTH LIGHT",
         "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2021,17 +1980,93 @@
         "conflict": false
       },
       {
-        "groupId": "group-20",
+        "groupId": "group-15",
         "panelIds": [
-          "image-021",
+          "image-017",
+          "image-040",
           "image-046"
         ],
-        "suggestedName": "BLACKBIRD RESERVE",
+        "suggestedName": "FROST RIDGE",
+        "inferredType": "wine",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "Same brand and compatible class read"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-16",
+        "panelIds": [
+          "image-018"
+        ],
+        "suggestedName": "SMOKE& AGAVE",
+        "inferredType": "distilled_spirits",
+        "confidence": "low",
+        "status": "needs_review",
+        "reasons": [
+          "Beverage type uncertain; confirm the type"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-17",
+        "panelIds": [
+          "image-019",
+          "image-042"
+        ],
+        "suggestedName": "SECRET",
         "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
         "reasons": [
           "Same brand and compatible class read"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-18",
+        "panelIds": [
+          "image-020"
+        ],
+        "suggestedName": "FERRY",
+        "inferredType": "distilled_spirits",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-19",
+        "panelIds": [
+          "image-021",
+          "image-043",
+          "image-044"
+        ],
+        "suggestedName": "BLACKBIRD RESERVE",
+        "inferredType": "distilled_spirits",
+        "confidence": "high",
+        "status": "needs_review",
+        "reasons": [
+          "Same brand and compatible class read",
+          "More than three images; split into products"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-20",
+        "panelIds": [
+          "image-047"
+        ],
+        "suggestedName": "BLACKBIRD RESERVE",
+        "inferredType": "distilled_spirits",
+        "confidence": "high",
+        "status": "needs_review",
+        "reasons": [
+          "Same brand and compatible class read",
+          "More than three images; split into products"
         ],
         "conflict": false
       },
@@ -2039,8 +2074,8 @@
         "groupId": "group-21",
         "panelIds": [
           "image-022",
-          "image-040",
-          "image-047"
+          "image-041",
+          "image-048"
         ],
         "suggestedName": "IRON ANCHOR BREWING CO.",
         "inferredType": "malt_beverage",
@@ -2071,7 +2106,7 @@
         "groupId": "group-23",
         "panelIds": [
           "image-025",
-          "image-049"
+          "image-050"
         ],
         "suggestedName": "MIDNIGHT FORGE",
         "inferredType": "malt_beverage",
@@ -2087,7 +2122,7 @@
         "panelIds": [
           "image-026"
         ],
-        "suggestedName": "IRON CREEK CELLARS",
+        "suggestedName": "IRON CREEK",
         "inferredType": "wine",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2101,7 +2136,7 @@
         "panelIds": [
           "image-027"
         ],
-        "suggestedName": "SUN DOCK",
+        "suggestedName": "SUNDOCK",
         "inferredType": "malt_beverage",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2114,7 +2149,7 @@
         "groupId": "group-26",
         "panelIds": [
           "image-028",
-          "image-051"
+          "image-052"
         ],
         "suggestedName": "CEDAR BEND",
         "inferredType": "wine",
@@ -2129,8 +2164,8 @@
         "groupId": "group-27",
         "panelIds": [
           "image-029",
-          "image-036",
-          "image-037"
+          "image-037",
+          "image-038"
         ],
         "suggestedName": "BOTANIST'S SECRET",
         "inferredType": "distilled_spirits",
@@ -2145,8 +2180,8 @@
       {
         "groupId": "group-28",
         "panelIds": [
-          "image-053",
-          "image-058"
+          "image-054",
+          "image-059"
         ],
         "suggestedName": "BOTANIST'S SECRET",
         "inferredType": "distilled_spirits",
@@ -2164,7 +2199,7 @@
           "image-030",
           "image-031"
         ],
-        "suggestedName": "BLOOD & HONEY",
+        "suggestedName": "REVOLVER",
         "inferredType": "malt_beverage",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2178,12 +2213,12 @@
         "panelIds": [
           "image-032"
         ],
-        "suggestedName": "STONE'S THROW",
-        "inferredType": "wine",
-        "confidence": "high",
-        "status": "ready_to_confirm",
+        "suggestedName": "INGREDIENTS",
+        "inferredType": null,
+        "confidence": "low",
+        "status": "needs_review",
         "reasons": [
-          "One image, one product"
+          "Beverage type uncertain; confirm the type"
         ],
         "conflict": false
       },
@@ -2192,8 +2227,8 @@
         "panelIds": [
           "image-033"
         ],
-        "suggestedName": "DISTILLEDFROM GRAIN",
-        "inferredType": "distilled_spirits",
+        "suggestedName": "STONE'S THROW",
+        "inferredType": "wine",
         "confidence": "high",
         "status": "ready_to_confirm",
         "reasons": [
@@ -2206,7 +2241,7 @@
         "panelIds": [
           "image-034"
         ],
-        "suggestedName": "RED MESA",
+        "suggestedName": "NORTHWIND",
         "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2218,24 +2253,23 @@
       {
         "groupId": "group-33",
         "panelIds": [
-          "image-035",
-          "image-062"
+          "image-035"
         ],
-        "suggestedName": "CRYSTAL TUNDRA",
+        "suggestedName": "RED MESA",
         "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
         "reasons": [
-          "Same brand and compatible class read"
+          "One image, one product"
         ],
         "conflict": false
       },
       {
         "groupId": "group-34",
         "panelIds": [
-          "image-038"
+          "image-039"
         ],
-        "suggestedName": "NIGHT FORGE",
+        "suggestedName": "IGHT FORGE",
         "inferredType": "malt_beverage",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2247,64 +2281,7 @@
       {
         "groupId": "group-35",
         "panelIds": [
-          "image-039"
-        ],
-        "suggestedName": "Product 35",
-        "inferredType": null,
-        "confidence": "low",
-        "status": "needs_review",
-        "reasons": [
-          "Brand not read; confirm this product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-36",
-        "panelIds": [
-          "image-042",
-          "image-043"
-        ],
-        "suggestedName": "BLACKBIRD RESERVE",
-        "inferredType": "distilled_spirits",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "Same brand and compatible class read"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-37",
-        "panelIds": [
-          "image-044"
-        ],
-        "suggestedName": "MARITIME",
-        "inferredType": "wine",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "One image, one product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-38",
-        "panelIds": [
-          "image-045"
-        ],
-        "suggestedName": "FROST RIDGE",
-        "inferredType": "wine",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "One image, one product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-39",
-        "panelIds": [
-          "image-052"
+          "image-053"
         ],
         "suggestedName": "HARBOR LIGHTSE",
         "inferredType": "malt_beverage",
@@ -2316,23 +2293,23 @@
         "conflict": false
       },
       {
-        "groupId": "group-40",
+        "groupId": "group-36",
         "panelIds": [
-          "image-054"
+          "image-055"
         ],
-        "suggestedName": "Product 40",
-        "inferredType": null,
-        "confidence": "low",
-        "status": "needs_review",
+        "suggestedName": "LARK & LUMEN o:bsxdticbug=",
+        "inferredType": "wine",
+        "confidence": "high",
+        "status": "ready_to_confirm",
         "reasons": [
-          "Brand not read; confirm this product"
+          "One image, one product"
         ],
         "conflict": false
       },
       {
-        "groupId": "group-41",
+        "groupId": "group-37",
         "panelIds": [
-          "image-055"
+          "image-056"
         ],
         "suggestedName": "IRON CREEK",
         "inferredType": "wine",
@@ -2344,54 +2321,13 @@
         "conflict": false
       },
       {
-        "groupId": "group-42",
+        "groupId": "group-38",
         "panelIds": [
-          "image-056"
+          "image-057",
+          "image-061",
+          "image-068"
         ],
         "suggestedName": "WHISPERING PINES ESTATE",
-        "inferredType": "wine",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "One image, one product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-43",
-        "panelIds": [
-          "image-057"
-        ],
-        "suggestedName": "LUN",
-        "inferredType": "distilled_spirits",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "One image, one product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-44",
-        "panelIds": [
-          "image-059"
-        ],
-        "suggestedName": "Product 44",
-        "inferredType": "malt_beverage",
-        "confidence": "high",
-        "status": "needs_review",
-        "reasons": [
-          "Brand not read; confirm this product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-45",
-        "panelIds": [
-          "image-060",
-          "image-067"
-        ],
-        "suggestedName": "ted by Whisperiog Pines Esulc",
         "inferredType": "wine",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2401,10 +2337,38 @@
         "conflict": false
       },
       {
-        "groupId": "group-46",
+        "groupId": "group-39",
         "panelIds": [
-          "image-061",
-          "image-068"
+          "image-058"
+        ],
+        "suggestedName": "CASA DE LUNA",
+        "inferredType": "distilled_spirits",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-40",
+        "panelIds": [
+          "image-060"
+        ],
+        "suggestedName": "HARBORLIGHTS",
+        "inferredType": "malt_beverage",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-41",
+        "panelIds": [
+          "image-062",
+          "image-069"
         ],
         "suggestedName": "CASA DE LUNA",
         "inferredType": "distilled_spirits",
@@ -2416,9 +2380,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-47",
+        "groupId": "group-42",
         "panelIds": [
-          "image-063"
+          "image-064"
         ],
         "suggestedName": "OLD FERRY",
         "inferredType": "distilled_spirits",
@@ -2430,9 +2394,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-48",
+        "groupId": "group-43",
         "panelIds": [
-          "image-064"
+          "image-065"
         ],
         "suggestedName": "HARBOR LIGHTS",
         "inferredType": "malt_beverage",
@@ -2444,28 +2408,27 @@
         "conflict": false
       },
       {
-        "groupId": "group-49",
+        "groupId": "group-44",
         "panelIds": [
-          "image-065",
-          "image-066"
+          "image-066",
+          "image-067"
         ],
-        "suggestedName": "OrganicVodka",
+        "suggestedName": "IN KULA.MAUI.HAWAI",
         "inferredType": "distilled_spirits",
-        "confidence": "low",
-        "status": "needs_review",
+        "confidence": "high",
+        "status": "ready_to_confirm",
         "reasons": [
-          "Filename cues match",
-          "Beverage type uncertain; confirm the type"
+          "Filename cues match"
         ],
         "conflict": false
       },
       {
-        "groupId": "group-50",
+        "groupId": "group-45",
         "panelIds": [
-          "image-069",
-          "image-070"
+          "image-070",
+          "image-071"
         ],
-        "suggestedName": "STRAWBERRY",
+        "suggestedName": "OR MOREIN",
         "inferredType": "wine",
         "confidence": "low",
         "status": "needs_review",
@@ -2481,34 +2444,10 @@
     {
       "caseId": "product-001",
       "files": [
-        "0wLM9.jpg"
-      ],
-      "durationSeconds": 0.23,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "wine",
-        "brandName": "Tuscan",
-        "classType": "Sangiovese",
-        "abvPercent": 13.5,
-        "proof": null,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 13,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "Tuscan"
-    },
-    {
-      "caseId": "product-002",
-      "files": [
+        "0wLM9.jpg",
         "111_Wine_Valle_Front.png"
       ],
-      "durationSeconds": 0.213,
+      "durationSeconds": 2.417,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2521,20 +2460,20 @@
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 8,
+        "countryOfOrigin": "Italy",
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 14,
         "machineSummary": "Review needed"
       },
       "suggestedName": "VALLE DI PIETRA"
     },
     {
-      "caseId": "product-003",
+      "caseId": "product-002",
       "files": [
         "222_Silverpine_Wine.png",
         "888SilverPine_Wine.png"
       ],
-      "durationSeconds": 0.66,
+      "durationSeconds": 0.717,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2549,17 +2488,17 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 20,
+        "evidenceRegionCount": 14,
         "machineSummary": "Review needed"
       },
       "suggestedName": "SILVERPINE"
     },
     {
-      "caseId": "product-004",
+      "caseId": "product-003",
       "files": [
         "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg"
       ],
-      "durationSeconds": 0.325,
+      "durationSeconds": 0.383,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2567,24 +2506,24 @@
         "beverageType": "malt_beverage",
         "brandName": "PEAK FARM",
         "classType": "DOUBLE PALE ALE",
-        "abvPercent": 7.2,
+        "abvPercent": null,
         "proof": null,
         "netContentsValue": 16.0,
         "netContentsUnit": "fl oz",
         "producerNameAddress": "SYCAMORE BREWING 2161HAWKINS STREET CHARLOTTE.NC 28203",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 5,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 4,
         "machineSummary": "Review needed"
       },
       "suggestedName": "PEAK FARM"
     },
     {
-      "caseId": "product-005",
+      "caseId": "product-004",
       "files": [
         "333_CascadeLight_Wine.png"
       ],
-      "durationSeconds": 0.336,
+      "durationSeconds": 0.42,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2596,21 +2535,21 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Cascade Light Winery, Watkins Glen New York",
+        "producerNameAddress": "Vinted and Bortled by Cascade Light Winery, Watkins Glen New York",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 12,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       },
       "suggestedName": "CASCADE LIGHT"
     },
     {
-      "caseId": "product-006",
+      "caseId": "product-005",
       "files": [
         "3urY2.jpg",
         "Test_TTB_Image_0029.jpg"
       ],
-      "durationSeconds": 0.866,
+      "durationSeconds": 1.041,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2625,17 +2564,17 @@
         "producerNameAddress": "Produced and bottled by Fox Hollow Vineyards, Hammondsport, New York",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 21,
+        "evidenceRegionCount": 17,
         "machineSummary": "Review needed"
       },
       "suggestedName": "FOX HOLLOW"
     },
     {
-      "caseId": "product-007",
+      "caseId": "product-006",
       "files": [
         "555_Northveil_Vodka.png"
       ],
-      "durationSeconds": 0.356,
+      "durationSeconds": 0.478,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2647,46 +2586,48 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": null,
+        "producerNameAddress": "Distilled and Bottled by Northveil Spirits, Portland, Oregon",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 13,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       },
       "suggestedName": "NORTHVEIL"
     },
     {
-      "caseId": "product-008",
+      "caseId": "product-007",
       "files": [
-        "8Gf8v.jpg"
+        "8Gf8v.jpg",
+        "Test_TTB_Image_0004.jpg",
+        "Test_TTB_Image_0041.jpg"
       ],
-      "durationSeconds": 0.437,
+      "durationSeconds": 1.6,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandName": "CRYSTAL TUNDRA",
-        "classType": "ed Vodka",
+        "classType": "Distilled Vodka",
         "abvPercent": 40.0,
         "proof": 80.0,
         "netContentsValue": 1.75,
         "netContentsUnit": "L",
-        "producerNameAddress": "ed and bottled by Distilled and bottled by",
+        "producerNameAddress": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 22,
-        "machineSummary": "Review needed"
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 21,
+        "machineSummary": "Differences detected"
       },
       "suggestedName": "CRYSTAL TUNDRA"
     },
     {
-      "caseId": "product-009",
+      "caseId": "product-008",
       "files": [
         "AnMXl.jpg",
         "Test_TTB_Image_0027.jpg"
       ],
-      "durationSeconds": 0.841,
+      "durationSeconds": 0.953,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2701,224 +2642,227 @@
         "producerNameAddress": "Imported by Clearwater Spirits, Austin, Texas Hecho en Mexico.",
         "countryOfOrigin": "Mexico",
         "detectedFieldCount": 8,
-        "evidenceRegionCount": 26,
+        "evidenceRegionCount": 22,
         "machineSummary": "Review needed"
       },
       "suggestedName": "CLEARWATER"
     },
     {
-      "caseId": "product-010",
+      "caseId": "product-009",
       "files": [
         "BMgMY.jpg"
       ],
-      "durationSeconds": 0.333,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "Product 10"
-    },
-    {
-      "caseId": "product-011",
-      "files": [
-        "bsxs4.jpg"
-      ],
-      "durationSeconds": 0.413,
+      "durationSeconds": 0.39,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
-        "brandName": "MARITIME Mothode Champenoise",
-        "classType": "Sparkling Wine",
+        "brandName": "MIRROR LAKE",
+        "classType": "WILLAMETTE VALLEY PINOT GRIS",
+        "abvPercent": 12.8,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Produced and bottled by Miror Lake VineyardsDundee.Oregon",
+        "countryOfOrigin": null,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 9,
+        "machineSummary": "Review needed"
+      },
+      "suggestedName": "MIRROR LAKE"
+    },
+    {
+      "caseId": "product-010",
+      "files": [
+        "bsxs4.jpg",
+        "Test_TTB_Image_0023.jpg"
+      ],
+      "durationSeconds": 1.138,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "MARITIME",
+        "classType": "SPARKLING WINE",
         "abvPercent": 12.5,
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Maritime Cellars Mendocino, California",
+        "producerNameAddress": "Produced and bottled by Maritime Cellars, Mendocino, California FRONT/BRAND LABEL",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 16,
+        "evidenceRegionCount": 18,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "MARITIME Mothode Champenoise"
+      "suggestedName": "MARITIME"
     },
     {
-      "caseId": "product-012",
+      "caseId": "product-011",
       "files": [
         "Cointeau_Front.jpg"
       ],
-      "durationSeconds": 0.411,
+      "durationSeconds": 0.434,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "HARMONIED'ESPRIT D'ECORCES D'ORANGES",
+        "brandName": "COINTREAU",
         "classType": "LIQUEUR",
         "abvPercent": 40.0,
         "proof": null,
         "netContentsValue": 375.0,
         "netContentsUnit": "mL",
         "producerNameAddress": null,
-        "countryOfOrigin": "FRANCE-PRODUIT DEFRANCE",
+        "countryOfOrigin": "FRANCE",
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 10,
+        "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "HARMONIED'ESPRIT D'ECORCES D'ORANGES"
+      "suggestedName": "COINTREAU"
     },
     {
-      "caseId": "product-013",
+      "caseId": "product-012",
       "files": [
         "Cointreau_Back.jpg"
       ],
-      "durationSeconds": 0.364,
+      "durationSeconds": 0.441,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": null,
-        "brandName": "COUNIN",
+        "brandName": "CONIT",
         "classType": null,
         "abvPercent": null,
         "proof": null,
         "netContentsValue": null,
         "netContentsUnit": null,
-        "producerNameAddress": "IMPORTED BY REMY COINTREAU USA INC. NEW YORKNY",
+        "producerNameAddress": "MPORTED BY REMY COINTREAU USA INC. NEW YORK,NY",
         "countryOfOrigin": "FRANCE",
         "detectedFieldCount": 4,
         "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "COUNIN"
+      "suggestedName": "CONIT"
+    },
+    {
+      "caseId": "product-013",
+      "files": [
+        "coTpD.jpg"
+      ],
+      "durationSeconds": 0.415,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "SUMMER BLUSH",
+        "classType": "PROVENCE-STYLE ROSE",
+        "abvPercent": 12.5,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "PRODUCEOS BOTTLEDBY SUMMER BLUSK WINES.PASO ROBLES.CA",
+        "countryOfOrigin": "United States",
+        "detectedFieldCount": 8,
+        "evidenceRegionCount": 13,
+        "machineSummary": "Review needed"
+      },
+      "suggestedName": "SUMMER BLUSH"
     },
     {
       "caseId": "product-014",
       "files": [
-        "coTpD.jpg"
-      ],
-      "durationSeconds": 0.367,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "Product 14"
-    },
-    {
-      "caseId": "product-015",
-      "files": [
         "DDqT2.jpg"
       ],
-      "durationSeconds": 0.33,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "Product 15"
-    },
-    {
-      "caseId": "product-016",
-      "files": [
-        "DmK94.jpg"
-      ],
-      "durationSeconds": 0.356,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "Product 16"
-    },
-    {
-      "caseId": "product-017",
-      "files": [
-        "EqTB7.jpg"
-      ],
-      "durationSeconds": 0.446,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": null,
-        "brandName": "Imoported by Smoke & Agave Imports",
-        "classType": null,
-        "abvPercent": 45.0,
-        "proof": 90.0,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "Imoported by Smoke & Agave Imports Imported by Smoke &Agave Imports Los Angeles, California",
-        "countryOfOrigin": "Mexico",
-        "detectedFieldCount": 7,
-        "evidenceRegionCount": 13,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "Imoported by Smoke & Agave Imports"
-    },
-    {
-      "caseId": "product-018",
-      "files": [
-        "Gemini_Generated_Image_auilqqauilqqauil (1).jpg",
-        "Test_TTB_Image_0011.jpg"
-      ],
-      "durationSeconds": 0.277,
+      "durationSeconds": 0.375,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "OTANIST'S",
+        "brandName": "NORTH LIGHT",
+        "classType": "DISTILLED VODKA",
+        "abvPercent": 40.0,
+        "proof": 80.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 7,
+        "machineSummary": "Review needed"
+      },
+      "suggestedName": "NORTH LIGHT"
+    },
+    {
+      "caseId": "product-015",
+      "files": [
+        "DmK94.jpg",
+        "Test_TTB_Image_0008.jpg",
+        "Test_TTB_Image_0024.jpg"
+      ],
+      "durationSeconds": 1.317,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "FROST RIDGE",
+        "classType": "Marlborough Sauvignon Blanc",
+        "abvPercent": 12.0,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Imported by Frost Ridge Imports, Seattle, Washington.",
+        "countryOfOrigin": "New Zealand",
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 19,
+        "machineSummary": "Review needed"
+      },
+      "suggestedName": "FROST RIDGE"
+    },
+    {
+      "caseId": "product-016",
+      "files": [
+        "EqTB7.jpg"
+      ],
+      "durationSeconds": 0.523,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "distilled_spirits",
+        "brandName": "SMOKE& AGAVE",
+        "classType": null,
+        "abvPercent": 45.0,
+        "proof": 90.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Imoported by Smoke & Agave Imports, Los Angeles, California",
+        "countryOfOrigin": "Mexico",
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
+        "machineSummary": "Review needed"
+      },
+      "suggestedName": "SMOKE& AGAVE"
+    },
+    {
+      "caseId": "product-017",
+      "files": [
+        "Gemini_Generated_Image_auilqqauilqqauil (1).jpg",
+        "Test_TTB_Image_0011.jpg"
+      ],
+      "durationSeconds": 0.299,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "distilled_spirits",
+        "brandName": "SECRET",
         "classType": "London Dry Gin",
         "abvPercent": 47.0,
         "proof": 94.0,
@@ -2927,43 +2871,44 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 8,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "OTANIST'S"
+      "suggestedName": "SECRET"
     },
     {
-      "caseId": "product-019",
+      "caseId": "product-018",
       "files": [
         "GuCzO.jpg"
       ],
-      "durationSeconds": 0.472,
+      "durationSeconds": 0.469,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "FERRY GOLDENR",
-        "classType": "RUM",
+        "brandName": "FERRY",
+        "classType": "GOLDEN RUM",
         "abvPercent": 40.0,
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": null,
+        "producerNameAddress": "Imported by Old Ferry Spiris, Miami, Flonid Product of Barbados",
         "countryOfOrigin": "Barbados",
-        "detectedFieldCount": 7,
-        "evidenceRegionCount": 21,
+        "detectedFieldCount": 8,
+        "evidenceRegionCount": 10,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "FERRY GOLDENR"
+      "suggestedName": "FERRY"
     },
     {
-      "caseId": "product-020",
+      "caseId": "product-019",
       "files": [
         "iFZ0Q.jpg",
-        "Test_TTB_Image_0025.jpg"
+        "Test_TTB_Image_0021.jpg",
+        "Test_TTB_Image_0022.jpg"
       ],
-      "durationSeconds": 0.731,
+      "durationSeconds": 1.404,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2975,10 +2920,35 @@
         "proof": 90.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Distilled and bottled by Blackbird Disuilling Co. Distilled and botted by Blackbird Dsilling Co. Frankfort, Kentucky",
+        "producerNameAddress": "Distilled & bottled by Blackbird Distilling Co., Bardstown, Kentucky",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 21,
+        "machineSummary": "Differences detected"
+      },
+      "suggestedName": "BLACKBIRD RESERVE"
+    },
+    {
+      "caseId": "product-020",
+      "files": [
+        "Test_TTB_Image_0025.jpg"
+      ],
+      "durationSeconds": 0.468,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "distilled_spirits",
+        "brandName": "BLACKBIRD RESERVE",
+        "classType": "Kentucky Straight Bourbon Whiskey",
+        "abvPercent": 45.0,
+        "proof": 90.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Disilled and botted by Blackbird Dsuilling Co. Frankfort, Kentucky",
+        "countryOfOrigin": null,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 10,
         "machineSummary": "Review needed"
       },
       "suggestedName": "BLACKBIRD RESERVE"
@@ -2990,7 +2960,7 @@
         "Test_TTB_Image_0009.jpg",
         "Test_TTB_Image_0026.jpg"
       ],
-      "durationSeconds": 1.359,
+      "durationSeconds": 1.412,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3004,8 +2974,8 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": "Brewed and bottled by Iron Anchor Brewing Co., Portland, Maine.",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 22,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 26,
         "machineSummary": "Review needed"
       },
       "suggestedName": "IRON ANCHOR BREWING CO."
@@ -3016,7 +2986,7 @@
         "JackDaniels_Back.jpg",
         "JackDaniels_Front.jpg"
       ],
-      "durationSeconds": 0.734,
+      "durationSeconds": 0.869,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3030,8 +3000,8 @@
         "netContentsUnit": "mL",
         "producerNameAddress": "DISTILLED AND BOTTLED BY JACK DANIEL DISTILLERY LYNCHBURG,TENNESSEE,USA",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 10,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       },
       "suggestedName": "JACK DANIEL'S"
@@ -3042,7 +3012,7 @@
         "jsP3W.jpg",
         "Test_TTB_Image_0028.jpg"
       ],
-      "durationSeconds": 0.861,
+      "durationSeconds": 0.921,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3056,8 +3026,8 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": "Brewed and bottled by Midnight Forge Brewing, Milwaukee, Wisconsin",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       },
       "suggestedName": "MIDNIGHT FORGE"
@@ -3067,13 +3037,13 @@
       "files": [
         "leTeL.jpg"
       ],
-      "durationSeconds": 0.385,
+      "durationSeconds": 0.461,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
-        "brandName": "IRON CREEK CELLARS",
+        "brandName": "IRON CREEK",
         "classType": "Pinot Noir",
         "abvPercent": 13.8,
         "proof": null,
@@ -3082,35 +3052,35 @@
         "producerNameAddress": "PRODUCED AND BOTTLED BY IRON CREEK CELLARS",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 17,
+        "evidenceRegionCount": 14,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "IRON CREEK CELLARS"
+      "suggestedName": "IRON CREEK"
     },
     {
       "caseId": "product-025",
       "files": [
         "MXteB.jpg"
       ],
-      "durationSeconds": 0.565,
+      "durationSeconds": 0.562,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "malt_beverage",
-        "brandName": "SUN DOCK",
-        "classType": "HEAT ALE",
+        "brandName": "SUNDOCK",
+        "classType": "AMERICAN WHEAT ALE",
         "abvPercent": 5.0,
         "proof": null,
         "netContentsValue": 16.0,
         "netContentsUnit": "fl oz",
-        "producerNameAddress": "un Dock Brewing. ifornia",
+        "producerNameAddress": "Brewed and canned by Sun Dock Brewing. San Diego, California",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "SUN DOCK"
+      "suggestedName": "SUNDOCK"
     },
     {
       "caseId": "product-026",
@@ -3118,7 +3088,7 @@
         "O0P0Z.jpg",
         "Test_TTB_Image_0030.jpg"
       ],
-      "durationSeconds": 0.663,
+      "durationSeconds": 0.762,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3130,10 +3100,10 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Cedar Bend Vincyards Oregon.",
+        "producerNameAddress": "Produced and bottled by Cedar Bend Vineyards Oregon.",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 16,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       },
       "suggestedName": "CEDAR BEND"
@@ -3145,14 +3115,14 @@
         "Test_TTB_Image_0005.jpg",
         "Test_TTB_Image_0006.jpg"
       ],
-      "durationSeconds": 1.223,
+      "durationSeconds": 1.353,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandName": "BOTANIST'S SECRET",
-        "classType": "London Dry Gin",
+        "classType": "LONDON DRY GIN",
         "abvPercent": 47.0,
         "proof": 94.0,
         "netContentsValue": 1.0,
@@ -3160,8 +3130,8 @@
         "producerNameAddress": "Distilled & bottled by. Botanist's Secret Distillery, London.",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 18,
-        "machineSummary": "Differences detected"
+        "evidenceRegionCount": 16,
+        "machineSummary": "Review needed"
       },
       "suggestedName": "BOTANIST'S SECRET"
     },
@@ -3171,14 +3141,14 @@
         "Test_TTB_Image_0032.jpg",
         "Test_TTB_Image_0037.jpg"
       ],
-      "durationSeconds": 0.867,
+      "durationSeconds": 0.902,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandName": "BOTANIST'S SECRET",
-        "classType": "London Dry Gin",
+        "classType": "-London Dry Gin",
         "abvPercent": 47.0,
         "proof": 94.0,
         "netContentsValue": 1.0,
@@ -3186,8 +3156,8 @@
         "producerNameAddress": "Distilled & bottled by Botanist's Secret Distillery, London",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 18,
-        "machineSummary": "Review needed"
+        "evidenceRegionCount": 16,
+        "machineSummary": "Differences detected"
       },
       "suggestedName": "BOTANIST'S SECRET"
     },
@@ -3197,13 +3167,13 @@
         "RevolverBrewing.jpg",
         "RevolverBrewing.png"
       ],
-      "durationSeconds": 0.329,
+      "durationSeconds": 0.34,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "malt_beverage",
-        "brandName": "BLOOD & HONEY",
+        "brandName": "REVOLVER",
         "classType": "TEXAS STYLE ALE",
         "abvPercent": null,
         "proof": null,
@@ -3211,18 +3181,43 @@
         "netContentsUnit": null,
         "producerNameAddress": "REVOLVER BREWING LITTLETON, CO",
         "countryOfOrigin": null,
-        "detectedFieldCount": 3,
+        "detectedFieldCount": 4,
         "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "BLOOD & HONEY"
+      "suggestedName": "REVOLVER"
     },
     {
       "caseId": "product-030",
       "files": [
+        "RevolverBrewing_2.jpg"
+      ],
+      "durationSeconds": 0.412,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": null,
+        "brandName": "INGREDIENTS",
+        "classType": null,
+        "abvPercent": 7.0,
+        "proof": null,
+        "netContentsValue": 12.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 3,
+        "evidenceRegionCount": 3,
+        "machineSummary": "Review needed"
+      },
+      "suggestedName": "INGREDIENTS"
+    },
+    {
+      "caseId": "product-031",
+      "files": [
         "Test_TTB_Image_0001.jpg"
       ],
-      "durationSeconds": 0.481,
+      "durationSeconds": 0.473,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3234,45 +3229,45 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Stone's Throw. Vineyards, Napa, California.",
+        "producerNameAddress": "Produced and bottled by Stone's Throw Vineyards, Napa, California",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 15,
+        "evidenceRegionCount": 12,
         "machineSummary": "Review needed"
       },
       "suggestedName": "STONE'S THROW"
     },
     {
-      "caseId": "product-031",
+      "caseId": "product-032",
       "files": [
         "Test_TTB_Image_0002.jpg"
       ],
-      "durationSeconds": 0.465,
+      "durationSeconds": 0.468,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "DISTILLEDFROM GRAIN",
+        "brandName": "NORTHWIND",
         "classType": "VODKA",
         "abvPercent": 40.0,
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Distilled and bottled by Northwind.",
+        "producerNameAddress": "Distilled and bottled by Northwind. Spirits, Portland, Oregon",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
         "evidenceRegionCount": 12,
         "machineSummary": "Differences detected"
       },
-      "suggestedName": "DISTILLEDFROM GRAIN"
+      "suggestedName": "NORTHWIND"
     },
     {
-      "caseId": "product-032",
+      "caseId": "product-033",
       "files": [
         "Test_TTB_Image_0003.jpg"
       ],
-      "durationSeconds": 0.49,
+      "durationSeconds": 0.536,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3284,7 +3279,7 @@
         "proof": 76.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Imported by Red Mesa Imports, San Antonio, Texas. Hecho en Mexico.",
+        "producerNameAddress": "Imported by Red Mesa Imports, San Antonio, Texas Hecho en Mexico",
         "countryOfOrigin": "Mexico",
         "detectedFieldCount": 8,
         "evidenceRegionCount": 14,
@@ -3293,163 +3288,36 @@
       "suggestedName": "RED MESA"
     },
     {
-      "caseId": "product-033",
-      "files": [
-        "Test_TTB_Image_0004.jpg",
-        "Test_TTB_Image_0041.jpg"
-      ],
-      "durationSeconds": 0.892,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "distilled_spirits",
-        "brandName": "CRYSTAL TUNDRA",
-        "classType": "DISTILLED VODKA",
-        "abvPercent": 40.0,
-        "proof": 80.0,
-        "netContentsValue": 1.75,
-        "netContentsUnit": "L",
-        "producerNameAddress": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 26,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "CRYSTAL TUNDRA"
-    },
-    {
       "caseId": "product-034",
       "files": [
         "Test_TTB_Image_0007.jpg"
       ],
-      "durationSeconds": 0.504,
+      "durationSeconds": 0.527,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "malt_beverage",
-        "brandName": "NIGHT FORGE",
+        "brandName": "IGHT FORGE",
         "classType": "IMPERIAL OATMEAL STOUT",
         "abvPercent": 9.5,
         "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": "Brewed and bottled by Midnight Forge Brewing Milwaukee, Wisconsin",
+        "netContentsValue": 12.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": "Brewed and bottled by Midnight Forge Brewing. Milwaukee, Wisconsin",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
+        "detectedFieldCount": 6,
         "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "NIGHT FORGE"
+      "suggestedName": "IGHT FORGE"
     },
     {
       "caseId": "product-035",
       "files": [
-        "Test_TTB_Image_0008.jpg"
-      ],
-      "durationSeconds": 0.356,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "Product 35"
-    },
-    {
-      "caseId": "product-036",
-      "files": [
-        "Test_TTB_Image_0021.jpg",
-        "Test_TTB_Image_0022.jpg"
-      ],
-      "durationSeconds": 0.847,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "distilled_spirits",
-        "brandName": "BLACKBIRD RESERVE",
-        "classType": "KENTUCKYSTRAIGHT BOURBON WHISKEY",
-        "abvPercent": 45.0,
-        "proof": 90.0,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "Distilled & bottled by Blackbird Distilling Co.,. Bardstown, Kentucky",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "BLACKBIRD RESERVE"
-    },
-    {
-      "caseId": "product-037",
-      "files": [
-        "Test_TTB_Image_0023.jpg"
-      ],
-      "durationSeconds": 0.474,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "wine",
-        "brandName": "MARITIME",
-        "classType": "SPARKLING WINE",
-        "abvPercent": 12.5,
-        "proof": null,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Maritime Cellars, Mendocino, California FRONT /BRAND LABEL",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 14,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "MARITIME"
-    },
-    {
-      "caseId": "product-038",
-      "files": [
-        "Test_TTB_Image_0024.jpg"
-      ],
-      "durationSeconds": 0.52,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "wine",
-        "brandName": "FROST RIDGE",
-        "classType": "Wine of New Zealand",
-        "abvPercent": 12.0,
-        "proof": null,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "ported by Frost Ridge Imports, Seattle, Washingt Imported by Frost Ridge Imports, Seattle, Washington..",
-        "countryOfOrigin": "New Zealand",
-        "detectedFieldCount": 7,
-        "evidenceRegionCount": 17,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "FROST RIDGE"
-    },
-    {
-      "caseId": "product-039",
-      "files": [
         "Test_TTB_Image_0031.jpg"
       ],
-      "durationSeconds": 0.457,
+      "durationSeconds": 0.481,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3463,43 +3331,43 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": "Brewed and bottled by Harbor Lights. Brewing Co., Seattle, Washington",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 13,
-        "machineSummary": "Review needed"
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 12,
+        "machineSummary": "No differences found in checked fields"
       },
       "suggestedName": "HARBOR LIGHTSE"
     },
     {
-      "caseId": "product-040",
+      "caseId": "product-036",
       "files": [
         "Test_TTB_Image_0033.jpg"
       ],
-      "durationSeconds": 0.372,
+      "durationSeconds": 0.438,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
-        "brandName": null,
-        "classType": null,
-        "abvPercent": null,
+        "beverageType": "wine",
+        "brandName": "LARK & LUMEN o:bsxdticbug=",
+        "classType": "ROSE",
+        "abvPercent": 13.0,
         "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Produced and bottled by Lark &Lumen Winery, Sonoma, California",
         "countryOfOrigin": null,
-        "detectedFieldCount": 0,
-        "evidenceRegionCount": 0,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "Product 40"
+      "suggestedName": "LARK & LUMEN o:bsxdticbug="
     },
     {
-      "caseId": "product-041",
+      "caseId": "product-037",
       "files": [
         "Test_TTB_Image_0034.jpg"
       ],
-      "durationSeconds": 0.509,
+      "durationSeconds": 0.536,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3514,17 +3382,19 @@
         "producerNameAddress": "Produced and bottled by Iron Creek Cellars, McMinnville, Oregon",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       },
       "suggestedName": "IRON CREEK"
     },
     {
-      "caseId": "product-042",
+      "caseId": "product-038",
       "files": [
-        "Test_TTB_Image_0035.jpg"
+        "Test_TTB_Image_0035.jpg",
+        "Test_TTB_Image_0039.jpg",
+        "wKE1J.jpg"
       ],
-      "durationSeconds": 0.475,
+      "durationSeconds": 1.177,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3536,51 +3406,51 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Produced and bottled by Whispering Pines Estate, Napa, California",
+        "producerNameAddress": "Produced and bottled by Whispering Pines Estate, Napa, California.",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
+        "evidenceRegionCount": 15,
         "machineSummary": "Review needed"
       },
       "suggestedName": "WHISPERING PINES ESTATE"
     },
     {
-      "caseId": "product-043",
+      "caseId": "product-039",
       "files": [
         "Test_TTB_Image_0036.jpg"
       ],
-      "durationSeconds": 0.464,
+      "durationSeconds": 0.475,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "LUN",
+        "brandName": "CASA DE LUNA",
         "classType": "REPOSADO TEQUILA",
         "abvPercent": 40.0,
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": "Imported by Casa de Luna Spirits, Houston, Texas Hecho en Mexico.",
+        "producerNameAddress": "Imported by Casa de Luna Spirits, Houston, Texas Hecho en Mexico",
         "countryOfOrigin": "Mexico",
         "detectedFieldCount": 8,
         "evidenceRegionCount": 15,
-        "machineSummary": "Review needed"
+        "machineSummary": "No differences found in checked fields"
       },
-      "suggestedName": "LUN"
+      "suggestedName": "CASA DE LUNA"
     },
     {
-      "caseId": "product-044",
+      "caseId": "product-040",
       "files": [
         "Test_TTB_Image_0038.jpg"
       ],
-      "durationSeconds": 0.465,
+      "durationSeconds": 0.455,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "malt_beverage",
-        "brandName": null,
+        "brandName": "HARBORLIGHTS",
         "classType": "Pale Ale",
         "abvPercent": 5.2,
         "proof": null,
@@ -3588,45 +3458,19 @@
         "netContentsUnit": "fl oz",
         "producerNameAddress": null,
         "countryOfOrigin": null,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 6,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 7,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "Product 44"
+      "suggestedName": "HARBORLIGHTS"
     },
     {
-      "caseId": "product-045",
-      "files": [
-        "Test_TTB_Image_0039.jpg",
-        "wKE1J.jpg"
-      ],
-      "durationSeconds": 0.718,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "wine",
-        "brandName": "ted by Whisperiog Pines Esulc",
-        "classType": "Cabernet Sauvignon",
-        "abvPercent": 13.5,
-        "proof": null,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "Podoced and bottled by Whisperiog Pites Esulc ted by Whisperiog Pines Esulc Napa, Califocnia",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 13,
-        "machineSummary": "Review needed"
-      },
-      "suggestedName": "ted by Whisperiog Pines Esulc"
-    },
-    {
-      "caseId": "product-046",
+      "caseId": "product-041",
       "files": [
         "Test_TTB_Image_0040.jpg",
         "XjPpA.jpg"
       ],
-      "durationSeconds": 0.823,
+      "durationSeconds": 0.831,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3638,20 +3482,20 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": null,
+        "producerNameAddress": "Imported by Casa de Luna Spirits, Housto Txs Hecho en Mexico",
         "countryOfOrigin": "Mexico",
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 12,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       },
       "suggestedName": "CASA DE LUNA"
     },
     {
-      "caseId": "product-047",
+      "caseId": "product-042",
       "files": [
         "Test_TTB_Image_0042.jpg"
       ],
-      "durationSeconds": 0.451,
+      "durationSeconds": 0.511,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3663,20 +3507,20 @@
         "proof": 80.0,
         "netContentsValue": 1.0,
         "netContentsUnit": "L",
-        "producerNameAddress": "Distilled and bottled by Old Ferry Rum Co. Charleston, South Carolina",
+        "producerNameAddress": "Distilled and bottled by Old Ferry Rum Co., Charleston, South Carolina",
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 12,
         "machineSummary": "Differences detected"
       },
       "suggestedName": "OLD FERRY"
     },
     {
-      "caseId": "product-048",
+      "caseId": "product-043",
       "files": [
         "uqgyU.jpg"
       ],
-      "durationSeconds": 0.445,
+      "durationSeconds": 0.447,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3697,45 +3541,45 @@
       "suggestedName": "HARBOR LIGHTS"
     },
     {
-      "caseId": "product-049",
+      "caseId": "product-044",
       "files": [
         "Vodka_Back.jpg",
         "Vodka_Front.jpg"
       ],
-      "durationSeconds": 0.702,
+      "durationSeconds": 4.159,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "OrganicVodka",
-        "classType": "100%NEUTRAL SPIRITS DISTILLED",
-        "abvPercent": 40.0,
+        "brandName": "IN KULA.MAUI.HAWAI",
+        "classType": "OrganicVodka",
+        "abvPercent": null,
         "proof": 80.0,
-        "netContentsValue": 750.0,
-        "netContentsUnit": "mL",
-        "producerNameAddress": "BY HAWAII SEA SPIRITS LLC IN KULA.MAUI.HAWAII",
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": null,
         "countryOfOrigin": null,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 8,
-        "machineSummary": "Differences detected"
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 7,
+        "machineSummary": "Review needed"
       },
-      "suggestedName": "OrganicVodka"
+      "suggestedName": "IN KULA.MAUI.HAWAI"
     },
     {
-      "caseId": "product-050",
+      "caseId": "product-045",
       "files": [
         "XXL_Back.jpg",
         "XXL_Front.jpg"
       ],
-      "durationSeconds": 0.616,
+      "durationSeconds": 0.711,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
-        "brandName": "STRAWBERRY",
-        "classType": "GRAPE WINE WITH NATURAL FLA",
+        "brandName": "OR MOREIN",
+        "classType": "GRAPE WINE WITH NATURAL FLAVORS",
         "abvPercent": 16.0,
         "proof": null,
         "netContentsValue": 750.0,
@@ -3743,31 +3587,31 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 4,
-        "evidenceRegionCount": 10,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "STRAWBERRY"
+      "suggestedName": "OR MOREIN"
     }
   ],
   "pass": true,
   "performance": {
     "individual": {
-      "count": 70,
-      "averageSeconds": 3.559,
-      "medianSeconds": 3.378,
-      "p95Seconds": 5.943,
-      "maximumSeconds": 6.449,
+      "count": 71,
+      "averageSeconds": 3.456,
+      "medianSeconds": 3.425,
+      "p95Seconds": 4.926,
+      "maximumSeconds": 6.434,
       "targetAverageSeconds": 5.0,
       "hardCaseMaximumSeconds": 9.0,
       "averageTargetMet": true,
       "hardCaseTargetMet": true
     },
     "products": {
-      "count": 50,
-      "averageSeconds": 0.546,
-      "medianSeconds": 0.469,
-      "p95Seconds": 0.892,
-      "maximumSeconds": 1.359,
+      "count": 45,
+      "averageSeconds": 0.798,
+      "medianSeconds": 0.523,
+      "p95Seconds": 1.6,
+      "maximumSeconds": 4.159,
       "targetAverageSeconds": 5.0,
       "hardCaseMaximumSeconds": 9.0,
       "averageTargetMet": true,
@@ -3775,9 +3619,9 @@
     }
   },
   "summary": {
-    "individualPassCount": 70,
+    "individualPassCount": 71,
     "individualFailCount": 0,
-    "productPassCount": 50,
+    "productPassCount": 45,
     "productFailCount": 0,
     "functionalPass": true,
     "performancePass": true,

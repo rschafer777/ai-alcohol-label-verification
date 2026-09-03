@@ -5,12 +5,12 @@
   "oraclePath": "fixtures/oracle/holdout/H005.json",
   "panels": [
     {
-      "bytes": 87804,
+      "bytes": 87879,
       "height": 1600,
       "mimeType": "image/png",
       "panelId": "panel-1",
       "path": "fixtures/holdout/cases/H005/panels/panel-1.png",
-      "sha256": "f192356fbea1b92c6dbacf70869500ac51735a0b7b8429dd4c18810370c07df6",
+      "sha256": "3ec8086c25a9e00694e574ecf56ed5a01077c18074043be6fb4072440168a08d",
       "width": 1200
     }
   ],

@@ -167,19 +167,6 @@ def test_uppercase_warning_heading_punctuation_difference_requires_review() -> N
     assert summary == "Review needed"
 
 
-def test_possible_ocr_punctuation_at_line_wrap_requires_review() -> None:
-    observed = clean_observed()
-    observed = replace(
-        observed,
-        warning=replace(observed.warning, punctuation_normalized=True),
-    )
-    checks, summary = compare_all(ComparisonInputs(reference(), observed))
-    wording = by_id(checks, "warning_wording")
-    assert wording.state == "Review"
-    assert wording.reason_code == "ocr_wrap_punctuation_uncertain"
-    assert summary == "Review needed"
-
-
 def test_warning_body_case_and_marker_whitespace_do_not_change_wording() -> None:
     observed = clean_observed()
     body = contracts().rules["warning"]["bodyExact"].upper()
@@ -191,9 +178,121 @@ def test_warning_body_case_and_marker_whitespace_do_not_change_wording() -> None
     assert by_id(checks, "warning_wording").state == "Match"
 
 
-def test_warning_punctuation_only_difference_requires_review() -> None:
+def test_warning_punctuation_difference_is_a_review_item_never_cleared() -> None:
     observed = clean_observed()
     body = contracts().rules["warning"]["bodyExact"].replace("General,", "General")
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, summary = compare_all(ComparisonInputs(reference(), observed))
+    wording = by_id(checks, "warning_wording")
+
+    # Every word is present in order; the comma the read lacks is named for the reviewer,
+    # and the label is never reported clean on the machine's word.
+    assert wording.state == "Review"
+    assert wording.reason_code == "warning_punctuation_uncertain"
+    assert "commas 1 read, 2 expected" in wording.reason_text
+    assert summary == "Review needed"
+
+
+def test_missing_statutory_word_inside_a_clean_read_is_a_wording_mismatch() -> None:
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"].replace("should not drink", "should drink")
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+    wording = by_id(checks, "warning_wording")
+
+    assert wording.state == "Mismatch"
+    assert wording.reason_code == "warning_wording_difference"
+
+
+def test_truncated_read_is_a_review_item_not_a_mismatch() -> None:
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"].replace(" and may cause health problems.", "")
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Review"
+
+
+def test_read_that_stops_early_is_a_review_item_not_a_mismatch() -> None:
+    observed = clean_observed()
+    body = "(1) ACCORDING TO THE SURGEON GENERAL WOMEN SHOULD NOT DRINK ALCOHOUJC"
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Review"
+
+
+def test_skipped_lines_inside_a_read_are_a_review_item_not_a_mismatch() -> None:
+    observed = clean_observed()
+    body = "1ACCORDING TO THE SURGEON GENERAL. OF THE RISK OF BIRTH DEFECTS. (2) HEALTH PROBLEMS."
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Review"
+
+
+def test_interruption_inside_a_fragmentary_read_is_a_review_item() -> None:
+    observed = clean_observed()
+    body = (
+        "(1) ACCORDING TO THE SURGEON GENERAL. OF THE RISK OF BIRTH DEFECTS. (2) HEALTH PROBLEMS."
+    )
+    observed = replace(observed, warning=replace(observed.warning, body=body, continuous=False))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_continuity").state == "Review"
+
+
+def test_interruption_inside_a_clean_read_is_a_mismatch() -> None:
+    observed = clean_observed()
+    observed = replace(observed, warning=replace(observed.warning, continuous=False))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_continuity").state == "Mismatch"
+
+
+def test_heavily_damaged_noisy_read_is_a_review_item_not_a_mismatch() -> None:
+    observed = clean_observed()
+    body = (
+        "(1) Accordng to the Surgeon General wome stoold not drink alcobolic beverages "
+        "durg pgancy because of the rit of birth deiecs. (2) Consumption of alcoholic "
+        "beverages epers yr ablity to drive a car or operate rachiney and may cause "
+        "health problems."
+    )
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+    wording = by_id(checks, "warning_wording")
+
+    assert wording.state == "Review"
+    assert wording.reason_code == "warning_ocr_difference_uncertain"
+
+
+def test_two_clear_substitutions_beside_one_slip_are_a_wording_mismatch() -> None:
+    observed = clean_observed()
+    body = (
+        contracts()
+        .rules["warning"]["bodyExact"]
+        .replace("car or operate", "car and operate")
+        .replace("may cause", "will cause")
+        .replace("Surgeon", "Surgeom")
+    )
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Mismatch"
+
+
+def test_warning_unconfusable_punctuation_difference_requires_review() -> None:
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"].replace("General,", "General?")
     observed = replace(observed, warning=replace(observed.warning, body=body))
 
     checks, _ = compare_all(ComparisonInputs(reference(), observed))
@@ -201,6 +300,26 @@ def test_warning_punctuation_only_difference_requires_review() -> None:
 
     assert wording.state == "Review"
     assert wording.reason_code == "warning_punctuation_uncertain"
+
+
+def test_ocr_marker_and_glued_digit_forms_are_the_same_words() -> None:
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"]
+    glued = body.replace("(1) According", "1According").replace("(2) Consumption", "2Consumption")
+    observed = replace(observed, warning=replace(observed.warning, body=glued))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    # Digits fused to the next word are unresolved marker brackets, an OCR signature.
+    assert by_id(checks, "warning_wording").state == "Match"
+
+    # A marker read with one bracket may be printed that way; the reviewer confirms it.
+    half = body.replace("(2) Consumption", "2) Consumption")
+    observed = replace(observed, warning=replace(observed.warning, body=half))
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+    wording = by_id(checks, "warning_wording")
+    assert wording.state == "Review"
+    assert "opening parentheses 1 read, 2 expected" in wording.reason_text
 
 
 def test_clear_terminal_exclamation_is_a_warning_wording_mismatch() -> None:
@@ -304,14 +423,16 @@ def test_class_terminal_period_is_safe_but_internal_punctuation_is_not() -> None
     assert by_id(checks, "class_type").state == "Review"
 
 
-def test_unscaled_warning_size_is_not_verified_and_prevents_clean() -> None:
+def test_unscaled_warning_size_is_reported_for_a_human_without_blocking_clean() -> None:
     observed = clean_observed()
     observed = replace(observed, warning=replace(observed.warning, reliable_scale=False))
     checks, summary = compare_all(ComparisonInputs(reference(), observed))
     physical = by_id(checks, "warning_physical_size")
     assert physical.state == "Not verified"
     assert physical.capability == "human_confirmation"
-    assert summary == "Review needed"
+    # Millimeters cannot come from an unscaled photograph, so the row is informational.
+    assert physical.applicable is False
+    assert summary == "No differences found in checked fields"
 
 
 def test_warning_policies_have_exact_registry_completeness() -> None:
@@ -514,9 +635,7 @@ def test_numeric_parse_and_proof_policy_paths() -> None:
 
     observed.fields["proof"] = found("90 Proof", "proof")
     checks, _ = compare_all(ComparisonInputs(no_proof_reference, observed))
-    assert by_id(checks, "proof").reason_code == (
-        "proof_abv_relationship_and_placement_match"
-    )
+    assert by_id(checks, "proof").reason_code == ("proof_abv_relationship_and_placement_match")
 
     inconsistent_reference = reference().model_copy(update={"proof": Decimal("80")})
     observed.fields["proof"] = found("80 Proof", "proof")

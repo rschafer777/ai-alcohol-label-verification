@@ -1,0 +1,2908 @@
+{
+  "schemaVersion": "1.0",
+  "documentId": "LV-PIXEL-GT-001",
+  "purpose": "Evaluation-only field-level ground truth for the private Test_Images corpus. The runtime never reads this file; it is used by scripts/score_ground_truth.py to measure extraction and warning accuracy.",
+  "method": "Four independent visual transcription passes (one per file group) by Claude agents reading the original pixels and enlarged crops only, with no access to machine outputs or the earlier disposition oracle. Values are recorded exactly as printed; anything unreadable is null with a note.",
+  "reviewedAtUtc": "2026-09-03T15:30:00Z",
+  "limitations": [
+    "Transcriptions are AI visual readings, not TTB reviewer determinations",
+    "Type weight and contrast judgments are visual and marked uncertain where the transcriber could not decide",
+    "Several rendered mockups carry deliberately garbled or placeholder text; those are recorded as printed",
+    "Three re-encoded duplicate pairs exist in the corpus (see notes) and are counted once in accuracy rates where stated"
+  ],
+  "caseCount": 70,
+  "cases": [
+    {
+      "filename": "0wLM9.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "VALLE DI PIETRA",
+      "class_type": "Tuscan Red Wine",
+      "abv_statement": "13.5% Alc. by Vol.",
+      "abv_percent": 13.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Valle di Pietra Imports, New York, NY",
+      "country_of_origin_statement": "Product of Italy",
+      "imported": true,
+      "other_mandatory_text": [
+        "Sangiovese (varietal designation)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMP AIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "'IMPAIRS' is printed as two words with a space: 'IMP AIRS'"
+        ],
+        "presentation_defects": [],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Rendered studio product shot of two bottles (front bottle left, back bottle right) on wood with a dark blurred background. Slight bottle curvature on both labels; back-label body type is small and soft/low-resolution, requiring heavy zoom. Letterforms in the warning show generative-render artifacts (irregular glyph shapes) but each word is legible.",
+      "notes": "Warning body is set entirely in capital letters (statutory text is normally mixed case; all-caps is not itself a defect). Heading is bold and separated above the body. Body weight is regular, lighter than the heading. Only the word split in 'IMP AIRS' deviates from the statutory wording. Both mandatory panels are shown in one image.",
+      "imageSha256": "6a788b8324adb828ae035c1ed1d3af7bc56b26def232ee676d6d5b34c431274f"
+    },
+    {
+      "filename": "111_Wine_Valle_Front.png",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "VALLE DI PIETRA",
+      "class_type": "Tuscan Red Wine",
+      "abv_statement": "13.5% Alc. by Vol.",
+      "abv_percent": 13.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Valle di Pietra Imports, New York, NY",
+      "country_of_origin_statement": "Product of Italy",
+      "imported": true,
+      "other_mandatory_text": [
+        "Sangiovese (varietal designation)"
+      ],
+      "warning": {
+        "present": false,
+        "heading_as_printed": null,
+        "heading_all_caps": null,
+        "heading_bold": null,
+        "body_as_printed": null,
+        "body_bold": null,
+        "body_all_caps": null,
+        "body_matches_statutory_text_exactly": null,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "unreadable"
+      },
+      "image_quality_notes": "Rendered studio product shot of a single bottle on wood against a blurred mottled backdrop. Front label is sharp and fully legible; label edges curve away at both sides but no text is lost.",
+      "notes": "Front panel only, so no government warning is visible in this image; absence here is a framing fact, not necessarily a label defect (the same product's back label appears in 0wLM9.jpg). Same artwork and text as the front bottle in 0wLM9.jpg. Warning readability set to 'unreadable' only because no warning is present to read.",
+      "imageSha256": "5571877cae7a3cb545838faa9d11ebe9e3d0ab7cff34b28d46505fd0df7bb201"
+    },
+    {
+      "filename": "222_Silverpine_Wine.png",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "SILVERPINE",
+      "class_type": "PINOT NOIR",
+      "abv_statement": "ALC. 13.2% BY VOL.",
+      "abv_percent": 13.2,
+      "proof_statement": null,
+      "net_contents": "750 ML",
+      "producer_name_address": "Bendled by Silverpine Cellars, Dundee, Oregen",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "2022 (vintage)",
+        "WILLAMETTE VALLEY",
+        "OREGON",
+        "Contains Sulfites",
+        "UPC-A",
+        "0 84721 55910 3",
+        "OR 10¢ REFUND",
+        "GLASS recycling marks"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Sorgnen Ceneral, women should ma metl drink alcohalit haverages during pregnancy because of the silk of birth deferns. (2) Consumption of alcofualio beveragee impaim your ability to drive a cat co uperate machinery, and may cause health problemn.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "'Surgeon General' printed as 'Sorgnen Ceneral'",
+          "'should not drink' printed as 'should ma metl drink' (extra/garbled words, 'not' replaced)",
+          "'alcoholic beverages' printed as 'alcohalit haverages' in sentence 1",
+          "'risk' printed as 'silk'",
+          "'defects' printed as garbled 'deferns'",
+          "'alcoholic beverages' printed as 'alcofualio beveragee' in sentence 2",
+          "'impairs' printed as 'impaim'",
+          "'a car or operate' printed as 'a cat co uperate'",
+          "'problems' printed as 'problemn'",
+          "heading runs inline on the same line as the start of the body rather than standing alone"
+        ],
+        "presentation_defects": [
+          "numerous words are visibly malformed/illegible at reading size, so the statement is not readily legible as required"
+        ],
+        "readability": "hard_to_read"
+      },
+      "image_quality_notes": "Rendered mockup, two bottles side by side (front left, back right) against a pale stone backdrop. Both labels are in focus, but the back-label warning is set very small and its glyphs carry heavy generative-render corruption; several words required maximum zoom and are still only approximately transcribable.",
+      "notes": "The back label also carries leaked design-spec / boilerplate junk text: 'Sepenaned from all other copy, high/ ar leass. 2 mm cal' and 'Bortben commurcial marks same as a retail'. Bottler line misspells Oregon as 'Oregen' and 'Bottled' as 'Bendled'. The front label carries a decorative circular seal whose ring text reads 'GOVERNMENT WARNING' around an 'S' monogram, which is not a real warning statement. No country-of-origin statement (domestic Oregon wine). Vintage 2022 and Willamette Valley appellation are present.",
+      "imageSha256": "e2e1b98e156c490ad4f40e6c1ed36497ea61d8b357aeee733ad6f1b7908e21db"
+    },
+    {
+      "filename": "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back",
+        "side"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "SYCAMORE BREWING",
+      "class_type": "DOUBLE PALE ALE",
+      "abv_statement": "7.2% ALCOHOL BY VOLUME",
+      "abv_percent": 7.2,
+      "proof_statement": null,
+      "net_contents": "16 FL OZ",
+      "producer_name_address": "BREWED AND CANNED BY SYCAMORE BREWING, NORTH CAROLINA / SYCAMORE BREWING 2161 HAWKINS STREET CHARLOTTE, NC 28203",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "PEAK FARM (fanciful product name)",
+        "NORTH CAROLINA (on barcode strip)",
+        "0 40232 55454 0",
+        "ABOUT PEAK FARM marketing paragraph",
+        "DRINK CAROLINA PROUD",
+        "SYCAMOREBREW.COM",
+        "@SYCAMOREBREWING",
+        "PLEASE RECYCLE"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "printed rotated 90 degrees (reads bottom-to-top) so it must be turned to read",
+          "very small condensed type in white on a mid-green ground, giving modest contrast",
+          "set immediately adjacent to the UPC block with only a narrow gap"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Flat rendered mockup of three 16 oz cans (side, front, side) on a light gray ground. Overall image resolution is modest and the small type on the cans is soft; the rotated warning block is only about 215 px wide in the source, so individual letters are blurry even at maximum zoom. Text was still resolvable line by line after rotating the crop.",
+      "notes": "Warning wording matches the statutory text word for word as far as the resolution allows; the heading is set noticeably heavier and slightly larger than the body, and the body runs on from the heading on the same line. Warning appears only on the left-hand (back) can panel next to the barcode. Beverage type inferred from 'DOUBLE PALE ALE' and 'BREWED AND CANNED'. This is a real commercial brand design (Sycamore Brewing, Charlotte NC), presented as flat can artwork rather than a photo.",
+      "imageSha256": "c80c33db058f98e23c451109ef408db989e7c60a6ef9cbfb469210825527b1fb"
+    },
+    {
+      "filename": "333_CascadeLight_Wine.png",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "CASCADE LIGHT",
+      "class_type": "RIESLING",
+      "abv_statement": "ALC. 11.5% BY VOL.",
+      "abv_percent": 11.5,
+      "proof_statement": null,
+      "net_contents": "750 ML",
+      "producer_name_address": "Vinted and Bortled by Cascade Light Winery, Watkins Glen, New York",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "2023 (vintage)",
+        "FINGER LAKES",
+        "NEW YORK",
+        "Contains Sulfites",
+        "UPC-A",
+        "0 81204 33677 9",
+        "PLEASE RECYCLE"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": false,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "heading is set in the same regular-weight roman serif as the body, only larger, so it is not bold as required",
+          "dark gray type on a pale blue-green ground gives only moderate contrast"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Rendered mockup of two bottles (front left, back right) against a white marble backdrop. Both labels are reasonably sharp; the back label curves at the right edge where a vertical line of small text runs off around the bottle and is unreadable. Warning block itself is legible at moderate zoom.",
+      "notes": "Warning body wording matches the statutory text exactly, in mixed case and regular weight. The only presentation issue is the non-bold heading. The back label carries leaked placeholder/spec junk text below 'Contains Sulfites': 'Establishih here, every can lightt lighed gaining some mild nunun alimtum 2 mm compecarmmmm 2 mm character height.' The bottler line misspells 'Bottled' as 'Bortled'. A decorative embossed roundel at the top right of the front label has illegible garbled ring text. Vertical text along the right edge of the back label could not be read.",
+      "imageSha256": "260fd6c45b3084e82a471896c9c2abe5f8ca1bdcb78af4a97fe02da17cfd7def"
+    },
+    {
+      "filename": "3urY2.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "FOX HOLLOW",
+      "class_type": "RIESLING",
+      "abv_statement": "12.0% Alc. by Vol.",
+      "abv_percent": 12.0,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Fox Hollow Vineyards, Hammondsport, New York.",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "FINGER LAKES",
+        "2023 (vintage)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Rendered studio product shot of two bottles (front left, back right) on a wood surface with a soft neutral background and a blurred plant at left. Both labels are well lit and in focus; slight curvature at the label edges but no text loss.",
+      "notes": "Cleanest warning in this group: bold all-caps heading on its own line, mixed-case regular-weight body, the two numbered sentences set as separate hanging-indent paragraphs, and wording that matches the statutory text word for word. No 'Contains Sulfites' declaration is visible on either panel. No net contents or ABV repeated on the back label; both appear on the front.",
+      "imageSha256": "b1bb7e557e6ce43a8f78f4f2a027924d026268aff8743c3e84df2db553b9c9c5"
+    },
+    {
+      "filename": "555_Northveil_Vodka.png",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back",
+        "neck"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "NORTHVEIL",
+      "class_type": "VODKA",
+      "abv_statement": "40% ALC./VOL. (80 PROOF)",
+      "abv_percent": 40.0,
+      "proof_statement": "(80 PROOF)",
+      "net_contents": "750 mL",
+      "producer_name_address": "Distilled and Bottled by Northveil Spirits, Portland, Oregon",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "DISTILLED FROM GRAIN",
+        "Contains no color or flavor added",
+        "UPC-A",
+        "0 85412 67003 8",
+        "PLEASE RECYCLE GLASS"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems..",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "body ends with a doubled period: 'health problems..'"
+        ],
+        "presentation_defects": [
+          "heading is not separated from the body by a blank line; the body begins on the line directly beneath it inside the same ruled box"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Rendered mockup of two clear vodka bottles (front left, back right) flat-lit on a white marble surface. The back label is white with black type and is sharp and easy to read. Front label type is crisp. The clear glass and liquid create some highlight streaks but no text is obscured.",
+      "notes": "Warning wording is otherwise exactly the statutory text; the only wording deviation is the doubled period at the end. The back label carries leaked spec/junk text between the bottler statement and the barcode: 'Tetalll marks. sharp enough for OCR'. Both bottles wear a paper neck band that is a mockup annotation rather than label copy: the left band reads 'VODEAL' (garbled) and 'FRONT', the right band reads 'BACK' and '7O SML' (a garbled '750 ML'). Brand name is followed by a small mark that may be a registered-trademark symbol.",
+      "imageSha256": "0cfb1e62d8f7a7dd4df3e53185eb35964c4ed2110bfba6a3a18e5c17cf1250f2"
+    },
+    {
+      "filename": "888SilverPine_Wine.png",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "SILVERPINE",
+      "class_type": "PINOT NOIR",
+      "abv_statement": "ALC. 13.2% BY VOL.",
+      "abv_percent": 13.2,
+      "proof_statement": null,
+      "net_contents": "750 ML",
+      "producer_name_address": "Bottled by Silverpine Cellars, Dundes, Oregan",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "2022 (vintage)",
+        "WILLAMETTE VALLEY",
+        "OREGON",
+        "Contains Sulfites",
+        "UPC-A",
+        "0 84721 55910 3",
+        "OR 10¢ REFUND",
+        "GLASS recycling mark"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health teath problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "the word 'drink' is printed twice in sentence 1 ('should not drink drink alcoholic beverages')",
+          "an extra garbled word appears before 'problems' at the end ('may cause health teath problems')",
+          "many individual words are malformed by render corruption, e.g. 'Surgeon General' and 'alcoholic' are only partly formed"
+        ],
+        "presentation_defects": [
+          "body strokes are thin, broken and partly hollow, giving very low effective contrast against the cream label",
+          "heading runs inline on the same line as the start of the body rather than standing alone"
+        ],
+        "readability": "hard_to_read"
+      },
+      "image_quality_notes": "Rendered mockup of two bottles (front left, back right) against a pale marble backdrop. The front label is crisp. The back label is noticeably degraded: warning glyphs are thin and broken, several words are only ghosted outlines, and the transcription above is a best reading at maximum zoom rather than a certain one.",
+      "notes": "Same brand and product as 222_Silverpine_Wine.png but a different, much more corrupted render of the back label. The back label again carries leaked placeholder junk text: 'Separated from all other copy, high, dark on Illen,' and 'Bottom commercial marks same as a retail'. The bottler line misspells Dundee as 'Dundes' and Oregon as 'Oregan'. Net contents '750 ML' also appears at the bottom left of the back label. The front label carries a decorative circular seal whose ring text reads 'GOVERNMENT WARNING' twice around a struck-through center, which is not a real warning statement.",
+      "imageSha256": "579f311533f1a3147818b5c239a9c7fbee794683d277e4bc4d501e22c39918ca"
+    },
+    {
+      "filename": "8Gf8v.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back",
+        "neck"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "CRYSTAL TUNDRA",
+      "class_type": "Distilled Vodka",
+      "abv_statement": "40% ALC./VOL. (80 Proof)",
+      "abv_percent": 40.0,
+      "proof_statement": "(80 Proof)",
+      "net_contents": "1.75 L",
+      "producer_name_address": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
+      "country_of_origin_statement": "PRODUCED IN USA",
+      "imported": false,
+      "other_mandatory_text": [
+        "BOTTLED IN ANCHORAGE, ALASKA"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Rendered studio shot of two clear 1.75 L bottles (front left, back right) on a white marble surface with a marble backdrop. Labels are white on clear glass; both are sharp and evenly lit. Slight ghosting where the back label shows through the bottle, but no text is obscured.",
+      "notes": "Warning wording matches the statutory text exactly, with a bold all-caps heading on its own line and mixed-case regular-weight body centered beneath it. ABV/proof and net contents appear on both the front and the back label. The back bottle has a decorative blue neck band with an illegible pattern rather than text. Front label additionally repeats the producer statement in small type at the bottom.",
+      "imageSha256": "1633f7908cf0008b817b5b113bef8a265b5691f36477ec57898956fb74513e7e"
+    },
+    {
+      "filename": "AnMXl.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "CLEARWATER",
+      "class_type": "BLANCO TEQUILA",
+      "abv_statement": "40% Alc./Vol. (80 Proof)",
+      "abv_percent": 40.0,
+      "proof_statement": "(80 Proof)",
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Clearwater Spirits, Austin, Texas",
+      "country_of_origin_statement": "Product of Mexico",
+      "imported": true,
+      "other_mandatory_text": [
+        "100% AGAVE",
+        "Hecho en México",
+        "Bottle No.: ____________ (blank fill-in line)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Rendered studio shot of two clear bottles with tan paper labels (front left, back right) against a terracotta tile wall and floor. Both labels are sharp and evenly lit; dark brown type on tan paper gives good contrast. Slight label curvature at the edges but no text loss.",
+      "notes": "Warning matches the statutory text exactly, with a bold all-caps heading on its own line, mixed-case regular-weight body, and the two sentences set as separate paragraphs. Country of origin appears twice in different forms: 'Hecho en México' on the front and 'Product of Mexico' on the back. The back label carries an unfilled 'Bottle No.:' blank with a rule after it. No net contents statement appears on the back label; it is on the front only.",
+      "imageSha256": "c9d51cbcb1ebd88e6423412ea6aad2aa90207d21f6c12bb1fb331fa629c7ba33"
+    },
+    {
+      "filename": "BMgMY.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "MIRROR LAKE",
+      "class_type": "PINOT GRIS",
+      "abv_statement": "12.8% Alc. by Vol.",
+      "abv_percent": 12.8,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Mirror Lake Vineyards, Dundee, Oregon",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "WILLAMETTE VALLEY",
+        "2023 (vintage)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": "uncertain",
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "very low contrast: pale warm-gray type printed on a white/frosted label, washed out further by a bright diagonal highlight across the bottle",
+          "type is small relative to the label area"
+        ],
+        "readability": "hard_to_read"
+      },
+      "image_quality_notes": "Rendered studio shot of two frosted-white bottles (front left, back right) on light wood against a white wall with a hard diagonal sun patch. The labels are nearly the same tone as the glass, and a specular highlight runs down the middle of each bottle. Text is only readable after contrast enhancement and heavy zoom; the transcription reflects the enhanced view.",
+      "notes": "Warning wording appears to match the statutory text exactly, with the two sentences set as separate paragraphs. The terminal period after 'birth defects' could not be resolved at this resolution and is assumed present. Heading weight is not confidently determinable: at the pixel level it looks like the same light-weight face as the body, only larger, so it may fail the bold requirement, but the low contrast and highlight prevent a firm call. Front label carries brand, appellation plus varietal on one line, vintage, ABV, net contents and producer statement. No sulfite declaration is visible on either panel.",
+      "imageSha256": "0140a9ae1c7f0a38a14eff75a1f1c99f8e22d874e8895f250ce50b3d51c13b52"
+    },
+    {
+      "filename": "bsxs4.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "MARITIME",
+      "class_type": "SPARKLING WINE",
+      "abv_statement": "12.5% Alc. by Vol.",
+      "abv_percent": 12.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Maritime Cellars, Mendocino, California",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "Méthode Champenoise",
+        "American (appellation)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "body type is very small and softly rendered, so individual letters blur together at label scale"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Rendered studio shot of two sparkling-wine bottles with gold foil capsules (front left, back right) on dark slate against a near-black textured backdrop. Front label is sharp. The back-label warning is small and its glyphs are soft: word shapes are recognizable but individual letters are mushy even at maximum zoom.",
+      "notes": "Warning wording reads as the statutory text at the word level, with a bold all-caps heading on its own line and mixed-case regular-weight body split into two paragraphs. Letter-by-letter confirmation was not possible for several words (for example 'Consumption' and 'defects') because of render softness, so a subtle single-character typo could not be ruled out. The back label repeats class/type, ABV and net contents beneath the producer statement. Front label carries an 'American' appellation line and 'Méthode Champenoise' production-method claim. No sulfite declaration is visible.",
+      "imageSha256": "604a94080ce44298ce0f081dbc4bfa198871171c11c4711b73990e1993fc56a1"
+    },
+    {
+      "filename": "Cointeau_Front.jpg",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "front",
+        "neck"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "COINTREAU",
+      "class_type": "LIQUEUR",
+      "abv_statement": "40% alc./vol.",
+      "abv_percent": 40.0,
+      "proof_statement": null,
+      "net_contents": "375mL",
+      "producer_name_address": null,
+      "country_of_origin_statement": "PRODUCT OF FRANCE - PRODUIT DE FRANCE",
+      "imported": true,
+      "other_mandatory_text": [
+        "MAISON COINTREAU",
+        "ANGERS - 1849 - FRANCE",
+        "L'UNIQUE",
+        "HARMONIE D'ESPRIT D'ÉCORCES D'ORANGES DOUCES ET AMÈRES",
+        "3028045 S (lot code printed vertically at the right edge)",
+        "DEPUIS 1849 SINCE (neck medallion)",
+        "COINTREAU (embossed on the capsule)"
+      ],
+      "warning": {
+        "present": false,
+        "heading_as_printed": null,
+        "heading_all_caps": null,
+        "heading_bold": null,
+        "body_as_printed": null,
+        "body_bold": null,
+        "body_all_caps": null,
+        "body_matches_statutory_text_exactly": null,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "unreadable"
+      },
+      "image_quality_notes": "Handheld indoor photo of a real 375 mL bottle standing on a kitchen counter, shot slightly from above so the label leans back and the bottom of the label is closer to the camera than the top. Mixed indoor lighting with a warm cast; mild glare on the amber glass and a soft highlight across the upper label. The label itself is in focus and all printed text is readable.",
+      "notes": "Front panel only, so no government warning is visible; the warning is presumably on the back panel (see Cointreau_Back.jpg). No producer name and address statement appears on this panel; only the country-of-origin line and the 'MAISON COINTREAU / ANGERS - 1849 - FRANCE' brand marks. Class/type designation 'LIQUEUR' sits on the bottom line between the ABV and net contents. Warning readability set to 'unreadable' only because no warning is present to read. Note the filename misspells the brand as 'Cointeau'.",
+      "imageSha256": "53f7dc3148f1867a35ecdcc09e08fd02e81da17d1759682c93a208d1f85ece42"
+    },
+    {
+      "filename": "Cointreau_Back.jpg",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "back",
+        "neck"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "COINTREAU",
+      "class_type": null,
+      "abv_statement": null,
+      "abv_percent": null,
+      "proof_statement": null,
+      "net_contents": null,
+      "producer_name_address": "IMPORTED BY REMY COINTREAU USA, INC., NEW YORK, NY",
+      "country_of_origin_statement": "PRODUCT OF FRANCE",
+      "imported": true,
+      "other_mandatory_text": [
+        "WWW.COINTREAU.COM",
+        "CA CRV",
+        "0 87236 56520 6 (UPC)",
+        "L 0435C0108:29 (lot code)",
+        "3032957S (vertical code at the right edge)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING :",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [
+          "heading is printed with a space before the colon ('GOVERNMENT WARNING :') rather than 'GOVERNMENT WARNING:'"
+        ],
+        "presentation_defects": [
+          "heading runs inline with the start of the body on the same line rather than standing alone",
+          "body lines are force-justified, producing wide uneven word spacing"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Handheld indoor photo of a real 375 mL bottle on a kitchen counter, shot slightly from above so the label tilts back. Warm mixed indoor light; the amber glass around the label is dark but the white label itself is well exposed and every word is sharp. Minor highlight on the copper capsule.",
+      "notes": "Brand name is not printed on this back panel; it is inferred from 'WWW.COINTREAU.COM' and 'IMPORTED BY REMY COINTREAU USA, INC.'. Class/type, ABV and net contents do not appear on this panel; they are on the front (see Cointeau_Front.jpg). Body is set in condensed all-caps at a lighter weight than the heading, which is clearly heavier. 'CA CRV' is a California container-redemption notice. The vertical code at the right edge reads 3032957S, which differs from the 3028045 S code on the front-photo bottle, so the two photos may be of different bottles of the same product.",
+      "imageSha256": "b5dab368c65f4e3443b052886136078d9f8b4c18b4ee82b1fc2ab78bc119c466"
+    },
+    {
+      "filename": "coTpD.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "SUMMER BLUSH",
+      "class_type": "PROVENCE-STYLE ROSÉ",
+      "abv_statement": "12.5% ALC./VOL.",
+      "abv_percent": 12.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "PRODUCED & BOTTLED BY SUMMER BLUSH WINES, PASO ROBLES, CA",
+      "country_of_origin_statement": "PRODUCT OF USA",
+      "imported": false,
+      "other_mandatory_text": [
+        "2022 PASO ROBLES",
+        "REGION: Paso Robles",
+        "Contains Sulfites",
+        "barcode graphic with no printed digits"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "extremely low contrast: dusty-rose type printed directly on pink glass with no contrasting label panel",
+          "a bright vertical specular highlight runs down the middle of the bottle and washes out several words",
+          "small type size relative to the panel"
+        ],
+        "readability": "hard_to_read"
+      },
+      "image_quality_notes": "Rendered studio shot of two pink bottles (front left, back right) on a wooden bar top with a heavily bokeh'd warm bar interior behind. Labels are printed tone-on-tone in pink on pink glass with a strong central highlight. Text was only transcribable after grayscale contrast enhancement plus heavy zoom, and several words remain soft.",
+      "notes": "Warning wording reads as the statutory text at the word level, with the heading on its own line in a heavier weight and the mixed-case body beneath it in one run-on paragraph. Because of the tone-on-tone printing and the highlight, individual letters could not be verified for every word, so a single-character typo could not be ruled out. The back label repeats net contents and ABV on its bottom line and carries 'Contains Sulfites'. The front label has a barcode block rendered as bars only, with no digits printed beneath it. 'REGION: Paso Robles' duplicates the appellation already given on the vintage line.",
+      "imageSha256": "4a196467aa7a356b7a135802c466171db8ce9e373338ea2f0e0585eef1aa46d2"
+    },
+    {
+      "filename": "DDqT2.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "NORTH LIGHT",
+      "class_type": "DISTILLED VODKA",
+      "abv_statement": "40% Alc./Vol. (80 Proof)",
+      "abv_percent": 40.0,
+      "proof_statement": "(80 Proof)",
+      "net_contents": "750 mL",
+      "producer_name_address": "Distilled and bottled by North Light Spirits, Portland, Oregon",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "very low contrast: pale gray type printed directly on frosted white glass with no contrasting label panel",
+          "type is small and the whole scene is high-key, so the warning nearly disappears at full-image scale"
+        ],
+        "readability": "hard_to_read"
+      },
+      "image_quality_notes": "Rendered studio shot of two frosted white bottles (front left, back right) on a white marble table against a bright white curtained window, with hard window-pane shadows falling across the scene. Everything is high-key and tone-on-tone. Text required grayscale contrast enhancement and heavy zoom to read; several words in the warning remain soft even then.",
+      "notes": "Warning wording reads as the statutory text at the word level: bold all-caps heading on its own line, mixed-case regular-weight body, two sentences set as separate centered paragraphs. Letter-level confirmation was not possible for every word because of the tone-on-tone printing, so a subtle typo could not be ruled out. No country-of-origin statement, no barcode and no other mandatory text is visible on either panel. Same product concept as 555_Northveil_Vodka.png (Portland, Oregon vodka) but a different brand name and a different render.",
+      "imageSha256": "3a0c8bbd02c34ade26cb7256d064c4aeb2754c8089edcb378052db0bbe04fb0e"
+    },
+    {
+      "filename": "DmK94.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "FROST RIDGE",
+      "class_type": "Sauvignon Blanc",
+      "abv_statement": "12.0% Alc/Vol",
+      "abv_percent": 12.0,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Frost Ridge Imports, Seattle, Washington",
+      "country_of_origin_statement": "Wine of New Zealand",
+      "imported": true,
+      "other_mandatory_text": [
+        "Marlborough (appellation, printed as part of 'Marlborough Sauvignon Blanc')"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumpton of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "'Consumption' is misspelled 'Consumpton' (missing the letter i)"
+        ],
+        "presentation_defects": [],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Rendered studio shot of two green glass bottles (front left, back right) on light wood against a plain gray backdrop. Both labels are in focus and reasonably lit. The back label is white with dark type and readable at moderate zoom; the front label is pale sage with dark type and slightly lower contrast. Label curvature is mild.",
+      "notes": "The only wording defect found is the misspelling 'Consumpton'; the rest of the body matches the statutory text. Heading is bold, all caps, and stands on its own line above a mixed-case regular-weight body set as one centered block. The comma after 'Surgeon General' is soft in the render and could be read as a period, but is most likely a comma. Front label combines appellation and varietal on one line ('Marlborough Sauvignon Blanc'); no vintage year appears. No sulfite declaration and no barcode are visible on either panel.",
+      "imageSha256": "022e5bc4f2ac12486190c48f393c5aaffd2d02d1b0d9b608ccbc54c75c795e90"
+    },
+    {
+      "filename": "EqTB7.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "SMOKE & AGAVE",
+      "class_type": "Mezcal Joven",
+      "abv_statement": "45% Alc./Vol. (90 Proof)",
+      "abv_percent": 45.0,
+      "proof_statement": "(90 Proof)",
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Smoke & Agave Imports, Los Angeles, California",
+      "country_of_origin_statement": "Hecho en México",
+      "imported": true,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": false,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "heading is set in the same light condensed sans weight as the body, only slightly larger, so it is not bold as required"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Rendered studio shot of two clear bottles with matte black labels (front left, back right) on dark volcanic stone against a near-black textured backdrop. Low-key lighting, but the white type on black labels is crisp and high contrast; every word is readable at moderate zoom. Water droplets on the glass do not obscure any text.",
+      "notes": "Warning wording matches the statutory text exactly, set entirely in capitals with the two sentences as separate paragraphs. The only issue is that the heading is not bold: it uses the identical light condensed face as the body at a slightly larger size, so it is not visually distinguished by weight. Country of origin is given only in Spanish as 'Hecho en México'; there is no English 'Product of Mexico' line. The brand name 'SMOKE & AGAVE' with an agave icon appears on both the front and the back label. No barcode or other mandatory text is visible.",
+      "imageSha256": "1f18394599daee0988413d936dcc0f8b636c12d07a6ab388f5c754dade7f044c"
+    },
+    {
+      "filename": "Gemini_Generated_Image_auilqqauilqqauil (1).jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BOTANIST'S SECRET",
+      "class_type": "London Dry Gin",
+      "abv_statement": "47% Alc./Vol. (94 Proof)",
+      "abv_percent": 47,
+      "proof_statement": "(94 Proof)",
+      "net_contents": "1 Liter",
+      "producer_name_address": null,
+      "country_of_origin_statement": null,
+      "imported": null,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "body set in all capital letters (statutory body is normally mixed case; not a wording change)",
+          "text sits on the curved bottle shoulder so lines bow slightly"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "AI-generated photorealistic scene; shallow depth of field with a heavily blurred back-bar behind. Bottle is clear glass so background shows through the label edges. Warning block is on the curved lower front of the bottle, so the type is compressed and bowed; warm window light gives a slight color cast but no blown highlights over the text.",
+      "notes": "Single front label plus a separate boxed warning panel lower on the same front face; no back label visible. Brand is set in a decorative small-caps face (oversized initial B and S). Proof appears in parentheses on the same line as the ABV. No producer name, address, or country of origin anywhere on the visible label, so those mandatory items read as absent rather than unreadable. Net contents given as '1 Liter' (spelled out) rather than '1 L' or '1000 mL'.",
+      "imageSha256": "05382e77adef382aca700c3ecedd7e2032ec46e06492b4dbe4dee5cee10ea8f0"
+    },
+    {
+      "filename": "GuCzO.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "OLD FERRY",
+      "class_type": "GOLDEN RUM",
+      "abv_statement": "40% ALC./VOL. (80 PROOF)",
+      "abv_percent": 40,
+      "proof_statement": "(80 PROOF)",
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Old Ferry Spirits, Miami, Florida",
+      "country_of_origin_statement": "Product of Barbados",
+      "imported": true,
+      "other_mandatory_text": [
+        "Caribbean"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Two bottles of the same product staged side by side on a bar, front label on the left bottle and back label on the right. Rendered/composited rather than a real photo; label artwork is crisp but shows mild upscaling softness. Background bar shelving is blurred. No glare over either label.",
+      "notes": "Front and back are two separate bottles in one frame, so both panels are readable in a single image. 'Caribbean' appears as a descriptor under the class/type. Warning is on its own back label with generous margins, dark type on cream, and is the only text on that panel. Heading is clearly heavier than the body; body weight is regular, so the bold rule is satisfied. Wording matches the statutory text word for word.",
+      "imageSha256": "e1eb0ae4e9dc032af4f4494a81acc91549bf5f5f935a41e9274b3d23b160ad83"
+    },
+    {
+      "filename": "iFZ0Q.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BLACKBIRD RESERVE",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv_statement": "45% Alc./Vol. (90 Proof)",
+      "abv_percent": 45,
+      "proof_statement": "(90 Proof)",
+      "net_contents": "750 mL",
+      "producer_name_address": "Distilled and bottled by Blackbird Distilling Co. Frankfort, Kentucky",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": "uncertain",
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "heading is set larger than the body but at essentially the same stroke weight, so the required bold emphasis is weak at best",
+          "body set in all capital letters"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Two bottles of the same product staged side by side against a dark backdrop, front label left and back label right. Rendered/composited product shot, not a real photograph. Labels are crisp and evenly lit with no glare across the text; the scene is dark overall but both labels are well exposed.",
+      "notes": "Warning is reversed out white on a black back label, in all caps, with a blank line between clause (1) and clause (2). Wording is word for word the statutory text including the comma after 'SURGEON GENERAL'. Boldness of the heading is the one genuinely ambiguous call: measured stem width relative to cap height is about the same for the heading (0.130) and the body lines (0.116 to 0.125), so the heading is differentiated mainly by size, not weight. Domestic producer statement, no country of origin line, no import wording.",
+      "imageSha256": "6821a9aa38ea24fbe6f79af24dafd8cc4ddcbb0549073113aaa34853fc258003"
+    },
+    {
+      "filename": "J3YuX.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "IRON ANCHOR BREWING CO.",
+      "class_type": "INDIA PALE ALE",
+      "abv_statement": "7.2% ALC/VOL",
+      "abv_percent": 7.2,
+      "proof_statement": null,
+      "net_contents": "16 FL. OZ. (1 PT.)",
+      "producer_name_address": "Brewed and bottled by Iron Anchor Brewing Co. Portland, Maine",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "PROUDLY CRAFTED IN THE USA",
+        "ALC/VOL 7.2%",
+        "16 FL. OZ. (1 PT.)",
+        "BREWED AND BOTTLED BY IRON ANCHOR BREWING CO. PORTLAND, MAINE"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "warning text is centre-justified and printed directly on the curved can wall, so line ends bow and the outer characters compress"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Two 16 oz cans (not bottles) side by side on a wood bar, front artwork left and back panel right. Rendered mockup with simulated condensation droplets over the printed area; the droplets sit on top of some characters but do not obscure any word. Dark blurred back-bar behind. Slight cylindrical distortion on both panels.",
+      "notes": "Container is a can, so 'rendered_bottle_mockup' is the nearest available image_kind. The ABV is stated twice with different word order: '7.2% ALC/VOL' on the front and 'ALC/VOL 7.2%' on the back. Net contents and the producer statement are also duplicated front and back, the front copy in mixed case and the back copy in all caps. 'PROUDLY CRAFTED IN THE USA' is a marketing origin claim rather than a formal country of origin statement, so country_of_origin_statement is left null and the phrase is listed under other_mandatory_text. 'Brewed and bottled by' is used on a canned product. Warning heading is genuinely heavier than the body (stem about 9 px at 59 px cap height versus 7 px at 52 to 65 px ascender height).",
+      "imageSha256": "6de64a56e6d71febc8a93df76b2eac5684e2665a5c877ab40e24584b504c13a2"
+    },
+    {
+      "filename": "JackDaniels_Back.jpg",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": null,
+      "class_type": null,
+      "abv_statement": null,
+      "abv_percent": null,
+      "proof_statement": null,
+      "net_contents": null,
+      "producer_name_address": "DISTILLED AND BOTTLED BY JACK DANIEL DISTILLERY LYNCHBURG, TENNESSEE, USA",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "IA REF 5c",
+        "ME/VT REF 15c",
+        "RESPONSIBILITY.org",
+        "JACKDANIELS.COM",
+        "21+",
+        "CA CRV",
+        "0 82184 09050 3"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "very small type relative to the panel; legible only when magnified",
+          "body set in all capital letters",
+          "text is fully justified, producing uneven word spacing (a wide gap after PREGNANCY)"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Handheld phone photo of the back of a real 375 mL bottle on a kitchen counter, tiled backsplash and outlet behind. White text on gloss black label with a soft specular sheen; the warning block is the smallest text on the label and needed roughly 8x magnification to read every word. Bottle is upright and square to the camera, label flat and unobstructed, no glare directly over the warning.",
+      "notes": "Back panel only. This panel carries no brand name, class/type, ABV, proof or net contents; those are on the front (JackDaniels_Front.jpg), so those fields are null here because the text is absent from this panel rather than unreadable. Warning heading is clearly bolder than the body. Wording is word for word the statutory text. Below the warning are state container deposit lines, RESPONSIBILITY.org, a UPC barcode 0 82184 09050 3, JACKDANIELS.COM, and rotated '21+' and 'CA CRV' marks to the left of the barcode.",
+      "imageSha256": "1c8ae59cbab67c1a278220ef621faf33334dade6aab6207d23ab7809cd4d0e99"
+    },
+    {
+      "filename": "JackDaniels_Front.jpg",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "front"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "JACK DANIEL'S",
+      "class_type": "QUALITY Tennessee SOUR MASH WHISKEY",
+      "abv_statement": "40% Alc/Vol",
+      "abv_percent": 40,
+      "proof_statement": "80 Proof",
+      "net_contents": "375ML",
+      "producer_name_address": "DISTILLED AND BOTTLED BY JACK DANIEL DISTILLERY LYNCHBURG, TENNESSEE, USA",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "OLD NO 7 BRAND",
+        "EST. & REG. IN 1866",
+        "10055419"
+      ],
+      "warning": {
+        "present": false,
+        "heading_as_printed": null,
+        "heading_all_caps": null,
+        "heading_bold": null,
+        "body_as_printed": null,
+        "body_bold": null,
+        "body_all_caps": null,
+        "body_matches_statutory_text_exactly": null,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": null
+      },
+      "image_quality_notes": "Handheld phone photo of a real 375 mL plastic/PET bottle standing on a kitchen counter. Domestic interior background is out of focus. The label is white on gloss black and picks up diffuse room light, so the small type has a soft halo and low local contrast, but nothing is blown out. Bottle is roughly square to the camera with only slight perspective; the label is flat and unobstructed.",
+      "notes": "Front panel only, so no government warning appears in this image; present is recorded false because the warning is genuinely absent from this panel, not because it is unreadable; readability is null rather than one of the four enum values because no warning text exists on this panel to rate (it is on the back panel, see JackDaniels_Back.jpg). ABV, proof and net contents share one line: '40% Alc/Vol 80 Proof 375ML'. Net contents printed as '375ML' with no space. Class/type reads across four lines as QUALITY / Tennessee / SOUR MASH / WHISKEY; the designation proper is Tennessee Sour Mash Whiskey. 'JACK DANIELS' is embossed in the glass shoulder above the label but is not a printed neck label. A small square 2D code and the number 10055419 sit in the bottom corners of the label.",
+      "imageSha256": "e181455ea57346bb90e97b0360c329a050e83c2ba8f260dcd02890576103bc0e"
+    },
+    {
+      "filename": "jsP3W.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "MIDNIGHT FORGE",
+      "class_type": "Imperial Oatmeal Stout",
+      "abv_statement": "9.5% Alc./Vol.",
+      "abv_percent": 9.5,
+      "proof_statement": null,
+      "net_contents": "12 FL. OZ.",
+      "producer_name_address": "Brewed and bottled by Midnight Forge Brewing, Milwaukee, Wisconsin",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "label wraps the curved bottle so the left and right edges of each line compress slightly"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Two brown 12 oz bottles side by side on a wood surface against a dark wood backdrop, front label left and back label right. Rendered mockup with simulated condensation over the glass and label edges; droplets sit near but not over the warning text. Even lighting, no glare across the type, mild cylindrical distortion at the label edges.",
+      "notes": "Warning occupies its own cream back label with no competing text, dark type on light ground. Wording is word for word the statutory text. Heading is clearly heavier than the body. Front carries brand, class/type, ABV, net contents and the producer statement; no country of origin and no import wording, consistent with a domestic product.",
+      "imageSha256": "243222f8614d44b082b561016300ce30ba69180f00c4328a1dd93ce1c2b03ba2"
+    },
+    {
+      "filename": "leTeL.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "IRON CREEK",
+      "class_type": "Pinot Noir",
+      "abv_statement": "13.8% Alc. by Vol.",
+      "abv_percent": 13.8,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Iron Creek Cellars, McMinnville, Oregon",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "Willamette Valley",
+        "2020",
+        "IRON CREEK CELLARS McMinnville, Oregon",
+        "PRODUCED AND BOTTLED BY IRON CREEK CELLARS",
+        "Our Willamette Valley Pinot Noir is crafted from estate and select vineyard sites, showcasing the elegance and complexity of the region. Bright red fruit, earthy undertones, and a silky finish."
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": "uncertain",
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF [ONE ENTIRE LINE ILLEGIBLE - garbled overlapping glyphs where 'BIRTH DEFECTS. (2) CONSUMPTION OF' would fall] ALCOHOL[??] BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": null,
+        "wording_defects": [
+          "cannot be determined: the fifth line of the warning is rendered as unreadable overlapping glyph soup, so the words that should carry 'birth defects. (2) Consumption of' cannot be confirmed present or absent",
+          "the sixth line is partially corrupted; 'ALCOHOLIC' renders with malformed letterforms although the line is still guessable in context"
+        ],
+        "presentation_defects": [
+          "one full line of the body is illegible at any magnification",
+          "low contrast: light grey type on a matte black label",
+          "small type set centred and tightly leaded"
+        ],
+        "readability": "hard_to_read"
+      },
+      "image_quality_notes": "Two dark wine bottles side by side against a brown backdrop, front label left and back label right. Rendered mockup, not a photograph. The back label is matte black with pale grey text at low contrast. Independent of contrast, the generator produced malformed text: line 5 of the warning is a superimposed jumble of glyph fragments and line 6 has deformed letterforms. This is a defect in the label artwork itself, not motion blur or focus.",
+      "notes": "Vintage 2020 and the Willamette Valley appellation appear on the front. No sulfite declaration appears anywhere on either panel; I checked below the warning to the bottom edge of the back label and the label ends with 'AND MAY CAUSE HEALTH PROBLEMS.' so 'Contains Sulfites' is genuinely absent, which is a real missing mandatory item for a wine. ABV and net contents are stated twice, on the front and again on the back. body_matches_statutory_text_exactly is null rather than false because the deviation cannot be read: the missing text may be present but unrenderable. Warning heading appears the same weight as the body, only slightly larger, so bold emphasis is doubtful.",
+      "imageSha256": "5d3da8efcce8c1658efa7673f6223d6fb4b6080ab2bf26dcaef2e41374a878b5"
+    },
+    {
+      "filename": "MXteB.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "SUN DOCK",
+      "class_type": "AMERICAN WHEAT ALE",
+      "abv_statement": "5.0% ALC/VOL",
+      "abv_percent": 5.0,
+      "proof_statement": null,
+      "net_contents": "16 FL. OZ.",
+      "producer_name_address": "Brewed and canned by Sun Dock Brewing. San Diego, California",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "dark navy type on a mid orange ground, so contrast is moderate rather than strong",
+          "printed directly on the curved can wall with simulated condensation droplets over some characters"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Two 16 oz cans side by side on a weathered picnic table outdoors, front artwork left and back panel right. Rendered mockup with simulated water droplets across both cans. Bright daylight with a heavily blurred green park background. Droplets overlay parts of the warning text but no word is obscured. Mild cylindrical distortion at the panel edges.",
+      "notes": "Container is a can, so 'rendered_bottle_mockup' is the nearest available image_kind. Front separates ABV and net contents with a vertical bar: '5.0% ALC/VOL | 16 FL. OZ.'. The producer line ends the company name with a period rather than a comma: 'Brewed and canned by Sun Dock Brewing.' then 'San Diego, California' on the next line. Warning wording is word for word the statutory text; the heading is clearly heavier than the body.",
+      "imageSha256": "9d0696e152bd1c163b204ff4ca6582346ab34f47b24f4c373b13a8a6da40d6c3"
+    },
+    {
+      "filename": "O0P0Z.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "CEDAR BEND",
+      "class_type": "Chardonnay",
+      "abv_statement": "13.5% Alc. by Vol.",
+      "abv_percent": 13.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Cedar Bend Vineyards, Oregon.",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "Willamette Valley",
+        "2021",
+        "Contains Sulfites",
+        "13.5% Alcohol by Volume",
+        "750 mL"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "body type is very small relative to the label and rendered with soft, partly malformed letterforms; individual letters are ambiguous even at maximum magnification although each word is recoverable from context",
+          "warning is not visually separated from the sulfite, producer, ABV and net contents lines that follow inside the same ruled box"
+        ],
+        "readability": "hard_to_read"
+      },
+      "image_quality_notes": "Two green wine bottles side by side on a light wood surface against a plain warm grey wall, front label left and back label right. Rendered mockup, evenly lit studio style with no glare on the labels. The back label's body text is rendered at low effective resolution, so its serif letterforms are mushy; this is an artwork/generation artifact, not camera blur.",
+      "notes": "Vintage 2021 and the Willamette Valley appellation are on the front. 'Contains Sulfites' IS present on the back label, unlike leTeL.jpg. ABV and net contents are stated twice, front and back, with different wording: '13.5% Alc. by Vol.' on the front and '13.5% Alcohol by Volume' on the back. The producer statement gives only the state, 'Cedar Bend Vineyards, Oregon.', with no city. Warning heading is clearly bold and noticeably heavier than the body. I read the body wording at up to 14x; the word sequence is unambiguously the statutory text, but the letterform degradation is the reason readability is recorded as hard_to_read.",
+      "imageSha256": "8c78bee0a0f6aa225b52bde3c547a2cd677773f42c662ff3aefde09ae90e0035"
+    },
+    {
+      "filename": "PtNj9.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BOTANIST'S SECRET",
+      "class_type": "London Dry Gin",
+      "abv_statement": "47% Alc./Vol. (94 Proof)",
+      "abv_percent": 47,
+      "proof_statement": "(94 Proof)",
+      "net_contents": "1 Liter",
+      "producer_name_address": "Distilled & bottled by Botanist's Secret Distillery, London.",
+      "country_of_origin_statement": null,
+      "imported": null,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "label wraps the cylindrical bottle so lines bow slightly toward the edges"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Two clear glass bottles side by side on a marble surface against a marble backdrop, front label left and back label right. Rendered mockup. Because the glass is clear and the liquid colourless, the veined marble background shows through the bottles, but the paper labels are opaque and unaffected. Bright even lighting, no glare over the text. The two bottles carry different capsule colours (dark green left, black right), a continuity slip in the mockup.",
+      "notes": "Same brand and class as Gemini_Generated_Image_auilqqauilqqauil (1).jpg but a completely different label design and layout, with the warning on a separate back label instead of a boxed panel on the front. Warning wording is word for word the statutory text with a blank line between clause (1) and clause (2). Producer is stated as being in London, which would make this an imported product, yet there is no country of origin statement and no importer name and address anywhere on either visible panel; imported is left null because the label never states it, though the London address strongly implies it. Net contents given as '1 Liter'.",
+      "imageSha256": "2cfc80945da0e2fa8ec4440aa35f41c71785915d01bc48cad8446896aeccde29"
+    },
+    {
+      "filename": "RevolverBrewing.jpg",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "front",
+        "side"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "REVOLVER BREWING",
+      "class_type": "TEXAS STYLE ALE",
+      "abv_statement": null,
+      "abv_percent": null,
+      "proof_statement": null,
+      "net_contents": null,
+      "producer_name_address": "REVOLVER BREWING * LITTLETON, CO",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "BLOOD & HONEY",
+        "ESTABLISHED IN GRANBURY * TEXAS",
+        "ALE BREWED WITH BLOOD ORANGE PEEL, HONEY AND SPICES.",
+        "REVOLVERBREWING.COM",
+        "* ENJOY RESPONSIBLY *",
+        "8 50040 87657 4",
+        "60623A2BA"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "printed sideways, rotated 90 degrees relative to the rest of the label, so it must be read with the can turned",
+          "low contrast: gold/tan ink on a white can body",
+          "very small type, only three long lines wrapped around the can",
+          "body set in all capital letters",
+          "text curves away around the cylinder so the far end of each line is foreshortened"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photograph of a real 12 oz aluminium can on a speckled countertop, presented as two shots of the same can composited side by side: front view left, rotated side view right. Indoor lighting with a specular highlight down the red top band. The warning text is small, low contrast, printed sideways and wrapped around the curve, so it needed rotation plus about 5x magnification to read; the far end of each line is compressed by the curvature but still legible.",
+      "notes": "Real product photo, not a mockup. No alcohol content statement and no net contents statement appear anywhere in either view; the panel carrying them is rotated out of sight, so those fields are null for lack of visibility rather than confirmed absence. Note an address inconsistency on the label itself: the front reads 'ESTABLISHED IN GRANBURY * TEXAS' while the producer line on the side reads 'REVOLVER BREWING * LITTLETON, CO'. The warning wording is word for word the statutory text and the heading is clearly bolder than the body. This file and RevolverBrewing.png are the same photograph in two formats: pixel differences are limited to JPEG compression noise (max channel difference 22, mean 1.0, only 0.14 percent of pixels differing by more than 8).",
+      "imageSha256": "ba6d53e5989b16dd192cdd740b025a45a1febd21300a4a7e4f47315cbd26f550"
+    },
+    {
+      "filename": "RevolverBrewing.png",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "front",
+        "side"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "REVOLVER BREWING",
+      "class_type": "TEXAS STYLE ALE",
+      "abv_statement": null,
+      "abv_percent": null,
+      "proof_statement": null,
+      "net_contents": null,
+      "producer_name_address": "REVOLVER BREWING * LITTLETON, CO",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "BLOOD & HONEY",
+        "ESTABLISHED IN GRANBURY * TEXAS",
+        "ALE BREWED WITH BLOOD ORANGE PEEL, HONEY AND SPICES.",
+        "REVOLVERBREWING.COM",
+        "* ENJOY RESPONSIBLY *",
+        "8 50040 87657 4",
+        "60623A2BA"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "printed sideways, rotated 90 degrees relative to the rest of the label, so it must be read with the can turned",
+          "low contrast: gold/tan ink on a white can body",
+          "very small type, only three long lines wrapped around the can",
+          "body set in all capital letters",
+          "text curves away around the cylinder so the far end of each line is foreshortened"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Same photograph as RevolverBrewing.jpg, stored as PNG at the same 1800x1350 pixel dimensions. Slightly cleaner rendering of the small warning type because it carries no JPEG ringing, but the underlying capture, framing, lighting and legibility are identical.",
+      "notes": "Same content as RevolverBrewing.jpg; I read the warning from this PNG copy. All observations from the JPEG entry apply: no ABV or net contents visible on the panels shown, the Granbury/Texas front line versus the Littleton, CO producer line inconsistency, and statutory warning wording with a bold all caps heading. Direct pixel comparison against the JPEG shows only compression level differences (max channel difference 22, mean 1.0), so the two files are not independent images and an evaluation should expect the same extracted values from both.",
+      "imageSha256": "134d76be05e4adaf2953c38103ba21578f48cc7b314893b640cd41ef061f73a8"
+    },
+    {
+      "filename": "Test_TTB_Image_0001.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "STONE'S THROW",
+      "class_type": "NAPA VALLEY CABERNET SAUVIGNON",
+      "abv_statement": "14.5% Alc. by Vol.",
+      "abv_percent": 14.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Stone's Throw Vineyards, Napa, California",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "EST. 1971",
+        "2019",
+        "750 mL  .  14.5% Alc. by Vol.  .  Napa Valley Cabernet Sauvignon"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Flat two dimensional label artwork, not a bottle. Two rectangular labels sit side by side on a plain off white background with the captions 'FRONT / BRAND LABEL' and 'BACK LABEL' printed above them; those captions are part of the test image, not part of the label. Perfectly square on, no perspective, no glare, no curvature. Very clean and high contrast, navy type on cream.",
+      "notes": "Vintage 2019 with a Napa Valley appellation; the class/type is Cabernet Sauvignon and 'Napa Valley' is the appellation, printed together as one line. No sulfite declaration appears on either label; the back label ends with the summary line, so 'Contains Sulfites' is genuinely absent, a real missing mandatory item for a wine. The warning heading runs inline with the start of clause (1) on the same line. ABV and net contents are stated on both the front and the back.",
+      "imageSha256": "d0c94c8db2425391b427789376b3dffeda978a6f8b8103ef72db251332d1de55"
+    },
+    {
+      "filename": "Test_TTB_Image_0002.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "NORTHWIND",
+      "class_type": "VODKA",
+      "abv_statement": "40% Alc./Vol. (80 Proof)",
+      "abv_percent": 40,
+      "proof_statement": "(80 Proof)",
+      "net_contents": "750 mL",
+      "producer_name_address": "Distilled and bottled by Northwind Spirits, Portland, Oregon",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "DISTILLED FROM GRAIN",
+        "750 mL . 40% Alc./Vol. (80 Proof) . Vodka"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "Government Warning:",
+        "heading_all_caps": false,
+        "heading_bold": "uncertain",
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [
+          "heading is set in title case, 'Government Warning:', instead of the required all capitals 'GOVERNMENT WARNING:'"
+        ],
+        "presentation_defects": [
+          "heading is a serif face set larger than the body but at what looks like the same stroke weight, so the required bold emphasis is doubtful"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Flat two dimensional label artwork, not a bottle. Two labels side by side on a white background with 'FRONT / BRAND LABEL' and 'BACK LABEL' captions above them; those captions belong to the test image, not the label. Square on, no perspective, glare or curvature. Navy serif type on a very pale blue-grey ground, high contrast and generously sized.",
+      "notes": "The headline defect is the heading capitalisation: it reads 'Government Warning:' in title case rather than all capitals. The body wording itself is word for word the statutory text, split into two paragraphs. Class/type is given as VODKA with 'DISTILLED FROM GRAIN' underneath. ABV, proof and net contents appear on both the front and the back summary line.",
+      "imageSha256": "0dba51a621d15943492256920f413fa6761d04adde6462c12d4240b229a677a3"
+    },
+    {
+      "filename": "Test_TTB_Image_0003.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "RED MESA",
+      "class_type": "REPOSADO TEQUILA",
+      "abv_statement": "38% Alc./Vol. (76 Proof)",
+      "abv_percent": 38,
+      "proof_statement": "(76 Proof)",
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Red Mesa Imports, San Antonio, Texas",
+      "country_of_origin_statement": "Hecho en Mexico",
+      "imported": true,
+      "other_mandatory_text": [
+        "100% AGAVE",
+        "Product of Mexico",
+        "750 mL . 38% Alc./Vol. (76 Proof) . Reposado Tequila . Product of Mexico"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "clause (2) is entirely missing: the whole sentence 'Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.' does not appear anywhere on the label. The warning stops after 'the risk of birth defects.' and the rest of the back label is empty down to the bottom summary line."
+        ],
+        "presentation_defects": [
+          "heading is printed in a rust red ink while the body is near black, so the two do not read as one statement"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Flat two dimensional label artwork, not a bottle. Two labels side by side on an off white background with 'FRONT / BRAND LABEL' and 'BACK LABEL' captions above them; the captions are part of the test image, not the label. Square on, no perspective, glare or curvature. The text that is present is large, high contrast and completely legible, so the missing clause is a content omission and not a legibility problem.",
+      "notes": "This is the clearest wording defect in my set: only clause (1) of the statutory warning is printed and clause (2) is absent. I confirmed the omission by examining the entire back label, which is blank between 'the risk of birth defects.' and the bottom summary line. Country of origin is stated twice and in two forms, 'Hecho en Mexico' on the front and 'Product of Mexico' in the back summary line; the accent is on the front as 'Hecho en Mexico' with an acute e. An importer name and address is present, so this is labelled as an imported product.",
+      "imageSha256": "831e7b6e747558c2daa37374fa645105122d470f09e4149eaeaebce95c72c2b5"
+    },
+    {
+      "filename": "Test_TTB_Image_0004.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back",
+        "neck"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "CRYSTAL TUNDRA",
+      "class_type": "Distilled Vodka",
+      "abv_statement": "40% ALC./VOL. (80 Proof)",
+      "abv_percent": 40,
+      "proof_statement": "(80 Proof)",
+      "net_contents": "1.75 L",
+      "producer_name_address": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
+      "country_of_origin_statement": "PRODUCED IN USA",
+      "imported": false,
+      "other_mandatory_text": [
+        "BOTTLED IN ANCHORAGE, ALASKA"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "body type is small relative to the label and rendered with slightly soft, partly malformed letterforms",
+          "text sits on the curved bottle face so lines bow toward the edges"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Two clear glass bottles side by side on a white marble surface against a marble backdrop, front label left and back label right. Rendered mockup, not a photograph. Bright even lighting with no glare over either label. Because the bottles are clear and the spirit colourless, the marble shows through around the labels. The back label's warning text is the smallest text in the frame and its letterforms are somewhat soft at maximum magnification, though every word is readable.",
+      "notes": "The right bottle carries a decorative blue neck band with a snowflake motif and no readable text, so 'neck' is listed as a visible panel but contributes no mandatory information. The left bottle has no neck band, a small continuity inconsistency in the mockup. ABV, proof and net contents appear on both the front and the back. Origin is stated as two separate lines on the back, 'PRODUCED IN USA' and 'BOTTLED IN ANCHORAGE, ALASKA'. Warning wording is word for word the statutory text with a clearly bolder all caps heading.",
+      "imageSha256": "db21d752cb169bf8e1a4ebc2244d0d6b18d2e96eb921787472348979b13bfc90"
+    },
+    {
+      "filename": "Test_TTB_Image_0005.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BOTANIST'S SECRET",
+      "class_type": "LONDON DRY GIN",
+      "abv_statement": "47% Alc./Vol. (94 Proof)",
+      "abv_percent": 47,
+      "proof_statement": "94 Proof",
+      "net_contents": "1 Liter",
+      "producer_name_address": "Distilled & bottled by Botanist's Secret Distillery, London.",
+      "country_of_origin_statement": null,
+      "imported": null,
+      "other_mandatory_text": [
+        "EST. 1924.",
+        "1 Liter · 47% Alc./Vol. (94 Proof) · London Dry Gin"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on a white background, no glare, blur, angle or curvature. Two label panels shown side by side with figure captions FRONT / BRAND LABEL and BACK LABEL above them (captions are part of the mock sheet, not the label itself).",
+      "notes": "Pixel-identical to Test_TTB_Image_0006.jpg (whole-image difference is only JPEG noise, no pixel differs by more than 3 gray levels). Address is London (United Kingdom) but no country-of-origin statement and no importer statement is printed anywhere, so 'imported' cannot be determined from the pixels. Warning appears on the back panel, set off in its own block with clear black-on-cream contrast.",
+      "imageSha256": "05bd44ad4d37308a9a2ab4a563396b1ab72789ef7cb94f41ed8b9543d6115819"
+    },
+    {
+      "filename": "Test_TTB_Image_0006.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BOTANIST'S SECRET",
+      "class_type": "LONDON DRY GIN",
+      "abv_statement": "47% Alc./Vol. (94 Proof)",
+      "abv_percent": 47,
+      "proof_statement": "94 Proof",
+      "net_contents": "1 Liter",
+      "producer_name_address": "Distilled & bottled by Botanist's Secret Distillery, London.",
+      "country_of_origin_statement": null,
+      "imported": null,
+      "other_mandatory_text": [
+        "EST. 1924.",
+        "1 Liter · 47% Alc./Vol. (94 Proof) · London Dry Gin"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on a white background, no glare, blur, angle or curvature. Two label panels shown side by side with figure captions FRONT / BRAND LABEL and BACK LABEL above them.",
+      "notes": "Pixel-identical duplicate of Test_TTB_Image_0005.jpg (same 4133x2781 dimensions; no pixel differs by more than 3 gray levels). Same reasoning on 'imported' as 0005: London address, but no country-of-origin or importer statement is printed.",
+      "imageSha256": "c72950509da8bcc1eadfea6e98e3970d82694947e8f2d678ad6b7427df267087"
+    },
+    {
+      "filename": "Test_TTB_Image_0007.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "MIDNIGHT FORGE",
+      "class_type": "IMPERIAL OATMEAL STOUT",
+      "abv_statement": "9.5% Alc./Vol.",
+      "abv_percent": 9.5,
+      "proof_statement": null,
+      "net_contents": "12 FL. OZ.",
+      "producer_name_address": "Brewed and bottled by Midnight Forge Brewing, Milwaukee, Wisconsin",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "12 FL. OZ. · 9.5% Alc./Vol. · Imperial Oatmeal Stout"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "statements (1) and (2) are separated by a blank line into two paragraphs rather than running as one continuous block; wording is unchanged"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on white, no glare, blur, angle or curvature. Front panel is dark charcoal with cream and copper type; back panel is cream with black type.",
+      "notes": "US domestic brewer address (Milwaukee, Wisconsin), so imported is false. Front panel carries an anvil/hammer and moon illustration. The back panel repeats net contents, ABV and class in a footer line under a rule.",
+      "imageSha256": "c106d6b32c5366657161299691eb5c3d35e90062f07e123a17606436711b4497"
+    },
+    {
+      "filename": "Test_TTB_Image_0008.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "FROST RIDGE",
+      "class_type": "Marlborough Sauvignon Blanc",
+      "abv_statement": "12.0% Alc/Vol",
+      "abv_percent": 12.0,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Frost Ridge Imports, Seattle, Washington",
+      "country_of_origin_statement": "Wine of New Zealand",
+      "imported": true,
+      "other_mandatory_text": [
+        "Wine of New Zealand",
+        "Marlborough"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "body type is very small relative to the label and centre-justified in a narrow measure, so line breaks fall mid-phrase"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic 3D/AI-style product render of two bottles (front label on the left bottle, back label on the right) on a wood surface against a gray backdrop. Slight bottle curvature at the label edges and soft focus on the small back-label type; letterforms show mild render artifacts (some strokes broken or thickened), but no glare over the warning.",
+      "notes": "Two bottles of the same product shown to display front and back. Imported wine: importer statement plus 'Wine of New Zealand' country-of-origin line. The comma after 'Surgeon General' renders ambiguously at this resolution (could read as a period) because of render softness; transcribed as the statutory comma. No vintage date visible. No sulfite declaration visible on either panel.",
+      "imageSha256": "9fa8dfbda262576d6e5a2eba9b3e7df587942dd22c650862464aaba36acafd7c"
+    },
+    {
+      "filename": "Test_TTB_Image_0009.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "IRON ANCHOR BREWING CO.",
+      "class_type": "INDIA PALE ALE",
+      "abv_statement": "7.2% ALC/VOL",
+      "abv_percent": 7.2,
+      "proof_statement": null,
+      "net_contents": "16 FL. OZ. (1 PT.)",
+      "producer_name_address": "Brewed and bottled by Iron Anchor Brewing Co., Portland, Maine",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "16 FL. OZ. (1 PT.) · 7.2% ALC/VOL · India Pale Ale"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on white, no glare, blur, angle or curvature. Tan/kraft front panel with black type and an anchor illustration; white back panel with black type.",
+      "notes": "US domestic brewer address (Portland, Maine), so imported is false. Brand name and the company in the responsibility statement are the same (Iron Anchor Brewing Co.). Back panel footer repeats net contents, ABV and class under a rule, well separated from the warning block.",
+      "imageSha256": "216d04aa76d2a59c1a97bc4890d2b29f4fc174650ed3cb078c54da9fd4570a24"
+    },
+    {
+      "filename": "Test_TTB_Image_0011.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "neck"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "Botanist's Secret",
+      "class_type": "London Dry Gin",
+      "abv_statement": "47% Alc./Vol. (94 Proof)",
+      "abv_percent": 47,
+      "proof_statement": "94 Proof",
+      "net_contents": "1 Liter",
+      "producer_name_address": null,
+      "country_of_origin_statement": null,
+      "imported": null,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "body is set entirely in capital letters instead of the statutory mixed case; word-for-word the wording is otherwise identical to the statutory text"
+        ],
+        "presentation_defects": [
+          "warning is on the front panel in its own thin ruled box below the brand label rather than on a separate back panel",
+          "type is very small relative to the label and lines are stretched to full justification, giving uneven word spacing"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic AI-style product render: clear gin bottle on a wooden bar top with a strongly blurred backlit bar interior behind it. Warm side light causes highlights on the glass; slight label curvature at both edges of the warning strip. Warning box itself is not obscured by glare.",
+      "notes": "Only one bottle and one face are visible, so no back panel is shown and no name-and-address statement or country-of-origin statement can be read anywhere in the image. The neck band carries only illegible squiggle marks (generative-render gibberish), not readable text. Same brand and product as the flat label art in Test_TTB_Image_0005/0006 but a different rendering with a different (all-caps, front-panel) warning treatment.",
+      "imageSha256": "ec3f85d612863aa661b80bb2b5c3a2ee67a5490adbb12eff95b2b030be509659"
+    },
+    {
+      "filename": "Test_TTB_Image_0021.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BLACKBIRD RESERVE",
+      "class_type": "KENTUCKY STRAIGHT BOURBON WHISKEY",
+      "abv_statement": "45% Alc./Vol. (90 Proof)",
+      "abv_percent": 45,
+      "proof_statement": "90 Proof",
+      "net_contents": "750 mL",
+      "producer_name_address": "Distilled & bottled by Blackbird Distilling Co., Bardstown, Kentucky",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "EST. 1889",
+        "750 mL · 45% Alc./Vol. (90 Proof) · Kentucky Straight Bourbon Whiskey"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on white, no glare, blur, angle or curvature. Cream panels with dark-red rules and a dark-red bird engraving on the front.",
+      "notes": "US domestic distiller address (Bardstown, Kentucky), so imported is false. Warning is run-in style: the bold dark-red heading is followed on the same line by the regular-weight near-black body. Pixel-identical to Test_TTB_Image_0022.jpg (whole-image difference is JPEG noise only, no pixel differs by more than 3 gray levels).",
+      "imageSha256": "1f2aa36de8e7e0993cab3634ca0a50b472faeec5340a3fea58844858e5f276cc"
+    },
+    {
+      "filename": "Test_TTB_Image_0022.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BLACKBIRD RESERVE",
+      "class_type": "KENTUCKY STRAIGHT BOURBON WHISKEY",
+      "abv_statement": "45% Alc./Vol. (90 Proof)",
+      "abv_percent": 45,
+      "proof_statement": "90 Proof",
+      "net_contents": "750 mL",
+      "producer_name_address": "Distilled & bottled by Blackbird Distilling Co., Bardstown, Kentucky",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "EST. 1889",
+        "750 mL · 45% Alc./Vol. (90 Proof) · Kentucky Straight Bourbon Whiskey"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on white, no glare, blur, angle or curvature.",
+      "notes": "Pixel-identical duplicate of Test_TTB_Image_0021.jpg (same 4139x2778 dimensions; no pixel differs by more than 3 gray levels). Run-in warning: bold dark-red heading followed on the same line by regular-weight body.",
+      "imageSha256": "d1ded5c5d96c4fdd3887eb9eaf6a7ad34b29691abe84290bfa877621d516f094"
+    },
+    {
+      "filename": "Test_TTB_Image_0023.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "MARITIME",
+      "class_type": "SPARKLING WINE",
+      "abv_statement": "12.5% Alc. by Vol.",
+      "abv_percent": 12.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Maritime Cellars, Mendocino, California",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "MÉTHODE CHAMPENOISE",
+        "AMERICAN",
+        "750 mL • 12.5% Alc. by Vol. • Sparkling Wine"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "statements (1) and (2) are separated by a blank line into two paragraphs rather than running as one continuous block; wording is unchanged"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on white, no glare, blur, angle or curvature. Cream front panel with a gold double rule and a green ship's-wheel engraving; plain white back panel with a thin black keyline.",
+      "notes": "US domestic producer address (Mendocino, California), so imported is false. In this file the FRONT / BRAND LABEL and BACK LABEL captions sit BELOW the two panels (in the other sheets in this group they sit above). The front carries the semi-generic 'MÉTHODE CHAMPENOISE' plus the 'AMERICAN' appellation-style line. No vintage date and no sulfite declaration are printed on either panel.",
+      "imageSha256": "d1e52a4d717609904817d7dade446d6bb485aea561bea2cbd925ba9f2f460097"
+    },
+    {
+      "filename": "Test_TTB_Image_0024.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "FROST RIDGE",
+      "class_type": "MARLBOROUGH SAUVIGNON BLANC",
+      "abv_statement": "12.0% Alc/Vol",
+      "abv_percent": 12.0,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Frost Ridge Imports, Seattle, Washington.",
+      "country_of_origin_statement": "Wine of New Zealand",
+      "imported": true,
+      "other_mandatory_text": [
+        "Wine of New Zealand",
+        "MARLBOROUGH",
+        "750 mL • 12.0% Alc/Vol • Marlborough Sauvignon Blanc • Product of New Zealand"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "statements (1) and (2) are separated by a blank line into two paragraphs rather than running as one continuous block; wording is unchanged"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on white, no glare, blur, angle or curvature. Pale sage-green front panel with a green mountain/vineyard engraving; near-white back panel.",
+      "notes": "Flat label-art version of the same product rendered as a bottle mockup in Test_TTB_Image_0008.jpg, but the layout differs: here the front carries ABV and net contents side by side separated by a vertical rule, the importer line ends with a period, and the back footer adds 'Product of New Zealand'. Two separate country-of-origin phrasings appear: 'Wine of New Zealand' on the front and 'Product of New Zealand' in the back footer. No vintage date and no sulfite declaration are printed.",
+      "imageSha256": "7c0974f885c887665bc55130844791f2fbdea9661890c45379da233fc0c07ab1"
+    },
+    {
+      "filename": "Test_TTB_Image_0025.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BLACKBIRD RESERVE",
+      "class_type": "Kentucky Straight Bourbon Whiskey",
+      "abv_statement": "45% Alc./Vol. (90 Proof)",
+      "abv_percent": 45,
+      "proof_statement": "90 Proof",
+      "net_contents": "750 mL",
+      "producer_name_address": "Distilled and bottled by Blackbird Distilling Co. Frankfort, Kentucky",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": false,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS.\n\n(2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "body is set entirely in capital letters instead of the statutory mixed case; word for word the wording is otherwise identical to the statutory text"
+        ],
+        "presentation_defects": [
+          "heading is NOT bold: it is set in the same condensed face and the same weight as the body, only about 15 percent larger (measured stroke-width to line-height ratio 0.130 for the heading vs 0.125 for the body lines; for comparison, the genuinely bold heading in Test_TTB_Image_0021 measures 0.159 vs 0.111 for its body)",
+          "statements (1) and (2) are separated by a blank line into two paragraphs",
+          "type is small relative to the bottle and set in cream on a black panel"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic studio-style render of two identical bourbon bottles (front label left, back label right) on a dark wooden surface against a near-black brown backdrop. Low-key lighting, soft vignetting, and mild bottle curvature at the label edges; the warning panel picks up a faint sheen but no blocking glare. Amber liquid behind the glass darkens the label edges.",
+      "notes": "Bottle-mockup version of the same brand rendered as flat art in Test_TTB_Image_0021/0022, but the responsibility statement differs: this one reads 'Distilled and bottled by Blackbird Distilling Co. Frankfort, Kentucky' (spelled-out 'and', city Frankfort), while the flat art reads 'Distilled & bottled by Blackbird Distilling Co., Bardstown, Kentucky'. No EST. 1889 line and no back-panel footer line on this version. Warning is white/cream on a black back label.",
+      "imageSha256": "3b0a5c4fa9be264d301c7eeb0c5af9fe137b664b198bf9753ce40108fdd3e553"
+    },
+    {
+      "filename": "Test_TTB_Image_0026.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "IRON ANCHOR BREWING CO.",
+      "class_type": "INDIA PALE ALE",
+      "abv_statement": "7.2% ALC/VOL",
+      "abv_percent": 7.2,
+      "proof_statement": null,
+      "net_contents": "16 FL. OZ. (1 PT.)",
+      "producer_name_address": "Brewed and bottled by Iron Anchor Brewing Co. Portland, Maine",
+      "country_of_origin_statement": "PROUDLY CRAFTED IN THE USA",
+      "imported": false,
+      "other_mandatory_text": [
+        "ALC/VOL 7.2%",
+        "16 FL. OZ. (1 PT.)",
+        "BREWED AND BOTTLED BY IRON ANCHOR BREWING CO. PORTLAND, MAINE",
+        "PROUDLY CRAFTED IN THE USA"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "body is centre-justified in a narrow measure, so line breaks fall mid-phrase; statement (2) begins on its own line"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic render of two 16 oz cans (front left, back right) on a wooden bar top with a heavily blurred dark shelf of bottles behind. Condensation droplets are rendered across both cans and sit over parts of the warning text; the can cylinder curves the text so the outer characters are compressed and slightly out of focus. Lighting is low-key with a bright highlight down the centre of each can.",
+      "notes": "Can-mockup version of the same brand rendered as flat art in Test_TTB_Image_0009.jpg. Weight measurement confirms the heading is genuinely bold: stroke-width to line-height ratio 0.128 for the heading vs 0.095 for body lines. Back panel repeats ABV (as 'ALC/VOL 7.2%', order reversed vs the front's '7.2% ALC/VOL') and net contents, then the responsibility statement in all caps, then 'PROUDLY CRAFTED IN THE USA'. No 'imported' or foreign-origin language anywhere.",
+      "imageSha256": "5938a5d51f195fd1f0d9cc2b26c6c386e2b70b1861fa2d0e321e2f9e39cfd94b"
+    },
+    {
+      "filename": "Test_TTB_Image_0027.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "CLEARWATER",
+      "class_type": "BLANCO TEQUILA",
+      "abv_statement": "40% Alc./Vol. (80 Proof)",
+      "abv_percent": 40,
+      "proof_statement": "80 Proof",
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Clearwater Spirits, Austin, Texas",
+      "country_of_origin_statement": "Hecho en México",
+      "imported": true,
+      "other_mandatory_text": [
+        "100% AGAVE",
+        "Hecho en México",
+        "750 mL • 40% Alc./Vol. (80 Proof) • Blanco Tequila • Product of Mexico"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on white, no glare, blur, angle or curvature. Both panels are tan/sand with a thin terracotta keyline; the front carries a terracotta agave engraving.",
+      "notes": "Imported tequila. Country of origin appears twice and in two languages: 'Hecho en México' on the front panel and 'Product of Mexico' in the back-panel footer line. '100% AGAVE' is printed under the class designation. Warning block sits alone in the upper half of the back panel, well separated from the footer line.",
+      "imageSha256": "1b6ef63c7ba07c8eeeaa06a846c9a717f33cb63b2ec59154838ff04dc9940367"
+    },
+    {
+      "filename": "Test_TTB_Image_0028.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "MIDNIGHT FORGE",
+      "class_type": "Imperial Oatmeal Stout",
+      "abv_statement": "9.5% Alc./Vol.",
+      "abv_percent": 9.5,
+      "proof_statement": null,
+      "net_contents": "12 FL. OZ.",
+      "producer_name_address": "Brewed and bottled by Midnight Forge Brewing, Milwaukee, Wisconsin",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "body is centre-justified in a narrow measure, so line breaks fall mid-phrase; statement (2) begins on its own line"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic render of two brown 12 oz bottles (front label left, back label right) on a wooden surface against a dark wood-plank backdrop. Condensation droplets over both bottles including the edges of the warning label; bottle curvature compresses the outer characters; low-key lighting with a soft highlight down each bottle. Bottle necks are cropped off at the top of the frame.",
+      "notes": "Bottle-mockup version of the same brand rendered as flat art in Test_TTB_Image_0007.jpg. Unlike the flat art, this back label carries ONLY the government warning: no repeated net contents / ABV / class footer line. The front panel supplies brand, class, ABV, net contents and the responsibility statement. Warning is black on a cream back label, so contrast is good despite the small size.",
+      "imageSha256": "0d7407b4fd23976bef2086ff206430d480b6004eae39c53fa38759bc66908318"
+    },
+    {
+      "filename": "Test_TTB_Image_0029.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "FOX HOLLOW",
+      "class_type": "RIESLING",
+      "abv_statement": "12.0% Alc. by Vol.",
+      "abv_percent": 12.0,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Fox Hollow Vineyards, Hammondsport, New York",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "FINGER LAKES",
+        "2023",
+        "750 mL • 12.0% Alc. by Vol. • Finger Lakes Riesling"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on white, no glare, blur, angle or curvature. Off-white panels with terracotta double keylines and a terracotta fox-and-grapes engraving on the front.",
+      "notes": "US domestic wine (Hammondsport, New York), so imported is false. Front carries the 'FINGER LAKES' appellation and the vintage date 2023. No sulfite declaration is printed on either panel. Warning is run-in style (bold heading followed on the same line by regular-weight body) and sits in the top portion of an otherwise empty back panel, well separated from the footer line.",
+      "imageSha256": "4808aefa27d7eb22a408122561bb14a2d6fdaa74a3215384e182162ba18a65a5"
+    },
+    {
+      "filename": "Test_TTB_Image_0030.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "CEDAR BEND",
+      "class_type": "Chardonnay",
+      "abv_statement": "13.5% Alc. by Vol.",
+      "abv_percent": 13.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Cedar Bend Vineyards, Oregon.",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "Willamette Valley",
+        "2021",
+        "Contains Sulfites",
+        "13.5% Alcohol by Volume",
+        "750 mL"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "body type is very small relative to the label and centre-justified",
+          "statements (1) and (2) are separated by a blank line into two paragraphs",
+          "the warning block runs straight into the 'Contains Sulfites' / responsibility / ABV / net-contents lines below it in the same type size and centred alignment, with only white space between them, so the warning is not typographically set apart from the other back-label text"
+        ],
+        "readability": "hard_to_read"
+      },
+      "image_quality_notes": "Photorealistic render of two green wine bottles (front label left, back label right) on a pale wooden surface against a warm gray backdrop. Even studio lighting, no strong glare, but the back-label body type is rendered at very low effective resolution: individual letterforms are broken or fused (for example 'Surgeon' and 'should' render with mangled glyphs), so the text is legible mainly by word shape and context. Slight bottle curvature at both edges of the back label.",
+      "notes": "Only 'GOVERNMENT WARNING:' is set in bold; the body and all remaining back-label lines share the same small regular serif face. Because of the render degradation, the wording could be matched to the statutory text word for word by shape and context but glyph-level fidelity cannot be confirmed at this resolution. ABV appears in two different forms: '13.5% Alc. by Vol.' on the front and '13.5% Alcohol by Volume' on the back; the responsibility statement is repeated on both panels; net contents 750 mL appears on both panels. 'Contains Sulfites' is declared on the back.",
+      "imageSha256": "5b838cd6b31bc6c6d347b8f0fb05c0215135c20b9a93f3a1d57927726b84e727"
+    },
+    {
+      "filename": "Test_TTB_Image_0031.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "HARBOR LIGHTS",
+      "class_type": "PALE ALE",
+      "abv_statement": "5.2% Alc./Vol.",
+      "abv_percent": 5.2,
+      "proof_statement": null,
+      "net_contents": "12 FL. OZ. (355 mL)",
+      "producer_name_address": "Brewed and bottled by Harbor Lights Brewing Co., Seattle, Washington",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "12 FL. OZ. (355 mL) · 5.2% Alc./Vol. · Pale Ale"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "statement (2) is forced onto a new line rather than running on after statement (1); no wording change"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Clean flat vector-style artwork on white, no glare, blur, angle or curvature. Cream panels with dark-green double keylines; the front carries a dark-green lighthouse engraving.",
+      "notes": "US domestic brewer address (Seattle, Washington), so imported is false. Warning heading is dark green and bold; the body is near-black regular weight. Net contents are given in both US and metric units. Back panel footer repeats net contents, ABV and class.",
+      "imageSha256": "421610adf8f1f08014884627322fb35f464bcfbcb50f117a27bdd57d794499f7"
+    },
+    {
+      "filename": "Test_TTB_Image_0032.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BOTANIST'S SECRET",
+      "class_type": "London Dry Gin",
+      "abv_statement": "47% Alc./Vol. (94 Proof)",
+      "abv_percent": 47,
+      "proof_statement": "94 Proof",
+      "net_contents": "1 Liter",
+      "producer_name_address": "Distilled & bottled by Botanist's Secret Distillery, London.",
+      "country_of_origin_statement": null,
+      "imported": null,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "body type is small relative to the bottle and centre-justified in a narrow measure, so line breaks fall mid-phrase",
+          "statements (1) and (2) are separated by a blank line into two paragraphs"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic render of two clear gin bottles (front label left, back label right) on a white marble surface against a marble backdrop, with soft reflections of both labels in the polished stone. Even diffuse lighting; mild bottle curvature at the label edges and slight softness in the small back-label type, but no glare over the warning. The mirrored reflection under the front bottle shows reversed text.",
+      "notes": "Same brand and product as Test_TTB_Image_0005/0006 (flat art) and Test_TTB_Image_0011 (bar-scene render), but this back label carries the warning in normal mixed case, unlike the all-caps front-panel treatment in 0011. Only the warning appears on the back panel; the front carries brand, class, ABV, proof, net contents and the responsibility statement. Internal inconsistency in the mockup: the left bottle has a green capsule and the right bottle a black cap, so the two shots do not depict the same finished package. As with 0005/0006, the address is London (United Kingdom) but no importer statement and no country-of-origin statement is printed anywhere, so 'imported' cannot be determined from the pixels.",
+      "imageSha256": "82aab01022e9e75b8727a0a4f3abafdfa241dc67d31602a58bdce64891130b9b"
+    },
+    {
+      "filename": "Test_TTB_Image_0033.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "side"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "LARK & LUMEN",
+      "class_type": "ROSÉ",
+      "abv_statement": "13.0% Alc. by Vol.",
+      "abv_percent": 13.0,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Lark & Lumen Winery, Sonoma, California",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "SONOMA COAST",
+        "2022",
+        "VARIETAL: GRENACHE, SYRAH, CINSAULT",
+        "VINEYARDS: SONOMA COAST",
+        "HARVEST: SEPTEMBER 20xx (year digits compressed, unreadable)",
+        "FERMENTED IN STAINLESS STEEL",
+        "RESIDUAL SUGAR: 6.2 G/L"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Sur[geon] General, wome[n should not] d[rink] alcoholic bevera[ges] during pregnancy becau[se] of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate m[achinery], and may cause [...] health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": null,
+        "wording_defects": [
+          "cannot verify word-for-word: the right-hand third of every line is compressed into the bottle curve and is not resolvable at native resolution; readable fragments are consistent with the statutory text and both numbered sentences are present"
+        ],
+        "presentation_defects": [
+          "warning is on a narrow side/back strip that curves away from the camera, so line ends are foreshortened to a few pixels",
+          "very small type",
+          "low contrast dark-brown text on dusty pink label"
+        ],
+        "readability": "hard_to_read"
+      },
+      "image_quality_notes": "High-resolution (2778x4139) photorealistic render; front label is sharp and fully legible, but the adjacent right-hand panel wraps around the bottle so its text is progressively squeezed and blurred toward the silhouette edge. Soft directional light with window-blind shadows on a marble background; slight depth-of-field falloff at the panel edge.",
+      "notes": "AI-generated bottle mockup rather than a photo of a real bottle: the wrapped panel's letterforms degrade into plausible-looking but non-resolvable glyphs, a signature render artifact. No sulfite declaration is visible anywhere on the readable surfaces. The right-hand strip carries back-label content (government warning plus varietal/vineyard/harvest/fermentation/residual-sugar block). Trailing colon after GOVERNMENT WARNING cannot be confirmed because that character falls in the compressed zone.",
+      "imageSha256": "68f9446a61099544aa66d1f64f52baad87cf7fde6322fddd969c3b4f1a5b7b56"
+    },
+    {
+      "filename": "Test_TTB_Image_0034.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "IRON CREEK",
+      "class_type": "WILLAMETTE VALLEY PINOT NOIR",
+      "abv_statement": "13.8% Alc. by Vol.",
+      "abv_percent": 13.8,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Iron Creek Cellars, McMinnville, Oregon",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "2020",
+        "WILLAMETTE VALLEY (appellation, printed as part of the class/type line)",
+        "750 mL • 13.8% Alc. by Vol. • Willamette Valley Pinot Noir (back-label footer line)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Flat two-up label artwork on a white sheet, 4139x2778, perfectly square-on with no glare, blur or curvature. Slight paper-texture noise. Every character is crisp at full resolution.",
+      "notes": "Two label panels side by side with printed annotation captions above them ('FRONT / BRAND LABEL' and 'BACK LABEL') that are part of the artwork sheet, not label text. Front label: IRON CREEK / WILLAMETTE VALLEY PINOT NOIR / 2020 over a pen-and-ink river-and-conifers engraving, with a dark footer band carrying ABV, net contents and the producer line. Back label carries only the government warning plus a footer repeating net contents, ABV and class/type. No sulfite declaration appears on either panel, which would be a separate mandatory-information gap for a wine at this ABV. Warning heading and body both match the statutory text exactly, heading bold and body regular as required.",
+      "imageSha256": "c78d4226e0f91864940ed2004e089e00b2fc3de7f347db3dd38f1d997492da8e"
+    },
+    {
+      "filename": "Test_TTB_Image_0035.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "WHISPERING PINES ESTATE",
+      "class_type": "CALIFORNIA CABERNET SAUVIGNON",
+      "abv_statement": "13.5% Alc. by Vol.",
+      "abv_percent": 13.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Whispering Pines Estate, Napa, California.",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "CALIFORNIA (appellation, printed as part of the class/type line)",
+        "750 mL • 13.5% Alc. by Vol. • California Cabernet Sauvignon (back-label footer line)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Flat two-up label artwork on white, 4139x2778, square-on, no glare or blur. Text is smaller than in the comparable Iron Creek sheet but still fully crisp at full resolution.",
+      "notes": "Two label panels with artwork-sheet captions 'FRONT / BRAND LABEL' and 'BACK LABEL' above them; those captions are not label text. Front: WHISPERING PINES ESTATE over CALIFORNIA CABERNET SAUVIGNON with a pine-and-mountain engraving, then ABV, net contents and producer line inside a double green rule border. No vintage date appears. Back label carries the government warning centred in the upper half plus a footer repeating net contents, ABV and class/type; the rest of the panel is blank. No sulfite declaration on either panel, a separate mandatory-information gap for wine. Warning wording and typography are compliant: heading bold all caps with colon, body regular weight, both sentences verbatim.",
+      "imageSha256": "ecd8c73d2bba3c425fc2efc60382d5e9dd64ad3f727531741aeb77162e81e6ee"
+    },
+    {
+      "filename": "Test_TTB_Image_0036.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "CASA DE LUNA",
+      "class_type": "100% BLUE AGAVE REPOSADO TEQUILA",
+      "abv_statement": "40% Alc./Vol. (80 Proof)",
+      "abv_percent": 40.0,
+      "proof_statement": "80 Proof",
+      "net_contents": "750 mL.",
+      "producer_name_address": "Imported by Casa de Luna Spirits, Houston, Texas",
+      "country_of_origin_statement": "Hecho en México (front); Product of Mexico (back-label footer)",
+      "imported": true,
+      "other_mandatory_text": [
+        "Hecho en México",
+        "750 mL · 40% Alc./Vol. (80 Proof) · 100% Blue Agave Reposado Tequila · Product of Mexico (back-label footer line)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "sentences (1) and (2) are separated by a blank line into two paragraphs rather than running continuously; wording is unaffected"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Flat two-up label artwork on white, 4139x2778, square-on, no glare or blur. Very slight JPEG ringing around dark strokes at full zoom but every character is legible.",
+      "notes": "Artwork-sheet captions 'FRONT / BRAND LABEL' and 'BACK LABEL' sit above the panels and are not label text. Front: CASA DE LUNA in a serif display face over a two-line class/type block in red caps, a crescent-moon and agave engraving, then ABV with proof, net contents, importer line and 'Hecho en México'. Note net contents is printed with a trailing period as '750 mL.' The back label is otherwise empty apart from the warning and the footer line. Country of origin appears twice in different forms: Spanish on the front, English in the back footer. Warning heading and body wording are both exactly statutory; heading bold, body regular.",
+      "imageSha256": "c21ef19f4d9b8300635f5456b06dfc4d3641cb76fb537ec4f6a09b551580d6b8"
+    },
+    {
+      "filename": "Test_TTB_Image_0037.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "BOTANIST'S SECRET",
+      "class_type": "LONDON DRY GIN",
+      "abv_statement": "47% Alc./Vol. (94 Proof)",
+      "abv_percent": 47.0,
+      "proof_statement": "94 Proof",
+      "net_contents": "1 Liter",
+      "producer_name_address": "Distilled & bottled by Botanist's Secret Distillery, London",
+      "country_of_origin_statement": null,
+      "imported": true,
+      "other_mandatory_text": [
+        "1 Liter • 47% Alc./Vol. (94 Proof) • London Dry Gin (back-label footer line)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "reversed out white on dark green rather than the usual dark-on-light; contrast is still high and legibility is good"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Flat two-up label artwork on off-white, 4139x2778, square-on, no glare or blur. Mild JPEG halo around the reversed white type on the dark green back panel, but no character is ambiguous.",
+      "notes": "Artwork-sheet captions 'FRONT / BRAND LABEL' and 'BACK LABEL' sit above the panels and are not label text. Front: BOTANIST'S SECRET in two serif lines, LONDON DRY GIN between dash ornaments, a juniper-sprig-and-magnifying-glass engraving, then ABV with proof, net contents and the distiller line. The producer address is London, so this would be an imported product, yet no importer statement and no country of origin statement appear on either panel; both are mandatory-information gaps distinct from the warning. Warning heading bold all caps with colon, body regular weight reversed white, both sentences verbatim statutory.",
+      "imageSha256": "377339e49675a02812f284dce7948cb6c32a7f2edff32f8d94dad8fa4c63de85"
+    },
+    {
+      "filename": "Test_TTB_Image_0038.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "HARBOR LIGHTS",
+      "class_type": "Pale Ale",
+      "abv_statement": "5.2% Alc./Vol.",
+      "abv_percent": 5.2,
+      "proof_statement": null,
+      "net_contents": "12 FL. OZ. (355 mL)",
+      "producer_name_address": "Brewed and bottled by Harbor Lights Brewing Co. Seattle, Washington",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "small centred type reversed white on dark green, printed on a curved bottle so lines bow and soften toward both edges",
+          "sentences (1) and (2) split into two paragraphs by a blank line"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic render of two green longneck bottles on a bar counter with a bokeh back-bar behind them, 4139x2778. Condensation droplets sit over the labels, the glass curvature bows every text line, and depth of field softens the label edges. Both labels are still legible word for word at full zoom, though the back label's small body type is at the edge of resolution.",
+      "notes": "Two bottles of the same product staged to show the front label (left) and the back label (right); this is a render, not a photo of a real bottle, but the text stays coherent and readable throughout, unlike the garbled-glyph renders elsewhere in this set. Front carries brand, class/type, ABV, net contents in dual units, and the brewer name and address. Back carries only the government warning. No country of origin statement, which is expected for a domestic malt beverage.",
+      "imageSha256": "1870ec708df571ad1b9255207e6d1a2fd9e2278d098f3eb10c7cd199afe85232"
+    },
+    {
+      "filename": "Test_TTB_Image_0039.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "WHISPERING PINES ESTATE",
+      "class_type": "California Cabernet Sauvignon",
+      "abv_statement": "13.5% Alc. by Vol.",
+      "abv_percent": 13.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Whispering Pines Estate Napa, California",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "California (appellation, printed as part of the class/type line)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "printed on a curved bottle so lines bow slightly and soften toward the left and right edges",
+          "sentences (1) and (2) set as two separate paragraphs"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic render of two dark wine bottles on a wood surface against a plain grey backdrop, 4139x2778. Soft studio light with a broad specular highlight down the centre of each label; slight barrel distortion from the bottle curve and mild upscaling softness in the small type. All text is nonetheless resolvable word for word at full zoom.",
+      "notes": "Same brand and label design as the flat artwork in Test_TTB_Image_0035.jpg but staged as a bottle mockup, with the layout reflowed: here the class/type sits below the pine engraving and ABV and net contents share one line. Left bottle shows the front, right bottle shows the back, which carries the government warning only. No vintage and no sulfite declaration anywhere. A comma may or may not follow 'Estate' at the end of the producer line; the glyph at that position is not resolvable, so the producer string is recorded without it.",
+      "imageSha256": "8e06132a6fc1b851c5df2d9130ca3a3f834abf53a001506221cfaadfe07ca3ad"
+    },
+    {
+      "filename": "Test_TTB_Image_0040.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "CASA DE LUNA",
+      "class_type": "100% Blue Agave Reposado Tequila",
+      "abv_statement": "40% Alc./Vol. (80 Proof)",
+      "abv_percent": 40.0,
+      "proof_statement": "80 Proof",
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Casa de Luna Spirits, Houston, Texas",
+      "country_of_origin_statement": "Hecho en México",
+      "imported": true,
+      "other_mandatory_text": [
+        "Hecho en México"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "printed on a curved bottle so lines bow and the right ends of the long lines soften near the label edge",
+          "sentences (1) and (2) separated by a blank line"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic render of two amber apothecary-style bottles with cork stoppers on terracotta tile, 4139x2778. Warm ambient light, mild specular sheen across both labels, and noticeable resampling softness in the small back-label type; every word is still resolvable at full zoom.",
+      "notes": "Same brand and content as the flat artwork in Test_TTB_Image_0036.jpg but staged as a bottle mockup with a reflowed layout: brand and class/type stacked at the top, agave-and-crescent-moon engraving in the middle, and ABV with proof sharing a line with net contents at the bottom. Unlike the flat artwork, this back label has no footer line, so 'Product of Mexico' does not appear; the only country of origin statement is the Spanish 'Hecho en México' on the front. Net contents here is '750 mL' with no trailing period, unlike the flat artwork's '750 mL.'",
+      "imageSha256": "e095eedff01c6c18fc4ea9d64b81c6a22d420ee1a1b40fd9cf2abf0cfce98edb"
+    },
+    {
+      "filename": "Test_TTB_Image_0041.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "CRYSTAL TUNDRA",
+      "class_type": "DISTILLED VODKA",
+      "abv_statement": "40% ALC./VOL. (80 Proof)",
+      "abv_percent": 40.0,
+      "proof_statement": "80 Proof",
+      "net_contents": "1.75 L",
+      "producer_name_address": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "1.75 L · 40% ALC./VOL. (80 Proof) · Distilled Vodka (back-label footer line)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "sentences (1) and (2) set as two paragraphs separated by a blank line",
+          "heading is printed in navy while the body is black, so the heading is set off by colour as well as weight"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Flat two-up label artwork on white, 4139x2778, square-on, no glare or blur. Mild JPEG softening on the thin navy rules; all text is crisp.",
+      "notes": "Artwork-sheet captions 'FRONT / BRAND LABEL' and 'BACK LABEL' sit above the panels and are not label text. Front: CRYSTAL TUNDRA on two lines, DISTILLED VODKA between dash ornaments, a snowflake-over-mountains line illustration, then ABV with proof, net contents, and the distiller line, inside a rounded double navy border. Back carries the warning plus a footer repeating net contents, ABV and class/type. Note the ABV unit case differs between the front block (ALC./VOL. in caps) and typical labels; both places on this sheet print it the same way.",
+      "imageSha256": "4d10941df2f3854079e39227ca2a0ebc613fd0f7e58916684569905288df8ea9"
+    },
+    {
+      "filename": "Test_TTB_Image_0042.jpg",
+      "image_kind": "rendered_label_art",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "OLD FERRY",
+      "class_type": "AGED RUM",
+      "abv_statement": "40% Alc./Vol. (80 Proof)",
+      "abv_percent": 40.0,
+      "proof_statement": "80 Proof",
+      "net_contents": "1 Liter",
+      "producer_name_address": "Distilled and bottled by Old Ferry Rum Co., Charleston, South Carolina",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "1 Liter • 40% Alc./Vol. (80 Proof) • Aged Rum (back-label footer line)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "Please drink responsibly. Women who are pregnant should consider avoiding alcohol. Drinking and driving is dangerous and alcohol may affect your health.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "entire body is a paraphrase; none of the statutory wording is used",
+          "numbered sentence markers (1) and (2) are both missing",
+          "missing the attribution 'According to the Surgeon General'",
+          "sentence 1 replaced by 'Women who are pregnant should consider avoiding alcohol', which softens the mandatory 'should not drink alcoholic beverages during pregnancy' into optional advice and drops 'because of the risk of birth defects'",
+          "sentence 2 replaced by 'Drinking and driving is dangerous and alcohol may affect your health', which drops 'Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery' and drops 'may cause health problems' in favour of the weaker 'may affect your health'",
+          "adds an extra opening sentence not in the statute: 'Please drink responsibly.'"
+        ],
+        "presentation_defects": [
+          "body is centred rather than set as running text, which is cosmetic only"
+        ],
+        "readability": "clear"
+      },
+      "image_quality_notes": "Flat two-up label artwork on white, 4139x2778, square-on, no glare or blur. All text crisp at full resolution.",
+      "notes": "This is the clearest deliberately non-compliant warning in this group: the heading is correct and correctly formatted, but the body has been rewritten into a soft responsible-drinking paraphrase that shares almost no wording with the statutory text. Front: OLD FERRY / AGED RUM in two navy display lines, a steam-ferry engraving over a rope-and-knot ornament, then ABV with proof, net contents and the distiller line between gold rules. Artwork-sheet captions 'FRONT / BRAND LABEL' and 'BACK LABEL' are not label text. Brand is taken as OLD FERRY and class/type as AGED RUM because the back footer lists 'Aged Rum' as the class designation.",
+      "imageSha256": "ebf718813ee6794016da32ede084e71750c84ab10c12042c5ad66cd4324b1bb0"
+    },
+    {
+      "filename": "uqgyU.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "malt_beverage",
+      "brand_name": "HARBOR LIGHTS",
+      "class_type": "Pale Ale",
+      "abv_statement": "5.2% Alc./Vol.",
+      "abv_percent": 5.2,
+      "proof_statement": null,
+      "net_contents": "12 FL. OZ. (355 mL)",
+      "producer_name_address": "Brewed and bottled by Harbor Lights Brewing Co. Seattle, Washington",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "small centred type reversed white on dark green, printed on a curved bottle so lines bow and soften toward both edges",
+          "sentences (1) and (2) split into two paragraphs by a blank line"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic render of two green longneck bottles on a bar counter with a bokeh back-bar behind them, 4139x2778. Condensation droplets over the labels, bottle curvature bowing every text line, and depth-of-field softness at the label edges. All text still resolvable word for word at full zoom.",
+      "notes": "Visually the same image as Test_TTB_Image_0038.jpg. I compared the two files pixel by pixel after EXIF transposition: same dimensions (4139x2778), maximum per-channel difference 8 of 255 and mean difference 0.005, so they are the same render saved at slightly different JPEG quality, not different photographs. The MD5 hashes differ (b50b893f... vs 81c22d2a...), so they are distinct files. Every field here was read independently from this file's own pixels and matches. Two bottles staged to show front and back; back carries only the government warning.",
+      "imageSha256": "43984db2ed8e3b36ef37b2e6876a99c5bf5cf7aa74abe578cdc27d4acaeb4880"
+    },
+    {
+      "filename": "Vodka_Back.jpg",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "back",
+        "neck"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": null,
+      "class_type": null,
+      "abv_statement": null,
+      "abv_percent": null,
+      "proof_statement": null,
+      "net_contents": null,
+      "producer_name_address": "DISTILLED & BOTTLED BY HAWAII SEA SPIRITS LLC IN KULA, MAUI, HAWAII",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "USDA ORGANIC seal (graphic)",
+        "GLUTEN FREE seal (graphic)",
+        "IA REF 5¢",
+        "CA CRV 10¢",
+        "ME, VT REF 15¢",
+        "CERTIFIED ORGANIC BY: OTCO",
+        "100% NEUTRAL SPIRITS DISTILLED FROM ORGANIC SUGAR CANE",
+        "www.oceanvodka.com"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": "uncertain",
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL. WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "word sequence matches the statutory text exactly; the deviations are typographic",
+          "body is set entirely in capital letters instead of the statutory mixed case",
+          "the mark after 'SURGEON GENERAL' reads as a period rather than the statutory comma at maximum zoom, but at this resolution commas elsewhere in the same block (for example after MACHINERY) also render as small round dots, so this cannot be settled from these pixels"
+        ],
+        "presentation_defects": [
+          "measured stroke-width-to-cap-height ratio of the heading (0.098) falls inside the range measured across the body lines (0.087 to 0.105), so the heading is about 15 percent larger than the body but is not measurably heavier; it does not read as clearly bold",
+          "screen printed white ink directly on curved opaque blue glass, so lines bow and the ink is worn or scuffed in places",
+          "small type on a strongly curved surface"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Handheld indoor photo, 2400x3200 portrait, of the reverse of a round flask-shaped opaque blue bottle on a granite counter, kitchen backsplash and electrical outlet behind. Even ambient light, no hard glare over the text, but the sphere-like body curves away sharply at both sides and the printed ink shows scuffing and wear. Slight softness overall from handheld capture.",
+      "notes": "Back panel of the same OCEAN organic vodka bottle photographed in Vodka_Front.jpg. No brand name, class/type, ABV, proof or net contents appears on this panel; all of those are on the front, so those fields are null here rather than absent from the product. The brand can only be inferred from the URL www.oceanvodka.com, which I did not use as the brand value. Container-deposit lines for IA, CA, ME and VT are present, along with USDA Organic and Gluten Free seals, an organic certifier line and a composition statement. An inkjet dot-matrix lot or date code is printed sideways on the neck and is not legible. The warning body is the full statutory wording but set entirely in capitals.",
+      "imageSha256": "2bf1fa9063db0ed5553d6eeb58892ddc9eb08b2f0355b260b5105d4a96282c94"
+    },
+    {
+      "filename": "Vodka_Front.jpg",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "front",
+        "neck"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "OCEAN",
+      "class_type": "Organic Vodka",
+      "abv_statement": "40% ALC/VOL",
+      "abv_percent": 40.0,
+      "proof_statement": "80 PROOF",
+      "net_contents": "750ML",
+      "producer_name_address": null,
+      "country_of_origin_statement": null,
+      "imported": null,
+      "other_mandatory_text": [
+        "750ML 40% ALC/VOL 80 PROOF (net contents, ABV and proof printed as one line)"
+      ],
+      "warning": {
+        "present": false,
+        "heading_as_printed": null,
+        "heading_all_caps": null,
+        "heading_bold": null,
+        "body_as_printed": null,
+        "body_bold": null,
+        "body_all_caps": null,
+        "body_matches_statutory_text_exactly": null,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "unreadable"
+      },
+      "image_quality_notes": "Handheld indoor photo, 2400x3200 portrait, of a round flask-shaped opaque blue bottle with a wood-topped stopper on a granite counter; a kitchen with a ceiling fan, plant and electrical outlet is visible behind. Even ambient light with no hard glare on the printed text, but the bottle is strongly curved so the printing wraps and the surface has heavy white scuffing and handling marks. Mild motion softness overall.",
+      "notes": "Front panel only. The brand OCEAN is debossed into the blue glass with no ink, so it reads as a tone-on-tone relief rather than printed text and could easily be missed by OCR. Printed in white on the body are 'Organic Vodka' and, below it, a single combined line '750ML 40% ALC/VOL 80 PROOF'. No government warning, no producer or bottler name and address, and no country of origin statement appear on this panel; those would be on the reverse, photographed separately as Vodka_Back.jpg. A small dark date or lot code is printed on the neck but is too small and low-contrast to read. 'imported' is left null because nothing on this panel indicates origin.",
+      "imageSha256": "827e76f503592ea6f9a4080ca35e9059915e146af1cf8b45b8e8f682cdf13527"
+    },
+    {
+      "filename": "wKE1J.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "WHISPERING PINES ESTATE",
+      "class_type": "California Cabernet Sauvignon",
+      "abv_statement": "13.5% Alc. by Vol.",
+      "abv_percent": 13.5,
+      "proof_statement": null,
+      "net_contents": "750 mL",
+      "producer_name_address": "Produced and bottled by Whispering Pines Estate Napa, California",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "California (appellation, printed as part of the class/type line)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "printed on a curved bottle so lines bow slightly and soften toward the edges",
+          "sentences (1) and (2) set as two separate paragraphs"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic render of two dark wine bottles on a wood surface against a plain grey backdrop, 4139x2778. Soft studio light with a broad specular highlight down each label, slight barrel distortion from the bottle curve, mild upscaling softness in the small type. All text resolvable at full zoom.",
+      "notes": "Visually the same image as Test_TTB_Image_0039.jpg. I compared the two files pixel by pixel after EXIF transposition: same dimensions (4139x2778), maximum per-channel difference 7 of 255 and mean difference 0.002, so they are the same render saved at slightly different JPEG quality. The MD5 hashes differ (2937ffec... vs 8e1c8cb5...), so they are distinct files. All fields here were read from this file's own pixels. Left bottle front, right bottle back; the back carries the government warning only. No vintage and no sulfite declaration. A comma may or may not follow 'Estate' on the producer line; that glyph is not resolvable, so it is recorded without one.",
+      "imageSha256": "e920faba150f0ad6ab5a78bb9bed276184d493dc53df92603d422564a4525adb"
+    },
+    {
+      "filename": "XjPpA.jpg",
+      "image_kind": "rendered_bottle_mockup",
+      "panels_visible": [
+        "front",
+        "back"
+      ],
+      "beverage_type": "distilled_spirits",
+      "brand_name": "CASA DE LUNA",
+      "class_type": "100% Blue Agave Reposado Tequila",
+      "abv_statement": "40% Alc./Vol. (80 Proof)",
+      "abv_percent": 40.0,
+      "proof_statement": "80 Proof",
+      "net_contents": "750 mL",
+      "producer_name_address": "Imported by Casa de Luna Spirits, Houston, Texas",
+      "country_of_origin_statement": "Hecho en México",
+      "imported": true,
+      "other_mandatory_text": [
+        "Hecho en México"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.\n\n(2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+        "body_bold": false,
+        "body_all_caps": false,
+        "body_matches_statutory_text_exactly": true,
+        "wording_defects": [],
+        "presentation_defects": [
+          "printed on a curved bottle so lines bow and the right ends of long lines soften near the label edge",
+          "sentences (1) and (2) separated by a blank line"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Photorealistic render of two amber apothecary-style bottles with cork stoppers on terracotta tile, 4139x2778. Warm ambient light, mild specular sheen on both labels, noticeable resampling softness in the small back-label type; every word resolvable at full zoom.",
+      "notes": "Visually the same image as Test_TTB_Image_0040.jpg. I compared the two files pixel by pixel after EXIF transposition: same dimensions (4139x2778), maximum per-channel difference 11 of 255 and mean difference 0.006, so they are the same render saved at slightly different JPEG quality. The MD5 hashes differ (35eada24... vs 851c7184...), so they are distinct files. All fields here were read from this file's own pixels. Back label carries only the government warning with no footer line, so the only country of origin statement is the Spanish 'Hecho en México' on the front.",
+      "imageSha256": "6f52d8398eadb580c3ae9e94266d595d7653107ee7de7b65745a183f87ce7a9b"
+    },
+    {
+      "filename": "XXL_Back.jpg",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "back",
+        "neck"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "XXL",
+      "class_type": "GRAPE WINE WITH NATURAL FLAVORS",
+      "abv_statement": "ALC. 16% BY VOL.",
+      "abv_percent": 16.0,
+      "proof_statement": null,
+      "net_contents": "750ML",
+      "producer_name_address": "CELLARED AND BOTTLED BY XXL WINES, NAPA, CALIFORNIA",
+      "country_of_origin_statement": null,
+      "imported": false,
+      "other_mandatory_text": [
+        "CONTAINS SULFITES",
+        "STRAWBERRY",
+        "GRAPE WINE WITH NATURAL FLAVORS",
+        "5¢ IA",
+        "15¢ ME",
+        "CA CRV (boxed)",
+        "UPC barcode 7 63955 01600 6",
+        "QR code",
+        "recycling mark",
+        "MORE INTENSITY (circular badge on the label, partly legible)"
+      ],
+      "warning": {
+        "present": true,
+        "heading_as_printed": "GOVERNMENT WARNING:",
+        "heading_all_caps": true,
+        "heading_bold": true,
+        "body_as_printed": "(1) ACCORDING TO THE SURGEON GENERAL, WOMEN SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY BECAUSE OF THE RISK OF BIRTH DEFECTS. (2) CONSUMPTION OF ALCOHOLIC BEVERAGES IMPAIRS YOUR ABILITY TO DRIVE A CAR OR OPERATE MACHINERY, AND MAY CAUSE HEALTH PROBLEMS.",
+        "body_bold": false,
+        "body_all_caps": true,
+        "body_matches_statutory_text_exactly": false,
+        "wording_defects": [
+          "word sequence and punctuation match the statutory text exactly; the only deviation is typographic",
+          "body is set entirely in capital letters instead of the statutory mixed case"
+        ],
+        "presentation_defects": [
+          "heading runs inline with the body on the same line rather than standing on its own line, so the warning block is not visually separated from the surrounding label copy",
+          "the block sits immediately below the producer line with no rule or spacing to set it apart",
+          "small condensed type, roughly the same size as the surrounding mandatory copy"
+        ],
+        "readability": "small_but_readable"
+      },
+      "image_quality_notes": "Handheld indoor photo, 2400x3200 portrait, of the reverse of a clear glass wine bottle of dark red liquid on a kitchen counter with a tiled backsplash and electrical outlet behind. Soft even ambient light, no glare on the white back label. The label wraps the round bottle so its left and right thirds foreshorten sharply and the text curves; the leftmost column (deposit codes, CONTAINS SULFITES, 750ML, CA CRV) is the most distorted but is still readable when cropped. Bottle-bottom embossing is in shadow.",
+      "notes": "Back panel of the bottle photographed from the front in XXL_Front.jpg. Reading from the top of the label: the red XXL wordmark on black with a circular 'MORE INTENSITY' badge, then STRAWBERRY, then ALC. 16% BY VOL., then a white block carrying the producer line, the government warning, the class designation 'GRAPE WINE WITH NATURAL FLAVORS', a left-hand column of container deposit codes plus CONTAINS SULFITES and the 750ML net contents, and a UPC barcode with a QR code and recycling mark. The heading is unambiguously bold here: its strokes are visibly heavier than the body at the same cap height. The warning body carries the full statutory wording with the correct comma after SURGEON GENERAL, but is set entirely in capitals and runs on from the heading in the same paragraph.",
+      "imageSha256": "a3db68913b57b39b36a54ab1fd61d8221665d252e3db8293c8ff1b4863ac3624"
+    },
+    {
+      "filename": "XXL_Front.jpg",
+      "image_kind": "photo_of_real_bottle",
+      "panels_visible": [
+        "front",
+        "neck"
+      ],
+      "beverage_type": "wine",
+      "brand_name": "XXL",
+      "class_type": null,
+      "abv_statement": "ALC. 16% BY VOL.",
+      "abv_percent": 16.0,
+      "proof_statement": null,
+      "net_contents": null,
+      "producer_name_address": null,
+      "country_of_origin_statement": null,
+      "imported": null,
+      "other_mandatory_text": [
+        "16",
+        "STRAWBERRY & GRAPES",
+        "Plump red strawberries combine to create a decadent ripe sweet experience.",
+        "More flavor, more intensity",
+        "WITHOUT MANNERS"
+      ],
+      "warning": {
+        "present": false,
+        "heading_as_printed": null,
+        "heading_all_caps": null,
+        "heading_bold": null,
+        "body_as_printed": null,
+        "body_bold": null,
+        "body_all_caps": null,
+        "body_matches_statutory_text_exactly": null,
+        "wording_defects": [],
+        "presentation_defects": [],
+        "readability": "unreadable"
+      },
+      "image_quality_notes": "Handheld indoor photo, 2400x3200 portrait, of a clear glass wine bottle of dark red liquid standing on a kitchen counter, tiled backsplash and an electrical outlet behind. Even soft ambient light with no blown highlights on the label; the label is a matte black paper stock so the white and red printing has good contrast. Slight softness at the label edges from the bottle curve. The bottle bottom sits in its own shadow.",
+      "notes": "Front panel only, of the same bottle photographed from the back in XXL_Back.jpg. Printed on the front label: the red XXL wordmark, '16' between two red dashes, 'STRAWBERRY & GRAPES', a three-line marketing description, the italic line 'More flavor, more intensity', a red dash rule, 'WITHOUT MANNERS' and 'ALC. 16% BY VOL.'. No government warning, no net contents, no producer name and address and no class or type designation appear on this panel; 'STRAWBERRY & GRAPES' is a flavor descriptor, not a class designation, so class_type is left null. XXL is also debossed into the glass shoulder above the label and again near the base. The black shrink capsule carries a repeating wraparound slogan of which only '...TY MORE FL...' is facing the camera. Molded text is embossed into the glass near the bottom but is unreadable through the dark liquid even after contrast enhancement. Beverage type is taken as wine from the 'GRAPES' reference plus a 16 percent ABV, both read from this panel.",
+      "imageSha256": "6dd2fde242741a6faca55ad10b51d860ea9a66d42d90ec89dd5a88346771926d"
+    }
+  ]
+}

@@ -7,12 +7,12 @@
       "oraclePath": "fixtures/oracle/development/D001.json",
       "panels": [
         {
-          "bytes": 91856,
+          "bytes": 91932,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D001/panels/panel-1.png",
-          "sha256": "585c111b424b110cb92f85e66a669a6c0091e59b4bb015eca6061e80819a25f9",
+          "sha256": "b316b6130b9dfb197609eb29ff375bded244a8fca75c5b580004ccb843cbe758",
           "width": 1200
         }
       ],
@@ -34,12 +34,12 @@
       "oraclePath": "fixtures/oracle/development/D002.json",
       "panels": [
         {
-          "bytes": 91794,
+          "bytes": 91878,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D002/panels/panel-1.png",
-          "sha256": "f930951e6272cbe94bc8efb14c9c33f8117790bedae463db8e1949c9538d9d3b",
+          "sha256": "3316a21184ad0ed025f18055dde6083d855e46b53b0c98908faf488e8e40909e",
           "width": 1200
         }
       ],
@@ -61,12 +61,12 @@
       "oraclePath": "fixtures/oracle/development/D003.json",
       "panels": [
         {
-          "bytes": 88785,
+          "bytes": 88861,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D003/panels/panel-1.png",
-          "sha256": "db39fca5995c0da7a64aed02fd124aa552e85688f8ed97763a74ba0944ac7f16",
+          "sha256": "09f1f38628a20c4b9bfc37249c236b39fd4a41aa46d8456f55f6d423fc124e1b",
           "width": 1200
         }
       ],
@@ -89,12 +89,12 @@
       "oraclePath": "fixtures/oracle/development/D004.json",
       "panels": [
         {
-          "bytes": 92902,
+          "bytes": 93011,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D004/panels/panel-1.png",
-          "sha256": "befe385b14c60344fec0801a5549dfe7ec5e30f05cd1ec27f3e9ed2339a83247",
+          "sha256": "036ca5c2eb833dd99b7e3591fdad7ea0dfa6afc05087209099116aeff2531fcc",
           "width": 1200
         }
       ],
@@ -115,12 +115,12 @@
       "oraclePath": "fixtures/oracle/development/D005.json",
       "panels": [
         {
-          "bytes": 86241,
+          "bytes": 86345,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D005/panels/panel-1.png",
-          "sha256": "5f4a3ab7fc0de053b82bfde865a28fa66781cd3c62d243843acf9b18d4f4f2d0",
+          "sha256": "5f4c7625394c9a00d061d23ee84c2c3d965ffbcb62057aba0d74373a6ca39294",
           "width": 1200
         }
       ],
@@ -141,12 +141,12 @@
       "oraclePath": "fixtures/oracle/development/D006.json",
       "panels": [
         {
-          "bytes": 91459,
+          "bytes": 91540,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D006/panels/panel-1.png",
-          "sha256": "765f5d5c9d3c96913f17f14b2868858416de9dc542dab044e7799aedb3293157",
+          "sha256": "87b6d12194829ae885244058de16e74b469de7fc009413b6005bcf70fd12117b",
           "width": 1200
         }
       ],
@@ -169,12 +169,12 @@
       "oraclePath": "fixtures/oracle/development/D007.json",
       "panels": [
         {
-          "bytes": 96176,
+          "bytes": 96283,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D007/panels/panel-1.png",
-          "sha256": "ddf8ac493f1028a7f7ff34556d61a9764923268eb41720579cabc40f4ae282a0",
+          "sha256": "cd5811a3083704749b6d2ad680d3deadb356394cbae4494dc6e3224c7940b066",
           "width": 1200
         }
       ],
@@ -196,12 +196,12 @@
       "oraclePath": "fixtures/oracle/development/D008.json",
       "panels": [
         {
-          "bytes": 84191,
+          "bytes": 84374,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D008/panels/panel-1.png",
-          "sha256": "8eb73080b04aca8053f5b7f947a6fa7af3a20540ada6098ce93da8a4c67de402",
+          "sha256": "1abd6301a3c412329a360e5501bdeaeb765602a55320030c5b5ab63a48e0177a",
           "width": 1200
         }
       ],
@@ -233,12 +233,12 @@
           "width": 1200
         },
         {
-          "bytes": 72480,
+          "bytes": 72586,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-2",
           "path": "fixtures/development/cases/D009/panels/panel-2.png",
-          "sha256": "4e6624bf8de4f6b40ea321f5a24fc7f91bbdf005a7fd3283f34cfa2a560dff9b",
+          "sha256": "3f98bf80bf406b506d82bd1e368a5b7c4f0273cba81e3f53346aef3dc1a9494c",
           "width": 1200
         },
         {
@@ -316,12 +316,12 @@
       "oraclePath": "fixtures/oracle/development/D011.json",
       "panels": [
         {
-          "bytes": 92490,
+          "bytes": 92565,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D011/panels/panel-1.png",
-          "sha256": "b9cbb471b78d3bbc420c30ac7bfb222a951b09a629f11fc549b1a23d56a37e2b",
+          "sha256": "b8a435fe45c7eaaf9575afaeb70e48091dabf591cf73d064f81511f2b0354da2",
           "width": 1200
         }
       ],
@@ -343,12 +343,12 @@
       "oraclePath": "fixtures/oracle/development/D012.json",
       "panels": [
         {
-          "bytes": 90062,
+          "bytes": 90144,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D012/panels/panel-1.png",
-          "sha256": "bc2b65c31d2fe60cf9a8fbac46568d2f19acc10f0d5a6ab4618f2909db0ca4a3",
+          "sha256": "7bbf80a8af9649a6da1226fb2ada98b1169a7d17e19b930cd43133957df0b39e",
           "width": 1200
         }
       ],
@@ -370,12 +370,12 @@
       "oraclePath": "fixtures/oracle/development/D013.json",
       "panels": [
         {
-          "bytes": 107700,
+          "bytes": 107771,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D013/panels/panel-1.png",
-          "sha256": "4fbc1ca36933b356d278fd804965223f9e9ee230bf6112e8c3fae2f8d75d195f",
+          "sha256": "862793d507a1e29ec1d4c4270724d0ee9631fe8f8c26dfc7b9a2d473db8ce1fb",
           "width": 1200
         }
       ],
@@ -397,12 +397,12 @@
       "oraclePath": "fixtures/oracle/development/D014.json",
       "panels": [
         {
-          "bytes": 91877,
+          "bytes": 91951,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D014/panels/panel-1.png",
-          "sha256": "cf4124236ba2a46b356429eb7888980af7d62bb5ba9d946e761e04c101a1b8fd",
+          "sha256": "1d80651abefeadabff4c514619537c376bce4a9009a268a7d34b1d6d9b45e652",
           "width": 1200
         }
       ],
@@ -425,12 +425,12 @@
       "oraclePath": "fixtures/oracle/development/D015.json",
       "panels": [
         {
-          "bytes": 100652,
+          "bytes": 100723,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D015/panels/panel-1.png",
-          "sha256": "6845ef3bd9b1f2cb01ad31228da26ae790faf962830ccbb6c2db26816da6365b",
+          "sha256": "c0d7011b05524bb4f3550d65f1bc90477167152c0e4aaaf09deabbcc6b44bd48",
           "width": 1200
         }
       ],
@@ -452,12 +452,12 @@
       "oraclePath": "fixtures/oracle/development/D016.json",
       "panels": [
         {
-          "bytes": 96433,
+          "bytes": 96346,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D016/panels/panel-1.png",
-          "sha256": "41ed014b900713c2fcec3bf7d585b7cad03c92ba35574cab455caa4853f812b9",
+          "sha256": "76ee7c07be0d3b61cc33a67b67841d1efdb61debc100e51a8ae4690b311343ab",
           "width": 1200
         }
       ],
@@ -479,12 +479,12 @@
       "oraclePath": "fixtures/oracle/development/D017.json",
       "panels": [
         {
-          "bytes": 225058,
+          "bytes": 225683,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D017/panels/panel-1.png",
-          "sha256": "e439ea7db04065e71ffc4b04f0b8e25461e4ee39d618193ad3fec631fe467f8d",
+          "sha256": "fca89081659d37db2a183f3cd0ca61bf4208842a0b57a512657a52eb8b5f4474",
           "width": 1200
         }
       ],
@@ -688,12 +688,12 @@
       "oraclePath": "fixtures/oracle/development/D023.json",
       "panels": [
         {
-          "bytes": 306888,
+          "bytes": 306941,
           "height": 3000,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D023/panels/panel-1.png",
-          "sha256": "3565cdb142826101edf001c0553f6cf10f4807dc497cb6c2910b8441b2a2cf2c",
+          "sha256": "1d30f518b8c97ac7db8a6a66d442263e9f028ad594ab5d5f26c6131d43000872",
           "width": 4001
         }
       ],
@@ -715,12 +715,12 @@
       "oraclePath": "fixtures/oracle/development/D024.json",
       "panels": [
         {
-          "bytes": 91856,
+          "bytes": 91932,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/development/cases/D024/panels/panel-1.png",
-          "sha256": "585c111b424b110cb92f85e66a669a6c0091e59b4bb015eca6061e80819a25f9",
+          "sha256": "b316b6130b9dfb197609eb29ff375bded244a8fca75c5b580004ccb843cbe758",
           "width": 1200
         }
       ],
@@ -751,12 +751,12 @@
           "width": 1200
         },
         {
-          "bytes": 72480,
+          "bytes": 72586,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-2",
           "path": "fixtures/holdout/cases/H001/panels/panel-2.png",
-          "sha256": "4e6624bf8de4f6b40ea321f5a24fc7f91bbdf005a7fd3283f34cfa2a560dff9b",
+          "sha256": "3f98bf80bf406b506d82bd1e368a5b7c4f0273cba81e3f53346aef3dc1a9494c",
           "width": 1200
         },
         {
@@ -788,12 +788,12 @@
       "oraclePath": "fixtures/oracle/holdout/H002.json",
       "panels": [
         {
-          "bytes": 89431,
+          "bytes": 89498,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/holdout/cases/H002/panels/panel-1.png",
-          "sha256": "0612c359f423230870fd81e00ee32d7ad15ed757a6acd57ce5518b60428f998f",
+          "sha256": "94649c2777b5e3f0b731ffa23ab1d407b6611eaa5b9e8ee70b19637d554ada3a",
           "width": 1200
         }
       ],
@@ -824,12 +824,12 @@
           "width": 1200
         },
         {
-          "bytes": 72622,
+          "bytes": 72729,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-2",
           "path": "fixtures/holdout/cases/H003/panels/panel-2.png",
-          "sha256": "ceb48de180e296e00523a254e495e3cdafb1e9bb2d5bf4081f5735271afb0d76",
+          "sha256": "fa08270474d6055097a41c413340a986a13161369b59a8d9693d27eead34e6a9",
           "width": 1200
         },
         {
@@ -861,12 +861,12 @@
       "oraclePath": "fixtures/oracle/holdout/H004.json",
       "panels": [
         {
-          "bytes": 81880,
+          "bytes": 81951,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/holdout/cases/H004/panels/panel-1.png",
-          "sha256": "b872454c718b3220115bc1e723029dce9486efda07b3bfc521b49a267b6cc9d9",
+          "sha256": "5f1305da51aeb8dc0e0371983dbb46ac1bc4c525aefb254e811e2cde6735a0c5",
           "width": 1200
         }
       ],
@@ -889,12 +889,12 @@
       "oraclePath": "fixtures/oracle/holdout/H005.json",
       "panels": [
         {
-          "bytes": 87804,
+          "bytes": 87879,
           "height": 1600,
           "mimeType": "image/png",
           "panelId": "panel-1",
           "path": "fixtures/holdout/cases/H005/panels/panel-1.png",
-          "sha256": "f192356fbea1b92c6dbacf70869500ac51735a0b7b8429dd4c18810370c07df6",
+          "sha256": "3ec8086c25a9e00694e574ecf56ed5a01077c18074043be6fb4072440168a08d",
           "width": 1200
         }
       ],
@@ -941,7 +941,7 @@
   "contractHashes": {
     "api-contract-v1.json": "2753b5fd2a5e6f9e6c32f2d321079cac0bfdc1660fc1a245bc38036cb451dc30",
     "error-registry-v1.json": "0e78225cbee9ae166e5d5154a231cf302051ffbb4ddc9dfc1b9a2624d9993b65",
-    "regulatory-rules-v1.json": "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149",
+    "regulatory-rules-v1.json": "b50dd2a682d0138ccf984d3bc886d565ae27cc9902c91773c40c65502a541fe1",
     "selected-check-registry-v1.json": "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
   },
   "corpusId": "labelverify-fixtures-v1",

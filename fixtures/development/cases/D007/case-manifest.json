@@ -5,12 +5,12 @@
   "oraclePath": "fixtures/oracle/development/D007.json",
   "panels": [
     {
-      "bytes": 96176,
+      "bytes": 96283,
       "height": 1600,
       "mimeType": "image/png",
       "panelId": "panel-1",
       "path": "fixtures/development/cases/D007/panels/panel-1.png",
-      "sha256": "ddf8ac493f1028a7f7ff34556d61a9764923268eb41720579cabc40f4ae282a0",
+      "sha256": "cd5811a3083704749b6d2ad680d3deadb356394cbae4494dc6e3224c7940b066",
       "width": 1200
     }
   ],

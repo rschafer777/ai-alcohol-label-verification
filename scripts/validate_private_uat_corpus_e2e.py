@@ -83,9 +83,7 @@ def discover_equivalent_cross_format_pair(images: list[Path]) -> dict[str, Any] 
             correlation = float(
                 cv2.matchTemplate(left_thumbnail, right_thumbnail, cv2.TM_CCOEFF_NORMED)[0, 0]
             )
-            mean_absolute_error = float(
-                np.mean(np.abs(left_thumbnail - right_thumbnail)) / 255.0
-            )
+            mean_absolute_error = float(np.mean(np.abs(left_thumbnail - right_thumbnail)) / 255.0)
             if correlation >= 0.999 and mean_absolute_error <= 0.025:
                 candidates.append((correlation, mean_absolute_error, left, right))
     if not candidates:
@@ -190,8 +188,7 @@ def analysis_record(
             "producerNameAddress": result.draft.producer_name_address,
             "countryOfOrigin": result.draft.country_of_origin,
             "detectedFieldCount": sum(
-                detected.status in {"Found", "Ambiguous"}
-                for detected in result.detected.values()
+                detected.status in {"Found", "Ambiguous"} for detected in result.detected.values()
             ),
             "evidenceRegionCount": len(result.evidence),
             "machineSummary": result.verification.summary if result.verification else None,
@@ -384,9 +381,7 @@ def main() -> int:
         oracle_body = json.loads(oracle_path.read_text(encoding="utf-8-sig"))
         oracle_cases = list(oracle_body.get("cases", []))
     oracle_names = {
-        str(case.get("filename", "")).casefold()
-        for case in oracle_cases
-        if case.get("filename")
+        str(case.get("filename", "")).casefold() for case in oracle_cases if case.get("filename")
     }
     matched_oracle_names = oracle_names & image_names
     equivalent_pair = discover_equivalent_cross_format_pair(images)
@@ -473,9 +468,7 @@ def main() -> int:
                     )
                 else:
                     try:
-                        result, contract_failures = validate_analysis(
-                            body, len(equivalent_paths)
-                        )
+                        result, contract_failures = validate_analysis(body, len(equivalent_paths))
                         equivalent_failures.extend(contract_failures)
                     except ValueError as exc:
                         equivalent_failures.append(str(exc))
@@ -507,9 +500,7 @@ def main() -> int:
                     "files": [path.name for path in equivalent_paths],
                     "fileSha256": [sha256(path) for path in equivalent_paths],
                     "correlation": equivalent_pair["correlation"],
-                    "normalizedMeanAbsoluteError": equivalent_pair[
-                        "normalizedMeanAbsoluteError"
-                    ],
+                    "normalizedMeanAbsoluteError": equivalent_pair["normalizedMeanAbsoluteError"],
                     "durationSeconds": elapsed,
                     "httpStatus": status,
                     "submittedPanelCount": 2,

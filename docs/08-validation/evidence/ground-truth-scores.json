@@ -1,0 +1,1422 @@
+{
+  "createdAtUtc": "2026-09-03T16:59:20.555131+00:00",
+  "imageCount": 71,
+  "oracleMatchedCount": 42,
+  "oracleExactAgreement": 6,
+  "falseClean": 1,
+  "falseReject": 0,
+  "confusion": {
+    "PASS->NEEDS_REVIEW": 27,
+    "DO_NOT_PASS->NEEDS_REVIEW": 8,
+    "DO_NOT_PASS->DO_NOT_PASS": 3,
+    "PASS->PASS": 3,
+    "DO_NOT_PASS->PASS": 1
+  },
+  "fieldTally": {
+    "type": {
+      "exact": 68,
+      "miss": 2
+    },
+    "brand": {
+      "exact": 53,
+      "wrong": 6,
+      "contain": 8,
+      "miss": 3
+    },
+    "class": {
+      "wrong": 4,
+      "exact": 54,
+      "miss": 3,
+      "contain": 5,
+      "n/a": 3,
+      "partial": 1
+    },
+    "abv": {
+      "exact": 63,
+      "miss": 2,
+      "n/a": 5
+    },
+    "proof": {
+      "n/a": 42,
+      "exact": 28
+    },
+    "net": {
+      "exact": 63,
+      "n/a": 6,
+      "miss": 1
+    },
+    "producer": {
+      "miss": 13,
+      "wrong": 4,
+      "exact": 31,
+      "partial": 8,
+      "contain": 9,
+      "n/a": 5
+    },
+    "country": {
+      "exact": 9,
+      "n/a": 51,
+      "miss": 3,
+      "contain": 2,
+      "wrong": 5
+    },
+    "warning_found": {
+      "exact": 64,
+      "miss": 6
+    },
+    "wording": {
+      "review": 36,
+      "n/a": 7,
+      "miss": 5,
+      "exact": 22
+    }
+  },
+  "timing": {
+    "meanSeconds": 3.565,
+    "medianSeconds": 3.282,
+    "p95Seconds": 5.279,
+    "maxSeconds": 6.396,
+    "overFiveSeconds": 6
+  },
+  "rows": [
+    {
+      "file": "0wLM9.jpg",
+      "seconds": 4.486,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "wrong",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "111_Wine_Valle_Front.png",
+      "seconds": 3.764,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "wrong",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "n/a"
+      }
+    },
+    {
+      "file": "222_Silverpine_Wine.png",
+      "seconds": 4.327,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg",
+      "seconds": 6.396,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "wrong",
+        "class": "exact",
+        "abv": "miss",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "wrong",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "miss"
+      }
+    },
+    {
+      "file": "333_CascadeLight_Wine.png",
+      "seconds": 4.919,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "3urY2.jpg",
+      "seconds": 2.8,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "partial",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "555_Northveil_Vodka.png",
+      "seconds": 4.799,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "888SilverPine_Wine.png",
+      "seconds": 4.573,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "miss",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "miss"
+      }
+    },
+    {
+      "file": "8Gf8v.jpg",
+      "seconds": 4.372,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "miss",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "AnMXl.jpg",
+      "seconds": 2.848,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "contain",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "BMgMY.jpg",
+      "seconds": 3.822,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "contain",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "partial",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "bsxs4.jpg",
+      "seconds": 5.518,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Cointeau_Front.jpg",
+      "seconds": 3.993,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "n/a",
+        "country": "contain",
+        "warning_found": "exact",
+        "wording": "n/a"
+      }
+    },
+    {
+      "file": "Cointreau_Back.jpg",
+      "seconds": 4.962,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "miss",
+        "brand": "wrong",
+        "class": "n/a",
+        "abv": "n/a",
+        "proof": "n/a",
+        "net": "n/a",
+        "producer": "contain",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "coTpD.jpg",
+      "seconds": 4.223,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "partial",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "wrong",
+        "country": "wrong",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "DDqT2.jpg",
+      "seconds": 5.193,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "DmK94.jpg",
+      "seconds": 4.297,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "contain",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "wrong",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "EqTB7.jpg",
+      "seconds": 4.599,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "miss",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "partial",
+        "country": "wrong",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Gemini_Generated_Image_auilqqauilqqauil (1).jpg",
+      "seconds": 5.279,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "n/a",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "miss"
+      }
+    },
+    {
+      "file": "GuCzO.jpg",
+      "seconds": 4.593,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "partial",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "iFZ0Q.jpg",
+      "seconds": 4.267,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "partial",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "J3YuX.jpg",
+      "seconds": 3.012,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "JackDaniels_Back.jpg",
+      "seconds": 4.264,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "miss",
+        "class": "n/a",
+        "abv": "n/a",
+        "proof": "n/a",
+        "net": "n/a",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "JackDaniels_Front.jpg",
+      "seconds": 3.211,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "contain",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "n/a"
+      }
+    },
+    {
+      "file": "jsP3W.jpg",
+      "seconds": 2.745,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "leTeL.jpg",
+      "seconds": 4.401,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "contain",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "n/a"
+      }
+    },
+    {
+      "file": "MXteB.jpg",
+      "seconds": 2.6,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "wrong",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "O0P0Z.jpg",
+      "seconds": 4.438,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "PtNj9.jpg",
+      "seconds": 2.69,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "contain",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "RevolverBrewing.jpg",
+      "seconds": 5.734,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "n/a",
+        "proof": "n/a",
+        "net": "n/a",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "RevolverBrewing.png",
+      "seconds": 5.349,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "n/a",
+        "proof": "n/a",
+        "net": "n/a",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "RevolverBrewing_2.jpg",
+      "seconds": 2.914,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed"
+    },
+    {
+      "file": "Test_TTB_Image_0001.jpg",
+      "seconds": 3.282,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "contain",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0002.jpg",
+      "seconds": 2.808,
+      "machineDisposition": "DO_NOT_PASS",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Differences detected",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0003.jpg",
+      "seconds": 4.065,
+      "machineDisposition": "DO_NOT_PASS",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Differences detected",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "contain",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0004.jpg",
+      "seconds": 3.28,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "miss",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0005.jpg",
+      "seconds": 3.021,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0006.jpg",
+      "seconds": 2.039,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0007.jpg",
+      "seconds": 2.749,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0008.jpg",
+      "seconds": 2.82,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "wrong",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0009.jpg",
+      "seconds": 2.703,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0011.jpg",
+      "seconds": 0.171,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "n/a",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording_note": "case_only_defect",
+        "wording": "miss"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0021.jpg",
+      "seconds": 3.224,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0022.jpg",
+      "seconds": 2.267,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0023.jpg",
+      "seconds": 3.96,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "contain",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0024.jpg",
+      "seconds": 2.997,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0025.jpg",
+      "seconds": 2.74,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "partial",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording_note": "case_only_defect",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0026.jpg",
+      "seconds": 1.819,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "miss",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0027.jpg",
+      "seconds": 3.011,
+      "machineDisposition": "PASS",
+      "oracleDisposition": "PASS",
+      "summary": "No differences found in checked fields",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "contain",
+        "country": "wrong",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0028.jpg",
+      "seconds": 1.956,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0029.jpg",
+      "seconds": 3.908,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0030.jpg",
+      "seconds": 2.99,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0031.jpg",
+      "seconds": 2.934,
+      "machineDisposition": "PASS",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "No differences found in checked fields",
+      "fields": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0032.jpg",
+      "seconds": 2.008,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "contain",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0033.jpg",
+      "seconds": 4.144,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "wrong",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "n/a"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0034.jpg",
+      "seconds": 2.89,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0035.jpg",
+      "seconds": 3.69,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0036.jpg",
+      "seconds": 4.471,
+      "machineDisposition": "PASS",
+      "oracleDisposition": "PASS",
+      "summary": "No differences found in checked fields",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "contain",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "contain",
+        "country": "contain",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0037.jpg",
+      "seconds": 2.999,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0038.jpg",
+      "seconds": 3.231,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "wrong",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0039.jpg",
+      "seconds": 4.871,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0040.jpg",
+      "seconds": 2.729,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": "PASS",
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "partial",
+        "country": "wrong",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0041.jpg",
+      "seconds": 3.524,
+      "machineDisposition": "PASS",
+      "oracleDisposition": "PASS",
+      "summary": "No differences found in checked fields",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "Test_TTB_Image_0042.jpg",
+      "seconds": 3.997,
+      "machineDisposition": "DO_NOT_PASS",
+      "oracleDisposition": "DO_NOT_PASS",
+      "summary": "Differences detected",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      }
+    },
+    {
+      "file": "uqgyU.jpg",
+      "seconds": 2.65,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Vodka_Back.jpg",
+      "seconds": 4.528,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "miss",
+        "class": "miss",
+        "abv": "n/a",
+        "proof": "n/a",
+        "net": "n/a",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "Vodka_Front.jpg",
+      "seconds": 2.229,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "miss",
+        "class": "wrong",
+        "abv": "miss",
+        "proof": "exact",
+        "net": "miss",
+        "producer": "n/a",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "n/a"
+      }
+    },
+    {
+      "file": "wKE1J.jpg",
+      "seconds": 3.355,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "XjPpA.jpg",
+      "seconds": 2.443,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "partial",
+        "country": "wrong",
+        "warning_found": "exact",
+        "wording": "review"
+      }
+    },
+    {
+      "file": "XXL_Back.jpg",
+      "seconds": 2.204,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "exact",
+        "brand": "wrong",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "miss"
+      }
+    },
+    {
+      "file": "XXL_Front.jpg",
+      "seconds": 3.006,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "fields": {
+        "type": "miss",
+        "brand": "wrong",
+        "class": "n/a",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "n/a",
+        "producer": "n/a",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "n/a"
+      }
+    }
+  ]
+}

@@ -121,9 +121,8 @@ def run_batch(root: Path, count: int) -> dict[str, Any]:
                 expected_summaries[scenario.expected_summary] += 1
                 if result.summary == SUMMARY_CLEAN and scenario.expected_summary != SUMMARY_CLEAN:
                     false_clean_count += 1
-                if (
-                    result.summary != scenario.expected_summary
-                    or len(result.checks) != len(contracts().check_ids)
+                if result.summary != scenario.expected_summary or len(result.checks) != len(
+                    contracts().check_ids
                 ):
                     raise RuntimeError(f"Batch item {index} returned an unexpected result")
                 if index in checkpoints:

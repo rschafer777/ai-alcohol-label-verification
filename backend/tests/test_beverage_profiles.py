@@ -196,9 +196,14 @@ def test_malt_abv_trigger_stays_unresolved_without_formula_facts() -> None:
 
     checks, summary = compare_all(ComparisonInputs(reference, observed))
 
-    assert by_id(checks, "abv").reason_code == "malt_abv_trigger_unknown"
-    assert by_id(checks, "warning_applicability").reason_code == ("warning_applicability_unknown")
-    assert summary == "Review needed"
+    # 27 CFR 7.65: the statement is optional without an added-alcohol formula fact, so the
+    # row is informational; 27 CFR 16.10: a malt beverage with a recognized class is at or
+    # above the 0.5 percent warning threshold unless labeled non-alcoholic.
+    abv = by_id(checks, "abv")
+    assert abv.reason_code == "malt_abv_optional_unless_added_alcohol"
+    assert abv.applicable is False
+    assert by_id(checks, "warning_applicability").reason_code == "warning_required_by_class"
+    assert summary == "No differences found in checked fields"
 
 
 def test_beverage_type_inference_distinguishes_all_three_profiles() -> None:
@@ -233,6 +238,8 @@ def test_beverage_type_does_not_use_brand_only_as_regulatory_class_evidence() ->
         observed = clean_observed()
         observed.fields["brand"] = found(brand, "brand")
         observed.fields["class_type"] = CandidateSet(status="Not found", candidates=[])
+        observed.fields["producer"] = CandidateSet(status="Not found", candidates=[])
+        observed.fields["proof"] = CandidateSet(status="Not found", candidates=[])
 
         beverage_type, confidence, _, conflicting = _infer_beverage_type(observed)
 
@@ -241,12 +248,26 @@ def test_beverage_type_does_not_use_brand_only_as_regulatory_class_evidence() ->
         assert conflicting is False
 
 
+def test_production_statements_hint_a_family_at_low_confidence_when_no_class_is_read() -> None:
+    observed = clean_observed()
+    observed.fields["class_type"] = CandidateSet(status="Not found", candidates=[])
+    observed.fields["proof"] = CandidateSet(status="Not found", candidates=[])
+    observed.fields["producer"] = found(
+        "BREWED AND CANNED BY HARBOR BREWING, SEATTLE, WA", "producer"
+    )
+
+    beverage_type, confidence, reason, conflicting = _infer_beverage_type(observed)
+
+    assert beverage_type == "malt_beverage"
+    assert confidence is not None and confidence < 0.75
+    assert "confirm" in reason.lower() or "suggest" in reason.lower()
+    assert conflicting is False
+
+
 def test_beverage_type_repairs_joined_ocr_connector_without_product_knowledge() -> None:
     observed = clean_observed()
     observed.fields["brand"] = found("STRAWBERRY", "brand")
-    observed.fields["class_type"] = found(
-        "GRAPE WINEWITH NATURAL FLAVORS", "class_type"
-    )
+    observed.fields["class_type"] = found("GRAPE WINEWITH NATURAL FLAVORS", "class_type")
 
     beverage_type, confidence, _, conflicting = _infer_beverage_type(observed)
 
@@ -268,7 +289,10 @@ def test_spirits_proof_requires_supported_distinction_and_same_panel() -> None:
     )
 
     checks, _ = compare_all(ComparisonInputs(reference(), observed))
-    assert by_id(checks, "proof").reason_code == "proof_distinction_requires_review"
+    # 27 CFR 5.65 accepts any distinction; a separate "90 Proof" term beside the percentage
+    # is the common approved form, so the relationship matches with a note for the reviewer.
+    assert by_id(checks, "proof").state == "Match"
+    assert by_id(checks, "proof").reason_code == "proof_adjacent_to_abv"
 
     enclosed = shared.model_copy(update={"text_snippet": "45% Alc./Vol. (90 Proof)"})
     observed.fields["abv"] = CandidateSet(
@@ -283,6 +307,8 @@ def test_spirits_proof_requires_supported_distinction_and_same_panel() -> None:
 
 def test_beverage_type_inference_uses_whole_terms_and_routes_conflicts_to_review() -> None:
     observed = clean_observed()
+    observed.fields["producer"] = CandidateSet(status="Not found", candidates=[])
+    observed.fields["proof"] = CandidateSet(status="Not found", candidates=[])
     observed.fields["class_type"] = found("Original Recipe", "class_type")
     beverage_type, _, _, _ = _infer_beverage_type(observed)
     assert beverage_type is None
@@ -334,3 +360,12 @@ def test_spirits_field_of_vision_requires_same_submitted_panel() -> None:
     )
 
     assert by_id(checks, "spirits_field_of_vision").reason_code == "field_of_vision_split"
+
+
+def test_customary_unit_glued_to_the_number_is_still_customary() -> None:
+    observed = clean_observed()
+    observed.fields["net_contents"] = found("16FLOZ", "net_contents")
+
+    checks, _ = compare_all(ComparisonInputs(malt_reference(), observed))
+
+    assert by_id(checks, "net_contents").reason_code != "malt_customary_net_contents_missing"

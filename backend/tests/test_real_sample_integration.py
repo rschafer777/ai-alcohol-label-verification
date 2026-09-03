@@ -7,10 +7,9 @@ from pathlib import Path
 from labelverify.contracts.models import ReferenceRecord
 from labelverify.orchestration.supervisor import WorkerSupervisor
 
-PIXEL_SUPPORTED_WARNING_NONMATCHES = {
-    "warning_wording": "Review",
-    "warning_physical_size": "Not verified",
-}
+# The synthetic sample is fully compliant. Line-wrap punctuation no longer holds an exact
+# body at Review, and unscaled type size is reported for the reviewer rather than counted.
+PIXEL_SUPPORTED_WARNING_NONMATCHES: dict[str, str] = {}
 
 
 def test_warmed_supervised_sample_finishes_before_worker_deadline() -> None:
@@ -38,7 +37,9 @@ def test_warmed_supervised_sample_finishes_before_worker_deadline() -> None:
     assert result.server_duration_ms < 5_000
     assert result.stage_timings.ocr_ms < 5_000
     assert len(result.checks) == 24
-    assert result.summary == "Review needed"
+    # The synthetic sample is fully compliant; unscaled type size no longer blocks a clean
+    # summary because it is reported for the reviewer rather than counted as unresolved.
+    assert result.summary == "No differences found in checked fields"
     nonmatches = {
         check.check_id: check.state
         for check in result.checks
@@ -84,7 +85,7 @@ def test_governed_three_panel_case_finishes_before_worker_deadline() -> None:
     assert result.server_duration_ms < 9_000
     assert result.stage_timings.ocr_ms < 9_000
     assert len(result.checks) == 24
-    assert result.summary == "Review needed"
+    assert result.summary == "No differences found in checked fields"
     nonmatches = {
         check.check_id: check.state
         for check in result.checks

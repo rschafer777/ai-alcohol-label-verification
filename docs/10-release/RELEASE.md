@@ -1,7 +1,7 @@
 # Release and Operational Handoff
 
 Document ID: LV-REL-001  
-Status: Deployed demo verified; requester UAT and external production authorization pending
+Status: Deployed demo verified for the previous candidate; the accuracy revision of 2026-09-03 (branch `accuracy-verification-2026-09`) is validated locally and awaits independent RT, requester UAT, and a new deployment; external production authorization pending
 
 ## Deliverable contents
 
@@ -11,7 +11,7 @@ Status: Deployed demo verified; requester UAT and external production authorizat
 - Local OCR model acquisition manifest with hashes
 - Synthetic sample and test fixtures
 - Unit, integration, browser, accessibility, performance, security, and deployment tests
-- Private 70-image production-API and server-grouping evidence without redistributing the raw images
+- Private 71-image production-API, server-grouping, and ground-truth accuracy evidence without redistributing the raw images
 - Numbered documentation from discovery through UAT
 - OCI Dockerfile, Azure template, and GitHub OIDC workflow
 - README with setup, run, test, approach, tools, assumptions, trade-offs, and limitations

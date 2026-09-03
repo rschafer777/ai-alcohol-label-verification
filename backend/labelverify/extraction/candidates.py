@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from difflib import SequenceMatcher
 
 from labelverify.contracts.loader import contracts
@@ -14,18 +14,28 @@ from labelverify.contracts.models import (
     PanelResult,
     Point,
 )
-from labelverify.domain.normalize import casefolded, whitespace
+from labelverify.domain.normalize import (
+    US_STATE_CODE,
+    casefolded,
+    is_domestic_origin,
+    looks_like_domestic_location,
+    parse_volume_ml,
+    whitespace,
+)
 from labelverify.domain.types import ObservedCandidates, WarningObservation
 
 _PERCENT = re.compile(r"\b\d{1,3}(?:\.\d+)?\s*%", re.I)
+# "vol" arrives OCR-damaged as "vo", "ol", "vl", or "voi" on small type; after an "alc"
+# prefix those forms still name the alcohol-by-volume statement.
 _ABV_CONTEXT = re.compile(
-    r"\b(?:alc(?:ohol)?\.?\s*(?:/|by)?\s*vol\.?|abv)\b",
+    r"\b(?:alc(?:ohol)?\.?\s*(?:/|by)?\s*(?:vol|vo|ol|vl|voi)\.?|abv)\b",
     re.I,
 )
 _ALC_PREFIX = re.compile(r"\balc(?:ohol)?\.?\s*$", re.I)
 _BY_VOL_SUFFIX = re.compile(r"^\s*(?:by\s*|/\s*)vol\.?\b", re.I)
 _ALC_VOLUME_LOOSE = re.compile(r"\balc[a-z0-9]{0,10}.*\bvol(?:ume)?\b", re.I)
 _PROOF = re.compile(r"\b\d{1,3}(?:\.\d+)?\s*proof\b", re.I)
+_ZERO_FOR_O_OUNCE = re.compile(r"\b0z\b", re.I)
 _NET = re.compile(
     r"\b\d+(?:\.\d+)?\s*(?:fl\.?\s*(?:oz|0z)\.?|fluid\s+ounces?|pints?|pts?\.?|"
     r"quarts?|qts?\.?|gallons?|gals?\.?|ml|mL|L|liters?|litres?)\b",
@@ -49,10 +59,11 @@ _STRONG_CLASS = re.compile(
     r"stout|porter|pilsner|india\s+pale\s+ale|near\s+beer|hard\s+seltzer)\b",
     re.I,
 )
+# The second role word after "and" may arrive OCR-damaged ("brewed and bottld by"), so
+# any short word is accepted there; "by" anchors the phrase.
 _PRODUCER_ROLE = re.compile(
     r"\b(?:bottled|distilled|produced|manufactured|blended|imported|packed|brewed|"
-    r"canned|filled|vinted|cellared)\s*(?:(?:and|&)\s*"
-    r"(?:bottled|canned|packed|filled)\s+)?by\b",
+    r"canned|filled|vinted|cellared)\s*(?:(?:and|&)\s*[a-z]{3,12}\s+)?by\b",
     re.I,
 )
 _PRODUCER_ENTITY = re.compile(
@@ -61,18 +72,78 @@ _PRODUCER_ENTITY = re.compile(
 )
 _PRODUCER = re.compile(f"(?:{_PRODUCER_ROLE.pattern}|{_PRODUCER_ENTITY.pattern})", re.I)
 _INDUSTRY_ORGANIZATION = re.compile(r"\b(?:brewery|brewing|winery|distillery)\b", re.I)
+# Origin phrases tolerate one OCR-damaged character in "product" and a missing space after
+# "de" so a French bilingual statement such as "PRODUIT DEFRANCE" still names the country.
 _COUNTRY = re.compile(
-    r"\b(?:product\s+of|country\s+of\s+origin\s*:?|imported\s+from|hecho\s+en)\s+"
-    r"([A-Za-z][A-Za-z .'-]{1,60})",
+    r"\b(?:pro?d[a-z]{0,3}ct\s+of|produce\s+of|produit\s+de|wine\s+of|made\s+in|"
+    r"country\s+of\s+origin\s*:?|imported\s+from|hecho\s+en)\s*"
+    r"([A-Za-z][A-Za-z .']{1,40})",
+    re.I,
+)
+# An origin phrase names a country only when what follows is one. "Made in small
+# batches", "product of our family farm", and "wine of the month club" are copy, not
+# origin statements, and a United States location after "wine of" is a domestic origin.
+_COUNTRY_ALTERNATION = (
+    r"afghanistan|albania|algeria|andorra|angola|antigua\s+and\s+barbuda|argentina|armenia|"
+    r"aruba|australia|austria|azerbaijan|bahamas|bahrain|bangladesh|barbados|belarus|belgium|"
+    r"belize|benin|bermuda|bhutan|bolivia|bosnia\s+and\s+herzegovina|botswana|brazil|brunei|"
+    r"bulgaria|burkina\s+faso|burundi|cabo\s+verde|cape\s+verde|cambodia|cameroon|canada|"
+    r"cayman\s+islands|central\s+african\s+republic|chad|chile|china|colombia|comoros|congo|"
+    r"costa\s+rica|cote\s+d['’]?ivoire|ivory\s+coast|croatia|cuba|curacao|cyprus|"
+    r"czech\s+republic|czechia|denmark|djibouti|dominica|dominican\s+republic|ecuador|egypt|"
+    r"el\s+salvador|england|equatorial\s+guinea|eritrea|estonia|eswatini|swaziland|ethiopia|"
+    r"fiji|finland|france|french\s+polynesia|gabon|gambia|georgia|germany|ghana|gibraltar|"
+    r"great\s+britain|greece|greenland|grenada|guadeloupe|guam|guatemala|guernsey|guinea|"
+    r"guinea\s+bissau|guyana|haiti|holland|honduras|hong\s+kong|hungary|iceland|india|"
+    r"indonesia|iran|iraq|ireland|isle\s+of\s+man|israel|italy|jamaica|japan|jersey|jordan|"
+    r"kazakhstan|kenya|kiribati|korea|south\s+korea|republic\s+of\s+korea|kosovo|kuwait|"
+    r"kyrgyzstan|laos|latvia|lebanon|lesotho|liberia|libya|liechtenstein|lithuania|"
+    r"luxembourg|macau|macedonia|north\s+macedonia|madagascar|malawi|malaysia|maldives|mali|"
+    r"malta|marshall\s+islands|martinique|mauritania|mauritius|mexico|micronesia|moldova|"
+    r"monaco|mongolia|montenegro|morocco|mozambique|myanmar|burma|namibia|nauru|nepal|"
+    r"netherlands|netherlands\s+antilles|new\s+zealand|nicaragua|niger|nigeria|"
+    r"northern\s+ireland|norway|oman|pakistan|palau|panama|papua\s+new\s+guinea|paraguay|"
+    r"peru|philippines|poland|portugal|puerto\s+rico|qatar|reunion|romania|russia|"
+    r"russian\s+federation|rwanda|saint\s+kitts\s+and\s+nevis|saint\s+lucia|saint\s+vincent|"
+    r"samoa|san\s+marino|sao\s+tome\s+and\s+principe|saudi\s+arabia|scotland|senegal|serbia|"
+    r"seychelles|sierra\s+leone|singapore|sint\s+maarten|slovakia|slovenia|solomon\s+islands|"
+    r"somalia|south\s+africa|south\s+sudan|spain|sri\s+lanka|sudan|suriname|sweden|"
+    r"switzerland|syria|tahiti|taiwan|tajikistan|tanzania|thailand|timor\s+leste|"
+    r"east\s+timor|togo|tonga|trinidad\s+and\s+tobago|trinidad|tunisia|turkey|turkiye|"
+    r"turkmenistan|tuvalu|uganda|ukraine|united\s+arab\s+emirates|uae|united\s+kingdom|uk|"
+    r"united\s+states|united\s+states\s+of\s+america|usa|america|uruguay|uzbekistan|vanuatu|"
+    r"vatican\s+city|venezuela|vietnam|viet\s+nam|virgin\s+islands|wales|yemen|zambia|"
+    r"zimbabwe"
+)
+_COUNTRY_NAMES = re.compile(
+    r"^(?:the\s+)?(?:" + _COUNTRY_ALTERNATION + r")\.?$",
     re.I,
 )
 _WARNING = re.compile(r"government\s+warning\s*:?", re.I)
+# Appellations of origin under 27 CFR 4.25: the United States, a state, a county, a
+# recognized viticultural area, or a foreign country or region named by an origin statement.
 _APPELLATION = re.compile(
-    r"\b(?:american|california|oregon|washington|new\s+york|napa\s+valley|sonoma|"
-    r"willamette\s+valley|product\s+of\s+[A-Za-z][A-Za-z .'-]{1,60})\b",
+    r"\b(?:american|alabama|alaska|arizona|arkansas|california|colorado|connecticut|"
+    r"delaware|florida|georgia|hawaii|idaho|illinois|indiana|iowa|kansas|kentucky|"
+    r"louisiana|maine|maryland|massachusetts|michigan|minnesota|mississippi|missouri|"
+    r"montana|nebraska|nevada|new\s+hampshire|new\s+jersey|new\s+mexico|new\s+york|"
+    r"north\s+carolina|north\s+dakota|ohio|oklahoma|oregon|pennsylvania|rhode\s+island|"
+    r"south\s+carolina|south\s+dakota|tennessee|texas|utah|vermont|virginia|washington|"
+    r"west\s+virginia|wisconsin|wyoming|napa\s+valley|sonoma(?:\s+(?:coast|county|valley))?|"
+    r"willamette\s+valley|columbia\s+valley|finger\s+lakes|paso\s+robles|"
+    r"russian\s+river\s+valley|santa\s+barbara|monterey|mendocino|lodi|walla\s+walla|"
+    r"central\s+coast|north\s+coast|sierra\s+foothills|texas\s+hill\s+country|"
+    r"long\s+island|[A-Za-z]+\s+county|"
+    r"(?:pro?d[a-z]{0,3}ct|wine|produce)\s+of\s+[A-Za-z][A-Za-z .'-]{1,60})\b",
     re.I,
 )
-_SULFITES = re.compile(r"\bcontains?\s+(?:sulfites?|a\s+sulfiting\s+agent)\b", re.I)
+_SULFITES = re.compile(r"\bcontains?\s*(?:sulfites?|a\s+sulfiting\s+agent)\b", re.I)
+_ADDRESS_SHAPE = re.compile(
+    r"\b\d{5}(?:-\d{4})?\b|"
+    r"\b(?:street|st\.|avenue|ave\.|road|rd\.|highway|hwy\.?|blvd\.?|boulevard|suite|"
+    r"ste\.?|p\.?o\.?\s*box)\b",
+    re.I,
+)
 _WARNING_BODY_TERM = re.compile(
     r"\b(?:according|surgeon|general|women|should|drink|alcoholic|beverages|"
     r"pregnancy|risk|birth|defects|consumption|impairs|ability|drive|car|"
@@ -121,7 +192,10 @@ _NON_BRAND_CONTEXT = re.compile(
     r"\bfrom\s+(?:certified\s+)?(?:organic\s+)?(?:sugar\s+cane|grapes?|grain|corn|fruit)\b|"
     r"\b(?:orange|lemon|lime|citrus)\s+peel\b|"
     r"\bhoney\s+and\s+spices?\b|"
-    r"\bconta[a-z]{0,5}\s+sulf[a-z]*\b|"
+    r"\bconta[a-z]{0,5}\s*sulf[a-z]*\b|"
+    r"^\s*drink\b|ref\s*\d+\s*[c\u00a2]|\bdeposit\b|\brefund\b|\brecycl[a-z]*\b|"
+    r"^\s*(?:usda\s+)?organic\s*$|"
+    r"\b(?:est(?:ablished)?\.?|since|founded|anno)\s*(?:in\s+)?\d{4}\b|^\s*\d{4}\s*$|"
     r"https?://|www\.|\.(?:com|org|net)\b)",
     re.I,
 )
@@ -139,6 +213,43 @@ _PRODUCTION_DESCRIPTOR = re.compile(
     re.I,
 )
 _WARNING_THRESHOLDS = contracts().rules["warning"]["visualDecisionThresholds"]
+# Type weight is judged from the stroke width of the heading relative to the body of the
+# same statement, both normalized by cap height. Absolute stroke bands do not transfer
+# from rendered type to OCR boxes, so only the within-statement ratio is decisive.
+_HEADING_BODY_BOLD_RATIO = 1.3
+_HEADING_BODY_SAME_RATIO = 1.05
+# Below this letter height on the OCR view the stroke estimate is dominated by
+# anti-aliasing and the weight ratio is not trusted.
+_MIN_RELIABLE_LETTER_HEIGHT = 18.0
+# WCAG 2.x contrast ratios: 4.5 is the body-text minimum, 3.0 the large-text minimum.
+_CONTRAST_RATIO_PASS_GTE = 4.5
+_CONTRAST_RATIO_FAIL_LT = 3.0
+_LOW_CONTRAST_RANGE = 0.45
+
+
+def _class_text(value: str) -> str:
+    """Expose class words that OCR glued to their neighbours, e.g. "OrganicVodka"."""
+
+    expanded = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", value)
+    expanded = re.sub(r"(?<=[A-Za-z])(?=\d)|(?<=\d)(?=[A-Za-z])", " ", expanded)
+    # All-capital glue ("GRAPEWINE", "NATURALFLAVORS") is split only where a known
+    # qualifier precedes the class word, so ordinary words stay whole.
+    expanded = _CAPS_GLUE.sub(r"\1 \2", expanded)
+    return re.sub(
+        r"\b(wine|beer|ale|lager|vodka|whisk(?:e)?y|rum|gin|tequila)(with|from|by)\b",
+        r"\1 \2",
+        expanded,
+        flags=re.I,
+    )
+
+
+_CAPS_GLUE = re.compile(
+    r"\b(grape|table|red|white|rose|dessert|sparkling|fruit|apple|plum|malt|rye|corn|wheat|"
+    r"straight|blended|dry|pale|india|amber|imperial|light|natural|artificial)"
+    r"(wine|beer|ale|lager|vodka|whisk(?:e)?y|rum|gin|tequila|brandy|flavors?|flavours?|"
+    r"spirits?)\b",
+    re.I,
+)
 
 
 def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> ObservedCandidates:
@@ -156,7 +267,15 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
     class_type = _class_candidates(ordered, factory)
     producer = _producer_candidates(ordered, factory)
     country = _country_candidates(ordered, factory)
-    appellation = _line_candidates(ordered, _APPELLATION, "wine_appellation", factory)
+    # A city and state inside the producer's address is not an appellation of origin.
+    appellation_lines = [
+        item
+        for item in ordered
+        if not _PRODUCER.search(item.text)
+        and not US_STATE_CODE.search(item.text)
+        and not _ADDRESS_SHAPE.search(item.text)
+    ]
+    appellation = _line_candidates(appellation_lines, _APPELLATION, "wine_appellation", factory)
     sulfites = _line_candidates(ordered, _SULFITES, "wine_sulfites", factory)
     warning = _warning_observation(
         ordered,
@@ -170,7 +289,7 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
         if _line_has_abv(item.text)
         or _PROOF.search(item.text)
         or _NET.search(item.text)
-        or _CLASS.search(item.text)
+        or _CLASS.search(_class_text(item.text))
         or _PRODUCER_ROLE.search(item.text)
         or _COUNTRY.search(item.text)
         or _APPELLATION.search(item.text)
@@ -201,7 +320,9 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
             else candidates
             for field, candidates in fields.items()
         }
-    return ObservedCandidates(fields=fields, warning=warning, panels=panels, evidence=evidence)
+    return ObservedCandidates(
+        fields=fields, warning=warning, panels=panels, evidence=evidence, lines=list(ordered)
+    )
 
 
 class _EvidenceFactory:
@@ -258,7 +379,7 @@ class _EvidenceFactory:
         return self.from_line(role, aggregate)
 
 
-def _candidate_set(items: list[Candidate]) -> CandidateSet:
+def _candidate_set(items: list[Candidate], key: Callable[[str], str] = casefolded) -> CandidateSet:
     # Multiple OCR views can produce different readings for the same physical
     # line. One region is one piece of evidence, so retain only its strongest
     # reading before deciding whether independently located values conflict.
@@ -276,12 +397,12 @@ def _candidate_set(items: list[Candidate]) -> CandidateSet:
 
     unique: dict[str, Candidate] = {}
     for item in by_region.values():
-        key = casefolded(item.value)
-        current = unique.get(key)
+        value_key = key(item.value)
+        current = unique.get(value_key)
         if current is None or (item.evidence.confidence_provenance.signal or 0) > (
             current.evidence.confidence_provenance.signal or 0
         ):
-            unique[key] = item
+            unique[value_key] = item
     values = list(unique.values())
     if not values:
         return CandidateSet(status="Not found")
@@ -296,8 +417,21 @@ def _regex_candidates(
     items: list[Candidate] = []
     for line in lines:
         for match in pattern.finditer(line.text):
-            items.append(Candidate(value=match.group(0), evidence=factory.from_line(role, line)))
+            value = match.group(0)
+            if role == "net_contents":
+                # OCR reads the O of "OZ" as a zero on small type; the unit is still ounces.
+                value = _ZERO_FOR_O_OUNCE.sub(lambda unit: unit.group(0).replace("0", "O"), value)
+            items.append(Candidate(value=value, evidence=factory.from_line(role, line)))
+    if role == "net_contents":
+        # "12 FL. OZ" on the front and "12 FL. 0Z" on the side are one statement of one
+        # quantity; the readings agree once the volume is parsed.
+        return _candidate_set(items, key=_volume_key)
     return _candidate_set(items)
+
+
+def _volume_key(value: str) -> str:
+    volume = parse_volume_ml(value)
+    return f"{volume:.1f}" if volume is not None else casefolded(value)
 
 
 def _abv_candidates(lines: Iterable[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
@@ -353,8 +487,8 @@ def _line_candidates(
 
 
 def _class_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
-    matched = [line for line in lines if _CLASS.search(line.text)]
-    strong = [line for line in matched if _STRONG_CLASS.search(line.text)]
+    matched = [line for line in lines if _CLASS.search(_class_text(line.text))]
+    strong = [line for line in matched if _STRONG_CLASS.search(_class_text(line.text))]
     preferred = [
         line
         for line in strong
@@ -368,7 +502,247 @@ def _class_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Candid
     complete = [line for line in selected if not _INCOMPLETE_CLASS_CONTEXT.search(line.text)]
     if complete:
         selected = complete
-    return _line_candidates(selected, _CLASS, "class_type", factory)
+    candidate_set = _candidate_set(
+        [
+            Candidate(
+                value=whitespace(_CAPS_GLUE.sub(r"\1 \2", line.text)),
+                evidence=factory.from_line("class_type", line),
+            )
+            for line in selected
+        ]
+    )
+    if candidate_set.status != "Ambiguous":
+        return candidate_set
+    # Several lines can carry class words for one product ("Kentucky Straight Bourbon
+    # Whiskey" on the front and "Whiskey" in a footer). When every reading points to the same
+    # beverage family the most specific reading is the designation and the rest are repeats;
+    # readings from different families remain a conflict for the reviewer.
+    families = {
+        family
+        for candidate in candidate_set.candidates
+        for family in _class_families(candidate.value)
+    }
+    conflicting = len(families) > 1
+    if conflicting or not families:
+        return candidate_set
+    # Readings of one family are repeats of one designation only when every shorter
+    # reading is contained in the fullest one ("Bourbon Whiskey" inside "Kentucky Straight
+    # Bourbon Whiskey"). Two designations that name different types of one family
+    # ("Blended Whiskey" beside "Straight Bourbon Whiskey") stay a conflict for the reviewer.
+    # A composition statement ("100% neutral spirits distilled from ...") describes what the
+    # product is made of and never competes with the designation.
+    designations = [
+        candidate
+        for candidate in candidate_set.candidates
+        if _designation_shape(candidate.value) >= 0
+    ]
+    signatures = [_type_signature(candidate.value) for candidate in designations]
+    if signatures:
+        fullest = max(signatures, key=len)
+        if not all(signature <= fullest for signature in signatures):
+            return candidate_set
+    best = max(
+        candidate_set.candidates,
+        key=lambda candidate: (
+            _designation_shape(candidate.value),
+            len(_STRONG_CLASS.findall(_class_text(candidate.value))),
+            len(re.findall(r"[A-Za-z]", candidate.value)),
+            candidate.evidence.confidence_provenance.signal or 0.0,
+        ),
+    )
+    return CandidateSet(status="Found", candidates=[best])
+
+
+_COMPOSITION_CONTEXT = re.compile(
+    r"(?:\d+\s*%|\b(?:distilled|made|produced|brewed|fermented)\s+(?:from|with)\b|"
+    r"\bcontains?\b|\bingredients?\b)",
+    re.I,
+)
+
+
+# Words that qualify a class into a type ("straight", "blended", "spiced") or that a
+# designation commonly carries; anything else in a class-bearing line is copy.
+_TYPE_QUALIFIERS = frozenset(
+    [
+        "straight",
+        "blended",
+        "single",
+        "malt",
+        "light",
+        "dry",
+        "spiced",
+        "flavored",
+        "flavoured",
+        "white",
+        "gold",
+        "dark",
+        "reposado",
+        "anejo",
+        "añejo",
+        "blanco",
+        "extra",
+        "overproof",
+        "london",
+        "table",
+        "sparkling",
+        "dessert",
+        "fortified",
+        "brut",
+        "ice",
+        "pale",
+        "india",
+        "amber",
+        "imperial",
+        "wheat",
+        "sour",
+        "cream",
+        "navy",
+        "rye",
+        "corn",
+        "barley",
+        "agave",
+        "sugar",
+        "cane",
+        "grape",
+        "apple",
+        "peach",
+        "cherry",
+        "coffee",
+        "honey",
+        "vanilla",
+        "cinnamon",
+        "citrus",
+        "lemon",
+        "orange",
+        "lime",
+        "grapefruit",
+        "pineapple",
+        "coconut",
+        "mango",
+        "raspberry",
+        "strawberry",
+        "blueberry",
+        "blackberry",
+        "chocolate",
+        "mint",
+        "ginger",
+        "plum",
+        "pear",
+        "non-alcoholic",
+        "nonalcoholic",
+        "alcohol-free",
+    ]
+)
+_DESIGNATION_FILLER = frozenset(
+    [
+        "old",
+        "aged",
+        "years",
+        "year",
+        "reserve",
+        "reserva",
+        "premium",
+        "small",
+        "batch",
+        "handcrafted",
+        "craft",
+        "estate",
+        "bottled",
+        "bond",
+        "cask",
+        "strength",
+        "distilled",
+        "from",
+        "with",
+        "and",
+        "de",
+        "of",
+        "the",
+        "vintage",
+        "select",
+        "special",
+        "original",
+        "classic",
+        "fine",
+        "very",
+        "grand",
+        "royal",
+        "black",
+        "blue",
+        "red",
+        "silver",
+        "platinum",
+        "gran",
+        "cuvee",
+        "american",
+        "kentucky",
+        "tennessee",
+    ]
+)
+
+
+def _designation_shape(value: str) -> int:
+    """Prefer a designation whose head word is the class over copy or composition.
+
+    "Organic Vodka" and "Kentucky Straight Bourbon Whiskey" end in the class word and carry
+    nothing but the class, its qualifiers, and the usual fillers; "Smooth bourbon whiskey
+    experience" is marketing copy around class words; "100% neutral spirits distilled from
+    organic sugar cane" describes composition and is the commodity statement rather than
+    the class or type designation.
+    """
+
+    text = _class_text(value).strip().rstrip(".,;:")
+    if _COMPOSITION_CONTEXT.search(text):
+        return -1
+    tail = re.search(r"(?:\b[\w']+\s*){1,3}$", text)
+    if tail is None or not _STRONG_CLASS.search(tail.group(0)):
+        return 0
+    tokens = re.findall(r"[a-zà-ÿ'-]+", text.casefold())
+    foreign = [
+        token
+        for token in tokens
+        if len(token) > 3
+        and token not in _TYPE_QUALIFIERS
+        and token not in _DESIGNATION_FILLER
+        and not _CLASS.search(token)
+        and not _STRONG_CLASS.search(token)
+        and not looks_like_domestic_location(token)
+    ]
+    return 2 if len(foreign) <= 1 else 1
+
+
+def _type_signature(value: str) -> frozenset[str]:
+    """The class words and type qualifiers that define a designation."""
+
+    text = _class_text(value).casefold()
+    words = {match.casefold() for match in _STRONG_CLASS.findall(text)}
+    words.update(token for token in re.findall(r"[a-zà-ÿ'-]+", text) if token in _TYPE_QUALIFIERS)
+    return frozenset(words)
+
+
+_CLASS_FAMILIES: dict[str, re.Pattern[str]] = {
+    "distilled_spirits": re.compile(
+        r"\b(?:bourbon|whisk(?:e)?y|vodka|gin|rum|tequila|brandy|cognac|liqueur|cordial|"
+        r"neutral\s+spirits?|grain\s+spirits?|distilled\s+spirits?)\b",
+        re.I,
+    ),
+    "wine": re.compile(
+        r"\b(?:wine|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
+        r"syrah|shiraz|muscat|sangiovese|malbec|tempranillo|grenache|prosecco|sangria|"
+        r"vermouth|port|sherry|champagne)\b",
+        re.I,
+    ),
+    "malt_beverage": re.compile(
+        r"\b(?:malt\s+beverage|beer|ale|lager|stout|porter|pilsner|ipa|india\s+pale\s+ale|"
+        r"near\s+beer|cereal\s+beverage|hard\s+seltzer)\b",
+        re.I,
+    ),
+}
+
+
+def _class_families(value: str) -> set[str]:
+    text = _class_text(value)
+    return {name for name, pattern in _CLASS_FAMILIES.items() if pattern.search(text)}
 
 
 def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
@@ -382,7 +756,7 @@ def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Can
         if not _PRODUCER.search(line.text) and not industry_with_location:
             continue
         group = [line]
-        if _US_STATE_CODE.search(line.text) or re.search(
+        if US_STATE_CODE.search(line.text) or re.search(
             r"\b(?:u\.?s\.?a\.?|united\s+states)\b", line.text, re.I
         ):
             following = []
@@ -398,8 +772,14 @@ def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Can
             if any(_same_normalized_line(next_line.text, item.text) for item in group):
                 continue
             if _line_has_abv(next_line.text) or any(
-                pattern.search(next_line.text) for pattern in (_WARNING, _PROOF, _NET, _CLASS)
+                pattern.search(next_line.text) for pattern in (_WARNING, _PROOF, _NET)
             ):
+                break
+            # A company name can carry a weak class word ("Northwind Spirits, Portland,
+            # Oregon"); only a strong class designation outside an address ends the block.
+            if _STRONG_CLASS.search(
+                _class_text(next_line.text)
+            ) and not _looks_like_domestic_location(next_line.text):
                 break
             group.append(next_line)
             if _looks_like_domestic_location(next_line.text):
@@ -416,12 +796,16 @@ def _country_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Cand
     for line in lines:
         match = _COUNTRY.search(line.text)
         if match:
-            items.append(
-                Candidate(
-                    value=whitespace(match.group(1)).rstrip(" .,:;"),
-                    evidence=factory.from_line("country", line),
-                )
-            )
+            value = whitespace(match.group(1)).rstrip(" .,:;")
+            if not value:
+                continue
+            if is_domestic_origin(value) or (
+                not _COUNTRY_NAMES.match(value) and looks_like_domestic_location(value)
+            ):
+                value = "United States"
+            elif not _COUNTRY_NAMES.match(value):
+                continue
+            items.append(Candidate(value=value, evidence=factory.from_line("country", line)))
     return _candidate_set(items)
 
 
@@ -441,6 +825,8 @@ def _brand_candidates(
         and not _looks_like_domestic_location(line.text)
         and not _PRODUCTION_DESCRIPTOR.fullmatch(whitespace(line.text))
         and re.match(r"^\s*\d+(?:\.\d+)?\s*%", line.text) is None
+        and sum(character.isdigit() for character in line.text)
+        < sum(character.isalpha() for character in line.text)
         and not _looks_like_ocr_noise(line.text)
         and not _looks_like_prose(line.text)
         and not _looks_like_warning_body_text(line.text)
@@ -450,30 +836,7 @@ def _brand_candidates(
     horizontal = [line for line in eligible if _is_horizontal_text(line)]
     if horizontal:
         eligible = horizontal
-    class_lines = [line for line in lines if _STRONG_CLASS.search(line.text)]
-    associated = [line for line in eligible if _near_class_designation(line, class_lines)]
-    if associated:
-        adjacent = [
-            line
-            for line in eligible
-            if any(_adjacent_brand_line(line, anchor) for anchor in associated)
-        ]
-        associated_height = max(_line_height(line) for line in associated)
-        prominent = [
-            line
-            for line in eligible
-            if _line_height(line) >= associated_height * 1.5
-            and (line.confidence or 0) >= 0.70
-        ]
-        eligible = [
-            *associated,
-            *(line for line in adjacent if line not in associated),
-            *(
-                line
-                for line in prominent
-                if line not in associated and line not in adjacent
-            ),
-        ]
+    class_lines = [line for line in lines if _STRONG_CLASS.search(_class_text(line.text))]
     groups = [_brand_group(line, eligible) for line in eligible]
     groups = [
         items
@@ -483,16 +846,33 @@ def _brand_candidates(
     ]
     if not groups:
         return CandidateSet(status="Not found")
-    group = min(
+    tallest = max(_line_height(item) for items in groups for item in items)
+
+    def prominence(items: list[OcrLine]) -> float:
+        # The brand is the most prominent non-regulatory text on the brand label. Type size
+        # dominates; closeness to the class designation, capitals, and OCR confidence break
+        # ties. Nothing here knows any product name.
+        height = max(_line_height(item) for item in items) / max(1, tallest)
+        associated = any(_near_class_designation(item, class_lines) for item in items)
+        text = " ".join(item.text for item in items)
+        letters = len(re.findall(r"[A-Za-z]", text))
+        confidence = min((item.confidence or 0.0) for item in items)
+        return (
+            2.5 * height
+            + (0.8 if associated else 0.0)
+            + (0.3 if text.upper() == text else 0.0)
+            + 0.4 * confidence
+            + min(0.4, 0.02 * letters)
+            - (0.6 if letters <= 3 else 0.0)
+        )
+
+    group = max(
         groups,
         key=lambda items: (
-            -sum(len(re.findall(r"[A-Za-z]", item.text)) for item in items),
-            -_line_height(items[0]),
-            -len(items),
-            -(items[0].confidence or 0),
+            round(prominence(items), 4),
+            -min(point.y for point in items[0].polygon),
+            -min(point.x for point in items[0].polygon),
             casefolded(whitespace(" ".join(item.text for item in items))),
-            min(point.y for point in items[0].polygon),
-            min(point.x for point in items[0].polygon),
         ),
     )
     value = whitespace(" ".join(item.text for item in group))
@@ -530,21 +910,8 @@ def _near_class_designation(line: OcrLine, class_lines: list[OcrLine]) -> bool:
     return False
 
 
-def _adjacent_brand_line(line: OcrLine, anchor: OcrLine) -> bool:
-    if line.panel_id != anchor.panel_id or not _same_column(line, anchor):
-        return False
-    line_top = min(point.y for point in line.polygon)
-    line_bottom = max(point.y for point in line.polygon)
-    anchor_top = min(point.y for point in anchor.polygon)
-    anchor_bottom = max(point.y for point in anchor.polygon)
-    gap = max(0, max(line_top, anchor_top) - min(line_bottom, anchor_bottom))
-    return gap <= max(_line_height(line), _line_height(anchor)) * 1.5
-
-
 def _same_normalized_line(first: str, second: str) -> bool:
-    return re.sub(r"[^a-z0-9]", "", first.casefold()) == re.sub(
-        r"[^a-z0-9]", "", second.casefold()
-    )
+    return re.sub(r"[^a-z0-9]", "", first.casefold()) == re.sub(r"[^a-z0-9]", "", second.casefold())
 
 
 def _warning_interruption_orders(lines: list[OcrLine]) -> set[int]:
@@ -574,8 +941,7 @@ def _warning_body_orders(lines: list[OcrLine]) -> set[int]:
     for index, line in enumerate(lines):
         if _WARNING.search(line.text):
             return {
-                candidate.reading_order
-                for candidate in _warning_body_lines(lines, index, line)
+                candidate.reading_order for candidate in _warning_body_lines(lines, index, line)
             }
     return set()
 
@@ -585,21 +951,32 @@ def _warning_body_lines(
 ) -> list[OcrLine]:
     heading_bottom = max(point.y for point in heading.polygon)
     heading_height = max(1, _line_height(heading))
-    spatial = sorted(
-        (
+    heading_top = min(point.y for point in heading.polygon)
+    heading_right = max(point.x for point in heading.polygon)
+    spatial = _row_ordered(
+        [
             candidate
             for candidate in lines
             if candidate.reading_order != lines[heading_index].reading_order
             and candidate.panel_id == heading.panel_id
-            and min(point.y for point in candidate.polygon)
-            >= heading_bottom - heading_height * 0.25
-            and _same_column(heading, candidate)
-        ),
-        key=lambda item: (
-            min(point.y for point in item.polygon),
-            min(point.x for point in item.polygon),
-            item.reading_order,
-        ),
+            and (
+                # The next printed line can start above the heading box's bottom edge when
+                # the leading is tight, so anything whose top sits below the heading's
+                # midline in the same column belongs to the statement.
+                (
+                    min(point.y for point in candidate.polygon)
+                    >= heading_top + heading_height * 0.5
+                    and _same_column(heading, candidate)
+                )
+                # A box to the right of the heading on the same row carries the start of
+                # the body when OCR split the first printed line.
+                or (
+                    _same_text_row(heading, candidate)
+                    and min(point.x for point in candidate.polygon)
+                    >= heading_right - heading_height
+                )
+            )
+        ]
     )
     body: list[OcrLine] = []
     previous_bottom = heading_bottom
@@ -619,6 +996,36 @@ def _warning_body_lines(
         if re.search(r"health\s+problems\s*[.!]?\s*$", candidate.text, re.I):
             break
     return body
+
+
+def _row_ordered(candidates: list[OcrLine]) -> list[OcrLine]:
+    """Order lines top to bottom by text row, left to right within a row.
+
+    A curved or split statement often comes back as two boxes per printed line whose tops
+    differ by a few pixels; sorting on the raw top coordinate interleaves halves of
+    different lines. Boxes that overlap vertically by most of the shorter height share a row.
+    """
+
+    rows: list[list[OcrLine]] = []
+    for line in sorted(candidates, key=lambda item: min(point.y for point in item.polygon)):
+        top = min(point.y for point in line.polygon)
+        bottom = max(point.y for point in line.polygon)
+        placed = False
+        for row in rows:
+            row_top = min(min(point.y for point in item.polygon) for item in row)
+            row_bottom = max(max(point.y for point in item.polygon) for item in row)
+            overlap = min(bottom, row_bottom) - max(top, row_top)
+            shorter = max(1, min(bottom - top, row_bottom - row_top))
+            if overlap / shorter >= 0.5:
+                row.append(line)
+                placed = True
+                break
+        if not placed:
+            rows.append([line])
+    ordered: list[OcrLine] = []
+    for row in rows:
+        ordered.extend(sorted(row, key=lambda item: min(point.x for point in item.polygon)))
+    return ordered
 
 
 def _same_column(first: OcrLine, second: OcrLine) -> bool:
@@ -642,36 +1049,54 @@ def _brand_group(first: OcrLine, eligible: list[OcrLine]) -> list[OcrLine]:
         and line.panel_id == first.panel_id
         and _same_text_row(first, line)
         and len(re.findall(r"[A-Za-z]", line.text)) >= 4
+        and (line.confidence or 0.0) >= 0.75
         and casefolded(whitespace(line.text)) != casefolded(whitespace(first.text))
     ]
     if same_row:
         return sorted([first, *same_row], key=lambda item: min(point.x for point in item.polygon))
-    group = [first]
+    if len(re.findall(r"[A-Za-z]", first.text)) < 4:
+        return [first]
+    first_top = min(point.y for point in first.polygon)
     first_bottom = max(point.y for point in first.polygon)
+    first_height = _line_height(first)
+
+    def stacked_gap(line: OcrLine) -> int | None:
+        """Vertical gap to a line directly below or directly above, else None."""
+
+        top = min(point.y for point in line.polygon)
+        bottom = max(point.y for point in line.polygon)
+        limit = max(12, min(first_height, _line_height(line)))
+        if 0 <= top - first_bottom <= limit:
+            return top - first_bottom
+        if 0 <= first_top - bottom <= limit:
+            return first_top - bottom
+        return None
+
+    # A two-line brand ("CRYSTAL" over "TUNDRA", "BOTANIST'S" over "SECRET") is joined from
+    # either direction; the partner must be a comparably sized, confidently read line.
     adjacent = [
         line
         for line in eligible
         if line is not first
         and line.panel_id == first.panel_id
         and _same_column(first, line)
-        and _line_height(line) >= max(10, round(_line_height(first) * 0.55))
+        and _line_height(line) >= max(10, round(first_height * 0.55))
+        and first_height >= max(10, round(_line_height(line) * 0.55))
         and len(re.findall(r"[A-Za-z]", line.text)) >= 4
-        and 0
-        <= min(point.y for point in line.polygon) - first_bottom
-        <= max(12, _line_height(first))
+        and (line.confidence or 0.0) >= 0.7
+        and stacked_gap(line) is not None
     ]
-    if adjacent:
-        group.append(
-            min(
-                adjacent,
-                key=lambda line: (
-                    min(point.y for point in line.polygon) - first_bottom,
-                    min(point.x for point in line.polygon),
-                    casefolded(whitespace(line.text)),
-                ),
-            )
-        )
-    return group
+    if not adjacent:
+        return [first]
+    partner = min(
+        adjacent,
+        key=lambda line: (
+            stacked_gap(line) or 0,
+            min(point.x for point in line.polygon),
+            casefolded(whitespace(line.text)),
+        ),
+    )
+    return sorted([first, partner], key=lambda item: min(point.y for point in item.polygon))
 
 
 def _same_text_row(first: OcrLine, second: OcrLine) -> bool:
@@ -694,68 +1119,8 @@ def _same_text_row(first: OcrLine, second: OcrLine) -> bool:
     return vertical_overlap / smaller_height >= 0.35 and horizontal_gap <= height * 1.5
 
 
-_US_STATE_NAMES = re.compile(
-    r"\b(?:alabama|alaska|arizona|arkansas|california|colorado|connecticut|delaware|"
-    r"florida|georgia|hawaii|idaho|illinois|indiana|iowa|kansas|kentucky|louisiana|"
-    r"maine|maryland|massachusetts|michigan|minnesota|mississippi|missouri|montana|"
-    r"nebraska|nevada|new\s+hampshire|new\s+jersey|new\s+mexico|new\s+york|"
-    r"north\s+carolina|north\s+dakota|ohio|oklahoma|oregon|pennsylvania|"
-    r"rhode\s+island|south\s+carolina|south\s+dakota|tennessee|texas|utah|"
-    r"vermont|virginia|washington|west\s+virginia|wisconsin|wyoming)\b",
-    re.I,
-)
-_US_STATE_CODE = re.compile(
-    r"(?:,|\.)\s*(?:AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|"
-    r"MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|"
-    r"VT|VA|WA|WV|WI|WY)\b",
-    re.I,
-)
-_LONG_STATE_NAMES = (
-    "alabama",
-    "arizona",
-    "arkansas",
-    "california",
-    "colorado",
-    "connecticut",
-    "delaware",
-    "florida",
-    "georgia",
-    "hawaii",
-    "illinois",
-    "indiana",
-    "kentucky",
-    "louisiana",
-    "maryland",
-    "michigan",
-    "minnesota",
-    "mississippi",
-    "missouri",
-    "montana",
-    "nebraska",
-    "oklahoma",
-    "pennsylvania",
-    "tennessee",
-    "vermont",
-    "virginia",
-    "washington",
-    "wisconsin",
-    "wyoming",
-)
-
-
 def _looks_like_domestic_location(value: str) -> bool:
-    if bool(
-        re.search(r"\b(?:u\.?s\.?a\.?|united\s+states)\b", value, re.I)
-        or _US_STATE_NAMES.search(value)
-        or _US_STATE_CODE.search(value)
-    ):
-        return True
-    tokens = re.findall(r"[a-z]{6,}", value.casefold())
-    return any(
-        SequenceMatcher(None, token, state).ratio() >= 0.70
-        for token in tokens
-        for state in _LONG_STATE_NAMES
-    )
+    return looks_like_domestic_location(value)
 
 
 def _industry_location_is_connected(line: OcrLine, following: list[OcrLine]) -> bool:
@@ -796,10 +1161,7 @@ def _drop_contained_candidates(items: list[Candidate]) -> list[Candidate]:
     return [
         item
         for item, value in normalized
-        if not any(
-            value != other_value and value in other_value
-            for _, other_value in normalized
-        )
+        if not any(value != other_value and value in other_value for _, other_value in normalized)
     ]
 
 
@@ -827,7 +1189,6 @@ def _warning_observation(
             candidate for candidate in body_lines if not _looks_like_interruption(candidate.text)
         ]
         body_bold = _body_bold_state(content_lines)
-        punctuation_normalized = _has_wrap_punctuation_uncertainty(content_lines)
         body = _join_wrapped_lines(content_lines) or None
         heading_evidence = factory.from_line("warning_heading", line)
         body_evidence = (
@@ -843,12 +1204,12 @@ def _warning_observation(
             ),
             None,
         )
-        separated = _vertical_separation(previous, line)
+        separated = _block_separation(lines, line, body_lines)
         part_two = next(
             (
                 body_index
                 for body_index, item in enumerate(body_lines)
-                if re.search(r"\(2\)", item.text)
+                if re.search(r"\(?2\)", item.text)
             ),
             None,
         )
@@ -856,16 +1217,24 @@ def _warning_observation(
         if part_two is not None:
             interruption = any(_looks_like_interruption(item.text) for item in body_lines)
             continuity = not interruption
-        contrast = _warning_contrast(line, body_lines) if sufficient else None
+        body_weight = _body_weight(content_lines, body_bold, line)
+        heading_weight = _heading_weight(
+            line,
+            content_lines,
+            _heading_bold_state(line, previous, content_lines),
+            mixed=bool(remainder),
+        )
+        contrast = _contrast_state(
+            line, body_lines, sufficient, _warning_contrast(line, body_lines)
+        )
         return WarningObservation(
             heading=heading,
             body=body,
             full_text=whitespace(f"{heading} {body or ''}"),
-            punctuation_normalized=punctuation_normalized,
             heading_evidence=heading_evidence,
             body_evidence=body_evidence,
-            heading_bold=_heading_bold_state(line, previous, content_lines),
-            body_bold=body_bold,
+            heading_bold=heading_weight,
+            body_bold=body_weight,
             separated=separated,
             continuous=continuity,
             contrast_sufficient=contrast,
@@ -876,6 +1245,193 @@ def _warning_observation(
             source_unreadable=source_unreadable,
         )
     return WarningObservation(source_unreadable=source_unreadable)
+
+
+def _weight_ratio(line: OcrLine) -> float | None:
+    """Stroke width relative to the measured letter height of the line."""
+
+    if line.stroke_px is None or line.ink_height_px is None or line.ink_height_px < 1:
+        return None
+    return line.stroke_px / line.ink_height_px
+
+
+def _weight_measurable(line: OcrLine) -> bool:
+    if line.ink_height_px is None or _weight_ratio(line) is None:
+        return False
+    return line.ink_height_px >= _MIN_RELIABLE_LETTER_HEIGHT
+
+
+def _body_weight(
+    content_lines: list[OcrLine], density_state: bool | None, heading: OcrLine | None = None
+) -> bool | None:
+    """Body weight from the measured stroke widths, falling back to the ink-density heuristic.
+
+    Stroke widths measured on OCR boxes are comparable within one statement but not
+    against an absolute scale, so the body is judged against its own heading: when the
+    heading is measurably heavier than the body, the body is regular; a body as heavy as
+    its heading is reported as bold for the reviewer; a measurement between the two is
+    inconclusive and also goes to the reviewer. The ink-density heuristic decides only when
+    no measurement is possible.
+    """
+
+    measurable = [item for item in content_lines if _weight_measurable(item)]
+    heading_ratio = _weight_ratio(heading) if heading and _weight_measurable(heading) else None
+    if len(measurable) >= 2 and heading_ratio is not None:
+        ratios = sorted(ratio for item in measurable if (ratio := _weight_ratio(item)) is not None)
+        median = ratios[len(ratios) // 2]
+        if median > 0:
+            relative = heading_ratio / median
+            if relative >= _HEADING_BODY_BOLD_RATIO:
+                return False
+            if relative <= _HEADING_BODY_SAME_RATIO:
+                return True
+            return None
+    return density_state
+
+
+def _heading_weight(
+    heading: OcrLine,
+    content_lines: list[OcrLine],
+    density_state: bool | None,
+    *,
+    mixed: bool = False,
+) -> bool | None:
+    """Heading weight relative to the body of the same statement.
+
+    A heading whose stroke is at least 1.3 times the body stroke, relative to letter
+    height, is bold. A heading no heavier than the body is reported for review rather
+    than rejected, because the estimator cannot separate a bold heading over a bold body
+    from a regular heading over a regular body. A ratio between the two is inconclusive
+    and also goes to the reviewer; the ink-density heuristic decides only when no
+    measurement is possible.
+    """
+
+    # A heading box that also carries the start of the body mixes two weights; its stroke
+    # measurement cannot say which part is bold.
+    if mixed or not _weight_measurable(heading):
+        return density_state
+    heading_ratio = _weight_ratio(heading)
+    if heading_ratio is None:
+        return density_state
+    measurable = [item for item in content_lines if _weight_measurable(item)]
+    body_ratios = [ratio for item in measurable if (ratio := _weight_ratio(item)) is not None]
+    if len(body_ratios) >= 2:
+        body_median = sorted(body_ratios)[len(body_ratios) // 2]
+        if body_median > 0:
+            relative = heading_ratio / body_median
+            if relative >= _HEADING_BODY_BOLD_RATIO:
+                return True
+            if relative <= _HEADING_BODY_SAME_RATIO:
+                return False
+            return None
+    return density_state
+
+
+def _contrast_state(
+    heading: OcrLine,
+    body_lines: list[OcrLine],
+    sufficient: bool,
+    density_state: bool | None,
+) -> bool | None:
+    """Contrast from two measurements that must agree, else the range heuristic.
+
+    The WCAG luminance ratio between ink and background and the raw gray-level range inside
+    the boxes are independent estimators. Both low across at least two lines is faint ink on
+    a similar ground; both clear is legible contrast; disagreement, as with a dense or
+    inverse-polarity crop, is a review item rather than a verdict either way.
+    """
+
+    content = [item for item in [heading, *body_lines] if not _looks_like_interruption(item.text)]
+    measured = [item for item in content if item.contrast_ratio is not None]
+    ratios = [item.contrast_ratio for item in measured if item.contrast_ratio is not None]
+    if sufficient and len(measured) >= 2 and len(measured) * 2 >= len(content):
+        content = measured
+        median = sorted(ratios)[len(ratios) // 2]
+        ranges = [item.local_contrast for item in content if item.local_contrast is not None]
+        range_median = sorted(ranges)[len(ranges) // 2] if ranges else 1.0
+        # Anti-aliased type below the measurable letter height dilutes the ink core, so a
+        # low reading on small type is not evidence of faint ink.
+        heights = [item.ink_height_px for item in content if item.ink_height_px is not None]
+        measurable = bool(heights) and sorted(heights)[len(heights) // 2] >= (
+            _MIN_RELIABLE_LETTER_HEIGHT
+        )
+        if (
+            measurable
+            and len(content) >= 2
+            and median < _CONTRAST_RATIO_FAIL_LT
+            and range_median < _LOW_CONTRAST_RANGE
+        ):
+            return False
+        if median >= _CONTRAST_RATIO_PASS_GTE and range_median >= _LOW_CONTRAST_RANGE:
+            return True
+        return None
+    # Without the measurements the ink-density heuristic can support a pass or ask for
+    # review; it is not evidence enough to reject.
+    return (density_state or None) if sufficient else None
+
+
+def _block_separation(
+    lines: list[OcrLine], heading: OcrLine, body_lines: list[OcrLine]
+) -> bool | None:
+    """Whether other text adjoins the warning block (27 CFR 16.21: separate and apart).
+
+    The block is the heading plus every line read as part of the statement. Any other line on
+    the same panel that overlaps the block horizontally is measured above or below it, and a
+    line that overlaps it vertically is measured beside it. When nothing adjoins the block it
+    is separate; the pass and fail gaps are fractions of the statement's own line height.
+    """
+
+    block = [heading, *body_lines]
+    left = min(point.x for item in block for point in item.polygon)
+    top = min(point.y for item in block for point in item.polygon)
+    right = max(point.x for item in block for point in item.polygon)
+    bottom = max(point.y for item in block for point in item.polygon)
+    heights = sorted(max(1, _line_height(item)) for item in block)
+    unit = heights[len(heights) // 2]
+    block_orders = {item.reading_order for item in block}
+    ratios: list[tuple[float, bool]] = []
+    for other in lines:
+        if other.panel_id != heading.panel_id or other.reading_order in block_orders:
+            continue
+        other_left = min(point.x for point in other.polygon)
+        other_top = min(point.y for point in other.polygon)
+        other_right = max(point.x for point in other.polygon)
+        other_bottom = max(point.y for point in other.polygon)
+        horizontal = max(0, min(right, other_right) - max(left, other_left))
+        vertical = max(0, min(bottom, other_bottom) - max(top, other_top))
+        narrower = max(1, min(right - left, other_right - other_left))
+        shorter = max(1, min(bottom - top, other_bottom - other_top))
+        # The gap is judged against the smaller of the statement's line height and the
+        # neighbouring line's height, so a small caption near a large statement still counts.
+        comparison = max(1, min(unit, max(1, other_bottom - other_top)))
+        # An OCR box far taller than the statement's lines is usually a merged or inflated
+        # box whose edges say nothing about ink; it cannot prove that text adjoins the block.
+        inflated = (other_bottom - other_top) > unit * 1.8 or (other.confidence or 0.0) < 0.8
+        if horizontal / narrower >= 0.25:
+            if other_bottom <= top + unit * 0.25:
+                ratio = max(0, top - other_bottom) / comparison
+            elif other_top >= bottom - unit * 0.25:
+                ratio = max(0, other_top - bottom) / comparison
+            else:
+                ratio = 0.0
+        elif vertical / shorter >= 0.3:
+            if other_right <= left:
+                ratio = (left - other_right) / comparison
+            elif other_left >= right:
+                ratio = (other_left - right) / comparison
+            else:
+                ratio = 0.0
+        else:
+            continue
+        ratios.append((ratio, inflated))
+    if not ratios:
+        return True
+    nearest, nearest_inflated = min(ratios, key=lambda item: item[0])
+    if nearest >= _WARNING_THRESHOLDS["separationGapPassLineHeightRatioGte"]:
+        return True
+    if nearest <= _WARNING_THRESHOLDS["separationGapFailLineHeightRatioLte"]:
+        return None if nearest_inflated else False
+    return None
 
 
 def _warning_heading_and_remainder(value: str, match: re.Match[str]) -> tuple[str, str]:
@@ -902,14 +1458,6 @@ def _join_wrapped_lines(lines: list[OcrLine]) -> str:
         if values[index].endswith(".") and values[index + 1][:1].islower():
             values[index] = values[index][:-1]
     return whitespace(" ".join(values))
-
-
-def _has_wrap_punctuation_uncertainty(lines: list[OcrLine]) -> bool:
-    values = [whitespace(item.text) for item in lines if whitespace(item.text)]
-    return any(
-        values[index].endswith(".") and values[index + 1][:1].islower()
-        for index in range(len(values) - 1)
-    )
 
 
 def _bold_state(density: float | None) -> bool | None:
@@ -968,32 +1516,6 @@ def _heading_bold_state(
     return height_state if height_state is True else None
 
 
-def _vertical_separation(previous: OcrLine | None, heading: OcrLine) -> bool | None:
-    if previous is None:
-        return None
-    gap = min(point.y for point in heading.polygon) - max(point.y for point in previous.polygon)
-    heading_height = _line_height(heading)
-    previous_height = _line_height(previous)
-    if heading_height <= 0 or previous_height <= 0:
-        return None
-    comparison_height = min(heading_height, previous_height)
-    if gap > comparison_height * 3:
-        return None
-    if gap >= comparison_height * _WARNING_THRESHOLDS[
-        "separationGapPassLineHeightRatioGte"
-    ]:
-        if _unexpected_surrounding_text(previous.text) and gap < comparison_height * 2:
-            return None
-        return True
-    if _unexpected_surrounding_text(previous.text):
-        return None
-    if gap <= comparison_height * _WARNING_THRESHOLDS[
-        "separationGapFailLineHeightRatioLte"
-    ]:
-        return False
-    return None
-
-
 def _warning_contrast(heading: OcrLine, body_lines: list[OcrLine]) -> bool | None:
     content = [item for item in [heading, *body_lines] if not _looks_like_interruption(item.text)]
     if not content or any(
@@ -1037,13 +1559,6 @@ def _warning_legibility(
     if min(confidences) < _WARNING_THRESHOLDS["ocrSignalFailLt"]:
         return False
     return None
-
-
-def _unexpected_surrounding_text(value: str) -> bool:
-    text = whitespace(value)
-    return bool(
-        _looks_like_interruption(text) and not _PRODUCER.search(text) and not re.search(r"\d", text)
-    )
 
 
 def _looks_like_interruption(value: str) -> bool:

@@ -140,9 +140,7 @@ def discover_images(
         if path.parent == input_root and path.suffix.casefold() in SUPPORTED_EXTENSIONS
     ]
     paths = [
-        path
-        for path in supported_paths
-        if governed_names is None or path.name in governed_names
+        path for path in supported_paths if governed_names is None or path.name in governed_names
     ]
     if governed_names is not None:
         missing = sorted(governed_names - {path.name for path in paths})
@@ -968,9 +966,7 @@ def main() -> int:
         paths, ignored_files, image_hashes = discover_images(
             input_root, args.expected_count, governed_names
         )
-        oracle, oracle_metadata = load_oracle(
-            oracle_path, paths, image_hashes
-        )
+        oracle, oracle_metadata = load_oracle(oracle_path, paths, image_hashes)
     except ValidationInputError as exc:
         print(f"VALIDATION_INPUT_ERROR: {exc}", file=sys.stderr)
         return 2

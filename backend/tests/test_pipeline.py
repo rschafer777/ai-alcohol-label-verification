@@ -221,51 +221,6 @@ def test_visually_equivalent_panels_are_ocr_deduplicated_but_retained() -> None:
     assert retained[1].quality_signals["duplicateOfPanelId"] == "panel-1"
 
 
-def test_brand_recovery_detects_brand_candidate_below_class_as_suspicious() -> None:
-    observed = pipeline_module.locate_candidates(
-        [
-            OcrLine(
-                panelId="panel-1",
-                text="PALE ALE",
-                polygon=[
-                    Point(x=100, y=300),
-                    Point(x=300, y=300),
-                    Point(x=300, y=340),
-                    Point(x=100, y=340),
-                ],
-                confidence=0.95,
-                readingOrder=0,
-                sourceView="original",
-                transformId="transform-panel-1-v1",
-            ),
-            OcrLine(
-                panelId="panel-1",
-                text="SEATTLE.WHINGION",
-                polygon=[
-                    Point(x=100, y=600),
-                    Point(x=300, y=600),
-                    Point(x=300, y=640),
-                    Point(x=100, y=640),
-                ],
-                confidence=0.95,
-                readingOrder=1,
-                sourceView="original",
-                transformId="transform-panel-1-v1",
-            ),
-        ],
-        [
-            PanelResult(
-                panelId="panel-1",
-                originalDimensions=OriginalDimensions(width=800, height=1000),
-                qualitySignals={},
-                coverageState="Sufficient",
-            )
-        ],
-    )
-
-    assert pipeline_module._brand_needs_recovery(observed) is True
-
-
 def test_integrity_rejects_out_of_bounds_evidence() -> None:
     panel = PanelResult(
         panelId="panel-1",

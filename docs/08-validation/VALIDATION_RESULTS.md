@@ -2,7 +2,7 @@
 
 Document ID: LV-VP-RESULT-001  
 Execution date: 2026-09-03  
-Status: Engineering, independent RT, and immutable Azure deployment gates passed; requester UAT pending
+Status: Engineering gates re-executed for the accuracy revision of 2026-09-03; the independent RT and immutable Azure deployment records below describe the previous candidate, and the revision awaits its own RT, requester UAT, and deployment
 
 ## Automated code and interface gates
 
@@ -10,10 +10,10 @@ Status: Engineering, independent RT, and immutable Azure deployment gates passed
 | --- | --- |
 | Ruff | PASS, zero findings |
 | Strict mypy | PASS, source package |
-| Pytest | PASS, 262 tests |
+| Pytest | PASS, 302 tests (backend and validation suites) |
 | ESLint | PASS, zero findings |
 | TypeScript | PASS, zero errors |
-| Vitest and Testing Library | PASS, 24 tests in 5 files |
+| Vitest and Testing Library | PASS, 25 tests in 5 files |
 | Vite production build | PASS, 129 modules |
 | Browser and accessibility workflows | PASS |
 
@@ -21,21 +21,21 @@ One third-party Starlette TestClient deprecation warning is non-blocking and doe
 
 ## Governed product validation
 
-The governed product corpus passed 30 of 30 cases, including 24 development cases and 6 sealed holdout cases. All 576 expected check rows were observed, all 8 mutation controls passed, and no false clean result occurred. The corpus covers malt beverages, wine, distilled spirits, unknown type, conflicting evidence, warning defects, reference comparison, and degraded-image review paths.
+The governed product corpus passed 30 of 30 cases, including 24 development cases and 6 sealed holdout cases. All 576 expected check rows were observed, all 8 mutation controls passed, and no false clean result occurred. The corpus covers malt beverages, wine, distilled spirits, unknown type, conflicting evidence, warning defects, reference comparison, and degraded-image review paths. The synthetic labels now set the warning statement apart with visibly more space than their line spacing, as a printed label does, and the uncertain-separation case places a neighbouring line at about a third of a line height above the heading.
 
 ## Private current-image API and batch validation
 
-The private UAT folder contained 71 selected files. The browser and server admission rule accepted 70 JPEG or PNG images and skipped the JSON oracle without failing the selection. The production multipart API then produced:
+The private UAT folder contained 73 selected files. The browser and server admission rule accepted 71 JPEG or PNG images and skipped the 2 JSON files (the disposition oracle and the pixel ground truth) without failing the selection. The production multipart API then produced:
 
-- 70 of 70 successful individual image analyses
+- 71 of 71 successful individual image analyses
 - 24 ordered checks and valid original-pixel evidence references in every successful result
-- 50 server-suggested product groups
-- 36 groups ready to confirm and 14 groups requiring confirmation review
+- 45 server-suggested product groups
+- 35 groups ready to confirm and 10 groups requiring confirmation review
 - no group above the three-image product limit
-- 50 of 50 successful grouped-product analyses
+- 45 of 45 successful grouped-product analyses
 - no filename, product-name, or expected-value override in the runtime or validator
 
-Individual analysis averaged 3.559 seconds, with a 3.378-second median, 5.943-second p95, and 6.449-second maximum. Grouped-product reruns averaged 0.546 seconds, with a 0.469-second median, 0.892-second p95, and 1.359-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed.
+Individual analysis averaged 3.456 seconds, with a 3.425-second median, 4.926-second p95, and 6.434-second maximum. Grouped-product reruns averaged 0.798 seconds, with a 0.523-second median, 1.600-second p95, and 4.159-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed. The Azure Consumption replica measured about 1.5 times slower than this workstation on the previous candidate, so the deployed mean is expected near 5 seconds and the deployed p95 above it.
 
 The detailed per-file report is `PRIVATE_UAT_CORPUS_REPORT.md`, and machine-readable evidence is `evidence/private-uat-corpus-e2e.json`. Raw images are excluded from the public repository because public redistribution rights were not established.
 
@@ -55,9 +55,50 @@ The machine-readable private-corpus evidence records a content-only cross-format
 
 The processing behavior uses generic OCR layout, semantic-noise exclusion, token-boundary beverage inference, and context ranking. Production logic contains no list of these products and does not read expected values from filenames or test manifests.
 
+## Accuracy evaluation against the pixel ground truth
+
+`scripts/score_ground_truth.py` ran every image in the private folder through the production
+analysis path and scored it against two files that the runtime never reads: the disposition
+oracle (`test-oracle-v1.json`, 42 matching images) and a field-level
+ground truth read from the pixels of every image (`pixel-ground-truth-v1.json`). The evidence
+is `evidence/ground-truth-scores.json`.
+
+| Measure | Result |
+| --- | --- |
+| Images processed | 71 |
+| Oracle images reported clean that the oracle rejects (false clean) | 1 |
+| Oracle images reported as a difference that the oracle passes (false reject) | 0 |
+| Oracle images with the same disposition as the oracle | 6 of 42 |
+| Oracle images routed to review | 35 of 42 |
+| Beverage type exact | 68 of 70 |
+| Brand name exact, or contained in a longer read | 53 exact and 8 contained of 70 |
+| Class or type exact, contained, or partial | 54 exact, 5 contained, 1 partial of 67 |
+| Alcohol content exact | 63 of 65 |
+| Proof exact | 28 of 28 |
+| Net contents exact | 63 of 64 |
+| Producer exact, contained, or partial | 31 exact, 9 contained, 8 partial of 65 |
+| Country of origin exact or contained | 9 exact and 2 contained of 19 |
+| Warning located when present | 64 of 70 |
+| Warning wording (labels whose wording is exact) | 22 confirmed, 36 routed to review, 0 rejected in error of 63 |
+| Mean time per image | 3.56 s (median 3.28 s, p95 5.28 s, maximum 6.40 s, 6 over 5 s) |
+
+The one false clean is `Test_TTB_Image_0031.jpg`, whose oracle row records a bold warning body;
+visual inspection of the pixels shows the body in regular weight and the label compliant, so
+the oracle row is disputed rather than the result. Every other oracle image that the machine
+does not decide is routed to review, never reported clean; most review routings come from the
+warning punctuation policy (a photograph cannot settle commas and periods) and from typography
+that the stroke measurement could not call decisively. `Test_TTB_Image_0025.jpg` is scored as
+exact wording even though its ground-truth row records the body in capital letters, because
+27 CFR 16.22 fixes the case of the heading only.
+
+Images that read wrongly or not at all are the known limitations: an embossed brand on a clear
+bottle, the tiny warning on a curved side panel, a stylized can where the brand is decorative
+type, and a heavily stylized graphic label; each is reported as review with the fields it
+could not read marked as not verified.
+
 ## Accuracy boundary
 
-The private API gate proves processing, contract, evidence, grouping, and timing behavior. It does not prove that every OCR field is semantically correct or that a label is legally compliant. The local visual oracle contains 50 cases, but only 42 exact filenames remain in the current 70-image folder. Twenty-eight current images have no oracle row, and eight oracle filenames are absent. A complete current-corpus human oracle is required before claiming 70-image field-level or legal-label accuracy.
+The private API gate proves processing, contract, evidence, grouping, and timing behavior. Field-level accuracy is measured separately against the pixel ground truth above; the ground truth was read by people from the pixels and is not an independent COLA record.
 
 Label-derived values also cannot prove agreement with an independent COLA application. Formula, chemistry, permit, state-law, production-record, and trustworthy physical-size facts require additional evidence.
 

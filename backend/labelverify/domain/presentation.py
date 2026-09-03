@@ -187,6 +187,14 @@ _REASON_SHORT: dict[str, str] = {
     "malt_specialty_designation_review": "Specialty designation, review",
     "wine_brand_label_placement_review": "Confirm brand-label placement",
     "wine_appellation_not_found": "No appellation read",
+    "wine_appellation_found": "Appellation read",
+    "wine_appellation_placement_review": "Appellation on another panel",
+    "reference_found_on_label": "Application value found on label",
+    "reference_found_within_label_text": "Found inside a longer statement",
+    "reference_within_longer_text": "Inside a longer line; confirm",
+    "warning_required_by_class": "Required for this beverage class",
+    "malt_abv_optional_unless_added_alcohol": "Optional unless added alcohol",
+    "proof_adjacent_to_abv": "Proof = 2 x ABV, beside it",
     "wine_appellation_trigger_not_found": "No varietal or vintage trigger",
     "sulfite_declaration_found": "Declaration present",
     "sulfite_declaration_not_found": "No declaration read",
@@ -261,15 +269,37 @@ def _clip(value: str) -> str:
     return text[: REASON_SHORT_MAX - 1].rstrip() + "…"
 
 
+_APPLICATION_COMPARED_CHECKS = {
+    "brand",
+    "class_type",
+    "abv",
+    "proof",
+    "net_contents",
+    "producer",
+    "country",
+}
+
+
 def present_checks(
-    checks: list[CheckResult], beverage_type: BeverageType | None
+    checks: list[CheckResult],
+    beverage_type: BeverageType | None,
+    reference_provenance: str = "label_ocr",
 ) -> list[CheckResult]:
+    """Attach display fields; an application comparison shows the application value."""
+
+    compared = reference_provenance != "label_ocr"
     return [
         check.model_copy(
             update={
                 "group": check_group(check.check_id),
                 "short_label": short_label(check.check_id),
-                "rule_expectation": rule_expectation(check.check_id, beverage_type),
+                "rule_expectation": (
+                    f"Application: {check.reference_display}"
+                    if compared
+                    and check.check_id in _APPLICATION_COMPARED_CHECKS
+                    and check.reference_display
+                    else rule_expectation(check.check_id, beverage_type)
+                ),
                 "reason_short": reason_short(check),
             }
         )

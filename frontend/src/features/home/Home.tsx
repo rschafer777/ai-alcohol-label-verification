@@ -7,13 +7,15 @@ import { icons } from "../../components/icons";
 import { DispositionTag, SummaryTag } from "../../components/StatusTag";
 import type { HistorySummary } from "../../contracts/types";
 import { filterBatchSelection, imageSelectionIssue, type SkippedBatchFile } from "../batch/grouping";
+import { EMPTY_APPLICATION, type ApplicationInput } from "../intake/application";
+import { ApplicationDetails } from "../intake/ApplicationDetails";
 import { beverageTypeLabel } from "../verification/check-view";
 import { whenLabel } from "./format";
 
 const DIRECTORY_ATTRS = { webkitdirectory: "", directory: "" } as Record<string, string>;
 
 export function Home({ onSingle, onBatch, onSample, onOpenHistory, onOpenRecord, recent, historyTotal, historyCap, sampleLoading }: {
-  onSingle: (files: File[]) => void;
+  onSingle: (files: File[], application: ApplicationInput) => void;
   onBatch: (files: File[]) => void;
   onSample: () => void;
   onOpenHistory: () => void;
@@ -31,6 +33,8 @@ export function Home({ onSingle, onBatch, onSample, onOpenHistory, onOpenRecord,
   const [batchIssue, setBatchIssue] = useState("");
   const [batchSkipped, setBatchSkipped] = useState<SkippedBatchFile[]>([]);
   const [dragging, setDragging] = useState<"single" | "batch" | null>(null);
+  const [application, setApplication] = useState<ApplicationInput>(EMPTY_APPLICATION);
+  const [applicationOpen, setApplicationOpen] = useState(false);
 
   function addSingle(files: File[]) {
     const next = [...singleFiles, ...files];
@@ -118,9 +122,10 @@ export function Home({ onSingle, onBatch, onSample, onOpenHistory, onOpenRecord,
               ))}
             </ul>
           ) : null}
+          <ApplicationDetails onChange={setApplication} onToggle={setApplicationOpen} open={applicationOpen} value={application} />
           <div className="door-foot">
             <span className="note text-muted">Reads and checks in one step · usually about 5 seconds</span>
-            <button className="btn btn-primary blueprint" disabled={!singleFiles.length} onClick={() => onSingle(singleFiles)} type="button"><Corners />Read &amp; check label {icons.arrow()}</button>
+            <button className="btn btn-primary blueprint" disabled={!singleFiles.length} onClick={() => onSingle(singleFiles, application)} type="button"><Corners />Read &amp; check label {icons.arrow()}</button>
           </div>
         </section>
 

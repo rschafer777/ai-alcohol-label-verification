@@ -17,7 +17,7 @@ CONTRACT_HASHES = {
         "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
     ),
     "regulatory-rules-v1.json": (
-        "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149"
+        "b50dd2a682d0138ccf984d3bc886d565ae27cc9902c91773c40c65502a541fe1"
     ),
 }
 

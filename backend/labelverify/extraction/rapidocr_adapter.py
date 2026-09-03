@@ -6,6 +6,8 @@ import re
 from collections import OrderedDict
 from collections.abc import Sequence
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
+from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +35,11 @@ OCR_INFERENCE_LANES = 2
 OCR_INTRA_OP_THREADS_PER_LANE = 2
 OCR_OUTPUT_CACHE_ENTRIES = 2048
 _MIN_LOCAL_CONTRAST = 24.0
+# Components shorter than this share of the line extent are dots, commas, and specks.
+_LETTER_HEIGHT_FLOOR = 0.3
+# Boxes whose heights differ by more than this factor never describe one printed line.
+_MAX_HEIGHT_RATIO = 1.8
+_MIN_LETTER_COMPONENTS = 3
 _MIN_FOREGROUND_FRACTION = 0.02
 _MAX_FOREGROUND_FRACTION = 0.65
 _COLLAPSED_WARNING_HEADING = re.compile(r"^governmentwarning\s*:$", re.I)
@@ -85,7 +92,8 @@ class RapidOcrAdapter:
             "Global.font_path": str(self._model_root / "DejaVuSans.ttf"),
             "Global.log_level": "error",
             "Global.max_side_len": 3000,
-            "Det.limit_side_len": 1440,
+            "Global.use_cls": False,
+            "Det.limit_side_len": 1280,
             "Det.model_path": str(self._model_root / "en_PP-OCRv3_det_infer.onnx"),
             "Rec.model_path": str(self._model_root / "en_PP-OCRv4_rec_infer.onnx"),
             "Cls.model_path": str(self._model_root / "ch_ppocr_mobile_v2.0_cls_infer.onnx"),
@@ -139,6 +147,7 @@ class RapidOcrAdapter:
                 confidence = float(scores[index]) if scores is not None else None
                 polygon = view.to_original_polygon(box)
                 recognized_text = _restore_warning_separator(str(text), view.image, box)
+                metrics = text_metrics(view.image, box)
                 line = OcrLine(
                     panelId=view.panel_id,
                     text=recognized_text,
@@ -147,8 +156,11 @@ class RapidOcrAdapter:
                     readingOrder=reading_order,
                     sourceView=view.source_view,
                     transformId=view.transform_id,
-                    inkDensity=_ink_density(view.image, box),
-                    localContrast=_local_contrast(view.image, box),
+                    inkDensity=metrics.ink_density,
+                    localContrast=metrics.local_contrast,
+                    strokePx=metrics.stroke_px,
+                    inkHeightPx=metrics.ink_height_px,
+                    contrastRatio=metrics.contrast_ratio,
                 )
                 lines.append(line)
                 reading_order += 1
@@ -218,19 +230,55 @@ def _warm_engine(engine: Any, warmup: Any) -> None:
 
 
 def deduplicate_ocr_lines(lines: list[OcrLine]) -> list[OcrLine]:
-    selected: dict[tuple[str, str, int, int], OcrLine] = {}
-    for line in lines:
-        key = (
-            line.panel_id,
-            " ".join(line.text.casefold().split()),
-            line.polygon[0].x // 12,
-            line.polygon[0].y // 12,
-        )
-        current = selected.get(key)
-        if current is None or (line.confidence or 0) > (current.confidence or 0):
-            selected[key] = line
+    """Fuse repeated reads of one physical text region into one line.
+
+    The pipeline reads a panel through several views (bounded original, contrast-enhanced,
+    and enlarged crops). Each view returns its own box for the same printed line, often with
+    a slightly different transcription, and a crop can also return a fragment of a line that
+    was cut by the crop boundary. Region overlap, not text equality, therefore decides what is
+    a duplicate: boxes on the same panel that share most of their vertical extent and most of
+    the narrower box's width are one region. The fullest confident reading represents the
+    region so fragments cannot become extra candidates or duplicate warning sentences.
+    """
+
+    if not lines:
+        return []
+    boxes = [_bounds(line) for line in lines]
+    parent = list(range(len(lines)))
+
+    def find(index: int) -> int:
+        while parent[index] != index:
+            parent[index] = parent[parent[index]]
+            index = parent[index]
+        return index
+
+    # Boxes are visited by panel and top edge, so the inner loop stops at the first box
+    # that starts below the current box's bottom edge; nothing after it can overlap.
+    order = sorted(range(len(lines)), key=lambda index: (lines[index].panel_id, boxes[index][1]))
+    for position, first in enumerate(order):
+        for second in order[position + 1 :]:
+            if lines[first].panel_id != lines[second].panel_id:
+                break
+            if boxes[second][1] >= boxes[first][3]:
+                break
+            if not _same_region(boxes[first], boxes[second]):
+                continue
+            if lines[first].transform_id == lines[second].transform_id:
+                # One view reads a printed line twice only as a duplicate detection whose
+                # texts nearly agree ("12 FL. OZ" and "12 FL. 0Z"); overlapping boxes with
+                # different texts are distinct lines (a small line inside a tall box).
+                if _near_identical_reads(lines[first], lines[second]):
+                    parent[find(second)] = find(first)
+                continue
+            if _compatible_reads(lines[first], lines[second]):
+                parent[find(second)] = find(first)
+
+    clusters: dict[int, list[int]] = {}
+    for index in range(len(lines)):
+        clusters.setdefault(find(index), []).append(index)
+    selected = [_fuse_cluster([lines[index] for index in members]) for members in clusters.values()]
     ordered = sorted(
-        selected.values(),
+        selected,
         key=lambda item: (
             int(item.panel_id.split("-")[1]),
             min(p.y for p in item.polygon),
@@ -240,48 +288,213 @@ def deduplicate_ocr_lines(lines: list[OcrLine]) -> list[OcrLine]:
     return [item.model_copy(update={"reading_order": index}) for index, item in enumerate(ordered)]
 
 
-def _ink_density(image: np.ndarray[Any, Any], polygon: Any) -> float | None:
+def _bounds(line: OcrLine) -> tuple[int, int, int, int]:
+    xs = [point.x for point in line.polygon]
+    ys = [point.y for point in line.polygon]
+    return min(xs), min(ys), max(xs), max(ys)
+
+
+def _same_region(first: tuple[int, int, int, int], second: tuple[int, int, int, int]) -> bool:
+    first_height = max(1, first[3] - first[1])
+    second_height = max(1, second[3] - second[1])
+    # Two reads of one printed line have the same line height whatever view they came
+    # from; a small box inside a much taller one is a different line (or a whole column of
+    # rotated text) and must keep its own place.
+    if max(first_height, second_height) > _MAX_HEIGHT_RATIO * min(first_height, second_height):
+        return False
+    vertical_overlap = max(0, min(first[3], second[3]) - max(first[1], second[1]))
+    smaller_height = min(first_height, second_height)
+    if vertical_overlap / smaller_height < 0.6:
+        return False
+    horizontal_overlap = max(0, min(first[2], second[2]) - max(first[0], second[0]))
+    smaller_width = max(1, min(first[2] - first[0], second[2] - second[0]))
+    return horizontal_overlap / smaller_width >= 0.6
+
+
+def _near_identical_reads(first: OcrLine, second: OcrLine) -> bool:
+    first_text = "".join(character for character in first.text.casefold() if character.isalnum())
+    second_text = "".join(character for character in second.text.casefold() if character.isalnum())
+    if not first_text or not second_text:
+        return False
+    return SequenceMatcher(None, first_text, second_text, autojunk=False).ratio() >= 0.8
+
+
+def _compatible_reads(first: OcrLine, second: OcrLine) -> bool:
+    """Whether two overlapping boxes from different views read the same printed text.
+
+    Readings of one line agree on most letters, or one is a fragment of the other. Two
+    confident readings with nothing in common are two different lines whose boxes happen
+    to overlap, and each keeps its place.
+    """
+
+    first_text = "".join(character for character in first.text.casefold() if character.isalnum())
+    second_text = "".join(character for character in second.text.casefold() if character.isalnum())
+    if not first_text or not second_text:
+        return True
+    if first_text in second_text or second_text in first_text:
+        return True
+    ratio = SequenceMatcher(None, first_text, second_text, autojunk=False).ratio()
+    if ratio >= 0.4:
+        return True
+    # A weak reading of the region may be garbage; it merges into the stronger reading
+    # only when it is short, so it cannot drag a real line into a different box.
+    weak = min((first, second), key=lambda item: item.confidence or 0.0)
+    return (weak.confidence or 0.0) < 0.8 and len(weak.text.strip()) <= 12
+
+
+def _fuse_cluster(members: list[OcrLine]) -> OcrLine:
+    if len(members) == 1:
+        return members[0]
+    widest = max(_bounds(item)[2] - _bounds(item)[0] for item in members)
+
+    def reading_score(item: OcrLine) -> tuple[float, int, int]:
+        width = _bounds(item)[2] - _bounds(item)[0]
+        letters = sum(character.isalnum() for character in item.text)
+        return (
+            0.6 * (width / max(1, widest)) + 0.4 * (item.confidence or 0.0),
+            letters,
+            1 if item.source_view == "original" else 0,
+        )
+
+    best = max(members, key=reading_score)
+    # Typography metrics come from the reading made at the highest resolution because stroke
+    # width and contrast are more reliable with more pixels per character.
+    measured = [item for item in members if item.ink_height_px is not None]
+    if measured:
+        source = max(measured, key=lambda item: item.ink_height_px or 0.0)
+        if source is not best:
+            best = best.model_copy(
+                update={
+                    "ink_density": source.ink_density,
+                    "local_contrast": source.local_contrast,
+                    "stroke_px": source.stroke_px,
+                    "ink_height_px": source.ink_height_px,
+                    "contrast_ratio": source.contrast_ratio,
+                }
+            )
+    return best
+
+
+@dataclass(frozen=True)
+class TextMetrics:
+    ink_density: float | None = None
+    local_contrast: float | None = None
+    stroke_px: float | None = None
+    ink_height_px: float | None = None
+    contrast_ratio: float | None = None
+
+
+def text_metrics(image: np.ndarray[Any, Any], polygon: Any) -> TextMetrics:
+    """Measure ink coverage, contrast, and stroke geometry inside one OCR box.
+
+    All values describe the view pixels that OCR actually read. The stroke width is the
+    classic area-over-half-perimeter estimate of the mean stroke thickness, and the ink height
+    is the letter height of the line (the upper quartile of connected-component heights, which
+    tracks the cap or ascender height and ignores dots, commas, and parentheses), so
+    ``stroke_px / ink_height_px`` compares type weight independently of scale and letter case.
+    The contrast ratio is WCAG relative luminance between the ink core and the surrounding
+    background.
+    """
+
     points = np.asarray(polygon, dtype=np.float32)
     x0 = max(0, int(np.floor(points[:, 0].min())))
     y0 = max(0, int(np.floor(points[:, 1].min())))
     x1 = min(image.shape[1], int(np.ceil(points[:, 0].max())) + 1)
     y1 = min(image.shape[0], int(np.ceil(points[:, 1].max())) + 1)
     if x1 <= x0 or y1 <= y0:
-        return None
+        return TextMetrics()
     crop = image[y0:y1, x0:x1]
     gray = cv2.cvtColor(crop, cv2.COLOR_RGB2GRAY) if crop.ndim == 3 else crop
     gray_values: NDArray[np.float32] = np.asarray(gray, dtype=np.float32)
-    lower = float(np.percentile(gray_values, 5))
-    upper = float(np.percentile(gray_values, 95))
+    # Thin strokes can cover under five percent of a loose box, so the ink extreme is taken
+    # at the second percentile rather than the fifth.
+    lower = float(np.percentile(gray_values, 2))
+    upper = float(np.percentile(gray_values, 98))
+    local_contrast = round((upper - lower) / 255, 5)
     if upper - lower < _MIN_LOCAL_CONTRAST:
-        return None
+        return TextMetrics(local_contrast=local_contrast)
 
     border = np.concatenate(
         (gray_values[0, :], gray_values[-1, :], gray_values[:, 0], gray_values[:, -1])
     )
     background = float(np.median(border))
     midpoint = (lower + upper) / 2
-    foreground = gray_values <= midpoint if background >= midpoint else gray_values >= midpoint
+    dark_ink = background >= midpoint
+    foreground = gray_values <= midpoint if dark_ink else gray_values >= midpoint
     fraction = float(np.mean(foreground))
     if not _MIN_FOREGROUND_FRACTION <= fraction <= _MAX_FOREGROUND_FRACTION:
-        return None
-    return round(fraction, 5)
+        return TextMetrics(local_contrast=local_contrast)
+    mask = foreground.astype(np.uint8)
+    ink_height = _letter_height(mask)
+    kernel = np.ones((3, 3), dtype=np.uint8)
+    eroded = cv2.erode(mask, kernel)
+    perimeter = int(np.count_nonzero(mask - eroded))
+    stroke = round(2.0 * float(mask.sum()) / perimeter, 3) if perimeter > 0 else None
+    core = eroded if int(eroded.sum()) >= 8 else mask
+    ink_luminance = _relative_luminance(crop, core > 0)
+    background_luminance = _relative_luminance(crop, _background_ring(mask))
+    contrast_ratio = None
+    if ink_luminance is not None and background_luminance is not None:
+        lighter = max(ink_luminance, background_luminance)
+        darker = min(ink_luminance, background_luminance)
+        contrast_ratio = round(min(21.0, (lighter + 0.05) / (darker + 0.05)), 3)
+    return TextMetrics(
+        ink_density=round(fraction, 5),
+        local_contrast=local_contrast,
+        stroke_px=stroke,
+        ink_height_px=ink_height,
+        contrast_ratio=contrast_ratio,
+    )
 
 
-def _local_contrast(image: np.ndarray[Any, Any], polygon: Any) -> float | None:
-    points = np.asarray(polygon, dtype=np.float32)
-    x0 = max(0, int(np.floor(points[:, 0].min())))
-    y0 = max(0, int(np.floor(points[:, 1].min())))
-    x1 = min(image.shape[1], int(np.ceil(points[:, 0].max())) + 1)
-    y1 = min(image.shape[0], int(np.ceil(points[:, 1].max())) + 1)
-    if x1 <= x0 or y1 <= y0:
+def _letter_height(mask: NDArray[np.uint8]) -> float | None:
+    """Letter height of a text line from its connected components.
+
+    The full ink extent of a line is inflated by parentheses, descenders, and stray marks,
+    and a body line that opens with "(1)" would then look lighter than it is. The upper
+    quartile of component heights lands on the capitals and ascenders in both all-capital
+    and mixed-case text (the shorter x-height letters are the majority in mixed case, but
+    never three quarters of a line), while dots, commas, and specks fall below the height
+    floor and the rare parenthesis sits above the quartile.
+    """
+
+    rows = np.flatnonzero(mask.any(axis=1))
+    if rows.size == 0:
         return None
-    crop = image[y0:y1, x0:x1]
-    gray = cv2.cvtColor(crop, cv2.COLOR_RGB2GRAY) if crop.ndim == 3 else crop
-    gray_values: NDArray[np.float32] = np.asarray(gray, dtype=np.float32)
-    lower = float(np.percentile(gray_values, 5))
-    upper = float(np.percentile(gray_values, 95))
-    return round((upper - lower) / 255, 5)
+    extent = float(rows.max() - rows.min() + 1)
+    count, _labels, stats, _centroids = cv2.connectedComponentsWithStats(mask, connectivity=8)
+    if count <= 1:
+        return extent
+    heights = np.asarray(stats[1:, cv2.CC_STAT_HEIGHT], dtype=np.float32)
+    letters = heights[heights >= _LETTER_HEIGHT_FLOOR * extent]
+    if letters.size < _MIN_LETTER_COMPONENTS:
+        return extent
+    return float(np.percentile(letters, 75))
+
+
+def _background_ring(mask: NDArray[np.uint8]) -> NDArray[np.bool_]:
+    """Background pixels clear of the anti-aliased ink edge."""
+
+    kernel = np.ones((3, 3), dtype=np.uint8)
+    near = cv2.dilate(mask, kernel, iterations=2)
+    clear = np.asarray(near == 0, dtype=np.bool_)
+    if int(clear.sum()) >= 16:
+        return clear
+    ring = np.asarray((near > 0) & (mask == 0), dtype=np.bool_)
+    if int(ring.sum()) >= 8:
+        return ring
+    return np.asarray(mask == 0, dtype=np.bool_)
+
+
+def _relative_luminance(crop: np.ndarray[Any, Any], selection: NDArray[np.bool_]) -> float | None:
+    if not bool(selection.any()):
+        return None
+    pixels = np.asarray(crop[selection], dtype=np.float32) / 255.0
+    if pixels.ndim == 1:
+        pixels = np.stack([pixels, pixels, pixels], axis=1)
+    linear = np.where(pixels <= 0.03928, pixels / 12.92, ((pixels + 0.055) / 1.055) ** 2.4)
+    luminance = 0.2126 * linear[:, 0] + 0.7152 * linear[:, 1] + 0.0722 * linear[:, 2]
+    return float(np.median(luminance))
 
 
 def _restore_warning_separator(text: str, image: np.ndarray[Any, Any], polygon: Any) -> str:
