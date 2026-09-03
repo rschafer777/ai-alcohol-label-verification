@@ -1,7 +1,7 @@
 # QA, QC, and User Acceptance
 
 Document ID: LV-QA-001  
-Status: QA and QC release gates passed; requester UAT follows verified release deployment
+Status: QA and QC release gates and deployment verification passed; requester UAT pending
 
 ## Quality assurance controls
 
@@ -39,7 +39,7 @@ QC verifies the produced artifact:
 
 The release candidate passed 262 Python tests, strict typing, Python and frontend linting, 24 frontend component and contract tests, the production frontend build, browser workflows, privacy checks, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The private current-image corpus completed 70 of 70 individual API analyses and 50 of 50 server-suggested grouped-product analyses, with no group above three images. Its 3.559-second individual mean and 6.449-second maximum passed the declared targets. The source-bound integration record shows a cross-format two-panel request completed in 6.015 seconds, retained both panels, recorded the duplicate linkage, and kept worker generation at 1 with zero restarts. Security boundary tests, staged-source inspection, and production dependency audits found no unresolved release blocker. Detailed measurements, oracle coverage, and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
 
-The 70 of 70 count is a technical processing result. The current folder does not have a complete independent human field oracle, so field-level and legal-label accuracy remain part of requester UAT.
+The Azure deployment workflow also passed its exact-build, effective 4 vCPU and 8 GiB configuration, health, metadata, public verification, and latency gates. Nine additional fresh public difficult-image analyses returned HTTP 200 with 24 checks each, correct beverage families, a 7.148-second mean, and an 8.752-second maximum. The 70 of 70 count is a technical processing result. The current folder does not have a complete independent human field oracle, so field-level and legal-label accuracy remain part of requester UAT.
 
 ## UAT script
 
@@ -67,11 +67,11 @@ Run against the release URL in a new browser session.
 
 | Field | Entry |
 | --- | --- |
-| Release commit | To be bound at deployment |
+| Release commit | `6863ea8eaa4074ba209cc273f79db19f84917641` |
 | Public URL | `https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/` |
 | Browser and version | Requester entry |
 | Date | Requester entry |
-| Result | Pending requester execution |
+| Result | Engineering and deployment entry gates passed; pending requester execution |
 | Accepted by | Requester entry |
 | Findings | Requester entry |
 

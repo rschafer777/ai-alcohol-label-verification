@@ -6,8 +6,8 @@ Status: CLEAR for deployment and requester UAT
 
 ## Frozen candidate
 
-- Governed content manifest entries: 346
-- Manifest SHA-256: `6C3E824D9E2B174B20A65DD650FAD23EE03B9EF1F3113BC2D70EC91BAB01AD57`
+- Governed content manifest entries: 347
+- Manifest SHA-256: `972078427CB5B766D0026694B5B3F997BEFB5D376935D901F552F5BE114FB355`
 - Manifest verification: PASS with zero staged-blob mismatches
 - Staged diff whitespace check: PASS
 
@@ -47,3 +47,14 @@ This signoff is intentionally excluded from the governed content manifest becaus
 | Full release gate | PASS |
 
 Technical execution and performance gates are complete. Field-level semantic accuracy and legal compliance scoring remain subject to the complete human oracle and requester UAT, as defined in the Validation Protocol and QA/QC/UAT plan.
+
+## Deployment verification after signoff
+
+- Application commit: `6863ea8eaa4074ba209cc273f79db19f84917641`
+- Workflow: `https://github.com/rschafer777/ai-alcohol-label-verification/actions/runs/33746505754`, PASS
+- Image digest: `sha256:9ab566a7a604dd558c8aefbe19af75edddc4b57165054a200b6a3698b6d8fd41`
+- GitHub deployment: `6242353833`, `demo`, success
+- Effective Azure allocation: 4 vCPU and 8 GiB
+- Live readiness and metadata: PASS
+- Public difficult-image processing: PASS, 9 of 9, 7.148-second mean, 8.752-second maximum
+- Requester UAT entry: OPEN

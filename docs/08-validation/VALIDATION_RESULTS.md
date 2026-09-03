@@ -2,7 +2,7 @@
 
 Document ID: LV-VP-RESULT-001  
 Execution date: 2026-09-03  
-Status: Engineering gates passed; final independent RT and immutable deployment verification follow candidate freeze
+Status: Engineering, independent RT, and immutable Azure deployment gates passed; requester UAT pending
 
 ## Automated code and interface gates
 
@@ -79,4 +79,26 @@ Python and production npm dependency audits are part of the complete release gat
 
 ## Release-bound checks
 
-Three independent RT reviewers inspect the final frozen candidate for requirements fidelity, architecture and security, and delivery and UAT readiness. The release manifest records the exact reviewed content. After the commit is pushed, the deployment workflow must prove that the same commit and immutable image digest are live before requester UAT begins.
+Three independent RT reviewers returned Clear decisions for requirements fidelity, architecture and security, and delivery and UAT readiness against the same 346-entry frozen manifest. The release manifest SHA-256 is `6C3E824D9E2B174B20A65DD650FAD23EE03B9EF1F3113BC2D70EC91BAB01AD57`.
+
+## Public Azure deployment validation
+
+GitHub Actions run `33746505754` validated and deployed application commit `6863ea8eaa4074ba209cc273f79db19f84917641`. The immutable image digest is `sha256:9ab566a7a604dd558c8aefbe19af75edddc4b57165054a200b6a3698b6d8fd41`. GitHub deployment `6242353833` reports success for environment `demo`. The rollback job was not invoked.
+
+The workflow read back 4 vCPU and 8 GiB before public verification. The live service returned HTTPS 200, liveness true, readiness true at worker generation 1, exact build metadata, profile `all_beverages_demo_v2`, RapidOCR 3.4.2, 24 selected checks, three panels per product, and a 500-record history cap. Its protected sample gate required three complete public results with a server-duration mean below 5 seconds and maximum below 9 seconds, and passed.
+
+Nine additional fresh difficult-image analyses were then submitted through the public production-mode demo API with the required Origin control. Every request returned HTTP 200, 24 checks, and the correct beverage family. Server duration averaged 7.148 seconds and never exceeded 8.752 seconds.
+
+| Public case | Type | Core extraction | Server duration |
+| --- | --- | --- | --- |
+| Tuscan wine | Wine | `Tuscan`, `Sangiovese`, 13.5 percent, 750 mL | 8.093 seconds |
+| Valle di Pietra wine | Wine | `VALLE DI PIETRA`, `Sangiovese`, 13.5 percent, 750 mL | 7.019 seconds |
+| Northveil Vodka | Distilled spirits | `NORTHVEIL`, `VODKA`, 40 percent, 80 proof, 750 mL | 7.623 seconds |
+| Jack Daniel's, two panels | Distilled spirits | `JACK DANIEL'S`, `WHISKEY`, 40 percent, 80 proof, 375 mL, producer/location | 5.973 seconds |
+| Organic Vodka, two panels | Distilled spirits | `OrganicVodka`, neutral spirits, 40 percent, 80 proof, 750 mL, Hawaii producer/location | 6.474 seconds |
+| Cascade Light | Wine | `CASCADE LIGHT`, `RIESLING`, 11.5 percent, 750 mL, producer/location | 8.752 seconds |
+| Peak Farm | Malt beverage | `PEAK FARM`, `DOUBLE PALE ALE`, 7.2 percent, 16 fl oz, producer/address | 6.388 seconds |
+| Blood & Honey equivalent pair | Malt beverage | `BLOOD & HONEY`, `TEXAS STYLE ALE`; both panels retained with one duplicate link | 7.428 seconds |
+| XXL, two panels | Wine | `STRAWBERRY`, grape wine with natural flavor, 16 percent, 750 mL | 6.586 seconds |
+
+Missing or unreadable source fields remain Review or Not verified. Domestic Hawaii and Tennessee addresses correctly do not create a foreign country-of-origin value. These public checks prove technical processing and the recorded extraction results, not final legal compliance or agreement with an independent COLA application.
