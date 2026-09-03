@@ -2,7 +2,7 @@
 
 Document ID: LV-DEV-001  
 Build baseline: LV-BI-001  
-Status: Implementation complete; local release validation passed
+Status: Implementation complete; local and protected Azure validation passed; requester UAT pending
 
 ## Implemented components
 

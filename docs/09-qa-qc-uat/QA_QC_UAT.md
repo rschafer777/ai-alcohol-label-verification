@@ -1,7 +1,7 @@
 # QA, QC, and User Acceptance
 
 Document ID: LV-QA-001  
-Status: Local QA and QC gates passed; final commit-bound deployment verification and requester UAT pending
+Status: QA and QC, protected Azure deployment, and engineering browser pre-UAT gates passed; requester UAT pending
 
 ## Quality assurance controls
 
@@ -39,9 +39,9 @@ QC verifies the produced artifact:
 
 The release candidate passed 318 Python tests, strict typing, Python and frontend linting, 33 frontend component and contract tests, the production frontend build, browser workflows, privacy checks, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The private current-image corpus completed 76 of 76 individual API analyses and 48 of 48 server-suggested grouped-product analyses, with no group above three images. Its 3.573-second individual mean and 6.206-second maximum passed the declared targets. Against the pixel ground truth and the disposition oracle, the candidate reports 0 false rejects and 1 disputed false clean over 42 oracle images (see the Validation Results accuracy section). The source-bound integration record shows a cross-format two-panel request completed in 6.086 seconds, retained both panels, recorded the duplicate linkage, and kept worker generation at 1 with zero restarts. Security boundary tests, staged-source inspection, production dependency audits, and security scan `b8501684-ed2e-4d83-8fe9-5775bc5f81d7` found no unresolved release blocker. That scan completed all 34 changed surfaces in its fixed integration range with no deferred surface and no plausible finding. Detailed measurements, oracle coverage, and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
 
-The Azure deployment workflow verifies the exact build, effective 4 vCPU and 8 GiB configuration, health, metadata, public analysis, and latency gates. The 73 of 73 count is a technical processing result. The current folder has field-level ground truth for 70 images, not an agency-approved oracle for every current image, so final legal-label acceptance remains part of requester UAT.
+The Azure deployment workflow verified the exact build, effective 4 vCPU and 8 GiB configuration, health, metadata, public analysis, and latency gates. The 76 of 76 count is a technical processing result. The current folder has field-level ground truth for 70 images, not an agency-approved oracle for every current image, so final legal-label acceptance remains part of requester UAT.
 
-Commit-bound live-browser evidence is recorded in `../08-validation/evidence/live-browser-uat.json` after the protected Azure deployment succeeds. The requester acceptance record below remains intentionally unsigned.
+Commit-bound engineering browser pre-UAT passed and is recorded in `../08-validation/evidence/live-browser-uat.json`. The requester acceptance record below remains intentionally unsigned.
 
 ## UAT script
 
@@ -62,23 +62,23 @@ Run against the release URL in a new browser session.
 13. Navigate by keyboard at 1366 by 768 and at a narrow mobile width. Confirm focus remains visible and no required action depends on color.
 14. Upload a fourth panel, unsupported file, and corrupt image. Confirm clear, safe next actions.
 15. Upload a supported browser-decodable image above the decoded-pixel limit. Confirm it is proportionally prepared and uploaded without external editing. Exercise the API directly or use an undecodable input to confirm the authoritative server error still shows expected width, actual width, expected height, actual height, expected decoded pixels, actual decoded pixels, the offending rows in red, and an exact resize action.
-18. Submit two views of one product where glare or curvature hides different warning lines. Confirm an exact complete panel read governs when available; otherwise confirm complementary statutory words remain Review with punctuation explicitly left to the reviewer.
 16. Exercise the Jack Daniel's, Organic Vodka, Cascade Light, Peak Farm, and Blood & Honey files. Confirm the extracted values listed in `../08-validation/VALIDATION_RESULTS.md` and inspect each evidence highlight.
 17. Upload the same label panel as JPEG and PNG in one product. Confirm both uploads remain visible, the duplicate panel identifies the canonical panel, the result completes within 9 seconds, and readiness still reports the same worker generation.
+18. Submit two views of one product where glare or curvature hides different warning lines. Confirm an exact complete panel read governs when available; otherwise confirm complementary statutory words remain Review with punctuation explicitly left to the reviewer.
 
 ## UAT acceptance record
 
 | Field | Entry |
 | --- | --- |
-| Release commit | Recorded after the protected deployment succeeds |
+| Release commit | `4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961` |
 | Public URL | `https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/` |
 | Browser and version | Requester entry |
 | Date | Requester entry |
-| Result | Local engineering gates passed; deployment verification and requester execution pending |
+| Result | Engineering entry gates passed; requester execution pending |
 | Accepted by | Requester entry |
 | Findings | Requester entry |
 
-The engineering browser pre-UAT is recorded after final deployment. It is not a substitute for requester acceptance.
+The engineering browser pre-UAT passed after final deployment. It is not a substitute for requester acceptance.
 
 ## Definition of acceptance
 

@@ -1,23 +1,73 @@
 {
   "documentId": "LV-DEPLOY-EVIDENCE-001",
-  "status": "PENDING",
-  "verifiedAt": null,
+  "status": "PASS",
+  "verifiedAt": "2026-09-03T23:23:22Z",
   "repository": "https://github.com/rschafer777/ai-alcohol-label-verification",
   "branch": "main",
-  "applicationCommit": null,
-  "documentationCommit": null,
-  "workflow": null,
+  "applicationCommit": "4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961",
+  "documentationCommit": "PENDING_DOCUMENTATION_COMMIT",
+  "workflow": {
+    "name": "deploy-demo.yml",
+    "runId": 33815343738,
+    "runAttempt": 2,
+    "url": "https://github.com/rschafer777/ai-alcohol-label-verification/actions/runs/33815343738",
+    "result": "success"
+  },
   "deployment": {
     "environment": "demo",
-    "url": "https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/"
+    "url": "https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/",
+    "imageDigest": "sha256:c439dea1a608b4e1ba08d364eabee979d20a388c3a44fae2187c9da8dc208d9c",
+    "compute": {
+      "cpu": 4,
+      "memoryGiB": 8,
+      "minimumReplicas": 0,
+      "maximumReplicas": 1
+    }
   },
-  "liveContract": null,
-  "workflowPublicSampleGate": null,
-  "freshDifficultImageGate": null,
+  "liveContract": {
+    "rootHttpStatus": 200,
+    "hsts": "max-age=31536000; includeSubDomains",
+    "liveness": true,
+    "readiness": true,
+    "buildId": "4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961",
+    "profileId": "all_beverages_demo_v2",
+    "selectedCheckCount": 24,
+    "historyCap": 500,
+    "retainsImages": true
+  },
+  "workflowPublicSampleGate": {
+    "result": "PASS",
+    "runs": 3,
+    "checkCounts": [24, 24, 24],
+    "summaries": [
+      "No differences found in checked fields",
+      "No differences found in checked fields",
+      "No differences found in checked fields"
+    ],
+    "durationsMs": [282.147, 302.252, 294.255],
+    "meanMs": 292.885,
+    "maximumMs": 302.252,
+    "mismatchCounts": [0, 0, 0],
+    "warningWordingStates": ["Match", "Match", "Match"],
+    "warningPhysicalSizeStates": [
+      "Not verified",
+      "Not verified",
+      "Not verified"
+    ]
+  },
+  "freshDifficultImageGate": {
+    "result": "PASS",
+    "source": "docs/08-validation/evidence/private-uat-corpus-e2e.json",
+    "individualImages": "76 of 76",
+    "groupedProducts": "48 of 48",
+    "maximumImagesPerGroup": 3,
+    "individualMeanSeconds": 3.573,
+    "individualMaximumSeconds": 6.206
+  },
   "readiness": {
-    "engineeringBrowserPreUat": "pending final commit-bound deployment",
-    "demoRequesterUat": "pending engineering deployment entry gates",
+    "engineeringBrowserPreUat": "PASS",
+    "demoRequesterUat": "READY",
     "federalOperationalUse": "requires agency controls, integrations, testing, and authorization",
-    "humanOracle": "field-level ground truth covers 70 of 73 current private images and is not an agency legal determination"
+    "humanOracle": "field-level ground truth covers 70 of 76 current private images and is not an agency legal determination"
   }
 }

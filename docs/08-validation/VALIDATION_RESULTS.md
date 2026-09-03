@@ -2,7 +2,7 @@
 
 Document ID: LV-VP-RESULT-001  
 Execution date: 2026-09-03  
-Status: Engineering, governed-corpus, private-corpus, and performance gates passed; final independent RT, commit-bound Azure verification, and requester UAT pending
+Status: Engineering, governed-corpus, private-corpus, performance, protected Azure deployment, and engineering browser pre-UAT gates passed; requester UAT pending
 
 ## Automated code and interface gates
 
@@ -121,12 +121,12 @@ The completed security diff scan `b8501684-ed2e-4d83-8fe9-5775bc5f81d7` reviewed
 
 ## Release-bound checks
 
-The frozen manifest, three independent RT decisions, final application commit, protected deployment, immutable image digest, live contract checks, and browser pre-UAT are recorded only after those gates complete. Their authoritative records are `../10-release/FINAL_RT_SIGNOFF.md`, `../10-release/DEPLOYMENT_EVIDENCE.json`, and `evidence/live-browser-uat.json`.
+The frozen manifest, three independent RT decisions, final application commit, protected deployment, immutable image digest, live contract checks, and browser pre-UAT are recorded in `../10-release/FINAL_RT_SIGNOFF.md`, `../10-release/DEPLOYMENT_EVIDENCE.json`, and `evidence/live-browser-uat.json`.
 
 ## Public Azure deployment validation
 
-The protected deployment must validate the exact application commit, build and deploy an immutable image, verify the 4 vCPU and 8 GiB resource contract, pass public health and sample latency gates, and record the GitHub deployment. Values for the final candidate are populated after that workflow completes. No earlier deployment is used as evidence for this release candidate.
+The protected workflow deployed application commit `4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961` in GitHub Actions run `33815343738`, attempt 2. The deployed image digest is `sha256:c439dea1a608b4e1ba08d364eabee979d20a388c3a44fae2187c9da8dc208d9c`. Azure readback confirmed 4 vCPU, 8 GiB, and the zero-to-one replica contract. Public liveness, readiness, metadata, HSTS, and application checks passed. Three public sample analyses completed in 282.147, 302.252, and 294.255 milliseconds, for a 292.885-millisecond mean and 302.252-millisecond maximum. Each returned all 24 checks with no mismatches, an exact government-warning wording match, and physical warning size correctly marked Not verified from a photograph.
 
 ## Live-browser UAT execution
 
-The engineering browser pre-UAT is run against the final commit-bound Azure deployment. It covers the single-product OCR flow, evidence locations, warning detail, beverage profiles, folder admission, live batch progress, grouping controls, exception queue, history, keyboard help, view controls, and decoded-pixel guidance. Machine-readable results are written to `evidence/live-browser-uat.json`. Requester acceptance remains open after engineering pre-UAT passes.
+Engineering browser pre-UAT passed against the commit-bound Azure deployment. It covered the home and three beverage families, label-first two-panel analysis, all 24 checks, original-pixel evidence selection, warning inspection, Table, Cards, and Image first views, keyboard help, 500-record FIFO history, live batch progress, and grouping confirmation controls. The detailed result is `evidence/live-browser-uat.json`. Automated release tests cover folder admission, unsupported-file skipping, decoded-pixel guidance, failure isolation, retry, cancel, export, accessibility, and responsive behavior. Requester acceptance remains open.

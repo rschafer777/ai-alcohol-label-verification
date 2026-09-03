@@ -1,7 +1,7 @@
 # Release and Operational Handoff
 
 Document ID: LV-REL-001  
-Status: Local release gates passed; the multi-image warning read, browser photo preparation, and vocabulary changes landed after the frozen manifest of the independent review, so the manifest was regenerated and the three independent reviews must be repeated on it; final commit-bound Azure verification and requester UAT pending
+Status: Release gates and protected Azure deployment passed; requester UAT pending
 
 ## Deliverable contents
 
@@ -60,6 +60,6 @@ GitHub Actions uses OIDC to authenticate to Azure. It validates the source, buil
 
 ## Final deployment record
 
-The authoritative values are written after the protected workflow and live checks complete. Until then, `DEPLOYMENT_EVIDENCE.json` is marked `PENDING` and no deployment is represented as the final candidate.
+Application commit `4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961` was deployed by GitHub Actions run `33815343738`, attempt 2. The immutable image digest is `sha256:c439dea1a608b4e1ba08d364eabee979d20a388c3a44fae2187c9da8dc208d9c`. Azure readback confirmed 4 vCPU, 8 GiB, and zero-to-one replicas. Public liveness, readiness, metadata, HSTS, and three sample analyses passed. Engineering browser pre-UAT also passed. `DEPLOYMENT_EVIDENCE.json` is the authoritative machine-readable record.
 
-The Azure demo becomes ready for requester UAT when the exact application commit passes the protected workflow, the public service reports the matching build ID and contract profile, the engineering browser pre-UAT passes, and the release evidence is reconciled. Federal operational use requires the agency controls, integrations, operating boundary, independent testing, and authorization activities identified in `../11-federal-authorization-readiness/`.
+The Azure demo is ready for requester UAT at `https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/`. Federal operational use requires the agency controls, integrations, operating boundary, independent testing, and authorization activities identified in `../11-federal-authorization-readiness/`.
