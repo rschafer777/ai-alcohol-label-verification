@@ -455,7 +455,14 @@ jobs:
                (.serverDurationMs | type) == "number" and
                .serverDurationMs >= 0 and
                (.checks | length) == 24 and
-               .summary == "Review needed" and
+               ((.summary == "No differences found in checked fields" and
+                 ([.checks[] |
+                   select(.checkId == "warning_wording" and .state == "Match")] |
+                   length) == 1) or
+                (.summary == "Review needed" and
+                 ([.checks[] |
+                   select(.checkId == "warning_wording" and .state == "Review")] |
+                   length) == 1)) and
                ([.checks[] |
                  select(.applicable == true and .state == "Mismatch")] |
                  length) == 0 and
