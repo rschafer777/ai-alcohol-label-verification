@@ -31,6 +31,8 @@ export const icons = {
   image: (size = 28) => svg([{ t: "rect", x: 3, y: 3, width: 18, height: 18 }, c(9, 9, 2), "M21 15l-3.1-3.1a2 2 0 0 0-2.8 0L6 21"], size),
   imageOff: (size = 16) => svg(["M2 2l20 20", "M10.4 10.4a2 2 0 1 0 2.8 2.8", "M21 15V5a2 2 0 0 0-2-2H8", "M3 7v12a2 2 0 0 0 2 2h12"], size),
   folder: (size = 28) => svg(["M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"], size),
+  table: (size = 16) => svg([{ t: "rect", x: 3, y: 4, width: 18, height: 16 }, "M3 10h18", "M3 15h18", "M9 4v16"], size),
+  cards: (size = 16) => svg([{ t: "rect", x: 3, y: 3, width: 8, height: 8 }, { t: "rect", x: 13, y: 3, width: 8, height: 8 }, { t: "rect", x: 3, y: 13, width: 8, height: 8 }, { t: "rect", x: 13, y: 13, width: 8, height: 8 }], size),
   zoomIn: (size = 16) => svg([c(11, 11, 8), "M21 21l-4.3-4.3", "M11 8v6", "M8 11h6"], size),
   zoomOut: (size = 16) => svg([c(11, 11, 8), "M21 21l-4.3-4.3", "M8 11h6"], size),
   rotate: (size = 16) => svg(["M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8", "M21 3v5h-5"], size),

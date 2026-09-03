@@ -50,7 +50,7 @@ Run against the release URL in a new browser session.
 1. Confirm the page identifies LabelVerify as an unofficial prototype and offers Check one product and Check a batch.
 2. Select one to three readable malt beverage images. Confirm each preview, reorder two panels, remove and restore one panel, then start verification without typing label data. Confirm the inferred family and 24 check rows.
 3. Repeat with wine and distilled spirits. Confirm the applicable family-specific row changes and non-applicable rows remain visible.
-4. Select Show on label for brand, ABV, net contents, producer, and warning. Confirm each highlight appears on the correct image and text.
+4. Select Show on label for brand, ABV, net contents, producer, and warning. Confirm each highlight appears on the correct image and text. Scroll the mouse wheel over the image to zoom, drag the enlarged image to move around it, and use the View as switch at the head of the checks to change between Table, Cards, and Image first.
 5. Open warning detail. Confirm prescribed text, observed text, each warning subcheck, and clear reasons.
 6. Upload an imperfect but readable image. Confirm recoverable fields are evaluated and the angle or lighting alone is not marked a label defect.
 7. Upload an incomplete or unreadable image. Confirm the result requests review or another image and does not invent a pass.

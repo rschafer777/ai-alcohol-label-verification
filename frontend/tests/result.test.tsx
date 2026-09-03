@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
@@ -28,6 +28,43 @@ describe("review workspace", () => {
     expect(screen.getByText("“BOURBON WHISKEY”")).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: "Show all regions" }));
     expect(document.querySelectorAll(".stage-inner polygon")).toHaveLength(2);
+  });
+
+  it("zooms with the mouse wheel over the image and pans by dragging when enlarged", () => {
+    renderReview();
+    const stage = screen.getByLabelText("Label image with evidence regions");
+    const inner = document.querySelector(".stage-inner") as HTMLElement;
+    expect(screen.getByRole("button", { name: "Reset zoom to 100%" })).toHaveTextContent("100%");
+
+    fireEvent.wheel(stage, { deltaY: -100, clientX: 0, clientY: 0 });
+    expect(screen.getByRole("button", { name: "Reset zoom to 100%" })).toHaveTextContent("110%");
+    expect(stage).toHaveClass("zoomed");
+
+    fireEvent.pointerDown(stage, { button: 0, pointerId: 1, clientX: 100, clientY: 100 });
+    fireEvent.pointerMove(stage, { pointerId: 1, clientX: 130, clientY: 120 });
+    fireEvent.pointerUp(stage, { pointerId: 1 });
+    expect(inner.style.transform).toContain("translate(30px, 20px)");
+
+    fireEvent.wheel(stage, { deltaY: 100, clientX: 0, clientY: 0 });
+    expect(screen.getByRole("button", { name: "Reset zoom to 100%" })).toHaveTextContent("100%");
+    expect(inner.style.transform).toContain("translate(0px, 0px)");
+    expect(stage).not.toHaveClass("zoomed");
+
+    fireEvent.keyDown(stage, { key: "+" });
+    expect(screen.getByRole("button", { name: "Reset zoom to 100%" })).toHaveTextContent("125%");
+    fireEvent.keyDown(stage, { key: "ArrowRight" });
+    expect(inner.style.transform).toContain("translate(-40px, 0px)");
+    fireEvent.click(screen.getByRole("button", { name: "Reset zoom to 100%" }));
+    expect(inner.style.transform).toContain("translate(0px, 0px) scale(1)");
+  });
+
+  it("offers the view switcher at the head of the checks with icons", () => {
+    renderReview();
+    const group = screen.getByRole("radiogroup", { name: "View as" });
+    expect(group.closest(".checks-head")).not.toBeNull();
+    expect(within(group).getAllByRole("radio")).toHaveLength(3);
+    expect(within(group).getByRole("radio", { name: "Table" })).toHaveAttribute("aria-checked", "true");
+    expect(within(group).getByRole("radio", { name: "Table" }).querySelector("svg")).not.toBeNull();
   });
 
   it("collapses the warning group into ten mini badges and expands on request", async () => {

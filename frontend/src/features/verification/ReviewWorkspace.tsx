@@ -42,6 +42,12 @@ export interface ReviewWorkspaceProps {
 
 const EMPTY: ReadonlySet<string> = new Set();
 
+const LAYOUTS: Array<{ value: Layout; label: string; icon: ReactElement; hint: string }> = [
+  { value: "table", label: "Table", icon: icons.table(), hint: "Every check in one table, grouped by section" },
+  { value: "cards", label: "Cards", icon: icons.cards(), hint: "One card per check with its reason and evidence" },
+  { value: "image", label: "Image first", icon: icons.image(16), hint: "A larger image with the checks as a compact list beside it" },
+];
+
 export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
   const { result, brandName, beverageType, imported, images, addedFrom, inBatch = false, rail, disposition, note, saveState = "", onDisposition, onNote, onSave, onNextException, onBack, onAddImage = null, upload = null, onCorrect = null, correctedIds = EMPTY, onConfirmType = null, comparedWith = null } = props;
   const [layout, setLayout] = useState<Layout>("table");
@@ -132,9 +138,6 @@ export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
         {comparedWith && comparedWith.length ? <span className="tag tag-info">Compared with application: {comparedWith.join(", ")}</span> : null}
         <span className="meta text-muted">{count} image{count === 1 ? "" : "s"} · read &amp; checked in {(result.serverDurationMs / 1000).toFixed(1)} s</span>
         <span className="machine"><span className="text-muted">Machine result</span><span ref={summaryRef} tabIndex={-1}><SummaryTag summary={summary} /></span></span>
-        <div aria-label="Layout" className="seg" role="radiogroup">
-          {(["table", "cards", "image"] as Layout[]).map((value) => <button aria-checked={layout === value} className="seg-opt" key={value} onClick={() => setLayout(value)} role="radio" type="button">{value === "table" ? "Table" : value === "cards" ? "Cards" : "Image first"}</button>)}
-        </div>
       </header>
 
       {showTypeConfirm ? (
@@ -156,6 +159,12 @@ export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
           <div className="checks-head">
             <h6 id="checks-h">24 checks · {profileLabel(result.beverageInference?.type ?? beverageType)}</h6>
             <span className="tally text-muted">{tallyText(tally(checks))}</span>
+            <div className="view-switch">
+              <span className="view-switch-label text-muted">View as</span>
+              <div aria-label="View as" className="seg seg-strong" role="radiogroup">
+                {LAYOUTS.map(({ value, label, icon, hint }) => <button aria-checked={layout === value} className="seg-opt" key={value} onClick={() => setLayout(value)} role="radio" title={hint} type="button">{icon} {label}</button>)}
+              </div>
+            </div>
             <span className="columns text-muted">Columns: what the rule expects · what we read on the label · machine result</span>
           </div>
           {layout === "table" ? <CheckTable {...listProps} onToggleWarning={() => setWarningExpanded((value) => !value)} warningExpanded={warningExpanded} /> : layout === "cards" ? <CheckCards {...listProps} /> : <CheckRail {...listProps} />}
