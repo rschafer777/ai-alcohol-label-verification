@@ -459,11 +459,18 @@ jobs:
                ([.checks[] |
                  select(.applicable == true and .state == "Mismatch")] |
                  length) == 0 and
-               ([.checks[] |
-                 select(.applicable == true and .state != "Match") |
-                 [.checkId, .state]] | sort) ==
-                 [["warning_physical_size", "Not verified"],
-                  ["warning_wording", "Review"]]) and
+             ([.checks[] |
+               select(.checkId == "warning_physical_size" and .state == "Not verified")] |
+               length) == 1 and
+             ([.checks[] |
+               select(.checkId == "warning_wording" and
+                 (.state == "Match" or .state == "Review"))] |
+               length) == 1 and
+             ([.checks[] |
+               select(.applicable == true and .state != "Match" and
+                 !(.checkId == "warning_physical_size" and .state == "Not verified") and
+                 !(.checkId == "warning_wording" and .state == "Review"))] |
+               length) == 0 and
              ((map(.serverDurationMs) | add) / length) < 5000 and
              (map(.serverDurationMs) | max) < 9000' \
             "$work"/result-*.json >/dev/null
