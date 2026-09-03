@@ -1,9 +1,14 @@
 {
   "schemaVersion": "1.0.0",
-  "createdAtUtc": "2026-09-03T08:15:01.768914+00:00",
+  "createdAtUtc": "2026-09-03T09:52:52.004272+00:00",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
     "python": "3.12.10"
+  },
+  "snapshot": {
+    "validatorSha256": "34f5040845b37fb2fe3cb9b9789f54c778f1aa3bea90b91c3938af4200700a8b",
+    "pipelineSha256": "d38a8b32d13a1e593f087c2ad47e6b879a4392f75b07eaf8dde81290a442297e",
+    "supervisorSha256": "8eeb7b9408a9d4574ae951f1c0bfa9d165b8be3dafcd36ed0ce6a6786b6c3028"
   },
   "scope": {
     "input": "Test_Images",
@@ -21,13 +26,46 @@
     "missingGovernedOracleImageCount": 8
   },
   "preflightFailures": [],
+  "equivalentPanelIntegration": {
+    "selectionPolicy": "content-only comparison across different encodings using the production aspect-ratio, correlation, and normalized-error thresholds",
+    "files": [
+      "RevolverBrewing.jpg",
+      "RevolverBrewing.png"
+    ],
+    "fileSha256": [
+      "ba6d53e5989b16dd192cdd740b025a45a1febd21300a4a7e4f47315cbd26f550",
+      "134d76be05e4adaf2953c38103ba21578f48cc7b314893b640cd41ef061f73a8"
+    ],
+    "correlation": 0.999952972,
+    "normalizedMeanAbsoluteError": 0.001955997,
+    "durationSeconds": 6.015,
+    "httpStatus": 200,
+    "submittedPanelCount": 2,
+    "returnedPanelCount": 2,
+    "returnedPanelIds": [
+      "panel-1",
+      "panel-2"
+    ],
+    "duplicateLinks": [
+      {
+        "panelId": "panel-2",
+        "duplicateOfPanelId": "panel-1"
+      }
+    ],
+    "workerGenerationBefore": 1,
+    "workerGenerationAfter": 1,
+    "workerRestartsBefore": 0,
+    "workerRestartsAfter": 0,
+    "pass": true,
+    "failures": []
+  },
   "individualScans": [
     {
       "caseId": "image-001",
       "files": [
         "0wLM9.jpg"
       ],
-      "durationSeconds": 6.521,
+      "durationSeconds": 6.443,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -51,7 +89,7 @@
       "files": [
         "111_Wine_Valle_Front.png"
       ],
-      "durationSeconds": 4.321,
+      "durationSeconds": 4.24,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -75,7 +113,7 @@
       "files": [
         "222_Silverpine_Wine.png"
       ],
-      "durationSeconds": 4.366,
+      "durationSeconds": 4.232,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -99,7 +137,7 @@
       "files": [
         "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg"
       ],
-      "durationSeconds": 4.584,
+      "durationSeconds": 4.566,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -123,7 +161,7 @@
       "files": [
         "333_CascadeLight_Wine.png"
       ],
-      "durationSeconds": 5.073,
+      "durationSeconds": 5.049,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -147,7 +185,7 @@
       "files": [
         "3urY2.jpg"
       ],
-      "durationSeconds": 2.54,
+      "durationSeconds": 2.558,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -171,7 +209,7 @@
       "files": [
         "555_Northveil_Vodka.png"
       ],
-      "durationSeconds": 5.693,
+      "durationSeconds": 5.684,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -195,7 +233,7 @@
       "files": [
         "888SilverPine_Wine.png"
       ],
-      "durationSeconds": 4.622,
+      "durationSeconds": 4.811,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -219,7 +257,7 @@
       "files": [
         "8Gf8v.jpg"
       ],
-      "durationSeconds": 5.864,
+      "durationSeconds": 5.906,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -243,7 +281,7 @@
       "files": [
         "AnMXl.jpg"
       ],
-      "durationSeconds": 2.702,
+      "durationSeconds": 2.637,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -267,7 +305,7 @@
       "files": [
         "BMgMY.jpg"
       ],
-      "durationSeconds": 3.351,
+      "durationSeconds": 3.412,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -291,7 +329,7 @@
       "files": [
         "bsxs4.jpg"
       ],
-      "durationSeconds": 2.926,
+      "durationSeconds": 2.958,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -315,7 +353,7 @@
       "files": [
         "Cointeau_Front.jpg"
       ],
-      "durationSeconds": 3.381,
+      "durationSeconds": 3.422,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -339,7 +377,7 @@
       "files": [
         "Cointreau_Back.jpg"
       ],
-      "durationSeconds": 4.379,
+      "durationSeconds": 4.354,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -363,7 +401,7 @@
       "files": [
         "coTpD.jpg"
       ],
-      "durationSeconds": 3.734,
+      "durationSeconds": 3.667,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -387,7 +425,7 @@
       "files": [
         "DDqT2.jpg"
       ],
-      "durationSeconds": 3.008,
+      "durationSeconds": 3.023,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -411,7 +449,7 @@
       "files": [
         "DmK94.jpg"
       ],
-      "durationSeconds": 3.314,
+      "durationSeconds": 3.266,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -435,7 +473,7 @@
       "files": [
         "EqTB7.jpg"
       ],
-      "durationSeconds": 2.756,
+      "durationSeconds": 2.765,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -459,7 +497,7 @@
       "files": [
         "Gemini_Generated_Image_auilqqauilqqauil (1).jpg"
       ],
-      "durationSeconds": 2.917,
+      "durationSeconds": 2.948,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -483,7 +521,7 @@
       "files": [
         "GuCzO.jpg"
       ],
-      "durationSeconds": 5.997,
+      "durationSeconds": 5.913,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -507,7 +545,7 @@
       "files": [
         "iFZ0Q.jpg"
       ],
-      "durationSeconds": 2.691,
+      "durationSeconds": 2.702,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -531,7 +569,7 @@
       "files": [
         "J3YuX.jpg"
       ],
-      "durationSeconds": 3.771,
+      "durationSeconds": 3.848,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -555,7 +593,7 @@
       "files": [
         "JackDaniels_Back.jpg"
       ],
-      "durationSeconds": 6.505,
+      "durationSeconds": 6.449,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -579,7 +617,7 @@
       "files": [
         "JackDaniels_Front.jpg"
       ],
-      "durationSeconds": 3.374,
+      "durationSeconds": 3.344,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -603,7 +641,7 @@
       "files": [
         "jsP3W.jpg"
       ],
-      "durationSeconds": 2.462,
+      "durationSeconds": 2.447,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -627,7 +665,7 @@
       "files": [
         "leTeL.jpg"
       ],
-      "durationSeconds": 3.627,
+      "durationSeconds": 3.512,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -651,7 +689,7 @@
       "files": [
         "MXteB.jpg"
       ],
-      "durationSeconds": 4.844,
+      "durationSeconds": 4.893,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -675,7 +713,7 @@
       "files": [
         "O0P0Z.jpg"
       ],
-      "durationSeconds": 2.726,
+      "durationSeconds": 2.686,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -699,7 +737,7 @@
       "files": [
         "PtNj9.jpg"
       ],
-      "durationSeconds": 2.528,
+      "durationSeconds": 2.521,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -723,7 +761,7 @@
       "files": [
         "RevolverBrewing.jpg"
       ],
-      "durationSeconds": 5.695,
+      "durationSeconds": 0.19,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -747,7 +785,7 @@
       "files": [
         "RevolverBrewing.png"
       ],
-      "durationSeconds": 4.439,
+      "durationSeconds": 4.422,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -771,7 +809,7 @@
       "files": [
         "Test_TTB_Image_0001.jpg"
       ],
-      "durationSeconds": 4.487,
+      "durationSeconds": 4.408,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -795,7 +833,7 @@
       "files": [
         "Test_TTB_Image_0002.jpg"
       ],
-      "durationSeconds": 4.329,
+      "durationSeconds": 4.273,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -819,7 +857,7 @@
       "files": [
         "Test_TTB_Image_0003.jpg"
       ],
-      "durationSeconds": 2.786,
+      "durationSeconds": 2.814,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -843,7 +881,7 @@
       "files": [
         "Test_TTB_Image_0004.jpg"
       ],
-      "durationSeconds": 1.97,
+      "durationSeconds": 2.047,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -867,7 +905,7 @@
       "files": [
         "Test_TTB_Image_0005.jpg"
       ],
-      "durationSeconds": 3.182,
+      "durationSeconds": 3.183,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -891,7 +929,7 @@
       "files": [
         "Test_TTB_Image_0006.jpg"
       ],
-      "durationSeconds": 2.099,
+      "durationSeconds": 2.083,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -915,7 +953,7 @@
       "files": [
         "Test_TTB_Image_0007.jpg"
       ],
-      "durationSeconds": 2.649,
+      "durationSeconds": 2.559,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -939,7 +977,7 @@
       "files": [
         "Test_TTB_Image_0008.jpg"
       ],
-      "durationSeconds": 2.724,
+      "durationSeconds": 2.746,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -963,7 +1001,7 @@
       "files": [
         "Test_TTB_Image_0009.jpg"
       ],
-      "durationSeconds": 2.625,
+      "durationSeconds": 2.669,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -987,7 +1025,7 @@
       "files": [
         "Test_TTB_Image_0011.jpg"
       ],
-      "durationSeconds": 0.163,
+      "durationSeconds": 0.172,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1011,7 +1049,7 @@
       "files": [
         "Test_TTB_Image_0021.jpg"
       ],
-      "durationSeconds": 3.624,
+      "durationSeconds": 3.617,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1035,7 +1073,7 @@
       "files": [
         "Test_TTB_Image_0022.jpg"
       ],
-      "durationSeconds": 2.822,
+      "durationSeconds": 2.847,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1059,7 +1097,7 @@
       "files": [
         "Test_TTB_Image_0023.jpg"
       ],
-      "durationSeconds": 3.48,
+      "durationSeconds": 3.544,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1083,7 +1121,7 @@
       "files": [
         "Test_TTB_Image_0024.jpg"
       ],
-      "durationSeconds": 4.894,
+      "durationSeconds": 5.015,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1107,7 +1145,7 @@
       "files": [
         "Test_TTB_Image_0025.jpg"
       ],
-      "durationSeconds": 1.871,
+      "durationSeconds": 1.911,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1131,7 +1169,7 @@
       "files": [
         "Test_TTB_Image_0026.jpg"
       ],
-      "durationSeconds": 3.072,
+      "durationSeconds": 2.99,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1155,7 +1193,7 @@
       "files": [
         "Test_TTB_Image_0027.jpg"
       ],
-      "durationSeconds": 2.977,
+      "durationSeconds": 3.054,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1179,7 +1217,7 @@
       "files": [
         "Test_TTB_Image_0028.jpg"
       ],
-      "durationSeconds": 1.907,
+      "durationSeconds": 1.911,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1203,7 +1241,7 @@
       "files": [
         "Test_TTB_Image_0029.jpg"
       ],
-      "durationSeconds": 3.742,
+      "durationSeconds": 3.835,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1227,7 +1265,7 @@
       "files": [
         "Test_TTB_Image_0030.jpg"
       ],
-      "durationSeconds": 2.015,
+      "durationSeconds": 2.217,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1251,7 +1289,7 @@
       "files": [
         "Test_TTB_Image_0031.jpg"
       ],
-      "durationSeconds": 2.951,
+      "durationSeconds": 2.969,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1275,7 +1313,7 @@
       "files": [
         "Test_TTB_Image_0032.jpg"
       ],
-      "durationSeconds": 1.977,
+      "durationSeconds": 1.982,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1299,7 +1337,7 @@
       "files": [
         "Test_TTB_Image_0033.jpg"
       ],
-      "durationSeconds": 4.075,
+      "durationSeconds": 4.065,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1323,7 +1361,7 @@
       "files": [
         "Test_TTB_Image_0034.jpg"
       ],
-      "durationSeconds": 3.173,
+      "durationSeconds": 3.229,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1347,7 +1385,7 @@
       "files": [
         "Test_TTB_Image_0035.jpg"
       ],
-      "durationSeconds": 3.105,
+      "durationSeconds": 3.179,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1371,7 +1409,7 @@
       "files": [
         "Test_TTB_Image_0036.jpg"
       ],
-      "durationSeconds": 4.56,
+      "durationSeconds": 4.584,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1395,7 +1433,7 @@
       "files": [
         "Test_TTB_Image_0037.jpg"
       ],
-      "durationSeconds": 3.055,
+      "durationSeconds": 3.045,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1419,7 +1457,7 @@
       "files": [
         "Test_TTB_Image_0038.jpg"
       ],
-      "durationSeconds": 4.449,
+      "durationSeconds": 4.525,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1443,7 +1481,7 @@
       "files": [
         "Test_TTB_Image_0039.jpg"
       ],
-      "durationSeconds": 6.046,
+      "durationSeconds": 6.14,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1467,7 +1505,7 @@
       "files": [
         "Test_TTB_Image_0040.jpg"
       ],
-      "durationSeconds": 4.682,
+      "durationSeconds": 4.713,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1491,7 +1529,7 @@
       "files": [
         "Test_TTB_Image_0041.jpg"
       ],
-      "durationSeconds": 3.414,
+      "durationSeconds": 3.589,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1515,7 +1553,7 @@
       "files": [
         "Test_TTB_Image_0042.jpg"
       ],
-      "durationSeconds": 2.586,
+      "durationSeconds": 2.65,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1539,7 +1577,7 @@
       "files": [
         "uqgyU.jpg"
       ],
-      "durationSeconds": 3.552,
+      "durationSeconds": 3.62,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1563,7 +1601,7 @@
       "files": [
         "Vodka_Back.jpg"
       ],
-      "durationSeconds": 4.561,
+      "durationSeconds": 4.644,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1587,7 +1625,7 @@
       "files": [
         "Vodka_Front.jpg"
       ],
-      "durationSeconds": 3.115,
+      "durationSeconds": 3.192,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1611,7 +1649,7 @@
       "files": [
         "wKE1J.jpg"
       ],
-      "durationSeconds": 4.393,
+      "durationSeconds": 4.57,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1635,7 +1673,7 @@
       "files": [
         "XjPpA.jpg"
       ],
-      "durationSeconds": 3.593,
+      "durationSeconds": 3.457,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1659,7 +1697,7 @@
       "files": [
         "XXL_Back.jpg"
       ],
-      "durationSeconds": 2.288,
+      "durationSeconds": 2.275,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1683,7 +1721,7 @@
       "files": [
         "XXL_Front.jpg"
       ],
-      "durationSeconds": 5.822,
+      "durationSeconds": 5.943,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2445,7 +2483,7 @@
       "files": [
         "0wLM9.jpg"
       ],
-      "durationSeconds": 0.225,
+      "durationSeconds": 0.23,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2470,7 +2508,7 @@
       "files": [
         "111_Wine_Valle_Front.png"
       ],
-      "durationSeconds": 0.225,
+      "durationSeconds": 0.213,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2496,7 +2534,7 @@
         "222_Silverpine_Wine.png",
         "888SilverPine_Wine.png"
       ],
-      "durationSeconds": 0.653,
+      "durationSeconds": 0.66,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2521,7 +2559,7 @@
       "files": [
         "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg"
       ],
-      "durationSeconds": 0.322,
+      "durationSeconds": 0.325,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2546,7 +2584,7 @@
       "files": [
         "333_CascadeLight_Wine.png"
       ],
-      "durationSeconds": 0.331,
+      "durationSeconds": 0.336,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2572,7 +2610,7 @@
         "3urY2.jpg",
         "Test_TTB_Image_0029.jpg"
       ],
-      "durationSeconds": 0.845,
+      "durationSeconds": 0.866,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2597,7 +2635,7 @@
       "files": [
         "555_Northveil_Vodka.png"
       ],
-      "durationSeconds": 0.352,
+      "durationSeconds": 0.356,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2622,7 +2660,7 @@
       "files": [
         "8Gf8v.jpg"
       ],
-      "durationSeconds": 0.42,
+      "durationSeconds": 0.437,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2648,7 +2686,7 @@
         "AnMXl.jpg",
         "Test_TTB_Image_0027.jpg"
       ],
-      "durationSeconds": 0.804,
+      "durationSeconds": 0.841,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2673,7 +2711,7 @@
       "files": [
         "BMgMY.jpg"
       ],
-      "durationSeconds": 0.318,
+      "durationSeconds": 0.333,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2698,7 +2736,7 @@
       "files": [
         "bsxs4.jpg"
       ],
-      "durationSeconds": 0.404,
+      "durationSeconds": 0.413,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2723,7 +2761,7 @@
       "files": [
         "Cointeau_Front.jpg"
       ],
-      "durationSeconds": 0.401,
+      "durationSeconds": 0.411,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2748,7 +2786,7 @@
       "files": [
         "Cointreau_Back.jpg"
       ],
-      "durationSeconds": 0.363,
+      "durationSeconds": 0.364,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2773,7 +2811,7 @@
       "files": [
         "coTpD.jpg"
       ],
-      "durationSeconds": 0.355,
+      "durationSeconds": 0.367,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2798,7 +2836,7 @@
       "files": [
         "DDqT2.jpg"
       ],
-      "durationSeconds": 0.316,
+      "durationSeconds": 0.33,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2823,7 +2861,7 @@
       "files": [
         "DmK94.jpg"
       ],
-      "durationSeconds": 0.343,
+      "durationSeconds": 0.356,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2848,7 +2886,7 @@
       "files": [
         "EqTB7.jpg"
       ],
-      "durationSeconds": 0.43,
+      "durationSeconds": 0.446,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2874,7 +2912,7 @@
         "Gemini_Generated_Image_auilqqauilqqauil (1).jpg",
         "Test_TTB_Image_0011.jpg"
       ],
-      "durationSeconds": 0.318,
+      "durationSeconds": 0.277,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2889,7 +2927,7 @@
         "producerNameAddress": null,
         "countryOfOrigin": null,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 12,
+        "evidenceRegionCount": 8,
         "machineSummary": "Review needed"
       },
       "suggestedName": "OTANIST'S"
@@ -2899,7 +2937,7 @@
       "files": [
         "GuCzO.jpg"
       ],
-      "durationSeconds": 0.46,
+      "durationSeconds": 0.472,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2925,7 +2963,7 @@
         "iFZ0Q.jpg",
         "Test_TTB_Image_0025.jpg"
       ],
-      "durationSeconds": 0.781,
+      "durationSeconds": 0.731,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2940,8 +2978,8 @@
         "producerNameAddress": "Distilled and bottled by Blackbird Disuilling Co. Distilled and botted by Blackbird Dsilling Co. Frankfort, Kentucky",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 19,
-        "machineSummary": "Differences detected"
+        "evidenceRegionCount": 11,
+        "machineSummary": "Review needed"
       },
       "suggestedName": "BLACKBIRD RESERVE"
     },
@@ -2952,7 +2990,7 @@
         "Test_TTB_Image_0009.jpg",
         "Test_TTB_Image_0026.jpg"
       ],
-      "durationSeconds": 1.4,
+      "durationSeconds": 1.359,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2967,7 +3005,7 @@
         "producerNameAddress": "Brewed and bottled by Iron Anchor Brewing Co., Portland, Maine.",
         "countryOfOrigin": null,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 32,
+        "evidenceRegionCount": 22,
         "machineSummary": "Review needed"
       },
       "suggestedName": "IRON ANCHOR BREWING CO."
@@ -2978,7 +3016,7 @@
         "JackDaniels_Back.jpg",
         "JackDaniels_Front.jpg"
       ],
-      "durationSeconds": 0.722,
+      "durationSeconds": 0.734,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3004,7 +3042,7 @@
         "jsP3W.jpg",
         "Test_TTB_Image_0028.jpg"
       ],
-      "durationSeconds": 0.936,
+      "durationSeconds": 0.861,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3019,7 +3057,7 @@
         "producerNameAddress": "Brewed and bottled by Midnight Forge Brewing, Milwaukee, Wisconsin",
         "countryOfOrigin": null,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 19,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       },
       "suggestedName": "MIDNIGHT FORGE"
@@ -3029,7 +3067,7 @@
       "files": [
         "leTeL.jpg"
       ],
-      "durationSeconds": 0.373,
+      "durationSeconds": 0.385,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3054,7 +3092,7 @@
       "files": [
         "MXteB.jpg"
       ],
-      "durationSeconds": 0.547,
+      "durationSeconds": 0.565,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3080,7 +3118,7 @@
         "O0P0Z.jpg",
         "Test_TTB_Image_0030.jpg"
       ],
-      "durationSeconds": 0.704,
+      "durationSeconds": 0.663,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3095,7 +3133,7 @@
         "producerNameAddress": "Produced and bottled by Cedar Bend Vincyards Oregon.",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 29,
+        "evidenceRegionCount": 16,
         "machineSummary": "Review needed"
       },
       "suggestedName": "CEDAR BEND"
@@ -3107,7 +3145,7 @@
         "Test_TTB_Image_0005.jpg",
         "Test_TTB_Image_0006.jpg"
       ],
-      "durationSeconds": 1.234,
+      "durationSeconds": 1.223,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3122,7 +3160,7 @@
         "producerNameAddress": "Distilled & bottled by. Botanist's Secret Distillery, London.",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 26,
+        "evidenceRegionCount": 18,
         "machineSummary": "Differences detected"
       },
       "suggestedName": "BOTANIST'S SECRET"
@@ -3133,7 +3171,7 @@
         "Test_TTB_Image_0032.jpg",
         "Test_TTB_Image_0037.jpg"
       ],
-      "durationSeconds": 0.839,
+      "durationSeconds": 0.867,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3159,7 +3197,7 @@
         "RevolverBrewing.jpg",
         "RevolverBrewing.png"
       ],
-      "durationSeconds": 0.399,
+      "durationSeconds": 0.329,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3174,7 +3212,7 @@
         "producerNameAddress": "REVOLVER BREWING LITTLETON, CO",
         "countryOfOrigin": null,
         "detectedFieldCount": 3,
-        "evidenceRegionCount": 8,
+        "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       },
       "suggestedName": "BLOOD & HONEY"
@@ -3184,7 +3222,7 @@
       "files": [
         "Test_TTB_Image_0001.jpg"
       ],
-      "durationSeconds": 0.458,
+      "durationSeconds": 0.481,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3209,7 +3247,7 @@
       "files": [
         "Test_TTB_Image_0002.jpg"
       ],
-      "durationSeconds": 0.439,
+      "durationSeconds": 0.465,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3234,7 +3272,7 @@
       "files": [
         "Test_TTB_Image_0003.jpg"
       ],
-      "durationSeconds": 0.466,
+      "durationSeconds": 0.49,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3260,7 +3298,7 @@
         "Test_TTB_Image_0004.jpg",
         "Test_TTB_Image_0041.jpg"
       ],
-      "durationSeconds": 0.872,
+      "durationSeconds": 0.892,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3285,7 +3323,7 @@
       "files": [
         "Test_TTB_Image_0007.jpg"
       ],
-      "durationSeconds": 0.478,
+      "durationSeconds": 0.504,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3310,7 +3348,7 @@
       "files": [
         "Test_TTB_Image_0008.jpg"
       ],
-      "durationSeconds": 0.344,
+      "durationSeconds": 0.356,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3336,7 +3374,7 @@
         "Test_TTB_Image_0021.jpg",
         "Test_TTB_Image_0022.jpg"
       ],
-      "durationSeconds": 0.899,
+      "durationSeconds": 0.847,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3351,7 +3389,7 @@
         "producerNameAddress": "Distilled & bottled by Blackbird Distilling Co.,. Bardstown, Kentucky",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 19,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       },
       "suggestedName": "BLACKBIRD RESERVE"
@@ -3361,7 +3399,7 @@
       "files": [
         "Test_TTB_Image_0023.jpg"
       ],
-      "durationSeconds": 0.451,
+      "durationSeconds": 0.474,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3386,7 +3424,7 @@
       "files": [
         "Test_TTB_Image_0024.jpg"
       ],
-      "durationSeconds": 0.509,
+      "durationSeconds": 0.52,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3411,7 +3449,7 @@
       "files": [
         "Test_TTB_Image_0031.jpg"
       ],
-      "durationSeconds": 0.442,
+      "durationSeconds": 0.457,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3436,7 +3474,7 @@
       "files": [
         "Test_TTB_Image_0033.jpg"
       ],
-      "durationSeconds": 0.365,
+      "durationSeconds": 0.372,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3461,7 +3499,7 @@
       "files": [
         "Test_TTB_Image_0034.jpg"
       ],
-      "durationSeconds": 0.503,
+      "durationSeconds": 0.509,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3486,7 +3524,7 @@
       "files": [
         "Test_TTB_Image_0035.jpg"
       ],
-      "durationSeconds": 0.454,
+      "durationSeconds": 0.475,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3511,7 +3549,7 @@
       "files": [
         "Test_TTB_Image_0036.jpg"
       ],
-      "durationSeconds": 0.429,
+      "durationSeconds": 0.464,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3536,7 +3574,7 @@
       "files": [
         "Test_TTB_Image_0038.jpg"
       ],
-      "durationSeconds": 0.437,
+      "durationSeconds": 0.465,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3562,7 +3600,7 @@
         "Test_TTB_Image_0039.jpg",
         "wKE1J.jpg"
       ],
-      "durationSeconds": 0.745,
+      "durationSeconds": 0.718,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3577,7 +3615,7 @@
         "producerNameAddress": "Podoced and bottled by Whisperiog Pites Esulc ted by Whisperiog Pines Esulc Napa, Califocnia",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 19,
+        "evidenceRegionCount": 13,
         "machineSummary": "Review needed"
       },
       "suggestedName": "ted by Whisperiog Pines Esulc"
@@ -3588,7 +3626,7 @@
         "Test_TTB_Image_0040.jpg",
         "XjPpA.jpg"
       ],
-      "durationSeconds": 0.847,
+      "durationSeconds": 0.823,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3603,8 +3641,8 @@
         "producerNameAddress": null,
         "countryOfOrigin": "Mexico",
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 17,
-        "machineSummary": "Differences detected"
+        "evidenceRegionCount": 12,
+        "machineSummary": "Review needed"
       },
       "suggestedName": "CASA DE LUNA"
     },
@@ -3613,7 +3651,7 @@
       "files": [
         "Test_TTB_Image_0042.jpg"
       ],
-      "durationSeconds": 0.439,
+      "durationSeconds": 0.451,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3638,7 +3676,7 @@
       "files": [
         "uqgyU.jpg"
       ],
-      "durationSeconds": 0.437,
+      "durationSeconds": 0.445,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3664,7 +3702,7 @@
         "Vodka_Back.jpg",
         "Vodka_Front.jpg"
       ],
-      "durationSeconds": 0.672,
+      "durationSeconds": 0.702,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3690,7 +3728,7 @@
         "XXL_Back.jpg",
         "XXL_Front.jpg"
       ],
-      "durationSeconds": 0.591,
+      "durationSeconds": 0.616,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3715,10 +3753,10 @@
   "performance": {
     "individual": {
       "count": 70,
-      "averageSeconds": 3.622,
-      "medianSeconds": 3.377,
-      "p95Seconds": 5.997,
-      "maximumSeconds": 6.521,
+      "averageSeconds": 3.559,
+      "medianSeconds": 3.378,
+      "p95Seconds": 5.943,
+      "maximumSeconds": 6.449,
       "targetAverageSeconds": 5.0,
       "hardCaseMaximumSeconds": 9.0,
       "averageTargetMet": true,
@@ -3726,10 +3764,10 @@
     },
     "products": {
       "count": 50,
-      "averageSeconds": 0.542,
-      "medianSeconds": 0.447,
-      "p95Seconds": 0.936,
-      "maximumSeconds": 1.4,
+      "averageSeconds": 0.546,
+      "medianSeconds": 0.469,
+      "p95Seconds": 0.892,
+      "maximumSeconds": 1.359,
       "targetAverageSeconds": 5.0,
       "hardCaseMaximumSeconds": 9.0,
       "averageTargetMet": true,

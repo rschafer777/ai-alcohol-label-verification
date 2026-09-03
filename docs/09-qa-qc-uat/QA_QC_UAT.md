@@ -1,7 +1,7 @@
 # QA, QC, and User Acceptance
 
 Document ID: LV-QA-001  
-Status: QA and QC release gates passed; requester UAT follows release deployment
+Status: QA and QC release gates passed; requester UAT follows verified release deployment
 
 ## Quality assurance controls
 
@@ -27,6 +27,7 @@ QC verifies the produced artifact:
 | Warning | Exact text, title-case heading, missing sentence, bold body, contrast, legibility, and unknown size |
 | Human judgment | STONE'S THROW compared with Stone's Throw routes to Review when an independent reference is used |
 | Imperfect image | Angle, low light, glare, blur, and partial coverage do not become automatic label defects |
+| Equivalent panels | Cross-format duplicate uploads preserve both panel records, identify the canonical panel, avoid repeat OCR, and do not restart the worker |
 | Batch | Auto-group, merge, split, confirm, progress, failure isolation, retry, cancel, and export |
 | Capacity | Up to 300 products and 900 images with no group above 3 images |
 | History | 500-record FIFO, originating-browser isolation, filters, detail, evidence, disposition, delete, and clear |
@@ -36,7 +37,7 @@ QC verifies the produced artifact:
 
 ## QA and QC execution result
 
-The release candidate passed 261 Python tests, strict typing, Python and frontend linting, 24 frontend component and contract tests, the production frontend build, browser workflows, privacy checks, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The private current-image corpus completed 70 of 70 individual API analyses and 50 of 50 server-suggested grouped-product analyses, with no group above three images. Its 3.622-second individual mean and 6.521-second maximum passed the declared targets. Security boundary tests, staged-source inspection, and production dependency audits found no unresolved release blocker. Detailed measurements, oracle coverage, and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
+The release candidate passed 262 Python tests, strict typing, Python and frontend linting, 24 frontend component and contract tests, the production frontend build, browser workflows, privacy checks, and the explicit 300-product browser capacity run. The 30-product governed corpus passed every expected check row and mutation control. The private current-image corpus completed 70 of 70 individual API analyses and 50 of 50 server-suggested grouped-product analyses, with no group above three images. Its 3.559-second individual mean and 6.449-second maximum passed the declared targets. The source-bound integration record shows a cross-format two-panel request completed in 6.015 seconds, retained both panels, recorded the duplicate linkage, and kept worker generation at 1 with zero restarts. Security boundary tests, staged-source inspection, and production dependency audits found no unresolved release blocker. Detailed measurements, oracle coverage, and limitations are recorded in `../08-validation/VALIDATION_RESULTS.md`.
 
 The 70 of 70 count is a technical processing result. The current folder does not have a complete independent human field oracle, so field-level and legal-label accuracy remain part of requester UAT.
 
@@ -60,6 +61,7 @@ Run against the release URL in a new browser session.
 14. Upload a fourth panel, unsupported file, and corrupt image. Confirm clear, safe next actions.
 15. Upload an image above the decoded-pixel limit. Confirm the error shows expected width, actual width, expected height, actual height, expected decoded pixels, actual decoded pixels, the offending rows in red, and an exact resize action.
 16. Exercise the Jack Daniel's, Organic Vodka, Cascade Light, Peak Farm, and Blood & Honey files. Confirm the extracted values listed in `../08-validation/VALIDATION_RESULTS.md` and inspect each evidence highlight.
+17. Upload the same label panel as JPEG and PNG in one product. Confirm both uploads remain visible, the duplicate panel identifies the canonical panel, the result completes within 9 seconds, and readiness still reports the same worker generation.
 
 ## UAT acceptance record
 

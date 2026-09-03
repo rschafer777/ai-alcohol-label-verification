@@ -38,7 +38,7 @@ Primary users are TTB label compliance agents with widely varying technical comf
 | ID | Requirement | Acceptance measure |
 | --- | --- | --- |
 | INT-Q-001 | Typical latency | Normal readable labels target about 5 seconds; difficult recoverable labels may take 5 to 9 seconds |
-| INT-Q-002 | Batch efficiency | Warm batch mean targets about 5 seconds per processed product, with total time reported |
+| INT-Q-002 | Batch efficiency | Warm batch mean targets about 5 seconds per processed product, with total time reported; equivalent duplicate panels must not consume repeated OCR work |
 | INT-Q-003 | Local runtime | OCR, models, fonts, and rule evaluation require no runtime outbound connection |
 | INT-Q-004 | Accessibility | Semantic controls, keyboard operation, visible focus, non-color status cues, readable density, and responsive layout |
 | INT-Q-005 | Safety | Unreadable or incomplete evidence cannot become a deterministic mismatch solely due to image quality and cannot be invented as a pass |
@@ -73,6 +73,7 @@ The federal health warning applies at 0.5 percent alcohol by volume or more for 
 
 - COLAs Online integration is not part of the prototype. The primary interface therefore performs label-first regulatory evidence review rather than pretending OCR-derived values are an independent application record.
 - Product grouping uses conservative directory and filename cues, followed by mandatory human confirmation. It favors avoiding false merges over automatic grouping recall.
+- Multiple uploaded files that contain the same rendered panel remain visible as separate submitted files, but the processor may OCR one canonical copy when a strict visual-equivalence test proves they carry the same pixels in a different encoding.
 - OCR-derived brand, class, and beverage-family evidence supplements directory and filename cues. OCR disagreement keeps the suggested group visible for confirmation instead of silently splitting or merging it.
 - Physical type size cannot be proven from an ordinary unscaled photograph. The check reports the applicable requirement and remains Not verified unless reliable scale exists.
 - Formula, chemistry, permit, source, production-method, state-law, and product-origin truth require independent records.

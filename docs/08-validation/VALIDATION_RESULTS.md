@@ -2,7 +2,7 @@
 
 Document ID: LV-VP-RESULT-001  
 Execution date: 2026-09-03  
-Status: Local engineering gates passed; independent RT and immutable deployment verification follow the frozen commit
+Status: Engineering gates passed; final independent RT and immutable deployment verification follow candidate freeze
 
 ## Automated code and interface gates
 
@@ -10,7 +10,7 @@ Status: Local engineering gates passed; independent RT and immutable deployment 
 | --- | --- |
 | Ruff | PASS, zero findings |
 | Strict mypy | PASS, source package |
-| Pytest | PASS, 261 tests |
+| Pytest | PASS, 262 tests |
 | ESLint | PASS, zero findings |
 | TypeScript | PASS, zero errors |
 | Vitest and Testing Library | PASS, 24 tests in 5 files |
@@ -35,7 +35,7 @@ The private UAT folder contained 71 selected files. The browser and server admis
 - 50 of 50 successful grouped-product analyses
 - no filename, product-name, or expected-value override in the runtime or validator
 
-Individual analysis averaged 3.622 seconds, with a 3.377-second median, 5.997-second p95, and 6.521-second maximum. Grouped-product reruns averaged 0.542 seconds, with a 0.447-second median, 0.936-second p95, and 1.400-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed.
+Individual analysis averaged 3.559 seconds, with a 3.378-second median, 5.943-second p95, and 6.449-second maximum. Grouped-product reruns averaged 0.546 seconds, with a 0.469-second median, 0.892-second p95, and 1.359-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed.
 
 The detailed per-file report is `PRIVATE_UAT_CORPUS_REPORT.md`, and machine-readable evidence is `evidence/private-uat-corpus-e2e.json`. Raw images are excluded from the public repository because public redistribution rights were not established.
 
@@ -50,6 +50,8 @@ The current difficult-image cases were exercised through the production multipar
 | Cascade Light | Wine, `CASCADE LIGHT`, `RIESLING`, 11.5 percent ABV, 750 mL, producer/location, appellation, and sulfite evidence read |
 | Peak Farm | Malt beverage, `PEAK FARM`, `DOUBLE PALE ALE`, 7.2 percent ABV, 16 fl oz, and producer/address read |
 | Blood & Honey | Malt beverage, `BLOOD & HONEY`, `TEXAS STYLE ALE`, and producer/location read; the supplied image does not visibly include a reliable ABV or net-contents statement |
+
+The machine-readable private-corpus evidence records a content-only cross-format equivalence test. The first analysis request after fresh application readiness returned HTTP 200 in 6.015 seconds, retained both submitted panel records, marked panel 2 with `duplicateOfPanelId: panel-1`, and kept the OCR worker at generation 1 with zero restarts. The evidence binds the result to SHA-256 hashes of the validator, pipeline, supervisor, and submitted files. Product names, filenames, and expected values do not participate in runtime selection or extraction.
 
 The processing behavior uses generic OCR layout, semantic-noise exclusion, token-boundary beverage inference, and context ranking. Production logic contains no list of these products and does not read expected values from filenames or test manifests.
 
@@ -75,6 +77,6 @@ The security review covers the public HTTP boundary, uploads, image decoding, wo
 
 Python and production npm dependency audits are part of the complete release gate. No critical or high security finding may remain unresolved.
 
-## Remaining release-bound checks
+## Release-bound checks
 
 Three independent RT reviewers inspect the final frozen candidate for requirements fidelity, architecture and security, and delivery and UAT readiness. The release manifest records the exact reviewed content. After the commit is pushed, the deployment workflow must prove that the same commit and immutable image digest are live before requester UAT begins.

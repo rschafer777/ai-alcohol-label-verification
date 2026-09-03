@@ -13,7 +13,7 @@ Document ID: LV-TRACE-001
 | INT-012 to INT-014 | Batch architecture | FR-025 to FR-031 | batch filtering, per-image reads, grouping service, confirmation, queue, and exports | Mixed-folder tests, grouping tests, private full-corpus API and grouped-product gate, capacity browser test, export review |
 | INT-015 to INT-016 | FIFO history | FR-032 to FR-037 | history repository, routes, workspace | Repository, API, UI, and browser history tests |
 | INT-017 | Sample | FR-038 | sample routes and adapter | Sample integration and browser UAT |
-| INT-Q-001 to INT-Q-002 | Performance budgets | FR-041 to FR-043, FR-047 | bounded OCR recovery, exact-pixel bounded reuse, separate safety timeout, sequential queue | Local individual, grouped-product, warm, cold, and deployed timing protocols |
+| INT-Q-001 to INT-Q-002 | Performance budgets | FR-041 to FR-043, FR-047 to FR-048 | bounded OCR recovery, exact-pixel bounded reuse, strict equivalent-panel deduplication, separate safety timeout, sequential queue | Local individual, grouped-product, equivalent cross-format multi-panel, warm, cold, and deployed timing protocols |
 | INT-Q-003 | Local inference | FR-004 | local model manifest and runtime | Asset hash tests and network dependency review |
 | INT-Q-004 | Accessibility | FR-024, FR-039 | semantic React components and CSS | Testing Library, Playwright, keyboard and visual review |
 | INT-Q-005 | Fail-safe uncertainty | FR-017 | aggregation and warning rules | Negative, bad-image, ambiguity, and mutation tests |

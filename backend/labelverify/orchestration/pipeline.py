@@ -2,9 +2,13 @@ from __future__ import annotations
 
 import re
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from decimal import Decimal
 from pathlib import Path
+
+import cv2
+import numpy as np
+from numpy.typing import NDArray
 
 from labelverify.contracts.loader import contracts
 from labelverify.contracts.models import (
@@ -289,7 +293,8 @@ def _extract_observed(
     decoded: list[DecodedPanel], adapter: ExtractionPort
 ) -> tuple[list[PanelResult], ObservedCandidates, float, float, float]:
     preprocess_started = time.perf_counter()
-    views = [view for panel in decoded for view in create_ocr_views(panel)]
+    ocr_panels, result_panels = _deduplicate_visual_panels(decoded)
+    views = [view for panel in ocr_panels for view in create_ocr_views(panel)]
     preprocess_ms = _elapsed_ms(preprocess_started)
     ocr_started = time.perf_counter()
     try:
@@ -298,12 +303,12 @@ def _extract_observed(
         raise PipelineFailure("inference_failed") from exc
     ocr_ms = _elapsed_ms(ocr_started)
     candidates_started = time.perf_counter()
-    public_panels = [panel.public_panel() for panel in decoded]
+    public_panels = [panel.public_panel() for panel in result_panels]
     observed = locate_candidates(lines, public_panels)
     candidates_ms = _elapsed_ms(candidates_started)
 
     preprocess_started = time.perf_counter()
-    recovery_views = _recovery_views(decoded, observed)
+    recovery_views = _recovery_views(ocr_panels, observed)
     preprocess_ms += _elapsed_ms(preprocess_started)
     if recovery_views:
         ocr_started = time.perf_counter()
@@ -317,6 +322,68 @@ def _extract_observed(
         observed = locate_candidates(lines, public_panels)
         candidates_ms += _elapsed_ms(candidates_started)
     return public_panels, observed, preprocess_ms, ocr_ms, candidates_ms
+
+
+def _deduplicate_visual_panels(
+    decoded: list[DecodedPanel],
+) -> tuple[list[DecodedPanel], list[DecodedPanel]]:
+    """Avoid repeat OCR for visually equivalent uploads while retaining their records."""
+
+    canonical: list[DecodedPanel] = []
+    result_panels: list[DecodedPanel] = []
+    thumbnails: list[NDArray[np.float32]] = []
+    for panel in decoded:
+        thumbnail = cv2.resize(
+            cv2.cvtColor(panel.rgb, cv2.COLOR_RGB2GRAY),
+            (64, 64),
+            interpolation=cv2.INTER_AREA,
+        ).astype(np.float32)
+        duplicate_index = next(
+            (
+                index
+                for index, existing in enumerate(thumbnails)
+                if _visual_panels_equivalent(panel, canonical[index], thumbnail, existing)
+            ),
+            None,
+        )
+        if duplicate_index is None:
+            canonical.append(panel)
+            thumbnails.append(thumbnail)
+            result_panels.append(panel)
+            continue
+        quality_signals = dict(panel.quality_signals)
+        quality_signals["duplicateOfPanelId"] = canonical[duplicate_index].panel_id
+        result_panels.append(replace(panel, quality_signals=quality_signals))
+    return canonical, result_panels
+
+
+def _visual_panels_equivalent(
+    candidate: DecodedPanel,
+    existing: DecodedPanel,
+    candidate_thumbnail: NDArray[np.float32],
+    existing_thumbnail: NDArray[np.float32],
+) -> bool:
+    candidate_ratio = candidate.width / candidate.height
+    existing_ratio = existing.width / existing.height
+    if abs(candidate_ratio - existing_ratio) / max(candidate_ratio, existing_ratio) > 0.002:
+        return False
+    candidate_std = float(candidate_thumbnail.std())
+    existing_std = float(existing_thumbnail.std())
+    if candidate_std < 1.0 or existing_std < 1.0:
+        return float(np.mean(np.abs(candidate_thumbnail - existing_thumbnail))) <= 0.5
+    candidate_normalized = (
+        candidate_thumbnail - float(candidate_thumbnail.mean())
+    ) / candidate_std
+    existing_normalized = (
+        existing_thumbnail - float(existing_thumbnail.mean())
+    ) / existing_std
+    correlation = float(
+        np.corrcoef(candidate_normalized.ravel(), existing_normalized.ravel())[0, 1]
+    )
+    normalized_error = float(
+        np.mean(np.abs(candidate_normalized - existing_normalized))
+    )
+    return correlation >= 0.999 and normalized_error <= 0.025
 
 
 def _decoded_pixel_failure(panel_id: str, exc: ImageLimitError) -> PipelineFailure:

@@ -37,6 +37,8 @@ Every admitted analysis returns the complete 24-row registry. When beverage type
 
 Candidate aggregation treats one original-pixel region as one piece of evidence even when bounded and recovery OCR views produce different readings. The strongest reading for that region is retained before independently located alternatives are classified as ambiguous. This prevents duplicate-view evidence from becoming an internal error while preserving real conflicts across distinct regions.
 
+Decoded panels pass through a strict full-frame visual-equivalence gate before OCR. Equivalent cross-format files retain their own panel records and expose `duplicateOfPanelId`, while only the canonical panel creates OCR and recovery views. The gate does not use filenames, product identity, expected fields, or oracle data. Automated coverage uses equivalent and distinct arrays to prove that only the equivalent panel is deduplicated. The governed integration validator finds a cross-format equivalent pair from pixels alone, submits it through the production multipart API, and records the retained panels, duplicate linkage, source hashes, latency, and worker lifecycle in machine-readable evidence.
+
 The worker caches no more than 2,048 OCR outputs keyed only by decoded view shape, pixel type, and pixel digest. It clears the cache at initialization. Filenames, product identities, expected values, and test-oracle data never influence a cache key or extracted value. Confirmed batch groups can therefore reuse the exact pixels already read during grouping without creating product-specific behavior.
 
 ## Selected rule inventory

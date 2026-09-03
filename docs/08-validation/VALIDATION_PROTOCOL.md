@@ -24,7 +24,7 @@ This protocol determines whether the delivered application matches the Intake, B
 | VP-11 Image and OCR | Valid formats, bad signatures, orientation, recovery, evidence inversion, unknown content | No false deterministic clearance |
 | VP-12 Private UAT image corpus | Normalize non-destructively, skip non-images, run every current image through the production multipart API, group without a manifest, rerun every suggested product, and report every file | Every supported image returns a valid result, every result has 24 checks and valid evidence references, every successful image appears in exactly one group, and no group exceeds three images |
 | VP-13 Human image oracle | Compare the current image inventory with independently reviewed expected fields and dispositions | A complete current-inventory bijection is required before any field-accuracy or legal-label-accuracy claim; missing oracle coverage is reported and remains a requester UAT item |
-| VP-14 Performance | Warm normal, difficult, cold, individual private images, grouped products, and sequential batch runs | All declared latency bands pass; a miss blocks release until corrected or explicitly accepted by the product owner |
+| VP-14 Performance | Warm normal, difficult, cold, equivalent cross-format multi-panel, individual private images, grouped products, and sequential batch runs | All declared latency bands pass; a multi-panel request must complete without a worker-generation restart; a miss blocks release until corrected or explicitly accepted by the product owner |
 | VP-15 Security | Static security scan, dependency audit, history isolation, body bounds, CSV neutralization, rate fairness, abuse cases, container and workflow review | No unresolved critical or high release finding |
 | VP-16 Documentation | Trace every INT and FR item, scan claims and paths | Complete and current |
 | VP-17 Independent RT | Three frozen-baseline reviews | Three Clear decisions |
@@ -53,6 +53,7 @@ The raw corpus is not published because public redistribution rights were not es
 - Difficult recoverable target is no more than 9 seconds per selected case.
 - Sequential warm batch target is about 5 seconds mean per product.
 - Cold readiness and first request are reported separately.
+- Equivalent cross-format panels are tested as one product. The request must preserve every submitted panel, mark the duplicate relationship, finish within the difficult-image band, and leave the worker generation unchanged.
 - A partial image harness is never presented as browser round-trip or production API timing.
 
 ## Defect loop

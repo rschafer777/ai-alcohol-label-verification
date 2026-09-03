@@ -46,8 +46,8 @@ The solution is a modular monolith. This keeps local setup and deployment small 
 1. The user selects 1 to 3 images.
 2. The browser shows filenames and local previews. No label values are requested.
 3. The API validates multipart size, file count, signatures, and request deadlines.
-4. The worker decodes each panel and creates bounded recovery views.
-5. OCR produces text lines, engine signals, and view coordinates.
+4. The worker decodes each panel, identifies strictly equivalent full-frame duplicates, and creates bounded recovery views for canonical panels.
+5. OCR produces text lines, engine signals, and view coordinates. Every submitted panel remains in the result, and an equivalent duplicate names its canonical panel in quality signals.
 6. Candidate extraction identifies brand, class/type, ABV, proof, net contents, producer/address, country, warning, and type-specific evidence.
 7. Coordinates are mapped to the original panel and stored as four-point polygons.
 8. Type inference returns malt beverage, wine, distilled spirits, or an unresolved conflict.
@@ -130,6 +130,8 @@ Each evidence item includes an opaque ID, panel ID, four original-pixel points, 
 ## Image engineering
 
 The decoder applies EXIF orientation and enforces 12 megapixels per image and 36 megapixels per request. It measures blur, exposure, coverage, and glare indicators. The recovery path may create bounded resize, contrast, deskew, or clear trapezoid views. It never fills missing pixels or fabricates text. Coordinates from derived views are inverted to original pixels before delivery.
+
+Full-frame visual deduplication uses a 64 by 64 grayscale fingerprint, an aspect-ratio tolerance of 0.2 percent, normalized correlation of at least 0.999, and normalized mean absolute error of at most 0.025. This narrow gate removes redundant OCR work for equivalent JPEG and PNG encodings while preserving distinct product surfaces. The API retains all submitted panels and marks only the duplicate panel with `duplicateOfPanelId`.
 
 Decoded-pixel errors carry image width, height, total decoded pixels, aspect-preserving target dimensions, supported maximum, pass or fail state for each comparison, and a precise retry instruction. These values cross the typed API boundary and are rendered side by side in the browser.
 

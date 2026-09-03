@@ -190,6 +190,37 @@ def test_cumulative_pixel_budget_is_passed_before_fourth_decode(
     assert limits_seen == [12_000_000, 12_000_000, 12_000_000]
 
 
+def test_visually_equivalent_panels_are_ocr_deduplicated_but_retained() -> None:
+    gradient = np.tile(np.arange(128, dtype=np.uint8), (96, 1))
+    rgb = np.repeat(gradient[:, :, np.newaxis], 3, axis=2)
+    compressed = np.clip(rgb.astype(np.int16) + 1, 0, 255).astype(np.uint8)
+    distinct = np.flip(rgb, axis=1).copy()
+
+    def panel(panel_id: str, image: np.ndarray) -> DecodedPanel:
+        height, width = image.shape[:2]
+        return DecodedPanel(
+            panel_id=panel_id,
+            rgb=image,
+            width=width,
+            height=height,
+            pixels=width * height,
+            quality_signals={"qualityClass": "Sufficient"},
+            coverage_state="Sufficient",
+        )
+
+    canonical, retained = pipeline_module._deduplicate_visual_panels(
+        [
+            panel("panel-1", rgb),
+            panel("panel-2", compressed),
+            panel("panel-3", distinct),
+        ]
+    )
+
+    assert [item.panel_id for item in canonical] == ["panel-1", "panel-3"]
+    assert [item.panel_id for item in retained] == ["panel-1", "panel-2", "panel-3"]
+    assert retained[1].quality_signals["duplicateOfPanelId"] == "panel-1"
+
+
 def test_brand_recovery_detects_brand_candidate_below_class_as_suspicious() -> None:
     observed = pipeline_module.locate_candidates(
         [

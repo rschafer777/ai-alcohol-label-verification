@@ -6,8 +6,8 @@ Status: CLEAR for deployment and requester UAT
 
 ## Frozen candidate
 
-- Governed content manifest entries: 347
-- Manifest SHA-256: `C31CCC9592AFF137CE040402A9CBAE8EB490E051864063613086F8A1303C1D0E`
+- Governed content manifest entries: 346
+- Manifest SHA-256: `B38C506DAFFDFA6EFA60E981CAD2C9D7EAADB6ABA69A1DBD414B09428915BB3F`
 - Manifest verification: PASS with zero staged-blob mismatches
 - Staged diff whitespace check: PASS
 
@@ -25,7 +25,7 @@ This signoff is intentionally excluded from the governed content manifest becaus
 
 | Gate | Result |
 |---|---|
-| Python tests | PASS, 261 tests |
+| Python tests | PASS, 262 tests |
 | Python formatting, linting, and strict typing | PASS, 39 source files type checked |
 | Frontend tests | PASS, 24 tests in 5 files |
 | Frontend lint, type check, and production build | PASS, 129 modules built |
@@ -35,11 +35,12 @@ This signoff is intentionally excluded from the governed content manifest becaus
 | Private individual-image technical UAT | PASS, 70 of 70 API runs |
 | Private grouped-product technical UAT | PASS, 50 of 50 API runs, no group above 3 images |
 | Private grouping disposition | 36 ready to confirm, 14 need review |
-| Private individual-image timing | 3.622-second mean, 3.377-second median, 5.997-second p95, 6.521-second maximum |
-| Private grouped-product timing | 0.542-second mean, 0.447-second median, 0.936-second p95, 1.400-second maximum |
-| Warm processing timing | PASS, 141.593 ms p95 and 2,637.463 ms maximum |
-| Cold readiness through first result | PASS, 5,220.804 ms p95 and maximum |
-| Sequential 20-item batch | PASS, 8.885 seconds at the 20-item checkpoint |
+| Private individual-image timing | 3.559-second mean, 3.378-second median, 5.943-second p95, 6.449-second maximum |
+| Private grouped-product timing | 0.546-second mean, 0.469-second median, 0.892-second p95, 1.359-second maximum |
+| Equivalent cross-format panels | PASS, HTTP 200 in 6.015 seconds, 2 panels retained, 1 duplicate link, generation 1 to 1, zero restarts |
+| Warm processing timing | PASS, 151.344 ms p95 and 2,640.653 ms maximum |
+| Cold readiness through first result | PASS, 5,293.636 ms p95 and maximum |
+| Sequential 20-item batch | PASS, 9.032 seconds total and 8.955 seconds at the 20-item checkpoint |
 | Python dependency audit | PASS, no known vulnerabilities |
 | Frontend production dependency audit | PASS, zero vulnerabilities |
 | Full release gate | PASS |

@@ -1,7 +1,7 @@
 # Release and Operational Handoff
 
 Document ID: LV-REL-001  
-Status: Local engineering candidate validated; independent RT review and deployment pending
+Status: Engineering candidate validated; final independent RT and immutable deployment verification pending
 
 ## Deliverable contents
 
@@ -45,7 +45,7 @@ GitHub Actions uses OIDC to authenticate to Azure. It validates the source, buil
 - Runtime inference: local RapidOCR and ONNX Runtime CPU, with no external inference endpoint
 - Scale: zero to one replica for the demo
 - OCR concurrency: one governed job
-- OCR reuse: bounded exact-pixel result cache for repeated confirmed-product processing
+- OCR reuse: bounded exact-pixel result cache plus strict equivalent-panel canonicalization for redundant cross-format uploads
 - Local history: maximum 500 records with FIFO eviction and opaque originating-browser access scope
 - Incident action: stop new intake, preserve commit and deployment evidence, classify the fault, then restore the prior verified digest if required
 
@@ -54,4 +54,4 @@ GitHub Actions uses OIDC to authenticate to Azure. It validates the source, buil
 - Source: `https://github.com/rschafer777/ai-alcohol-label-verification`
 - Application: `https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/`
 
-The exact release commit and final gate results are recorded after deployment.
+The exact application commit, workflow, digest, public verification, and requester UAT entry status are recorded after immutable deployment verification.

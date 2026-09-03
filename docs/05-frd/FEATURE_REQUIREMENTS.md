@@ -55,6 +55,7 @@ Status: Approved build baseline
 | FR-045 | Independent-reference verification remains available for a future trusted COLA adapter and does not influence OCR candidate discovery | BAIRD unknown 1 |
 | FR-046 | History reads and mutations require the originating opaque browser scope; mutation bodies are bounded and production mutations require exact same-origin evidence | INT-Q-006 |
 | FR-047 | The OCR worker may reuse a bounded result only for byte-identical decoded view pixels and dimensions; filenames, product names, expected fields, and oracle data never form a cache key or extraction override | INT-Q-001, INT-Q-002 |
+| FR-048 | Equivalent full-frame panels may share canonical OCR work only when strict aspect, visual-correlation, and normalized-error gates all pass; every upload remains in the result, duplicates identify the canonical panel, and distinct product surfaces are never collapsed | INT-002, INT-Q-002, BAIRD-15 |
 
 ## UX states
 
@@ -72,6 +73,6 @@ A feature is complete only when its contract, implementation, automated tests, b
 | EP-2 Single review experience | FR-001 through FR-003, FR-019 through FR-024, FR-038 | Medium |
 | EP-3 Batch | FR-025 through FR-031 | Medium |
 | EP-4 History | FR-032 through FR-037 | Medium |
-| EP-5 Platform and quality | FR-039 through FR-047 | Large |
+| EP-5 Platform and quality | FR-039 through FR-048 | Large |
 
 Sizing describes relative delivery effort, not elapsed time.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "measuredAtUtc": "2026-09-03T08:08:28.930209+00:00",
+  "measuredAtUtc": "2026-09-03T09:33:47.851980+00:00",
   "environment": {
     "platform": "Windows",
     "python": "3.12.10",
@@ -10,8 +10,8 @@
   "warm": {
     "runs": [
       {
-        "wallMs": 2637.463,
-        "serverDurationMs": 2636.129,
+        "wallMs": 2640.653,
+        "serverDurationMs": 2639.177,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -19,8 +19,8 @@
         "iteration": 1
       },
       {
-        "wallMs": 140.265,
-        "serverDurationMs": 138.909,
+        "wallMs": 145.48,
+        "serverDurationMs": 144.16,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -28,8 +28,8 @@
         "iteration": 2
       },
       {
-        "wallMs": 138.027,
-        "serverDurationMs": 136.744,
+        "wallMs": 148.958,
+        "serverDurationMs": 147.601,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -37,8 +37,8 @@
         "iteration": 3
       },
       {
-        "wallMs": 137.888,
-        "serverDurationMs": 136.614,
+        "wallMs": 149.146,
+        "serverDurationMs": 147.775,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -46,8 +46,8 @@
         "iteration": 4
       },
       {
-        "wallMs": 141.48,
-        "serverDurationMs": 140.233,
+        "wallMs": 151.012,
+        "serverDurationMs": 149.709,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -55,8 +55,8 @@
         "iteration": 5
       },
       {
-        "wallMs": 138.698,
-        "serverDurationMs": 137.449,
+        "wallMs": 151.336,
+        "serverDurationMs": 149.943,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -64,8 +64,8 @@
         "iteration": 6
       },
       {
-        "wallMs": 140.596,
-        "serverDurationMs": 139.288,
+        "wallMs": 151.344,
+        "serverDurationMs": 150.006,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -73,8 +73,8 @@
         "iteration": 7
       },
       {
-        "wallMs": 138.139,
-        "serverDurationMs": 136.843,
+        "wallMs": 150.292,
+        "serverDurationMs": 148.989,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -82,8 +82,8 @@
         "iteration": 8
       },
       {
-        "wallMs": 139.293,
-        "serverDurationMs": 137.965,
+        "wallMs": 142.976,
+        "serverDurationMs": 141.537,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -91,8 +91,8 @@
         "iteration": 9
       },
       {
-        "wallMs": 140.787,
-        "serverDurationMs": 139.506,
+        "wallMs": 144.099,
+        "serverDurationMs": 142.774,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -100,8 +100,8 @@
         "iteration": 10
       },
       {
-        "wallMs": 138.295,
-        "serverDurationMs": 136.916,
+        "wallMs": 140.83,
+        "serverDurationMs": 139.518,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -109,8 +109,8 @@
         "iteration": 11
       },
       {
-        "wallMs": 137.939,
-        "serverDurationMs": 136.666,
+        "wallMs": 142.458,
+        "serverDurationMs": 141.104,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -118,8 +118,8 @@
         "iteration": 12
       },
       {
-        "wallMs": 141.593,
-        "serverDurationMs": 140.296,
+        "wallMs": 146.707,
+        "serverDurationMs": 145.413,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -127,8 +127,8 @@
         "iteration": 13
       },
       {
-        "wallMs": 138.735,
-        "serverDurationMs": 137.078,
+        "wallMs": 142.429,
+        "serverDurationMs": 141.096,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -136,8 +136,8 @@
         "iteration": 14
       },
       {
-        "wallMs": 135.116,
-        "serverDurationMs": 133.848,
+        "wallMs": 141.572,
+        "serverDurationMs": 140.274,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -145,8 +145,8 @@
         "iteration": 15
       },
       {
-        "wallMs": 137.293,
-        "serverDurationMs": 135.999,
+        "wallMs": 141.333,
+        "serverDurationMs": 139.971,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -154,8 +154,8 @@
         "iteration": 16
       },
       {
-        "wallMs": 134.893,
-        "serverDurationMs": 133.46,
+        "wallMs": 138.076,
+        "serverDurationMs": 136.676,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -163,8 +163,8 @@
         "iteration": 17
       },
       {
-        "wallMs": 132.388,
-        "serverDurationMs": 131.057,
+        "wallMs": 136.496,
+        "serverDurationMs": 135.233,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -172,8 +172,8 @@
         "iteration": 18
       },
       {
-        "wallMs": 132.954,
-        "serverDurationMs": 131.594,
+        "wallMs": 139.113,
+        "serverDurationMs": 137.876,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -181,8 +181,8 @@
         "iteration": 19
       },
       {
-        "wallMs": 134.035,
-        "serverDurationMs": 132.581,
+        "wallMs": 138.652,
+        "serverDurationMs": 137.405,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -190,8 +190,8 @@
         "iteration": 20
       },
       {
-        "wallMs": 131.305,
-        "serverDurationMs": 129.982,
+        "wallMs": 136.582,
+        "serverDurationMs": 135.334,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -199,8 +199,8 @@
         "iteration": 21
       },
       {
-        "wallMs": 135.124,
-        "serverDurationMs": 133.67,
+        "wallMs": 135.218,
+        "serverDurationMs": 133.741,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -208,8 +208,8 @@
         "iteration": 22
       },
       {
-        "wallMs": 130.426,
-        "serverDurationMs": 129.103,
+        "wallMs": 137.86,
+        "serverDurationMs": 136.604,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -217,8 +217,8 @@
         "iteration": 23
       },
       {
-        "wallMs": 132.345,
-        "serverDurationMs": 131.024,
+        "wallMs": 137.227,
+        "serverDurationMs": 135.917,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -226,8 +226,8 @@
         "iteration": 24
       },
       {
-        "wallMs": 135.822,
-        "serverDurationMs": 134.599,
+        "wallMs": 141.372,
+        "serverDurationMs": 140.056,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -235,8 +235,8 @@
         "iteration": 25
       },
       {
-        "wallMs": 132.634,
-        "serverDurationMs": 131.387,
+        "wallMs": 142.315,
+        "serverDurationMs": 140.944,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -244,8 +244,8 @@
         "iteration": 26
       },
       {
-        "wallMs": 136.216,
-        "serverDurationMs": 134.906,
+        "wallMs": 143.972,
+        "serverDurationMs": 142.681,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -253,8 +253,8 @@
         "iteration": 27
       },
       {
-        "wallMs": 132.296,
-        "serverDurationMs": 130.985,
+        "wallMs": 141.148,
+        "serverDurationMs": 139.841,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -262,8 +262,8 @@
         "iteration": 28
       },
       {
-        "wallMs": 132.407,
-        "serverDurationMs": 131.076,
+        "wallMs": 142.151,
+        "serverDurationMs": 140.778,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -271,8 +271,8 @@
         "iteration": 29
       },
       {
-        "wallMs": 137.469,
-        "serverDurationMs": 136.206,
+        "wallMs": 145.263,
+        "serverDurationMs": 143.886,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
@@ -283,11 +283,11 @@
     "runCount": 30,
     "completeRunCount": 30,
     "expectedSummary": "Review needed",
-    "p95WallMs": 141.593,
-    "maxWallMs": 2637.463,
-    "peakParentAndWorkerRssBytes": 1214324736,
-    "peakParentRssBytes": 63533056,
-    "peakWorkerRssBytes": 1151389696,
+    "p95WallMs": 151.344,
+    "maxWallMs": 2640.653,
+    "peakParentAndWorkerRssBytes": 1215987712,
+    "peakParentRssBytes": 63856640,
+    "peakWorkerRssBytes": 1152643072,
     "rssThresholdBytesExclusive": 2147483648,
     "thresholdMs": 5000,
     "pass": true
@@ -295,74 +295,74 @@
   "cold": {
     "runs": [
       {
-        "wallMs": 2665.578,
-        "serverDurationMs": 2664.246,
+        "wallMs": 2622.445,
+        "serverDurationMs": 2621.292,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
         "allApplicableMatch": false,
         "iteration": 1,
-        "readyMs": 2555.224,
-        "firstResultMs": 2665.578,
-        "readyThroughFirstResultMs": 5220.804
+        "readyMs": 2516.037,
+        "firstResultMs": 2622.445,
+        "readyThroughFirstResultMs": 5138.484
       },
       {
-        "wallMs": 2576.476,
-        "serverDurationMs": 2575.193,
+        "wallMs": 2736.442,
+        "serverDurationMs": 2735.208,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
         "allApplicableMatch": false,
         "iteration": 2,
-        "readyMs": 2554.888,
-        "firstResultMs": 2576.476,
-        "readyThroughFirstResultMs": 5131.366
+        "readyMs": 2557.192,
+        "firstResultMs": 2736.442,
+        "readyThroughFirstResultMs": 5293.636
       },
       {
-        "wallMs": 2630.65,
-        "serverDurationMs": 2629.468,
+        "wallMs": 2690.001,
+        "serverDurationMs": 2688.729,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
         "allApplicableMatch": false,
         "iteration": 3,
-        "readyMs": 2524.222,
-        "firstResultMs": 2630.65,
-        "readyThroughFirstResultMs": 5154.873
+        "readyMs": 2527.998,
+        "firstResultMs": 2690.001,
+        "readyThroughFirstResultMs": 5218.0
       },
       {
-        "wallMs": 2645.897,
-        "serverDurationMs": 2644.327,
+        "wallMs": 2634.396,
+        "serverDurationMs": 2633.256,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
         "allApplicableMatch": false,
         "iteration": 4,
-        "readyMs": 2533.792,
-        "firstResultMs": 2645.897,
-        "readyThroughFirstResultMs": 5179.691
+        "readyMs": 2535.888,
+        "firstResultMs": 2634.396,
+        "readyThroughFirstResultMs": 5170.285
       },
       {
-        "wallMs": 2606.023,
-        "serverDurationMs": 2604.72,
+        "wallMs": 2642.812,
+        "serverDurationMs": 2641.597,
         "summary": "Review needed",
         "checkCount": 24,
         "applicableCount": 20,
         "allApplicableMatch": false,
         "iteration": 5,
-        "readyMs": 2531.836,
-        "firstResultMs": 2606.023,
-        "readyThroughFirstResultMs": 5137.86
+        "readyMs": 2525.207,
+        "firstResultMs": 2642.812,
+        "readyThroughFirstResultMs": 5168.02
       }
     ],
     "runCount": 5,
     "completeRunCount": 5,
     "expectedSummary": "Review needed",
-    "p95ReadyThroughFirstResultMs": 5220.804,
-    "maxReadyThroughFirstResultMs": 5220.804,
-    "peakParentAndWorkerRssBytes": 1216757760,
-    "peakParentRssBytes": 63574016,
-    "peakWorkerRssBytes": 1153204224,
+    "p95ReadyThroughFirstResultMs": 5293.636,
+    "maxReadyThroughFirstResultMs": 5293.636,
+    "peakParentAndWorkerRssBytes": 1217617920,
+    "peakParentRssBytes": 63922176,
+    "peakWorkerRssBytes": 1153716224,
     "rssThresholdBytesExclusive": 4294967296,
     "thresholdMsExclusive": 10000,
     "scope": "Worker spawn, model verification and warmup, readiness, and first governed result",

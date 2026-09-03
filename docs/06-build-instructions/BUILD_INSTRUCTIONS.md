@@ -10,7 +10,7 @@ Status: Approved execution baseline
 | --- | --- | --- |
 | WP-01 Contracts | API schema, rule registry, 24-check registry, errors, generated TypeScript | Integrity hashes and contract tests |
 | WP-02 Image ingress | Multipart limits, signatures, pixel limits, decode, orientation, recovery views | Boundary and imaging tests |
-| WP-03 OCR and candidates | Local RapidOCR, bounded exact-pixel result reuse, field extraction, alternatives, provenance, coordinate inversion | OCR, cache, candidate, and evidence tests |
+| WP-03 OCR and candidates | Local RapidOCR, bounded exact-pixel result reuse, strict equivalent-panel deduplication, field extraction, alternatives, provenance, coordinate inversion | OCR, cache, deduplication, candidate, and evidence tests |
 | WP-04 Regulatory engine | Beverage inference, common rules, family rules, warning rules, aggregation | Unit, mutation, and beverage-profile tests |
 | WP-05 Orchestration | One-pass analysis, independent verification, supervised execution, cancellation and timeout | Pipeline, supervisor, and API tests |
 | WP-06 Persistence | SQLite schema, image store, browser-scope authorization, FIFO 500, disposition, delete, reopen | Repository and API isolation tests |
@@ -56,9 +56,10 @@ One contributor may hold multiple roles for this take-home project, but evidence
 6. Every supported image installed in the private UAT folder is exercised individually through the production API, grouped without product-specific runtime overrides, and exercised again by product group.
 7. The governed subset is evaluated against its independent visual oracle without publishing raw images. New images without oracle entries remain technical UAT coverage until independently classified.
 8. Performance tests report cold, warm, difficult-image, individual-corpus, grouped-product, and batch behavior without hiding outliers.
-9. Security validation covers source, dependencies, upload and JSON abuse, history isolation, CSV neutralization, rate fairness, timeouts, cleanup, identity, headers, container, and deployment.
-10. Three RT reviews run only after the code and documents are frozen by manifest.
-11. Requester UAT begins only after automated and independent gates are complete.
+9. Multi-panel performance includes equivalent cross-format inputs and proves completion within the worker limit without a worker-generation restart.
+10. Security validation covers source, dependencies, upload and JSON abuse, history isolation, CSV neutralization, rate fairness, timeouts, cleanup, identity, headers, container, and deployment.
+11. Three RT reviews run only after the code and documents are frozen by manifest.
+12. Requester UAT begins only after automated and independent gates are complete.
 
 ## Definition of Done
 

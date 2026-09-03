@@ -132,7 +132,7 @@ npm run test:e2e
 Pop-Location
 ```
 
-The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 70 accepted images plus one skipped JSON file. The production multipart API processed all 70 images and all 50 server-suggested product groups. Individual-image mean latency was 3.622 seconds, p95 was 5.997 seconds, and the maximum was 6.521 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
+The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 70 accepted images plus one skipped JSON file. The production multipart API processed all 70 images and all 50 server-suggested product groups. Individual-image mean latency was 3.559 seconds, p95 was 5.943 seconds, and the maximum was 6.449 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
 
 The local visual oracle predates the current folder contents. It has 50 cases, 42 exact current filename matches, 28 current images without an oracle row, and 8 oracle filenames that are absent. The release evidence therefore distinguishes a passing 70-image technical and performance gate from the still-required complete human field-accuracy oracle. It does not claim that every OCR value or legal label outcome has been independently verified.
 
