@@ -63,4 +63,4 @@ Any failure is assigned to requirements, contract, backend, frontend, data, test
 
 ## UAT entry rule
 
-Requester UAT begins when the engineering gates and VP-19 deployment are complete. A complete current human oracle remains required before a 73-image field-accuracy claim. UAT is performed against the public commit-bound deployment and repeats the core single, evidence, beverage, warning, batch, history, keyboard, error, and difficult-image flows.
+Requester UAT begins when the engineering gates and VP-19 deployment are complete. The 76-image technical-processing claim is supported because every admitted image completed. Field-accuracy claims are limited to the 70 images with human ground truth; a complete oracle is required before extending those rates to all 76 images. UAT is performed against the public commit-bound deployment and repeats the core single, evidence, beverage, warning, batch, history, keyboard, error, and difficult-image flows.
