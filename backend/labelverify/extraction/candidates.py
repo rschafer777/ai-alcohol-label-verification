@@ -41,13 +41,32 @@ _NET = re.compile(
     r"quarts?|qts?\.?|gallons?|gals?\.?|ml|mL|L|liters?|litres?)\b",
     re.I,
 )
+# Wine designations of geographic significance and varietal names that stand as the
+# class or type statement on wine labels.
+_WINE_DESIGNATIONS = (
+    r"chianti(?:\s+classico)?|barolo|barbaresco|brunello|valpolicella|amarone|soave|lambrusco|"
+    r"nebbiolo|montepulciano|primitivo|vermentino|verdicchio|moscato|rioja|cava|bordeaux|"
+    r"bourgogne|burgundy|chablis|sancerre|beaujolais|madeira|gew[uü]rztraminer|"
+    r"gr[uü]ner\s+veltliner|albari[nñ]o|carm[eé]n[eè]re|pinotage|chenin\s+blanc|s[eé]millon|"
+    r"petite\s+sirah|petit\s+verdot|meritage|viognier|(?:red|white|ros[eé]|table|dessert|"
+    r"sparkling|fortified)\s+wine"
+)
+# Beer styles that appear as the class or type statement on craft labels.
+_BEER_STYLES = (
+    r"bock|doppelbock|hefeweizen|weissbier|weizen|witbier|k[oö]lsch|saison|dunkel|"
+    r"m[aä]rzen|oktoberfest|tripel|dubbel|quadrupel|gose|radler|barleywine|malt\s+liquor"
+)
 _CLASS = re.compile(
     r"\b(?:bourbon|whisk(?:e)?y|vodka|gin|rum|tequila|brandy|liqueur|cordial|spirits?|"
     r"(?:grape\s*)?wine(?:\s*with)?|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
     r"syrah|shiraz|muscat|sangiovese|malbec|tempranillo|grenache|prosecco|"
     r"sangria|vermouth|port|sherry|champagne|sparkling\s+wine|"
     r"malt\s+beverage|beer|ale|lager|stout|porter|pilsner|ipa|india\s+pale\s+ale|"
-    r"near\s+beer|cereal\s+beverage|hard\s+seltzer)\b",
+    r"near\s+beer|cereal\s+beverage|hard\s+seltzer|"
+    + _BEER_STYLES
+    + r"|"
+    + _WINE_DESIGNATIONS
+    + r")\b",
     re.I,
 )
 _STRONG_CLASS = re.compile(
@@ -56,7 +75,11 @@ _STRONG_CLASS = re.compile(
     r"(?:grape\s*)?wine(?:\s*with)?|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
     r"syrah|shiraz|muscat|sangiovese|malbec|tempranillo|grenache|prosecco|"
     r"sangria|vermouth|port|sherry|champagne|beer|ale|lager|"
-    r"stout|porter|pilsner|india\s+pale\s+ale|near\s+beer|hard\s+seltzer)\b",
+    r"stout|porter|pilsner|india\s+pale\s+ale|near\s+beer|hard\s+seltzer|"
+    + _BEER_STYLES
+    + r"|"
+    + _WINE_DESIGNATIONS
+    + r")\b",
     re.I,
 )
 # The second role word after "and" may arrive OCR-damaged ("brewed and bottld by"), so
@@ -122,7 +145,15 @@ _COUNTRY_NAMES = re.compile(
     r"^(?:the\s+)?(?:" + _COUNTRY_ALTERNATION + r")\.?$",
     re.I,
 )
-_WARNING = re.compile(r"government\s+warning\s*:?", re.I)
+# The heading with its last letter tolerated missing: a photograph of a curved label often
+# loses the edge of the line ("GOVERNMENT WARNIN").
+_WARNING = re.compile(r"government\s+warnin(?:g)?\s*:?", re.I)
+# A heading cut at its start ("...ERNMENT WARNING: (1) ACCORDING"): only counted when the
+# statutory opening follows, so a "Proposition 65 warning" or a cautionary note never
+# passes as the federal statement. Such a line anchors a body fragment without a heading.
+_WARNING_EDGE = re.compile(
+    r"(?:[a-z]{0,10}ment\s+)?warning\s*:?\s*(?=[(\[]?\s*1[)\]]?\s*accord)", re.I
+)
 # Appellations of origin under 27 CFR 4.25: the United States, a state, a county, a
 # recognized viticultural area, or a foreign country or region named by an origin statement.
 _APPELLATION = re.compile(
@@ -323,9 +354,12 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
                 factory,
                 source_unreadable=bool(unreadable_panel_ids),
             )
-        ).heading
+        ).body
         is not None
     ]
+    # A panel with the heading leads; fragments (an edge-cut heading) only ever feed the
+    # cross-image read.
+    observations.sort(key=lambda item: 0 if item.heading else 1)
     warning = (
         observations[0]
         if observations
@@ -577,7 +611,13 @@ def _line_candidates(
 
 
 def _class_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
-    matched = [line for line in lines if _CLASS.search(_class_text(line.text))]
+    # A sentence of copy that mentions the class ("a wine with balanced elegance") is not
+    # the class statement; designations are short and set apart.
+    matched = [
+        line
+        for line in lines
+        if _CLASS.search(_class_text(line.text)) and not _looks_like_prose(line.text)
+    ]
     strong = [line for line in matched if _STRONG_CLASS.search(_class_text(line.text))]
     preferred = [
         line
@@ -819,12 +859,12 @@ _CLASS_FAMILIES: dict[str, re.Pattern[str]] = {
     "wine": re.compile(
         r"\b(?:wine|merlot|cabernet|chardonnay|pinot|riesling|ros[eé]|sauvignon|zinfandel|"
         r"syrah|shiraz|muscat|sangiovese|malbec|tempranillo|grenache|prosecco|sangria|"
-        r"vermouth|port|sherry|champagne)\b",
+        r"vermouth|port|sherry|champagne|" + _WINE_DESIGNATIONS + r")\b",
         re.I,
     ),
     "malt_beverage": re.compile(
         r"\b(?:malt\s+beverage|beer|ale|lager|stout|porter|pilsner|ipa|india\s+pale\s+ale|"
-        r"near\s+beer|cereal\s+beverage|hard\s+seltzer)\b",
+        r"near\s+beer|cereal\s+beverage|hard\s+seltzer|" + _BEER_STYLES + r")\b",
         re.I,
     ),
 }
@@ -1071,7 +1111,7 @@ def _warning_interruption_orders(lines: list[OcrLine]) -> set[int]:
 
 def _warning_body_orders(lines: list[OcrLine]) -> set[int]:
     for index, line in enumerate(lines):
-        if _WARNING.search(line.text):
+        if _WARNING.search(line.text) or _WARNING_EDGE.search(line.text):
             return {
                 candidate.reading_order for candidate in _warning_body_lines(lines, index, line)
             }
@@ -1173,6 +1213,11 @@ def _same_column(first: OcrLine, second: OcrLine) -> bool:
     return abs(first_left - second_left) <= horizontal_tolerance
 
 
+# A line carrying a vintage or establishment year ("RISERVA 2021") is not part of the
+# brand name printed above or beside it.
+_VINTAGE_YEAR = re.compile(r"\b(?:18|19|20)\d{2}\b")
+
+
 def _brand_group(first: OcrLine, eligible: list[OcrLine]) -> list[OcrLine]:
     same_row = [
         line
@@ -1181,6 +1226,7 @@ def _brand_group(first: OcrLine, eligible: list[OcrLine]) -> list[OcrLine]:
         and line.panel_id == first.panel_id
         and _same_text_row(first, line)
         and len(re.findall(r"[A-Za-z]", line.text)) >= 4
+        and not _VINTAGE_YEAR.search(line.text)
         and (line.confidence or 0.0) >= 0.75
         and casefolded(whitespace(line.text)) != casefolded(whitespace(first.text))
     ]
@@ -1212,6 +1258,7 @@ def _brand_group(first: OcrLine, eligible: list[OcrLine]) -> list[OcrLine]:
         if line is not first
         and line.panel_id == first.panel_id
         and _same_column(first, line)
+        and not _VINTAGE_YEAR.search(line.text)
         and _line_height(line) >= max(10, round(first_height * 0.55))
         and first_height >= max(10, round(_line_height(line) * 0.55))
         and len(re.findall(r"[A-Za-z]", line.text)) >= 4
@@ -1352,9 +1399,17 @@ def _warning_observation(
 ) -> WarningObservation:
     for index, line in enumerate(lines):
         heading_match = _WARNING.search(line.text)
-        if not heading_match:
+        edge_match = None if heading_match else _WARNING_EDGE.search(line.text)
+        if not heading_match and not edge_match:
             continue
-        heading, remainder = _warning_heading_and_remainder(line.text, heading_match)
+        if heading_match is not None:
+            heading, remainder = _warning_heading_and_remainder(line.text, heading_match)
+        else:
+            # An edge-cut heading is not a heading the checks can judge; the line still
+            # anchors the statement body, which the cross-image read can complete.
+            assert edge_match is not None
+            heading = None
+            remainder = line.text[edge_match.end() :].strip()
         body_lines: list[OcrLine] = []
         if remainder:
             body_lines.append(line.model_copy(update={"text": remainder}))
@@ -1364,7 +1419,7 @@ def _warning_observation(
         ]
         body_bold = _body_bold_state(content_lines)
         body = _join_wrapped_lines(content_lines) or None
-        heading_evidence = factory.from_line("warning_heading", line)
+        heading_evidence = factory.from_line("warning_heading", line) if heading else None
         body_evidence = (
             factory.from_lines("warning_body", content_lines, body or "") if content_lines else None
         )
@@ -1404,7 +1459,7 @@ def _warning_observation(
         return WarningObservation(
             heading=heading,
             body=body,
-            full_text=whitespace(f"{heading} {body or ''}"),
+            full_text=whitespace(f"{heading or ''} {body or ''}"),
             heading_evidence=heading_evidence,
             body_evidence=body_evidence,
             heading_bold=heading_weight,

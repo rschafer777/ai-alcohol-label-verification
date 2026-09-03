@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { planResize, preparePanel } from "../src/api/prepare-panels";
 import { createVerificationClient } from "../src/api/verification-client";
+import { filterBatchSelection, imageSelectionIssue } from "../src/features/batch/grouping";
 import { analysis } from "./fixtures";
 
 const panelLimits = { pixelsPerImage: 12_000_000, fileBytes: 4_194_304 };
@@ -17,6 +18,14 @@ describe("panel preparation before upload", () => {
     expect(phone.width / phone.height).toBeCloseTo(5712 / 4284, 2);
 
     expect(planResize(3000, 2000, 5_000_000, panelLimits)).toEqual({ needed: true, width: 3000, height: 2000, reason: "bytes" });
+  });
+
+  it("lets an oversized JPEG through selection because it will be shrunk before upload", () => {
+    const large = new File([new Uint8Array(5 * 1024 * 1024)], "phone.jpg", { type: "image/jpeg" });
+    expect(imageSelectionIssue([large], 3)).toBeNull();
+    expect(filterBatchSelection([large]).accepted).toHaveLength(1);
+    const unsupportedType = new File([new Uint8Array(5 * 1024 * 1024)], "scan.tif", { type: "image/tiff" });
+    expect(imageSelectionIssue([unsupportedType], 3)).toMatch(/not a JPEG/);
   });
 
   it("leaves a file alone when the browser cannot decode it", async () => {

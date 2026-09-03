@@ -597,12 +597,14 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
                 left, top, right, bottom = anchor
                 center_x = (left + right) // 2
                 half_width = max((right - left) * 2, round(panel.width * 0.30))
+                # Alcohol content and net contents sit below the class line on most labels
+                # and beside it on some, so the crop starts a little above the line.
                 panel_views.append(
                     create_crop_ocr_view(
                         panel,
                         (
                             center_x - half_width,
-                            bottom + round(panel.height * 0.01),
+                            top - round(panel.height * 0.06),
                             center_x + half_width,
                             bottom + round(panel.height * 0.16),
                         ),
@@ -650,7 +652,12 @@ def _warning_heading_anchor(
     observed: ObservedCandidates, panel_id: str
 ) -> tuple[int, int, int, int] | None:
     observation = _warning_for_panel(observed, panel_id)
-    evidence = observation.heading_evidence if observation is not None else None
+    # A fragment has no heading; its body anchors the second read instead.
+    evidence = (
+        (observation.heading_evidence or observation.body_evidence)
+        if observation is not None
+        else None
+    )
     if evidence is None or evidence.panel_id != panel_id:
         return None
     return _evidence_bounds(evidence)
@@ -723,12 +730,16 @@ def _warning_search_views(panel: DecodedPanel) -> list[ImageView]:
                 panel, bounds, f"transform-{panel.panel_id}-right-detail-v1", max_side=1400
             )
         ]
+    # A portrait photograph of a bottle: the statement is low on the label, which may sit
+    # anywhere from the middle of the frame down when the photograph is framed on the label.
+    # (A turned read of the right edge was tried for vertical statements and dropped: it
+    # found nothing on the corpus and cost a tenth of a second per product.)
     return [
         create_crop_ocr_view(
             panel,
             (
                 round(panel.width * 0.08),
-                round(panel.height * 0.45),
+                round(panel.height * 0.20),
                 round(panel.width * 0.92),
                 round(panel.height * 0.95),
             ),

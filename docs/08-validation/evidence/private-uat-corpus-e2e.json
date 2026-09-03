@@ -1,19 +1,19 @@
 {
   "schemaVersion": "1.0.0",
-  "createdAtUtc": "2026-09-03T20:43:16.080390+00:00",
+  "createdAtUtc": "2026-09-03T22:15:56.592328+00:00",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
     "python": "3.12.10"
   },
   "snapshot": {
     "validatorSha256": "313842c0430209f0b155e5c01b54a76d82d175cfedda62a5d3e379918c5e6485",
-    "pipelineSha256": "308f1275eeb6d82abdcb6eb2a8eee6b71e42d99e228189f9270aaf41a12afdf9",
+    "pipelineSha256": "d59dbd2aa05d24c860acfe5cf4b4e094a8e17e93a3cd2c44601a8d464d8a22d1",
     "supervisorSha256": "8eeb7b9408a9d4574ae951f1c0bfa9d165b8be3dafcd36ed0ce6a6786b6c3028"
   },
   "scope": {
     "input": "Test_Images",
-    "selectedFileCount": 75,
-    "acceptedImageCount": 73,
+    "selectedFileCount": 78,
+    "acceptedImageCount": 76,
     "skippedNonImageCount": 2,
     "skippedFiles": [
       "pixel-ground-truth-v1.json",
@@ -23,7 +23,7 @@
     "independentFieldOracleAvailableForCompleteCorpus": false,
     "governedOracleCaseCount": 50,
     "governedOracleExactMatchCount": 42,
-    "unscoredCurrentImageCount": 31,
+    "unscoredCurrentImageCount": 34,
     "missingGovernedOracleImageCount": 8
   },
   "preflightFailures": [],
@@ -39,7 +39,7 @@
     ],
     "correlation": 0.999952972,
     "normalizedMeanAbsoluteError": 0.001955997,
-    "durationSeconds": 6.086,
+    "durationSeconds": 5.919,
     "httpStatus": 200,
     "submittedPanelCount": 2,
     "returnedPanelCount": 2,
@@ -66,7 +66,7 @@
       "files": [
         "0wLM9.jpg"
       ],
-      "durationSeconds": 4.321,
+      "durationSeconds": 4.596,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -90,7 +90,7 @@
       "files": [
         "111_Wine_Valle_Front.png"
       ],
-      "durationSeconds": 3.624,
+      "durationSeconds": 3.792,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -114,7 +114,7 @@
       "files": [
         "222_Silverpine_Wine.png"
       ],
-      "durationSeconds": 3.924,
+      "durationSeconds": 4.127,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -138,7 +138,7 @@
       "files": [
         "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg"
       ],
-      "durationSeconds": 4.274,
+      "durationSeconds": 4.588,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -162,7 +162,7 @@
       "files": [
         "333_CascadeLight_Wine.png"
       ],
-      "durationSeconds": 4.84,
+      "durationSeconds": 5.069,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -186,7 +186,7 @@
       "files": [
         "3urY2.jpg"
       ],
-      "durationSeconds": 2.38,
+      "durationSeconds": 2.533,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -210,7 +210,7 @@
       "files": [
         "555_Northveil_Vodka.png"
       ],
-      "durationSeconds": 4.554,
+      "durationSeconds": 4.668,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -234,7 +234,7 @@
       "files": [
         "888SilverPine_Wine.png"
       ],
-      "durationSeconds": 4.188,
+      "durationSeconds": 4.585,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -246,10 +246,10 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": null,
+        "producerNameAddress": "Co",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 7,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 8,
         "machineSummary": "Review needed"
       }
     },
@@ -258,7 +258,7 @@
       "files": [
         "8Gf8v.jpg"
       ],
-      "durationSeconds": 4.221,
+      "durationSeconds": 4.427,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -280,9 +280,33 @@
     {
       "caseId": "image-010",
       "files": [
+        "AndyGator_0001.jpg"
+      ],
+      "durationSeconds": 4.158,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": null,
+        "brandName": "ANDYGATOR.",
+        "classType": null,
+        "abvPercent": null,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 1,
+        "evidenceRegionCount": 1,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-011",
+      "files": [
         "AnMXl.jpg"
       ],
-      "durationSeconds": 2.691,
+      "durationSeconds": 2.849,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -302,11 +326,11 @@
       }
     },
     {
-      "caseId": "image-011",
+      "caseId": "image-012",
       "files": [
         "BMgMY.jpg"
       ],
-      "durationSeconds": 3.716,
+      "durationSeconds": 3.909,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -326,11 +350,11 @@
       }
     },
     {
-      "caseId": "image-012",
+      "caseId": "image-013",
       "files": [
         "bsxs4.jpg"
       ],
-      "durationSeconds": 4.945,
+      "durationSeconds": 5.252,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -350,11 +374,59 @@
       }
     },
     {
-      "caseId": "image-013",
+      "caseId": "image-014",
+      "files": [
+        "ChiantiClassico_001.jpg"
+      ],
+      "durationSeconds": 5.692,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "RISERVA DUCALE",
+        "classType": null,
+        "abvPercent": 14.0,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": null,
+        "countryOfOrigin": "ITALY",
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 6,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-015",
+      "files": [
+        "ChiantiClassico_002.jpg"
+      ],
+      "durationSeconds": 3.265,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": null,
+        "brandName": "RISERVA DUCALE RISERVA 2021",
+        "classType": null,
+        "abvPercent": null,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 1,
+        "evidenceRegionCount": 1,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-016",
       "files": [
         "Cointeau_Front.jpg"
       ],
-      "durationSeconds": 3.848,
+      "durationSeconds": 4.114,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -374,17 +446,17 @@
       }
     },
     {
-      "caseId": "image-014",
+      "caseId": "image-017",
       "files": [
         "Cointreau_Back.jpg"
       ],
-      "durationSeconds": 4.729,
+      "durationSeconds": 4.571,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": null,
-        "brandName": "CONIT",
+        "brandName": "COUNI",
         "classType": null,
         "abvPercent": null,
         "proof": null,
@@ -398,11 +470,11 @@
       }
     },
     {
-      "caseId": "image-015",
+      "caseId": "image-018",
       "files": [
         "coTpD.jpg"
       ],
-      "durationSeconds": 4.173,
+      "durationSeconds": 4.401,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -422,11 +494,11 @@
       }
     },
     {
-      "caseId": "image-016",
+      "caseId": "image-019",
       "files": [
         "DDqT2.jpg"
       ],
-      "durationSeconds": 5.27,
+      "durationSeconds": 4.707,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -446,11 +518,11 @@
       }
     },
     {
-      "caseId": "image-017",
+      "caseId": "image-020",
       "files": [
         "DmK94.jpg"
       ],
-      "durationSeconds": 3.853,
+      "durationSeconds": 4.065,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -470,11 +542,11 @@
       }
     },
     {
-      "caseId": "image-018",
+      "caseId": "image-021",
       "files": [
         "EqTB7.jpg"
       ],
-      "durationSeconds": 4.231,
+      "durationSeconds": 4.465,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -494,11 +566,11 @@
       }
     },
     {
-      "caseId": "image-019",
+      "caseId": "image-022",
       "files": [
         "GuCzO.jpg"
       ],
-      "durationSeconds": 4.06,
+      "durationSeconds": 4.48,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -518,11 +590,11 @@
       }
     },
     {
-      "caseId": "image-020",
+      "caseId": "image-023",
       "files": [
         "iFZ0Q.jpg"
       ],
-      "durationSeconds": 3.984,
+      "durationSeconds": 4.354,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -542,11 +614,11 @@
       }
     },
     {
-      "caseId": "image-021",
+      "caseId": "image-024",
       "files": [
         "J3YuX.jpg"
       ],
-      "durationSeconds": 2.914,
+      "durationSeconds": 2.997,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -566,11 +638,11 @@
       }
     },
     {
-      "caseId": "image-022",
+      "caseId": "image-025",
       "files": [
         "JackDaniels_Back.jpg"
       ],
-      "durationSeconds": 4.103,
+      "durationSeconds": 4.183,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -590,11 +662,11 @@
       }
     },
     {
-      "caseId": "image-023",
+      "caseId": "image-026",
       "files": [
         "JackDaniels_Front.jpg"
       ],
-      "durationSeconds": 3.101,
+      "durationSeconds": 3.854,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -606,19 +678,19 @@
         "proof": 80.0,
         "netContentsValue": 375.0,
         "netContentsUnit": "mL",
-        "producerNameAddress": null,
+        "producerNameAddress": "DISTILLED AND BOTTLED BY LYNCHBURG.TENNESSEE,USA",
         "countryOfOrigin": null,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 6,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 7,
         "machineSummary": "Review needed"
       }
     },
     {
-      "caseId": "image-024",
+      "caseId": "image-027",
       "files": [
         "jsP3W.jpg"
       ],
-      "durationSeconds": 2.552,
+      "durationSeconds": 3.308,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -638,11 +710,11 @@
       }
     },
     {
-      "caseId": "image-025",
+      "caseId": "image-028",
       "files": [
         "leTeL.jpg"
       ],
-      "durationSeconds": 4.28,
+      "durationSeconds": 5.46,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -662,11 +734,11 @@
       }
     },
     {
-      "caseId": "image-026",
+      "caseId": "image-029",
       "files": [
         "London_Dry_Gin_Synthetic.jpg"
       ],
-      "durationSeconds": 4.763,
+      "durationSeconds": 3.722,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -686,11 +758,11 @@
       }
     },
     {
-      "caseId": "image-027",
+      "caseId": "image-030",
       "files": [
         "MXteB.jpg"
       ],
-      "durationSeconds": 2.38,
+      "durationSeconds": 2.984,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -710,11 +782,11 @@
       }
     },
     {
-      "caseId": "image-028",
+      "caseId": "image-031",
       "files": [
         "O0P0Z.jpg"
       ],
-      "durationSeconds": 4.293,
+      "durationSeconds": 5.186,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -734,11 +806,11 @@
       }
     },
     {
-      "caseId": "image-029",
+      "caseId": "image-032",
       "files": [
         "PtNj9.jpg"
       ],
-      "durationSeconds": 2.521,
+      "durationSeconds": 3.207,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -758,11 +830,11 @@
       }
     },
     {
-      "caseId": "image-030",
+      "caseId": "image-033",
       "files": [
         "RevolverBrewing - Copy.png"
       ],
-      "durationSeconds": 0.245,
+      "durationSeconds": 0.353,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -778,87 +850,63 @@
         "countryOfOrigin": null,
         "detectedFieldCount": 4,
         "evidenceRegionCount": 6,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-031",
-      "files": [
-        "RevolverBrewing.jpg"
-      ],
-      "durationSeconds": 5.499,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "malt_beverage",
-        "brandName": "REVOLVER",
-        "classType": "TEXAS STYLE ALE",
-        "abvPercent": null,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": "REVOLVER BREWING LITTLETON, CO",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 6,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-032",
-      "files": [
-        "RevolverBrewing.png"
-      ],
-      "durationSeconds": 0.248,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": "malt_beverage",
-        "brandName": "REVOLVER",
-        "classType": "TEXAS STYLE ALE",
-        "abvPercent": null,
-        "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
-        "producerNameAddress": "REVOLVER BREWING LITTLETON, CO",
-        "countryOfOrigin": null,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 6,
-        "machineSummary": "Review needed"
-      }
-    },
-    {
-      "caseId": "image-033",
-      "files": [
-        "RevolverBrewing_2 - Copy.jpg"
-      ],
-      "durationSeconds": 2.866,
-      "httpStatus": 200,
-      "pass": true,
-      "failures": [],
-      "observed": {
-        "beverageType": null,
-        "brandName": "INGREDIENTS",
-        "classType": null,
-        "abvPercent": 7.0,
-        "proof": null,
-        "netContentsValue": 12.0,
-        "netContentsUnit": "fl oz",
-        "producerNameAddress": null,
-        "countryOfOrigin": null,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 3,
         "machineSummary": "Review needed"
       }
     },
     {
       "caseId": "image-034",
       "files": [
-        "RevolverBrewing_2.jpg"
+        "RevolverBrewing.jpg"
       ],
-      "durationSeconds": 0.404,
+      "durationSeconds": 6.206,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "malt_beverage",
+        "brandName": "REVOLVER",
+        "classType": "TEXAS STYLE ALE",
+        "abvPercent": null,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": "REVOLVER BREWING LITTLETON, CO",
+        "countryOfOrigin": null,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 6,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-035",
+      "files": [
+        "RevolverBrewing.png"
+      ],
+      "durationSeconds": 0.336,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "malt_beverage",
+        "brandName": "REVOLVER",
+        "classType": "TEXAS STYLE ALE",
+        "abvPercent": null,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": "REVOLVER BREWING LITTLETON, CO",
+        "countryOfOrigin": null,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 6,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-036",
+      "files": [
+        "RevolverBrewing_2 - Copy.jpg"
+      ],
+      "durationSeconds": 3.898,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -878,11 +926,35 @@
       }
     },
     {
-      "caseId": "image-035",
+      "caseId": "image-037",
+      "files": [
+        "RevolverBrewing_2.jpg"
+      ],
+      "durationSeconds": 0.529,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": null,
+        "brandName": "INGREDIENTS",
+        "classType": null,
+        "abvPercent": 7.0,
+        "proof": null,
+        "netContentsValue": 12.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 3,
+        "evidenceRegionCount": 3,
+        "machineSummary": "Review needed"
+      }
+    },
+    {
+      "caseId": "image-038",
       "files": [
         "Test_TTB_Image_0001.jpg"
       ],
-      "durationSeconds": 3.194,
+      "durationSeconds": 3.783,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -902,11 +974,11 @@
       }
     },
     {
-      "caseId": "image-036",
+      "caseId": "image-039",
       "files": [
         "Test_TTB_Image_0002.jpg"
       ],
-      "durationSeconds": 2.776,
+      "durationSeconds": 3.226,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -926,11 +998,11 @@
       }
     },
     {
-      "caseId": "image-037",
+      "caseId": "image-040",
       "files": [
         "Test_TTB_Image_0003.jpg"
       ],
-      "durationSeconds": 3.978,
+      "durationSeconds": 4.91,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -950,11 +1022,11 @@
       }
     },
     {
-      "caseId": "image-038",
+      "caseId": "image-041",
       "files": [
         "Test_TTB_Image_0004.jpg"
       ],
-      "durationSeconds": 3.2,
+      "durationSeconds": 3.856,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -974,11 +1046,11 @@
       }
     },
     {
-      "caseId": "image-039",
+      "caseId": "image-042",
       "files": [
         "Test_TTB_Image_0005.jpg"
       ],
-      "durationSeconds": 3.056,
+      "durationSeconds": 3.15,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -998,11 +1070,11 @@
       }
     },
     {
-      "caseId": "image-040",
+      "caseId": "image-043",
       "files": [
         "Test_TTB_Image_0006.jpg"
       ],
-      "durationSeconds": 1.944,
+      "durationSeconds": 2.18,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1022,11 +1094,11 @@
       }
     },
     {
-      "caseId": "image-041",
+      "caseId": "image-044",
       "files": [
         "Test_TTB_Image_0007.jpg"
       ],
-      "durationSeconds": 2.697,
+      "durationSeconds": 3.136,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1046,11 +1118,11 @@
       }
     },
     {
-      "caseId": "image-042",
+      "caseId": "image-045",
       "files": [
         "Test_TTB_Image_0008.jpg"
       ],
-      "durationSeconds": 2.824,
+      "durationSeconds": 3.496,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1070,11 +1142,11 @@
       }
     },
     {
-      "caseId": "image-043",
+      "caseId": "image-046",
       "files": [
         "Test_TTB_Image_0009.jpg"
       ],
-      "durationSeconds": 2.625,
+      "durationSeconds": 2.884,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1094,11 +1166,11 @@
       }
     },
     {
-      "caseId": "image-044",
+      "caseId": "image-047",
       "files": [
         "Test_TTB_Image_0011.jpg"
       ],
-      "durationSeconds": 0.174,
+      "durationSeconds": 0.22,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1118,11 +1190,11 @@
       }
     },
     {
-      "caseId": "image-045",
+      "caseId": "image-048",
       "files": [
         "Test_TTB_Image_0021.jpg"
       ],
-      "durationSeconds": 3.205,
+      "durationSeconds": 3.615,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1142,11 +1214,11 @@
       }
     },
     {
-      "caseId": "image-046",
+      "caseId": "image-049",
       "files": [
         "Test_TTB_Image_0022.jpg"
       ],
-      "durationSeconds": 2.264,
+      "durationSeconds": 2.593,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1166,11 +1238,11 @@
       }
     },
     {
-      "caseId": "image-047",
+      "caseId": "image-050",
       "files": [
         "Test_TTB_Image_0023.jpg"
       ],
-      "durationSeconds": 3.682,
+      "durationSeconds": 4.224,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1190,11 +1262,11 @@
       }
     },
     {
-      "caseId": "image-048",
+      "caseId": "image-051",
       "files": [
         "Test_TTB_Image_0024.jpg"
       ],
-      "durationSeconds": 2.954,
+      "durationSeconds": 3.285,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1214,11 +1286,11 @@
       }
     },
     {
-      "caseId": "image-049",
+      "caseId": "image-052",
       "files": [
         "Test_TTB_Image_0025.jpg"
       ],
-      "durationSeconds": 2.8,
+      "durationSeconds": 3.384,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1238,11 +1310,11 @@
       }
     },
     {
-      "caseId": "image-050",
+      "caseId": "image-053",
       "files": [
         "Test_TTB_Image_0026.jpg"
       ],
-      "durationSeconds": 1.809,
+      "durationSeconds": 1.927,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1262,11 +1334,11 @@
       }
     },
     {
-      "caseId": "image-051",
+      "caseId": "image-054",
       "files": [
         "Test_TTB_Image_0027.jpg"
       ],
-      "durationSeconds": 2.97,
+      "durationSeconds": 3.096,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1286,11 +1358,11 @@
       }
     },
     {
-      "caseId": "image-052",
+      "caseId": "image-055",
       "files": [
         "Test_TTB_Image_0028.jpg"
       ],
-      "durationSeconds": 1.873,
+      "durationSeconds": 2.117,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1310,11 +1382,11 @@
       }
     },
     {
-      "caseId": "image-053",
+      "caseId": "image-056",
       "files": [
         "Test_TTB_Image_0029.jpg"
       ],
-      "durationSeconds": 3.718,
+      "durationSeconds": 4.049,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1334,11 +1406,11 @@
       }
     },
     {
-      "caseId": "image-054",
+      "caseId": "image-057",
       "files": [
         "Test_TTB_Image_0030.jpg"
       ],
-      "durationSeconds": 2.907,
+      "durationSeconds": 3.494,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1358,11 +1430,11 @@
       }
     },
     {
-      "caseId": "image-055",
+      "caseId": "image-058",
       "files": [
         "Test_TTB_Image_0031.jpg"
       ],
-      "durationSeconds": 2.891,
+      "durationSeconds": 3.016,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1382,11 +1454,11 @@
       }
     },
     {
-      "caseId": "image-056",
+      "caseId": "image-059",
       "files": [
         "Test_TTB_Image_0032.jpg"
       ],
-      "durationSeconds": 2.072,
+      "durationSeconds": 2.13,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1406,17 +1478,17 @@
       }
     },
     {
-      "caseId": "image-057",
+      "caseId": "image-060",
       "files": [
         "Test_TTB_Image_0033.jpg"
       ],
-      "durationSeconds": 3.903,
+      "durationSeconds": 3.87,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
-        "brandName": "LARK & LUMEN o:bsxdticbug=",
+        "brandName": "LARK & LUMEN o:ustdticsug=",
         "classType": "ROSE",
         "abvPercent": 13.0,
         "proof": null,
@@ -1430,11 +1502,11 @@
       }
     },
     {
-      "caseId": "image-058",
+      "caseId": "image-061",
       "files": [
         "Test_TTB_Image_0034.jpg"
       ],
-      "durationSeconds": 2.868,
+      "durationSeconds": 3.007,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1454,11 +1526,11 @@
       }
     },
     {
-      "caseId": "image-059",
+      "caseId": "image-062",
       "files": [
         "Test_TTB_Image_0035.jpg"
       ],
-      "durationSeconds": 3.488,
+      "durationSeconds": 4.111,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1478,11 +1550,11 @@
       }
     },
     {
-      "caseId": "image-060",
+      "caseId": "image-063",
       "files": [
         "Test_TTB_Image_0036.jpg"
       ],
-      "durationSeconds": 4.359,
+      "durationSeconds": 4.883,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1502,11 +1574,11 @@
       }
     },
     {
-      "caseId": "image-061",
+      "caseId": "image-064",
       "files": [
         "Test_TTB_Image_0037.jpg"
       ],
-      "durationSeconds": 2.981,
+      "durationSeconds": 3.073,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1526,11 +1598,11 @@
       }
     },
     {
-      "caseId": "image-062",
+      "caseId": "image-065",
       "files": [
         "Test_TTB_Image_0038.jpg"
       ],
-      "durationSeconds": 3.209,
+      "durationSeconds": 3.538,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1550,11 +1622,11 @@
       }
     },
     {
-      "caseId": "image-063",
+      "caseId": "image-066",
       "files": [
         "Test_TTB_Image_0039.jpg"
       ],
-      "durationSeconds": 4.803,
+      "durationSeconds": 5.081,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1574,11 +1646,11 @@
       }
     },
     {
-      "caseId": "image-064",
+      "caseId": "image-067",
       "files": [
         "Test_TTB_Image_0040.jpg"
       ],
-      "durationSeconds": 2.608,
+      "durationSeconds": 2.727,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1598,11 +1670,11 @@
       }
     },
     {
-      "caseId": "image-065",
+      "caseId": "image-068",
       "files": [
         "Test_TTB_Image_0041.jpg"
       ],
-      "durationSeconds": 3.514,
+      "durationSeconds": 3.664,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1622,11 +1694,11 @@
       }
     },
     {
-      "caseId": "image-066",
+      "caseId": "image-069",
       "files": [
         "Test_TTB_Image_0042.jpg"
       ],
-      "durationSeconds": 3.93,
+      "durationSeconds": 4.207,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1646,11 +1718,11 @@
       }
     },
     {
-      "caseId": "image-067",
+      "caseId": "image-070",
       "files": [
         "uqgyU.jpg"
       ],
-      "durationSeconds": 2.689,
+      "durationSeconds": 3.178,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1670,17 +1742,17 @@
       }
     },
     {
-      "caseId": "image-068",
+      "caseId": "image-071",
       "files": [
         "Vodka_Back.jpg"
       ],
-      "durationSeconds": 4.333,
+      "durationSeconds": 4.271,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
-        "brandName": "AGES",
+        "brandName": "DAGES",
         "classType": "100%NEUTRAL SPIRITS DISTILLED",
         "abvPercent": null,
         "proof": null,
@@ -1694,11 +1766,11 @@
       }
     },
     {
-      "caseId": "image-069",
+      "caseId": "image-072",
       "files": [
         "Vodka_Front.jpg"
       ],
-      "durationSeconds": 2.173,
+      "durationSeconds": 2.22,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1718,11 +1790,11 @@
       }
     },
     {
-      "caseId": "image-070",
+      "caseId": "image-073",
       "files": [
         "wKE1J.jpg"
       ],
-      "durationSeconds": 3.33,
+      "durationSeconds": 3.459,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1742,11 +1814,11 @@
       }
     },
     {
-      "caseId": "image-071",
+      "caseId": "image-074",
       "files": [
         "XjPpA.jpg"
       ],
-      "durationSeconds": 2.407,
+      "durationSeconds": 2.519,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1766,11 +1838,11 @@
       }
     },
     {
-      "caseId": "image-072",
+      "caseId": "image-075",
       "files": [
         "XXL_Back.jpg"
       ],
-      "durationSeconds": 2.125,
+      "durationSeconds": 2.344,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1790,11 +1862,11 @@
       }
     },
     {
-      "caseId": "image-073",
+      "caseId": "image-076",
       "files": [
         "XXL_Front.jpg"
       ],
-      "durationSeconds": 3.079,
+      "durationSeconds": 2.7,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1816,9 +1888,9 @@
   ],
   "grouping": {
     "httpStatus": 200,
-    "groupCount": 45,
+    "groupCount": 48,
     "readyToConfirmCount": 35,
-    "needsReviewCount": 10,
+    "needsReviewCount": 13,
     "maximumImagesPerGroup": 3,
     "pass": true,
     "failures": [],
@@ -1886,7 +1958,7 @@
         "groupId": "group-5",
         "panelIds": [
           "image-006",
-          "image-053"
+          "image-056"
         ],
         "suggestedName": "FOX HOLLOW",
         "inferredType": "wine",
@@ -1915,8 +1987,8 @@
         "groupId": "group-7",
         "panelIds": [
           "image-009",
-          "image-038",
-          "image-065"
+          "image-041",
+          "image-068"
         ],
         "suggestedName": "CRYSTAL TUNDRA",
         "inferredType": "distilled_spirits",
@@ -1930,8 +2002,22 @@
       {
         "groupId": "group-8",
         "panelIds": [
-          "image-010",
-          "image-051"
+          "image-010"
+        ],
+        "suggestedName": "ANDYGATOR.",
+        "inferredType": null,
+        "confidence": "low",
+        "status": "needs_review",
+        "reasons": [
+          "Beverage type uncertain; confirm the type"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-9",
+        "panelIds": [
+          "image-011",
+          "image-054"
         ],
         "suggestedName": "CLEARWATER",
         "inferredType": "distilled_spirits",
@@ -1943,9 +2029,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-9",
+        "groupId": "group-10",
         "panelIds": [
-          "image-011"
+          "image-012"
         ],
         "suggestedName": "MIRROR LAKE",
         "inferredType": "wine",
@@ -1957,10 +2043,10 @@
         "conflict": false
       },
       {
-        "groupId": "group-10",
+        "groupId": "group-11",
         "panelIds": [
-          "image-012",
-          "image-047"
+          "image-013",
+          "image-050"
         ],
         "suggestedName": "MARITIME",
         "inferredType": "wine",
@@ -1972,26 +2058,12 @@
         "conflict": false
       },
       {
-        "groupId": "group-11",
-        "panelIds": [
-          "image-013"
-        ],
-        "suggestedName": "COINTREAU",
-        "inferredType": "distilled_spirits",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "One image, one product"
-        ],
-        "conflict": false
-      },
-      {
         "groupId": "group-12",
         "panelIds": [
           "image-014"
         ],
-        "suggestedName": "CONIT",
-        "inferredType": null,
+        "suggestedName": "RISERVA DUCALE",
+        "inferredType": "wine",
         "confidence": "low",
         "status": "needs_review",
         "reasons": [
@@ -2004,12 +2076,12 @@
         "panelIds": [
           "image-015"
         ],
-        "suggestedName": "SUMMER BLUSH",
-        "inferredType": "wine",
-        "confidence": "high",
-        "status": "ready_to_confirm",
+        "suggestedName": "RISERVA DUCALE RISERVA 2021",
+        "inferredType": null,
+        "confidence": "low",
+        "status": "needs_review",
         "reasons": [
-          "One image, one product"
+          "Beverage type uncertain; confirm the type"
         ],
         "conflict": false
       },
@@ -2018,7 +2090,7 @@
         "panelIds": [
           "image-016"
         ],
-        "suggestedName": "NORTH LIGHT",
+        "suggestedName": "COINTREAU",
         "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2030,26 +2102,10 @@
       {
         "groupId": "group-15",
         "panelIds": [
-          "image-017",
-          "image-042",
-          "image-048"
+          "image-017"
         ],
-        "suggestedName": "FROST RIDGE",
-        "inferredType": "wine",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "Same brand and compatible class read"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-16",
-        "panelIds": [
-          "image-018"
-        ],
-        "suggestedName": "SMOKE& AGAVE",
-        "inferredType": "distilled_spirits",
+        "suggestedName": "COUNI",
+        "inferredType": null,
         "confidence": "low",
         "status": "needs_review",
         "reasons": [
@@ -2058,11 +2114,25 @@
         "conflict": false
       },
       {
+        "groupId": "group-16",
+        "panelIds": [
+          "image-018"
+        ],
+        "suggestedName": "SUMMER BLUSH",
+        "inferredType": "wine",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
         "groupId": "group-17",
         "panelIds": [
           "image-019"
         ],
-        "suggestedName": "FERRY",
+        "suggestedName": "NORTH LIGHT",
         "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2076,21 +2146,50 @@
         "panelIds": [
           "image-020",
           "image-045",
-          "image-046"
+          "image-051"
         ],
-        "suggestedName": "BLACKBIRD RESERVE",
-        "inferredType": "distilled_spirits",
+        "suggestedName": "FROST RIDGE",
+        "inferredType": "wine",
         "confidence": "high",
-        "status": "needs_review",
+        "status": "ready_to_confirm",
         "reasons": [
-          "Same brand and compatible class read",
-          "More than three images; split into products"
+          "Same brand and compatible class read"
         ],
         "conflict": false
       },
       {
         "groupId": "group-19",
         "panelIds": [
+          "image-021"
+        ],
+        "suggestedName": "SMOKE& AGAVE",
+        "inferredType": "distilled_spirits",
+        "confidence": "low",
+        "status": "needs_review",
+        "reasons": [
+          "Beverage type uncertain; confirm the type"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-20",
+        "panelIds": [
+          "image-022"
+        ],
+        "suggestedName": "FERRY",
+        "inferredType": "distilled_spirits",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-21",
+        "panelIds": [
+          "image-023",
+          "image-048",
           "image-049"
         ],
         "suggestedName": "BLACKBIRD RESERVE",
@@ -2104,11 +2203,26 @@
         "conflict": false
       },
       {
-        "groupId": "group-20",
+        "groupId": "group-22",
         "panelIds": [
-          "image-021",
-          "image-043",
-          "image-050"
+          "image-052"
+        ],
+        "suggestedName": "BLACKBIRD RESERVE",
+        "inferredType": "distilled_spirits",
+        "confidence": "high",
+        "status": "needs_review",
+        "reasons": [
+          "Same brand and compatible class read",
+          "More than three images; split into products"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-23",
+        "panelIds": [
+          "image-024",
+          "image-046",
+          "image-053"
         ],
         "suggestedName": "IRON ANCHOR BREWING CO.",
         "inferredType": "malt_beverage",
@@ -2120,10 +2234,10 @@
         "conflict": false
       },
       {
-        "groupId": "group-21",
+        "groupId": "group-24",
         "panelIds": [
-          "image-022",
-          "image-023"
+          "image-025",
+          "image-026"
         ],
         "suggestedName": "JACK DANIEL'S",
         "inferredType": "distilled_spirits",
@@ -2136,10 +2250,10 @@
         "conflict": true
       },
       {
-        "groupId": "group-22",
+        "groupId": "group-25",
         "panelIds": [
-          "image-024",
-          "image-052"
+          "image-027",
+          "image-055"
         ],
         "suggestedName": "MIDNIGHT FORGE",
         "inferredType": "malt_beverage",
@@ -2151,9 +2265,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-23",
+        "groupId": "group-26",
         "panelIds": [
-          "image-025"
+          "image-028"
         ],
         "suggestedName": "IRON CREEK",
         "inferredType": "wine",
@@ -2165,10 +2279,10 @@
         "conflict": false
       },
       {
-        "groupId": "group-24",
+        "groupId": "group-27",
         "panelIds": [
-          "image-026",
-          "image-044"
+          "image-029",
+          "image-047"
         ],
         "suggestedName": "SECRET",
         "inferredType": "distilled_spirits",
@@ -2180,9 +2294,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-25",
+        "groupId": "group-28",
         "panelIds": [
-          "image-027"
+          "image-030"
         ],
         "suggestedName": "SUNDOCK",
         "inferredType": "malt_beverage",
@@ -2194,10 +2308,10 @@
         "conflict": false
       },
       {
-        "groupId": "group-26",
+        "groupId": "group-29",
         "panelIds": [
-          "image-028",
-          "image-054"
+          "image-031",
+          "image-057"
         ],
         "suggestedName": "CEDAR BEND",
         "inferredType": "wine",
@@ -2209,11 +2323,11 @@
         "conflict": false
       },
       {
-        "groupId": "group-27",
+        "groupId": "group-30",
         "panelIds": [
-          "image-029",
-          "image-039",
-          "image-040"
+          "image-032",
+          "image-042",
+          "image-043"
         ],
         "suggestedName": "BOTANIST'S SECRET",
         "inferredType": "distilled_spirits",
@@ -2226,10 +2340,10 @@
         "conflict": false
       },
       {
-        "groupId": "group-28",
+        "groupId": "group-31",
         "panelIds": [
-          "image-056",
-          "image-061"
+          "image-059",
+          "image-064"
         ],
         "suggestedName": "BOTANIST'S SECRET",
         "inferredType": "distilled_spirits",
@@ -2242,11 +2356,11 @@
         "conflict": false
       },
       {
-        "groupId": "group-29",
+        "groupId": "group-32",
         "panelIds": [
-          "image-030",
-          "image-031",
-          "image-032"
+          "image-033",
+          "image-034",
+          "image-035"
         ],
         "suggestedName": "REVOLVER",
         "inferredType": "malt_beverage",
@@ -2258,10 +2372,10 @@
         "conflict": false
       },
       {
-        "groupId": "group-30",
+        "groupId": "group-33",
         "panelIds": [
-          "image-033",
-          "image-034"
+          "image-036",
+          "image-037"
         ],
         "suggestedName": "INGREDIENTS",
         "inferredType": null,
@@ -2274,9 +2388,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-31",
+        "groupId": "group-34",
         "panelIds": [
-          "image-035"
+          "image-038"
         ],
         "suggestedName": "STONE'S THROW",
         "inferredType": "wine",
@@ -2288,9 +2402,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-32",
+        "groupId": "group-35",
         "panelIds": [
-          "image-036"
+          "image-039"
         ],
         "suggestedName": "NORTHWIND",
         "inferredType": "distilled_spirits",
@@ -2302,9 +2416,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-33",
+        "groupId": "group-36",
         "panelIds": [
-          "image-037"
+          "image-040"
         ],
         "suggestedName": "RED MESA",
         "inferredType": "distilled_spirits",
@@ -2316,9 +2430,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-34",
+        "groupId": "group-37",
         "panelIds": [
-          "image-041"
+          "image-044"
         ],
         "suggestedName": "IGHT FORGE",
         "inferredType": "malt_beverage",
@@ -2330,9 +2444,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-35",
+        "groupId": "group-38",
         "panelIds": [
-          "image-055"
+          "image-058"
         ],
         "suggestedName": "HARBOR LIGHTSE",
         "inferredType": "malt_beverage",
@@ -2344,11 +2458,11 @@
         "conflict": false
       },
       {
-        "groupId": "group-36",
+        "groupId": "group-39",
         "panelIds": [
-          "image-057"
+          "image-060"
         ],
-        "suggestedName": "LARK & LUMEN o:bsxdticbug=",
+        "suggestedName": "LARK & LUMEN o:ustdticsug=",
         "inferredType": "wine",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2358,9 +2472,9 @@
         "conflict": false
       },
       {
-        "groupId": "group-37",
+        "groupId": "group-40",
         "panelIds": [
-          "image-058"
+          "image-061"
         ],
         "suggestedName": "IRON CREEK",
         "inferredType": "wine",
@@ -2372,11 +2486,11 @@
         "conflict": false
       },
       {
-        "groupId": "group-38",
+        "groupId": "group-41",
         "panelIds": [
-          "image-059",
-          "image-063",
-          "image-070"
+          "image-062",
+          "image-066",
+          "image-073"
         ],
         "suggestedName": "WHISPERING PINES ESTATE",
         "inferredType": "wine",
@@ -2388,54 +2502,11 @@
         "conflict": false
       },
       {
-        "groupId": "group-39",
-        "panelIds": [
-          "image-060"
-        ],
-        "suggestedName": "CASA DE LUNA",
-        "inferredType": "distilled_spirits",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "One image, one product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-40",
-        "panelIds": [
-          "image-062"
-        ],
-        "suggestedName": "HARBORLIGHTS",
-        "inferredType": "malt_beverage",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "One image, one product"
-        ],
-        "conflict": false
-      },
-      {
-        "groupId": "group-41",
-        "panelIds": [
-          "image-064",
-          "image-071"
-        ],
-        "suggestedName": "CASA DE LUNA",
-        "inferredType": "distilled_spirits",
-        "confidence": "high",
-        "status": "ready_to_confirm",
-        "reasons": [
-          "Same brand and compatible class read"
-        ],
-        "conflict": false
-      },
-      {
         "groupId": "group-42",
         "panelIds": [
-          "image-066"
+          "image-063"
         ],
-        "suggestedName": "OLD FERRY",
+        "suggestedName": "CASA DE LUNA",
         "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2447,9 +2518,9 @@
       {
         "groupId": "group-43",
         "panelIds": [
-          "image-067"
+          "image-065"
         ],
-        "suggestedName": "HARBOR LIGHTS",
+        "suggestedName": "HARBORLIGHTS",
         "inferredType": "malt_beverage",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2461,10 +2532,53 @@
       {
         "groupId": "group-44",
         "panelIds": [
-          "image-068",
+          "image-067",
+          "image-074"
+        ],
+        "suggestedName": "CASA DE LUNA",
+        "inferredType": "distilled_spirits",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "Same brand and compatible class read"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-45",
+        "panelIds": [
           "image-069"
         ],
-        "suggestedName": "AGES",
+        "suggestedName": "OLD FERRY",
+        "inferredType": "distilled_spirits",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-46",
+        "panelIds": [
+          "image-070"
+        ],
+        "suggestedName": "HARBOR LIGHTS",
+        "inferredType": "malt_beverage",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-47",
+        "panelIds": [
+          "image-071",
+          "image-072"
+        ],
+        "suggestedName": "DAGES",
         "inferredType": "distilled_spirits",
         "confidence": "high",
         "status": "ready_to_confirm",
@@ -2474,10 +2588,10 @@
         "conflict": false
       },
       {
-        "groupId": "group-45",
+        "groupId": "group-48",
         "panelIds": [
-          "image-072",
-          "image-073"
+          "image-075",
+          "image-076"
         ],
         "suggestedName": "OR MOREIN",
         "inferredType": "wine",
@@ -2498,7 +2612,7 @@
         "0wLM9.jpg",
         "111_Wine_Valle_Front.png"
       ],
-      "durationSeconds": 2.213,
+      "durationSeconds": 2.258,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2524,7 +2638,7 @@
         "222_Silverpine_Wine.png",
         "888SilverPine_Wine.png"
       ],
-      "durationSeconds": 0.662,
+      "durationSeconds": 0.777,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2549,7 +2663,7 @@
       "files": [
         "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg"
       ],
-      "durationSeconds": 0.345,
+      "durationSeconds": 0.409,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2574,7 +2688,7 @@
       "files": [
         "333_CascadeLight_Wine.png"
       ],
-      "durationSeconds": 0.402,
+      "durationSeconds": 0.441,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2600,7 +2714,7 @@
         "3urY2.jpg",
         "Test_TTB_Image_0029.jpg"
       ],
-      "durationSeconds": 0.899,
+      "durationSeconds": 0.943,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2615,7 +2729,7 @@
         "producerNameAddress": "Produced and bottled by Fox Hollow Vineyards, Hammondsport, New York",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 17,
+        "evidenceRegionCount": 19,
         "machineSummary": "Review needed"
       },
       "suggestedName": "FOX HOLLOW"
@@ -2625,7 +2739,7 @@
       "files": [
         "555_Northveil_Vodka.png"
       ],
-      "durationSeconds": 0.385,
+      "durationSeconds": 0.41,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2652,7 +2766,7 @@
         "Test_TTB_Image_0004.jpg",
         "Test_TTB_Image_0041.jpg"
       ],
-      "durationSeconds": 1.263,
+      "durationSeconds": 1.34,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2667,7 +2781,7 @@
         "producerNameAddress": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 21,
+        "evidenceRegionCount": 23,
         "machineSummary": "Differences detected"
       },
       "suggestedName": "CRYSTAL TUNDRA"
@@ -2675,10 +2789,35 @@
     {
       "caseId": "product-008",
       "files": [
+        "AndyGator_0001.jpg"
+      ],
+      "durationSeconds": 0.384,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": null,
+        "brandName": "ANDYGATOR.",
+        "classType": null,
+        "abvPercent": null,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 1,
+        "evidenceRegionCount": 1,
+        "machineSummary": "Review needed"
+      },
+      "suggestedName": "ANDYGATOR."
+    },
+    {
+      "caseId": "product-009",
+      "files": [
         "AnMXl.jpg",
         "Test_TTB_Image_0027.jpg"
       ],
-      "durationSeconds": 0.831,
+      "durationSeconds": 0.875,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2693,17 +2832,17 @@
         "producerNameAddress": "Imported by Clearwater Spirits, Austin, Texas Hecho en Mexico.",
         "countryOfOrigin": "Mexico",
         "detectedFieldCount": 8,
-        "evidenceRegionCount": 22,
+        "evidenceRegionCount": 24,
         "machineSummary": "Review needed"
       },
       "suggestedName": "CLEARWATER"
     },
     {
-      "caseId": "product-009",
+      "caseId": "product-010",
       "files": [
         "BMgMY.jpg"
       ],
-      "durationSeconds": 0.365,
+      "durationSeconds": 0.414,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2724,12 +2863,12 @@
       "suggestedName": "MIRROR LAKE"
     },
     {
-      "caseId": "product-010",
+      "caseId": "product-011",
       "files": [
         "bsxs4.jpg",
         "Test_TTB_Image_0023.jpg"
       ],
-      "durationSeconds": 0.98,
+      "durationSeconds": 1.068,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2744,17 +2883,67 @@
         "producerNameAddress": "Produced and bottled by Maritime Cellars, Mendocino, California FRONT/BRAND LABEL",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 18,
+        "evidenceRegionCount": 20,
         "machineSummary": "Review needed"
       },
       "suggestedName": "MARITIME"
     },
     {
-      "caseId": "product-011",
+      "caseId": "product-012",
+      "files": [
+        "ChiantiClassico_001.jpg"
+      ],
+      "durationSeconds": 0.478,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandName": "RISERVA DUCALE",
+        "classType": null,
+        "abvPercent": 14.0,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": null,
+        "countryOfOrigin": "ITALY",
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 6,
+        "machineSummary": "Review needed"
+      },
+      "suggestedName": "RISERVA DUCALE"
+    },
+    {
+      "caseId": "product-013",
+      "files": [
+        "ChiantiClassico_002.jpg"
+      ],
+      "durationSeconds": 0.464,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": null,
+        "brandName": "RISERVA DUCALE RISERVA 2021",
+        "classType": null,
+        "abvPercent": null,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": null,
+        "countryOfOrigin": null,
+        "detectedFieldCount": 1,
+        "evidenceRegionCount": 1,
+        "machineSummary": "Review needed"
+      },
+      "suggestedName": "RISERVA DUCALE RISERVA 2021"
+    },
+    {
+      "caseId": "product-014",
       "files": [
         "Cointeau_Front.jpg"
       ],
-      "durationSeconds": 0.426,
+      "durationSeconds": 0.435,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2775,17 +2964,17 @@
       "suggestedName": "COINTREAU"
     },
     {
-      "caseId": "product-012",
+      "caseId": "product-015",
       "files": [
         "Cointreau_Back.jpg"
       ],
-      "durationSeconds": 0.435,
+      "durationSeconds": 0.457,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": null,
-        "brandName": "CONIT",
+        "brandName": "COUNI",
         "classType": null,
         "abvPercent": null,
         "proof": null,
@@ -2797,14 +2986,14 @@
         "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "CONIT"
+      "suggestedName": "COUNI"
     },
     {
-      "caseId": "product-013",
+      "caseId": "product-016",
       "files": [
         "coTpD.jpg"
       ],
-      "durationSeconds": 0.396,
+      "durationSeconds": 0.425,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2825,11 +3014,11 @@
       "suggestedName": "SUMMER BLUSH"
     },
     {
-      "caseId": "product-014",
+      "caseId": "product-017",
       "files": [
         "DDqT2.jpg"
       ],
-      "durationSeconds": 0.341,
+      "durationSeconds": 0.433,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2850,13 +3039,13 @@
       "suggestedName": "NORTH LIGHT"
     },
     {
-      "caseId": "product-015",
+      "caseId": "product-018",
       "files": [
         "DmK94.jpg",
         "Test_TTB_Image_0008.jpg",
         "Test_TTB_Image_0024.jpg"
       ],
-      "durationSeconds": 1.202,
+      "durationSeconds": 1.28,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2871,17 +3060,17 @@
         "producerNameAddress": "Imported by Frost Ridge Imports, Seattle, Washington.",
         "countryOfOrigin": "New Zealand",
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 19,
+        "evidenceRegionCount": 21,
         "machineSummary": "Review needed"
       },
       "suggestedName": "FROST RIDGE"
     },
     {
-      "caseId": "product-016",
+      "caseId": "product-019",
       "files": [
         "EqTB7.jpg"
       ],
-      "durationSeconds": 0.509,
+      "durationSeconds": 0.53,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2902,11 +3091,11 @@
       "suggestedName": "SMOKE& AGAVE"
     },
     {
-      "caseId": "product-017",
+      "caseId": "product-020",
       "files": [
         "GuCzO.jpg"
       ],
-      "durationSeconds": 0.446,
+      "durationSeconds": 0.487,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2927,13 +3116,13 @@
       "suggestedName": "FERRY"
     },
     {
-      "caseId": "product-018",
+      "caseId": "product-021",
       "files": [
         "iFZ0Q.jpg",
         "Test_TTB_Image_0021.jpg",
         "Test_TTB_Image_0022.jpg"
       ],
-      "durationSeconds": 1.31,
+      "durationSeconds": 1.42,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2948,17 +3137,17 @@
         "producerNameAddress": "Distilled & bottled by Blackbird Distilling Co., Bardstown, Kentucky",
         "countryOfOrigin": null,
         "detectedFieldCount": 7,
-        "evidenceRegionCount": 21,
+        "evidenceRegionCount": 23,
         "machineSummary": "Differences detected"
       },
       "suggestedName": "BLACKBIRD RESERVE"
     },
     {
-      "caseId": "product-019",
+      "caseId": "product-022",
       "files": [
         "Test_TTB_Image_0025.jpg"
       ],
-      "durationSeconds": 0.45,
+      "durationSeconds": 0.561,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2979,13 +3168,13 @@
       "suggestedName": "BLACKBIRD RESERVE"
     },
     {
-      "caseId": "product-020",
+      "caseId": "product-023",
       "files": [
         "J3YuX.jpg",
         "Test_TTB_Image_0009.jpg",
         "Test_TTB_Image_0026.jpg"
       ],
-      "durationSeconds": 1.356,
+      "durationSeconds": 1.572,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3000,18 +3189,18 @@
         "producerNameAddress": "Brewed and bottled by Iron Anchor Brewing Co., Portland, Maine.",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 26,
+        "evidenceRegionCount": 28,
         "machineSummary": "Review needed"
       },
       "suggestedName": "IRON ANCHOR BREWING CO."
     },
     {
-      "caseId": "product-021",
+      "caseId": "product-024",
       "files": [
         "JackDaniels_Back.jpg",
         "JackDaniels_Front.jpg"
       ],
-      "durationSeconds": 0.785,
+      "durationSeconds": 0.914,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3032,12 +3221,12 @@
       "suggestedName": "JACK DANIEL'S"
     },
     {
-      "caseId": "product-022",
+      "caseId": "product-025",
       "files": [
         "jsP3W.jpg",
         "Test_TTB_Image_0028.jpg"
       ],
-      "durationSeconds": 0.861,
+      "durationSeconds": 0.967,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3058,11 +3247,11 @@
       "suggestedName": "MIDNIGHT FORGE"
     },
     {
-      "caseId": "product-023",
+      "caseId": "product-026",
       "files": [
         "leTeL.jpg"
       ],
-      "durationSeconds": 0.442,
+      "durationSeconds": 0.453,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3083,12 +3272,12 @@
       "suggestedName": "IRON CREEK"
     },
     {
-      "caseId": "product-024",
+      "caseId": "product-027",
       "files": [
         "London_Dry_Gin_Synthetic.jpg",
         "Test_TTB_Image_0011.jpg"
       ],
-      "durationSeconds": 0.288,
+      "durationSeconds": 0.312,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3109,11 +3298,11 @@
       "suggestedName": "SECRET"
     },
     {
-      "caseId": "product-025",
+      "caseId": "product-028",
       "files": [
         "MXteB.jpg"
       ],
-      "durationSeconds": 0.531,
+      "durationSeconds": 0.593,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3134,12 +3323,12 @@
       "suggestedName": "SUNDOCK"
     },
     {
-      "caseId": "product-026",
+      "caseId": "product-029",
       "files": [
         "O0P0Z.jpg",
         "Test_TTB_Image_0030.jpg"
       ],
-      "durationSeconds": 0.73,
+      "durationSeconds": 0.771,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3160,13 +3349,13 @@
       "suggestedName": "CEDAR BEND"
     },
     {
-      "caseId": "product-027",
+      "caseId": "product-030",
       "files": [
         "PtNj9.jpg",
         "Test_TTB_Image_0005.jpg",
         "Test_TTB_Image_0006.jpg"
       ],
-      "durationSeconds": 1.241,
+      "durationSeconds": 1.27,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3181,18 +3370,18 @@
         "producerNameAddress": "Distilled & bottled by. Botanist's Secret Distillery, London.",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 16,
+        "evidenceRegionCount": 18,
         "machineSummary": "Review needed"
       },
       "suggestedName": "BOTANIST'S SECRET"
     },
     {
-      "caseId": "product-028",
+      "caseId": "product-031",
       "files": [
         "Test_TTB_Image_0032.jpg",
         "Test_TTB_Image_0037.jpg"
       ],
-      "durationSeconds": 0.885,
+      "durationSeconds": 0.946,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3207,19 +3396,19 @@
         "producerNameAddress": "Distilled & bottled by Botanist's Secret Distillery, London",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 16,
+        "evidenceRegionCount": 18,
         "machineSummary": "Differences detected"
       },
       "suggestedName": "BOTANIST'S SECRET"
     },
     {
-      "caseId": "product-029",
+      "caseId": "product-032",
       "files": [
         "RevolverBrewing - Copy.png",
         "RevolverBrewing.jpg",
         "RevolverBrewing.png"
       ],
-      "durationSeconds": 0.461,
+      "durationSeconds": 0.484,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3240,12 +3429,12 @@
       "suggestedName": "REVOLVER"
     },
     {
-      "caseId": "product-030",
+      "caseId": "product-033",
       "files": [
         "RevolverBrewing_2 - Copy.jpg",
         "RevolverBrewing_2.jpg"
       ],
-      "durationSeconds": 0.662,
+      "durationSeconds": 0.7,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3266,11 +3455,11 @@
       "suggestedName": "INGREDIENTS"
     },
     {
-      "caseId": "product-031",
+      "caseId": "product-034",
       "files": [
         "Test_TTB_Image_0001.jpg"
       ],
-      "durationSeconds": 0.471,
+      "durationSeconds": 0.489,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3291,11 +3480,11 @@
       "suggestedName": "STONE'S THROW"
     },
     {
-      "caseId": "product-032",
+      "caseId": "product-035",
       "files": [
         "Test_TTB_Image_0002.jpg"
       ],
-      "durationSeconds": 0.437,
+      "durationSeconds": 0.477,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3316,11 +3505,11 @@
       "suggestedName": "NORTHWIND"
     },
     {
-      "caseId": "product-033",
+      "caseId": "product-036",
       "files": [
         "Test_TTB_Image_0003.jpg"
       ],
-      "durationSeconds": 0.518,
+      "durationSeconds": 0.549,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3341,11 +3530,11 @@
       "suggestedName": "RED MESA"
     },
     {
-      "caseId": "product-034",
+      "caseId": "product-037",
       "files": [
         "Test_TTB_Image_0007.jpg"
       ],
-      "durationSeconds": 0.507,
+      "durationSeconds": 0.536,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3366,11 +3555,11 @@
       "suggestedName": "IGHT FORGE"
     },
     {
-      "caseId": "product-035",
+      "caseId": "product-038",
       "files": [
         "Test_TTB_Image_0031.jpg"
       ],
-      "durationSeconds": 0.464,
+      "durationSeconds": 0.493,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3391,17 +3580,17 @@
       "suggestedName": "HARBOR LIGHTSE"
     },
     {
-      "caseId": "product-036",
+      "caseId": "product-039",
       "files": [
         "Test_TTB_Image_0033.jpg"
       ],
-      "durationSeconds": 0.421,
+      "durationSeconds": 0.431,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
-        "brandName": "LARK & LUMEN o:bsxdticbug=",
+        "brandName": "LARK & LUMEN o:ustdticsug=",
         "classType": "ROSE",
         "abvPercent": 13.0,
         "proof": null,
@@ -3413,14 +3602,14 @@
         "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       },
-      "suggestedName": "LARK & LUMEN o:bsxdticbug="
+      "suggestedName": "LARK & LUMEN o:ustdticsug="
     },
     {
-      "caseId": "product-037",
+      "caseId": "product-040",
       "files": [
         "Test_TTB_Image_0034.jpg"
       ],
-      "durationSeconds": 0.522,
+      "durationSeconds": 0.539,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3441,13 +3630,13 @@
       "suggestedName": "IRON CREEK"
     },
     {
-      "caseId": "product-038",
+      "caseId": "product-041",
       "files": [
         "Test_TTB_Image_0035.jpg",
         "Test_TTB_Image_0039.jpg",
         "wKE1J.jpg"
       ],
-      "durationSeconds": 1.126,
+      "durationSeconds": 1.26,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3462,17 +3651,17 @@
         "producerNameAddress": "Produced and bottled by Whispering Pines Estate, Napa, California.",
         "countryOfOrigin": null,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 15,
+        "evidenceRegionCount": 17,
         "machineSummary": "Review needed"
       },
       "suggestedName": "WHISPERING PINES ESTATE"
     },
     {
-      "caseId": "product-039",
+      "caseId": "product-042",
       "files": [
         "Test_TTB_Image_0036.jpg"
       ],
-      "durationSeconds": 0.462,
+      "durationSeconds": 0.508,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3493,11 +3682,11 @@
       "suggestedName": "CASA DE LUNA"
     },
     {
-      "caseId": "product-040",
+      "caseId": "product-043",
       "files": [
         "Test_TTB_Image_0038.jpg"
       ],
-      "durationSeconds": 0.454,
+      "durationSeconds": 0.474,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3518,12 +3707,12 @@
       "suggestedName": "HARBORLIGHTS"
     },
     {
-      "caseId": "product-041",
+      "caseId": "product-044",
       "files": [
         "Test_TTB_Image_0040.jpg",
         "XjPpA.jpg"
       ],
-      "durationSeconds": 0.806,
+      "durationSeconds": 0.871,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3544,11 +3733,11 @@
       "suggestedName": "CASA DE LUNA"
     },
     {
-      "caseId": "product-042",
+      "caseId": "product-045",
       "files": [
         "Test_TTB_Image_0042.jpg"
       ],
-      "durationSeconds": 0.49,
+      "durationSeconds": 0.526,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3569,11 +3758,11 @@
       "suggestedName": "OLD FERRY"
     },
     {
-      "caseId": "product-043",
+      "caseId": "product-046",
       "files": [
         "uqgyU.jpg"
       ],
-      "durationSeconds": 0.452,
+      "durationSeconds": 0.468,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3594,12 +3783,12 @@
       "suggestedName": "HARBOR LIGHTS"
     },
     {
-      "caseId": "product-044",
+      "caseId": "product-047",
       "files": [
         "Vodka_Back.jpg",
         "Vodka_Front.jpg"
       ],
-      "durationSeconds": 0.733,
+      "durationSeconds": 0.774,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3617,15 +3806,15 @@
         "evidenceRegionCount": 9,
         "machineSummary": "Differences detected"
       },
-      "suggestedName": "AGES"
+      "suggestedName": "DAGES"
     },
     {
-      "caseId": "product-045",
+      "caseId": "product-048",
       "files": [
         "XXL_Back.jpg",
         "XXL_Front.jpg"
       ],
-      "durationSeconds": 0.657,
+      "durationSeconds": 0.679,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3649,22 +3838,22 @@
   "pass": true,
   "performance": {
     "individual": {
-      "count": 73,
-      "averageSeconds": 3.252,
-      "medianSeconds": 3.2,
-      "p95Seconds": 4.803,
-      "maximumSeconds": 5.499,
+      "count": 76,
+      "averageSeconds": 3.573,
+      "medianSeconds": 3.693,
+      "p95Seconds": 5.186,
+      "maximumSeconds": 6.206,
       "targetAverageSeconds": 5.0,
       "hardCaseMaximumSeconds": 9.0,
       "averageTargetMet": true,
       "hardCaseTargetMet": true
     },
     "products": {
-      "count": 45,
-      "averageSeconds": 0.68,
-      "medianSeconds": 0.509,
-      "p95Seconds": 1.31,
-      "maximumSeconds": 2.213,
+      "count": 48,
+      "averageSeconds": 0.716,
+      "medianSeconds": 0.533,
+      "p95Seconds": 1.42,
+      "maximumSeconds": 2.258,
       "targetAverageSeconds": 5.0,
       "hardCaseMaximumSeconds": 9.0,
       "averageTargetMet": true,
@@ -3672,9 +3861,9 @@
     }
   },
   "summary": {
-    "individualPassCount": 73,
+    "individualPassCount": 76,
     "individualFailCount": 0,
-    "productPassCount": 45,
+    "productPassCount": 48,
     "productFailCount": 0,
     "functionalPass": true,
     "performancePass": true,

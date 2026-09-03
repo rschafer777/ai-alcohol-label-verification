@@ -145,7 +145,12 @@ class RapidOcrAdapter:
                 continue
             for index, (box, text) in enumerate(zip(boxes, texts, strict=True)):
                 confidence = float(scores[index]) if scores is not None else None
-                polygon = view.to_original_polygon(box)
+                try:
+                    polygon = view.to_original_polygon(box)
+                except ValueError:
+                    # The detector can return a collapsed box on dense or stretched type;
+                    # it carries no readable region and must not fail the whole request.
+                    continue
                 recognized_text = _restore_warning_separator(str(text), view.image, box)
                 metrics = text_metrics(view.image, box)
                 line = OcrLine(

@@ -97,7 +97,7 @@ export function Home({ onSingle, onBatch, onSample, onOpenHistory, onOpenRecord,
           <div aria-label="Drop label images or choose files" className={`dropzone${dragging === "single" ? " dragging" : ""}`} onClick={() => singleInput.current?.click()} onDragLeave={() => setDragging(null)} onDragOver={onDragOver("single")} onDrop={onDrop("single")} role="group">
             <span className="drop-icon">{icons.image(28)}</span>
             <strong>Drop label images here</strong>
-            <span className="helper text-muted">Front, back, neck: up to 3. JPEG, PNG or WebP, 4 MB each.</span>
+            <span className="helper text-muted">Front, back, neck: up to 3. JPEG, PNG or WebP; phone photos are resized here before upload.</span>
             <div className="drop-actions" onClick={(event) => event.stopPropagation()}>
               <button className="btn btn-secondary btn-hit" onClick={() => singleInput.current?.click()} type="button">Choose images</button>
               <button className="btn btn-ghost btn-hit" disabled={sampleLoading} onClick={onSample} type="button">{sampleLoading ? "Loading sample…" : "Use the built-in sample"}</button>

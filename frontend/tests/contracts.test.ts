@@ -87,7 +87,10 @@ describe("governed frontend contract", () => {
     const oversized = new File([new Uint8Array(limits.fileBytes + 1)], "large.jpg", {
       type: "image/jpeg",
     });
-    expect(imageSelectionIssue([oversized], 3)).toContain("larger than 4 MB");
+    // Shrunk in the browser before upload, so not an issue at selection time.
+    expect(imageSelectionIssue([oversized], 3)).toBeNull();
+    const untyped = new File([new Uint8Array(limits.fileBytes + 1)], "large.png", { type: "" });
+    expect(imageSelectionIssue([untyped], 3)).toContain("larger than 4 MB");
     expect(spreadsheetSafeCsvCell("=2+2")).toBe("\"'=2+2\"");
     expect(spreadsheetSafeCsvCell("ordinary")).toBe("\"ordinary\"");
   });

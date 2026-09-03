@@ -82,6 +82,9 @@ def warning_checks_across(
     """
 
     observations = [observed, *alternates]
+    # A fragment (an edge-cut heading) can complete the wording but cannot lead: the heading
+    # checks need a heading that was actually read.
+    leaders = [item for item in observations if item.heading] or [observed]
     evaluated = [
         (
             observation,
@@ -94,11 +97,24 @@ def warning_checks_across(
                 class_type=class_type,
             ),
         )
-        for observation in observations
+        for observation in leaders
     ]
     # max keeps the first of equal ranks, so the primary panel wins ties.
     best_observation, best = max(evaluated, key=lambda item: _wording_rank(_row(item[1])))
     wording = _row(best)
+    if best_observation.heading is None and wording.state == "Mismatch":
+        # Only a fragment of the statement was in view: its ends are missing by construction,
+        # so it cannot establish a wording difference on its own.
+        wording = _result(
+            "warning_wording",
+            "Warning wording",
+            "Review",
+            "warning_fragment_review",
+            "Only part of the statement was in view; add a photograph that shows all of it, "
+            "or confirm the wording by eye",
+            observed=best_observation.body,
+        ).model_copy(update={"evidence_ref": wording.evidence_ref})
+        best = [wording if item.check_id == "warning_wording" else item for item in best]
     if len(observations) < 2 or wording.state == "Match":
         return best
     if wording.reason_code == "warning_punctuation_uncertain":
@@ -345,6 +361,22 @@ def warning_checks(
         ).model_copy(
             update={"evidence_ref": heading_evidence.evidence_id if heading_evidence else None}
         )
+    elif actual_heading.upper() == actual_heading and _edge_cut_heading(
+        actual_heading, expected_heading
+    ):
+        # The photograph lost the end of the line ("GOVERNMENT WARNIN"); what was read is
+        # uppercase and the statute's opening, so the reviewer confirms the rest by eye.
+        heading_case = _result(
+            "warning_heading_uppercase",
+            "Warning heading uppercase",
+            "Review",
+            "warning_heading_edge_uncertain",
+            "The heading is uppercase but cut off at the edge of the image; confirm "
+            "GOVERNMENT WARNING: by eye",
+            observed=actual_heading,
+        ).model_copy(
+            update={"evidence_ref": heading_evidence.evidence_id if heading_evidence else None}
+        )
     else:
         heading_case = _result(
             "warning_heading_uppercase",
@@ -491,6 +523,18 @@ def _material_wording_difference(actual: str, expected: str, evidence: Evidence 
     )
 
 
+def _edge_cut_heading(actual: str, expected: str) -> bool:
+    """An uppercase heading that is the start of the statutory heading with its end missing."""
+
+    folded_actual = punctuation_folded(actual)
+    folded_expected = punctuation_folded(expected)
+    return (
+        len(folded_actual) >= len("government warnin")
+        and folded_actual != folded_expected
+        and folded_expected.startswith(folded_actual)
+    )
+
+
 def _same_ignoring_case_and_spacing(actual: str, expected: str) -> bool:
     """Equal text once letter case and spacing are set aside.
 
@@ -555,6 +599,10 @@ def _clear_terminal_punctuation_difference(
     )
 
 
+# Six or more statutory words missing from one read mark a fragment of the statement.
+_FRAGMENT_DELETIONS = 6
+
+
 def _has_clear_word_substitution(actual: str, expected: str) -> bool:
     """A word replaced, dropped, or added in an otherwise cleanly read statement.
 
@@ -575,6 +623,7 @@ def _has_clear_word_substitution(actual: str, expected: str) -> bool:
     ).get_opcodes()
     clear = 0
     noisy = 0
+    deleted = 0
     equal_positions = [index for index, opcode in enumerate(differences) if opcode[0] == "equal"]
     first_equal = equal_positions[0] if equal_positions else len(differences)
     last_equal = equal_positions[-1] if equal_positions else -1
@@ -607,11 +656,17 @@ def _has_clear_word_substitution(actual: str, expected: str) -> bool:
         # of three or more missing words is a line the read skipped, which is noise.
         interior = first_equal < position < last_equal
         run = expected_run if tag == "delete" else actual_run
+        if tag == "delete":
+            deleted += len(run)
         for word in run:
             if interior and len(word) >= 3 and len(run) < 3:
                 clear += 1
             else:
                 noisy += 1
+    # A read missing this many statutory words is a fragment (a label cut by the edge of
+    # the photograph loses the start or end of every line), not a label with words left out.
+    if deleted >= _FRAGMENT_DELETIONS:
+        return False
     return clear >= 1 and clear > noisy
 
 
@@ -639,6 +694,14 @@ def _clearly_different_word(expected: str, actual: str) -> bool:
     a different word ("or" printed as "and") needs more edits than a third of its length.
     """
 
+    # A word cut by the edge of the photograph arrives as a fragment of the statutory word
+    # ("ccording", "eral", "ould"); a deliberate change of wording does not.
+    if (
+        len(actual) >= 3
+        and len(actual) < len(expected)
+        and (expected.startswith(actual) or expected.endswith(actual))
+    ):
+        return False
     distance = _edit_distance(expected, actual)
     return distance > max(1, round(len(expected) * 0.34))
 

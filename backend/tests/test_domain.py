@@ -302,6 +302,40 @@ def test_a_substitution_seen_on_every_image_stays_a_mismatch() -> None:
     assert by_id(checks, "warning_wording").state == "Mismatch"
 
 
+def test_words_cut_by_the_image_edge_are_not_substitutions() -> None:
+    observed = clean_observed()
+    body = (
+        "(1) ccording to the Surgeon General, omen should not drink alcoholic beverages during "
+        "egnancy because of the risk of birth defects. (2) onsumption of alcoholic beverages "
+        "impairs your ability to drive a car or operate machinery, and may cause health problems."
+    )
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Review"
+
+
+def test_a_heading_less_fragment_alone_never_rejects_the_wording() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    # Two clear substitutions would reject a complete read; from a fragment they cannot.
+    body = (
+        contracts()
+        .rules["warning"]["bodyExact"]
+        .replace("car or operate", "car and operate")
+        .replace("may cause", "will cause")
+    )
+    fragment = replace(observed.warning, heading=None, heading_evidence=None, body=body)
+
+    checks = warning_checks_across(Decimal("45"), fragment, [])
+    wording = by_id(checks, "warning_wording")
+
+    assert wording.state == "Review"
+    assert wording.reason_code == "warning_fragment_review"
+
+
 def test_heavily_damaged_noisy_read_is_a_review_item_not_a_mismatch() -> None:
     observed = clean_observed()
     body = (

@@ -251,6 +251,37 @@ def test_local_contrast_distinguishes_clear_and_faint_text() -> None:
     assert faint_metrics.contrast_ratio is not None and faint_metrics.contrast_ratio < 3.0
 
 
+def test_a_collapsed_detector_box_is_skipped_rather_than_failing_the_read() -> None:
+    from types import SimpleNamespace
+
+    from labelverify.imaging.transforms import ImageView
+
+    image = np.full((60, 200, 3), 255, dtype=np.uint8)
+    view = ImageView(
+        panel_id="panel-1",
+        image=image,
+        source_view="original",
+        transform_id="transform-panel-1-bounded-v1",
+        original_width=200,
+        original_height=60,
+        scale_x=1.0,
+        scale_y=1.0,
+    )
+    adapter = RapidOcrAdapter(Path("models"), require_read_only=False)
+    collapsed = [[10, 10], [10, 10], [10, 10], [10, 10]]
+    good = [[20, 10], [120, 10], [120, 40], [20, 40]]
+    adapter._engines = (
+        lambda _image: SimpleNamespace(
+            boxes=[collapsed, good], txts=["x", "Vodka"], scores=[0.9, 0.95]
+        ),
+    )
+    adapter._run_inference = lambda views: [adapter._engines[0](view.image) for view in views]  # type: ignore[method-assign]
+
+    lines = adapter.extract([view])
+
+    assert [line.text for line in lines] == ["Vodka"]
+
+
 def test_letter_height_ignores_parentheses_and_dots() -> None:
     from labelverify.extraction.rapidocr_adapter import _letter_height
 

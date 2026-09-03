@@ -902,6 +902,56 @@ def test_each_panel_that_carries_the_warning_is_read_on_its_own() -> None:
     assert "(2) Consumption" in (observed.warning_alternates[0].body or "")
 
 
+def test_an_edge_cut_heading_anchors_a_body_fragment_without_a_heading() -> None:
+    observed = locate_candidates(
+        [
+            line("WARNING: (1) According to the Surgeon General,", 0, y=100),
+            line("women should not drink alcoholic beverages during", 1, y=140),
+        ],
+        [panel()],
+    )
+
+    assert observed.warning.heading is None
+    assert observed.warning.heading_evidence is None
+    assert (observed.warning.body or "").startswith("(1) According to the Surgeon General")
+    assert observed.field("brand").status == "Not found"
+
+
+def test_a_heading_missing_its_last_letter_still_leads() -> None:
+    observed = locate_candidates(
+        [line("GOVERNMENT WARNIN", 0, y=100), line("(1) According to the Surgeon", 1, y=140)],
+        [panel()],
+    )
+    assert observed.warning.heading is not None
+
+
+def test_a_proposition_65_warning_is_not_the_federal_statement() -> None:
+    observed = locate_candidates(
+        [line("WARNING: This product contains chemicals known to the State", 0, y=100)],
+        [panel()],
+    )
+    assert observed.warning.body is None
+
+
+def test_wine_designations_are_class_statements_and_copy_is_not() -> None:
+    observed = locate_candidates(
+        [
+            line("RISERVA DUCALE", 0, y=100, height=60),
+            line("CHIANTI CLASSICO", 1, y=180, height=50),
+            line("RISERVA 2021", 2, y=240),
+            line("24 months of aging culminate in a wine with balanced", 3, y=400),
+        ],
+        [panel()],
+    )
+    assert observed.field("class_type").candidates[0].value == "CHIANTI CLASSICO"
+    assert observed.field("brand").candidates[0].value == "RISERVA DUCALE"
+
+
+def test_beer_styles_are_class_designations() -> None:
+    observed = locate_candidates([line("HELLES DOPPELBOCK", 0, y=100)], [panel()])
+    assert observed.field("class_type").status == "Found"
+
+
 def test_a_dated_establishment_line_is_not_a_brand() -> None:
     observed = locate_candidates(
         [

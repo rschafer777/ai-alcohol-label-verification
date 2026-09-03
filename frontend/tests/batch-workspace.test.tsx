@@ -122,11 +122,14 @@ describe("batch state helpers", () => {
   it("accepts supported folder images while reporting non-image and oversized files", () => {
     const image = new File(["image"], "front.jpg", { type: "image/jpeg" });
     const metadata = new File(["{}"], "test-oracle-v1.json", { type: "application/json" });
-    const oversized = new File([new Uint8Array(4_194_305)], "large.png", { type: "image/png" });
+    // A supported photo above the byte limit is shrunk in the browser later, so it is accepted;
+    // an untyped file of that size cannot be re-encoded and is reported.
+    const phonePhoto = new File([new Uint8Array(4_194_305)], "phone.jpg", { type: "image/jpeg" });
+    const oversized = new File([new Uint8Array(4_194_305)], "large.png", { type: "" });
 
-    const selection = filterBatchSelection([image, metadata, oversized]);
+    const selection = filterBatchSelection([image, metadata, phonePhoto, oversized]);
 
-    expect(selection.accepted).toEqual([image]);
+    expect(selection.accepted).toEqual([image, phonePhoto]);
     expect(selection.skipped).toEqual([
       { name: "test-oracle-v1.json", reason: "unsupported type" },
       { name: "large.png", reason: "over 4 MB" },

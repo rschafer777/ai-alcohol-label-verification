@@ -33,13 +33,19 @@ export function isSupportedImage(file: File): boolean {
   return SUPPORTED_IMAGE_TYPES.has(file.type) || (!file.type && SUPPORTED_IMAGE_NAME.test(file.name));
 }
 
+/* JPEG, PNG, and WebP photos above the byte limit are shrunk in the browser before upload,
+   so only a file the browser cannot re-encode is turned away for its size. */
+export function needsManualResize(file: File): boolean {
+  return file.size > limits.fileBytes && !SUPPORTED_IMAGE_TYPES.has(file.type);
+}
+
 export function filterBatchSelection(files: File[], maximumCount = 900): BatchSelection {
   const accepted: File[] = [];
   const skipped: SkippedBatchFile[] = [];
   for (const file of files) {
     if (!isSupportedImage(file)) {
       skipped.push({ name: file.name, reason: "unsupported type" });
-    } else if (file.size > limits.fileBytes) {
+    } else if (needsManualResize(file)) {
       skipped.push({ name: file.name, reason: "over 4 MB" });
     } else if (accepted.length >= maximumCount) {
       skipped.push({ name: file.name, reason: "over batch limit" });
@@ -54,8 +60,8 @@ export function imageSelectionIssue(files: File[], maximumCount: number): string
   if (files.length > maximumCount) return `Choose no more than ${maximumCount} images.`;
   const unsupported = files.find((file) => !isSupportedImage(file));
   if (unsupported) return `${unsupported.name} is not a JPEG, PNG, or WebP image.`;
-  const oversized = files.find((file) => file.size > limits.fileBytes);
-  if (oversized) return `${oversized.name} is larger than 4 MB.`;
+  const oversized = files.find(needsManualResize);
+  if (oversized) return `${oversized.name} is larger than 4 MB and cannot be resized here.`;
   return null;
 }
 

@@ -23,6 +23,9 @@ The application also groups and processes batches of up to 300 products and reta
 - Attempts bounded orientation, deskew, perspective, and contrast recovery without inventing obscured text.
 - Suggests product groups for folders containing up to 900 images, requires reviewer confirmation, and processes up to 300 products.
 - Reports batch progress, remaining work, active time, average, ETA, attempts, exceptions, retry, cancel, CSV, and JSON.
+- Reads the government warning on every submitted image of a product (up to three), keeps the best-read one, and confirms statutory words across images when a curved surface or glare hides part of the statement in any single photograph; a heading cut off at the image edge is a review item, not a defect, and punctuation stays with the reviewer.
+- Recognizes common beer styles (bock, doppelbock, hefeweizen, saison, and others) as malt beverage class statements, and wine designations of geographic significance and varietal names (Chianti Classico, Barolo, Rioja, Bordeaux, and others) as wine class statements; a sentence of copy that mentions the class is never taken as the class statement.
+- Brings phone photographs within the server's 12 megapixel and 4 MB per-image limits in the browser before upload, so a 24 or 48 megapixel photo needs no manual resizing.
 - Lets the reviewer zoom the label with the mouse wheel, drag the enlarged image, use the keyboard for both, and switch between table, card, and image-first views from the head of the checks.
 - Guides the grouping step: shows how many products are confirmed, filters to the cards that still need a decision, confirms the remaining suggestions in one step, and states why the run is locked until every product is confirmed.
 - Stores the latest 500 results and images with filtering, paging, evidence reopening, disposition editing, deletion, and FIFO eviction. An opaque HttpOnly browser-scope cookie isolates history access in the public demo.
