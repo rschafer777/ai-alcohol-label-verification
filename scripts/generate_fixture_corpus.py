@@ -577,10 +577,7 @@ def contract_hashes(project_root: Path) -> dict[str, str]:
         "selected-check-registry-v1.json",
         "regulatory-rules-v1.json",
     ]
-    return {
-        name: sha256_governed_text(project_root / "contracts" / name)
-        for name in names
-    }
+    return {name: sha256_governed_text(project_root / "contracts" / name) for name in names}
 
 
 def check_expectations(spec: dict[str, Any]) -> list[dict[str, Any]]:

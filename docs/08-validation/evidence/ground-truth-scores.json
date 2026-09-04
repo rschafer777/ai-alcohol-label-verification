@@ -1,6 +1,6 @@
 {
-  "createdAtUtc": "2026-09-03T22:13:17.698895+00:00",
-  "imageCount": 76,
+  "createdAtUtc": "2026-09-04T05:56:12.107332+00:00",
+  "imageCount": 221,
   "oracleMatchedCount": 42,
   "oracleExactAgreement": 6,
   "falseClean": 1,
@@ -70,19 +70,20 @@
     }
   },
   "timing": {
-    "meanSeconds": 3.534,
-    "medianSeconds": 3.428,
-    "p95Seconds": 5.329,
-    "maxSeconds": 5.721,
-    "overFiveSeconds": 6
+    "meanSeconds": 4.062,
+    "medianSeconds": 3.909,
+    "p95Seconds": 6.695,
+    "maxSeconds": 7.566,
+    "overFiveSeconds": 53
   },
   "rows": [
     {
       "file": "0wLM9.jpg",
-      "seconds": 4.489,
+      "seconds": 5.209,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -98,10 +99,11 @@
     },
     {
       "file": "111_Wine_Valle_Front.png",
-      "seconds": 3.852,
+      "seconds": 4.259,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -116,11 +118,92 @@
       }
     },
     {
-      "file": "222_Silverpine_Wine.png",
-      "seconds": 4.347,
+      "file": "1800Tequila_Back.jpg",
+      "seconds": 6.31,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "1800Tequila_Front.jpg",
+      "seconds": 4.924,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "1835_Apple_001.jpg",
+      "seconds": 3.718,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "1835_Apple_002.jpg",
+      "seconds": 2.884,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "1835_Back001.jpg",
+      "seconds": 5.62,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "1835_Back002.jpg",
+      "seconds": 5.062,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "1835_Front.jpg",
+      "seconds": 3.864,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "1835_SaltedCaramel_Back01.jpg",
+      "seconds": 5.109,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "1835_SaltedCaramel_Back02.jpg",
+      "seconds": 3.631,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "1835_SaltedCaramel_Front.jpg",
+      "seconds": 3.619,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "222_Silverpine_Wine.png",
+      "seconds": 4.939,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -136,10 +219,11 @@
     },
     {
       "file": "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg",
-      "seconds": 4.737,
+      "seconds": 6.17,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "wrong",
@@ -155,10 +239,11 @@
     },
     {
       "file": "333_CascadeLight_Wine.png",
-      "seconds": 4.938,
+      "seconds": 5.986,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -174,10 +259,11 @@
     },
     {
       "file": "3urY2.jpg",
-      "seconds": 2.663,
+      "seconds": 2.958,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -193,10 +279,11 @@
     },
     {
       "file": "555_Northveil_Vodka.png",
-      "seconds": 4.749,
+      "seconds": 5.807,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -212,10 +299,11 @@
     },
     {
       "file": "888SilverPine_Wine.png",
-      "seconds": 4.462,
+      "seconds": 5.105,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -231,10 +319,11 @@
     },
     {
       "file": "8Gf8v.jpg",
-      "seconds": 4.655,
+      "seconds": 4.596,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -249,18 +338,44 @@
       }
     },
     {
-      "file": "AndyGator_0001.jpg",
-      "seconds": 4.246,
+      "file": "AmoreFrutti_Moscato_Back_001.jpg",
+      "seconds": 5.137,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
-      "summary": "Review needed"
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "AmoreFrutti_Moscato_Back_002.jpg",
+      "seconds": 6.814,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "AmoreFrutti_Moscato_Front.jpg",
+      "seconds": 1.883,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "AndyGator_0001.jpg",
+      "seconds": 4.523,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
     },
     {
       "file": "AnMXl.jpg",
-      "seconds": 2.86,
+      "seconds": 2.693,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -275,11 +390,140 @@
       }
     },
     {
+      "file": "Asbach_001.jpg",
+      "seconds": 4.901,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Asbach_002.jpg",
+      "seconds": 5.215,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Asbach_003.jpg",
+      "seconds": 5.424,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Bakers_Front001.jpg",
+      "seconds": 3.578,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Bakers_Side001.jpg",
+      "seconds": 4.347,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Bakers_Side002.jpg",
+      "seconds": 5.139,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Balcones_Lineage_Back.jpg",
+      "seconds": 4.654,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Balcones_Lineage_Front.jpg",
+      "seconds": 2.311,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Barton_StraightRye_Back.jpg",
+      "seconds": 5.806,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Barton_StraightRye_Front.jpg",
+      "seconds": 4.086,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Beatties_Back.jpg",
+      "seconds": 7.566,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Beatties_Front.jpg",
+      "seconds": 4.095,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Blackland_0001.jpg",
+      "seconds": 2.974,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Blackland_0002.jpg",
+      "seconds": 4.227,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "BlueRun_Back.jpg",
+      "seconds": 3.21,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "BlueRun_Front.jpg",
+      "seconds": 3.338,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
       "file": "BMgMY.jpg",
-      "seconds": 3.943,
+      "seconds": 4.065,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -294,11 +538,28 @@
       }
     },
     {
+      "file": "Bosque_001.jpg",
+      "seconds": 3.897,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Bosque_002.jpg",
+      "seconds": 4.332,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
       "file": "bsxs4.jpg",
-      "seconds": 5.346,
+      "seconds": 5.444,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -313,25 +574,108 @@
       }
     },
     {
-      "file": "ChiantiClassico_001.jpg",
-      "seconds": 5.721,
-      "machineDisposition": "NEEDS_REVIEW",
-      "oracleDisposition": null,
-      "summary": "Review needed"
-    },
-    {
-      "file": "ChiantiClassico_002.jpg",
-      "seconds": 3.287,
-      "machineDisposition": "NEEDS_REVIEW",
-      "oracleDisposition": null,
-      "summary": "Review needed"
-    },
-    {
-      "file": "Cointeau_Front.jpg",
-      "seconds": 4.038,
+      "file": "Cadenheads_001.jpg",
+      "seconds": 3.659,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Cadenheads_002.jpg",
+      "seconds": 6.104,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "CaptianMorgan_Back.jpg",
+      "seconds": 6.234,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "CaptianMorgan_Front.jpg",
+      "seconds": 3.062,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "CasaSalvia_001.jpg",
+      "seconds": 4.563,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "CasaSalvia_002.jpg",
+      "seconds": 7.081,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "CastelloDiAlbola_Back.jpg",
+      "seconds": 4.993,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "CastelloDiAlbola_Front.jpg",
+      "seconds": 2.561,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Ceccato_PinotGrigio_Back.jpg",
+      "seconds": 4.902,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Ceccato_PinotGrigio_Front.jpg",
+      "seconds": 2.982,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "ChiantiClassico_001.jpg",
+      "seconds": 5.472,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "ChiantiClassico_002.jpg",
+      "seconds": 3.409,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Cointeau_Front.jpg",
+      "seconds": 4.22,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -347,10 +691,11 @@
     },
     {
       "file": "Cointreau_Back.jpg",
-      "seconds": 4.599,
+      "seconds": 4.968,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "miss",
         "brand": "wrong",
@@ -365,11 +710,44 @@
       }
     },
     {
+      "file": "CoopersMark_0001.jpg",
+      "seconds": 6.212,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "CoopersMark_002.jpg",
+      "seconds": 5.051,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Corzo_Back.jpg",
+      "seconds": 6.95,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Corzo_Front.jpg",
+      "seconds": 4.108,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
       "file": "coTpD.jpg",
-      "seconds": 4.378,
+      "seconds": 4.362,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -384,11 +762,28 @@
       }
     },
     {
+      "file": "CrownRoyal_001.jpg",
+      "seconds": 4.97,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "CrownRoyal_002.jpg",
+      "seconds": 5.711,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
       "file": "DDqT2.jpg",
-      "seconds": 4.547,
+      "seconds": 4.719,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -403,11 +798,36 @@
       }
     },
     {
-      "file": "DmK94.jpg",
-      "seconds": 4.11,
+      "file": "DevilsRiver_Front.jpg",
+      "seconds": 3.654,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "DevilsRiver_Side001.jpg",
+      "seconds": 3.9,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "DevilsRiver_Side002.jpg",
+      "seconds": 4.194,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "DmK94.jpg",
+      "seconds": 4.086,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -422,11 +842,68 @@
       }
     },
     {
+      "file": "DuckPond_PinotGris_Back001.jpg",
+      "seconds": 3.909,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "DuckPond_PinotGris_Back002.jpg",
+      "seconds": 5.102,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "DuckPond_PinotGris_Front.jpg",
+      "seconds": 3.085,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "EasyRider_Back.jpg",
+      "seconds": 4.088,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "EasyRider_Front.jpg",
+      "seconds": 2.425,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "ElijahCraig_Back.jpg",
+      "seconds": 4.193,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "ElijahCraig_Front.jpg",
+      "seconds": 4.498,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
       "file": "EqTB7.jpg",
-      "seconds": 4.391,
+      "seconds": 4.305,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -441,11 +918,84 @@
       }
     },
     {
+      "file": "Fireball_Back.jpg",
+      "seconds": 6.483,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Fireball_Front.jpg",
+      "seconds": 3.095,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "FlordeCana.jpg",
+      "seconds": 4.909,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "FlordeCana_BaCK.jpg",
+      "seconds": 4.987,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Freixenet_PinotGrigigo_Back001.jpg",
+      "seconds": 3.202,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Freixenet_PinotGrigigo_Back002.jpg",
+      "seconds": 3.509,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Freixenet_PinotGrigigo_Front.jpg",
+      "seconds": 2.386,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "GreyWhale_001.jpg",
+      "seconds": 2.583,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "GreyWhale_002.jpg",
+      "seconds": 7.401,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
       "file": "GuCzO.jpg",
-      "seconds": 4.298,
+      "seconds": 3.939,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "contain",
@@ -461,10 +1011,11 @@
     },
     {
       "file": "iFZ0Q.jpg",
-      "seconds": 4.171,
+      "seconds": 3.826,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -480,10 +1031,11 @@
     },
     {
       "file": "J3YuX.jpg",
-      "seconds": 2.923,
+      "seconds": 2.815,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -499,10 +1051,11 @@
     },
     {
       "file": "JackDaniels_Back.jpg",
-      "seconds": 4.355,
+      "seconds": 3.821,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "miss",
@@ -518,10 +1071,11 @@
     },
     {
       "file": "JackDaniels_Front.jpg",
-      "seconds": 3.593,
+      "seconds": 3.443,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -536,11 +1090,60 @@
       }
     },
     {
-      "file": "jsP3W.jpg",
-      "seconds": 3.077,
+      "file": "JackDaniels_Glass_Front.jpg",
+      "seconds": 6.791,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "JackDaniels_Glass_LSide.jpg",
+      "seconds": 6.416,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "JackDaniels_Glass_RSide.jpg",
+      "seconds": 5.804,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "JD_Honey_Back.jpg",
+      "seconds": 6.353,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "JD_Honey_Front.jpg",
+      "seconds": 5.344,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "JD_Honey_Sides.jpg",
+      "seconds": 7.15,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "jsP3W.jpg",
+      "seconds": 2.902,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -555,11 +1158,44 @@
       }
     },
     {
+      "file": "JT_Meleck_Vodka_001.jpg",
+      "seconds": 3.65,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "JT_Meleck_Vodka_002.jpg",
+      "seconds": 6.957,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "LaPulga_Back.jpg",
+      "seconds": 4.502,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "LaPulga_Front.jpg",
+      "seconds": 4.147,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
       "file": "leTeL.jpg",
-      "seconds": 5.09,
+      "seconds": 4.641,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -575,10 +1211,11 @@
     },
     {
       "file": "London_Dry_Gin_Synthetic.jpg",
-      "seconds": 3.486,
+      "seconds": 3.408,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "contain",
@@ -593,11 +1230,108 @@
       }
     },
     {
+      "file": "MakersMark_Back.jpg",
+      "seconds": 5.208,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "MakersMark_Front.jpg",
+      "seconds": 4.241,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Mextaxa_Backt.jpg",
+      "seconds": 6.412,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Mextaxa_Front.jpg",
+      "seconds": 5.049,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Mezzacorona_PinotGrigo_Back_0001.jpg",
+      "seconds": 4.333,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Mezzacorona_PinotGrigo_Back_0002.jpg",
+      "seconds": 4.187,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Mezzacorona_PinotGrigo_Front.jpg",
+      "seconds": 2.707,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "MontBlanc_Back.jpg",
+      "seconds": 4.903,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "MontBlanc_Front.jpg",
+      "seconds": 3.478,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "MossyHorn_001.jpg",
+      "seconds": 2.272,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "MossyHorn_002.jpg",
+      "seconds": 3.613,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "MossyHorn_003.jpg",
+      "seconds": 2.084,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
       "file": "MXteB.jpg",
-      "seconds": 2.854,
+      "seconds": 2.485,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "wrong",
@@ -612,11 +1346,44 @@
       }
     },
     {
-      "file": "O0P0Z.jpg",
-      "seconds": 4.935,
+      "file": "NeverSayDie_Front.jpg",
+      "seconds": 3.326,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": true
+    },
+    {
+      "file": "NeverSayDie_Left.jpg",
+      "seconds": 6.8,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "NeverSayDie_Right.jpg",
+      "seconds": 4.057,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "NewBelgian_Front001.jpg",
+      "seconds": 2.307,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "O0P0Z.jpg",
+      "seconds": 4.94,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -631,11 +1398,124 @@
       }
     },
     {
-      "file": "PtNj9.jpg",
-      "seconds": 2.948,
+      "file": "OldAmericanBurbon_001.jpg",
+      "seconds": 3.452,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "OldAmericanBurbon_002.jpg",
+      "seconds": 5.125,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "OldDominick_Back0001.jpg",
+      "seconds": 3.791,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "OldDominick_Front.jpg",
+      "seconds": 3.18,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "OldDominick_Front02.jpg",
+      "seconds": 3.33,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "OleSmoky_Back.jpg",
+      "seconds": 6.303,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "OleSmoky_Front.jpg",
+      "seconds": 4.219,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "PinnacleVodka_Back.jpg",
+      "seconds": 3.495,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "PinnacleVodka_Bottom.jpg",
+      "seconds": 2.903,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "PinnacleVodka_Front.jpg",
+      "seconds": 2.474,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "PrimeraMano_Back.jpg",
+      "seconds": 5.132,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "PrimeraMano_Front.jpg",
+      "seconds": 3.397,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "PrimeraManoBlanco_Back.jpg",
+      "seconds": 4.079,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "PrimeraManoBlanco_Front.jpg",
+      "seconds": 2.824,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "PtNj9.jpg",
+      "seconds": 2.317,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -650,18 +1530,52 @@
       }
     },
     {
-      "file": "RevolverBrewing - Copy.png",
-      "seconds": 5.478,
-      "machineDisposition": "NEEDS_REVIEW",
-      "oracleDisposition": null,
-      "summary": "Review needed"
-    },
-    {
-      "file": "RevolverBrewing.jpg",
-      "seconds": 5.329,
+      "file": "Pulenta_Estate_Back.jpg",
+      "seconds": 2.479,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Pulenta_Estate_Front.jpg",
+      "seconds": 2.173,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RebeccaCreek_Back.jpg",
+      "seconds": 5.268,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RebeccaCreek_Front.jpg",
+      "seconds": 3.547,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RevolverBrewing - Copy.png",
+      "seconds": 5.342,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RevolverBrewing.jpg",
+      "seconds": 5.239,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "contain",
@@ -677,10 +1591,11 @@
     },
     {
       "file": "RevolverBrewing.png",
-      "seconds": 0.253,
+      "seconds": 0.332,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "contain",
@@ -696,24 +1611,187 @@
     },
     {
       "file": "RevolverBrewing_2 - Copy.jpg",
-      "seconds": 3.079,
+      "seconds": 3.143,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
-      "summary": "Review needed"
+      "summary": "Review needed",
+      "preparedForUpload": false
     },
     {
       "file": "RevolverBrewing_2.jpg",
-      "seconds": 0.419,
+      "seconds": 0.526,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
-      "summary": "Review needed"
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RiservaDucale_Back.jpg",
+      "seconds": 3.269,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RiservaDucale_Front.jpg",
+      "seconds": 3.236,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Rosso_Toscano_Back.jpg",
+      "seconds": 4.194,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Rosso_Toscano_Front.jpg",
+      "seconds": 3.161,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RoyalCrest_001.jpg",
+      "seconds": 6.757,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RoyalCrest_002.jpg",
+      "seconds": 4.735,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RoyalCrest_Back.jpg",
+      "seconds": 6.126,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "RoyalCrest_Front.jpg",
+      "seconds": 6.695,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "SailorJerry_Back.jpg",
+      "seconds": 4.831,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "SailorJerry_Front.jpg",
+      "seconds": 3.866,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "SelectClub_001.jpg",
+      "seconds": 5.238,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "SelectClub_002.jpg",
+      "seconds": 7.107,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Sky_Back001.jpg",
+      "seconds": 3.501,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Sky_Back002.jpg",
+      "seconds": 3.495,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Sky_Front.jpg",
+      "seconds": 2.484,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "SweetGrass_Back.jpg",
+      "seconds": 4.093,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "SweetGrass_Front.jpg",
+      "seconds": 3.13,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Tank_Ale_Back.jpg",
+      "seconds": 5.595,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Tank_Ale_Front.jpg",
+      "seconds": 2.87,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Tank_Ale_Side.jpg",
+      "seconds": 2.896,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
     },
     {
       "file": "Test_TTB_Image_0001.jpg",
-      "seconds": 3.29,
+      "seconds": 3.416,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -729,10 +1807,11 @@
     },
     {
       "file": "Test_TTB_Image_0002.jpg",
-      "seconds": 2.862,
+      "seconds": 3.018,
       "machineDisposition": "DO_NOT_PASS",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Differences detected",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -748,10 +1827,11 @@
     },
     {
       "file": "Test_TTB_Image_0003.jpg",
-      "seconds": 4.445,
+      "seconds": 3.966,
       "machineDisposition": "DO_NOT_PASS",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Differences detected",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -771,6 +1851,7 @@
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -786,10 +1867,11 @@
     },
     {
       "file": "Test_TTB_Image_0005.jpg",
-      "seconds": 2.955,
+      "seconds": 3.026,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -805,10 +1887,11 @@
     },
     {
       "file": "Test_TTB_Image_0006.jpg",
-      "seconds": 2.077,
+      "seconds": 2.063,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -824,10 +1907,11 @@
     },
     {
       "file": "Test_TTB_Image_0007.jpg",
-      "seconds": 2.759,
+      "seconds": 2.43,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "contain",
@@ -843,10 +1927,11 @@
     },
     {
       "file": "Test_TTB_Image_0008.jpg",
-      "seconds": 3.195,
+      "seconds": 3.23,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -862,10 +1947,11 @@
     },
     {
       "file": "Test_TTB_Image_0009.jpg",
-      "seconds": 3.073,
+      "seconds": 2.679,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -881,10 +1967,11 @@
     },
     {
       "file": "Test_TTB_Image_0011.jpg",
-      "seconds": 0.193,
+      "seconds": 0.204,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "contain",
@@ -901,10 +1988,11 @@
     },
     {
       "file": "Test_TTB_Image_0021.jpg",
-      "seconds": 3.47,
+      "seconds": 3.338,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -920,10 +2008,11 @@
     },
     {
       "file": "Test_TTB_Image_0022.jpg",
-      "seconds": 3.022,
+      "seconds": 2.463,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -939,10 +2028,11 @@
     },
     {
       "file": "Test_TTB_Image_0023.jpg",
-      "seconds": 5.568,
+      "seconds": 3.785,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -958,10 +2048,11 @@
     },
     {
       "file": "Test_TTB_Image_0024.jpg",
-      "seconds": 3.283,
+      "seconds": 3.21,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -977,10 +2068,11 @@
     },
     {
       "file": "Test_TTB_Image_0025.jpg",
-      "seconds": 3.139,
+      "seconds": 3.275,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -997,10 +2089,11 @@
     },
     {
       "file": "Test_TTB_Image_0026.jpg",
-      "seconds": 1.84,
+      "seconds": 2.219,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1016,10 +2109,11 @@
     },
     {
       "file": "Test_TTB_Image_0027.jpg",
-      "seconds": 3.123,
+      "seconds": 3.197,
       "machineDisposition": "PASS",
       "oracleDisposition": "PASS",
       "summary": "No differences found in checked fields",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1035,10 +2129,11 @@
     },
     {
       "file": "Test_TTB_Image_0028.jpg",
-      "seconds": 2.234,
+      "seconds": 2.415,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1054,10 +2149,11 @@
     },
     {
       "file": "Test_TTB_Image_0029.jpg",
-      "seconds": 4.503,
+      "seconds": 3.891,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1073,10 +2169,11 @@
     },
     {
       "file": "Test_TTB_Image_0030.jpg",
-      "seconds": 3.359,
+      "seconds": 3.444,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1092,10 +2189,11 @@
     },
     {
       "file": "Test_TTB_Image_0031.jpg",
-      "seconds": 3.048,
+      "seconds": 2.827,
       "machineDisposition": "PASS",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "No differences found in checked fields",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "contain",
@@ -1111,10 +2209,11 @@
     },
     {
       "file": "Test_TTB_Image_0032.jpg",
-      "seconds": 2.162,
+      "seconds": 2.134,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1130,10 +2229,11 @@
     },
     {
       "file": "Test_TTB_Image_0033.jpg",
-      "seconds": 3.984,
+      "seconds": 3.927,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "contain",
@@ -1149,10 +2249,11 @@
     },
     {
       "file": "Test_TTB_Image_0034.jpg",
-      "seconds": 2.964,
+      "seconds": 2.767,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1168,10 +2269,11 @@
     },
     {
       "file": "Test_TTB_Image_0035.jpg",
-      "seconds": 3.519,
+      "seconds": 3.671,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1187,10 +2289,11 @@
     },
     {
       "file": "Test_TTB_Image_0036.jpg",
-      "seconds": 4.386,
+      "seconds": 4.721,
       "machineDisposition": "PASS",
       "oracleDisposition": "PASS",
       "summary": "No differences found in checked fields",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1206,10 +2309,11 @@
     },
     {
       "file": "Test_TTB_Image_0037.jpg",
-      "seconds": 3.07,
+      "seconds": 2.92,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1225,10 +2329,11 @@
     },
     {
       "file": "Test_TTB_Image_0038.jpg",
-      "seconds": 3.221,
+      "seconds": 3.292,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "wrong",
@@ -1244,10 +2349,11 @@
     },
     {
       "file": "Test_TTB_Image_0039.jpg",
-      "seconds": 4.698,
+      "seconds": 5.228,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1263,10 +2369,11 @@
     },
     {
       "file": "Test_TTB_Image_0040.jpg",
-      "seconds": 2.591,
+      "seconds": 2.919,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": "PASS",
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1282,10 +2389,11 @@
     },
     {
       "file": "Test_TTB_Image_0041.jpg",
-      "seconds": 3.386,
+      "seconds": 3.472,
       "machineDisposition": "PASS",
       "oracleDisposition": "PASS",
       "summary": "No differences found in checked fields",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1301,10 +2409,11 @@
     },
     {
       "file": "Test_TTB_Image_0042.jpg",
-      "seconds": 4.122,
+      "seconds": 3.967,
       "machineDisposition": "DO_NOT_PASS",
       "oracleDisposition": "DO_NOT_PASS",
       "summary": "Differences detected",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1319,11 +2428,28 @@
       }
     },
     {
-      "file": "uqgyU.jpg",
-      "seconds": 2.595,
+      "file": "TheLoneStarVodka_001.jpg",
+      "seconds": 2.893,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "TheLoneStarVodka_002.jpg",
+      "seconds": 3.954,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "uqgyU.jpg",
+      "seconds": 2.975,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1339,10 +2465,11 @@
     },
     {
       "file": "Vodka_Back.jpg",
-      "seconds": 3.872,
+      "seconds": 3.809,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "miss",
@@ -1358,10 +2485,11 @@
     },
     {
       "file": "Vodka_Front.jpg",
-      "seconds": 1.942,
+      "seconds": 2.237,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "miss",
@@ -1376,11 +2504,100 @@
       }
     },
     {
-      "file": "wKE1J.jpg",
-      "seconds": 3.306,
+      "file": "Volcan_Back_001.jpg",
+      "seconds": 3.964,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Volcan_Back_002.jpg",
+      "seconds": 4.466,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Volcan_Front.jpg",
+      "seconds": 2.295,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "WebberRanch_001.jpg",
+      "seconds": 2.57,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "WebberRanch_002.jpg",
+      "seconds": 3.638,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "WebberRanch_003.jpg",
+      "seconds": 2.226,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "WildTurkey_Back.jpg",
+      "seconds": 7.379,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "WildTurkey_Front.jpg",
+      "seconds": 3.476,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": true
+    },
+    {
+      "file": "Willamette_PinotGris_Back_001.jpg",
+      "seconds": 3.915,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Willamette_PinotGris_Back_002.jpg",
+      "seconds": 4.998,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Willamette_PinotGris_Front.jpg",
+      "seconds": 2.03,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "wKE1J.jpg",
+      "seconds": 4.143,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1396,10 +2613,11 @@
     },
     {
       "file": "XjPpA.jpg",
-      "seconds": 2.452,
+      "seconds": 2.546,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "exact",
@@ -1415,10 +2633,11 @@
     },
     {
       "file": "XXL_Back.jpg",
-      "seconds": 2.141,
+      "seconds": 2.411,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "exact",
         "brand": "wrong",
@@ -1434,10 +2653,11 @@
     },
     {
       "file": "XXL_Front.jpg",
-      "seconds": 2.555,
+      "seconds": 2.21,
       "machineDisposition": "NEEDS_REVIEW",
       "oracleDisposition": null,
       "summary": "Review needed",
+      "preparedForUpload": false,
       "fields": {
         "type": "miss",
         "brand": "wrong",
@@ -1450,6 +2670,22 @@
         "warning_found": "exact",
         "wording": "n/a"
       }
+    },
+    {
+      "file": "Yellowstone_Back.jpg",
+      "seconds": 4.37,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
+    },
+    {
+      "file": "Yellowstone_Front.jpg",
+      "seconds": 3.075,
+      "machineDisposition": "NEEDS_REVIEW",
+      "oracleDisposition": null,
+      "summary": "Review needed",
+      "preparedForUpload": false
     }
   ]
 }

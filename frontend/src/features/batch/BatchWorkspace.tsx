@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from "react";
+import { analyzeWithinRateLimit } from "./rate-limit";
 
 import { createHistoryClient, type HistoryClient } from "../../api/history-client";
 import { VerificationClientError } from "../../api/verification-client";
@@ -142,7 +143,7 @@ export function BatchWorkspace({ initialFiles, batchName, verificationClient, hi
     patchGroup(id, (current) => ({ runStatus: "running", attempts: current.attempts + 1, error: null }));
     const t0 = performance.now();
     try {
-      const analysis = await verificationClient.analyze({ panels: files, signal: nextController.signal });
+      const analysis = await analyzeWithinRateLimit(() => verificationClient.analyze({ panels: files, signal: nextController.signal }), nextController.signal);
       const durationMs = performance.now() - t0;
       if (cancel.current || nextController.signal.aborted) patchGroup(id, { runStatus: "cancelled", durationMs });
       else if (analysis.verification) patchGroup(id, { analysis, result: analysis.verification, runStatus: "complete", durationMs });

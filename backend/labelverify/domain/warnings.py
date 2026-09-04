@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
+from dataclasses import dataclass
 from decimal import Decimal
 from difflib import SequenceMatcher
 
@@ -77,13 +79,15 @@ def warning_checks_across(
     bottle or glare hides a line in one photograph and shows it in the next. The same
     printed statement cannot differ between photographs, so a complete clean read on one
     panel outranks a partial or noisy read on another, and a statutory word read in place
-    on any panel is confirmed for the product. Punctuation stays with the reviewer: the
-    machine never clears it from a photograph.
+    on any panel is confirmed for the product as long as no panel contradicts it. Two
+    complete reads that disagree on a word are a review item: one product cannot carry two
+    statements, so either the images show two products or one read is wrong. Punctuation
+    stays with the reviewer: the machine never clears it from a photograph.
     """
 
     observations = [observed, *alternates]
-    # A fragment (an edge-cut heading) can complete the wording but cannot lead: the heading
-    # checks need a heading that was actually read.
+    # A fragment (an edge-cut heading) can complete the wording but cannot lead while any
+    # panel carries the heading: the heading checks need a heading that was actually read.
     leaders = [item for item in observations if item.heading] or [observed]
     evaluated = [
         (
@@ -102,9 +106,20 @@ def warning_checks_across(
     # max keeps the first of equal ranks, so the primary panel wins ties.
     best_observation, best = max(evaluated, key=lambda item: _wording_rank(_row(item[1])))
     wording = _row(best)
-    if best_observation.heading is None and wording.state == "Mismatch":
-        # Only a fragment of the statement was in view: its ends are missing by construction,
-        # so it cannot establish a wording difference on its own.
+    expected_words = warning_words(str(contracts().rules["warning"]["bodyExact"])).split()
+    best_alignment = _alignment(best_observation, expected_words) if best_observation.body else None
+    if not best_observation.heading and (
+        wording.reason_code == "warning_ocr_difference_uncertain"
+        or (
+            wording.state == "Mismatch"
+            and (best_alignment is None or len(best_alignment.covered) < 20)
+        )
+    ):
+        # Only a fragment of the statement was in view and the read is not clean, or it
+        # shows too little of the statute to establish a difference: what is missing is
+        # more likely outside the photograph than absent from the label. A clear
+        # substitution inside a substantial fragment stays a difference; the cut cannot
+        # invent words.
         wording = _result(
             "warning_wording",
             "Warning wording",
@@ -115,6 +130,69 @@ def warning_checks_across(
             observed=best_observation.body,
         ).model_copy(update={"evidence_ref": wording.evidence_ref})
         best = [wording if item.check_id == "warning_wording" else item for item in best]
+    if len(observations) > 1:
+        # A complete read on another image that has a different word where the statute
+        # has another disagrees with the best read, and a clean complete read on another
+        # image disagrees with a best read that has one: OCR drops and garbles words but
+        # does not compose different ones, so the images do not show one statement, and
+        # the outcome cannot depend on which photograph carried the heading.
+        others = [
+            (observation, _alignment(observation, expected_words))
+            for observation in observations
+            if observation is not best_observation
+            and observation.body
+            and len(_reader_words(observation)) >= len(expected_words) - 3
+        ]
+        disagreeing = None
+        if wording.state != "Mismatch":
+            shared = set(best_alignment.disagreements) if best_alignment is not None else set()
+            disagreeing = next(
+                (
+                    (observation, unshared[0], best_alignment)
+                    for observation, alignment in others
+                    if (
+                        unshared := [item for item in alignment.disagreements if item not in shared]
+                    )
+                ),
+                None,
+            )
+        elif best_alignment is not None and best_alignment.disagreements:
+            clean = next(
+                (
+                    alignment
+                    for _observation, alignment in others
+                    if not alignment.replaced and len(alignment.covered) >= len(expected_words) - 3
+                ),
+                None,
+            )
+            if clean is not None:
+                disagreeing = (best_observation, best_alignment.disagreements[0], clean)
+        if disagreeing is not None:
+            observation, (position, expected_word, actual_word), other_alignment = disagreeing
+            other_read_it = other_alignment is not None and position in other_alignment.covered
+            wording = _result(
+                "warning_wording",
+                "Warning wording",
+                "Review",
+                "warning_images_disagree",
+                f'The statement reads differently on two images: one reads "{actual_word}" '
+                + (
+                    f'where the statute and the other image have "{expected_word}"; '
+                    if other_read_it
+                    else f'where the statute has "{expected_word}"; '
+                )
+                + "confirm that the images show one product and read the statement on the label",
+                observed=observation.body,
+            ).model_copy(
+                update={
+                    "evidence_ref": (
+                        observation.body_evidence.evidence_id
+                        if observation.body_evidence
+                        else wording.evidence_ref
+                    )
+                }
+            )
+            return [wording if item.check_id == "warning_wording" else item for item in best]
     if len(observations) < 2 or wording.state == "Match":
         return best
     if wording.reason_code == "warning_punctuation_uncertain":
@@ -122,15 +200,14 @@ def warning_checks_across(
     readers = [observation for observation in observations if observation.body]
     if len(readers) < 2:
         return best
-    expected_words = warning_words(str(contracts().rules["warning"]["bodyExact"])).split()
+    alignments = [_alignment(observation, expected_words) for observation in readers]
+    # A word read differently on any image is a contradiction the other images cannot
+    # confirm away; the images must agree wherever they overlap.
+    if any(alignment.replaced for alignment in alignments):
+        return best
     covered: set[int] = set()
-    for observation in readers:
-        actual_words = warning_words(warning_text(observation.body or "")).split()
-        for tag, expected_start, expected_end, _start, _end in SequenceMatcher(
-            None, expected_words, actual_words, autojunk=False
-        ).get_opcodes():
-            if tag == "equal":
-                covered.update(range(expected_start, expected_end))
+    for alignment in alignments:
+        covered.update(alignment.covered)
     if len(covered) < len(expected_words):
         return best
     confirmed = _result(
@@ -150,6 +227,20 @@ def warning_checks_across(
 
 def _row(checks: list[CheckResult]) -> CheckResult:
     return next(item for item in checks if item.check_id == "warning_wording")
+
+
+def _reader_words(observation: WarningObservation) -> list[str]:
+    return warning_words(warning_text(observation.body or "")).split()
+
+
+def _alignment(observation: WarningObservation, expected_words: list[str]) -> _Alignment:
+    actual_words = _reader_words(observation)
+    starts, ends = _line_edges(
+        observation.body_lines,
+        lambda line: warning_words(warning_text(line)).split(),
+        len(actual_words),
+    )
+    return _align(actual_words, expected_words, starts, ends)
 
 
 def _wording_rank(check: CheckResult) -> int:
@@ -253,6 +344,7 @@ def warning_checks(
     comparable_expected_body = expected_body.casefold()
 
     body_ref = body_evidence.evidence_id if body_evidence else None
+    fragment = bool(actual_body) and not actual_heading
     if not actual_body:
         wording = _result(
             "warning_wording",
@@ -307,7 +399,9 @@ def warning_checks(
                 ),
                 observed=actual_body,
             ).model_copy(update={"evidence_ref": body_ref})
-    elif _material_wording_difference(actual_body, expected_body, body_evidence):
+    elif _material_wording_difference(
+        actual_body, expected_body, body_evidence, observed.body_lines
+    ):
         wording = _result(
             "warning_wording",
             "Warning wording",
@@ -329,7 +423,9 @@ def warning_checks(
             observed=actual_body,
         ).model_copy(update={"evidence_ref": body_evidence.evidence_id if body_evidence else None})
 
-    if not actual_heading:
+    if fragment:
+        heading_case = _not_in_view("warning_heading_uppercase", "Warning heading uppercase")
+    elif not actual_heading:
         heading_case = _result(
             "warning_heading_uppercase",
             "Warning heading uppercase",
@@ -408,7 +504,9 @@ def warning_checks(
         applicability,
         wording,
         heading_case,
-        _presentation(
+        _not_in_view("warning_heading_emphasis", "Warning heading emphasis")
+        if fragment
+        else _presentation(
             "warning_heading_emphasis",
             "Warning heading emphasis",
             observed.heading_bold,
@@ -432,7 +530,9 @@ def warning_checks(
             ),
             failure_requires_review=True,
         ),
-        _presentation(
+        _not_in_view("warning_separation", "Warning separation")
+        if fragment
+        else _presentation(
             "warning_separation",
             "Warning separation",
             observed.separated,
@@ -475,6 +575,21 @@ def warning_checks(
     ]
 
 
+def _not_in_view(check_id: str, label: str) -> CheckResult:
+    """A fragment shows body text without its heading: the heading's weight and the block's
+    separation from the text around it are outside the photograph."""
+
+    return _result(
+        check_id,
+        label,
+        "Not verified",
+        "warning_heading_not_in_view",
+        "The heading is outside the image, so this cannot be judged from it; add a "
+        "photograph that shows the whole statement",
+        capability="visual_heuristic",
+    )
+
+
 def _required_type_size_mm(net_contents_value: Decimal, net_contents_unit: str) -> Decimal:
     milliliters = reference_volume_ml(net_contents_value, net_contents_unit)
     if milliliters > Decimal("3000"):
@@ -484,7 +599,12 @@ def _required_type_size_mm(net_contents_value: Decimal, net_contents_unit: str) 
     return Decimal("1")
 
 
-def _material_wording_difference(actual: str, expected: str, evidence: Evidence | None) -> bool:
+def _material_wording_difference(
+    actual: str,
+    expected: str,
+    evidence: Evidence | None,
+    body_lines: tuple[str, ...] = (),
+) -> bool:
     confidence = (
         evidence.confidence_provenance.signal
         if evidence is not None and evidence.confidence_provenance.signal is not None
@@ -499,8 +619,11 @@ def _material_wording_difference(actual: str, expected: str, evidence: Evidence 
     similarity = SequenceMatcher(None, actual_words, expected_words, autojunk=False).ratio()
     missing_second_clause = "(2)" not in warning_text(actual)
     expected_first_clause = punctuation_folded(expected.split("(2)", maxsplit=1)[0])
+    # A first clause read in full with nothing after it is a label missing its second
+    # clause; a read that stops inside the first clause is a photograph that cut it short.
     first_clause_is_clear = (
         missing_second_clause
+        and len(actual_words.split()) >= len(expected_first_clause.split()) * 0.9
         and SequenceMatcher(
             None,
             actual_words,
@@ -516,11 +639,120 @@ def _material_wording_difference(actual: str, expected: str, evidence: Evidence 
     )
     if _truncated_read(actual_words, expected_words) and not first_clause_is_clear:
         return False
+    # A read of fewer than three words ("2105900750" under a heading, a lone line) is not
+    # wording that can be judged; the statement was not read.
+    if sum(1 for token in actual_words.split() if any(c.isalpha() for c in token)) < 3:
+        return False
+    if _garbled_read(actual_words.split(), expected_words.split(), body_lines):
+        return False
+    starts, ends = _line_edges(
+        body_lines,
+        lambda line: punctuation_folded(warning_text(line)).split(),
+        len(actual_words.split()),
+    )
     return (
-        _has_clear_word_substitution(actual_words, expected_words)
+        _has_clear_word_substitution(actual_words, expected_words, starts, ends)
         or first_clause_is_clear
         or (similarity < 0.75 and expected_token_overlap < 0.6)
     )
+
+
+def _garbled_read(
+    actual_tokens: list[str], expected_tokens: list[str], body_lines: tuple[str, ...]
+) -> bool:
+    """A read whose damage is made of the statutory words themselves.
+
+    A curved surface, glare, or a cut leaves statutory words glued together
+    ("consumptionof", "1according"), broken so that only the end of a word remains
+    ("coholic", "mpairs"), or scattered over one- and two-word lines. Such a read is not
+    readable wording: the words of the statute are there, in pieces, and only a reviewer
+    can tell what is printed. Text that says something else is made of whole words, and an
+    inflected or shortened real word ("drinking", "alcohol") is a whole word, so it is
+    judged as a difference.
+    """
+
+    vocabulary = frozenset(token for token in expected_tokens if len(token) >= 2)
+    long_words = [token for token in expected_tokens if len(token) >= 4]
+    damaged = 0
+    for token in actual_tokens:
+        if token in expected_tokens or len(token) < 3:
+            continue
+        if _glued_statutory_words(token, vocabulary) or _end_of_statutory_word(token, long_words):
+            damaged += 1
+    return damaged >= 3 or bool(actual_tokens and damaged / len(actual_tokens) >= 0.2)
+
+
+def _glued_statutory_words(token: str, vocabulary: frozenset[str]) -> bool:
+    """Two or more statutory words fused into one token, a clause marker fused to its
+    word, or a stray leading character fused to a statutory word."""
+
+    letters = token.lstrip("0123456789")
+    marker = len(letters) < len(token)
+    if not letters or len(letters) > 40:
+        # Nothing on a label fuses more than a few words; a very long token is noise.
+        return False
+    words = _statutory_segments(letters, vocabulary)
+    if words >= 2 or (marker and words >= 1):
+        return True
+    # A stray character read onto the front of a word ("hproblems"); a trailing letter is
+    # an inflection ("drinks") and is left alone.
+    return len(letters) >= 5 and letters[1:] in vocabulary
+
+
+def _statutory_segments(text: str, vocabulary: frozenset[str]) -> int:
+    """The number of statutory words that tile the text, allowing one leftover character at
+    either end; -1 when no tiling exists."""
+
+    def tile(remaining: str, leftover_allowed: bool) -> int:
+        if not remaining:
+            return 0
+        if len(remaining) == 1 and leftover_allowed:
+            return 0
+        best = -1
+        for end in range(2, len(remaining) + 1):
+            if remaining[:end] in vocabulary:
+                rest = tile(remaining[end:], leftover_allowed)
+                if rest >= 0:
+                    best = max(best, rest + 1)
+        return best
+
+    direct = tile(text, True)
+    if direct >= 0:
+        return direct
+    # One stray character at the start.
+    return tile(text[1:], False) if len(text) > 1 else -1
+
+
+def _end_of_statutory_word(token: str, long_words: list[str]) -> bool:
+    """The tail of a statutory word without its start ("ccording", "eral"): the start of a
+    word can be cut by an edge or a glare, and such a tail is not a word of its own."""
+
+    return any(
+        word != token and word.endswith(token) and not word.startswith(token) for word in long_words
+    )
+
+
+def _line_edges(
+    lines: tuple[str, ...], tokenize: Callable[[str], list[str]], total: int
+) -> tuple[frozenset[int], frozenset[int]]:
+    """Indexes of the words that start and end a read line.
+
+    Only these can be cut by the edge of the photograph. Without the line structure, or when
+    the lines do not account for every word, only the ends of the whole read qualify.
+    """
+
+    counts = [len(tokenize(line)) for line in lines]
+    if not lines or sum(counts) != total:
+        return frozenset({0}), frozenset({max(0, total - 1)})
+    starts: set[int] = set()
+    ends: set[int] = set()
+    position = 0
+    for count in counts:
+        if count:
+            starts.add(position)
+            ends.add(position + count - 1)
+            position += count
+    return frozenset(starts), frozenset(ends)
 
 
 def _edge_cut_heading(actual: str, expected: str) -> bool:
@@ -603,7 +835,26 @@ def _clear_terminal_punctuation_difference(
 _FRAGMENT_DELETIONS = 6
 
 
-def _has_clear_word_substitution(actual: str, expected: str) -> bool:
+@dataclass(frozen=True)
+class _Alignment:
+    """How a read lines up with the statute, word by word."""
+
+    clear: int
+    noisy: int
+    deleted: int
+    replaced: int
+    # Replacements by a different word, beyond what damaged characters explain: the
+    # statute position, the statutory word, and the word read.
+    disagreements: tuple[tuple[int, str, str], ...]
+    covered: frozenset[int]
+
+
+def _has_clear_word_substitution(
+    actual: str,
+    expected: str,
+    line_starts: frozenset[int] = frozenset({0}),
+    line_ends: frozenset[int] | None = None,
+) -> bool:
     """A word replaced, dropped, or added in an otherwise cleanly read statement.
 
     One clearly different word is decisive only when the rest of the read is clean. A read
@@ -618,26 +869,64 @@ def _has_clear_word_substitution(actual: str, expected: str) -> bool:
 
     actual_tokens = actual.split()
     expected_tokens = expected.split()
+    if line_ends is None:
+        line_ends = frozenset({max(0, len(actual_tokens) - 1)})
+    alignment = _align(actual_tokens, expected_tokens, line_starts, line_ends)
+    # A read missing this many statutory words is a fragment (a label cut by the edge of
+    # the photograph loses the start or end of every line), not a label with words left out.
+    if alignment.deleted >= _FRAGMENT_DELETIONS:
+        return False
+    return alignment.clear >= 1 and alignment.clear > alignment.noisy
+
+
+def _align(
+    actual_tokens: list[str],
+    expected_tokens: list[str],
+    line_starts: frozenset[int],
+    line_ends: frozenset[int],
+) -> _Alignment:
+    """Count the clear and noisy differences between a read and the statute.
+
+    A word at the start or end of a read line can be cut by the edge of the photograph, so
+    a fragment of the statutory word there, or a word missing beside a line edge, is noise;
+    the same difference inside a line is a substitution or an omission.
+    """
+
     differences = SequenceMatcher(
         None, expected_tokens, actual_tokens, autojunk=False
     ).get_opcodes()
     clear = 0
     noisy = 0
     deleted = 0
+    replaced = 0
+    disagreements: list[tuple[int, str, str]] = []
+    covered: set[int] = set()
     equal_positions = [index for index, opcode in enumerate(differences) if opcode[0] == "equal"]
     first_equal = equal_positions[0] if equal_positions else len(differences)
     last_equal = equal_positions[-1] if equal_positions else -1
+
+    def at_edge(index: int) -> bool:
+        return index in line_starts or index in line_ends
+
     for position, (tag, expected_start, expected_end, actual_start, actual_end) in enumerate(
         differences
     ):
         if tag == "equal":
+            covered.update(range(expected_start, expected_end))
             continue
         expected_run = expected_tokens[expected_start:expected_end]
         actual_run = actual_tokens[actual_start:actual_end]
         if tag == "replace" and len(expected_run) == len(actual_run):
-            for expected_word, actual_word in zip(expected_run, actual_run, strict=True):
-                if _clearly_different_word(expected_word, actual_word):
+            for offset, (expected_word, actual_word) in enumerate(
+                zip(expected_run, actual_run, strict=True)
+            ):
+                if _clearly_different_word(
+                    expected_word, actual_word, at_edge=at_edge(actual_start + offset)
+                ):
                     clear += 1
+                    replaced += 1
+                    if _different_word(expected_word, actual_word):
+                        disagreements.append((expected_start + offset, expected_word, actual_word))
                 else:
                     noisy += 1
             continue
@@ -647,27 +936,99 @@ def _has_clear_word_substitution(actual: str, expected: str) -> bool:
             # more than one mean the read merged or skipped words, which is noise.
             if abs(len(expected_run) - len(actual_run)) > 1:
                 noisy += max(len(expected_run), len(actual_run))
-            elif _clearly_different_word("".join(expected_run), "".join(actual_run)):
+            elif _clearly_different_word(
+                "".join(expected_run),
+                "".join(actual_run),
+                at_edge=any(at_edge(index) for index in range(actual_start, actual_end)),
+            ):
                 clear += 1
+                replaced += 1
+                if _different_word("".join(expected_run), " ".join(actual_run)):
+                    disagreements.append(
+                        (expected_start, " ".join(expected_run), " ".join(actual_run))
+                    )
             else:
                 noisy += 1
             continue
         # A single statutory word missing from the middle of the read is an omission; a run
-        # of three or more missing words is a line the read skipped, which is noise.
+        # of three or more missing words is a line the read skipped, which is noise, and so
+        # is a word missing where a read line begins or ends.
         interior = first_equal < position < last_equal
         run = expected_run if tag == "delete" else actual_run
         if tag == "delete":
             deleted += len(run)
+            beside_edge = actual_start in line_starts or (actual_start - 1) in line_ends
+        else:
+            beside_edge = any(at_edge(index) for index in range(actual_start, actual_end))
         for word in run:
-            if interior and len(word) >= 3 and len(run) < 3:
+            if interior and len(word) >= 3 and len(run) < 3 and not beside_edge:
                 clear += 1
             else:
                 noisy += 1
-    # A read missing this many statutory words is a fragment (a label cut by the edge of
-    # the photograph loses the start or end of every line), not a label with words left out.
-    if deleted >= _FRAGMENT_DELETIONS:
+    return _Alignment(clear, noisy, deleted, replaced, tuple(disagreements), frozenset(covered))
+
+
+def _different_word(expected: str, actual: str) -> bool:
+    """A word that is another word, not a damaged reading of the expected one.
+
+    OCR garbles characters but does not compose words: "rjsx" for "risk" is damage, "may"
+    for "should not" is a different statement. More than half the letters changed is the
+    line between them.
+    """
+
+    words = actual.split()
+    if not words or any(
+        word not in _statute_vocabulary() and word not in _FUNCTION_WORDS for word in words
+    ):
+        # "tlie", "riot", "rnay": damaged characters, not another word.
         return False
-    return clear >= 1 and clear > noisy
+    if len(expected) < 3 or any(len(word) < 3 for word in words):
+        # Two-letter words are one slip away from each other ("to", "the", "of").
+        return False
+    return _edit_distance(expected, "".join(words)) > len(expected) / 2
+
+
+_FUNCTION_WORDS = frozenset(
+    [
+        "a",
+        "an",
+        "and",
+        "or",
+        "of",
+        "to",
+        "the",
+        "not",
+        "no",
+        "may",
+        "in",
+        "on",
+        "at",
+        "by",
+        "for",
+        "with",
+        "from",
+        "is",
+        "are",
+        "be",
+        "will",
+        "shall",
+        "can",
+        "must",
+        "should",
+        "could",
+        "would",
+        "do",
+        "does",
+        "never",
+        "always",
+        "any",
+        "all",
+    ]
+)
+
+
+def _statute_vocabulary() -> frozenset[str]:
+    return frozenset(warning_words(str(contracts().rules["warning"]["bodyExact"])).split())
 
 
 def _truncated_read(actual: str, expected: str) -> bool:
@@ -686,7 +1047,7 @@ def _truncated_read(actual: str, expected: str) -> bool:
     return SequenceMatcher(None, actual, prefix, autojunk=False).ratio() >= 0.8
 
 
-def _clearly_different_word(expected: str, actual: str) -> bool:
+def _clearly_different_word(expected: str, actual: str, *, at_edge: bool = False) -> bool:
     """A word substitution that OCR character noise cannot explain.
 
     One damaged character in a short word ("may" read as "ney") or two in a long one
@@ -695,9 +1056,12 @@ def _clearly_different_word(expected: str, actual: str) -> bool:
     """
 
     # A word cut by the edge of the photograph arrives as a fragment of the statutory word
-    # ("ccording", "eral", "ould"); a deliberate change of wording does not.
+    # ("ccording", "eral", "ould"); only a word at the start or end of a read line can be
+    # cut, so the same fragment inside a line ("alcohol" for "alcoholic beverages") is a
+    # change of wording.
     if (
-        len(actual) >= 3
+        at_edge
+        and len(actual) >= 3
         and len(actual) < len(expected)
         and (expected.startswith(actual) or expected.endswith(actual))
     ):

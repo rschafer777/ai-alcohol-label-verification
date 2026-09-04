@@ -110,8 +110,8 @@ def execute_pipeline(job: PipelineJob, adapter: ExtractionPort) -> VerificationR
         decoded.append(panel)
     decode_ms = _elapsed_ms(stage_started)
 
-    public_panels, observed, preprocess_ms, ocr_ms, candidates_ms = _extract_observed(
-        decoded, adapter
+    public_panels, observed, preprocess_ms, ocr_ms, candidates_ms, recovery_skipped = (
+        _extract_observed(decoded, adapter)
     )
 
     stage_started = time.perf_counter()
@@ -179,8 +179,8 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
         cumulative_pixels += panel.pixels
         decoded.append(panel)
     decode_ms = _elapsed_ms(stage_started)
-    public_panels, observed, preprocess_ms, ocr_ms, candidates_ms = _extract_observed(
-        decoded, adapter
+    public_panels, observed, preprocess_ms, ocr_ms, candidates_ms, recovery_skipped = (
+        _extract_observed(decoded, adapter)
     )
     beverage_type, confidence, reason, conflicting = _infer_beverage_type(observed)
     inference = beverage_inference(beverage_type, confidence, reason, conflicting=conflicting)
@@ -270,6 +270,7 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
             "Physical warning type size is not verified without reliable scale",
             "Formula, chemistry, permit, state-law, and origin truth require independent records",
             "Label-derived values do not establish agreement with an independent COLA application",
+            *([RECOVERY_SKIPPED_LIMITATION] if recovery_skipped else []),
         ],
         summary=summary,
         beverageInference=inference,
@@ -294,14 +295,28 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
             "Detected values came from label images and are not independent application data",
             "Review the beverage type and any uncertain field before recording a disposition",
             "Formula, chemistry, permit, state-law, and physical-scale facts need other evidence",
+            *([RECOVERY_SKIPPED_LIMITATION] if recovery_skipped else []),
         ],
         verification=verification,
     )
 
 
+# OCR time the first pass may use before the second read is skipped. Recognition cost
+# grows with the number of text lines; a dense back label carries thirty or more small
+# lines and its first pass alone takes five seconds, so a second read of the same density
+# would carry the request past the nine-second hard-case budget and toward the worker
+# deadline. The result says when the second read was skipped.
+_RECOVERY_OCR_BUDGET_MS = 4000.0
+RECOVERY_SKIPPED_LIMITATION = (
+    "The second, closer read was skipped because the first read of this dense label used "
+    "the time budget; fields it might have recovered are reported as not verified, so add "
+    "a closer photograph of the statement or the missing field"
+)
+
+
 def _extract_observed(
     decoded: list[DecodedPanel], adapter: ExtractionPort
-) -> tuple[list[PanelResult], ObservedCandidates, float, float, float]:
+) -> tuple[list[PanelResult], ObservedCandidates, float, float, float, bool]:
     preprocess_started = time.perf_counter()
     ocr_panels, result_panels = _deduplicate_visual_panels(decoded)
     views = [view for panel in ocr_panels for view in create_ocr_views(panel)]
@@ -340,7 +355,8 @@ def _extract_observed(
     preprocess_started = time.perf_counter()
     recovery_views = _recovery_views(ocr_panels, observed)
     preprocess_ms += _elapsed_ms(preprocess_started)
-    if recovery_views:
+    recovery_skipped = bool(recovery_views) and ocr_ms > _RECOVERY_OCR_BUDGET_MS
+    if recovery_views and not recovery_skipped:
         ocr_started = time.perf_counter()
         try:
             recovery_lines = adapter.extract(recovery_views)
@@ -351,7 +367,7 @@ def _extract_observed(
         lines = deduplicate_ocr_lines([*lines, *recovery_lines])
         observed = locate_candidates(lines, public_panels)
         candidates_ms += _elapsed_ms(candidates_started)
-    return public_panels, observed, preprocess_ms, ocr_ms, candidates_ms
+    return public_panels, observed, preprocess_ms, ocr_ms, candidates_ms, recovery_skipped
 
 
 # Focused re-reads per request: two per panel, three per product, warning crops first.
@@ -561,6 +577,9 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
                     warning_anchor,
                     heading_anchor,
                     body_complete=_warning_body_complete(panel_warning),
+                    anchor_lines=(
+                        1 if panel_warning.heading else max(1, len(panel_warning.body_lines))
+                    ),
                 )
             )
         elif warning.heading is None:
@@ -635,10 +654,26 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
                 )
         # At most two focused reads per panel keep the second pass inside the time budget.
         recovery.extend(panel_views[:_MAX_PANEL_RECOVERY_VIEWS])
+    # A sliver of a crop (an anchor on a vertical or misread line) carries no readable
+    # region and costs seconds of recognition on stretched text.
+    recovery = [view for view in recovery if _usable_view(view)]
     # Across a multi-panel product the warning re-reads come first and the total stays
     # inside three views so a two-panel request keeps its latency budget.
     recovery.sort(key=lambda view: 0 if "warning-detail" in view.transform_id else 1)
     return recovery[:_MAX_RECOVERY_VIEWS]
+
+
+# The narrowest side a second-read crop may have, and the most it may stretch.
+_MIN_RECOVERY_SIDE_PX = 160
+_MAX_RECOVERY_ASPECT = 8.0
+
+
+def _usable_view(view: ImageView) -> bool:
+    height, width = view.image.shape[:2]
+    shortest = min(width, height)
+    return (
+        shortest >= _MIN_RECOVERY_SIDE_PX and max(width, height) <= _MAX_RECOVERY_ASPECT * shortest
+    )
 
 
 def _warning_body_complete(warning: WarningObservation) -> bool:
@@ -679,17 +714,19 @@ def _warning_detail_view(
     heading_anchor: tuple[int, int, int, int],
     *,
     body_complete: bool,
+    anchor_lines: int = 1,
 ) -> ImageView:
     """Crop the statement region at up to twice its native size for a second read.
 
-    The heading height is the scale unit. A body that is still short of the statutory word
-    count is extended well below the last line read, so lines the first pass missed are
-    inside the crop; a complete body only gets a small margin.
+    The heading height is the scale unit; a fragment has no heading, so its body anchor is
+    divided by the number of lines it holds. A body that is still short of the statutory
+    word count is extended well below the last line read, so lines the first pass missed
+    are inside the crop; a complete body only gets a small margin.
     """
 
     left, top, right, bottom = anchor
     width = max(1, right - left)
-    line_height = max(4, heading_anchor[3] - heading_anchor[1])
+    line_height = max(4, round((heading_anchor[3] - heading_anchor[1]) / max(1, anchor_lines)))
     margin_x = max(round(width * 0.15), round(panel.width * 0.02))
     extend_below = round(line_height * 1.5) if body_complete else line_height * 12
     return create_crop_ocr_view(
@@ -855,7 +892,11 @@ def _net_components(value: str | None) -> tuple[float | None, VolumeUnit | None]
         canonical = "gal"
     else:
         canonical = "mL"
-    return float(match.group(1)), canonical
+    quantity = float(match.group(1))
+    if quantity <= 0:
+        # A zero quantity is a misread digit, not a statement of contents.
+        return None, None
+    return quantity, canonical
 
 
 def _decimal_float(value: Decimal | None) -> float | None:

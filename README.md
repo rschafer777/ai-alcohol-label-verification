@@ -139,7 +139,7 @@ npm run test:e2e
 Pop-Location
 ```
 
-The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 76 accepted images plus 2 skipped JSON files (the disposition oracle and the pixel ground truth). The production multipart API processed all 76 images and all 48 server-suggested product groups. Individual-image mean latency was 3.573 seconds on the development workstation, p95 was 5.186 seconds, and the maximum was 6.206 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
+The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 221 accepted images plus 2 skipped JSON files (the disposition oracle and the pixel ground truth). The production multipart API processed all 221 images and all 152 server-suggested product groups. Individual-image mean latency was 3.997 seconds on the development workstation, p95 was 6.748 seconds, and the maximum was 7.874 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
 
 The disposition oracle covers 42 images and the pixel-level ground truth covers 70 current filenames; `scripts/score_ground_truth.py` scores the production path against both. The current result is 0 false rejects, 1 disputed false clean (an oracle row contradicted by the pixels), 65 of 65 alcohol contents, 64 of 64 net contents, 68 of 70 beverage types, and 61 of 70 brand names read exactly or within a longer line; the full table is in `docs/08-validation/VALIDATION_RESULTS.md`. The ground truth was read by people from the pixels and is not an independent COLA record.
 
@@ -216,6 +216,7 @@ The UI label `Approve` records a reviewer's prototype disposition. It does not a
 - The 500-record FIFO is global within the single-instance demo. A busy browser scope can therefore evict the oldest record created by another scope even though record access remains scope-isolated.
 - Selecting the maximum 900-image batch keeps browser `File` objects and preview URLs in memory while the workspace is open. Server requests remain bounded, but practical browser memory depends on the operator workstation and image sizes.
 - The prototype supports one active OCR job and one Azure replica. It is designed for functional evaluation, not production multi-user scale.
+- Dense back labels photographed on curved glass carry thirty or more small lines of text, and recognizing them on the first pass alone takes about five seconds. When that first read has used the time budget, the second, closer read is skipped, the result says so in its limitations, and fields the second read might have recovered stay not verified; add a closer photograph of the statement or the missing field. The API meters verification starts per client and per minute, and the batch runner waits out that limit rather than failing a product.
 - Initial dependency and model setup needs package and artifact access unless an approved offline bundle is prepared. Label processing itself has no runtime cloud inference dependency.
 
 ## Documentation

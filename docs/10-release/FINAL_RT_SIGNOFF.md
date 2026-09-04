@@ -52,3 +52,25 @@ Field-level scores, oracle coverage, disputed observations, and limitations are 
 ## Post-clearance documentation amendment
 
 After the three clearances, FR-021 and FR-027 in the feature requirements and the matching traceability rows were amended to state the evidence viewer's wheel zoom, drag panning, keyboard controls, and view switcher placement, and the batch grouping step's confirmed count, filter, one-step confirmation, locked-run reason, and tooltips. No application code changed; the deployed application commit is unchanged. The release manifest was regenerated for this documentation tree and now has SHA-256 `d377712b8a56dd30a6dc9415e20b6535ba12d010b026c3c71a8b0a2d140a84b3`.
+
+## Corrective candidate after the store-photograph corpus (2026-09-04)
+
+After the clearance above, the multi-image warning read was reviewed by an independent architecture red team, and the operator added 145 store photographs to the private folder (221 images in all). Four adversarial review rounds followed, each on a frozen copy of the working tree and each measured against the committed candidate rather than inferred from reading; every round returned NOT CLEAR until its findings were corrected, and the corrections of one round were the subject of the next. The defects found and corrected, all of them in extraction or warning rules, are recorded in `../07-development/IMPLEMENTATION_RECORD.md` and the resulting policies in `../08-validation/REGULATORY_VALIDATION.md`: a class word inside a name no longer hides the brand, a sentence-case designation is the class, word fragments and missing words count as edge cuts only at the ends of a read line, an edge-cut opening must be the statutory opening and never outranks a heading, a fragment reports what it cannot see, a second image cannot confirm away or be erased by a contradicting read, a garbled read of the statute is a review item while replacement text is a difference, a read cut inside the first clause is not a missing second clause, medium-gray type read with confidence is a contrast review item rather than a rejection, designations with region or varietal words are never the brand, and zero net-contents quantities are dropped. The store photographs also set a time budget: the second, closer OCR read is skipped when the first pass has used four seconds, a sliver of a crop is never read, and the batch runner and the end-to-end script wait out the API's per-minute start limit.
+
+| Gate | Result |
+| --- | --- |
+| Python tests | PASS, 370 tests |
+| Python lint and strict typing | PASS |
+| Frontend tests | PASS, 35 tests in 6 files |
+| Frontend lint, type check, and production build | PASS |
+| Governed product corpus | PASS, 30 of 30 cases and 576 of 576 expected check rows |
+| Mutation controls | PASS, 8 of 8 with 0 false-clean outcomes |
+| Ground truth and disposition oracle | 0 false rejects, 1 disputed false clean, 6 of 42 oracle dispositions exact, over 221 images |
+| Private individual-image technical UAT | PASS, 221 of 221 API runs |
+| Private grouped-product technical UAT | PASS, 152 of 152 API runs, no group above 3 images |
+| Private individual-image timing | PASS, 3.997-second mean, 6.748-second p95, and 7.874-second maximum |
+| Private grouped-product timing | PASS, 1.014-second mean and 6.607-second maximum |
+| Warm and cold processing timing | PASS |
+| Sequential batch timing | PASS |
+
+The fourth review's remaining findings were review-direction or documentation items and were corrected in the same candidate; no finding that changes a compliant label into a difference remains open. The release manifest was regenerated for this candidate from the staged tree and validated before the commit that carries this section. Protected Azure deployment of this candidate and requester UAT follow.

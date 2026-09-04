@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import logging
 import os
 import re
 from collections import OrderedDict
@@ -43,6 +44,8 @@ _MIN_LETTER_COMPONENTS = 3
 _MIN_FOREGROUND_FRACTION = 0.02
 _MAX_FOREGROUND_FRACTION = 0.65
 _COLLAPSED_WARNING_HEADING = re.compile(r"^governmentwarning\s*:$", re.I)
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class ModelIntegrityError(RuntimeError):
@@ -150,6 +153,9 @@ class RapidOcrAdapter:
                 except ValueError:
                     # The detector can return a collapsed box on dense or stretched type;
                     # it carries no readable region and must not fail the whole request.
+                    _LOGGER.warning(
+                        "dropped a collapsed text box on %s (%r)", view.transform_id, text
+                    )
                     continue
                 recognized_text = _restore_warning_separator(str(text), view.image, box)
                 metrics = text_metrics(view.image, box)

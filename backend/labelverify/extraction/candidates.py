@@ -20,6 +20,7 @@ from labelverify.domain.normalize import (
     is_domestic_origin,
     looks_like_domestic_location,
     parse_volume_ml,
+    warning_words,
     whitespace,
 )
 from labelverify.domain.types import ObservedCandidates, WarningObservation
@@ -50,6 +51,15 @@ _WINE_DESIGNATIONS = (
     r"gr[uü]ner\s+veltliner|albari[nñ]o|carm[eé]n[eè]re|pinotage|chenin\s+blanc|s[eé]millon|"
     r"petite\s+sirah|petit\s+verdot|meritage|viognier|(?:red|white|ros[eé]|table|dessert|"
     r"sparkling|fortified)\s+wine"
+)
+# A wine designation or varietal that opens a line names the wine ("Chianti Rufina",
+# "Moscato d'Asti", "Malbec Mendoza"): the words after it are its region or its style.
+_WINE_FIRST = re.compile(
+    r"^(?:merlot|cabernet|chardonnay|pinot|riesling|sauvignon|zinfandel|syrah|shiraz|"
+    r"muscat|sangiovese|malbec|tempranillo|grenache|prosecco|moscato|"
+    + _WINE_DESIGNATIONS
+    + r")\b",
+    re.I,
 )
 # Beer styles that appear as the class or type statement on craft labels.
 _BEER_STYLES = (
@@ -148,11 +158,15 @@ _COUNTRY_NAMES = re.compile(
 # The heading with its last letter tolerated missing: a photograph of a curved label often
 # loses the edge of the line ("GOVERNMENT WARNIN").
 _WARNING = re.compile(r"government\s+warnin(?:g)?\s*:?", re.I)
-# A heading cut at its start ("...ERNMENT WARNING: (1) ACCORDING"): only counted when the
-# statutory opening follows, so a "Proposition 65 warning" or a cautionary note never
-# passes as the federal statement. Such a line anchors a body fragment without a heading.
+# A heading cut at its start ("...ERNMENT WARNING: (1) ACCORDING TO THE SURGEON"): only
+# counted when the statutory opening follows, so a "Proposition 65 warning", a brewer's
+# note, or any other cautionary line never passes as the federal statement. Such a line
+# anchors a body fragment without a heading.
 _WARNING_EDGE = re.compile(
-    r"(?:[a-z]{0,10}ment\s+)?warning\s*:?\s*(?=[(\[]?\s*1[)\]]?\s*accord)", re.I
+    r"(?:[a-z]{0,10}ment\s+)?warning\s*:?\s*"
+    r"(?=[(\[]?\s*1[)\]]?\s*accord\w*(?:\s+to(?:\s+th\w*(?:\s+surg|[\s.,;:|-]*$)|[\s.,;:|-]*$)|"
+    r"[\s.,;:|-]*$))",
+    re.I,
 )
 # Appellations of origin under 27 CFR 4.25: the United States, a state, a county, a
 # recognized viticultural area, or a foreign country or region named by an origin statement.
@@ -183,6 +197,14 @@ _WARNING_BODY_TERM = re.compile(
     r"pregnancy|risk|birth|defects|consumption|impairs|ability|drive|car|"
     r"operate|machinery|cause|health|problems)\b",
     re.I,
+)
+# Every word of the statutory statement, including the short ones.
+_STATUTE_SEQUENCE = tuple(warning_words(str(contracts().rules["warning"]["bodyExact"])).split())
+# Every two- and three-word run of the statement in its order.
+_STATUTE_RUNS = frozenset(
+    _STATUTE_SEQUENCE[start : start + size]
+    for size in (2, 3)
+    for start in range(len(_STATUTE_SEQUENCE) - size + 1)
 )
 _WARNING_BODY_WORDS = {
     "according",
@@ -223,6 +245,10 @@ _NON_BRAND_CONTEXT = re.compile(
     r"\bdrink\b.{0,30}\bproud\b|\b[a-z]+\s+proud\b|"
     r"\bmore\s+flavou?r\b|\bmoref[a-z]{0,5}\b|"
     r"\bwithout\s+manners\b|"
+    r"\b(?:notes?|aromas?|hints?|flavou?rs?)\s+of\b|\bon\s+the\s+(?:palate|nose)\b|"
+    r"\bbest\s+served\b|\bserved?\s+(?:chilled|cold|neat|warm|over\s+ice)\b|"
+    r"\bkeep\s+(?:refrigerated|cold|frozen)\b|\bshake\s+well\b|"
+    r"\b(?:long|smooth|lingering)\s+finish\b|"
     r"\bfrom\s+(?:certified\s+)?(?:organic\s+)?(?:sugar\s+cane|grapes?|grain|corn|fruit)\b|"
     r"\b(?:orange|lemon|lime|citrus)\s+peel\b|"
     r"\bhoney\s+and\s+spices?\b|"
@@ -234,6 +260,37 @@ _NON_BRAND_CONTEXT = re.compile(
     r"https?://|www\.|\.(?:com|org|net)\b)",
     re.I,
 )
+# A color statement ("CARAMEL COLOR ADDED", "ARTIFICIALLY COLORED") is a mandatory
+# statement, and a line opening with a long number is a code, a lot, or a barcode read.
+_COLOR_STATEMENT = re.compile(
+    r"\b(?:caramel\s+colou?r|colou?r(?:ing)?\s+added|artificial(?:ly)?\s+colou?r(?:ed)?|"
+    r"certified\s+colou?rs?|with\s+caramel)\b",
+    re.I,
+)
+_CODE_PREFIX = re.compile(r"^\s*\d{5,}\b")
+_ORIGIN_COPY = re.compile(
+    r"\b(?:born|made|crafted|distilled|brewed|produced|founded)\s+in\s+(?:the\s+)?(.{3,40})",
+    re.I,
+)
+
+
+def _origin_copy(value: str) -> bool:
+    """ "BORN IN SAN FRANCISCO IN 1992" is origin copy; "BORN IN A BARN" is a name, because
+    nothing after "in" is a place."""
+
+    match = _ORIGIN_COPY.search(value)
+    if match is None:
+        return False
+    place = match.group(1)
+    # A place the vocabulary knows, a state code, or a year date the copy.
+    return (
+        bool(_COUNTRY.search(place))
+        or bool(US_STATE_CODE.search(place))
+        or bool(re.search(r"\b(?:18|19|20)\d{2}\b", value))
+        or any(looks_like_domestic_location(token) for token in re.findall(r"[A-Za-z]{3,}", place))
+    )
+
+
 _LOCATION_INTRO = re.compile(
     r"^\s*in\s+[A-Za-z][A-Za-z'-]+(?:\s*[.,]\s*[A-Za-z][A-Za-z'-]+){1,}\s*$",
     re.I,
@@ -288,6 +345,11 @@ _MIN_RELIABLE_LETTER_HEIGHT = 18.0
 # WCAG 2.x contrast ratios: 4.5 is the body-text minimum, 3.0 the large-text minimum.
 _CONTRAST_RATIO_PASS_GTE = 4.5
 _CONTRAST_RATIO_FAIL_LT = 3.0
+# Store lighting, glare, exposure, and compression flatten the contrast a photograph
+# records, so a reading between this floor and the 3.0 large-text minimum on type the OCR
+# read with confidence is a reviewer's call; below the floor the print is faint beyond what
+# capture explains.
+_CONTRAST_RATIO_REJECT_LT = 2.0
 _LOW_CONTRAST_RANGE = 0.45
 
 
@@ -371,7 +433,7 @@ def locate_candidates(lines: list[OcrLine], panels: list[PanelResult]) -> Observ
         if _line_has_abv(item.text)
         or _PROOF.search(_numeric_scan_text(item.text))
         or _NET.search(_numeric_scan_text(item.text))
-        or _CLASS.search(_class_text(item.text))
+        or _class_statement(item.text)
         or _PRODUCER_ROLE.search(item.text)
         or _COUNTRY.search(item.text)
         or _APPELLATION.search(item.text)
@@ -511,6 +573,10 @@ def _regex_candidates(
             if role == "net_contents":
                 # OCR reads the O of "OZ" as a zero on small type; the unit is still ounces.
                 value = _ZERO_FOR_O_OUNCE.sub(lambda unit: unit.group(0).replace("0", "O"), value)
+                # No label states an empty container: a zero quantity is a misread digit.
+                volume = parse_volume_ml(value)
+                if volume is not None and volume <= 0:
+                    continue
             items.append(Candidate(value=value, evidence=factory.from_line(role, line)))
     if role == "net_contents":
         # "12 FL. OZ" on the front and "12 FL. 0Z" on the side are one statement of one
@@ -612,12 +678,18 @@ def _line_candidates(
 
 def _class_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
     # A sentence of copy that mentions the class ("a wine with balanced elegance") is not
-    # the class statement; designations are short and set apart.
+    # the class statement; a designation set in sentence case ("Blended whisky with
+    # natural flavors") is.
     matched = [
         line
         for line in lines
-        if _CLASS.search(_class_text(line.text)) and not _looks_like_prose(line.text)
+        if _CLASS.search(_class_text(line.text))
+        and not _class_copy(line.text)
+        and not _WEB_DOMAIN.search(line.text)
     ]
+    # A name that carries a class word ("SAISON HOUSE") stays a class candidate beside the
+    # line that states the class: the vocabulary cannot know every varietal or type word,
+    # so no class-bearing line is dropped, and two readings leave the field to the reviewer.
     strong = [line for line in matched if _STRONG_CLASS.search(_class_text(line.text))]
     preferred = [
         line
@@ -761,6 +833,126 @@ _TYPE_QUALIFIERS = frozenset(
         "non-alcoholic",
         "nonalcoholic",
         "alcohol-free",
+        "blanc",
+        "bianco",
+        "rosso",
+        "rouge",
+        "tinto",
+        "blanco",
+        "rosado",
+        # Varietal, type, origin, and finishing words that stand beside a class word in a
+        # designation ("Pinot Noir", "Tequila Joven", "finished in port casks").
+        "noir",
+        "gris",
+        "grigio",
+        "franc",
+        "meunier",
+        "nacional",
+        "touriga",
+        "garnacha",
+        "monastrell",
+        "mourvedre",
+        "mourvèdre",
+        "carignan",
+        "cinsault",
+        "gamay",
+        "aligote",
+        "aligoté",
+        "marsanne",
+        "roussanne",
+        "torrontes",
+        "torrontés",
+        "verdejo",
+        "godello",
+        "mencia",
+        "mencía",
+        "dolcetto",
+        "barbera",
+        "aglianico",
+        "fiano",
+        "greco",
+        "falanghina",
+        "glera",
+        "trebbiano",
+        "garganega",
+        "corvina",
+        "lagrein",
+        "zweigelt",
+        "furmint",
+        "assyrtiko",
+        "colombard",
+        "muscadet",
+        "picpoul",
+        "vinho",
+        "verde",
+        "asti",
+        "spumante",
+        "frizzante",
+        "secco",
+        "dolce",
+        "amabile",
+        "trocken",
+        "kabinett",
+        "spatlese",
+        "spätlese",
+        "auslese",
+        "eiswein",
+        "premier",
+        "solera",
+        "oloroso",
+        "amontillado",
+        "fino",
+        "manzanilla",
+        "tawny",
+        "ruby",
+        "joven",
+        "cristalino",
+        "mezcal",
+        "artesanal",
+        "specialty",
+        "specialties",
+        "scotch",
+        "canadian",
+        "japanese",
+        "kentucky",
+        "tennessee",
+        "highland",
+        "islay",
+        "speyside",
+        "lowland",
+        "doc",
+        "docg",
+        "igt",
+        "igp",
+        "aoc",
+        "aop",
+        "ava",
+        "oak",
+        "oaked",
+        "unoaked",
+        "casks",
+        "barrels",
+        "mash",
+        "wheated",
+        "moonshine",
+        "unaged",
+        "genever",
+        "jenever",
+        "armagnac",
+        "calvados",
+        "grappa",
+        "pisco",
+        "cachaca",
+        "cachaça",
+        "absinthe",
+        "amaro",
+        "aperitivo",
+        "bitters",
+        "schnapps",
+        "sake",
+        "soju",
+        "vsop",
+        "napoleon",
     ]
 )
 _DESIGNATION_FILLER = frozenset(
@@ -807,8 +999,143 @@ _DESIGNATION_FILLER = frozenset(
         "american",
         "kentucky",
         "tennessee",
+        "beverage",
+        "beverages",
+        "natural",
+        "artificial",
+        "flavor",
+        "flavors",
+        "flavour",
+        "flavours",
+        "color",
+        "colour",
+        "caramel",
+        "added",
+        "certified",
+        "style",
+        "hazy",
+        "session",
+        "double",
+        "triple",
+        "belgian",
+        "german",
+        "bavarian",
+        "irish",
+        "english",
+        "mexican",
+        "czech",
+        "vienna",
+        "munich",
+        "helles",
+        "export",
+        "golden",
+        "brown",
+        "blonde",
+        "blond",
+        "milk",
+        "oatmeal",
+        "pumpkin",
+        "farmhouse",
+        "barrel",
+        "nitro",
+        "smoked",
+        "sweet",
+        "harvest",
+        "classico",
+        "superiore",
+        "riserva",
+        "crianza",
+        "rosso",
+        "bianco",
+        "blanc",
+        "rouge",
+        "tinto",
+        "vino",
+        "grown",
+        "produced",
+        "matured",
+        "finished",
     ]
 )
+
+
+def _foreign_words(text: str) -> list[str]:
+    """Words of a class-bearing line that are neither class words, type qualifiers, nor the
+    fillers a designation carries; copy and names are made of them."""
+
+    return [
+        token
+        for token in re.findall(r"[a-zà-ÿ-]+", text.casefold())
+        if len(token) > 3
+        and token not in _TYPE_QUALIFIERS
+        and token not in _DESIGNATION_FILLER
+        and not _CLASS.search(token)
+        and not _STRONG_CLASS.search(token)
+        and not looks_like_domestic_location(token)
+    ]
+
+
+def _class_statement(value: str) -> bool:
+    """A line that states the class or type, as opposed to a name containing a class word.
+
+    "KENTUCKY STRAIGHT BOURBON WHISKEY", "HELLES DOPPELBOCK", and "MALT BEVERAGE WITH
+    NATURAL FLAVORS" are designations: the class word heads the line, or every word is
+    designation vocabulary, or the line describes composition. "SAISON HOUSE" or "PILSNER
+    URQUELL" is a name that happens to carry a style word and stays eligible as the brand.
+    """
+
+    text = _class_text(value).strip().rstrip(".,;:!")
+    matches = list(_CLASS.finditer(text))
+    if not matches or _WEB_DOMAIN.search(value):
+        return False
+    if _COMPOSITION_CONTEXT.search(text):
+        return True
+    # The class word heads the designation: whatever follows it is a type or varietal
+    # qualifier ("Sauvignon Blanc", "Pinot Noir"), and whatever precedes it may be a region
+    # or a producer word that the vocabulary cannot list ("Marlborough Sauvignon Blanc").
+    # A name puts a word of its own after the class word ("Saison House").
+    if _type_words_only(text[matches[-1].end() :]):
+        return True
+    if _WINE_FIRST.match(text) and len(_foreign_words(text)) <= 2:
+        return True
+    # Every word is designation vocabulary: a statement when it runs to three or more words
+    # ("Malt beverage with natural flavors") or ends in a type word; a two-word name that
+    # puts a filler word after the class word ("Gin Royal", "Bourbon Black") is a name.
+    tokens = re.findall(r"[a-zà-ÿ-]+", text.casefold())
+    return not _foreign_words(text) and (
+        len(tokens) >= 3 or (bool(tokens) and _type_words_only(tokens[-1]))
+    )
+
+
+# Grades a designation carries after its class word ("Chianti Classico Riserva").
+_GRADE_WORDS = frozenset(
+    ["reserve", "reserva", "riserva", "classico", "superiore", "gran", "grand", "cru", "premier"]
+)
+
+
+def _type_words_only(tail: str) -> bool:
+    """Whatever follows the class word is a type qualifier, a class word, or a grade, as in
+    "Sauvignon Blanc", "Tequila Joven", or "finished in port casks"; a name puts a word of
+    its own there ("Gin Royal", "Bourbon Black", "Saison House")."""
+
+    return all(
+        token in _TYPE_QUALIFIERS
+        or token in _GRADE_WORDS
+        or bool(_CLASS.search(token))
+        or bool(_STRONG_CLASS.search(token))
+        for token in re.findall(r"[a-zà-ÿ-]+", tail.casefold())
+        if len(token) > 3
+    )
+
+
+def _class_copy(value: str) -> bool:
+    """A sentence of copy around a class word, as opposed to a designation in sentence case.
+
+    "24 months of aging culminate in a wine with balanced tannins" is copy; "Blended whisky
+    with natural flavors" is a designation whose every word is designation vocabulary.
+    """
+
+    return _looks_like_prose(value) and bool(_foreign_words(_class_text(value)))
 
 
 def _designation_shape(value: str) -> int:
@@ -827,18 +1154,7 @@ def _designation_shape(value: str) -> int:
     tail = re.search(r"(?:\b[\w']+\s*){1,3}$", text)
     if tail is None or not _STRONG_CLASS.search(tail.group(0)):
         return 0
-    tokens = re.findall(r"[a-zà-ÿ'-]+", text.casefold())
-    foreign = [
-        token
-        for token in tokens
-        if len(token) > 3
-        and token not in _TYPE_QUALIFIERS
-        and token not in _DESIGNATION_FILLER
-        and not _CLASS.search(token)
-        and not _STRONG_CLASS.search(token)
-        and not looks_like_domestic_location(token)
-    ]
-    return 2 if len(foreign) <= 1 else 1
+    return 2 if len(_foreign_words(text)) <= 1 else 1
 
 
 def _type_signature(value: str) -> frozenset[str]:
@@ -846,8 +1162,42 @@ def _type_signature(value: str) -> frozenset[str]:
 
     text = _class_text(value).casefold()
     words = {match.casefold() for match in _STRONG_CLASS.findall(text)}
-    words.update(token for token in re.findall(r"[a-zà-ÿ'-]+", text) if token in _TYPE_QUALIFIERS)
+    words.update(
+        token
+        for token in re.findall(r"[a-zà-ÿ-]+", text)
+        if token in _TYPE_QUALIFIERS and token not in _SIGNATURE_EXCLUDED
+    )
     return frozenset(words)
+
+
+# Origin, appellation, and finishing words describe where or how a type was made, not what
+# type it is: "Kentucky Straight Bourbon Whiskey" and "Straight Bourbon Whiskey aged in
+# oak" are one designation.
+_SIGNATURE_EXCLUDED = frozenset(
+    [
+        "oak",
+        "oaked",
+        "unoaked",
+        "casks",
+        "barrels",
+        "kentucky",
+        "tennessee",
+        "highland",
+        "islay",
+        "speyside",
+        "lowland",
+        "doc",
+        "docg",
+        "igt",
+        "igp",
+        "aoc",
+        "aop",
+        "ava",
+        "wheated",
+        "mash",
+        "artesanal",
+    ]
+)
 
 
 _CLASS_FAMILIES: dict[str, re.Pattern[str]] = {
@@ -968,6 +1318,12 @@ def _brand_candidates(
         and re.match(r"^\s*&", line.text) is None
         and not _ADMINISTRATIVE.search(line.text)
         and not _NON_BRAND_CONTEXT.search(line.text)
+        and not _COMPOSITION_CONTEXT.search(line.text)
+        and not _COLOR_STATEMENT.search(line.text)
+        and not _CODE_PREFIX.match(line.text)
+        and not _origin_copy(line.text)
+        # A web address is read as a brand only through the domain fallback below.
+        and not _WEB_DOMAIN.search(line.text)
         and not _LOCATION_INTRO.search(whitespace(line.text))
         and not _looks_like_domestic_location(line.text)
         and not _PRODUCTION_DESCRIPTOR.fullmatch(whitespace(line.text))
@@ -990,6 +1346,7 @@ def _brand_candidates(
         for items in groups
         if not _looks_like_prose(" ".join(item.text for item in items))
         and not _NON_BRAND_CONTEXT.search(" ".join(item.text for item in items))
+        and not _looks_like_warning_body_text(" ".join(item.text for item in items))
     ]
     if not groups:
         return _domain_brand_candidate(lines, factory)
@@ -1022,11 +1379,40 @@ def _brand_candidates(
             casefolded(whitespace(" ".join(item.text for item in items))),
         ),
     )
-    value = whitespace(" ".join(item.text for item in group))
+    value = _without_trailing_vintage(whitespace(" ".join(item.text for item in group)))
     return CandidateSet(
         status="Found",
         candidates=[Candidate(value=value, evidence=factory.from_lines("brand", group, value))],
     )
+
+
+_TRAILING_VINTAGE = re.compile(r"\s*\b(?:18|19|20)\d{2}\b\s*$")
+
+
+# A trademark mark read as letters is a separate token ("HONEY TM", "HONEY (R)"), never
+# the last letters of a word.
+_TRADEMARK_MARK = re.compile(r"(?:\s+TM|\s*\(\s*(?:TM|R|SM)\s*\)|\s*[™®℠])\s*$")
+
+
+def _without_trailing_vintage(value: str) -> str:
+    """ "RISERVA 2021" names the vintage after the word, and "HONEY TM" carries a trademark
+    mark read as letters; neither is part of the brand."""
+
+    unmarked = _TRADEMARK_MARK.sub("", value)
+    stripped = _TRAILING_VINTAGE.sub("", unmarked)
+    if (
+        len(stripped.split()) < 2
+        or not re.search(r"[A-Za-z]{3}", stripped)
+        or _INTEGRAL_YEAR.search(unmarked)
+    ):
+        # "STATION 2000", "VINTAGE 1912", or "OLD NO 1888" is a name with a number in it.
+        stripped = unmarked
+    return stripped if re.search(r"[A-Za-z]{3}", stripped) else value
+
+
+_INTEGRAL_YEAR = re.compile(
+    r"\b(?:no|n[°º]|of|since|est|anno|the|number)\s*\.?\s+(?:18|19|20)\d{2}\s*$", re.I
+)
 
 
 def _looks_like_ocr_noise(value: str) -> bool:
@@ -1110,11 +1496,12 @@ def _warning_interruption_orders(lines: list[OcrLine]) -> set[int]:
 
 
 def _warning_body_orders(lines: list[OcrLine]) -> set[int]:
-    for index, line in enumerate(lines):
-        if _WARNING.search(line.text) or _WARNING_EDGE.search(line.text):
-            return {
-                candidate.reading_order for candidate in _warning_body_lines(lines, index, line)
-            }
+    for pattern in (_WARNING, _WARNING_EDGE):
+        for index, line in enumerate(lines):
+            if pattern.search(line.text):
+                return {
+                    candidate.reading_order for candidate in _warning_body_lines(lines, index, line)
+                }
     return set()
 
 
@@ -1397,18 +1784,40 @@ def _warning_observation(
     *,
     source_unreadable: bool,
 ) -> WarningObservation:
-    for index, line in enumerate(lines):
+    # The heading is preferred wherever it sits in reading order; an edge-cut opening
+    # anchors a fragment only when no line carries the heading.
+    heading_lines = [
+        (index, line) for index, line in enumerate(lines) if _WARNING.search(line.text)
+    ]
+    edge_lines = [
+        (index, line) for index, line in enumerate(lines) if _WARNING_EDGE.search(line.text)
+    ]
+    for index, line in (heading_lines or edge_lines)[:1]:
         heading_match = _WARNING.search(line.text)
         edge_match = None if heading_match else _WARNING_EDGE.search(line.text)
-        if not heading_match and not edge_match:
-            continue
         if heading_match is not None:
             heading, remainder = _warning_heading_and_remainder(line.text, heading_match)
         else:
-            # An edge-cut heading is not a heading the checks can judge; the line still
-            # anchors the statement body, which the cross-image read can complete.
             assert edge_match is not None
-            heading = None
+            previous_line = lines[index - 1] if index > 0 else None
+            wrapped = (
+                re.search(r"government\W*$", previous_line.text, re.I)
+                if previous_line is not None
+                and previous_line.panel_id == line.panel_id
+                and _same_column(previous_line, line)
+                else None
+            )
+            if previous_line is not None and wrapped is not None:
+                # The heading wrapped after "GOVERNMENT": both words are in view. Text the
+                # OCR merged into that box ahead of the word is not part of the heading.
+                heading = whitespace(
+                    f"{previous_line.text[wrapped.start() :].strip()} "
+                    f"{line.text[: edge_match.end()].strip()}"
+                )
+            else:
+                # An edge-cut heading is not a heading the checks can judge; the line still
+                # anchors the statement body, which the cross-image read can complete.
+                heading = None
             remainder = line.text[edge_match.end() :].strip()
         body_lines: list[OcrLine] = []
         if remainder:
@@ -1459,6 +1868,9 @@ def _warning_observation(
         return WarningObservation(
             heading=heading,
             body=body,
+            body_lines=tuple(
+                whitespace(item.text) for item in content_lines if whitespace(item.text)
+            ),
             full_text=whitespace(f"{heading or ''} {body or ''}"),
             heading_evidence=heading_evidence,
             body_evidence=body_evidence,
@@ -1567,7 +1979,9 @@ def _contrast_state(
     The WCAG luminance ratio between ink and background and the raw gray-level range inside
     the boxes are independent estimators. Both low across at least two lines is faint ink on
     a similar ground; both clear is legible contrast; disagreement, as with a dense or
-    inverse-polarity crop, is a review item rather than a verdict either way.
+    inverse-polarity crop, is a review item rather than a verdict either way. A photograph
+    cannot establish insufficient contrast on its own when the type reads confidently and
+    the ratio sits within capture uncertainty of the minimum: that is a review item.
     """
 
     content = [item for item in [heading, *body_lines] if not _looks_like_interruption(item.text)]
@@ -1590,7 +2004,13 @@ def _contrast_state(
             and median < _CONTRAST_RATIO_FAIL_LT
             and range_median < _LOW_CONTRAST_RANGE
         ):
-            return False
+            confidences = [item.confidence for item in content if item.confidence is not None]
+            weak_read = (
+                bool(confidences) and min(confidences) < (_WARNING_THRESHOLDS["ocrSignalFailLt"])
+            )
+            if median < _CONTRAST_RATIO_REJECT_LT or weak_read:
+                return False
+            return None
         if median >= _CONTRAST_RATIO_PASS_GTE and range_median >= _LOW_CONTRAST_RANGE:
             return True
         return None
@@ -1805,8 +2225,19 @@ def _looks_like_warning_body_text(value: str) -> bool:
     text = whitespace(value)
     if text.startswith(("(1)", "(2)")):
         return True
-    tokens = set(re.findall(r"[A-Za-z]+", text.casefold()))
-    return len(tokens & _WARNING_BODY_WORDS) >= 3
+    tokens = re.findall(r"[A-Za-z]+", text.casefold())
+    if len(set(tokens) & _WARNING_BODY_WORDS) >= 3:
+        return True
+    # A short line or a joined pair of fragments that repeats a run of the statement in its
+    # order ("or operate", "e machinery and may", "health problems") is a piece of the
+    # statement; a name made of the statute's function words ("To the Moon") is not.
+    for size in (3, 2):
+        for start in range(len(tokens) - size + 1):
+            run = tuple(tokens[start : start + size])
+            content = sum(1 for word in run if word in _WARNING_BODY_WORDS)
+            if run in _STATUTE_RUNS and (size == 3 and content >= 1 or content >= 2):
+                return True
+    return False
 
 
 def _contains_warning_like_word(value: str) -> bool:

@@ -10,7 +10,7 @@ Document ID: LV-TRACE-001
 | INT-008 | Human judgment | FR-018 | comparison engine | Case and punctuation tests including STONE'S THROW |
 | INT-009 to INT-010 | Image and evidence design | FR-005, FR-006, FR-019 to FR-021 | imaging, OCR adapter, review workspace, evidence viewer | Imaging tests, evidence mapping tests, viewer zoom, pan, and view-switcher tests, browser UAT |
 | INT-011 | Separate disposition | FR-023, FR-035 | review UI and history repository | UI and history tests |
-| INT-012 to INT-014 | Batch architecture | FR-025 to FR-031 | batch filtering, per-image reads, grouping service, confirmation, queue, and exports | Mixed-folder tests, grouping tests, grouping-step guidance tests, private full-corpus API and grouped-product gate, capacity browser test, export review |
+| INT-012 to INT-014 | Batch architecture | FR-025 to FR-031 | batch filtering, per-image reads, grouping service, confirmation, queue, and exports | Mixed-folder tests, grouping tests, grouping-step guidance tests, rate-limited product run tests, private full-corpus API and grouped-product gate, capacity browser test, export review |
 | INT-015 to INT-016 | FIFO history | FR-032 to FR-037 | history repository, routes, workspace | Repository, API, UI, and browser history tests |
 | INT-017 | Sample | FR-038 | sample routes and adapter | Sample integration and browser UAT |
 | INT-Q-001 to INT-Q-002 | Performance budgets | FR-041 to FR-043, FR-047 to FR-048 | bounded OCR recovery, exact-pixel bounded reuse, strict equivalent-panel deduplication, separate safety timeout, sequential queue | Local individual, grouped-product, equivalent cross-format multi-panel, warm, cold, and deployed timing protocols |

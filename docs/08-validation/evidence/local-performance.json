@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "measuredAtUtc": "2026-09-03T22:15:02.059072+00:00",
+  "measuredAtUtc": "2026-09-04T06:14:57.456152+00:00",
   "environment": {
     "platform": "Windows",
     "python": "3.12.10",
@@ -10,8 +10,8 @@
   "warm": {
     "runs": [
       {
-        "wallMs": 2601.487,
-        "serverDurationMs": 2600.134,
+        "wallMs": 2707.5,
+        "serverDurationMs": 2705.981,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -19,8 +19,8 @@
         "iteration": 1
       },
       {
-        "wallMs": 182.147,
-        "serverDurationMs": 180.715,
+        "wallMs": 222.876,
+        "serverDurationMs": 221.47,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -28,8 +28,8 @@
         "iteration": 2
       },
       {
-        "wallMs": 161.648,
-        "serverDurationMs": 160.268,
+        "wallMs": 190.311,
+        "serverDurationMs": 188.797,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -37,8 +37,8 @@
         "iteration": 3
       },
       {
-        "wallMs": 162.174,
-        "serverDurationMs": 160.844,
+        "wallMs": 182.729,
+        "serverDurationMs": 181.405,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -46,8 +46,8 @@
         "iteration": 4
       },
       {
-        "wallMs": 155.427,
-        "serverDurationMs": 154.114,
+        "wallMs": 205.312,
+        "serverDurationMs": 203.724,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -55,8 +55,8 @@
         "iteration": 5
       },
       {
-        "wallMs": 160.673,
-        "serverDurationMs": 159.371,
+        "wallMs": 217.425,
+        "serverDurationMs": 215.69,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -64,8 +64,8 @@
         "iteration": 6
       },
       {
-        "wallMs": 157.543,
-        "serverDurationMs": 156.012,
+        "wallMs": 215.646,
+        "serverDurationMs": 213.836,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -73,8 +73,8 @@
         "iteration": 7
       },
       {
-        "wallMs": 158.77,
-        "serverDurationMs": 157.181,
+        "wallMs": 203.692,
+        "serverDurationMs": 202.045,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -82,8 +82,8 @@
         "iteration": 8
       },
       {
-        "wallMs": 160.735,
-        "serverDurationMs": 159.307,
+        "wallMs": 210.229,
+        "serverDurationMs": 208.614,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -91,8 +91,8 @@
         "iteration": 9
       },
       {
-        "wallMs": 162.555,
-        "serverDurationMs": 161.274,
+        "wallMs": 207.761,
+        "serverDurationMs": 206.073,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -100,8 +100,8 @@
         "iteration": 10
       },
       {
-        "wallMs": 155.751,
-        "serverDurationMs": 154.47,
+        "wallMs": 192.232,
+        "serverDurationMs": 190.843,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -109,8 +109,8 @@
         "iteration": 11
       },
       {
-        "wallMs": 156.837,
-        "serverDurationMs": 155.072,
+        "wallMs": 194.66,
+        "serverDurationMs": 192.945,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -118,8 +118,8 @@
         "iteration": 12
       },
       {
-        "wallMs": 155.331,
-        "serverDurationMs": 153.695,
+        "wallMs": 180.649,
+        "serverDurationMs": 179.111,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -127,8 +127,8 @@
         "iteration": 13
       },
       {
-        "wallMs": 151.382,
-        "serverDurationMs": 149.529,
+        "wallMs": 199.146,
+        "serverDurationMs": 197.491,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -136,8 +136,8 @@
         "iteration": 14
       },
       {
-        "wallMs": 154.605,
-        "serverDurationMs": 153.202,
+        "wallMs": 187.897,
+        "serverDurationMs": 186.222,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -145,8 +145,8 @@
         "iteration": 15
       },
       {
-        "wallMs": 151.364,
-        "serverDurationMs": 150.074,
+        "wallMs": 187.356,
+        "serverDurationMs": 185.754,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -154,8 +154,8 @@
         "iteration": 16
       },
       {
-        "wallMs": 157.082,
-        "serverDurationMs": 155.792,
+        "wallMs": 198.686,
+        "serverDurationMs": 197.02,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -163,8 +163,8 @@
         "iteration": 17
       },
       {
-        "wallMs": 153.815,
-        "serverDurationMs": 152.237,
+        "wallMs": 201.344,
+        "serverDurationMs": 200.035,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -172,8 +172,8 @@
         "iteration": 18
       },
       {
-        "wallMs": 152.853,
-        "serverDurationMs": 151.535,
+        "wallMs": 179.706,
+        "serverDurationMs": 178.496,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -181,8 +181,8 @@
         "iteration": 19
       },
       {
-        "wallMs": 149.026,
-        "serverDurationMs": 147.722,
+        "wallMs": 203.907,
+        "serverDurationMs": 202.029,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -190,8 +190,8 @@
         "iteration": 20
       },
       {
-        "wallMs": 155.152,
-        "serverDurationMs": 153.808,
+        "wallMs": 204.404,
+        "serverDurationMs": 202.669,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -199,8 +199,8 @@
         "iteration": 21
       },
       {
-        "wallMs": 149.933,
-        "serverDurationMs": 148.392,
+        "wallMs": 194.303,
+        "serverDurationMs": 193.002,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -208,8 +208,8 @@
         "iteration": 22
       },
       {
-        "wallMs": 147.874,
-        "serverDurationMs": 146.564,
+        "wallMs": 176.791,
+        "serverDurationMs": 175.2,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -217,8 +217,8 @@
         "iteration": 23
       },
       {
-        "wallMs": 153.094,
-        "serverDurationMs": 151.816,
+        "wallMs": 198.084,
+        "serverDurationMs": 196.438,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -226,8 +226,8 @@
         "iteration": 24
       },
       {
-        "wallMs": 154.728,
-        "serverDurationMs": 153.462,
+        "wallMs": 198.495,
+        "serverDurationMs": 196.832,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -235,8 +235,8 @@
         "iteration": 25
       },
       {
-        "wallMs": 152.364,
-        "serverDurationMs": 150.77,
+        "wallMs": 197.353,
+        "serverDurationMs": 195.744,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -244,8 +244,8 @@
         "iteration": 26
       },
       {
-        "wallMs": 148.482,
-        "serverDurationMs": 147.16,
+        "wallMs": 194.552,
+        "serverDurationMs": 192.931,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -253,8 +253,8 @@
         "iteration": 27
       },
       {
-        "wallMs": 157.016,
-        "serverDurationMs": 155.703,
+        "wallMs": 190.523,
+        "serverDurationMs": 188.824,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -262,8 +262,8 @@
         "iteration": 28
       },
       {
-        "wallMs": 151.931,
-        "serverDurationMs": 150.571,
+        "wallMs": 196.288,
+        "serverDurationMs": 194.655,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -271,8 +271,8 @@
         "iteration": 29
       },
       {
-        "wallMs": 149.439,
-        "serverDurationMs": 148.119,
+        "wallMs": 207.659,
+        "serverDurationMs": 206.019,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
@@ -283,11 +283,11 @@
     "runCount": 30,
     "completeRunCount": 30,
     "expectedSummary": "No differences found in checked fields",
-    "p95WallMs": 182.147,
-    "maxWallMs": 2601.487,
-    "peakParentAndWorkerRssBytes": 1001418752,
-    "peakParentRssBytes": 64094208,
-    "peakWorkerRssBytes": 937754624,
+    "p95WallMs": 222.876,
+    "maxWallMs": 2707.5,
+    "peakParentAndWorkerRssBytes": 1002364928,
+    "peakParentRssBytes": 64598016,
+    "peakWorkerRssBytes": 938180608,
     "rssThresholdBytesExclusive": 2147483648,
     "thresholdMs": 5000,
     "pass": true
@@ -295,74 +295,74 @@
   "cold": {
     "runs": [
       {
-        "wallMs": 2585.109,
-        "serverDurationMs": 2584.03,
+        "wallMs": 2638.265,
+        "serverDurationMs": 2637.086,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
         "allApplicableMatch": true,
         "iteration": 1,
-        "readyMs": 2386.636,
-        "firstResultMs": 2585.109,
-        "readyThroughFirstResultMs": 4971.747
+        "readyMs": 2301.889,
+        "firstResultMs": 2638.265,
+        "readyThroughFirstResultMs": 4940.155
       },
       {
-        "wallMs": 2626.575,
-        "serverDurationMs": 2625.408,
+        "wallMs": 2638.192,
+        "serverDurationMs": 2636.963,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
         "allApplicableMatch": true,
         "iteration": 2,
-        "readyMs": 2386.105,
-        "firstResultMs": 2626.575,
-        "readyThroughFirstResultMs": 5012.681
+        "readyMs": 2255.492,
+        "firstResultMs": 2638.192,
+        "readyThroughFirstResultMs": 4893.685
       },
       {
-        "wallMs": 2704.64,
-        "serverDurationMs": 2703.421,
+        "wallMs": 2588.281,
+        "serverDurationMs": 2587.144,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
         "allApplicableMatch": true,
         "iteration": 3,
-        "readyMs": 2367.29,
-        "firstResultMs": 2704.64,
-        "readyThroughFirstResultMs": 5071.931
+        "readyMs": 2252.587,
+        "firstResultMs": 2588.281,
+        "readyThroughFirstResultMs": 4840.87
       },
       {
-        "wallMs": 2591.046,
-        "serverDurationMs": 2589.761,
+        "wallMs": 2556.147,
+        "serverDurationMs": 2554.808,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
         "allApplicableMatch": true,
         "iteration": 4,
-        "readyMs": 2341.41,
-        "firstResultMs": 2591.046,
-        "readyThroughFirstResultMs": 4932.457
+        "readyMs": 2283.478,
+        "firstResultMs": 2556.147,
+        "readyThroughFirstResultMs": 4839.626
       },
       {
-        "wallMs": 2591.599,
-        "serverDurationMs": 2590.379,
+        "wallMs": 2624.966,
+        "serverDurationMs": 2623.519,
         "summary": "No differences found in checked fields",
         "checkCount": 24,
         "applicableCount": 19,
         "allApplicableMatch": true,
         "iteration": 5,
-        "readyMs": 2324.899,
-        "firstResultMs": 2591.599,
-        "readyThroughFirstResultMs": 4916.5
+        "readyMs": 2240.737,
+        "firstResultMs": 2624.966,
+        "readyThroughFirstResultMs": 4865.704
       }
     ],
     "runCount": 5,
     "completeRunCount": 5,
     "expectedSummary": "No differences found in checked fields",
-    "p95ReadyThroughFirstResultMs": 5071.931,
-    "maxReadyThroughFirstResultMs": 5071.931,
-    "peakParentAndWorkerRssBytes": 1004650496,
-    "peakParentRssBytes": 64106496,
-    "peakWorkerRssBytes": 940548096,
+    "p95ReadyThroughFirstResultMs": 4940.155,
+    "maxReadyThroughFirstResultMs": 4940.155,
+    "peakParentAndWorkerRssBytes": 1004777472,
+    "peakParentRssBytes": 64684032,
+    "peakWorkerRssBytes": 940093440,
     "rssThresholdBytesExclusive": 4294967296,
     "thresholdMsExclusive": 10000,
     "scope": "Worker spawn, model verification and warmup, readiness, and first governed result",

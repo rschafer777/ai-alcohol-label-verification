@@ -266,3 +266,14 @@ def test_integrity_rejects_missing_evidence_reference() -> None:
     )
     with pytest.raises(PipelineFailure):
         validate_result_integrity([panel], [], [check])
+
+
+def test_a_sliver_of_a_crop_is_not_a_usable_second_read() -> None:
+    from types import SimpleNamespace
+
+    from labelverify.orchestration.pipeline import _usable_view
+
+    sliver = SimpleNamespace(image=np.zeros((1400, 98, 3), dtype=np.uint8))
+    strip = SimpleNamespace(image=np.zeros((462, 1400, 3), dtype=np.uint8))
+    assert _usable_view(sliver) is False  # type: ignore[arg-type]
+    assert _usable_view(strip) is True  # type: ignore[arg-type]

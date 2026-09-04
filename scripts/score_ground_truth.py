@@ -17,16 +17,23 @@ import json
 import re
 import statistics
 import sys
+import tempfile
 import time
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from PIL import Image
+
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "backend"))
 
 from labelverify.extraction.rapidocr_adapter import RapidOcrAdapter  # noqa: E402
-from labelverify.orchestration.pipeline import AnalysisJob, execute_analysis  # noqa: E402
+from labelverify.orchestration.pipeline import (  # noqa: E402
+    AnalysisJob,
+    PipelineFailure,
+    execute_analysis,
+)
 
 _CASE_ONLY = re.compile(r"capital letters|upper ?case|all caps|mixed case", re.I)
 SUPPORTED = {".jpg", ".jpeg", ".png", ".webp"}
@@ -162,6 +169,31 @@ def score_case(record: dict[str, Any], truth: dict[str, Any]) -> dict[str, str]:
     return result
 
 
+PIXEL_LIMIT = 12_000_000
+PIXEL_HEADROOM = 0.97
+
+
+def prepare_for_upload(path: Path, prepared_root: Path) -> tuple[Path, bool]:
+    """Bring a photograph inside the per-image pixel limit the way the browser does.
+
+    The production path resizes an oversized phone photograph before upload, keeping its
+    proportions and landing just under the limit; the harness feeds files directly, so it
+    applies the same preparation and records that it did.
+    """
+
+    with Image.open(path) as image:
+        width, height = image.size
+        if width * height <= PIXEL_LIMIT:
+            return path, False
+        scale = (PIXEL_LIMIT * PIXEL_HEADROOM / (width * height)) ** 0.5
+        resized = image.convert("RGB").resize(
+            (max(1, int(width * scale)), max(1, int(height * scale))), Image.LANCZOS
+        )
+    prepared = prepared_root / f"{path.stem}.jpg"
+    resized.save(prepared, format="JPEG", quality=92)
+    return prepared, True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=Path, default=PROJECT_ROOT / "tests" / "Test_Images")
@@ -191,11 +223,30 @@ def main() -> int:
     confusion: dict[str, int] = {}
     tally: dict[str, dict[str, int]] = {}
     seconds: list[float] = []
+    prepared_root = Path(tempfile.mkdtemp(prefix="labelverify-score-"))
     for path in files:
+        upload, prepared = prepare_for_upload(path, prepared_root)
         started = time.perf_counter()
-        result = execute_analysis(
-            AnalysisJob(request_id="score", build_id="score", panel_paths=(path,)), adapter
-        )
+        try:
+            result = execute_analysis(
+                AnalysisJob(request_id="score", build_id="score", panel_paths=(upload,)), adapter
+            )
+        except PipelineFailure as exc:
+            # A photograph the production path refuses is recorded, not skipped, so the
+            # count of processed images stays honest.
+            elapsed = time.perf_counter() - started
+            rows.append(
+                {
+                    "file": path.name,
+                    "seconds": round(elapsed, 3),
+                    "machineDisposition": "NOT_PROCESSED",
+                    "oracleDisposition": oracle.get(path.name),
+                    "summary": f"not processed: {exc}",
+                    "preparedForUpload": prepared,
+                }
+            )
+            print(f"{path.name[:44]:44s} {elapsed:5.2f}s NOT_PROCESSED {exc}")
+            continue
         elapsed = time.perf_counter() - started
         seconds.append(elapsed)
         payload = result.model_dump(by_alias=True, mode="json")
@@ -211,6 +262,7 @@ def main() -> int:
             "machineDisposition": disposition,
             "oracleDisposition": oracle.get(path.name),
             "summary": verification["summary"],
+            "preparedForUpload": prepared,
         }
         if path.name in oracle:
             key = f"{oracle[path.name]}->{disposition}"

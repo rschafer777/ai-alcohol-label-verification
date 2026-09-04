@@ -9,6 +9,9 @@ from labelverify.contracts.models import CandidateSet, Evidence, OcrLine, PanelR
 class WarningObservation:
     heading: str | None = None
     body: str | None = None
+    # The read lines of the body in order: a word at the start or end of a line can be
+    # cut by the edge of the photograph, a word inside a line cannot.
+    body_lines: tuple[str, ...] = ()
     full_text: str | None = None
     heading_evidence: Evidence | None = None
     body_evidence: Evidence | None = None

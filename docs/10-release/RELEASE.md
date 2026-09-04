@@ -1,7 +1,7 @@
 # Release and Operational Handoff
 
 Document ID: LV-REL-001  
-Status: Release gates and protected Azure deployment passed; requester UAT pending
+Status: Corrective candidate after four adversarial review rounds and the 221-image store-photograph corpus; local release gates passed on the corrected code; protected Azure deployment of this candidate and requester UAT pending
 
 ## Deliverable contents
 
@@ -11,7 +11,7 @@ Status: Release gates and protected Azure deployment passed; requester UAT pendi
 - Local OCR model acquisition manifest with cryptographic hashes
 - Synthetic sample and governed test fixtures
 - Unit, integration, browser, accessibility, performance, security, and deployment tests
-- Private 76-image production-API and server-grouping evidence
+- Private 221-image production-API and server-grouping evidence
 - Field-level pixel ground truth for 70 private images and a 42-image disposition oracle
 - Numbered documentation from discovery through UAT
 - OCI Dockerfile, Azure infrastructure template, and GitHub OIDC workflow

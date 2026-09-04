@@ -34,7 +34,7 @@ Status: Approved build baseline
 | FR-024 | Keyboard shortcuts operate reviewer disposition without trapping focus | INT-Q-004 |
 | FR-025 | Batch accepts up to 900 supported images, skips unsupported selected files individually, and reports accepted and skipped counts and reasons | INT-012 |
 | FR-026 | Grouping uses directory, filename, OCR brand, class/type, and beverage-family cues and never silently places more than three images in a product | INT-012 |
-| FR-027 | User can inspect, merge, split, name, and confirm groups before processing; the step states how many products are confirmed and how many still need a decision, filters the wall to those cards, confirms the remaining suggestions in one step while leaving conflicts to the reviewer, states beside the run button why it is locked, and explains each grouping tool with a tooltip | INT-012 |
+| FR-027 | User can inspect, merge, split, name, and confirm groups before processing; the step states how many products are confirmed and how many still need a decision, filters the wall to those cards, confirms the remaining suggestions in one step while leaving conflicts to the reviewer, states beside the run button why it is locked, explains each grouping tool with a tooltip, and, when a large run reaches the API's per-minute start limit, waits and tries the same product again rather than failing it | INT-012 |
 | FR-028 | Batch reuses the analysis endpoint sequentially with failure isolation | INT-012 |
 | FR-029 | Batch begins at 0 of N and reports products, images, processed, remaining, running, queued, review, differences, failures, active time, rate, mean, ETA, and attempts | INT-013 |
 | FR-030 | User can cancel remaining work and retry failed groups | INT-013 |

@@ -23,6 +23,7 @@ from typing import Any
 import cv2
 import numpy as np
 from fastapi.testclient import TestClient
+from PIL import Image
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT / "backend"))
@@ -140,13 +141,53 @@ def validate_analysis(
     return result, failures
 
 
+PIXEL_LIMIT = 12_000_000
+PIXEL_HEADROOM = 0.97
+RATE_LIMIT_RETRIES = 30
+
+
+def prepare_for_upload(path: Path, prepared_root: Path) -> Path:
+    """Bring a photograph inside the per-image pixel limit the way the browser does.
+
+    The production path resizes an oversized phone photograph before upload, keeping its
+    proportions and landing just under the limit; this script posts files directly, so it
+    applies the same preparation.
+    """
+
+    with Image.open(path) as image:
+        width, height = image.size
+        if width * height <= PIXEL_LIMIT:
+            return path
+        scale = (PIXEL_LIMIT * PIXEL_HEADROOM / (width * height)) ** 0.5
+        resized = image.convert("RGB").resize(
+            (max(1, int(width * scale)), max(1, int(height * scale))), Image.LANCZOS
+        )
+    prepared = prepared_root / f"{path.stem}.jpg"
+    resized.save(prepared, format="JPEG", quality=92)
+    return prepared
+
+
 def post_analysis(client: TestClient, paths: list[Path]) -> tuple[int, dict[str, Any], float]:
+    prepared_root = Path(tempfile.mkdtemp(prefix="labelverify-uat-"))
+    uploads = [prepare_for_upload(path, prepared_root) for path in paths]
     files = [
-        ("panels", (path.name, path.read_bytes(), SUPPORTED_TYPES[path.suffix.casefold()]))
-        for path in paths
+        (
+            "panels",
+            (upload.name, upload.read_bytes(), SUPPORTED_TYPES[upload.suffix.casefold()]),
+        )
+        for upload in uploads
     ]
     started = time.perf_counter()
     response = client.post("/api/v1/analyses?persist=false", files=files)
+    # The API meters each client; a governed run waits out the limit rather than counting
+    # a metered refusal as a processing failure. The wait is not processing time.
+    for _attempt in range(RATE_LIMIT_RETRIES):
+        if response.status_code != 429:
+            break
+        retry_after = response.headers.get("Retry-After")
+        time.sleep(float(retry_after) if retry_after else 2.0)
+        started = time.perf_counter()
+        response = client.post("/api/v1/analyses?persist=false", files=files)
     elapsed = round(time.perf_counter() - started, 3)
     try:
         body = response.json()

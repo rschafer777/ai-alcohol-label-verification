@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
+import { analyzeWithinRateLimit } from "../src/features/batch/rate-limit";
 import { BatchWorkspace } from "../src/features/batch/BatchWorkspace";
 import { batchProgress, groupFromSuggestion, mergeGroups, moveImage, splitGroup } from "../src/features/batch/batch-state";
 import { filterBatchSelection } from "../src/features/batch/grouping";
@@ -136,3 +137,29 @@ describe("batch state helpers", () => {
     ]);
   });
 });
+
+describe("rate-limited product runs", () => {
+  it("waits out the rate limit and then completes the product", async () => {
+    const limited = { detail: { code: "client_rate_limited" } };
+    let calls = 0;
+    const attempt = vi.fn(async () => {
+      calls += 1;
+      if (calls < 3) throw limited;
+      return "done";
+    });
+    const controller = new AbortController();
+    await expect(analyzeWithinRateLimit(attempt, controller.signal, 1, 5)).resolves.toBe("done");
+    expect(attempt).toHaveBeenCalledTimes(3);
+  });
+
+  it("gives up after the allowed waits and rethrows any other error at once", async () => {
+    const limited = { detail: { code: "global_start_rate_limited" } };
+    const controller = new AbortController();
+    await expect(analyzeWithinRateLimit(async () => { throw limited; }, controller.signal, 1, 2)).rejects.toBe(limited);
+    const other = { detail: { code: "internal_error" } };
+    const attempt = vi.fn(async () => { throw other; });
+    await expect(analyzeWithinRateLimit(attempt, controller.signal, 1, 5)).rejects.toBe(other);
+    expect(attempt).toHaveBeenCalledTimes(1);
+  });
+});
+

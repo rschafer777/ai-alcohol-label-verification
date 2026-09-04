@@ -316,11 +316,11 @@ def test_words_cut_by_the_image_edge_are_not_substitutions() -> None:
     assert by_id(checks, "warning_wording").state == "Review"
 
 
-def test_a_heading_less_fragment_alone_never_rejects_the_wording() -> None:
+def test_a_heading_less_fragment_with_clear_substitutions_is_a_difference() -> None:
     from labelverify.domain.warnings import warning_checks_across
 
     observed = clean_observed()
-    # Two clear substitutions would reject a complete read; from a fragment they cannot.
+    # The cut heading does not excuse words the fragment plainly shows changed.
     body = (
         contracts()
         .rules["warning"]["bodyExact"]
@@ -330,10 +330,352 @@ def test_a_heading_less_fragment_alone_never_rejects_the_wording() -> None:
     fragment = replace(observed.warning, heading=None, heading_evidence=None, body=body)
 
     checks = warning_checks_across(Decimal("45"), fragment, [])
+
+    assert by_id(checks, "warning_wording").state == "Mismatch"
+    assert by_id(checks, "warning_heading_uppercase").state == "Not verified"
+
+
+def test_a_noisy_heading_less_fragment_asks_for_the_rest_of_the_statement() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = (
+        "(1) According to the Surgeon General, women should not drink alcoholic beverages "
+        "during pregnancy becuase of the risk of birth defects. (2) Consumption of alcoholic "
+        "beverages impairs your abilty to drive a car or operate machinery, and may cause"
+    )
+    fragment = replace(observed.warning, heading=None, heading_evidence=None, body=body)
+
+    checks = warning_checks_across(Decimal("45"), fragment, [])
     wording = by_id(checks, "warning_wording")
 
     assert wording.state == "Review"
     assert wording.reason_code == "warning_fragment_review"
+
+
+def test_a_fragment_reports_the_heading_weight_and_separation_as_out_of_view() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    fragment = replace(observed.warning, heading=None, heading_evidence=None)
+
+    checks = warning_checks_across(Decimal("45"), fragment, [])
+
+    for check_id in ("warning_heading_emphasis", "warning_separation"):
+        assert by_id(checks, check_id).state == "Not verified"
+        assert by_id(checks, check_id).reason_code == "warning_heading_not_in_view"
+    # The body itself is in view, so its own measurements stand.
+    assert by_id(checks, "warning_contrast").state == "Match"
+    assert by_id(checks, "warning_wording").state == "Match"
+
+
+def test_a_contradicting_read_on_another_image_cannot_be_confirmed_away() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"]
+    defective = replace(
+        observed.warning, body=body.replace("women should not drink", "women may drink")
+    )
+    fragment = replace(observed.warning, heading=None, heading_evidence=None, body=body)
+
+    checks = warning_checks_across(Decimal("45"), defective, [fragment])
+    wording = by_id(checks, "warning_wording")
+
+    # The clean read on the other image cannot clear the difference; the images disagree,
+    # whichever of them carried the heading.
+    assert wording.state == "Review"
+    assert wording.reason_code == "warning_images_disagree"
+
+
+def test_ocr_confusions_of_short_statutory_words_are_not_disagreements() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"]
+    for damaged in (
+        ("the risk", "tlie risk"),
+        ("should not", "should riot"),
+        ("and may", "arid may"),
+    ):
+        alternate = replace(observed.warning, body=body.replace(*damaged))
+        checks = warning_checks_across(Decimal("45"), observed.warning, [alternate])
+        assert by_id(checks, "warning_wording").state == "Match", damaged
+
+
+def test_a_fragment_showing_little_of_the_statute_cannot_establish_a_difference() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    fragment = replace(
+        observed.warning,
+        heading=None,
+        heading_evidence=None,
+        body="(1) According to our brewmaster, this beer is best enjoyed cold.",
+    )
+
+    checks = warning_checks_across(Decimal("45"), fragment, [])
+    wording = by_id(checks, "warning_wording")
+
+    assert wording.state == "Review"
+    assert wording.reason_code == "warning_fragment_review"
+
+
+def test_a_substitution_survives_boxes_that_split_the_printed_lines() -> None:
+    observed = clean_observed()
+    words = (
+        contracts().rules["warning"]["bodyExact"].replace("should not drink", "may drink").split()
+    )
+    lines: list[str] = []
+    for start in range(0, len(words), 6):
+        row = words[start : start + 6]
+        lines.extend([" ".join(row[:2]), " ".join(row[2:])] if len(row) > 2 else [" ".join(row)])
+    body_lines = tuple(line for line in lines if line)
+    observed = replace(
+        observed,
+        warning=replace(observed.warning, body=" ".join(body_lines), body_lines=body_lines),
+    )
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Mismatch"
+
+
+def test_a_substitution_both_images_read_is_not_a_disagreement() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"].replace("should not drink", "may drink")
+    slipped = (
+        body.replace("Surgeon", "Surgeom")
+        .replace("machinery", "machinory")
+        .replace("pregnancy", "pregnency")
+        .replace("defects", "defecls")
+    )
+    primary = replace(observed.warning, body=slipped)
+    fragment = replace(observed.warning, heading=None, heading_evidence=None, body=body)
+
+    checks = warning_checks_across(Decimal("45"), primary, [fragment])
+
+    assert by_id(checks, "warning_wording").reason_code != "warning_images_disagree"
+
+
+def test_a_very_long_fused_token_does_not_crash_the_comparison() -> None:
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"].replace("health problems.", "of" * 1200)
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state in {"Review", "Mismatch"}
+
+
+def test_two_complete_reads_that_disagree_on_a_word_go_to_review() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"]
+    defective = replace(
+        observed.warning, body=body.replace("women should not drink", "women may drink")
+    )
+    clean = replace(observed.warning, body=body)
+
+    for primary, other in ((defective, clean), (clean, defective)):
+        checks = warning_checks_across(Decimal("45"), primary, [other])
+        wording = by_id(checks, "warning_wording")
+        assert wording.state == "Review"
+        assert wording.reason_code == "warning_images_disagree"
+
+
+def test_a_word_dropped_on_one_image_yields_to_a_clean_read_on_another() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"]
+    dropped = replace(observed.warning, body=body.replace("should not drink", "should drink"))
+    clean = replace(observed.warning, body=body)
+
+    checks = warning_checks_across(Decimal("45"), dropped, [clean])
+
+    assert by_id(checks, "warning_wording").state == "Match"
+
+
+def test_a_garbled_read_made_of_statutory_word_pieces_is_a_review_item() -> None:
+    observed = clean_observed()
+    lines = (
+        "SURGEON GENERAL",
+        "to a daily diet.2.000 calories a day",
+        "CONSUMPTIONOF",
+        "KOF BIRTH DEFECTS.",
+        "COHOLIC BEVERAGES",
+        "ARS YOUR ABILITY",
+        "HPROBLEMS",
+        "MAYCAUSE",
+    )
+    observed = replace(
+        observed, warning=replace(observed.warning, body=" ".join(lines), body_lines=lines)
+    )
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+    wording = by_id(checks, "warning_wording")
+
+    assert wording.state == "Review"
+    assert wording.reason_code == "warning_ocr_difference_uncertain"
+
+
+def test_a_glued_and_fragmented_read_on_one_line_is_a_review_item() -> None:
+    observed = clean_observed()
+    body = (
+        "(1ACCORDING TO THE SURGEON GENERALWOMEN SHOULD NKAICOHOLIC BEVERAGES DURING "
+        "PREGNANCY BECAUSE OF THERISK OF CONUMPTION OFALCOHOLIC BEVERAGES MPAIRS YOUR "
+        "ABILITY CONSUMPTION OFALCOHOLICBEVERAGEST"
+    )
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Review"
+
+
+def test_replacement_text_using_inflected_statutory_words_is_a_difference() -> None:
+    observed = clean_observed()
+    lines = (
+        "Please drink responsibly. Women who are",
+        "pregnant should consider avoiding alcohol.",
+        "Drinking and driving is dangerous and",
+        "alcohol may affect your health.",
+    )
+    observed = replace(
+        observed, warning=replace(observed.warning, body=" ".join(lines), body_lines=lines)
+    )
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Mismatch"
+
+
+def test_a_number_under_the_heading_is_not_a_read_of_the_statement() -> None:
+    observed = clean_observed()
+    observed = replace(
+        observed, warning=replace(observed.warning, body="2105900750", body_lines=("2105900750",))
+    )
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Review"
+
+
+def test_different_text_made_of_whole_words_is_still_a_difference() -> None:
+    observed = clean_observed()
+    body = (
+        "This product contains alcohol and may impair your ability to drive a car. "
+        "Do not drink while pregnant."
+    )
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Mismatch"
+
+
+def test_a_read_cut_inside_the_first_clause_is_not_a_missing_second_clause() -> None:
+    observed = clean_observed()
+    body = (
+        "1 ACCORDING TO THE SUR GEON GENERAL,WOMEN SHOULD NOT DRINK ALCCHOLIC BEVERAGES "
+        "DURING PREGNANCY BECAUSE OF THE RISK"
+    )
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Review"
+
+
+def test_a_complete_first_clause_with_no_second_clause_is_a_difference() -> None:
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"].split(" (2) ", maxsplit=1)[0]
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Mismatch"
+
+
+def test_a_shortened_word_inside_a_line_is_a_substitution() -> None:
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"].replace("alcoholic beverages", "alcohol")
+    observed = replace(observed, warning=replace(observed.warning, body=body))
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Mismatch"
+
+
+def test_a_word_fragment_at_the_end_of_a_read_line_is_a_cut() -> None:
+    observed = clean_observed()
+    lines = (
+        "(1)According to the Surgeon General, women should not drink alco",
+        "beverages during pregnancy because of the risk of birth defects. (2) Consumption",
+        "of alcoholic beverages impairs your ability to drive a car or operate machinery,",
+        "and may cause health problems.",
+    )
+    observed = replace(
+        observed,
+        warning=replace(observed.warning, body=" ".join(lines), body_lines=lines),
+    )
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Review"
+
+
+def test_the_same_word_fragment_inside_a_read_line_is_a_substitution() -> None:
+    observed = clean_observed()
+    lines = (
+        "(1) According to the Surgeon General, women should not drink alco beverages during",
+        "pregnancy because of the risk of birth defects. (2) Consumption of alcoholic",
+        "beverages impairs your ability to drive a car or operate machinery, and may",
+        "cause health problems.",
+    )
+    observed = replace(
+        observed,
+        warning=replace(observed.warning, body=" ".join(lines), body_lines=lines),
+    )
+
+    checks, _ = compare_all(ComparisonInputs(reference(), observed))
+
+    assert by_id(checks, "warning_wording").state == "Mismatch"
+
+
+def test_a_garbled_short_word_on_another_image_is_not_a_disagreement() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"]
+    garbled = replace(observed.warning, body=body.replace("the risk", "the rjsx"))
+
+    checks = warning_checks_across(Decimal("45"), observed.warning, [garbled])
+
+    assert by_id(checks, "warning_wording").state == "Match"
+
+
+def test_a_complete_fragment_with_another_word_disagrees_with_a_clean_read() -> None:
+    from labelverify.domain.warnings import warning_checks_across
+
+    observed = clean_observed()
+    body = contracts().rules["warning"]["bodyExact"]
+    fragment = replace(
+        observed.warning,
+        heading=None,
+        heading_evidence=None,
+        body=body.replace("women should not drink", "women may drink"),
+    )
+
+    checks = warning_checks_across(Decimal("45"), observed.warning, [fragment])
+    wording = by_id(checks, "warning_wording")
+
+    assert wording.reason_code == "warning_images_disagree"
+    assert '"may"' in wording.reason_text and '"should not"' in wording.reason_text
 
 
 def test_heavily_damaged_noisy_read_is_a_review_item_not_a_mismatch() -> None:
@@ -754,8 +1096,13 @@ def test_warning_below_threshold_and_failure_branches() -> None:
     checks = warning_checks(Decimal("45"), failure)
     assert by_id(checks, "warning_wording").state == "Mismatch"
     assert by_id(checks, "warning_heading_uppercase").state == "Not verified"
-    assert by_id(checks, "warning_heading_emphasis").state == "Review"
+    # Body text without a heading is a fragment: the heading's weight and the block's
+    # separation are outside the image, while the body's own measurements stand.
+    assert by_id(checks, "warning_heading_emphasis").state == "Not verified"
+    assert by_id(checks, "warning_heading_emphasis").reason_code == "warning_heading_not_in_view"
+    assert by_id(checks, "warning_separation").state == "Not verified"
     assert by_id(checks, "warning_body_not_bold").state == "Review"
+    assert by_id(checks, "warning_contrast").state == "Mismatch"
     assert by_id(checks, "warning_physical_size").reason_code == "physical_size_below_required"
 
 

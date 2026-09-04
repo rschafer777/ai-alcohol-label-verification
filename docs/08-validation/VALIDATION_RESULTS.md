@@ -10,7 +10,7 @@ Status: Engineering, governed-corpus, private-corpus, performance, protected Azu
 | --- | --- |
 | Ruff | PASS, zero findings |
 | Strict mypy | PASS, source package |
-| Pytest | PASS, 318 tests (backend and validation suites) |
+| Pytest | PASS, 334 tests (backend and validation suites) |
 | ESLint | PASS, zero findings |
 | TypeScript | PASS, zero errors |
 | Vitest and Testing Library | PASS, 33 tests in 6 files |
@@ -25,16 +25,16 @@ The governed product corpus passed 30 of 30 cases, including 24 development case
 
 ## Private current-image API and batch validation
 
-The private UAT folder contained 78 selected files. The browser and server admission rule accepted 76 JPEG or PNG images and skipped the 2 JSON files (the disposition oracle and the pixel ground truth) without failing the selection. The production multipart API then produced:
+The private UAT folder contained 223 selected files. The browser and server admission rule accepted 221 JPEG or PNG images and skipped the 2 JSON files (the disposition oracle and the pixel ground truth) without failing the selection. The production multipart API then produced:
 
-- 76 of 76 successful individual image analyses
+- 221 of 221 successful individual image analyses
 - 24 ordered checks and valid original-pixel evidence references in every successful result
-- 48 server-suggested product groups
+- 152 server-suggested product groups
 - no group above the three-image product limit
-- 48 of 48 successful grouped-product analyses
+- 152 of 152 successful grouped-product analyses
 - no filename, product-name, or expected-value override in the runtime or validator
 
-Individual analysis averaged 3.573 seconds, with a 3.693-second median, 5.186-second p95, and 6.206-second maximum. Grouped-product reruns averaged 0.716 seconds, with a 0.533-second median, 1.420-second p95, and 2.258-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed.
+Individual analysis averaged 3.997 seconds, with a 3.895-second median, 6.748-second p95, and 7.874-second maximum. Grouped-product reruns averaged 1.014 seconds, with a 0.629-second median, 2.693-second p95, and 6.607-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed.
 
 The detailed per-file report is `PRIVATE_UAT_CORPUS_REPORT.md`, and machine-readable evidence is `evidence/private-uat-corpus-e2e.json`. Raw images are excluded from the public repository because public redistribution rights were not established.
 
@@ -64,7 +64,7 @@ is `evidence/ground-truth-scores.json`.
 
 | Measure | Result |
 | --- | --- |
-| Images processed | 76 |
+| Images processed | 221 |
 | Oracle images reported clean that the oracle rejects (false clean) | 1 |
 | Oracle images reported as a difference that the oracle passes (false reject) | 0 |
 | Oracle images with the same disposition as the oracle | 6 of 42 |
@@ -79,7 +79,7 @@ is `evidence/ground-truth-scores.json`.
 | Country of origin exact or contained | 9 exact and 2 contained of 19 |
 | Warning located when present | 64 of 70 |
 | Warning wording (labels whose wording is exact) | 22 confirmed, 36 routed to review, 0 rejected in error of 63 |
-| Mean time per image | 3.53 s (median 3.43 s, p95 5.33 s, maximum 5.72 s, 6 over 5 s) |
+| Mean time per image | 4.06 s (median 3.91 s, p95 6.70 s, maximum 7.57 s, 53 over 5 s) |
 
 The one false clean is `Test_TTB_Image_0031.jpg`, whose oracle row records a bold warning body;
 visual inspection of the pixels shows the body in regular weight and the label compliant, so
@@ -94,6 +94,8 @@ Images that read wrongly or not at all are the known limitations: an embossed br
 bottle, the tiny warning on a curved side panel, a stylized can where the brand is decorative
 type, and a heavily stylized graphic label; each is reported as review with the fields it
 could not read marked as not verified.
+
+151 photographs without ground truth were also processed, 145 of them the operator's store photographs (taken on a phone and normalized to 300 pixels per inch, mostly 2400 by 3200 or 4139 by 2778 pixels, 2 of them above the pixel limit and prepared the way the browser prepares them) and 6 earlier images outside the ground-truth set: 151 needs review. None was reported as a difference, and none as clean. Their timing on the development workstation was a 4.30-second mean, 4.09-second median, 6.81-second p95, and 7.57-second maximum, with 45 over 5 seconds. Dense back labels on curved glass carry thirty or more small lines, and their first recognition pass alone takes about five seconds; on those images the second, closer read is skipped under the time budget and the result says so, which is what keeps them inside the 9-second hard-case bound.
 
 ## Accuracy boundary
 

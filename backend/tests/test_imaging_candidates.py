@@ -6,6 +6,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 import pytest
+from labelverify.contracts.loader import contracts
 from labelverify.contracts.models import OcrLine, OriginalDimensions, PanelResult, Point
 from labelverify.extraction.candidates import locate_candidates
 from labelverify.imaging.decode import ImageLimitError, decode_panel
@@ -917,6 +918,45 @@ def test_an_edge_cut_heading_anchors_a_body_fragment_without_a_heading() -> None
     assert observed.field("brand").status == "Not found"
 
 
+def test_a_cautionary_note_with_a_numbered_opening_is_not_the_federal_statement() -> None:
+    observed = locate_candidates(
+        [
+            line("BREWER'S WARNING: (1) ACCORDING TO OUR MASTER BLENDER THIS", 0, y=100),
+            line("PRODUCT IS BEST SERVED CHILLED.", 1, y=140),
+        ],
+        [panel()],
+    )
+    assert observed.warning.body is None
+
+
+def test_the_heading_outranks_an_earlier_edge_cut_opening() -> None:
+    body = contracts().rules["warning"]["bodyExact"]
+    observed = locate_candidates(
+        [
+            line("ERNMENT WARNING: (1) ACCORDING TO THE SURGEON GENERAL, WOMEN", 0, y=100),
+            line("SHOULD NOT DRINK ALCOHOLIC BEVERAGES DURING PREGNANCY", 1, y=140),
+            line(f"GOVERNMENT WARNING: {body}", 2, y=400),
+        ],
+        [panel()],
+    )
+    assert observed.warning.heading is not None
+    assert observed.warning.body == body
+
+
+def test_a_fragment_keeps_its_read_lines() -> None:
+    observed = locate_candidates(
+        [
+            line("WARNING: (1) According to the Surgeon General,", 0, y=100),
+            line("women should not drink alcoholic beverages during", 1, y=140),
+        ],
+        [panel()],
+    )
+    assert observed.warning.body_lines == (
+        "(1) According to the Surgeon General,",
+        "women should not drink alcoholic beverages during",
+    )
+
+
 def test_a_heading_missing_its_last_letter_still_leads() -> None:
     observed = locate_candidates(
         [line("GOVERNMENT WARNIN", 0, y=100), line("(1) According to the Surgeon", 1, y=140)],
@@ -945,6 +985,274 @@ def test_wine_designations_are_class_statements_and_copy_is_not() -> None:
     )
     assert observed.field("class_type").candidates[0].value == "CHIANTI CLASSICO"
     assert observed.field("brand").candidates[0].value == "RISERVA DUCALE"
+
+
+def test_a_name_carrying_a_style_word_is_still_the_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("SAISON HOUSE", 0, y=100, height=60),
+            line("FARMHOUSE ALE", 1, y=180, height=30),
+        ],
+        [panel()],
+    )
+    assert observed.field("brand").candidates[0].value == "SAISON HOUSE"
+    # Both class-bearing lines stay before the reviewer; neither is dropped.
+    assert "FARMHOUSE ALE" in {item.value for item in observed.field("class_type").candidates}
+
+
+def test_a_designation_with_a_region_word_before_the_class_is_not_the_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("FROST RIDGE", 0, y=100, height=60),
+            line("Marlborough Sauvignon Blanc", 1, y=170, height=40),
+        ],
+        [panel()],
+    )
+    assert observed.field("brand").candidates[0].value == "FROST RIDGE"
+    assert observed.field("class_type").candidates[0].value == "Marlborough Sauvignon Blanc"
+
+
+def test_joined_pieces_of_the_statement_are_not_the_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("GOVERNMENT WARNING.", 0, y=100, height=50),
+            line("OR OPERATE", 1, y=200, x=400, width=200, height=50),
+            line("E MACHINERY AND MAY", 2, y=200, x=620, width=300, height=50),
+            line("2105900750", 3, y=300, height=50),
+        ],
+        [panel()],
+    )
+    assert observed.field("brand").status == "Not found"
+
+
+def test_an_appellation_first_designation_is_never_the_brand() -> None:
+    for designation in ("MOSCATO D'ASTI", "CHIANTI RUFINA", "MALBEC MENDOZA", "RIOJA ALTA"):
+        observed = locate_candidates([line(designation, 0, y=100, height=60)], [panel()])
+        assert observed.field("brand").status == "Not found", designation
+        assert observed.field("class_type").status == "Found", designation
+
+
+def test_names_that_carry_a_class_word_stay_brands() -> None:
+    for name in (
+        "PORT CITY",
+        "RUM RUNNER",
+        "GIN LANE",
+        "SAISON HOUSE",
+        "TO THE MOON",
+        "THE GENERAL",
+    ):
+        observed = locate_candidates([line(name, 0, y=100, height=60)], [panel()])
+        assert observed.field("brand").candidates[0].value == name, name
+
+
+def test_origin_and_finishing_words_do_not_split_one_designation() -> None:
+    observed = locate_candidates(
+        [
+            line("KENTUCKY STRAIGHT BOURBON WHISKEY", 0, y=100, height=40),
+            line("STRAIGHT BOURBON WHISKEY AGED IN OAK", 1, y=400, height=20),
+        ],
+        [panel()],
+    )
+    assert observed.field("class_type").status == "Found"
+    assert observed.field("class_type").candidates[0].value == "KENTUCKY STRAIGHT BOURBON WHISKEY"
+
+
+def test_an_integral_year_stays_in_the_name() -> None:
+    for name in ("BLEND NO 2010", "OLD NO 1888", "CLASS OF 1999"):
+        observed = locate_candidates([line(name, 0, y=100, height=60)], [panel()])
+        assert observed.field("brand").candidates[0].value == name, name
+
+
+def test_text_merged_ahead_of_a_wrapped_government_is_not_the_heading() -> None:
+    body = contracts().rules["warning"]["bodyExact"]
+    observed = locate_candidates(
+        [line("12 FL OZ GOVERNMENT", 0, y=100), line(f"WARNING: {body}", 1, y=140)],
+        [panel()],
+    )
+    assert observed.warning.heading == "GOVERNMENT WARNING:"
+
+
+def test_names_with_a_filler_word_after_the_class_word_stay_brands() -> None:
+    for name in (
+        "GIN ROYAL",
+        "BOURBON BLACK",
+        "BORN IN A BARN",
+        "THE RISK",
+        "MAY CAUSE",
+    ):
+        observed = locate_candidates([line(name, 0, y=100, height=60)], [panel()])
+        assert observed.field("brand").candidates[0].value == name, name
+
+
+def test_origin_copy_naming_a_place_is_not_the_brand() -> None:
+    for copy in ("BORN IN SAN FRANCISCO IN 1992, SKY", "MADE IN THE USA", "CRAFTED IN KENTUCKY"):
+        observed = locate_candidates([line(copy, 0, y=100, height=60)], [panel()])
+        assert observed.field("brand").status == "Not found", copy
+
+
+def test_a_heading_wrapped_after_government_is_a_heading_in_view() -> None:
+    body = contracts().rules["warning"]["bodyExact"]
+    observed = locate_candidates(
+        [
+            line("GOVERNMENT", 0, y=100),
+            line(f"WARNING: {body}", 1, y=140),
+        ],
+        [panel()],
+    )
+    assert observed.warning.heading == "GOVERNMENT WARNING:"
+    assert observed.warning.body == body
+
+
+def test_the_edge_cut_opening_tolerates_a_trailing_mark_or_a_cut_word() -> None:
+    for opening in (
+        "WARNING: (1) According to the,",
+        "WARNING: (1) Accordin",
+        "WARNING: (1) According to th",
+    ):
+        observed = locate_candidates(
+            [line(opening, 0, y=100), line("Surgeon General, women should not drink", 1, y=140)],
+            [panel()],
+        )
+        assert observed.warning.body is not None, opening
+
+
+def test_a_varietal_designation_is_never_the_brand() -> None:
+    for designation in ("PINOT NOIR", "TEQUILA JOVEN", "DISTILLED SPIRITS SPECIALTY"):
+        observed = locate_candidates([line(designation, 0, y=100, height=60)], [panel()])
+        assert observed.field("brand").status == "Not found", designation
+        assert observed.field("class_type").status == "Found", designation
+
+
+def test_a_designation_is_not_dropped_when_another_line_states_the_class() -> None:
+    observed = locate_candidates(
+        [line("PINOT MEUNIER", 0, y=100, height=50), line("RED WINE", 1, y=400, height=20)],
+        [panel()],
+    )
+    assert "PINOT MEUNIER" in {item.value for item in observed.field("class_type").candidates}
+
+
+def test_a_fragment_whose_first_line_wraps_after_the_opening_is_anchored() -> None:
+    observed = locate_candidates(
+        [
+            line("WARNING: (1) According to the", 0, y=100),
+            line("Surgeon General, women should not drink", 1, y=140),
+            line("health problems.", 2, y=180),
+        ],
+        [panel()],
+    )
+    assert observed.warning.heading is None
+    assert (observed.warning.body or "").startswith("(1) According to the Surgeon General")
+    assert observed.field("brand").status == "Not found"
+
+
+def test_serving_copy_is_not_the_brand() -> None:
+    observed = locate_candidates(
+        [line("PRODUCT IS BEST SERVED CHILLED.", 0, y=100, height=40)], [panel()]
+    )
+    assert observed.field("brand").status == "Not found"
+
+
+def test_a_number_that_is_part_of_a_short_name_stays() -> None:
+    for name in ("STATION 2000", "VINTAGE 1912", "GRAND SM"):
+        observed = locate_candidates([line(name, 0, y=100, height=60)], [panel()])
+        assert observed.field("brand").candidates[0].value == name, name
+
+
+def test_a_designation_in_sentence_case_is_the_class_not_copy() -> None:
+    observed = locate_candidates(
+        [line("Blended whisky with natural flavors", 0, y=100)],
+        [panel()],
+    )
+    assert observed.field("class_type").candidates[0].value == "Blended whisky with natural flavors"
+
+
+def test_a_web_address_naming_the_class_is_not_the_class_statement() -> None:
+    observed = locate_candidates(
+        [
+            line("WWW.OLDTOMTEQUILA.COM", 0, y=100),
+            line("USES ONLY 100% BLUE AGAVE", 1, y=140),
+        ],
+        [panel()],
+    )
+    assert observed.field("class_type").status == "Not found"
+    # The address reaches the brand only through the domain fallback, never as printed.
+    assert all("." not in item.value for item in observed.field("brand").candidates)
+
+
+def test_composition_color_and_code_lines_are_not_the_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("810942 CARAMEL COLOR ADDED", 0, y=100, height=40),
+            line("CONTAINS 100% BLUE AGAVE", 1, y=160, height=40),
+            line("ARTIFICIALLY COLORED", 2, y=220, height=40),
+            line("OLD TOM", 3, y=300, height=30),
+        ],
+        [panel()],
+    )
+    assert observed.field("brand").candidates[0].value == "OLD TOM"
+
+
+def test_tasting_copy_is_not_the_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("RYE IS BOLD WITH NOTES OF", 0, y=100, height=50),
+            line("VANILLA ON THE PALATE", 1, y=160, height=50),
+            line("BLUE HARBOR", 2, y=300, height=30),
+        ],
+        [panel()],
+    )
+    assert observed.field("brand").candidates[0].value == "BLUE HARBOR"
+
+
+def test_a_trademark_mark_read_as_letters_is_not_part_of_the_brand() -> None:
+    observed = locate_candidates([line("WILD HONEY TM", 0, y=100, height=60)], [panel()])
+    assert observed.field("brand").candidates[0].value == "WILD HONEY"
+    anchored = locate_candidates([line("IRON ANCHOR", 0, y=100, height=60)], [panel()])
+    assert anchored.field("brand").candidates[0].value == "IRON ANCHOR"
+
+
+def _warning_block(*, ratio: float, confidence: float) -> list[OcrLine]:
+    body = contracts().rules["warning"]["bodyExact"].split()
+    rows = [
+        "GOVERNMENT WARNING:",
+        " ".join(body[:9]),
+        " ".join(body[9:18]),
+        " ".join(body[18:27]),
+        " ".join(body[27:36]),
+        " ".join(body[36:]),
+    ]
+    return [
+        line(
+            text, index, y=100 + index * 40, height=34, local_contrast=0.40, confidence=confidence
+        ).model_copy(update={"contrast_ratio": ratio, "ink_height_px": 30.0})
+        for index, text in enumerate(rows)
+    ]
+
+
+def test_medium_gray_type_read_with_confidence_is_a_contrast_review_item() -> None:
+    observed = locate_candidates(_warning_block(ratio=2.7, confidence=0.94), [panel()])
+    assert observed.warning.contrast_sufficient is None
+
+
+def test_faint_type_is_a_contrast_failure() -> None:
+    observed = locate_candidates(_warning_block(ratio=1.6, confidence=0.94), [panel()])
+    assert observed.warning.contrast_sufficient is False
+
+
+def test_low_contrast_with_a_weak_read_is_a_contrast_failure() -> None:
+    observed = locate_candidates(_warning_block(ratio=2.7, confidence=0.4), [panel()])
+    assert observed.warning.contrast_sufficient is False
+
+
+def test_a_trailing_vintage_year_is_not_part_of_the_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("CASTELLO", 0, y=40, height=40),
+            line("RISERVA 2021", 1, y=100, height=60),
+        ],
+        [panel()],
+    )
+    assert observed.field("brand").candidates[0].value == "CASTELLO RISERVA"
 
 
 def test_beer_styles_are_class_designations() -> None:
