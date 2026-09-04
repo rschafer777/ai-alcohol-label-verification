@@ -99,6 +99,13 @@ def test_workflow_uses_oidc_digest_deployment_and_complete_smoke_gate(
     assert "ops/azure-container-app.json" in workflow
     assert "/health/ready" in workflow
     assert "/api/v1/meta" in workflow
+    public_smoke = workflow[workflow.index("id: public_smoke") :]
+    assert public_smoke.index(
+        '"$base_url/api/v1/meta" >"$work/meta.json"'
+    ) < public_smoke.index(
+        "ready=true"
+    )
+    assert '.buildId == $sha and .ready == true' in workflow
     assert "/api/v1/verifications" in workflow
     assert "Origin: $base_url" in workflow
     assert "selectedCheckCount == 24" in workflow

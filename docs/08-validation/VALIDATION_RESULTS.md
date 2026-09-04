@@ -10,7 +10,7 @@ Status: Engineering, governed-corpus, private-corpus, performance, protected Azu
 | --- | --- |
 | Ruff | PASS, zero findings |
 | Strict mypy | PASS, source package |
-| Pytest | PASS, 371 tests (backend and validation suites) |
+| Pytest | PASS, 372 tests (backend and validation suites) |
 | ESLint | PASS, zero findings |
 | TypeScript | PASS, zero errors |
 | Vitest and Testing Library | PASS, 35 tests in 6 files |
