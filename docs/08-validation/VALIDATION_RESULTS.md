@@ -10,10 +10,10 @@ Status: Engineering, governed-corpus, private-corpus, performance, protected Azu
 | --- | --- |
 | Ruff | PASS, zero findings |
 | Strict mypy | PASS, source package |
-| Pytest | PASS, 334 tests (backend and validation suites) |
+| Pytest | PASS, 371 tests (backend and validation suites) |
 | ESLint | PASS, zero findings |
 | TypeScript | PASS, zero errors |
-| Vitest and Testing Library | PASS, 33 tests in 6 files |
+| Vitest and Testing Library | PASS, 35 tests in 6 files |
 | Vite production build | PASS, 131 modules |
 | Browser and accessibility workflows | PASS, 3 applicable tests and 3 declared browser-matrix skips |
 
@@ -36,7 +36,7 @@ The private UAT folder contained 223 selected files. The browser and server admi
 
 Individual analysis averaged 3.997 seconds, with a 3.895-second median, 6.748-second p95, and 7.874-second maximum. Grouped-product reruns averaged 1.014 seconds, with a 0.629-second median, 2.693-second p95, and 6.607-second maximum. The 5-second arithmetic-mean target and 9-second hard-case ceiling both passed.
 
-The detailed per-file report is `PRIVATE_UAT_CORPUS_REPORT.md`, and machine-readable evidence is `evidence/private-uat-corpus-e2e.json`. Raw images are excluded from the public repository because public redistribution rights were not established.
+The detailed per-case technical report is `PRIVATE_UAT_CORPUS_REPORT.md`, and machine-readable evidence is `evidence/private-uat-corpus-e2e.json`. Public evidence uses case identifiers, content hashes, outcomes, field-read flags, counts, and timing. Raw images, private filenames, and raw OCR strings are excluded because public redistribution and disclosure rights were not established.
 
 ## Difficult-image validation scenarios
 

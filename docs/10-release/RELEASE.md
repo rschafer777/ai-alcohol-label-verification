@@ -17,7 +17,7 @@ Status: Corrective candidate after four adversarial review rounds and the 221-im
 - OCI Dockerfile, Azure infrastructure template, and GitHub OIDC workflow
 - README with setup, run, test, approach, tools, assumptions, trade-offs, and limitations
 
-The private raw images are excluded from the public repository because public redistribution rights were not established. Their hashes, test results, timing, and field-level scores are retained as public evidence.
+The private raw images are excluded from the public repository because public redistribution rights were not established. Public evidence retains case identifiers, content hashes, test results, field-read flags, timing, and field-level scores without publishing private filenames or raw OCR strings.
 
 ## Release controls
 

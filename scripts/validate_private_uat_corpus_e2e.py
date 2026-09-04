@@ -9,6 +9,7 @@ accuracy requires an independent human oracle and is reported separately.
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import platform
@@ -252,6 +253,83 @@ def performance_summary(records: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
+def _public_artifacts(
+    record: dict[str, Any], input_root: Path
+) -> list[dict[str, str]]:
+    existing = record.get("fileArtifacts")
+    if isinstance(existing, list):
+        return [dict(item) for item in existing if isinstance(item, dict)]
+    artifacts: list[dict[str, str]] = []
+    for value in record.get("files", []):
+        path = input_root / str(value)
+        artifact: dict[str, str] = {"extension": path.suffix.casefold()}
+        if path.is_file():
+            artifact["sha256"] = sha256(path)
+        artifacts.append(artifact)
+    return artifacts
+
+
+def _public_observed(observed: dict[str, Any]) -> dict[str, Any]:
+    """Retain technical outcomes without publishing private-image OCR text."""
+
+    return {
+        "beverageType": observed.get("beverageType"),
+        "brandRead": bool(observed.get("brandName")) or bool(observed.get("brandRead")),
+        "classTypeRead": bool(observed.get("classType"))
+        or bool(observed.get("classTypeRead")),
+        "abvPercent": observed.get("abvPercent"),
+        "proof": observed.get("proof"),
+        "netContentsValue": observed.get("netContentsValue"),
+        "netContentsUnit": observed.get("netContentsUnit"),
+        "producerNameAddressRead": bool(observed.get("producerNameAddress"))
+        or bool(observed.get("producerNameAddressRead")),
+        "countryOfOriginRead": bool(observed.get("countryOfOrigin"))
+        or bool(observed.get("countryOfOriginRead")),
+        "detectedFieldCount": observed.get("detectedFieldCount"),
+        "evidenceRegionCount": observed.get("evidenceRegionCount"),
+        "machineSummary": observed.get("machineSummary"),
+    }
+
+
+def public_evidence(report: dict[str, Any], input_root: Path) -> dict[str, Any]:
+    """Data-minimize evidence before it enters the public repository."""
+
+    sanitized = copy.deepcopy(report)
+    scope = sanitized.get("scope", {})
+    skipped = scope.pop("skippedFiles", [])
+    if skipped:
+        scope["skippedFileExtensions"] = sorted(
+            {Path(str(value)).suffix.casefold() for value in skipped}
+        )
+    failures = sanitized.get("preflightFailures", [])
+    if failures:
+        sanitized["preflightFailures"] = [
+            "An admitted image exceeded the governed byte limit" for _ in failures
+        ]
+
+    equivalent = sanitized.get("equivalentPanelIntegration", {})
+    if isinstance(equivalent, dict):
+        equivalent["fileArtifacts"] = _public_artifacts(equivalent, input_root)
+        equivalent.pop("files", None)
+
+    for collection_name in ("individualScans", "productScans"):
+        records = sanitized.get(collection_name, [])
+        for record in records:
+            record["fileArtifacts"] = _public_artifacts(record, input_root)
+            record.pop("files", None)
+            record.pop("suggestedName", None)
+            observed = record.get("observed")
+            if isinstance(observed, dict):
+                record["observed"] = _public_observed(observed)
+
+    grouping = sanitized.get("grouping", {})
+    if isinstance(grouping, dict):
+        for group in grouping.get("groups", []):
+            if isinstance(group, dict):
+                group.pop("suggestedName", None)
+    return sanitized
+
+
 def markdown_cell(value: Any) -> str:
     if value is None or value == "":
         return "Not read"
@@ -346,10 +424,10 @@ def write_markdown_report(report: dict[str, Any], output: Path) -> None:
         "## Per-image production API results",
         "",
         (
-            "| File | API | Time | Type | Brand | Class/type | ABV | Proof | "
-            "Net contents | Producer | Origin | Machine finding |"
+            "| Case | Artifact | API | Time | Type | Brand read | Class read | ABV | Proof | "
+            "Net contents | Producer read | Origin read | Machine finding |"
         ),
-        "| --- | ---: | ---: | --- | --- | --- | ---: | ---: | --- | --- | --- | --- |",
+        "| --- | --- | ---: | ---: | --- | --- | --- | ---: | ---: | --- | --- | --- | --- |",
     ]
     for record in report.get("individualScans", []):
         observed = record.get("observed", {})
@@ -360,17 +438,20 @@ def write_markdown_report(report: dict[str, Any], output: Path) -> None:
             "| "
             + " | ".join(
                 [
-                    markdown_cell(record.get("files", [""])[0]),
+                    markdown_cell(record.get("caseId")),
+                    markdown_cell(
+                        str(record.get("fileArtifacts", [{}])[0].get("sha256", ""))[:12]
+                    ),
                     markdown_cell(record.get("httpStatus")),
                     f"{float(record.get('durationSeconds', 0)):.3f} s",
                     markdown_cell(observed.get("beverageType")),
-                    markdown_cell(observed.get("brandName")),
-                    markdown_cell(observed.get("classType")),
+                    "Yes" if observed.get("brandRead") else "No",
+                    "Yes" if observed.get("classTypeRead") else "No",
                     markdown_cell(observed.get("abvPercent")),
                     markdown_cell(observed.get("proof")),
                     markdown_cell(net),
-                    markdown_cell(observed.get("producerNameAddress")),
-                    markdown_cell(observed.get("countryOfOrigin")),
+                    "Yes" if observed.get("producerNameAddressRead") else "No",
+                    "Yes" if observed.get("countryOfOriginRead") else "No",
                     markdown_cell(observed.get("machineSummary")),
                 ]
             )
@@ -400,6 +481,11 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--report-output", type=Path, default=DEFAULT_REPORT_OUTPUT)
     parser.add_argument("--skip-product-runs", action="store_true")
+    parser.add_argument(
+        "--sanitize-existing",
+        action="store_true",
+        help="Data-minimize an existing evidence file without rerunning OCR.",
+    )
     args = parser.parse_args()
 
     input_root = args.input if args.input.is_absolute() else PROJECT_ROOT / args.input
@@ -409,6 +495,15 @@ def main() -> int:
         if args.report_output.is_absolute()
         else PROJECT_ROOT / args.report_output
     )
+    if args.sanitize_existing:
+        report = json.loads(output.read_text(encoding="utf-8"))
+        sanitized = public_evidence(report, input_root)
+        output.write_text(
+            json.dumps(sanitized, indent=2) + "\n", encoding="utf-8", newline="\n"
+        )
+        write_markdown_report(sanitized, report_output)
+        print(json.dumps({"output": str(output), "sanitized": True}))
+        return 0
     all_files = sorted(
         (path for path in input_root.iterdir() if path.is_file()),
         key=lambda path: path.name.casefold(),
@@ -469,7 +564,8 @@ def main() -> int:
     }
     if preflight_failures or not images:
         output.parent.mkdir(parents=True, exist_ok=True)
-        output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        sanitized = public_evidence(report, input_root)
+        output.write_text(json.dumps(sanitized, indent=2) + "\n", encoding="utf-8")
         print(json.dumps({"output": str(output), "pass": False, "errors": preflight_failures}))
         return 1
 
@@ -706,8 +802,9 @@ def main() -> int:
     }
     report["pass"] = functional_pass and performance_pass
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-    write_markdown_report(report, report_output)
+    sanitized = public_evidence(report, input_root)
+    output.write_text(json.dumps(sanitized, indent=2) + "\n", encoding="utf-8")
+    write_markdown_report(sanitized, report_output)
     print(
         json.dumps(
             {"output": str(output), "pass": report["pass"], **report["summary"]},

@@ -59,7 +59,7 @@ After the clearance above, the multi-image warning read was reviewed by an indep
 
 | Gate | Result |
 | --- | --- |
-| Python tests | PASS, 370 tests |
+| Python tests | PASS, 371 tests |
 | Python lint and strict typing | PASS |
 | Frontend tests | PASS, 35 tests in 6 files |
 | Frontend lint, type check, and production build | PASS |
@@ -73,4 +73,4 @@ After the clearance above, the multi-image warning read was reviewed by an indep
 | Warm and cold processing timing | PASS |
 | Sequential batch timing | PASS |
 
-The fourth review's remaining findings were review-direction or documentation items and were corrected in the same candidate; no finding that changes a compliant label into a difference remains open. The release manifest was regenerated for this candidate from the staged tree and validated before the commit that carries this section. Protected Azure deployment of this candidate and requester UAT follow.
+The fourth review's remaining findings were review-direction or documentation items and were corrected in the same candidate; no finding that changes a compliant label into a difference remains open. Public evidence from the private corpus is minimized to case identifiers, content hashes, field-read flags, outcomes, counts, and timing, with a regression test that excludes private filenames and raw OCR text. The release manifest was regenerated for this candidate from the staged tree and validated before the commit that carries this section. Protected Azure deployment of this candidate and requester UAT follow.
