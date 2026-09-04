@@ -28,13 +28,13 @@ Status: Approved build baseline
 | FR-018 | Case-only or punctuation-only brand variations route to Review | INT-008 |
 | FR-019 | Review workspace shows rule expectation, extracted value, state, reason, and evidence action | INT-010 |
 | FR-020 | Show on label highlights the correct original-pixel polygon on the correct panel | INT-010 |
-| FR-021 | User can zoom, rotate, enhance, and switch among up to three panels without changing evidence coordinates | INT-009, INT-010 |
+| FR-021 | User can zoom, rotate, enhance, and switch among up to three panels without changing evidence coordinates; the mouse wheel zooms about the point under the cursor, the enlarged image pans by dragging or arrow keys, the zoom readout resets the view, and the Table, Cards, and Image first switcher sits at the head of the checks with icons and tooltips | INT-009, INT-010 |
 | FR-022 | Warning detail shows prescribed and observed text plus all warning subchecks | INT-007 |
 | FR-023 | Reviewer can record Approve, Reject, or Request more information and an optional note | INT-011 |
 | FR-024 | Keyboard shortcuts operate reviewer disposition without trapping focus | INT-Q-004 |
 | FR-025 | Batch accepts up to 900 supported images, skips unsupported selected files individually, and reports accepted and skipped counts and reasons | INT-012 |
 | FR-026 | Grouping uses directory, filename, OCR brand, class/type, and beverage-family cues and never silently places more than three images in a product | INT-012 |
-| FR-027 | User can inspect, merge, split, name, and confirm groups before processing | INT-012 |
+| FR-027 | User can inspect, merge, split, name, and confirm groups before processing; the step states how many products are confirmed and how many still need a decision, filters the wall to those cards, confirms the remaining suggestions in one step while leaving conflicts to the reviewer, states beside the run button why it is locked, and explains each grouping tool with a tooltip | INT-012 |
 | FR-028 | Batch reuses the analysis endpoint sequentially with failure isolation | INT-012 |
 | FR-029 | Batch begins at 0 of N and reports products, images, processed, remaining, running, queued, review, differences, failures, active time, rate, mean, ETA, and attempts | INT-013 |
 | FR-030 | User can cancel remaining work and retry failed groups | INT-013 |

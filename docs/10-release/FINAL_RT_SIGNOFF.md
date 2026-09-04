@@ -48,3 +48,7 @@ All three reviewers returned CLEAR against the same frozen candidate. They confi
 | Full release gate | PASS |
 
 Field-level scores, oracle coverage, disputed observations, and limitations are in `../08-validation/VALIDATION_RESULTS.md`. Deployment values are in `DEPLOYMENT_EVIDENCE.json`. Requester UAT remains open.
+
+## Post-clearance documentation amendment
+
+After the three clearances, FR-021 and FR-027 in the feature requirements and the matching traceability rows were amended to state the evidence viewer's wheel zoom, drag panning, keyboard controls, and view switcher placement, and the batch grouping step's confirmed count, filter, one-step confirmation, locked-run reason, and tooltips. No application code changed; the deployed application commit is unchanged. The release manifest was regenerated for this documentation tree and now has SHA-256 `a2f549e81d47dba6e0e396d954bbe8aa6e0626a6cc3b9c13b3d071cf38f88ac4`.
