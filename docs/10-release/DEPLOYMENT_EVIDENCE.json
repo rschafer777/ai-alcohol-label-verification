@@ -5,7 +5,7 @@
   "repository": "https://github.com/rschafer777/ai-alcohol-label-verification",
   "branch": "main",
   "applicationCommit": "0e9e79f37b074ba2f432ec7f6cf3e99495a4f007",
-  "documentationCommit": "pending",
+  "documentationCommit": "a68854af5d9e5898280de66c9e4944b0921df2d9",
   "predecessorApplicationCommit": "4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961",
   "workflow": {
     "name": "deploy-demo.yml",
