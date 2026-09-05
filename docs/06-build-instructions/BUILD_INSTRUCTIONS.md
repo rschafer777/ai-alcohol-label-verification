@@ -12,6 +12,7 @@ Status: CR-002 build executed; final release and deployment gates in progress
 | 1.1 | 2026-09-04 | Added corrective measurement, provenance, extraction, model-evaluation, deployed-performance, and change-control work packages | CR-002 |
 | 1.2 | 2026-09-04 | Recorded completed implementation packages and remaining commit-bound deployment gates | CR-002 |
 | 1.3 | 2026-09-04 | Added final-review integrity closures to the revision, persistence, security, and release-evidence work | CR-002 |
+| 1.4 | 2026-09-05 | Separated demo-UAT live smoke from pre-production production-scale Azure load qualification | Product-owner release direction |
 
 ## Delivery sequence
 
@@ -112,7 +113,7 @@ One contributor may hold multiple roles for this take-home project, but evidence
 - Numeric brands pass independent positives without selecting protected numeric negatives.
 - Producer and warning recoverable-field utility meets FR-054 or carries an explicitly accepted evidence-backed variance; product-specific and filename-specific behavior is prohibited in either case.
 - Any OCR model change meets FR-061, including paired accuracy, false-clean, protected-field, integrity, licensing, offline, resource, and Azure gates.
-- Distinct-hash representative Azure requests meet the post-ready latency bands, and separately reported cold and end-to-end batch paths meet FR-062 before deployed parity is claimed.
+- Demo-UAT deployed parity requires exact-build Azure checks and distinct difficult smoke across all three beverage families, bound to the passing local representative and capacity evidence. Distinct-hash 30-product, 100-fingerprint p95, cold, and production-scale Azure batch paths remain mandatory before a production-scale deployed-performance claim.
 - CR-002 is closed in the change-control register only after implementation, validation, independent review, deployment, and UAT entry evidence agree.
 
 ## Local build commands

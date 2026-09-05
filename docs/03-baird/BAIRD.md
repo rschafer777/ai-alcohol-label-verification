@@ -13,6 +13,7 @@ Gate result: CR-002 requirements approved by three independent reviews and relea
 | 1.2 | 2026-09-04 | Recorded requirements clearance and linked the approved corrective baseline to implementation and validation | CR-002 |
 | 1.3 | 2026-09-04 | Closed final-review gaps in unresolved type, correction evidence, mutation boundaries, persistence ordering, and canonical release evidence | CR-002 |
 | 1.4 | 2026-09-05 | Assigned one unique, sequential identifier to every derived requirement and reconciled downstream feature traceability | CR-002 final requirements review |
+| 1.5 | 2026-09-05 | Separated demo-UAT deployment evidence from pre-production representative Azure load qualification | Product-owner release direction |
 
 ## Purpose
 
@@ -53,7 +54,7 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 | Producer failure cause | Aggregate results cannot distinguish detection, recognition, line joining, selection, vocabulary, or language errors | Categorize each producer miss or wrong result before selecting parser, OCR, or vocabulary changes |
 | Reviewer-correction identity | The prototype has browser scope but no verified workforce identity | Use the scope only for authorization; never expose it as identity or evidence, and store a bounded non-secret actor label or generated audit surrogate without claiming a federal audit identity |
 | Supported language matrix | Discovery requires import handling but does not define a set of supported languages | Add only field-specific languages justified by annotated cases and route unsupported language to Review |
-| Representative Azure OCR timing | Existing Azure checks use repeated governed samples | Measure unique sanitized representative photographs on the governed 4-vCPU and 8-GiB environment before claiming deployed parity |
+| Representative Azure OCR timing | Existing Azure checks use repeated governed samples | Use distinct difficult beverage-family smoke for demo-UAT deployment parity; require a larger unique sanitized corpus on the governed 4-vCPU and 8-GiB environment before a production-scale Azure performance claim |
 | Warning machine-clearance boundary | A blanket refusal to match photographic evidence defeats routine triage, while relaxed text comparison risks false clean | Permit machine Match only for complete exact supported evidence; retain Review for unresolved punctuation, presentation, contradiction, or scale |
 
 ## Derived requirements
@@ -91,7 +92,7 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 31. Restrict corrections to typed, allowlisted observed fields with existing evidence or a reviewer-selected source-panel polygon. Preserve reviewer-transcribed visible text and derive normalized numbers, units, ranges, precision, abbreviations, and components on the server so normalization cannot hide a printed defect. Warning wording, warning presentation, image quality, and coverage are not manually correctable.
 32. Recompute the complete declared dependency graph after a corrected beverage type, class, ABV, proof, brand, net contents, producer, country, appellation, or sulfite observation.
 33. Measure corrective utility on recoverable producer and warning-wording product-fields in the sealed holdout. Require the declared bounded gain with zero loss and zero new false clean; exclude unscaled physical size and irreducible presentation uncertainty.
-34. Establish representative Azure performance with distinct admitted pixel hashes and a disclosed distribution. Measure cold startup separately, apply 5-second and 9-second bands only after readiness, and include queue and rate waits in batch wall time.
+34. Before production-scale Azure performance or deployed-p95 claims, establish representative Azure performance with distinct admitted pixel hashes and a disclosed distribution, measure cold startup separately, apply 5-second and 9-second bands only after readiness, and include queue and rate waits in batch wall time. For demo-UAT entry, bind local representative and capacity evidence to the exact deployed revision and pass distinct difficult smoke inputs across all three beverage families.
 35. Preserve an unresolved beverage type across all revisions unless supported label evidence or a cited reviewer correction resolves it; never substitute a default profile to make a revision executable.
 36. Bind correction replay to immutable source content and coordinates rather than an order-derived display identifier, and preserve raw visible text plus server-derived values as separate audit facts.
 37. Treat one correction event as the indivisible replay unit: its latest value, source image hash, panel, polygon, and original snippet travel together. After add-panel OCR, refresh label-derived comparison values from the complete read while preserving trusted application and reviewer-corrected values.

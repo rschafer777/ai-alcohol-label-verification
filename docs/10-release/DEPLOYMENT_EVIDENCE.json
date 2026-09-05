@@ -58,6 +58,77 @@
     "warningWording": "Match or conservative Review",
     "warningPhysicalSize": "Not verified"
   },
+  "limitedAzureDifficultImageSmoke": {
+    "result": "PASS",
+    "scope": "Three products comprising four distinct difficult label photographs submitted to the public production API after deployment",
+    "applicationCommit": "0e9e79f37b074ba2f432ec7f6cf3e99495a4f007",
+    "products": [
+      {
+        "caseId": "AZ-SMOKE-MALT-001",
+        "httpStatus": 200,
+        "requestId": "e79b902baab94f08b776c53a8fcf4f80",
+        "returnedBuildId": "0e9e79f37b074ba2f432ec7f6cf3e99495a4f007",
+        "panelCount": 1,
+        "panels": [{"sha256": "134d76be05e4adaf2953c38103ba21578f48cc7b314893b640cd41ef061f73a8", "bytes": 2735706, "width": 1800, "height": 1350, "mediaType": "image/png"}],
+        "family": "malt_beverage",
+        "brand": "REVOLVER",
+        "brandInterpretation": "Partial safe read; the image visibly includes REVOLVER BREWING",
+        "classType": "TEXAS STYLE ALE",
+        "serverDurationMs": 6176.807,
+        "selectedCheckCount": 24,
+        "machineSummary": "Review needed",
+        "blockingCheckIds": ["net_contents", "warning_wording", "warning_heading_uppercase", "warning_heading_emphasis", "warning_body_not_bold", "warning_separation", "warning_continuity"],
+        "reviewCauseCategories": ["missing_evidence", "ocr_uncertainty", "presentation_uncertainty"]
+      },
+      {
+        "caseId": "AZ-SMOKE-WINE-001",
+        "httpStatus": 200,
+        "requestId": "b9786ba4f9724d7d92fca7e715104da6",
+        "returnedBuildId": "0e9e79f37b074ba2f432ec7f6cf3e99495a4f007",
+        "panelCount": 1,
+        "panels": [{"sha256": "260fd6c45b3084e82a471896c9c2abe5f8ca1bdcb78af4a97fe02da17cfd7def", "bytes": 3466627, "width": 2400, "height": 3200, "mediaType": "image/png"}],
+        "family": "wine",
+        "brand": "CASCADE LIGHT",
+        "classType": "RIESLING",
+        "abvPercent": 11.5,
+        "netContents": "750 mL",
+        "serverDurationMs": 7106.857,
+        "selectedCheckCount": 24,
+        "machineSummary": "Review needed",
+        "blockingCheckIds": ["warning_wording", "warning_heading_emphasis", "warning_body_not_bold", "warning_separation", "warning_continuity", "warning_contrast", "warning_legibility"],
+        "reviewCauseCategories": ["ocr_uncertainty", "presentation_uncertainty"]
+      },
+      {
+        "caseId": "AZ-SMOKE-SPIRITS-001",
+        "httpStatus": 200,
+        "requestId": "3647d52f1c9d4246aa5c76ca0659c107",
+        "returnedBuildId": "0e9e79f37b074ba2f432ec7f6cf3e99495a4f007",
+        "panelCount": 2,
+        "panels": [
+          {"sha256": "e181455ea57346bb90e97b0360c329a050e83c2ba8f260dcd02890576103bc0e", "bytes": 3631518, "width": 2400, "height": 3200, "mediaType": "image/jpeg"},
+          {"sha256": "1c8ae59cbab67c1a278220ef621faf33334dade6aab6207d23ab7809cd4d0e99", "bytes": 3917702, "width": 2400, "height": 3200, "mediaType": "image/jpeg"}
+        ],
+        "family": "distilled_spirits",
+        "brand": "JACK DANIEL'S",
+        "classType": "WHISKEY",
+        "classTypeInterpretation": "Safe class read; the image also contains the more specific Tennessee Sour Mash wording",
+        "abvPercent": 40.0,
+        "proof": 80.0,
+        "netContents": "375 mL",
+        "serverDurationMs": 6917.043,
+        "selectedCheckCount": 24,
+        "machineSummary": "Review needed",
+        "blockingCheckIds": ["warning_wording", "warning_heading_uppercase", "warning_body_not_bold", "warning_separation", "warning_continuity"],
+        "reviewCauseCategories": ["ocr_uncertainty", "presentation_uncertainty"]
+      }
+    ],
+    "meanMs": 6733.569,
+    "maximumMs": 7106.857,
+    "hardCaseMaximumAllowedMs": 9000,
+    "hardCaseMaximumMet": true,
+    "fiveSecondWorkloadMeanAssertion": "Not inferred from this three-product difficult-image smoke; the 221-image local corpus establishes the representative workload mean",
+    "representativeDeployedPerformanceClaim": "Not made from this smoke"
+  },
   "localReleaseGate": {
     "result": "PASS",
     "pythonAndValidationTests": 412,
@@ -89,6 +160,7 @@
   "readiness": {
     "engineeringBrowserPreUat": "PASS",
     "demoRequesterUat": "READY",
+    "performanceEvidenceBoundary": "Local 221-image and 20/300-product capacity evidence plus commit-bound Azure workflow and difficult-image smoke support demo UAT; a distinct-product production-scale Azure load campaign remains outside this time-boxed demo release and is not claimed as complete",
     "federalOperationalUse": "requires agency controls, integrations, testing, and authorization",
     "humanOracle": "field-level ground truth covers 70 private images and is not an agency legal determination"
   }
