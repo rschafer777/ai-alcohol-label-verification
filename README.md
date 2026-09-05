@@ -6,7 +6,7 @@ The application also groups and processes batches of up to 300 products and reta
 
 ## Release status
 
-CR-002 is implemented and has passed its corrected local source, governed-corpus, private-corpus, and accuracy gates. It adds observation-correction provenance, immutable revisions, neutral image roles, numeric-brand support, blocking-review attribution, producer extraction improvements, and controlled OCR model evaluation. The candidate still requires one frozen-manifest review cycle, commit-bound deployment verification, and requester UAT. Earlier results remain in the repository as historical baselines rather than being rewritten as corrective-release evidence.
+CR-002 is implemented, independently reviewed, committed, and deployed. It passed the corrected source, governed-corpus, private-corpus, accuracy, security, release-manifest, protected Azure deployment, and engineering browser pre-UAT gates. It adds observation-correction provenance, immutable revisions, neutral image roles, numeric-brand support, blocking-review attribution, producer extraction improvements, and controlled OCR model evaluation. The Azure demo is ready for requester UAT. Earlier results remain in the repository as historical baselines rather than being rewritten as corrective-release evidence.
 
 Material decisions and their evidence are recorded in [`docs/00-governance/CHANGE_CONTROL_REGISTER.md`](docs/00-governance/CHANGE_CONTROL_REGISTER.md), with a concise chronology in [`CHANGELOG.md`](CHANGELOG.md).
 

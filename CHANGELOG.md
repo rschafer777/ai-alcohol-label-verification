@@ -35,7 +35,7 @@ This file summarizes material product changes. Detailed reasons, evidence, affec
 - The complete local release gate also passes the governed and private image corpora, batch timing, field ground truth, sealed product holdout, Python and production npm dependency audits, and the 375-entry release manifest.
 - The final independent security diff review covered all 46 changed executable and contract surfaces with complete coverage, no deferred surface, and no reportable finding.
 - The final local image and holdout evidence is recorded under `docs/08-validation/evidence/`.
-- Public Azure deployment and requester UAT remain release gates until the exact candidate commit is deployed and verified.
+- The exact candidate was committed as `0e9e79f37b074ba2f432ec7f6cf3e99495a4f007` and deployed through protected GitHub Actions run `33942995735`. Azure resource readback, immutable digest, HTTPS, health, exact build metadata, public sample, history, and engineering browser pre-UAT gates passed. Requester UAT remains open.
 
 ### Evidence prompting the corrective release
 

@@ -1,22 +1,27 @@
 {
   "documentId": "LV-DEPLOY-EVIDENCE-001",
   "status": "PASS",
-  "verifiedAt": "2026-09-03T23:23:22Z",
+  "verifiedAt": "2026-09-05T04:01:32Z",
   "repository": "https://github.com/rschafer777/ai-alcohol-label-verification",
   "branch": "main",
-  "applicationCommit": "4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961",
-  "documentationCommit": "ff36d47d326e1e01ee9d8906bbe0ef4e3a087764",
+  "applicationCommit": "0e9e79f37b074ba2f432ec7f6cf3e99495a4f007",
+  "documentationCommit": "pending",
+  "predecessorApplicationCommit": "4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961",
   "workflow": {
     "name": "deploy-demo.yml",
-    "runId": 33815343738,
-    "runAttempt": 2,
-    "url": "https://github.com/rschafer777/ai-alcohol-label-verification/actions/runs/33815343738",
-    "result": "success"
+    "runId": 33942995735,
+    "runAttempt": 1,
+    "url": "https://github.com/rschafer777/ai-alcohol-label-verification/actions/runs/33942995735",
+    "result": "success",
+    "duration": "8m 42s",
+    "validationJob": "success",
+    "deploymentJob": "success",
+    "rollbackJob": "skipped"
   },
   "deployment": {
     "environment": "demo",
     "url": "https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/",
-    "imageDigest": "sha256:c439dea1a608b4e1ba08d364eabee979d20a388c3a44fae2187c9da8dc208d9c",
+    "imageDigest": "sha256:fddb9af98443e3206abc9af44ef15072308bbf05bb2b4374ab3262dc2d4f260d",
     "compute": {
       "cpu": 4,
       "memoryGiB": 8,
@@ -29,45 +34,62 @@
     "hsts": "max-age=31536000; includeSubDomains",
     "liveness": true,
     "readiness": true,
-    "buildId": "4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961",
+    "workerGeneration": 1,
+    "buildId": "0e9e79f37b074ba2f432ec7f6cf3e99495a4f007",
+    "apiContractVersion": "2.0.0",
     "profileId": "all_beverages_demo_v2",
+    "profileVersion": "2.0.0",
+    "modelIdentity": "rapidocr-3.4.2",
     "selectedCheckCount": 24,
     "historyCap": 500,
+    "revisionCap": 10,
     "retainsImages": true
   },
   "workflowPublicSampleGate": {
     "result": "PASS",
     "runs": 3,
     "checkCounts": [24, 24, 24],
-    "summaries": [
-      "No differences found in checked fields",
-      "No differences found in checked fields",
-      "No differences found in checked fields"
-    ],
-    "durationsMs": [282.147, 302.252, 294.255],
-    "meanMs": 292.885,
-    "maximumMs": 302.252,
-    "mismatchCounts": [0, 0, 0],
-    "warningWordingStates": ["Match", "Match", "Match"],
-    "warningPhysicalSizeStates": [
-      "Not verified",
-      "Not verified",
-      "Not verified"
-    ]
+    "durationsMs": [2958.387, 338.846, 343.406],
+    "meanMs": 1213.546,
+    "maximumMs": 2958.387,
+    "maximumAllowedMs": 9000,
+    "meanAllowedMs": 5000,
+    "mismatchCount": 0,
+    "warningWording": "Match or conservative Review",
+    "warningPhysicalSize": "Not verified"
   },
-  "freshDifficultImageGate": {
+  "localReleaseGate": {
+    "result": "PASS",
+    "pythonAndValidationTests": 412,
+    "frontendTests": 38,
+    "frontendProductionModules": 134,
+    "governedProducts": "30 of 30",
+    "governedCheckRows": "576 of 576",
+    "mutationControls": "8 of 8",
+    "falseClean": 0,
+    "releaseManifestEntries": 375
+  },
+  "privateCorpusGate": {
     "result": "PASS",
     "source": "docs/08-validation/evidence/private-uat-corpus-e2e.json",
-    "individualImages": "76 of 76",
-    "groupedProducts": "48 of 48",
+    "individualImages": "221 of 221",
+    "groupedProducts": "155 of 155",
     "maximumImagesPerGroup": 3,
-    "individualMeanSeconds": 3.573,
-    "individualMaximumSeconds": 6.206
+    "individualMeanSeconds": 3.840,
+    "individualMaximumSeconds": 7.237,
+    "groupedMeanSeconds": 0.935,
+    "groupedMaximumSeconds": 5.764
+  },
+  "finalIndependentReviews": {
+    "result": "CLEAR",
+    "reviewCount": 3,
+    "candidateTree": "dad5d2c296ba928db0a60b4862d9cbf1543e2dec",
+    "manifestSha256": "22c77f57218e453d4dbbbf92617b7179da740cfd64ff46f6954abc8c5376a723"
   },
   "readiness": {
     "engineeringBrowserPreUat": "PASS",
     "demoRequesterUat": "READY",
     "federalOperationalUse": "requires agency controls, integrations, testing, and authorization",
-    "humanOracle": "field-level ground truth covers 70 of 76 current private images and is not an agency legal determination"
+    "humanOracle": "field-level ground truth covers 70 private images and is not an agency legal determination"
   }
 }

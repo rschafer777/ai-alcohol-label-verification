@@ -2,7 +2,7 @@
 
 Document ID: LV-DEV-001  
 Build baseline: LV-BI-001  
-Status: CR-002 corrective implementation and local validation complete; final frozen review, deployment, and requester UAT pending
+Status: CR-002 implementation, validation, exact-candidate review, deployment, and engineering pre-UAT complete; requester UAT ready
 
 ## Revision history
 
@@ -13,10 +13,11 @@ Status: CR-002 corrective implementation and local validation complete; final fr
 | 1.2 | 2026-09-04 | Recorded implemented corrective contracts, revisions, extraction, review telemetry, UI integration, and model decision | CR-002 |
 | 1.3 | 2026-09-04 | Closed final-review integrity defects before refreezing the corrective candidate | CR-002 |
 | 1.4 | 2026-09-05 | Reconciled mixed-source add-panel responses with the persisted revision reference | CR-002 |
+| 1.5 | 2026-09-05 | Recorded exact-candidate clearance, application commit, protected deployment, and engineering pre-UAT | CR-002 |
 
 ## CR-002 implementation status
 
-WP-13 through WP-17 are implemented. The corrective release adds review-cause attribution, immutable observation-correction and add-panel revisions, field-level provenance, neutral image roles, constrained numeric-brand extraction, producer-block improvements, and controlled OCR evaluation. The source, local UI, representative-corpus, ground-truth, and sealed-holdout gates pass; final frozen-candidate reviews, commit-bound public deployment, and requester UAT remain open release gates. The earlier candidate remains documented as the baseline that exposed the corrective need.
+WP-13 through WP-17 are implemented. The corrective release adds review-cause attribution, immutable observation-correction and add-panel revisions, field-level provenance, neutral image roles, constrained numeric-brand extraction, producer-block improvements, and controlled OCR evaluation. Source, local UI, representative-corpus, ground-truth, sealed-holdout, exact-candidate review, commit-bound public deployment, and engineering browser pre-UAT gates pass. Requester UAT is ready. The earlier candidate remains documented as the baseline that exposed the corrective need.
 
 | Corrective package | Implementation result | Verification |
 | --- | --- | --- |
@@ -24,7 +25,7 @@ WP-13 through WP-17 are implemented. The corrective release adds review-cause at
 | WP-14 Revisions | Added field provenance, self-contained observation snapshots, atomic lineage heads, content-addressed images, 10-revision cap, evidence-linked corrections, add-panel correction replay, and response-to-history source reconciliation | History, API, security, concurrency, correction, zero-OCR, FIFO, deletion, resolved and unresolved mixed-provenance, and provenance tests |
 | WP-15 OCR evaluation | Evaluated PP-OCRv4 English against PP-OCRv5 English and Latin using governed assets and the same full-pipeline controls | Both candidates rejected for protected-field regression; PP-OCRv4 retained |
 | WP-16 Deterministic logic | Added numeric-brand recovery, neutral image labels, producer role and spatial block assembly, review causes, domestic-origin handling, proof and ABV recovery, and recovery-view prioritization | Candidate, pipeline, profile, presentation, real-worker, order, and private-image tests |
-| WP-17 Release | Local source, UI, representative-corpus, ground-truth, and sealed-holdout gates complete; documentation and manifest reconciliation in progress | Public deployment, representative Azure performance, final reviews, and requester UAT remain open |
+| WP-17 Release | Source, UI, representative-corpus, ground-truth, sealed-holdout, manifest, independent-review, commit, deployment, and engineering pre-UAT gates complete | Requester UAT ready; requester acceptance remains open |
 
 ### Final-review integrity corrections
 

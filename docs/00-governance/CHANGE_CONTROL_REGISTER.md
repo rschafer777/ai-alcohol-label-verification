@@ -45,7 +45,7 @@ Expected results are not changed merely to match current software. A source requ
 | Model boundary | No general-purpose language model, vision-language model, external inference, broad translation service, model ensemble, or fine-tuning enters the corrective release without a later governed change record |
 | Entry gate | Updated Intake, BAIRD, I2R, FRD, Build Instructions, Validation Protocol, QA/QC plan, and traceability reviewed as one frozen snapshot by three independent reviewers |
 | Exit gate | Corrective requirements, implementation, automated gates, an evidence-reviewed sealed-holdout utility result, zero new false clean, representative distinct-hash local and Azure tests, documentation, release manifest, and three final independent reviews pass |
-| Status | Implementation, local source gates, and corrected-candidate corpus evidence complete; final frozen-candidate reviews, deployment, and requester UAT remain |
+| Status | Implementation, local and corpus gates, exact-candidate reviews, protected deployment, and engineering pre-UAT complete; requester UAT ready |
 
 #### CR-002 final-review integrity closure
 
@@ -68,6 +68,7 @@ A later requirements-traceability review rejected a frozen candidate because six
 | 2026-09-03 | Route uncertain warning and presentation evidence to Review | Avoid false deterministic differences or false clearance | Retained, with recovery and reason attribution to be improved |
 | 2026-09-04 | Begin CR-002 corrective release | Representative-image evidence and reviewer UAT | Active |
 | 2026-09-04 | Retain PP-OCRv4 English | PP-OCRv5 English and Latin were faster and improved some producer reads, but each regressed protected ABV or warning evidence on the sealed holdout | Candidate model not promoted; hashes and negative decision retained |
+| 2026-09-05 | Release CR-002 to requester UAT | All three exact-candidate reviews returned Clear; commit-bound Azure deployment and engineering browser validation passed | Deployed; requester acceptance open |
 | 2026-09-04 | Accept measured producer utility below the provisional four-exact holdout target | The general parser raised full-corpus producer exact reads from 31 to 35 and sealed-holdout exact reads from 7 to 8 while reducing a miss or wrong result, but the remaining holdout errors were OCR transcription damage or disputed ground truth. A dual-recognizer runtime would add operational complexity and had protected-field regressions as a full replacement | Provisional target recorded as an accepted variance; no expected value, product name, or filename was added to runtime logic |
 | 2026-09-04 | Reject the first CR-002 final candidate and harden release integrity | Final architecture and delivery review found mutation-boundary, unresolved-type, provenance, replay-locator, telemetry, deletion-order, error-contract, and source-hash gaps | Publication held; code, tests, evidence, and lifecycle documents corrected before refreeze |
 | 2026-09-05 | Reject a later CR-002 candidate for ambiguous requirements identifiers | Final requirements review found six distinct BAIRD requirements reusing identifiers 37 through 39 | Publication held; BAIRD was renumbered uniquely, all feature citations were reconciled, and a sequential-ID regression was added |

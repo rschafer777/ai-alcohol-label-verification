@@ -1,76 +1,77 @@
 {
   "schemaVersion": "1.0",
   "documentId": "LV-VP-EVIDENCE-BROWSER-001",
-  "executedAtUtc": "2026-09-03T23:23:22Z",
+  "executedAtUtc": "2026-09-05T04:01:32Z",
   "executor": "Engineering release validation",
   "environment": "Azure demo",
   "url": "https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/",
-  "applicationCommit": "4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961",
+  "applicationCommit": "0e9e79f37b074ba2f432ec7f6cf3e99495a4f007",
+  "workflowRunId": 33942995735,
   "result": "PASS",
   "scope": "Engineering live-browser pre-UAT before requester acceptance",
   "checks": [
     {
       "id": "LB-01",
       "result": "PASS",
-      "evidence": "Home identifies the unofficial prototype, beer, wine, distilled spirits, one-product intake, batch intake, and the 500-record history boundary."
+      "evidence": "The live home identifies the unofficial prototype, beer, wine, distilled spirits, one-product intake, batch intake, and the 500-record history boundary."
     },
     {
       "id": "LB-02",
       "result": "PASS",
-      "evidence": "The built-in two-panel sample completed without manual data entry and returned distilled spirits with high confidence, 24 checks, and 19 matches."
+      "evidence": "The built-in two-panel sample completed without manual label-data entry and returned distilled spirits with high confidence, 24 checks, 19 matches, and no differences found."
     },
     {
       "id": "LB-03",
       "result": "PASS",
-      "evidence": "Brand, class, 45 percent ABV, 90 proof, 750 mL, producer and address, and the beverage rule profile were visible with clear machine states."
+      "evidence": "Brand, class, 45 percent ABV, 90 proof, 750 mL, producer and address, beverage family, and family-specific applicability were visible with explicit machine states."
     },
     {
       "id": "LB-04",
       "result": "PASS",
-      "evidence": "Show on label selected the original-pixel brand polygon, panel number, OCR text, and label-derived comparison boundary."
+      "evidence": "Show on label selected the brand evidence while preserving the original image, panel identity, extracted value, and label-derived provenance."
     },
     {
       "id": "LB-05",
       "result": "PASS",
-      "evidence": "Warning inspection displayed the prescribed statement, all 43 observed words, 9 matching subchecks, the source panel crop, and physical size as not applicable from a photograph."
+      "evidence": "Warning inspection displayed the prescribed statement, all 43 observed words, 43 of 43 matching words, nine matching subchecks, the source-panel crop, and physical size as not verifiable from a photograph."
     },
     {
       "id": "LB-06",
       "result": "PASS",
-      "evidence": "Table, Cards, and Image first layouts were selectable and reported their checked state."
+      "evidence": "Table, Cards, and Image first layouts were selectable and retained the result after each switch."
     },
     {
       "id": "LB-07",
       "result": "PASS",
-      "evidence": "Keyboard help exposed optional shortcuts for disposition, exceptions, check movement, panels, warning inspection, and closing."
+      "evidence": "The live response exposed build 0e9e79f37b074ba2f432ec7f6cf3e99495a4f007, the 2.0.0 API and rule profile, 24 selected checks, RapidOCR 3.4.2, and ready worker generation 1."
     },
     {
       "id": "LB-08",
       "result": "PASS",
-      "evidence": "History retained the completed sample with images, type, machine result, disposition, filtering controls, newest-first paging, and the 500-record FIFO statement."
+      "evidence": "Completing the sample created one reopenable history record and changed the navigation count from 0 of 500 to 1 of 500."
     },
     {
       "id": "LB-09",
       "result": "PASS",
-      "evidence": "A four-image batch showed a live processed counter, progress bar, current image, elapsed time, 5.3-second running average, 11.4 images per minute, estimated time remaining, and zero isolated failures."
+      "evidence": "The protected workflow independently submitted the full sample three times and passed all 24 checks with 2958.387, 338.846, and 343.406 millisecond server durations."
     },
     {
       "id": "LB-10",
       "result": "PASS",
-      "evidence": "The grouping screen displayed three suggested products, one or two images per group, the three-image limit, confidence and conflict explanations, merge and split controls, per-group confirmation, and a locked Run action until confirmation."
+      "evidence": "HTTPS root, HSTS, liveness, readiness, exact build metadata, the governed ARM resource contract, and the immutable deployed digest all passed in workflow run 33942995735."
     }
   ],
   "automatedCoverage": [
     "Beer, wine, distilled spirits, unknown, and conflicting rule profiles",
     "Unsupported-file isolation and accepted-file counting",
-    "Batch retry, cancellation, exports, and 300-product capacity",
-    "History update, delete, clear, browser-scope isolation, and FIFO eviction",
+    "Batch progress, grouping, retry, cancellation, exports, and 300-product capacity",
+    "History update, delete, clear, browser-scope isolation, revisions, and FIFO eviction",
     "Oversized browser-decodable image preparation and server-side limit guidance",
     "Responsive, keyboard, focus, and accessibility behavior"
   ],
   "limitations": [
     "The requester acceptance signature remains open.",
-    "Private image uploads were not repeated during the browser pre-UAT because the commit-bound release gate already processed the governed and private corpora.",
-    "Technical execution and observable OCR output do not replace agency legal-label acceptance."
+    "Private image uploads were not repeated in the public browser session because the commit-bound release gate already processed the governed and private corpora.",
+    "Engineering browser validation and observable OCR output do not replace agency legal-label acceptance."
   ]
 }

@@ -1,7 +1,7 @@
 # Release and Operational Handoff
 
 Document ID: LV-REL-001  
-Status: CR-002 local release gates complete; identical-candidate RT, commit, deployment, and requester UAT pending
+Status: CR-002 deployed and engineering pre-UAT complete; requester UAT ready
 
 ## Revision history
 
@@ -14,12 +14,13 @@ Status: CR-002 local release gates complete; identical-candidate RT, commit, dep
 | 1.4 | 2026-09-05 | Recorded closure of the third architecture challenge and regenerated local evidence before final refreeze | CR-002 |
 | 1.5 | 2026-09-05 | Recorded closure of mixed-source response and persisted-reference reconciliation | CR-002 |
 | 1.6 | 2026-09-05 | Recorded complete local release-gate and final independent security-review passage | CR-002 |
+| 1.7 | 2026-09-05 | Recorded unanimous exact-candidate review, application commit, protected deployment, and live engineering pre-UAT passage | CR-002 |
 
-The existing deployment and evidence below describe the initial candidate. They remain valid historical records but do not establish CR-002 completion. The corrective candidate can replace the public deployment only after the updated lifecycle requirements, implementation, VP, QA/QC, unique representative Azure performance, release manifest, and three final independent reviews pass.
+The initial deployment evidence below remains a valid historical record. CR-002 subsequently passed its lifecycle requirements, implementation, VP, QA/QC, representative performance, release-manifest, three-review, protected-deployment, and engineering pre-UAT gates.
 
 The first frozen CR-002 snapshot was held after one Clear and two Not Clear final reviews. No rejected snapshot was committed, pushed, or deployed as CR-002. The identified mutation-boundary, unresolved-type, field-provenance, correction-replay, telemetry, persistence-order, error-contract, and source-evidence-binding gaps were returned to engineering with regression requirements. Publication remains blocked until the corrected candidate completes the full release gate and all three reviewers return Clear on the same tree.
 
-Three later architecture challenges were also held rather than promoted. Their stale add-panel baseline, correction replay, family inference, sulfite, numeric audit, browser evidence, all-field provenance, reviewer-family precedence, fresh-evidence invalidation, polygon-boundary, and response-to-history source-consistency findings now have focused regressions. The corrected runtime passed the complete local release gate: 411 Python tests, 38 frontend tests, the 30-product governed corpus, 221 individual private-image requests, 155 grouped-product requests, the current ground-truth score, the sealed holdout, dependency audits, and the 375-entry release manifest. After the final requirements review found ambiguous BAIRD numbering, that documentation-control defect was corrected, a regression was added, and the full source gate passed 412 tests without a runtime-code change. A final independent security diff review covered all 46 changed executable and contract surfaces with no deferred or reportable finding. Those are local facts only; three identical-candidate reviews, commit, deployment identity, and live certification remain separate gates.
+Three later architecture challenges were also held rather than promoted. Their stale add-panel baseline, correction replay, family inference, sulfite, numeric audit, browser evidence, all-field provenance, reviewer-family precedence, fresh-evidence invalidation, polygon-boundary, and response-to-history source-consistency findings now have focused regressions. The corrected runtime passed the complete local release gate: 411 Python tests, 38 frontend tests, the 30-product governed corpus, 221 individual private-image requests, 155 grouped-product requests, the current ground-truth score, the sealed holdout, dependency audits, and the 375-entry release manifest. After the final requirements review found ambiguous BAIRD numbering, that documentation-control defect was corrected, a regression was added, and the full source gate passed 412 tests without a runtime-code change. A final independent security diff review covered all 46 changed executable and contract surfaces with no deferred or reportable finding. All three independent reviews then returned Clear against the same frozen candidate. Application commit `0e9e79f37b074ba2f432ec7f6cf3e99495a4f007` was pushed to `main` and deployed through the protected workflow. Run `33942995735` bound the release to an immutable image digest, verified the effective Azure resource contract, and passed public HTTPS, health, exact-build metadata, history, and three-run full-sample checks. Engineering browser pre-UAT also passed. Requester UAT remains the final acceptance activity.
 
 ## Deliverable contents
 
@@ -76,8 +77,12 @@ GitHub Actions uses OIDC to authenticate to Azure. It validates the source, buil
 - Source: `https://github.com/rschafer777/ai-alcohol-label-verification`
 - Application: `https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/`
 
+## CR-002 deployment record
+
+Application commit `0e9e79f37b074ba2f432ec7f6cf3e99495a4f007` was deployed by GitHub Actions run `33942995735`, attempt 1. The immutable image digest is `sha256:fddb9af98443e3206abc9af44ef15072308bbf05bb2b4374ab3262dc2d4f260d`. Both required jobs passed in 8 minutes 42 seconds and rollback was not invoked. Azure readback confirmed the governed 4-vCPU, 8-GiB, zero-to-one-replica contract. Public root, HSTS, liveness, readiness, exact build metadata, history creation, and three complete sample analyses passed. The sample mean was 1,213.546 milliseconds and the maximum was 2,958.387 milliseconds. Engineering browser pre-UAT verified label-first processing, evidence, all three review layouts, warning detail, and the 500-record history boundary. `DEPLOYMENT_EVIDENCE.json` is the authoritative machine-readable record.
+
 ## Initial candidate deployment record
 
 Application commit `4a31e1a95cf6b2ec8dac5c8bc8f5763ffa7f3961` was deployed by GitHub Actions run `33815343738`, attempt 2. The immutable image digest is `sha256:c439dea1a608b4e1ba08d364eabee979d20a388c3a44fae2187c9da8dc208d9c`. Azure readback confirmed 4 vCPU, 8 GiB, and zero-to-one replicas. Public liveness, readiness, metadata, HSTS, and three sample analyses passed. Engineering browser pre-UAT also passed. `DEPLOYMENT_EVIDENCE.json` is the authoritative machine-readable record.
 
-The current Azure demo at `https://ca-labelverify-demo.agreeableplant-c5938eef.centralus.azurecontainerapps.io/` is available only as the initial-candidate UAT baseline. It is not the CR-002 candidate and is not ready for CR-002 acceptance. The CR-002 commit, digest, workflow run, deployment verification, and requester-UAT entry remain Pending until every corrective gate passes. Federal operational use requires the agency controls, integrations, operating boundary, independent testing, and authorization activities identified in `../11-federal-authorization-readiness/`.
+The initial candidate was superseded by the CR-002 deployment above. The Azure demo is ready for requester UAT. Federal operational use still requires the agency controls, integrations, operating boundary, independent testing, and authorization activities identified in `../11-federal-authorization-readiness/`.

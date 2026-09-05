@@ -2,9 +2,9 @@
 
 Document ID: LV-RT-001  
 Review date: 2026-09-03 to 2026-09-05  
-Status: CR-002 exact-candidate independent reviews CLEAR; commit, deployment, and requester UAT pending
+Status: CR-002 exact-candidate reviews, commit, deployment, and engineering pre-UAT complete; requester UAT ready
 
-This record preserves the initial-candidate and CR-001 review history and records the CR-002 exact-candidate signoff at the end. Review decisions are attached to the frozen tree and release manifest they examined; commit, deployment, and requester UAT remain separate gates.
+This record preserves the initial-candidate and CR-001 review history and records the CR-002 exact-candidate signoff at the end. Review decisions are attached to the frozen tree and release manifest they examined; commit, deployment, engineering pre-UAT, and requester acceptance remain separately evidenced gates.
 
 ## Historical initial frozen candidate
 
@@ -116,13 +116,18 @@ All three reviewers returned CLEAR against the same frozen tree and manifest. On
 | Independent security review | PASS, all 46 changed executable and contract surfaces reviewed, none deferred, no reportable finding |
 | Release manifest | PASS, 375 entries |
 
-### Remaining release gates
+### Release-gate disposition
 
 | Field | Status |
 | --- | --- |
-| CR-002 application commit | Pending until this signoff is staged and committed |
-| CR-002 public deployment and immutable digest | Pending |
+| CR-002 application commit | PASS, `0e9e79f37b074ba2f432ec7f6cf3e99495a4f007` on `main` |
+| CR-002 public deployment and immutable digest | PASS, run `33942995735`, digest `sha256:fddb9af98443e3206abc9af44ef15072308bbf05bb2b4374ab3262dc2d4f260d` |
 | Requirements and traceability review | CLEAR |
 | Architecture and engineering review | CLEAR |
 | Delivery and documentation review | CLEAR |
-| Requester UAT entry | Pending |
+| Engineering browser pre-UAT | PASS |
+| Requester UAT entry | READY; requester acceptance remains open |
+
+### Commit-bound deployment verification
+
+The unanimously cleared tree was committed as `0e9e79f37b074ba2f432ec7f6cf3e99495a4f007`, pushed to `origin/main`, and deployed through protected GitHub Actions run `33942995735`, attempt 1. The run completed successfully in 8 minutes 42 seconds. It rebuilt the validation environment, repeated the release gate, built and pushed the immutable image, proved the container ready before mutation, deployed through ARM, read back the effective resource contract, and passed public HTTPS, health, exact-build metadata, history, and three full-sample checks. The deployed digest is `sha256:fddb9af98443e3206abc9af44ef15072308bbf05bb2b4374ab3262dc2d4f260d`. The three public sample durations were 2,958.387, 338.846, and 343.406 milliseconds, below the 5-second mean and 9-second maximum gates. Engineering browser pre-UAT then passed against that exact build. Requester acceptance remains intentionally open.

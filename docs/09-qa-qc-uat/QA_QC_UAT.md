@@ -1,7 +1,7 @@
 # QA, QC, and User Acceptance
 
 Document ID: LV-QA-001  
-Status: CR-002 local QA and QC passed; public deployment verification and requester UAT pending
+Status: CR-002 QA, QC, protected deployment, and engineering pre-UAT passed; requester UAT ready
 
 ## Revision history
 
@@ -14,6 +14,7 @@ Status: CR-002 local QA and QC passed; public deployment verification and reques
 | 1.4 | 2026-09-05 | Added all-field merge provenance, family-authority, resolved-to-unresolved, and polygon-boundary regression evidence | CR-002 |
 | 1.5 | 2026-09-05 | Added resolved and unresolved add-panel response-to-history provenance reconciliation | CR-002 |
 | 1.6 | 2026-09-05 | Recorded the final complete release gate and independent security review | CR-002 |
+| 1.7 | 2026-09-05 | Recorded exact-candidate commit, protected Azure deployment, public verification, and engineering browser pre-UAT | CR-002 |
 
 ## Quality assurance controls
 
@@ -105,11 +106,11 @@ Run against the release URL in a new browser session.
 
 | Field | Entry |
 | --- | --- |
-| CR-002 release commit | Pending |
-| CR-002 public deployment | Pending; the current URL serves only the initial-candidate UAT baseline |
+| CR-002 release commit | `0e9e79f37b074ba2f432ec7f6cf3e99495a4f007` |
+| CR-002 public deployment | PASS; run `33942995735`, attempt 1, exact build and immutable digest verified |
 | Browser and version | Requester entry |
 | Date | Requester entry |
-| Result | Initial candidate engineering gates passed; CR-002 corrective entry pending |
+| Result | CR-002 engineering gates passed; requester UAT ready |
 | Accepted by | Requester entry |
 | Findings | Requester entry |
 
