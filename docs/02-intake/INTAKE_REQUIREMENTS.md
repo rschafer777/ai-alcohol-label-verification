@@ -1,7 +1,16 @@
 # Intake Requirements
 
 Document ID: LV-INTAKE-001  
-Status: Approved baseline
+Status: Approved CR-002 requirements baseline; implementation and validation traced
+
+## Revision history
+
+| Revision | Date | Change | Authority |
+| --- | --- | --- | --- |
+| 1.0 | 2026-09-01 | Initial integrated prototype baseline | Assignment discovery |
+| 1.1 | 2026-09-04 | Added UAT-driven provenance, correction, review-attribution, numeric-brand, image-role, producer, language-boundary, warning-clearance, and representative-performance requirements | CR-002 |
+| 1.2 | 2026-09-04 | Confirmed implementation trace and retained measured corrective variances through change control | CR-002 |
+| 1.3 | 2026-09-04 | Clarified immutable correction evidence, unresolved-type handling, mutation controls, and release-evidence binding after final review | CR-002 |
 
 ## Objective
 
@@ -29,9 +38,19 @@ Primary users are TTB label compliance agents with widely varying technical comf
 | INT-012 | Support batches of up to 300 products and 900 images | Supported images are accepted even when the selected folder also contains non-images; skipped files and reasons are reported; images are conservatively grouped to a maximum of 3 per product and confirmed by a reviewer |
 | INT-013 | Show batch operating status | Selection begins at 0 of N; products, images, processed, remaining, running, queued, reviews, differences, failures, active time, rate, average, ETA, attempts, retry, and cancel are available |
 | INT-014 | Export batch results | Formula-safe CSV summary and detailed JSON are downloadable |
-| INT-015 | Retain a manageable history | Up to 500 results and their images are browsable, filterable, editable by disposition, and deletable within the originating browser scope; insertion 501 evicts the oldest |
+| INT-015 | Retain a manageable history | Up to 500 product results are browsable as lineages within the originating browser scope; each lineage retains no more than 10 independently reopenable root, add-panel, or correction revisions; insertion of product 501 evicts the oldest complete lineage; deleting any revision deletes its complete lineage |
 | INT-016 | Reopen historical evidence | A stored check can relocalize its evidence on the retained image |
 | INT-017 | Provide a built-in sample | A local synthetic sample exercises the complete primary flow |
+| INT-018 | Distinguish machine findings from reviewer disposition | Match means the checked photographic evidence satisfied the implemented deterministic rule; it does not approve a label, and Approve, Reject, or Request more information remains an independent human action |
+| INT-019 | Distinguish trusted application values, machine observations, and reviewer-corrected observations | Every individual observed and reference field, check, returned revision draft, stored revision, history detail, and export preserves its own `trusted_application`, `label_ocr`, `reviewer_corrected`, `manifest`, or `sample` provenance; each returned value agrees with its declared source and persisted reference; mixed-source results never use one record-level provenance |
+| INT-020 | Correct an observed label value without rerunning OCR | An allowlisted correction is bound to an immutable source image hash, panel, and polygon, including a reviewer-drawn region when OCR has no box; retains the original OCR snippet; preserves the verbatim visible statement and server-derived normalized form; creates an immutable cumulative child revision under one atomically serialized lineage; preserves the original OCR, pixels, unresolved beverage state, and parent disposition; starts the child disposition at Pending; invokes OCR zero times; and server-recomputes every declared dependent check. Repeated-field replay uses the latest correction value and that same event's locator. Beverage correction uses a closed three-family choice, class correction reruns family inference, and typed sulfite text can establish only a visibly printed Contains Sulfites statement, never chemical absence. A normalized number alone and typed warning, presentation, quality, or coverage data cannot clear a visible defect |
+| INT-021 | Explain and measurably reduce recoverable review work | Every overall Review identifies its blocking checks and normalized causes; on the sealed holdout CR-002 also achieves the declared recoverable producer and warning-wording utility gain without reducing unscaled physical-size or irreducible presentation safeguards |
+| INT-022 | Avoid unconfirmed semantic image roles | Result, evidence, history, and export surfaces use Image 1, Image 2, and Image 3 unless a reviewer explicitly assigns a role; upload order never changes compliance behavior |
+| INT-023 | Recognize numeric-only and digit-led brands without product-specific logic | Prominent numeric marks may be brand candidates only after excluding ABV, proof, quantity, vintage, age, ZIP, barcode, lot, reference, price, and deposit contexts; ambiguity remains Review |
+| INT-024 | Extract the responsible-party block as structured evidence | Producer, bottler, brewer, vintner, distiller, and importer role, organization, and address lines remain evidence-linked; unrelated adjacent marketing copy is excluded and partial text is not treated as a complete trusted match |
+| INT-025 | Bound supported language behavior | Versioned field-specific vocabularies may support measured class, role, importer, and origin phrases; original text is preserved, unsupported or conflicting language remains Review, and translation never satisfies the English government warning |
+| INT-026 | Allow exact photographic warning evidence to receive a machine Match | Exact supported wording may make the wording row Match while every presentation row remains independently adjudicated; physical size stays Not verified without scale, uncertainty remains Review for the affected row, the all-Match summary says only `No differences found in checked fields`, and no machine state records Approve |
+| INT-027 | Preserve authority and evidence validity across revisions | Every add-panel merge assigns explicit field provenance, including conditional rule triggers; fresh conflicting or insufficient evidence may return a label-derived family to unresolved; a reviewer-corrected family remains authoritative during later class corrections; and reviewer-selected polygons use the same strictly in-bounds, positive-area original-pixel rule as OCR evidence |
 
 ## Quality requirements
 
@@ -42,9 +61,15 @@ Primary users are TTB label compliance agents with widely varying technical comf
 | INT-Q-003 | Local runtime | OCR, models, fonts, and rule evaluation require no runtime outbound connection |
 | INT-Q-004 | Accessibility | Semantic controls, keyboard operation, visible focus, non-color status cues, readable density, and responsive layout |
 | INT-Q-005 | Safety | Unreadable or incomplete evidence cannot become a deterministic mismatch solely due to image quality and cannot be invented as a pass |
-| INT-Q-006 | Security | Bounded multipart and JSON input, signature validation, decode limits, Host and Origin controls, browser-scoped history access, per-client and global rate controls, supervised worker timeout, non-root container, content-safe errors, and no content logging |
+| INT-Q-006 | Security | Bounded multipart and JSON input, signature validation, decode limits, Host and Origin controls before resource-identifier acceptance, browser-scoped history access, per-client and global rate controls, supervised worker timeout, commit-consistent history and blob cleanup, non-root container, content-safe errors, and no content logging |
 | INT-Q-007 | Traceability | Every feature traces to intake, design, code, and verification evidence |
 | INT-Q-008 | Deployed performance parity | The Azure demo allocates the maximum 4 vCPU and 8 GiB available to its Consumption workload profile so uncached local OCR can remain within the declared latency bands |
+| INT-Q-009 | Trustworthy evaluation | Runtime code cannot access filenames, oracle values, or expected answers; accuracy changes use one published score per sealed-holdout product and eligible field family, never count repeated panels or transforms as separate wins, and report diagnostic region, routing, and accuracy results separately |
+| INT-Q-010 | Governed OCR model selection | A candidate recognizer or detector is adopted only after a one-variable-at-a-time bakeoff proves net field improvement, zero new false clean, no protected-field regression under the definition below, reproducible evidence, offline operation, acceptable licensing, pinned integrity, and resource compliance |
+| INT-Q-011 | Representative deployed measurement | Azure claims use sanitized representative products with distinct admitted pixel hashes and disclosed beverage, panel, difficulty, and dimension distributions; cold startup is separate from post-ready latency, rate and queue waits remain in total batch time, and repeated or re-encoded samples remain diagnostic evidence only |
+| INT-Q-012 | Controlled change history | Material requirement, design, implementation, validation, and release changes retain reason, evidence, impact, decision, and closure status without assistant names or informal implementation transcripts; release evidence hashes bind to the canonical staged source bytes |
+
+Protected fields are beverage type, brand name, class/type, alcohol content, proof, net contents, producer/name and address, country and import applicability, wine appellation, wine sulfite declaration, distilled-spirit field of vision, malt-beverage class designation, and all government-warning checks. A protected-field regression occurs when an independently correct exact normalized value becomes incorrect, an independently correct expected check state becomes incorrect, or a valid source-panel evidence reference or polygon becomes invalid or unbound. Evidence integrity is mandatory for every field, including fields outside this protected accuracy set.
 
 ## Regulatory rule selection
 
@@ -65,7 +90,7 @@ The federal health warning applies at 0.5 percent alcohol by volume or more for 
 - Uploaded images and extracted text are treated as user content.
 - Temporary request files are removed after completion, cancellation, timeout, or failure.
 - History stores the final result and 1 to 3 images under application control.
-- History is capped at 500 records and supports explicit deletion.
+- History is capped at 500 product lineages and 10 revisions per lineage, and explicit deletion removes one complete lineage.
 - The public demo assigns an opaque browser scope and authorizes list, read, update, image, and delete operations only within that scope.
 - Logs contain request identifiers and operational metadata, not label text or images.
 - The public demo is limited to synthetic or sanitized data.
@@ -82,6 +107,9 @@ The federal health warning applies at 0.5 percent alcohol by volume or more for 
 - Local SQLite and retained images satisfy prototype history. Local-container storage can reset when an Azure revision is replaced; a production boundary must select managed durable storage and an agency retention schedule.
 - Sequential batch execution favors predictable CPU and memory. Total elapsed time grows with product count.
 - OCR confidence is an engine signal, not a calibrated compliance probability.
+- The 221-image result distribution is a review-routing baseline, not an accuracy rate. Only independently annotated cases support accuracy claims.
+- Exact machine Match applies only to the implemented check and its visible evidence. It never establishes complete legal compliance or records a reviewer approval.
+- Broad multilingual compliance is not claimed. Supported field and language combinations are versioned and tested; all others fail closed to Review.
 
 ## Definition of intake success
 

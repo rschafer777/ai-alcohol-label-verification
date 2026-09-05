@@ -25,13 +25,16 @@ def expected_contract_data(project_root: Path) -> dict[str, Any]:
     regulatory = load_json(contracts / "regulatory-rules-v1.json")
     grouping_image = api["$defs"]["GroupingImage"]["properties"]
     grouping_request = api["$defs"]["GroupingRequest"]["properties"]["images"]
+    correction_request = api["$defs"]["CorrectionRequest"]["properties"]
+    text_correction = api["$defs"]["TextCorrection"]["properties"]
+    producer_correction = api["$defs"]["ProducerCorrection"]["properties"]
     check_ids = [row["checkId"] for row in checks["checks"]]
     server_codes = [row["code"] for row in errors["errors"]]
     browser_codes = list(errors["browserOnly"])
     if len(check_ids) != 24 or len(set(check_ids)) != 24:
         raise ValueError("Selected-check registry must contain 24 unique checks")
-    if len(server_codes) != 23 or len(set(server_codes)) != 23:
-        raise ValueError("Server error registry must contain 23 unique codes")
+    if len(server_codes) != 27 or len(set(server_codes)) != 27:
+        raise ValueError("Server error registry must contain 27 unique codes")
     if len(browser_codes) != 4 or len(set(browser_codes)) != 4:
         raise ValueError("Browser error registry must contain 4 unique codes")
     versions = {
@@ -54,6 +57,14 @@ def expected_contract_data(project_root: Path) -> dict[str, Any]:
             "brandNameLengthMax": grouping_image["brandName"]["maxLength"],
             "classTypeLengthMax": grouping_image["classType"]["maxLength"],
             "panelCountMax": api["$defs"]["GroupSuggestion"]["properties"]["panelIds"]["maxItems"],
+        },
+        "correctionTextFields": text_correction["field"]["enum"],
+        "correctionLimits": {
+            "reasonLengthMax": correction_request["reason"]["maxLength"],
+            "actorLabelLengthMax": correction_request["actorLabel"]["maxLength"],
+            "correctionCountMax": correction_request["corrections"]["maxItems"],
+            "textLengthMax": text_correction["visibleText"]["maxLength"],
+            "producerLengthMax": producer_correction["visibleText"]["maxLength"],
         },
         "checkIds": check_ids,
         "serverErrorCodes": server_codes,
@@ -115,6 +126,13 @@ def validate_frontend_contract(project_root: Path) -> list[str]:
         != expected["groupingLimits"]
     ):
         errors.append("groupingLimits differ from api-contract-v1.json")
+    if extract_string_array(text, "correctionTextFields") != expected["correctionTextFields"]:
+        errors.append("correctionTextFields differ from api-contract-v1.json")
+    if (
+        extract_numeric_object(text, "correctionLimits", set(expected["correctionLimits"]))
+        != expected["correctionLimits"]
+    ):
+        errors.append("correctionLimits differ from api-contract-v1.json")
     if extract_string_array(text, "checkIds") != expected["checkIds"]:
         errors.append("checkIds differ from selected-check-registry-v1.json")
     if extract_string_array(text, "serverErrorCodes") != expected["serverErrorCodes"]:

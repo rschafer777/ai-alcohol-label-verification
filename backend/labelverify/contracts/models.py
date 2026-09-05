@@ -9,6 +9,13 @@ NonBlank = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)
 BeverageType = Literal["malt_beverage", "wine", "distilled_spirits"]
 VolumeUnit = Literal["mL", "L", "fl oz", "pt", "qt", "gal"]
 CheckState = Literal["Match", "Mismatch", "Review", "Not verified"]
+FieldSource = Literal[
+    "label_ocr",
+    "reviewer_corrected",
+    "trusted_application",
+    "manifest",
+    "sample",
+]
 CandidateStatus = Literal["Found", "Ambiguous", "Not found", "Unreadable"]
 SummaryState = Literal[
     "Differences detected",
@@ -27,6 +34,7 @@ class ReferenceRecord(ContractModel):
     reference_provenance: Literal["label_ocr", "manual", "manifest", "sample"] = Field(
         default="manual", alias="referenceProvenance"
     )
+    field_provenance: dict[str, FieldSource] = Field(default_factory=dict, alias="fieldProvenance")
     case_label: str | None = Field(default=None, max_length=80, alias="caseLabel")
     brand_name: NonBlank = Field(max_length=160, alias="brandName")
     class_type: NonBlank = Field(max_length=240, alias="classType")
@@ -34,7 +42,7 @@ class ReferenceRecord(ContractModel):
     proof: Decimal | None = Field(default=None, ge=0)
     net_contents_value: Decimal = Field(gt=0, alias="netContentsValue")
     net_contents_unit: VolumeUnit = Field(alias="netContentsUnit")
-    producer_name_address: NonBlank = Field(max_length=500, alias="producerNameAddress")
+    producer_name_address: NonBlank = Field(max_length=1000, alias="producerNameAddress")
     is_imported: bool = Field(alias="isImported")
     country_of_origin: str | None = Field(default=None, max_length=80, alias="countryOfOrigin")
     wine_appellation: str | None = Field(default=None, max_length=160, alias="wineAppellation")
@@ -64,6 +72,14 @@ class ReferenceRecord(ContractModel):
                 "abvPercent is required for a malt beverage with added-ingredient alcohol"
             )
         return self
+
+    def source_for(self, field_name: str) -> FieldSource:
+        explicit = self.field_provenance.get(field_name)
+        if explicit is not None:
+            return explicit
+        if self.reference_provenance == "manual":
+            return "trusted_application"
+        return self.reference_provenance
 
 
 class Point(ContractModel):
@@ -149,6 +165,21 @@ class CheckResult(ContractModel):
     wording_diff: list[WordingToken] | None = Field(default=None, alias="wordingDiff")
     matched_words: int | None = Field(default=None, ge=0, alias="matchedWords")
     total_words: int | None = Field(default=None, ge=0, alias="totalWords")
+    observation_provenance: FieldSource | None = Field(default=None, alias="observationProvenance")
+
+
+class ReviewCause(ContractModel):
+    check_id: str = Field(alias="checkId")
+    category: Literal[
+        "missing_evidence",
+        "ocr_uncertainty",
+        "presentation_uncertainty",
+        "trusted_context_missing",
+        "conflicting_evidence",
+        "policy_review",
+    ]
+    reason_code: str = Field(alias="reasonCode")
+    evidence_ref: str | None = Field(default=None, alias="evidenceRef")
 
 
 class OriginalDimensions(ContractModel):
@@ -192,6 +223,106 @@ class VerificationResult(ContractModel):
     warning_evidence: WarningEvidence | None = Field(default=None, alias="warningEvidence")
     bad_image: bool = Field(default=False, alias="badImage")
     supersedes: str | None = None
+    blocking_check_ids: list[str] = Field(default_factory=list, alias="blockingCheckIds")
+    review_causes: list[ReviewCause] = Field(default_factory=list, alias="reviewCauses")
+    root_id: str | None = Field(default=None, alias="rootId")
+    parent_id: str | None = Field(default=None, alias="parentId")
+    revision: int = Field(default=1, ge=1)
+    revision_kind: Literal["original", "correction", "panel_added"] = Field(
+        default="original", alias="revisionKind"
+    )
+    # The faithful extraction snapshot is persisted for zero-OCR corrections but is never
+    # exposed by the public API.
+    observation_snapshot: dict[str, object] | None = Field(
+        default=None, exclude=True, alias="observationSnapshot"
+    )
+
+
+CorrectionField = Literal[
+    "beverage_type",
+    "brand_name",
+    "class_type",
+    "alcohol_content",
+    "proof",
+    "net_contents",
+    "producer_name_address",
+    "country_of_origin",
+    "wine_appellation",
+    "wine_sulfite_declaration",
+]
+
+
+class CorrectionLocator(ContractModel):
+    evidence_ref: str | None = Field(default=None, pattern=r"^ev_[a-z0-9_-]+$", alias="evidenceRef")
+    panel_id: str | None = Field(default=None, pattern=r"^panel-[1-3]$", alias="panelId")
+    polygon: list[Point] | None = Field(default=None, min_length=4, max_length=4)
+
+    @model_validator(mode="after")
+    def validate_locator(self) -> CorrectionLocator:
+        has_evidence = self.evidence_ref is not None
+        has_polygon = self.panel_id is not None and self.polygon is not None
+        has_partial_polygon = (self.panel_id is None) != (self.polygon is None)
+        if has_partial_polygon or has_evidence == has_polygon:
+            raise ValueError("Provide either evidenceRef or both panelId and a four-point polygon")
+        return self
+
+
+class BeverageTypeCorrection(CorrectionLocator):
+    field: Literal["beverage_type"]
+    family: BeverageType
+
+
+class TextCorrection(CorrectionLocator):
+    field: Literal[
+        "brand_name",
+        "class_type",
+        "alcohol_content",
+        "proof",
+        "net_contents",
+        "country_of_origin",
+        "wine_appellation",
+        "wine_sulfite_declaration",
+    ]
+    visible_text: NonBlank = Field(max_length=500, alias="visibleText")
+
+
+class ProducerCorrection(CorrectionLocator):
+    field: Literal["producer_name_address"]
+    visible_text: NonBlank = Field(max_length=1000, alias="visibleText")
+
+    @model_validator(mode="after")
+    def validate_lines(self) -> ProducerCorrection:
+        if len(self.visible_text.splitlines()) > 5:
+            raise ValueError("Producer correction may contain at most five lines")
+        return self
+
+
+CorrectionItem = Annotated[
+    BeverageTypeCorrection | TextCorrection | ProducerCorrection,
+    Field(discriminator="field"),
+]
+
+
+class CorrectionRequest(ContractModel):
+    expected_revision: int = Field(ge=1, alias="expectedRevision")
+    reason: NonBlank = Field(max_length=500)
+    actor_label: str | None = Field(default=None, max_length=80, alias="actorLabel")
+    corrections: list[CorrectionItem] = Field(min_length=1, max_length=10)
+
+    @model_validator(mode="after")
+    def validate_unique_fields(self) -> CorrectionRequest:
+        fields = [item.field for item in self.corrections]
+        if len(fields) != len(set(fields)):
+            raise ValueError("Each corrected field may appear only once")
+        return self
+
+
+class CorrectionResponse(ContractModel):
+    history_id: str = Field(alias="historyId")
+    root_id: str = Field(alias="rootId")
+    parent_id: str = Field(alias="parentId")
+    revision: int = Field(ge=2)
+    result: VerificationResult
 
 
 class DetectedValue(ContractModel):
@@ -203,6 +334,11 @@ class DetectedValue(ContractModel):
 
 
 class AnalysisDraft(ContractModel):
+    reference_provenance: Literal["label_ocr", "manual", "manifest", "sample"] = Field(
+        default="label_ocr", alias="referenceProvenance"
+    )
+    field_provenance: dict[str, FieldSource] = Field(default_factory=dict, alias="fieldProvenance")
+    case_label: str | None = Field(default=None, max_length=80, alias="caseLabel")
     beverage_type: BeverageType | None = Field(default=None, alias="beverageType")
     brand_name: str | None = Field(default=None, alias="brandName")
     class_type: str | None = Field(default=None, alias="classType")

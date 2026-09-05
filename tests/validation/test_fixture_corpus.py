@@ -18,8 +18,8 @@ from scripts.validate_fixture_corpus import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 EXPECTED_HASHES = {
-    "api-contract-v1.json": "2753b5fd2a5e6f9e6c32f2d321079cac0bfdc1660fc1a245bc38036cb451dc30",
-    "error-registry-v1.json": "0e78225cbee9ae166e5d5154a231cf302051ffbb4ddc9dfc1b9a2624d9993b65",
+    "api-contract-v1.json": "c9226c8d2dbd602d161dd504d2ccf440c8435c9bc6c76e7b6c28a680c9ba6d46",
+    "error-registry-v1.json": "0ec607c6d32913be754a346f4221a0d158fa5914ef6fc555b0ca7f6fd8586daa",
     "regulatory-rules-v1.json": "30afed4b6e45b1f2bb6e8e456758f56245974f939045492540a3a199b5143149",
     "selected-check-registry-v1.json": (
         "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
@@ -36,7 +36,7 @@ def test_cg001_hashes_counts_and_limits(tmp_path: Path) -> None:
     assert errors == []
     assert contracts["hashes"] == EXPECTED_HASHES
     assert len(contracts["checkIds"]) == 24
-    assert len(contracts["errorCodes"]) == 27
+    assert len(contracts["errorCodes"]) == 31
     model = tmp_path / "model.onnx"
     model.write_bytes(b"governed model")
     make_read_only(model)

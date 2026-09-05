@@ -18,6 +18,10 @@
         "profileId": {"const": "all_beverages_demo_v2"},
         "beverageType": {"enum": ["malt_beverage", "wine", "distilled_spirits"]},
         "referenceProvenance": {"enum": ["label_ocr", "manual", "manifest", "sample"]},
+        "fieldProvenance": {
+          "type": "object",
+          "additionalProperties": {"enum": ["label_ocr", "reviewer_corrected", "trusted_application", "manifest", "sample"]}
+        },
         "caseLabel": {"type": ["string", "null"], "maxLength": 80},
         "brandName": {"type": "string", "minLength": 1, "maxLength": 160},
         "classType": {"type": "string", "minLength": 1, "maxLength": 240},
@@ -25,7 +29,7 @@
         "proof": {"type": ["number", "null"], "minimum": 0},
         "netContentsValue": {"type": "number", "exclusiveMinimum": 0},
         "netContentsUnit": {"enum": ["mL", "L", "fl oz", "pt", "qt", "gal"]},
-        "producerNameAddress": {"type": "string", "minLength": 1, "maxLength": 500},
+        "producerNameAddress": {"type": "string", "minLength": 1, "maxLength": 1000},
         "isImported": {"type": "boolean"},
         "countryOfOrigin": {"type": ["string", "null"], "maxLength": 80},
         "wineAppellation": {"type": ["string", "null"], "maxLength": 160},
@@ -81,7 +85,8 @@
         "reasonShort": {"type": ["string", "null"], "maxLength": 40},
         "wordingDiff": {"type": ["array", "null"], "items": {"$ref": "#/$defs/WordingToken"}},
         "matchedWords": {"type": ["integer", "null"], "minimum": 0},
-        "totalWords": {"type": ["integer", "null"], "minimum": 0}
+        "totalWords": {"type": ["integer", "null"], "minimum": 0},
+        "observationProvenance": {"enum": ["label_ocr", "reviewer_corrected", "trusted_application", "manifest", "sample", null]}
       }
     },
     "WordingToken": {
@@ -120,6 +125,80 @@
       "properties": {
         "headingRef": {"type": ["string", "null"]},
         "bodyRef": {"type": ["string", "null"]}
+      }
+    },
+    "PanelResult": {
+      "type": "object",
+      "required": ["panelId", "originalDimensions", "qualitySignals", "coverageState"],
+      "properties": {
+        "panelId": {"type": "string", "pattern": "^panel-[1-3]$"},
+        "originalDimensions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["width", "height"],
+          "properties": {
+            "width": {"type": "integer", "minimum": 1},
+            "height": {"type": "integer", "minimum": 1}
+          }
+        },
+        "qualitySignals": {"type": "object"},
+        "coverageState": {"enum": ["Sufficient", "Review", "Unreadable"]},
+        "qualitySummary": {"oneOf": [{"$ref": "#/$defs/QualitySummary"}, {"type": "null"}]}
+      }
+    },
+    "StageTimings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decodeMs", "preprocessMs", "ocrMs", "candidatesMs", "compareMs", "aggregateMs"],
+      "properties": {
+        "decodeMs": {"type": "number", "minimum": 0},
+        "preprocessMs": {"type": "number", "minimum": 0},
+        "ocrMs": {"type": "number", "minimum": 0},
+        "candidatesMs": {"type": "number", "minimum": 0},
+        "compareMs": {"type": "number", "minimum": 0},
+        "aggregateMs": {"type": "number", "minimum": 0}
+      }
+    },
+    "ReviewCause": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["checkId", "category", "reasonCode"],
+      "properties": {
+        "checkId": {"type": "string"},
+        "category": {"enum": ["missing_evidence", "ocr_uncertainty", "presentation_uncertainty", "trusted_context_missing", "conflicting_evidence", "policy_review"]},
+        "reasonCode": {"type": "string"},
+        "evidenceRef": {"type": ["string", "null"]}
+      }
+    },
+    "VerificationResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requestId", "buildId", "profileId", "profileVersion", "modelIdentity", "ruleSources", "serverDurationMs", "stageTimings", "panels", "evidence", "checks", "limitations", "summary"],
+      "properties": {
+        "requestId": {"type": "string"},
+        "buildId": {"type": "string"},
+        "profileId": {"const": "all_beverages_demo_v2"},
+        "profileVersion": {"type": "string"},
+        "modelIdentity": {"type": "string"},
+        "ruleSources": {"type": "array", "items": {"type": "string"}},
+        "serverDurationMs": {"type": "number", "minimum": 0},
+        "stageTimings": {"$ref": "#/$defs/StageTimings"},
+        "panels": {"type": "array", "items": {"$ref": "#/$defs/PanelResult"}},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/Evidence"}},
+        "checks": {"type": "array", "items": {"$ref": "#/$defs/Check"}},
+        "limitations": {"type": "array", "items": {"type": "string"}},
+        "summary": {"enum": ["Differences detected", "Review needed", "No differences found in checked fields"]},
+        "historyId": {"type": ["string", "null"]},
+        "beverageInference": {"oneOf": [{"$ref": "#/$defs/BeverageInference"}, {"type": "null"}]},
+        "warningEvidence": {"oneOf": [{"$ref": "#/$defs/WarningEvidence"}, {"type": "null"}]},
+        "badImage": {"type": "boolean"},
+        "supersedes": {"type": ["string", "null"]},
+        "blockingCheckIds": {"type": "array", "items": {"type": "string"}},
+        "reviewCauses": {"type": "array", "items": {"$ref": "#/$defs/ReviewCause"}},
+        "rootId": {"type": ["string", "null"]},
+        "parentId": {"type": ["string", "null"]},
+        "revision": {"type": "integer", "minimum": 1},
+        "revisionKind": {"enum": ["original", "correction", "panel_added"]}
       }
     },
     "ErrorComparison": {
@@ -201,6 +280,88 @@
         "groups": {"type": "array", "maxItems": 900, "items": {"$ref": "#/$defs/GroupSuggestion"}},
         "analyzed": {"type": "integer", "minimum": 0, "maximum": 900},
         "failed": {"type": "integer", "minimum": 0, "maximum": 900}
+      }
+    },
+    "BeverageTypeCorrection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "family"],
+      "properties": {
+        "field": {"const": "beverage_type"},
+        "family": {"enum": ["malt_beverage", "wine", "distilled_spirits"]},
+        "evidenceRef": {"type": "string", "pattern": "^ev_[a-z0-9_-]+$"},
+        "panelId": {"type": "string", "pattern": "^panel-[1-3]$"},
+        "polygon": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/Point"}}
+      },
+      "oneOf": [
+        {"required": ["evidenceRef"], "not": {"anyOf": [{"required": ["panelId"]}, {"required": ["polygon"]}]}},
+        {"required": ["panelId", "polygon"], "not": {"required": ["evidenceRef"]}}
+      ]
+    },
+    "TextCorrection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "visibleText"],
+      "properties": {
+        "field": {"enum": ["brand_name", "class_type", "alcohol_content", "proof", "net_contents", "country_of_origin", "wine_appellation", "wine_sulfite_declaration"]},
+        "visibleText": {"type": "string", "minLength": 1, "maxLength": 500},
+        "evidenceRef": {"type": "string", "pattern": "^ev_[a-z0-9_-]+$"},
+        "panelId": {"type": "string", "pattern": "^panel-[1-3]$"},
+        "polygon": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/Point"}}
+      },
+      "oneOf": [
+        {"required": ["evidenceRef"], "not": {"anyOf": [{"required": ["panelId"]}, {"required": ["polygon"]}]}},
+        {"required": ["panelId", "polygon"], "not": {"required": ["evidenceRef"]}}
+      ]
+    },
+    "ProducerCorrection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["field", "visibleText"],
+      "properties": {
+        "field": {"const": "producer_name_address"},
+        "visibleText": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "evidenceRef": {"type": "string", "pattern": "^ev_[a-z0-9_-]+$"},
+        "panelId": {"type": "string", "pattern": "^panel-[1-3]$"},
+        "polygon": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"$ref": "#/$defs/Point"}}
+      },
+      "oneOf": [
+        {"required": ["evidenceRef"], "not": {"anyOf": [{"required": ["panelId"]}, {"required": ["polygon"]}]}},
+        {"required": ["panelId", "polygon"], "not": {"required": ["evidenceRef"]}}
+      ]
+    },
+    "CorrectionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expectedRevision", "reason", "corrections"],
+      "properties": {
+        "expectedRevision": {"type": "integer", "minimum": 1},
+        "reason": {"type": "string", "minLength": 1, "maxLength": 500},
+        "actorLabel": {"type": ["string", "null"], "maxLength": 80},
+        "corrections": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {
+            "oneOf": [
+              {"$ref": "#/$defs/BeverageTypeCorrection"},
+              {"$ref": "#/$defs/TextCorrection"},
+              {"$ref": "#/$defs/ProducerCorrection"}
+            ]
+          }
+        }
+      }
+    },
+    "CorrectionResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["historyId", "rootId", "parentId", "revision", "result"],
+      "properties": {
+        "historyId": {"type": "string", "minLength": 1},
+        "rootId": {"type": "string", "minLength": 1},
+        "parentId": {"type": "string", "minLength": 1},
+        "revision": {"type": "integer", "minimum": 2},
+        "result": {"$ref": "#/$defs/VerificationResult"}
       }
     }
   },

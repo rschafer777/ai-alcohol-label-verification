@@ -132,7 +132,7 @@ export function History({ historyClient, initialRecordId, onCountChange, onScree
           <span><button className="btn btn-ghost" disabled={!page.offset} onClick={() => void load(Math.max(0, page.offset - page.pageSize))} type="button">Newer</button><button className="btn btn-ghost" disabled={!page.hasMore} onClick={() => void load(page.offset + page.pageSize)} type="button">Older</button></span>
         </div>
       </section>
-      <StoredResultDrawer detail={selected} key={selected?.id ?? "none"} onDelete={() => selected && setConfirm({ kind: "one", id: selected.id, name: selected.displayName })} onSave={saveDisposition} />
+      <StoredResultDrawer detail={selected} key={selected?.id ?? "none"} onDelete={() => selected && setConfirm({ kind: "one", id: selected.id, name: selected.displayName })} onOpenRevision={(id) => void open(id)} onSave={saveDisposition} />
       {confirm?.kind === "one" ? <ConfirmDialog body={`Delete ${confirm.name} and its retained images? This cannot be undone.`} confirmLabel="Delete record" onCancel={() => setConfirm(null)} onConfirm={() => void removeOne(confirm.id)} title="Delete this record?" /> : null}
       {confirm?.kind === "all" ? <ConfirmDialog body={`Delete all ${page.total} completed results and their retained images? This cannot be undone.`} confirmLabel={`Delete all ${page.total}`} onCancel={() => setConfirm(null)} onConfirm={() => void clearAll()} title="Clear history?" /> : null}
     </main>

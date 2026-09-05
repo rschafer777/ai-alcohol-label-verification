@@ -44,6 +44,24 @@ SUMMARY_TO_DISPOSITION = {
 }
 
 
+def oracle_conflict_reason(
+    oracle_case: dict[str, Any] | None, truth: dict[str, Any] | None
+) -> str | None:
+    """Identify direct contradictions between two independent validation sources."""
+
+    if oracle_case is None or truth is None:
+        return None
+    reason = str(oracle_case.get("reason") or "").casefold()
+    warning = truth.get("warning") or {}
+    if "warning body" in reason and "bold" in reason and warning.get("body_bold") is False:
+        return "Oracle says the warning body is bold; pixel ground truth says it is not bold"
+    if "warning" in reason and "missing" in reason and warning.get("present") is True:
+        return "Oracle says the warning is missing; pixel ground truth says it is present"
+    if "title case" in reason and warning.get("heading_all_caps") is True:
+        return "Oracle says the heading is title case; pixel ground truth says it is all caps"
+    return None
+
+
 def fold(value: Any) -> str:
     if value is None:
         return ""
@@ -210,7 +228,7 @@ def main() -> int:
         for case in json.loads(truth_path.read_text(encoding="utf-8"))["cases"]
     }
     oracle = {
-        case["filename"]: case["expectedDisposition"]
+        case["filename"]: case
         for case in json.loads(oracle_path.read_text(encoding="utf-8"))["cases"]
     }
     adapter = RapidOcrAdapter(PROJECT_ROOT / "models", require_read_only=False)
@@ -240,7 +258,9 @@ def main() -> int:
                     "file": path.name,
                     "seconds": round(elapsed, 3),
                     "machineDisposition": "NOT_PROCESSED",
-                    "oracleDisposition": oracle.get(path.name),
+                    "oracleDisposition": (
+                        oracle[path.name]["expectedDisposition"] if path.name in oracle else None
+                    ),
                     "summary": f"not processed: {exc}",
                     "preparedForUpload": prepared,
                 }
@@ -260,13 +280,19 @@ def main() -> int:
             "file": path.name,
             "seconds": round(elapsed, 3),
             "machineDisposition": disposition,
-            "oracleDisposition": oracle.get(path.name),
+            "oracleDisposition": (
+                oracle[path.name]["expectedDisposition"] if path.name in oracle else None
+            ),
             "summary": verification["summary"],
             "preparedForUpload": prepared,
         }
         if path.name in oracle:
-            key = f"{oracle[path.name]}->{disposition}"
-            confusion[key] = confusion.get(key, 0) + 1
+            conflict = oracle_conflict_reason(oracle[path.name], truths.get(path.name))
+            if conflict:
+                row["oracleExcludedReason"] = conflict
+            else:
+                key = f"{oracle[path.name]['expectedDisposition']}->{disposition}"
+                confusion[key] = confusion.get(key, 0) + 1
         if path.name in truths:
             scores = score_case(
                 {"draft": payload["draft"], "checks": verification["checks"]}, truths[path.name]
@@ -287,6 +313,9 @@ def main() -> int:
         "createdAtUtc": datetime.now(UTC).isoformat(),
         "imageCount": len(rows),
         "oracleMatchedCount": sum(confusion.values()),
+        "oracleExcludedConflictCount": sum(
+            bool(row.get("oracleExcludedReason")) for row in rows
+        ),
         "oracleExactAgreement": exact,
         "falseClean": confusion.get("DO_NOT_PASS->PASS", 0),
         "falseReject": confusion.get("PASS->DO_NOT_PASS", 0),
@@ -304,7 +333,7 @@ def main() -> int:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({key: value for key, value in summary.items() if key != "rows"}, indent=1))
-    return 0
+    return 0 if summary["falseClean"] == 0 and summary["falseReject"] == 0 else 1
 
 
 if __name__ == "__main__":

@@ -9,15 +9,17 @@ or an evidence coordinate.
 from __future__ import annotations
 
 from difflib import SequenceMatcher
-from typing import Literal
+from typing import Literal, cast
 
 from labelverify.contracts.loader import contracts
 from labelverify.contracts.models import (
     BeverageInference,
     BeverageType,
     CheckResult,
+    FieldSource,
     PanelResult,
     QualitySummary,
+    ReferenceRecord,
     WarningEvidence,
     WordingToken,
 )
@@ -284,15 +286,35 @@ _APPLICATION_COMPARED_CHECKS = {
     "country",
 }
 
+_CHECK_REFERENCE_FIELDS = {
+    "beverage_type": "beverage_type",
+    "brand": "brand_name",
+    "class_type": "class_type",
+    "abv": "alcohol_content",
+    "proof": "proof",
+    "net_contents": "net_contents",
+    "producer": "producer_name_address",
+    "country": "country_of_origin",
+    "wine_appellation": "wine_appellation",
+    "wine_sulfites": "wine_sulfite_declaration",
+}
+
 
 def present_checks(
     checks: list[CheckResult],
     beverage_type: BeverageType | None,
     reference_provenance: str = "label_ocr",
+    reference: ReferenceRecord | None = None,
 ) -> list[CheckResult]:
-    """Attach display fields; an application comparison shows the application value."""
+    """Attach display fields using the source of each individual reference field."""
 
-    compared = reference_provenance != "label_ocr"
+    def compared(check: CheckResult) -> bool:
+        field = _CHECK_REFERENCE_FIELDS.get(check.check_id)
+        source = reference.source_for(field) if reference is not None and field else None
+        return (source or reference_provenance) not in {
+            "label_ocr",
+            "reviewer_corrected",
+        }
     return [
         check.model_copy(
             update={
@@ -300,7 +322,7 @@ def present_checks(
                 "short_label": short_label(check.check_id),
                 "rule_expectation": (
                     f"Application: {check.reference_display}"
-                    if compared
+                    if compared(check)
                     and check.check_id in _APPLICATION_COMPARED_CHECKS
                     and check.reference_display
                     else rule_expectation(check.check_id, beverage_type)
@@ -310,6 +332,57 @@ def present_checks(
         )
         for check in checks
     ]
+
+
+_CHECK_OBSERVED_FIELD_NAMES = {
+    "beverage_type": "beverage_type",
+    "brand": "brand",
+    "class_type": "class_type",
+    "abv": "abv",
+    "proof": "proof",
+    "net_contents": "net_contents",
+    "producer": "producer",
+    "country": "country",
+    "wine_appellation": "wine_appellation",
+    "wine_sulfites": "wine_sulfites",
+}
+
+
+def apply_observation_provenance(
+    checks: list[CheckResult], observed: ObservedCandidates
+) -> list[CheckResult]:
+    evidence_sources = {
+        item.evidence_id: _field_source(item.confidence_provenance.source)
+        for item in observed.evidence
+    }
+    presented: list[CheckResult] = []
+    for check in checks:
+        source = evidence_sources.get(check.evidence_ref or "")
+        field_name = _CHECK_OBSERVED_FIELD_NAMES.get(check.check_id)
+        if source is None and field_name is not None:
+            candidates = observed.field(field_name).candidates
+            if candidates:
+                source = _field_source(
+                    candidates[0].evidence.confidence_provenance.source
+                )
+        presented.append(
+            check.model_copy(update={"observation_provenance": source})
+            if source is not None
+            else check
+        )
+    return presented
+
+
+def _field_source(source: str) -> FieldSource:
+    if source in {
+        "reviewer_corrected",
+        "trusted_application",
+        "manifest",
+        "sample",
+        "label_ocr",
+    }:
+        return cast(FieldSource, source)
+    return "label_ocr"
 
 
 def quality_summary(panel: PanelResult) -> QualitySummary:

@@ -122,9 +122,20 @@ def mark_unresolved_beverage(checks: list[CheckResult]) -> tuple[list[CheckResul
 def _label_derived_reference_guard(
     checks: list[CheckResult], reference: ReferenceRecord
 ) -> list[CheckResult]:
-    if reference.reference_provenance != "label_ocr":
+    field_names = {
+        "beverage_type": "beverage_type",
+        "brand": "brand_name",
+        "class_type": "class_type",
+        "abv": "alcohol_content",
+        "proof": "proof",
+        "net_contents": "net_contents",
+        "producer": "producer_name_address",
+        "country": "country_of_origin",
+        "wine_appellation": "wine_appellation",
+        "wine_sulfites": "wine_sulfite_declaration",
+    }
+    if all(reference.source_for(field) != "label_ocr" for field in field_names.values()):
         return checks
-    comparison_ids = {"brand", "class_type", "abv", "proof", "net_contents", "producer", "country"}
     return [
         check.model_copy(
             update={
@@ -135,7 +146,9 @@ def _label_derived_reference_guard(
                 ),
             }
         )
-        if check.check_id in comparison_ids and check.state == "Match"
+        if check.check_id in field_names
+        and reference.source_for(field_names[check.check_id]) == "label_ocr"
+        and check.state == "Match"
         else check
         for check in checks
     ]
@@ -157,7 +170,10 @@ _DOMESTIC_LOCATION = re.compile(
 
 
 def _import_status(reference: ReferenceRecord, observed: ObservedCandidates) -> bool | None:
-    if reference.reference_provenance != "label_ocr":
+    if reference.source_for("country_of_origin") not in {
+        "label_ocr",
+        "reviewer_corrected",
+    }:
         return reference.is_imported
     country = observed.field("country")
     if country.status in {"Found", "Ambiguous"}:
@@ -172,6 +188,30 @@ def _import_status(reference: ReferenceRecord, observed: ObservedCandidates) -> 
 
 
 def _beverage_type(reference: ReferenceRecord, observed: ObservedCandidates) -> CheckResult:
+    corrected = observed.field("beverage_type")
+    if corrected.status == "Found" and corrected.candidates:
+        candidate = corrected.candidates[0]
+        if candidate.value == reference.beverage_type:
+            return _result(
+                "beverage_type",
+                "Beverage type",
+                "Match",
+                "beverage_type_supported",
+                "The reviewer-corrected label family supports the selected profile",
+                reference=reference.beverage_type,
+                observed=candidate.value,
+                candidate=candidate,
+            )
+        return _result(
+            "beverage_type",
+            "Beverage type",
+            "Mismatch",
+            "beverage_type_conflict",
+            "The reviewer-corrected label family conflicts with the application profile",
+            reference=reference.beverage_type,
+            observed=candidate.value,
+            candidate=candidate,
+        )
     hits = beverage_type_hits(observed)
     if reference.beverage_type in hits and len(hits) == 1:
         return _result(
@@ -240,7 +280,10 @@ def _alcohol_content(reference: ReferenceRecord, observed: ObservedCandidates) -
                 result.reason_code = "alcohol_range_not_authorized"
                 result.reason_text = "This beverage profile does not authorize an alcohol range"
                 return result
-            if reference.reference_provenance == "label_ocr":
+            if reference.source_for("alcohol_content") in {
+                "label_ocr",
+                "reviewer_corrected",
+            }:
                 allowed_span = Decimal("3") if high <= Decimal("14") else Decimal("2")
                 if high - low > allowed_span or low <= Decimal("14") < high:
                     result.state = "Mismatch"
@@ -455,7 +498,10 @@ def _wine_appellation(reference: ReferenceRecord, observed: ObservedCandidates) 
             "No selected varietal, vintage, or estate-bottled trigger was found",
             applicable=False,
         )
-    if reference.wine_appellation and reference.reference_provenance != "label_ocr":
+    if reference.wine_appellation and reference.source_for("wine_appellation") not in {
+        "label_ocr",
+        "reviewer_corrected",
+    }:
         return compare_text(
             "wine_appellation",
             "Wine appellation",

@@ -2,7 +2,17 @@
 
 Document ID: LV-BAIRD-001  
 Input: LV-INTAKE-001  
-Gate result: Approved for I2R
+Gate result: CR-002 requirements approved by three independent reviews and released to implementation
+
+## Revision history
+
+| Revision | Date | Change | Authority |
+| --- | --- | --- | --- |
+| 1.0 | 2026-09-01 | Validated the initial intake for I2R | LV-INTAKE-001 revision 1.0 |
+| 1.1 | 2026-09-04 | Assessed UAT findings, measurement gaps, correction provenance, review utility, numeric brands, producer extraction, language boundaries, and deployed performance | CR-002 and LV-INTAKE-001 revision 1.1 |
+| 1.2 | 2026-09-04 | Recorded requirements clearance and linked the approved corrective baseline to implementation and validation | CR-002 |
+| 1.3 | 2026-09-04 | Closed final-review gaps in unresolved type, correction evidence, mutation boundaries, persistence ordering, and canonical release evidence | CR-002 |
+| 1.4 | 2026-09-05 | Assigned one unique, sequential identifier to every derived requirement and reconciled downstream feature traceability | CR-002 final requirements review |
 
 ## Purpose
 
@@ -38,6 +48,13 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 | Cloud CPU allocation for local OCR | Undersized CPU changes uncached image latency even when code and models are identical | Use the 4-vCPU and 8-GiB maximum of the selected Azure Consumption workload profile and verify the effective allocation after deployment |
 | High-resolution phone photographs | Direct camera files can exceed the service byte or decoded-pixel boundary even when they contain useful label evidence | Prepare supported images locally in the browser with proportional resize and bounded JPEG encoding, then retain the server limits as the authoritative security boundary |
 | Warning split across curved or repeated views | One photograph may hide words that another photograph shows | Read the warning separately on every submitted panel, prefer the clearest complete read, and allow cross-image word confirmation only as Review because punctuation may remain unresolved |
+| Cause of an overall Review | A conservative summary does not reveal which checks consume reviewer effort | Add normalized blocking-cause attribution and report routing separately from field and disposition accuracy |
+| Numeric-only brand population | Existing governed field truth does not contain a sufficient numeric-brand sample | Annotate existing numeric products plus negative numeric controls before setting a success percentage |
+| Producer failure cause | Aggregate results cannot distinguish detection, recognition, line joining, selection, vocabulary, or language errors | Categorize each producer miss or wrong result before selecting parser, OCR, or vocabulary changes |
+| Reviewer-correction identity | The prototype has browser scope but no verified workforce identity | Use the scope only for authorization; never expose it as identity or evidence, and store a bounded non-secret actor label or generated audit surrogate without claiming a federal audit identity |
+| Supported language matrix | Discovery requires import handling but does not define a set of supported languages | Add only field-specific languages justified by annotated cases and route unsupported language to Review |
+| Representative Azure OCR timing | Existing Azure checks use repeated governed samples | Measure unique sanitized representative photographs on the governed 4-vCPU and 8-GiB environment before claiming deployed parity |
+| Warning machine-clearance boundary | A blanket refusal to match photographic evidence defeats routine triage, while relaxed text comparison risks false clean | Permit machine Match only for complete exact supported evidence; retain Review for unresolved punctuation, presentation, contradiction, or scale |
 
 ## Derived requirements
 
@@ -59,6 +76,30 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 16. Bind deployed performance to a governed compute allocation and reject configuration drift before public verification.
 17. Prepare oversized supported browser images before upload without weakening server-side byte, pixel, signature, or count enforcement.
 18. Combine warning evidence conservatively across panels: one exact complete read may govern, while complementary partial reads can confirm words only and cannot machine-clear punctuation.
+19. Report the exact blocking check IDs and normalized cause categories for every Review summary.
+20. Keep review-routing distribution, field accuracy, disposition accuracy, and technical processing success as separate measures.
+21. Preserve immutable OCR evidence when a reviewer corrects an observation; server-side re-evaluation must not invoke OCR.
+22. Model observation corrections as one atomically serialized lineage with an immutable root, current head, unique revision, cumulative edits, scope isolation, bounded requests, complete-lineage deletion, independently reopenable evidence, and a Pending child disposition.
+23. Treat provenance as field-level data. Independent application values are `trusted_application`, visible reviewer corrections are `reviewer_corrected`, and raw observations are `label_ocr`; mixed-source results retain every field's source through checks, history, and export.
+24. Use neutral image ordinals after intake unless a semantic role is explicitly confirmed; role metadata cannot alter the rule outcome by itself.
+25. Add a separate constrained numeric-brand path using position-independent page geometry, trademark proximity, repetition, and proximity to independently detected core fields, with exhaustive numeric-context exclusions and no upload-order signal.
+26. Classify producer failures before changing OCR, layout joining, selection ranking, or role vocabularies.
+27. Compare OCR candidates with identical detection boxes, preprocessing, candidate logic, rules, and evaluation cases; change one model component at a time.
+28. Promote an OCR model only after the sealed holdout gains at least five net correct product-field scores across at least two eligible weak-field families, with zero previously correct weak-field losses, zero false clean, no protected-field regression, and operational acceptability; diagnostic regions and repeated panels cannot supply promotion wins.
+29. Add bounded language phrases only after OCR and producer parsing stabilize and annotated evidence shows a vocabulary gap.
+30. Preserve exact statutory warning behavior: exact supported wording may Match its row, each presentation row remains independent, physical size stays Not verified without scale, material visible differences Mismatch, and unresolved evidence Review.
+31. Restrict corrections to typed, allowlisted observed fields with existing evidence or a reviewer-selected source-panel polygon. Preserve reviewer-transcribed visible text and derive normalized numbers, units, ranges, precision, abbreviations, and components on the server so normalization cannot hide a printed defect. Warning wording, warning presentation, image quality, and coverage are not manually correctable.
+32. Recompute the complete declared dependency graph after a corrected beverage type, class, ABV, proof, brand, net contents, producer, country, appellation, or sulfite observation.
+33. Measure corrective utility on recoverable producer and warning-wording product-fields in the sealed holdout. Require the declared bounded gain with zero loss and zero new false clean; exclude unscaled physical size and irreducible presentation uncertainty.
+34. Establish representative Azure performance with distinct admitted pixel hashes and a disclosed distribution. Measure cold startup separately, apply 5-second and 9-second bands only after readiness, and include queue and rate waits in batch wall time.
+35. Preserve an unresolved beverage type across all revisions unless supported label evidence or a cited reviewer correction resolves it; never substitute a default profile to make a revision executable.
+36. Bind correction replay to immutable source content and coordinates rather than an order-derived display identifier, and preserve raw visible text plus server-derived values as separate audit facts.
+37. Treat one correction event as the indivisible replay unit: its latest value, source image hash, panel, polygon, and original snippet travel together. After add-panel OCR, refresh label-derived comparison values from the complete read while preserving trusted application and reviewer-corrected values.
+38. Make revision authority explicit. Every carried or refreshed field, including conditional malt-alcohol source, receives field provenance; each returned revision value agrees with its declared source and the reference persisted to history; newly conflicting or insufficient evidence invalidates a prior label-derived family instead of preserving stale certainty; a reviewer-corrected family cannot be replaced by later class inference; and manually cited polygons must be positive-area and strictly inside the original image bounds.
+39. Restrict beverage correction to the three supported families and rerun inference after class correction. If the corrected class remains absent or conflicts across families, require an explicit cited family correction rather than selecting a default.
+40. A reviewer may transcribe a visible Contains Sulfites statement, but typed text cannot establish sulfite absence or other chemistry. When OCR provides no evidence region for any correctable field, require a reviewer-drawn bounded original-pixel region before accepting the correction.
+41. Apply state-change security controls before accepting any path identifier, delete persisted files only after metadata commit, and reconcile orphaned files after interrupted cleanup.
+42. Hash governed source evidence using the same canonical byte representation that Git stages and the release manifest verifies.
 
 ## Feasibility assessment
 
@@ -74,7 +115,7 @@ BAIRD determines what discovery defined, what it did not define, and which deriv
 
 ## Requirement validation
 
-BAIRD confirms that the intake contains measurable requirements for function, performance, security, accessibility, data, error handling, batch operation, regulatory profile selection, evidence, delivery, and testing. No engineering stage is asked to invent a primary user workflow or compliance state.
+BAIRD confirms that the corrective intake contains measurable requirements for function, performance, security, accessibility, data, provenance, error handling, batch operation, regulatory profile selection, evidence, review utility, delivery, and testing. Measurement gaps are explicit prerequisites rather than hidden assumptions. No engineering stage is asked to invent a primary user workflow, provenance type, or compliance state.
 
 ## BAIRD gate
 
@@ -86,5 +127,14 @@ Approved for I2R subject to these non-negotiable controls:
 - no silent beverage-profile selection on conflicting evidence
 - no group over 3 images
 - no batch over 300 products or 900 images
-- no history above 500 records
+- no history above 500 product lineages or 10 revisions within one lineage
 - no release without traceable tests, security checks, UI validation, and deployed smoke testing
+- no corrective implementation until three independent reviewers return Clear on one identical frozen lifecycle-document snapshot
+- no correction path that reruns OCR or overwrites the original observation
+- no positional Front or Back claim without an explicit confirmed role
+- no reduced Review count obtained by converting uncertainty into Match
+- no model promotion based on repeated fixtures, local-only timing, or an unannotated sample
+- no broad language or translation claim without a versioned supported matrix and independent tests
+- no default beverage profile when type remains unresolved
+- no correction replay based only on an order-derived evidence identifier
+- no metadata rollback that can leave a surviving history record without its retained image

@@ -1,13 +1,13 @@
 {
   "schemaVersion": "1.0.0",
-  "createdAtUtc": "2026-09-04T05:56:52.606292+00:00",
+  "createdAtUtc": "2026-09-05T01:11:16.051857+00:00",
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
     "python": "3.12.10"
   },
   "snapshot": {
-    "validatorSha256": "a38e4f9d1c9c555caab9de29c8a269e1538699e40b52ddc0c071751a755c0d21",
-    "pipelineSha256": "d032311a0ccb7d8419da2a7ad34255752fee7ed6f17681a3d7473e86fba2c236",
+    "validatorSha256": "d760fefbe1c89755844ccae2e33bc118824801191608f32888ca40d451e77cd8",
+    "pipelineSha256": "35d959cf8bbc5a17360becc88dc789bb8185e05c2dae23df1d092a88269d988f",
     "supervisorSha256": "8eeb7b9408a9d4574ae951f1c0bfa9d165b8be3dafcd36ed0ce6a6786b6c3028"
   },
   "scope": {
@@ -34,7 +34,7 @@
     ],
     "correlation": 0.999952972,
     "normalizedMeanAbsoluteError": 0.001955997,
-    "durationSeconds": 6.226,
+    "durationSeconds": 5.751,
     "httpStatus": 200,
     "submittedPanelCount": 2,
     "returnedPanelCount": 2,
@@ -68,7 +68,7 @@
   "individualScans": [
     {
       "caseId": "image-001",
-      "durationSeconds": 4.611,
+      "durationSeconds": 4.287,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -95,7 +95,7 @@
     },
     {
       "caseId": "image-002",
-      "durationSeconds": 3.868,
+      "durationSeconds": 3.179,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -122,7 +122,7 @@
     },
     {
       "caseId": "image-003",
-      "durationSeconds": 5.351,
+      "durationSeconds": 5.128,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -135,9 +135,9 @@
         "netContentsValue": null,
         "netContentsUnit": null,
         "producerNameAddressRead": true,
-        "countryOfOriginRead": false,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 6,
+        "countryOfOriginRead": true,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 7,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -149,7 +149,7 @@
     },
     {
       "caseId": "image-004",
-      "durationSeconds": 7.573,
+      "durationSeconds": 6.583,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -164,7 +164,7 @@
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
         "detectedFieldCount": 4,
-        "evidenceRegionCount": 5,
+        "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -176,7 +176,7 @@
     },
     {
       "caseId": "image-005",
-      "durationSeconds": 3.398,
+      "durationSeconds": 2.69,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -203,7 +203,7 @@
     },
     {
       "caseId": "image-006",
-      "durationSeconds": 2.663,
+      "durationSeconds": 2.675,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -230,7 +230,7 @@
     },
     {
       "caseId": "image-007",
-      "durationSeconds": 4.862,
+      "durationSeconds": 4.182,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -257,7 +257,7 @@
     },
     {
       "caseId": "image-008",
-      "durationSeconds": 4.176,
+      "durationSeconds": 3.782,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -284,7 +284,7 @@
     },
     {
       "caseId": "image-009",
-      "durationSeconds": 3.288,
+      "durationSeconds": 2.946,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -311,7 +311,7 @@
     },
     {
       "caseId": "image-010",
-      "durationSeconds": 4.337,
+      "durationSeconds": 4.388,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -338,7 +338,7 @@
     },
     {
       "caseId": "image-011",
-      "durationSeconds": 3.037,
+      "durationSeconds": 3.04,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -365,7 +365,7 @@
     },
     {
       "caseId": "image-012",
-      "durationSeconds": 3.205,
+      "durationSeconds": 3.138,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -392,7 +392,7 @@
     },
     {
       "caseId": "image-013",
-      "durationSeconds": 4.134,
+      "durationSeconds": 4.327,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -419,7 +419,7 @@
     },
     {
       "caseId": "image-014",
-      "durationSeconds": 4.68,
+      "durationSeconds": 5.184,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -446,7 +446,7 @@
     },
     {
       "caseId": "image-015",
-      "durationSeconds": 4.796,
+      "durationSeconds": 4.652,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -473,7 +473,7 @@
     },
     {
       "caseId": "image-016",
-      "durationSeconds": 2.454,
+      "durationSeconds": 4.734,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -500,7 +500,7 @@
     },
     {
       "caseId": "image-017",
-      "durationSeconds": 4.839,
+      "durationSeconds": 4.565,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -527,7 +527,7 @@
     },
     {
       "caseId": "image-018",
-      "durationSeconds": 4.495,
+      "durationSeconds": 4.543,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -554,7 +554,7 @@
     },
     {
       "caseId": "image-019",
-      "durationSeconds": 4.517,
+      "durationSeconds": 4.225,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -581,7 +581,7 @@
     },
     {
       "caseId": "image-020",
-      "durationSeconds": 5.034,
+      "durationSeconds": 5.797,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -608,7 +608,7 @@
     },
     {
       "caseId": "image-021",
-      "durationSeconds": 6.659,
+      "durationSeconds": 5.578,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -635,7 +635,7 @@
     },
     {
       "caseId": "image-022",
-      "durationSeconds": 1.838,
+      "durationSeconds": 2.514,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -662,7 +662,7 @@
     },
     {
       "caseId": "image-023",
-      "durationSeconds": 4.371,
+      "durationSeconds": 3.949,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -689,7 +689,7 @@
     },
     {
       "caseId": "image-024",
-      "durationSeconds": 2.813,
+      "durationSeconds": 2.54,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -716,7 +716,7 @@
     },
     {
       "caseId": "image-025",
-      "durationSeconds": 4.896,
+      "durationSeconds": 4.401,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -743,7 +743,7 @@
     },
     {
       "caseId": "image-026",
-      "durationSeconds": 4.507,
+      "durationSeconds": 4.095,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -770,7 +770,7 @@
     },
     {
       "caseId": "image-027",
-      "durationSeconds": 5.077,
+      "durationSeconds": 4.701,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -797,22 +797,22 @@
     },
     {
       "caseId": "image-028",
-      "durationSeconds": 3.202,
+      "durationSeconds": 2.89,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandRead": true,
-        "classTypeRead": false,
+        "classTypeRead": true,
         "abvPercent": 53.5,
         "proof": 107.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 4,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -824,7 +824,7 @@
     },
     {
       "caseId": "image-029",
-      "durationSeconds": 4.179,
+      "durationSeconds": 3.836,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -851,7 +851,7 @@
     },
     {
       "caseId": "image-030",
-      "durationSeconds": 4.784,
+      "durationSeconds": 4.954,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -878,7 +878,7 @@
     },
     {
       "caseId": "image-031",
-      "durationSeconds": 4.46,
+      "durationSeconds": 4.389,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -905,7 +905,7 @@
     },
     {
       "caseId": "image-032",
-      "durationSeconds": 2.197,
+      "durationSeconds": 2.766,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -932,7 +932,7 @@
     },
     {
       "caseId": "image-033",
-      "durationSeconds": 5.723,
+      "durationSeconds": 4.525,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -959,7 +959,7 @@
     },
     {
       "caseId": "image-034",
-      "durationSeconds": 4.043,
+      "durationSeconds": 3.94,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -986,7 +986,7 @@
     },
     {
       "caseId": "image-035",
-      "durationSeconds": 7.494,
+      "durationSeconds": 7.185,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1013,7 +1013,7 @@
     },
     {
       "caseId": "image-036",
-      "durationSeconds": 4.004,
+      "durationSeconds": 3.974,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1040,7 +1040,7 @@
     },
     {
       "caseId": "image-037",
-      "durationSeconds": 2.727,
+      "durationSeconds": 2.668,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1067,7 +1067,7 @@
     },
     {
       "caseId": "image-038",
-      "durationSeconds": 4.414,
+      "durationSeconds": 4.221,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1094,7 +1094,7 @@
     },
     {
       "caseId": "image-039",
-      "durationSeconds": 3.173,
+      "durationSeconds": 2.973,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1121,7 +1121,7 @@
     },
     {
       "caseId": "image-040",
-      "durationSeconds": 3.29,
+      "durationSeconds": 3.145,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1148,7 +1148,7 @@
     },
     {
       "caseId": "image-041",
-      "durationSeconds": 3.887,
+      "durationSeconds": 5.392,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1175,7 +1175,7 @@
     },
     {
       "caseId": "image-042",
-      "durationSeconds": 3.7,
+      "durationSeconds": 3.306,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1202,7 +1202,7 @@
     },
     {
       "caseId": "image-043",
-      "durationSeconds": 4.611,
+      "durationSeconds": 3.9,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1229,7 +1229,7 @@
     },
     {
       "caseId": "image-044",
-      "durationSeconds": 5.71,
+      "durationSeconds": 5.557,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1241,10 +1241,10 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": false,
+        "producerNameAddressRead": true,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 11,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 12,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -1256,7 +1256,7 @@
     },
     {
       "caseId": "image-045",
-      "durationSeconds": 3.434,
+      "durationSeconds": 3.398,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1283,7 +1283,7 @@
     },
     {
       "caseId": "image-046",
-      "durationSeconds": 6.105,
+      "durationSeconds": 5.589,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1298,7 +1298,7 @@
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
         "detectedFieldCount": 1,
-        "evidenceRegionCount": 2,
+        "evidenceRegionCount": 3,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -1310,7 +1310,7 @@
     },
     {
       "caseId": "image-047",
-      "durationSeconds": 6.31,
+      "durationSeconds": 7.237,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1337,7 +1337,7 @@
     },
     {
       "caseId": "image-048",
-      "durationSeconds": 3.172,
+      "durationSeconds": 3.123,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1364,7 +1364,7 @@
     },
     {
       "caseId": "image-049",
-      "durationSeconds": 4.695,
+      "durationSeconds": 3.646,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1391,7 +1391,7 @@
     },
     {
       "caseId": "image-050",
-      "durationSeconds": 7.191,
+      "durationSeconds": 6.546,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1418,7 +1418,7 @@
     },
     {
       "caseId": "image-051",
-      "durationSeconds": 5.212,
+      "durationSeconds": 4.669,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1445,7 +1445,7 @@
     },
     {
       "caseId": "image-052",
-      "durationSeconds": 2.687,
+      "durationSeconds": 2.796,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1472,7 +1472,7 @@
     },
     {
       "caseId": "image-053",
-      "durationSeconds": 5.079,
+      "durationSeconds": 4.134,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1486,8 +1486,8 @@
         "netContentsUnit": null,
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 3,
+        "detectedFieldCount": 2,
+        "evidenceRegionCount": 2,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -1499,7 +1499,7 @@
     },
     {
       "caseId": "image-054",
-      "durationSeconds": 2.956,
+      "durationSeconds": 2.594,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1526,21 +1526,21 @@
     },
     {
       "caseId": "image-055",
-      "durationSeconds": 5.418,
+      "durationSeconds": 3.789,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
         "brandRead": true,
-        "classTypeRead": false,
+        "classTypeRead": true,
         "abvPercent": 14.0,
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": true,
-        "detectedFieldCount": 5,
+        "detectedFieldCount": 6,
         "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       },
@@ -1553,7 +1553,7 @@
     },
     {
       "caseId": "image-056",
-      "durationSeconds": 3.395,
+      "durationSeconds": 2.83,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1580,7 +1580,7 @@
     },
     {
       "caseId": "image-057",
-      "durationSeconds": 4.057,
+      "durationSeconds": 3.333,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1594,8 +1594,8 @@
         "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": true,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 6,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -1607,7 +1607,7 @@
     },
     {
       "caseId": "image-058",
-      "durationSeconds": 4.763,
+      "durationSeconds": 4.347,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1634,7 +1634,7 @@
     },
     {
       "caseId": "image-059",
-      "durationSeconds": 6.05,
+      "durationSeconds": 5.345,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1661,7 +1661,7 @@
     },
     {
       "caseId": "image-060",
-      "durationSeconds": 4.906,
+      "durationSeconds": 4.509,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1688,7 +1688,7 @@
     },
     {
       "caseId": "image-061",
-      "durationSeconds": 7.043,
+      "durationSeconds": 6.113,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1715,7 +1715,7 @@
     },
     {
       "caseId": "image-062",
-      "durationSeconds": 4.173,
+      "durationSeconds": 3.329,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1742,7 +1742,7 @@
     },
     {
       "caseId": "image-063",
-      "durationSeconds": 4.224,
+      "durationSeconds": 5.653,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1769,7 +1769,7 @@
     },
     {
       "caseId": "image-064",
-      "durationSeconds": 4.923,
+      "durationSeconds": 4.517,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1796,7 +1796,7 @@
     },
     {
       "caseId": "image-065",
-      "durationSeconds": 5.569,
+      "durationSeconds": 5.214,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1823,7 +1823,7 @@
     },
     {
       "caseId": "image-066",
-      "durationSeconds": 4.671,
+      "durationSeconds": 3.175,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1835,10 +1835,10 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": false,
+        "producerNameAddressRead": true,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 7,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 8,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -1850,7 +1850,7 @@
     },
     {
       "caseId": "image-067",
-      "durationSeconds": 3.54,
+      "durationSeconds": 2.514,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1877,7 +1877,7 @@
     },
     {
       "caseId": "image-068",
-      "durationSeconds": 3.806,
+      "durationSeconds": 3.542,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1904,7 +1904,7 @@
     },
     {
       "caseId": "image-069",
-      "durationSeconds": 4.048,
+      "durationSeconds": 3.477,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1931,7 +1931,7 @@
     },
     {
       "caseId": "image-070",
-      "durationSeconds": 4.077,
+      "durationSeconds": 5.409,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1958,7 +1958,7 @@
     },
     {
       "caseId": "image-071",
-      "durationSeconds": 3.972,
+      "durationSeconds": 3.427,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -1985,7 +1985,7 @@
     },
     {
       "caseId": "image-072",
-      "durationSeconds": 4.987,
+      "durationSeconds": 4.606,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2012,7 +2012,7 @@
     },
     {
       "caseId": "image-073",
-      "durationSeconds": 3.092,
+      "durationSeconds": 2.91,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2039,7 +2039,7 @@
     },
     {
       "caseId": "image-074",
-      "durationSeconds": 4.088,
+      "durationSeconds": 3.642,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2066,7 +2066,7 @@
     },
     {
       "caseId": "image-075",
-      "durationSeconds": 2.369,
+      "durationSeconds": 1.979,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2093,7 +2093,7 @@
     },
     {
       "caseId": "image-076",
-      "durationSeconds": 4.166,
+      "durationSeconds": 4.238,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2120,7 +2120,7 @@
     },
     {
       "caseId": "image-077",
-      "durationSeconds": 4.37,
+      "durationSeconds": 4.753,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2147,7 +2147,7 @@
     },
     {
       "caseId": "image-078",
-      "durationSeconds": 4.617,
+      "durationSeconds": 4.155,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2174,7 +2174,7 @@
     },
     {
       "caseId": "image-079",
-      "durationSeconds": 6.715,
+      "durationSeconds": 6.135,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2201,7 +2201,7 @@
     },
     {
       "caseId": "image-080",
-      "durationSeconds": 3.117,
+      "durationSeconds": 2.823,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2228,7 +2228,7 @@
     },
     {
       "caseId": "image-081",
-      "durationSeconds": 4.91,
+      "durationSeconds": 4.036,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2236,14 +2236,14 @@
         "beverageType": "distilled_spirits",
         "brandRead": true,
         "classTypeRead": true,
-        "abvPercent": 40.0,
+        "abvPercent": null,
         "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
         "detectedFieldCount": 3,
-        "evidenceRegionCount": 3,
+        "evidenceRegionCount": 4,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -2255,7 +2255,7 @@
     },
     {
       "caseId": "image-082",
-      "durationSeconds": 4.903,
+      "durationSeconds": 4.657,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2282,7 +2282,7 @@
     },
     {
       "caseId": "image-083",
-      "durationSeconds": 3.055,
+      "durationSeconds": 3.102,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2309,7 +2309,7 @@
     },
     {
       "caseId": "image-084",
-      "durationSeconds": 3.491,
+      "durationSeconds": 3.124,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2336,7 +2336,7 @@
     },
     {
       "caseId": "image-085",
-      "durationSeconds": 2.424,
+      "durationSeconds": 2.529,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2363,7 +2363,7 @@
     },
     {
       "caseId": "image-086",
-      "durationSeconds": 2.515,
+      "durationSeconds": 2.261,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2390,7 +2390,7 @@
     },
     {
       "caseId": "image-087",
-      "durationSeconds": 7.294,
+      "durationSeconds": 5.411,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2417,7 +2417,7 @@
     },
     {
       "caseId": "image-088",
-      "durationSeconds": 3.999,
+      "durationSeconds": 3.43,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2429,10 +2429,10 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": true,
+        "producerNameAddressRead": false,
         "countryOfOriginRead": true,
-        "detectedFieldCount": 8,
-        "evidenceRegionCount": 10,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -2444,7 +2444,7 @@
     },
     {
       "caseId": "image-089",
-      "durationSeconds": 4.44,
+      "durationSeconds": 3.502,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2471,7 +2471,7 @@
     },
     {
       "caseId": "image-090",
-      "durationSeconds": 2.905,
+      "durationSeconds": 5.227,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2498,7 +2498,7 @@
     },
     {
       "caseId": "image-091",
-      "durationSeconds": 4.162,
+      "durationSeconds": 3.699,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2525,7 +2525,7 @@
     },
     {
       "caseId": "image-092",
-      "durationSeconds": 3.731,
+      "durationSeconds": 2.904,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2552,7 +2552,7 @@
     },
     {
       "caseId": "image-093",
-      "durationSeconds": 7.874,
+      "durationSeconds": 6.017,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2579,7 +2579,7 @@
     },
     {
       "caseId": "image-094",
-      "durationSeconds": 7.666,
+      "durationSeconds": 6.059,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2606,7 +2606,7 @@
     },
     {
       "caseId": "image-095",
-      "durationSeconds": 6.815,
+      "durationSeconds": 5.089,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2633,7 +2633,7 @@
     },
     {
       "caseId": "image-096",
-      "durationSeconds": 6.333,
+      "durationSeconds": 5.996,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2660,7 +2660,7 @@
     },
     {
       "caseId": "image-097",
-      "durationSeconds": 5.351,
+      "durationSeconds": 4.862,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2687,7 +2687,7 @@
     },
     {
       "caseId": "image-098",
-      "durationSeconds": 6.722,
+      "durationSeconds": 5.788,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2702,7 +2702,7 @@
         "producerNameAddressRead": true,
         "countryOfOriginRead": false,
         "detectedFieldCount": 3,
-        "evidenceRegionCount": 4,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -2714,7 +2714,7 @@
     },
     {
       "caseId": "image-099",
-      "durationSeconds": 2.818,
+      "durationSeconds": 4.486,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2741,7 +2741,7 @@
     },
     {
       "caseId": "image-100",
-      "durationSeconds": 3.824,
+      "durationSeconds": 2.896,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2768,7 +2768,7 @@
     },
     {
       "caseId": "image-101",
-      "durationSeconds": 6.748,
+      "durationSeconds": 6.141,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2795,7 +2795,7 @@
     },
     {
       "caseId": "image-102",
-      "durationSeconds": 4.423,
+      "durationSeconds": 4.09,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2822,7 +2822,7 @@
     },
     {
       "caseId": "image-103",
-      "durationSeconds": 4.08,
+      "durationSeconds": 2.582,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2849,7 +2849,7 @@
     },
     {
       "caseId": "image-104",
-      "durationSeconds": 4.585,
+      "durationSeconds": 5.463,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2876,7 +2876,7 @@
     },
     {
       "caseId": "image-105",
-      "durationSeconds": 3.484,
+      "durationSeconds": 2.264,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2903,7 +2903,7 @@
     },
     {
       "caseId": "image-106",
-      "durationSeconds": 5.307,
+      "durationSeconds": 4.333,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2930,7 +2930,7 @@
     },
     {
       "caseId": "image-107",
-      "durationSeconds": 4.21,
+      "durationSeconds": 3.468,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2957,7 +2957,7 @@
     },
     {
       "caseId": "image-108",
-      "durationSeconds": 6.186,
+      "durationSeconds": 6.377,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -2984,7 +2984,7 @@
     },
     {
       "caseId": "image-109",
-      "durationSeconds": 5.14,
+      "durationSeconds": 4.494,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3011,7 +3011,7 @@
     },
     {
       "caseId": "image-110",
-      "durationSeconds": 4.222,
+      "durationSeconds": 3.681,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3038,7 +3038,7 @@
     },
     {
       "caseId": "image-111",
-      "durationSeconds": 3.93,
+      "durationSeconds": 3.547,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3065,7 +3065,7 @@
     },
     {
       "caseId": "image-112",
-      "durationSeconds": 2.639,
+      "durationSeconds": 2.751,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3092,7 +3092,7 @@
     },
     {
       "caseId": "image-113",
-      "durationSeconds": 4.886,
+      "durationSeconds": 4.862,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3119,7 +3119,7 @@
     },
     {
       "caseId": "image-114",
-      "durationSeconds": 3.428,
+      "durationSeconds": 3.011,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3146,7 +3146,7 @@
     },
     {
       "caseId": "image-115",
-      "durationSeconds": 2.299,
+      "durationSeconds": 2.082,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3173,7 +3173,7 @@
     },
     {
       "caseId": "image-116",
-      "durationSeconds": 3.533,
+      "durationSeconds": 2.94,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3200,7 +3200,7 @@
     },
     {
       "caseId": "image-117",
-      "durationSeconds": 2.05,
+      "durationSeconds": 2.122,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3227,7 +3227,7 @@
     },
     {
       "caseId": "image-118",
-      "durationSeconds": 2.492,
+      "durationSeconds": 4.655,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3254,7 +3254,7 @@
     },
     {
       "caseId": "image-119",
-      "durationSeconds": 3.192,
+      "durationSeconds": 2.83,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3281,7 +3281,7 @@
     },
     {
       "caseId": "image-120",
-      "durationSeconds": 6.867,
+      "durationSeconds": 6.138,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3308,7 +3308,7 @@
     },
     {
       "caseId": "image-121",
-      "durationSeconds": 3.693,
+      "durationSeconds": 3.959,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3335,7 +3335,7 @@
     },
     {
       "caseId": "image-122",
-      "durationSeconds": 2.22,
+      "durationSeconds": 2.188,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3362,7 +3362,7 @@
     },
     {
       "caseId": "image-123",
-      "durationSeconds": 4.753,
+      "durationSeconds": 5.298,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3389,7 +3389,7 @@
     },
     {
       "caseId": "image-124",
-      "durationSeconds": 3.582,
+      "durationSeconds": 2.941,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3416,7 +3416,7 @@
     },
     {
       "caseId": "image-125",
-      "durationSeconds": 5.094,
+      "durationSeconds": 4.9,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3443,7 +3443,7 @@
     },
     {
       "caseId": "image-126",
-      "durationSeconds": 3.801,
+      "durationSeconds": 3.378,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3470,7 +3470,7 @@
     },
     {
       "caseId": "image-127",
-      "durationSeconds": 3.054,
+      "durationSeconds": 2.868,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3497,7 +3497,7 @@
     },
     {
       "caseId": "image-128",
-      "durationSeconds": 3.227,
+      "durationSeconds": 2.914,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3524,7 +3524,7 @@
     },
     {
       "caseId": "image-129",
-      "durationSeconds": 6.327,
+      "durationSeconds": 5.822,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3539,7 +3539,7 @@
         "producerNameAddressRead": true,
         "countryOfOriginRead": false,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 9,
+        "evidenceRegionCount": 10,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -3551,7 +3551,7 @@
     },
     {
       "caseId": "image-130",
-      "durationSeconds": 4.098,
+      "durationSeconds": 3.916,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3578,7 +3578,7 @@
     },
     {
       "caseId": "image-131",
-      "durationSeconds": 3.48,
+      "durationSeconds": 3.578,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3605,7 +3605,7 @@
     },
     {
       "caseId": "image-132",
-      "durationSeconds": 2.912,
+      "durationSeconds": 2.202,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3632,7 +3632,7 @@
     },
     {
       "caseId": "image-133",
-      "durationSeconds": 2.824,
+      "durationSeconds": 2.509,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3659,7 +3659,7 @@
     },
     {
       "caseId": "image-134",
-      "durationSeconds": 5.369,
+      "durationSeconds": 4.39,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3686,7 +3686,7 @@
     },
     {
       "caseId": "image-135",
-      "durationSeconds": 3.445,
+      "durationSeconds": 3.06,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3713,7 +3713,7 @@
     },
     {
       "caseId": "image-136",
-      "durationSeconds": 4.038,
+      "durationSeconds": 3.978,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3728,7 +3728,7 @@
         "producerNameAddressRead": false,
         "countryOfOriginRead": true,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 5,
+        "evidenceRegionCount": 7,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -3740,7 +3740,7 @@
     },
     {
       "caseId": "image-137",
-      "durationSeconds": 2.846,
+      "durationSeconds": 2.858,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3767,7 +3767,7 @@
     },
     {
       "caseId": "image-138",
-      "durationSeconds": 2.247,
+      "durationSeconds": 2.186,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3794,7 +3794,7 @@
     },
     {
       "caseId": "image-139",
-      "durationSeconds": 2.13,
+      "durationSeconds": 2.939,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3806,9 +3806,9 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": true,
+        "producerNameAddressRead": false,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 5,
+        "detectedFieldCount": 4,
         "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       },
@@ -3821,7 +3821,7 @@
     },
     {
       "caseId": "image-140",
-      "durationSeconds": 2.246,
+      "durationSeconds": 1.801,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3848,7 +3848,7 @@
     },
     {
       "caseId": "image-141",
-      "durationSeconds": 5.285,
+      "durationSeconds": 4.858,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3875,7 +3875,7 @@
     },
     {
       "caseId": "image-142",
-      "durationSeconds": 3.53,
+      "durationSeconds": 3.264,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3902,7 +3902,7 @@
     },
     {
       "caseId": "image-143",
-      "durationSeconds": 0.344,
+      "durationSeconds": 0.262,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3929,7 +3929,7 @@
     },
     {
       "caseId": "image-144",
-      "durationSeconds": 5.254,
+      "durationSeconds": 4.876,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3956,7 +3956,7 @@
     },
     {
       "caseId": "image-145",
-      "durationSeconds": 0.341,
+      "durationSeconds": 0.254,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -3983,7 +3983,7 @@
     },
     {
       "caseId": "image-146",
-      "durationSeconds": 3.214,
+      "durationSeconds": 2.937,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4010,7 +4010,7 @@
     },
     {
       "caseId": "image-147",
-      "durationSeconds": 0.497,
+      "durationSeconds": 0.403,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4037,7 +4037,7 @@
     },
     {
       "caseId": "image-148",
-      "durationSeconds": 3.359,
+      "durationSeconds": 3.123,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4064,7 +4064,7 @@
     },
     {
       "caseId": "image-149",
-      "durationSeconds": 3.431,
+      "durationSeconds": 3.0,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4091,7 +4091,7 @@
     },
     {
       "caseId": "image-150",
-      "durationSeconds": 4.339,
+      "durationSeconds": 3.122,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4118,7 +4118,7 @@
     },
     {
       "caseId": "image-151",
-      "durationSeconds": 3.092,
+      "durationSeconds": 2.809,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4145,7 +4145,7 @@
     },
     {
       "caseId": "image-152",
-      "durationSeconds": 6.708,
+      "durationSeconds": 6.337,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4172,7 +4172,7 @@
     },
     {
       "caseId": "image-153",
-      "durationSeconds": 4.728,
+      "durationSeconds": 4.688,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4187,7 +4187,7 @@
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
         "detectedFieldCount": 2,
-        "evidenceRegionCount": 2,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -4199,7 +4199,7 @@
     },
     {
       "caseId": "image-154",
-      "durationSeconds": 5.755,
+      "durationSeconds": 5.391,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4226,7 +4226,7 @@
     },
     {
       "caseId": "image-155",
-      "durationSeconds": 6.537,
+      "durationSeconds": 6.107,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4253,7 +4253,7 @@
     },
     {
       "caseId": "image-156",
-      "durationSeconds": 4.881,
+      "durationSeconds": 4.777,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4280,7 +4280,7 @@
     },
     {
       "caseId": "image-157",
-      "durationSeconds": 3.887,
+      "durationSeconds": 3.476,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4307,7 +4307,7 @@
     },
     {
       "caseId": "image-158",
-      "durationSeconds": 5.296,
+      "durationSeconds": 5.216,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4334,7 +4334,7 @@
     },
     {
       "caseId": "image-159",
-      "durationSeconds": 7.217,
+      "durationSeconds": 6.418,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4361,7 +4361,7 @@
     },
     {
       "caseId": "image-160",
-      "durationSeconds": 3.475,
+      "durationSeconds": 2.69,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4388,7 +4388,7 @@
     },
     {
       "caseId": "image-161",
-      "durationSeconds": 3.584,
+      "durationSeconds": 3.265,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4415,7 +4415,7 @@
     },
     {
       "caseId": "image-162",
-      "durationSeconds": 2.488,
+      "durationSeconds": 2.305,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4442,7 +4442,7 @@
     },
     {
       "caseId": "image-163",
-      "durationSeconds": 4.101,
+      "durationSeconds": 4.021,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4469,7 +4469,7 @@
     },
     {
       "caseId": "image-164",
-      "durationSeconds": 3.177,
+      "durationSeconds": 3.05,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4496,7 +4496,7 @@
     },
     {
       "caseId": "image-165",
-      "durationSeconds": 5.607,
+      "durationSeconds": 4.883,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4523,7 +4523,7 @@
     },
     {
       "caseId": "image-166",
-      "durationSeconds": 2.669,
+      "durationSeconds": 2.336,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4550,7 +4550,7 @@
     },
     {
       "caseId": "image-167",
-      "durationSeconds": 3.039,
+      "durationSeconds": 2.554,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4577,7 +4577,7 @@
     },
     {
       "caseId": "image-168",
-      "durationSeconds": 3.454,
+      "durationSeconds": 5.226,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4604,7 +4604,7 @@
     },
     {
       "caseId": "image-169",
-      "durationSeconds": 2.981,
+      "durationSeconds": 2.734,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4631,7 +4631,7 @@
     },
     {
       "caseId": "image-170",
-      "durationSeconds": 3.99,
+      "durationSeconds": 3.722,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4658,7 +4658,7 @@
     },
     {
       "caseId": "image-171",
-      "durationSeconds": 3.521,
+      "durationSeconds": 3.169,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4685,7 +4685,7 @@
     },
     {
       "caseId": "image-172",
-      "durationSeconds": 2.961,
+      "durationSeconds": 2.745,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4712,7 +4712,7 @@
     },
     {
       "caseId": "image-173",
-      "durationSeconds": 2.14,
+      "durationSeconds": 1.954,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4739,7 +4739,7 @@
     },
     {
       "caseId": "image-174",
-      "durationSeconds": 2.315,
+      "durationSeconds": 4.659,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4766,7 +4766,7 @@
     },
     {
       "caseId": "image-175",
-      "durationSeconds": 3.239,
+      "durationSeconds": 4.32,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4793,7 +4793,7 @@
     },
     {
       "caseId": "image-176",
-      "durationSeconds": 2.652,
+      "durationSeconds": 5.559,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4820,7 +4820,7 @@
     },
     {
       "caseId": "image-177",
-      "durationSeconds": 0.216,
+      "durationSeconds": 0.183,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4847,7 +4847,7 @@
     },
     {
       "caseId": "image-178",
-      "durationSeconds": 3.383,
+      "durationSeconds": 3.175,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4874,7 +4874,7 @@
     },
     {
       "caseId": "image-179",
-      "durationSeconds": 2.493,
+      "durationSeconds": 2.243,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4901,7 +4901,7 @@
     },
     {
       "caseId": "image-180",
-      "durationSeconds": 3.959,
+      "durationSeconds": 6.9,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4928,7 +4928,7 @@
     },
     {
       "caseId": "image-181",
-      "durationSeconds": 3.2,
+      "durationSeconds": 6.817,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4955,7 +4955,7 @@
     },
     {
       "caseId": "image-182",
-      "durationSeconds": 3.598,
+      "durationSeconds": 2.863,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -4982,7 +4982,7 @@
     },
     {
       "caseId": "image-183",
-      "durationSeconds": 2.136,
+      "durationSeconds": 4.226,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5009,7 +5009,7 @@
     },
     {
       "caseId": "image-184",
-      "durationSeconds": 3.156,
+      "durationSeconds": 3.023,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5036,7 +5036,7 @@
     },
     {
       "caseId": "image-185",
-      "durationSeconds": 2.516,
+      "durationSeconds": 3.611,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5063,7 +5063,7 @@
     },
     {
       "caseId": "image-186",
-      "durationSeconds": 4.019,
+      "durationSeconds": 5.832,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5090,7 +5090,7 @@
     },
     {
       "caseId": "image-187",
-      "durationSeconds": 3.537,
+      "durationSeconds": 3.911,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5117,7 +5117,7 @@
     },
     {
       "caseId": "image-188",
-      "durationSeconds": 2.895,
+      "durationSeconds": 4.329,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5144,7 +5144,7 @@
     },
     {
       "caseId": "image-189",
-      "durationSeconds": 2.117,
+      "durationSeconds": 1.692,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5171,7 +5171,7 @@
     },
     {
       "caseId": "image-190",
-      "durationSeconds": 3.895,
+      "durationSeconds": 3.969,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5198,7 +5198,7 @@
     },
     {
       "caseId": "image-191",
-      "durationSeconds": 2.771,
+      "durationSeconds": 5.502,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5225,7 +5225,7 @@
     },
     {
       "caseId": "image-192",
-      "durationSeconds": 3.823,
+      "durationSeconds": 6.651,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5252,7 +5252,7 @@
     },
     {
       "caseId": "image-193",
-      "durationSeconds": 4.335,
+      "durationSeconds": 5.03,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5268,7 +5268,7 @@
         "countryOfOriginRead": true,
         "detectedFieldCount": 8,
         "evidenceRegionCount": 15,
-        "machineSummary": "No differences found in checked fields"
+        "machineSummary": "Review needed"
       },
       "fileArtifacts": [
         {
@@ -5279,7 +5279,7 @@
     },
     {
       "caseId": "image-194",
-      "durationSeconds": 2.815,
+      "durationSeconds": 2.595,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5306,7 +5306,7 @@
     },
     {
       "caseId": "image-195",
-      "durationSeconds": 3.542,
+      "durationSeconds": 2.843,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5333,7 +5333,7 @@
     },
     {
       "caseId": "image-196",
-      "durationSeconds": 4.916,
+      "durationSeconds": 4.275,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5360,7 +5360,7 @@
     },
     {
       "caseId": "image-197",
-      "durationSeconds": 2.977,
+      "durationSeconds": 2.587,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5387,7 +5387,7 @@
     },
     {
       "caseId": "image-198",
-      "durationSeconds": 3.529,
+      "durationSeconds": 3.172,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5414,7 +5414,7 @@
     },
     {
       "caseId": "image-199",
-      "durationSeconds": 3.934,
+      "durationSeconds": 3.197,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5441,7 +5441,7 @@
     },
     {
       "caseId": "image-200",
-      "durationSeconds": 2.709,
+      "durationSeconds": 2.724,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5468,7 +5468,7 @@
     },
     {
       "caseId": "image-201",
-      "durationSeconds": 3.956,
+      "durationSeconds": 3.612,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5495,7 +5495,7 @@
     },
     {
       "caseId": "image-202",
-      "durationSeconds": 3.008,
+      "durationSeconds": 2.454,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5522,7 +5522,7 @@
     },
     {
       "caseId": "image-203",
-      "durationSeconds": 4.04,
+      "durationSeconds": 3.765,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5549,7 +5549,7 @@
     },
     {
       "caseId": "image-204",
-      "durationSeconds": 2.33,
+      "durationSeconds": 1.86,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5576,7 +5576,7 @@
     },
     {
       "caseId": "image-205",
-      "durationSeconds": 4.097,
+      "durationSeconds": 3.765,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5603,7 +5603,7 @@
     },
     {
       "caseId": "image-206",
-      "durationSeconds": 4.451,
+      "durationSeconds": 4.047,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5630,7 +5630,7 @@
     },
     {
       "caseId": "image-207",
-      "durationSeconds": 2.297,
+      "durationSeconds": 2.308,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5657,7 +5657,7 @@
     },
     {
       "caseId": "image-208",
-      "durationSeconds": 2.542,
+      "durationSeconds": 2.252,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5669,10 +5669,10 @@
         "proof": null,
         "netContentsValue": null,
         "netContentsUnit": null,
-        "producerNameAddressRead": false,
+        "producerNameAddressRead": true,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 3,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 4,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -5684,7 +5684,7 @@
     },
     {
       "caseId": "image-209",
-      "durationSeconds": 3.234,
+      "durationSeconds": 2.883,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5711,7 +5711,7 @@
     },
     {
       "caseId": "image-210",
-      "durationSeconds": 2.258,
+      "durationSeconds": 2.266,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5738,7 +5738,7 @@
     },
     {
       "caseId": "image-211",
-      "durationSeconds": 7.513,
+      "durationSeconds": 5.839,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5765,7 +5765,7 @@
     },
     {
       "caseId": "image-212",
-      "durationSeconds": 3.415,
+      "durationSeconds": 3.565,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5792,7 +5792,7 @@
     },
     {
       "caseId": "image-213",
-      "durationSeconds": 3.857,
+      "durationSeconds": 3.565,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5819,7 +5819,7 @@
     },
     {
       "caseId": "image-214",
-      "durationSeconds": 5.08,
+      "durationSeconds": 4.589,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5846,7 +5846,7 @@
     },
     {
       "caseId": "image-215",
-      "durationSeconds": 2.084,
+      "durationSeconds": 1.885,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5873,7 +5873,7 @@
     },
     {
       "caseId": "image-216",
-      "durationSeconds": 4.168,
+      "durationSeconds": 3.413,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5900,7 +5900,7 @@
     },
     {
       "caseId": "image-217",
-      "durationSeconds": 2.592,
+      "durationSeconds": 2.335,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5927,7 +5927,7 @@
     },
     {
       "caseId": "image-218",
-      "durationSeconds": 2.834,
+      "durationSeconds": 1.93,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5954,7 +5954,7 @@
     },
     {
       "caseId": "image-219",
-      "durationSeconds": 2.251,
+      "durationSeconds": 2.229,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -5981,7 +5981,7 @@
     },
     {
       "caseId": "image-220",
-      "durationSeconds": 4.376,
+      "durationSeconds": 4.06,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -6008,22 +6008,22 @@
     },
     {
       "caseId": "image-221",
-      "durationSeconds": 3.047,
+      "durationSeconds": 2.65,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
+        "beverageType": "distilled_spirits",
         "brandRead": true,
-        "classTypeRead": false,
+        "classTypeRead": true,
         "abvPercent": 53.5,
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 3,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 4,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -6036,9 +6036,9 @@
   ],
   "grouping": {
     "httpStatus": 200,
-    "groupCount": 152,
-    "readyToConfirmCount": 79,
-    "needsReviewCount": 73,
+    "groupCount": 155,
+    "readyToConfirmCount": 84,
+    "needsReviewCount": 71,
     "maximumImagesPerGroup": 3,
     "pass": true,
     "failures": [],
@@ -6358,10 +6358,10 @@
           "image-028"
         ],
         "inferredType": "distilled_spirits",
-        "confidence": "low",
-        "status": "needs_review",
+        "confidence": "high",
+        "status": "ready_to_confirm",
         "reasons": [
-          "Beverage type uncertain; confirm the type"
+          "One image, one product"
         ],
         "conflict": false
       },
@@ -6519,14 +6519,13 @@
       {
         "groupId": "group-36",
         "panelIds": [
-          "image-044",
-          "image-180"
+          "image-044"
         ],
         "inferredType": "wine",
         "confidence": "high",
         "status": "ready_to_confirm",
         "reasons": [
-          "Same brand and compatible class read"
+          "One image, one product"
         ],
         "conflict": false
       },
@@ -6634,10 +6633,10 @@
           "image-055"
         ],
         "inferredType": "wine",
-        "confidence": "low",
-        "status": "needs_review",
+        "confidence": "high",
+        "status": "ready_to_confirm",
         "reasons": [
-          "Beverage type uncertain; confirm the type"
+          "One image, one product"
         ],
         "conflict": false
       },
@@ -7051,7 +7050,6 @@
         "groupId": "group-75",
         "panelIds": [
           "image-090",
-          "image-176",
           "image-183"
         ],
         "inferredType": "malt_beverage",
@@ -7681,20 +7679,31 @@
       {
         "groupId": "group-120",
         "panelIds": [
-          "image-158",
-          "image-159"
+          "image-158"
         ],
         "inferredType": "distilled_spirits",
-        "confidence": "low",
-        "status": "needs_review",
+        "confidence": "high",
+        "status": "ready_to_confirm",
         "reasons": [
-          "Same brand and compatible class read",
-          "Beverage type uncertain; confirm the type"
+          "One image, one product"
         ],
         "conflict": false
       },
       {
         "groupId": "group-121",
+        "panelIds": [
+          "image-159"
+        ],
+        "inferredType": null,
+        "confidence": "low",
+        "status": "needs_review",
+        "reasons": [
+          "Beverage type uncertain; confirm the type"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-122",
         "panelIds": [
           "image-160"
         ],
@@ -7707,7 +7716,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-122",
+        "groupId": "group-123",
         "panelIds": [
           "image-161"
         ],
@@ -7720,7 +7729,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-123",
+        "groupId": "group-124",
         "panelIds": [
           "image-162"
         ],
@@ -7733,7 +7742,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-124",
+        "groupId": "group-125",
         "panelIds": [
           "image-163",
           "image-164"
@@ -7747,7 +7756,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-125",
+        "groupId": "group-126",
         "panelIds": [
           "image-165",
           "image-166",
@@ -7763,7 +7772,7 @@
         "conflict": true
       },
       {
-        "groupId": "group-126",
+        "groupId": "group-127",
         "panelIds": [
           "image-168"
         ],
@@ -7776,7 +7785,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-127",
+        "groupId": "group-128",
         "panelIds": [
           "image-169"
         ],
@@ -7789,7 +7798,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-128",
+        "groupId": "group-129",
         "panelIds": [
           "image-170"
         ],
@@ -7802,7 +7811,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-129",
+        "groupId": "group-130",
         "panelIds": [
           "image-174"
         ],
@@ -7815,7 +7824,33 @@
         "conflict": false
       },
       {
-        "groupId": "group-130",
+        "groupId": "group-131",
+        "panelIds": [
+          "image-176"
+        ],
+        "inferredType": "malt_beverage",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-132",
+        "panelIds": [
+          "image-180"
+        ],
+        "inferredType": "wine",
+        "confidence": "high",
+        "status": "ready_to_confirm",
+        "reasons": [
+          "One image, one product"
+        ],
+        "conflict": false
+      },
+      {
+        "groupId": "group-133",
         "panelIds": [
           "image-188"
         ],
@@ -7828,7 +7863,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-131",
+        "groupId": "group-134",
         "panelIds": [
           "image-190"
         ],
@@ -7841,7 +7876,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-132",
+        "groupId": "group-135",
         "panelIds": [
           "image-191"
         ],
@@ -7854,7 +7889,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-133",
+        "groupId": "group-136",
         "panelIds": [
           "image-192",
           "image-196",
@@ -7869,7 +7904,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-134",
+        "groupId": "group-137",
         "panelIds": [
           "image-193"
         ],
@@ -7882,7 +7917,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-135",
+        "groupId": "group-138",
         "panelIds": [
           "image-195"
         ],
@@ -7895,7 +7930,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-136",
+        "groupId": "group-139",
         "panelIds": [
           "image-197",
           "image-217"
@@ -7909,7 +7944,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-137",
+        "groupId": "group-140",
         "panelIds": [
           "image-199"
         ],
@@ -7922,7 +7957,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-138",
+        "groupId": "group-141",
         "panelIds": [
           "image-200"
         ],
@@ -7935,7 +7970,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-139",
+        "groupId": "group-142",
         "panelIds": [
           "image-201"
         ],
@@ -7948,7 +7983,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-140",
+        "groupId": "group-143",
         "panelIds": [
           "image-202"
         ],
@@ -7961,7 +7996,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-141",
+        "groupId": "group-144",
         "panelIds": [
           "image-203",
           "image-204"
@@ -7975,7 +8010,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-142",
+        "groupId": "group-145",
         "panelIds": [
           "image-205"
         ],
@@ -7988,7 +8023,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-143",
+        "groupId": "group-146",
         "panelIds": [
           "image-206"
         ],
@@ -8001,7 +8036,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-144",
+        "groupId": "group-147",
         "panelIds": [
           "image-207"
         ],
@@ -8014,7 +8049,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-145",
+        "groupId": "group-148",
         "panelIds": [
           "image-208",
           "image-209"
@@ -8028,7 +8063,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-146",
+        "groupId": "group-149",
         "panelIds": [
           "image-210"
         ],
@@ -8041,7 +8076,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-147",
+        "groupId": "group-150",
         "panelIds": [
           "image-211",
           "image-212"
@@ -8056,7 +8091,7 @@
         "conflict": true
       },
       {
-        "groupId": "group-148",
+        "groupId": "group-151",
         "panelIds": [
           "image-213"
         ],
@@ -8069,7 +8104,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-149",
+        "groupId": "group-152",
         "panelIds": [
           "image-214"
         ],
@@ -8082,7 +8117,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-150",
+        "groupId": "group-153",
         "panelIds": [
           "image-215"
         ],
@@ -8095,7 +8130,7 @@
         "conflict": false
       },
       {
-        "groupId": "group-151",
+        "groupId": "group-154",
         "panelIds": [
           "image-218",
           "image-219"
@@ -8110,12 +8145,12 @@
         "conflict": true
       },
       {
-        "groupId": "group-152",
+        "groupId": "group-155",
         "panelIds": [
           "image-220",
           "image-221"
         ],
-        "inferredType": null,
+        "inferredType": "distilled_spirits",
         "confidence": "low",
         "status": "needs_review",
         "reasons": [
@@ -8129,7 +8164,7 @@
   "productScans": [
     {
       "caseId": "product-001",
-      "durationSeconds": 2.319,
+      "durationSeconds": 1.231,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8160,7 +8195,7 @@
     },
     {
       "caseId": "product-002",
-      "durationSeconds": 3.915,
+      "durationSeconds": 4.016,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8173,9 +8208,9 @@
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddressRead": true,
-        "countryOfOriginRead": false,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 8,
+        "countryOfOriginRead": true,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 10,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -8191,7 +8226,7 @@
     },
     {
       "caseId": "product-003",
-      "durationSeconds": 0.46,
+      "durationSeconds": 0.493,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8218,7 +8253,7 @@
     },
     {
       "caseId": "product-004",
-      "durationSeconds": 0.447,
+      "durationSeconds": 0.392,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8245,7 +8280,7 @@
     },
     {
       "caseId": "product-005",
-      "durationSeconds": 0.691,
+      "durationSeconds": 0.521,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8272,7 +8307,7 @@
     },
     {
       "caseId": "product-006",
-      "durationSeconds": 0.674,
+      "durationSeconds": 0.689,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8299,7 +8334,7 @@
     },
     {
       "caseId": "product-007",
-      "durationSeconds": 0.628,
+      "durationSeconds": 0.483,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8326,7 +8361,7 @@
     },
     {
       "caseId": "product-008",
-      "durationSeconds": 0.566,
+      "durationSeconds": 0.466,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8353,7 +8388,7 @@
     },
     {
       "caseId": "product-009",
-      "durationSeconds": 0.52,
+      "durationSeconds": 0.548,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8380,7 +8415,7 @@
     },
     {
       "caseId": "product-010",
-      "durationSeconds": 0.504,
+      "durationSeconds": 0.515,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8407,7 +8442,7 @@
     },
     {
       "caseId": "product-011",
-      "durationSeconds": 0.836,
+      "durationSeconds": 0.693,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8438,7 +8473,7 @@
     },
     {
       "caseId": "product-012",
-      "durationSeconds": 0.466,
+      "durationSeconds": 0.361,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8465,7 +8500,7 @@
     },
     {
       "caseId": "product-013",
-      "durationSeconds": 0.508,
+      "durationSeconds": 0.539,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8492,7 +8527,7 @@
     },
     {
       "caseId": "product-014",
-      "durationSeconds": 1.062,
+      "durationSeconds": 0.925,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8523,7 +8558,7 @@
     },
     {
       "caseId": "product-015",
-      "durationSeconds": 0.504,
+      "durationSeconds": 0.393,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8550,7 +8585,7 @@
     },
     {
       "caseId": "product-016",
-      "durationSeconds": 1.505,
+      "durationSeconds": 1.32,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8585,7 +8620,7 @@
     },
     {
       "caseId": "product-017",
-      "durationSeconds": 0.621,
+      "durationSeconds": 0.516,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8612,7 +8647,7 @@
     },
     {
       "caseId": "product-018",
-      "durationSeconds": 0.794,
+      "durationSeconds": 0.663,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8639,7 +8674,7 @@
     },
     {
       "caseId": "product-019",
-      "durationSeconds": 0.468,
+      "durationSeconds": 0.339,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8666,7 +8701,7 @@
     },
     {
       "caseId": "product-020",
-      "durationSeconds": 0.448,
+      "durationSeconds": 0.363,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8693,7 +8728,7 @@
     },
     {
       "caseId": "product-021",
-      "durationSeconds": 0.951,
+      "durationSeconds": 0.861,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8724,7 +8759,7 @@
     },
     {
       "caseId": "product-022",
-      "durationSeconds": 0.531,
+      "durationSeconds": 0.423,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8751,7 +8786,7 @@
     },
     {
       "caseId": "product-023",
-      "durationSeconds": 2.931,
+      "durationSeconds": 2.396,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8782,22 +8817,22 @@
     },
     {
       "caseId": "product-024",
-      "durationSeconds": 0.628,
+      "durationSeconds": 0.532,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "distilled_spirits",
         "brandRead": true,
-        "classTypeRead": false,
+        "classTypeRead": true,
         "abvPercent": 53.5,
         "proof": 107.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 4,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -8809,7 +8844,7 @@
     },
     {
       "caseId": "product-025",
-      "durationSeconds": 0.722,
+      "durationSeconds": 0.608,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8836,7 +8871,7 @@
     },
     {
       "caseId": "product-026",
-      "durationSeconds": 0.699,
+      "durationSeconds": 0.588,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8863,7 +8898,7 @@
     },
     {
       "caseId": "product-027",
-      "durationSeconds": 2.463,
+      "durationSeconds": 2.086,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8875,9 +8910,9 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": false,
+        "producerNameAddressRead": true,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 5,
+        "detectedFieldCount": 6,
         "evidenceRegionCount": 10,
         "machineSummary": "Review needed"
       },
@@ -8894,7 +8929,7 @@
     },
     {
       "caseId": "product-028",
-      "durationSeconds": 2.181,
+      "durationSeconds": 3.356,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8925,7 +8960,7 @@
     },
     {
       "caseId": "product-029",
-      "durationSeconds": 1.398,
+      "durationSeconds": 2.628,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8956,7 +8991,7 @@
     },
     {
       "caseId": "product-030",
-      "durationSeconds": 0.536,
+      "durationSeconds": 0.426,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -8983,7 +9018,7 @@
     },
     {
       "caseId": "product-031",
-      "durationSeconds": 0.496,
+      "durationSeconds": 0.547,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9010,7 +9045,7 @@
     },
     {
       "caseId": "product-032",
-      "durationSeconds": 2.693,
+      "durationSeconds": 0.852,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9041,7 +9076,7 @@
     },
     {
       "caseId": "product-033",
-      "durationSeconds": 0.455,
+      "durationSeconds": 0.383,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9068,7 +9103,7 @@
     },
     {
       "caseId": "product-034",
-      "durationSeconds": 0.587,
+      "durationSeconds": 0.471,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9095,7 +9130,7 @@
     },
     {
       "caseId": "product-035",
-      "durationSeconds": 0.592,
+      "durationSeconds": 0.492,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9122,7 +9157,7 @@
     },
     {
       "caseId": "product-036",
-      "durationSeconds": 1.243,
+      "durationSeconds": 0.49,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9137,23 +9172,19 @@
         "producerNameAddressRead": true,
         "countryOfOriginRead": false,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 20,
+        "evidenceRegionCount": 12,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
         {
           "extension": ".jpg",
           "sha256": "604a94080ce44298ce0f081dbc4bfa198871171c11c4711b73990e1993fc56a1"
-        },
-        {
-          "extension": ".jpg",
-          "sha256": "d1e52a4d717609904817d7dade446d6bb485aea561bea2cbd925ba9f2f460097"
         }
       ]
     },
     {
       "caseId": "product-037",
-      "durationSeconds": 0.522,
+      "durationSeconds": 0.424,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9180,7 +9211,7 @@
     },
     {
       "caseId": "product-038",
-      "durationSeconds": 0.623,
+      "durationSeconds": 0.502,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9195,7 +9226,7 @@
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
         "detectedFieldCount": 1,
-        "evidenceRegionCount": 2,
+        "evidenceRegionCount": 3,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -9207,7 +9238,7 @@
     },
     {
       "caseId": "product-039",
-      "durationSeconds": 1.303,
+      "durationSeconds": 1.093,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9238,7 +9269,7 @@
     },
     {
       "caseId": "product-040",
-      "durationSeconds": 0.46,
+      "durationSeconds": 0.334,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9265,7 +9296,7 @@
     },
     {
       "caseId": "product-041",
-      "durationSeconds": 1.459,
+      "durationSeconds": 1.234,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9300,7 +9331,7 @@
     },
     {
       "caseId": "product-042",
-      "durationSeconds": 2.26,
+      "durationSeconds": 1.609,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9331,7 +9362,7 @@
     },
     {
       "caseId": "product-043",
-      "durationSeconds": 1.49,
+      "durationSeconds": 2.826,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9362,21 +9393,21 @@
     },
     {
       "caseId": "product-044",
-      "durationSeconds": 0.599,
+      "durationSeconds": 0.429,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
         "beverageType": "wine",
         "brandRead": true,
-        "classTypeRead": false,
+        "classTypeRead": true,
         "abvPercent": 14.0,
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": true,
-        "detectedFieldCount": 5,
+        "detectedFieldCount": 6,
         "evidenceRegionCount": 6,
         "machineSummary": "Review needed"
       },
@@ -9389,7 +9420,7 @@
     },
     {
       "caseId": "product-045",
-      "durationSeconds": 0.509,
+      "durationSeconds": 0.397,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9416,7 +9447,7 @@
     },
     {
       "caseId": "product-046",
-      "durationSeconds": 0.523,
+      "durationSeconds": 0.412,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9430,8 +9461,8 @@
         "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": true,
-        "detectedFieldCount": 6,
-        "evidenceRegionCount": 6,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -9443,7 +9474,7 @@
     },
     {
       "caseId": "product-047",
-      "durationSeconds": 0.535,
+      "durationSeconds": 0.446,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9470,7 +9501,7 @@
     },
     {
       "caseId": "product-048",
-      "durationSeconds": 0.625,
+      "durationSeconds": 0.496,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9497,7 +9528,7 @@
     },
     {
       "caseId": "product-049",
-      "durationSeconds": 0.49,
+      "durationSeconds": 0.371,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9524,7 +9555,7 @@
     },
     {
       "caseId": "product-050",
-      "durationSeconds": 1.139,
+      "durationSeconds": 0.933,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9555,7 +9586,7 @@
     },
     {
       "caseId": "product-051",
-      "durationSeconds": 0.494,
+      "durationSeconds": 0.41,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9582,7 +9613,7 @@
     },
     {
       "caseId": "product-052",
-      "durationSeconds": 0.837,
+      "durationSeconds": 0.694,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9609,7 +9640,7 @@
     },
     {
       "caseId": "product-053",
-      "durationSeconds": 6.607,
+      "durationSeconds": 5.764,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9624,7 +9655,7 @@
         "producerNameAddressRead": true,
         "countryOfOriginRead": false,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 11,
+        "evidenceRegionCount": 12,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -9636,7 +9667,7 @@
     },
     {
       "caseId": "product-054",
-      "durationSeconds": 0.438,
+      "durationSeconds": 0.364,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9648,10 +9679,10 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": false,
+        "producerNameAddressRead": true,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 7,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 8,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -9663,7 +9694,7 @@
     },
     {
       "caseId": "product-055",
-      "durationSeconds": 0.547,
+      "durationSeconds": 0.457,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9690,7 +9721,7 @@
     },
     {
       "caseId": "product-056",
-      "durationSeconds": 0.556,
+      "durationSeconds": 0.43,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9717,7 +9748,7 @@
     },
     {
       "caseId": "product-057",
-      "durationSeconds": 0.556,
+      "durationSeconds": 0.424,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9744,7 +9775,7 @@
     },
     {
       "caseId": "product-058",
-      "durationSeconds": 1.49,
+      "durationSeconds": 5.135,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9779,7 +9810,7 @@
     },
     {
       "caseId": "product-059",
-      "durationSeconds": 0.57,
+      "durationSeconds": 0.48,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9806,7 +9837,7 @@
     },
     {
       "caseId": "product-060",
-      "durationSeconds": 0.607,
+      "durationSeconds": 0.463,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9833,7 +9864,7 @@
     },
     {
       "caseId": "product-061",
-      "durationSeconds": 0.462,
+      "durationSeconds": 0.387,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9860,7 +9891,7 @@
     },
     {
       "caseId": "product-062",
-      "durationSeconds": 0.982,
+      "durationSeconds": 0.777,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9891,7 +9922,7 @@
     },
     {
       "caseId": "product-063",
-      "durationSeconds": 1.186,
+      "durationSeconds": 1.0,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9922,7 +9953,7 @@
     },
     {
       "caseId": "product-064",
-      "durationSeconds": 0.641,
+      "durationSeconds": 0.511,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9949,7 +9980,7 @@
     },
     {
       "caseId": "product-065",
-      "durationSeconds": 1.038,
+      "durationSeconds": 0.797,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9980,7 +10011,7 @@
     },
     {
       "caseId": "product-066",
-      "durationSeconds": 6.067,
+      "durationSeconds": 3.917,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -9988,14 +10019,14 @@
         "beverageType": null,
         "brandRead": true,
         "classTypeRead": true,
-        "abvPercent": 40.0,
+        "abvPercent": null,
         "proof": null,
-        "netContentsValue": null,
-        "netContentsUnit": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
         "detectedFieldCount": 4,
-        "evidenceRegionCount": 6,
+        "evidenceRegionCount": 7,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -10011,7 +10042,7 @@
     },
     {
       "caseId": "product-067",
-      "durationSeconds": 0.63,
+      "durationSeconds": 0.498,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10038,7 +10069,7 @@
     },
     {
       "caseId": "product-068",
-      "durationSeconds": 0.598,
+      "durationSeconds": 0.491,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10065,7 +10096,7 @@
     },
     {
       "caseId": "product-069",
-      "durationSeconds": 0.465,
+      "durationSeconds": 0.513,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10092,7 +10123,7 @@
     },
     {
       "caseId": "product-070",
-      "durationSeconds": 0.452,
+      "durationSeconds": 0.357,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10119,7 +10150,7 @@
     },
     {
       "caseId": "product-071",
-      "durationSeconds": 0.572,
+      "durationSeconds": 0.427,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10146,7 +10177,7 @@
     },
     {
       "caseId": "product-072",
-      "durationSeconds": 0.512,
+      "durationSeconds": 0.462,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10158,10 +10189,10 @@
         "proof": 80.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": true,
+        "producerNameAddressRead": false,
         "countryOfOriginRead": true,
-        "detectedFieldCount": 8,
-        "evidenceRegionCount": 10,
+        "detectedFieldCount": 7,
+        "evidenceRegionCount": 9,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -10173,7 +10204,7 @@
     },
     {
       "caseId": "product-073",
-      "durationSeconds": 1.568,
+      "durationSeconds": 1.323,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10208,7 +10239,7 @@
     },
     {
       "caseId": "product-074",
-      "durationSeconds": 0.581,
+      "durationSeconds": 0.465,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10235,7 +10266,7 @@
     },
     {
       "caseId": "product-075",
-      "durationSeconds": 1.64,
+      "durationSeconds": 1.097,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10250,7 +10281,7 @@
         "producerNameAddressRead": true,
         "countryOfOriginRead": false,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 28,
+        "evidenceRegionCount": 16,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -10260,17 +10291,13 @@
         },
         {
           "extension": ".jpg",
-          "sha256": "216d04aa76d2a59c1a97bc4890d2b29f4fc174650ed3cb078c54da9fd4570a24"
-        },
-        {
-          "extension": ".jpg",
           "sha256": "5938a5d51f195fd1f0d9cc2b26c6c386e2b70b1861fa2d0e321e2f9e39cfd94b"
         }
       ]
     },
     {
       "caseId": "product-076",
-      "durationSeconds": 0.959,
+      "durationSeconds": 0.805,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10301,7 +10328,7 @@
     },
     {
       "caseId": "product-077",
-      "durationSeconds": 0.543,
+      "durationSeconds": 0.432,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10328,7 +10355,7 @@
     },
     {
       "caseId": "product-078",
-      "durationSeconds": 0.61,
+      "durationSeconds": 0.476,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10355,7 +10382,7 @@
     },
     {
       "caseId": "product-079",
-      "durationSeconds": 0.644,
+      "durationSeconds": 0.504,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10382,7 +10409,7 @@
     },
     {
       "caseId": "product-080",
-      "durationSeconds": 0.804,
+      "durationSeconds": 0.655,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10413,7 +10440,7 @@
     },
     {
       "caseId": "product-081",
-      "durationSeconds": 0.656,
+      "durationSeconds": 0.532,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10428,7 +10455,7 @@
         "producerNameAddressRead": true,
         "countryOfOriginRead": false,
         "detectedFieldCount": 3,
-        "evidenceRegionCount": 4,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -10440,7 +10467,7 @@
     },
     {
       "caseId": "product-082",
-      "durationSeconds": 1.017,
+      "durationSeconds": 0.899,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10471,7 +10498,7 @@
     },
     {
       "caseId": "product-083",
-      "durationSeconds": 0.901,
+      "durationSeconds": 0.716,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10498,7 +10525,7 @@
     },
     {
       "caseId": "product-084",
-      "durationSeconds": 0.609,
+      "durationSeconds": 0.51,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10525,7 +10552,7 @@
     },
     {
       "caseId": "product-085",
-      "durationSeconds": 0.534,
+      "durationSeconds": 0.505,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10552,7 +10579,7 @@
     },
     {
       "caseId": "product-086",
-      "durationSeconds": 0.376,
+      "durationSeconds": 0.301,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10583,7 +10610,7 @@
     },
     {
       "caseId": "product-087",
-      "durationSeconds": 2.968,
+      "durationSeconds": 2.736,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10614,7 +10641,7 @@
     },
     {
       "caseId": "product-088",
-      "durationSeconds": 0.641,
+      "durationSeconds": 0.503,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10641,7 +10668,7 @@
     },
     {
       "caseId": "product-089",
-      "durationSeconds": 0.604,
+      "durationSeconds": 0.462,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10668,7 +10695,7 @@
     },
     {
       "caseId": "product-090",
-      "durationSeconds": 1.504,
+      "durationSeconds": 1.217,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10703,7 +10730,7 @@
     },
     {
       "caseId": "product-091",
-      "durationSeconds": 1.078,
+      "durationSeconds": 1.94,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10734,7 +10761,7 @@
     },
     {
       "caseId": "product-092",
-      "durationSeconds": 0.525,
+      "durationSeconds": 0.427,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10761,7 +10788,7 @@
     },
     {
       "caseId": "product-093",
-      "durationSeconds": 0.956,
+      "durationSeconds": 0.773,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10792,7 +10819,7 @@
     },
     {
       "caseId": "product-094",
-      "durationSeconds": 0.676,
+      "durationSeconds": 0.556,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10819,7 +10846,7 @@
     },
     {
       "caseId": "product-095",
-      "durationSeconds": 1.903,
+      "durationSeconds": 4.444,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10854,7 +10881,7 @@
     },
     {
       "caseId": "product-096",
-      "durationSeconds": 0.336,
+      "durationSeconds": 0.378,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10881,7 +10908,7 @@
     },
     {
       "caseId": "product-097",
-      "durationSeconds": 0.88,
+      "durationSeconds": 0.752,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10912,7 +10939,7 @@
     },
     {
       "caseId": "product-098",
-      "durationSeconds": 0.644,
+      "durationSeconds": 0.534,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10939,7 +10966,7 @@
     },
     {
       "caseId": "product-099",
-      "durationSeconds": 0.606,
+      "durationSeconds": 0.465,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10966,7 +10993,7 @@
     },
     {
       "caseId": "product-100",
-      "durationSeconds": 0.702,
+      "durationSeconds": 0.558,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -10993,7 +11020,7 @@
     },
     {
       "caseId": "product-101",
-      "durationSeconds": 0.6,
+      "durationSeconds": 0.447,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11020,7 +11047,7 @@
     },
     {
       "caseId": "product-102",
-      "durationSeconds": 0.672,
+      "durationSeconds": 0.527,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11047,7 +11074,7 @@
     },
     {
       "caseId": "product-103",
-      "durationSeconds": 1.293,
+      "durationSeconds": 1.062,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11062,7 +11089,7 @@
         "producerNameAddressRead": true,
         "countryOfOriginRead": false,
         "detectedFieldCount": 6,
-        "evidenceRegionCount": 14,
+        "evidenceRegionCount": 15,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -11078,7 +11105,7 @@
     },
     {
       "caseId": "product-104",
-      "durationSeconds": 1.933,
+      "durationSeconds": 1.944,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11090,10 +11117,10 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": false,
+        "producerNameAddressRead": true,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 3,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 4,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -11109,7 +11136,7 @@
     },
     {
       "caseId": "product-105",
-      "durationSeconds": 0.46,
+      "durationSeconds": 0.486,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11136,7 +11163,7 @@
     },
     {
       "caseId": "product-106",
-      "durationSeconds": 1.15,
+      "durationSeconds": 1.498,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11167,7 +11194,7 @@
     },
     {
       "caseId": "product-107",
-      "durationSeconds": 1.155,
+      "durationSeconds": 2.214,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11182,7 +11209,7 @@
         "producerNameAddressRead": false,
         "countryOfOriginRead": true,
         "detectedFieldCount": 5,
-        "evidenceRegionCount": 7,
+        "evidenceRegionCount": 9,
         "machineSummary": "Differences detected"
       },
       "fileArtifacts": [
@@ -11198,7 +11225,7 @@
     },
     {
       "caseId": "product-108",
-      "durationSeconds": 1.485,
+      "durationSeconds": 1.231,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11233,7 +11260,7 @@
     },
     {
       "caseId": "product-109",
-      "durationSeconds": 1.042,
+      "durationSeconds": 0.875,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11264,7 +11291,7 @@
     },
     {
       "caseId": "product-110",
-      "durationSeconds": 0.796,
+      "durationSeconds": 0.724,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11276,9 +11303,9 @@
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": true,
+        "producerNameAddressRead": false,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 6,
+        "detectedFieldCount": 5,
         "evidenceRegionCount": 7,
         "machineSummary": "Review needed"
       },
@@ -11295,7 +11322,7 @@
     },
     {
       "caseId": "product-111",
-      "durationSeconds": 4.712,
+      "durationSeconds": 3.885,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11326,7 +11353,7 @@
     },
     {
       "caseId": "product-112",
-      "durationSeconds": 0.613,
+      "durationSeconds": 0.472,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11361,7 +11388,7 @@
     },
     {
       "caseId": "product-113",
-      "durationSeconds": 0.842,
+      "durationSeconds": 0.668,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11392,7 +11419,7 @@
     },
     {
       "caseId": "product-114",
-      "durationSeconds": 2.811,
+      "durationSeconds": 1.828,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11423,7 +11450,7 @@
     },
     {
       "caseId": "product-115",
-      "durationSeconds": 0.96,
+      "durationSeconds": 0.694,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11454,7 +11481,7 @@
     },
     {
       "caseId": "product-116",
-      "durationSeconds": 3.925,
+      "durationSeconds": 3.592,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11481,7 +11508,7 @@
     },
     {
       "caseId": "product-117",
-      "durationSeconds": 0.612,
+      "durationSeconds": 0.47,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11496,7 +11523,7 @@
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
         "detectedFieldCount": 2,
-        "evidenceRegionCount": 2,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -11508,7 +11535,7 @@
     },
     {
       "caseId": "product-118",
-      "durationSeconds": 1.259,
+      "durationSeconds": 2.83,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11539,7 +11566,7 @@
     },
     {
       "caseId": "product-119",
-      "durationSeconds": 1.019,
+      "durationSeconds": 0.84,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11570,7 +11597,7 @@
     },
     {
       "caseId": "product-120",
-      "durationSeconds": 1.43,
+      "durationSeconds": 0.656,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11582,17 +11609,40 @@
         "proof": null,
         "netContentsValue": null,
         "netContentsUnit": null,
-        "producerNameAddressRead": true,
+        "producerNameAddressRead": false,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 5,
-        "evidenceRegionCount": 7,
+        "detectedFieldCount": 3,
+        "evidenceRegionCount": 3,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
         {
           "extension": ".jpg",
           "sha256": "ec61ee3542e6d6d4fc893ed32f71c0376e13b210a611a29a6db61eefb08301f2"
-        },
+        }
+      ]
+    },
+    {
+      "caseId": "product-121",
+      "durationSeconds": 0.704,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": null,
+        "brandRead": true,
+        "classTypeRead": false,
+        "abvPercent": null,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddressRead": true,
+        "countryOfOriginRead": false,
+        "detectedFieldCount": 3,
+        "evidenceRegionCount": 5,
+        "machineSummary": "Review needed"
+      },
+      "fileArtifacts": [
         {
           "extension": ".jpg",
           "sha256": "2effd51377c07ffb3c338cc019d2f160aa39e8e8914ac435621fc63fd2ff82d0"
@@ -11600,8 +11650,8 @@
       ]
     },
     {
-      "caseId": "product-121",
-      "durationSeconds": 0.441,
+      "caseId": "product-122",
+      "durationSeconds": 0.363,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11627,8 +11677,8 @@
       ]
     },
     {
-      "caseId": "product-122",
-      "durationSeconds": 0.522,
+      "caseId": "product-123",
+      "durationSeconds": 0.406,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11654,8 +11704,8 @@
       ]
     },
     {
-      "caseId": "product-123",
-      "durationSeconds": 0.447,
+      "caseId": "product-124",
+      "durationSeconds": 0.443,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11681,8 +11731,8 @@
       ]
     },
     {
-      "caseId": "product-124",
-      "durationSeconds": 1.317,
+      "caseId": "product-125",
+      "durationSeconds": 2.384,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11712,8 +11762,8 @@
       ]
     },
     {
-      "caseId": "product-125",
-      "durationSeconds": 1.373,
+      "caseId": "product-126",
+      "durationSeconds": 1.082,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11747,8 +11797,8 @@
       ]
     },
     {
-      "caseId": "product-126",
-      "durationSeconds": 0.597,
+      "caseId": "product-127",
+      "durationSeconds": 0.487,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11774,8 +11824,8 @@
       ]
     },
     {
-      "caseId": "product-127",
-      "durationSeconds": 0.534,
+      "caseId": "product-128",
+      "durationSeconds": 0.457,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11801,8 +11851,8 @@
       ]
     },
     {
-      "caseId": "product-128",
-      "durationSeconds": 0.591,
+      "caseId": "product-129",
+      "durationSeconds": 0.531,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11828,8 +11878,8 @@
       ]
     },
     {
-      "caseId": "product-129",
-      "durationSeconds": 0.587,
+      "caseId": "product-130",
+      "durationSeconds": 0.518,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11855,8 +11905,62 @@
       ]
     },
     {
-      "caseId": "product-130",
-      "durationSeconds": 0.562,
+      "caseId": "product-131",
+      "durationSeconds": 0.46,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "malt_beverage",
+        "brandRead": true,
+        "classTypeRead": true,
+        "abvPercent": 7.2,
+        "proof": null,
+        "netContentsValue": 16.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddressRead": true,
+        "countryOfOriginRead": false,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 13,
+        "machineSummary": "Review needed"
+      },
+      "fileArtifacts": [
+        {
+          "extension": ".jpg",
+          "sha256": "216d04aa76d2a59c1a97bc4890d2b29f4fc174650ed3cb078c54da9fd4570a24"
+        }
+      ]
+    },
+    {
+      "caseId": "product-132",
+      "durationSeconds": 0.512,
+      "httpStatus": 200,
+      "pass": true,
+      "failures": [],
+      "observed": {
+        "beverageType": "wine",
+        "brandRead": true,
+        "classTypeRead": true,
+        "abvPercent": 12.5,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddressRead": true,
+        "countryOfOriginRead": false,
+        "detectedFieldCount": 6,
+        "evidenceRegionCount": 10,
+        "machineSummary": "Review needed"
+      },
+      "fileArtifacts": [
+        {
+          "extension": ".jpg",
+          "sha256": "d1e52a4d717609904817d7dade446d6bb485aea561bea2cbd925ba9f2f460097"
+        }
+      ]
+    },
+    {
+      "caseId": "product-133",
+      "durationSeconds": 0.486,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11882,8 +11986,8 @@
       ]
     },
     {
-      "caseId": "product-131",
-      "durationSeconds": 0.525,
+      "caseId": "product-134",
+      "durationSeconds": 0.45,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11909,8 +12013,8 @@
       ]
     },
     {
-      "caseId": "product-132",
-      "durationSeconds": 0.616,
+      "caseId": "product-135",
+      "durationSeconds": 0.544,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11936,8 +12040,8 @@
       ]
     },
     {
-      "caseId": "product-133",
-      "durationSeconds": 1.449,
+      "caseId": "product-136",
+      "durationSeconds": 1.214,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11971,8 +12075,8 @@
       ]
     },
     {
-      "caseId": "product-134",
-      "durationSeconds": 0.63,
+      "caseId": "product-137",
+      "durationSeconds": 0.576,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -11988,7 +12092,7 @@
         "countryOfOriginRead": true,
         "detectedFieldCount": 8,
         "evidenceRegionCount": 15,
-        "machineSummary": "No differences found in checked fields"
+        "machineSummary": "Review needed"
       },
       "fileArtifacts": [
         {
@@ -11998,8 +12102,8 @@
       ]
     },
     {
-      "caseId": "product-135",
-      "durationSeconds": 0.541,
+      "caseId": "product-138",
+      "durationSeconds": 0.46,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12025,8 +12129,8 @@
       ]
     },
     {
-      "caseId": "product-136",
-      "durationSeconds": 0.996,
+      "caseId": "product-139",
+      "durationSeconds": 0.834,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12056,8 +12160,8 @@
       ]
     },
     {
-      "caseId": "product-137",
-      "durationSeconds": 0.597,
+      "caseId": "product-140",
+      "durationSeconds": 0.502,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12083,8 +12187,8 @@
       ]
     },
     {
-      "caseId": "product-138",
-      "durationSeconds": 0.492,
+      "caseId": "product-141",
+      "durationSeconds": 0.378,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12110,8 +12214,8 @@
       ]
     },
     {
-      "caseId": "product-139",
-      "durationSeconds": 0.601,
+      "caseId": "product-142",
+      "durationSeconds": 0.497,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12137,8 +12241,8 @@
       ]
     },
     {
-      "caseId": "product-140",
-      "durationSeconds": 0.521,
+      "caseId": "product-143",
+      "durationSeconds": 0.459,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12164,8 +12268,8 @@
       ]
     },
     {
-      "caseId": "product-141",
-      "durationSeconds": 0.898,
+      "caseId": "product-144",
+      "durationSeconds": 0.74,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12195,8 +12299,8 @@
       ]
     },
     {
-      "caseId": "product-142",
-      "durationSeconds": 0.572,
+      "caseId": "product-145",
+      "durationSeconds": 0.462,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12222,8 +12326,8 @@
       ]
     },
     {
-      "caseId": "product-143",
-      "durationSeconds": 0.642,
+      "caseId": "product-146",
+      "durationSeconds": 0.525,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12249,8 +12353,8 @@
       ]
     },
     {
-      "caseId": "product-144",
-      "durationSeconds": 0.508,
+      "caseId": "product-147",
+      "durationSeconds": 0.352,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12276,8 +12380,8 @@
       ]
     },
     {
-      "caseId": "product-145",
-      "durationSeconds": 2.15,
+      "caseId": "product-148",
+      "durationSeconds": 1.965,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12289,10 +12393,10 @@
         "proof": null,
         "netContentsValue": null,
         "netContentsUnit": null,
-        "producerNameAddressRead": false,
+        "producerNameAddressRead": true,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 3,
-        "evidenceRegionCount": 4,
+        "detectedFieldCount": 4,
+        "evidenceRegionCount": 5,
         "machineSummary": "Differences detected"
       },
       "fileArtifacts": [
@@ -12307,8 +12411,8 @@
       ]
     },
     {
-      "caseId": "product-146",
-      "durationSeconds": 0.502,
+      "caseId": "product-149",
+      "durationSeconds": 0.394,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12334,8 +12438,8 @@
       ]
     },
     {
-      "caseId": "product-147",
-      "durationSeconds": 1.228,
+      "caseId": "product-150",
+      "durationSeconds": 0.965,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12347,10 +12451,10 @@
         "proof": 101.0,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
-        "producerNameAddressRead": false,
+        "producerNameAddressRead": true,
         "countryOfOriginRead": true,
-        "detectedFieldCount": 7,
-        "evidenceRegionCount": 10,
+        "detectedFieldCount": 8,
+        "evidenceRegionCount": 11,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -12365,8 +12469,8 @@
       ]
     },
     {
-      "caseId": "product-148",
-      "durationSeconds": 0.486,
+      "caseId": "product-151",
+      "durationSeconds": 0.389,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12392,8 +12496,8 @@
       ]
     },
     {
-      "caseId": "product-149",
-      "durationSeconds": 0.624,
+      "caseId": "product-152",
+      "durationSeconds": 0.631,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12419,8 +12523,8 @@
       ]
     },
     {
-      "caseId": "product-150",
-      "durationSeconds": 0.373,
+      "caseId": "product-153",
+      "durationSeconds": 0.296,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12446,8 +12550,8 @@
       ]
     },
     {
-      "caseId": "product-151",
-      "durationSeconds": 0.805,
+      "caseId": "product-154",
+      "durationSeconds": 1.743,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
@@ -12477,23 +12581,23 @@
       ]
     },
     {
-      "caseId": "product-152",
-      "durationSeconds": 1.246,
+      "caseId": "product-155",
+      "durationSeconds": 0.987,
       "httpStatus": 200,
       "pass": true,
       "failures": [],
       "observed": {
-        "beverageType": null,
+        "beverageType": "distilled_spirits",
         "brandRead": true,
-        "classTypeRead": false,
+        "classTypeRead": true,
         "abvPercent": 53.5,
         "proof": null,
         "netContentsValue": 750.0,
         "netContentsUnit": "mL",
         "producerNameAddressRead": false,
         "countryOfOriginRead": false,
-        "detectedFieldCount": 4,
-        "evidenceRegionCount": 4,
+        "detectedFieldCount": 5,
+        "evidenceRegionCount": 5,
         "machineSummary": "Review needed"
       },
       "fileArtifacts": [
@@ -12512,21 +12616,21 @@
   "performance": {
     "individual": {
       "count": 221,
-      "averageSeconds": 3.997,
-      "medianSeconds": 3.895,
-      "p95Seconds": 6.748,
-      "maximumSeconds": 7.874,
+      "averageSeconds": 3.84,
+      "medianSeconds": 3.681,
+      "p95Seconds": 6.138,
+      "maximumSeconds": 7.237,
       "targetAverageSeconds": 5.0,
       "hardCaseMaximumSeconds": 9.0,
       "averageTargetMet": true,
       "hardCaseTargetMet": true
     },
     "products": {
-      "count": 152,
-      "averageSeconds": 1.014,
-      "medianSeconds": 0.629,
-      "p95Seconds": 2.693,
-      "maximumSeconds": 6.607,
+      "count": 155,
+      "averageSeconds": 0.935,
+      "medianSeconds": 0.525,
+      "p95Seconds": 2.83,
+      "maximumSeconds": 5.764,
       "targetAverageSeconds": 5.0,
       "hardCaseMaximumSeconds": 9.0,
       "averageTargetMet": true,
@@ -12536,7 +12640,7 @@
   "summary": {
     "individualPassCount": 221,
     "individualFailCount": 0,
-    "productPassCount": 152,
+    "productPassCount": 155,
     "productFailCount": 0,
     "functionalPass": true,
     "performancePass": true,

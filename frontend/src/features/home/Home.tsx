@@ -79,8 +79,8 @@ export function Home({ onSingle, onBatch, onSample, onOpenHistory, onOpenRecord,
   }
 
   function roleFor(index: number, count: number): string {
-    if (count === 1) return `${singleFiles[index]?.type.replace("image/", "").toUpperCase() ?? "image"}`;
-    return index === 0 ? "Front" : index === 1 ? "Back" : "Added";
+    void count;
+    return `Image ${index + 1}`;
   }
 
   return (
@@ -97,7 +97,7 @@ export function Home({ onSingle, onBatch, onSample, onOpenHistory, onOpenRecord,
           <div aria-label="Drop label images or choose files" className={`dropzone${dragging === "single" ? " dragging" : ""}`} onClick={() => singleInput.current?.click()} onDragLeave={() => setDragging(null)} onDragOver={onDragOver("single")} onDrop={onDrop("single")} role="group">
             <span className="drop-icon">{icons.image(28)}</span>
             <strong>Drop label images here</strong>
-            <span className="helper text-muted">Front, back, neck: up to 3. JPEG, PNG or WebP; phone photos are resized here before upload.</span>
+            <span className="helper text-muted">Up to 3 label views in any order. JPEG, PNG or WebP; phone photos are resized here before upload.</span>
             <div className="drop-actions" onClick={(event) => event.stopPropagation()}>
               <button className="btn btn-secondary btn-hit" onClick={() => singleInput.current?.click()} type="button">Choose images</button>
               <button className="btn btn-ghost btn-hit" disabled={sampleLoading} onClick={onSample} type="button">{sampleLoading ? "Loading sample…" : "Use the built-in sample"}</button>

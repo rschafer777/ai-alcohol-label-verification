@@ -20,7 +20,7 @@ function comparedWithApplication(reference: unknown): boolean {
   return typeof reference === "object" && reference !== null && (reference as { referenceProvenance?: unknown }).referenceProvenance === "manual";
 }
 
-export function StoredResultDrawer({ detail, onSave, onDelete }: { detail: HistoryDetail | null; onSave: (disposition: Disposition, note: string) => Promise<boolean>; onDelete: () => void }): ReactElement {
+export function StoredResultDrawer({ detail, onSave, onDelete, onOpenRevision }: { detail: HistoryDetail | null; onSave: (disposition: Disposition, note: string) => Promise<boolean>; onDelete: () => void; onOpenRevision: (id: string) => void }): ReactElement {
   const [panelIndex, setPanelIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [disposition, setDisposition] = useState<Disposition>(asDisposition(detail?.disposition ?? null));
@@ -66,7 +66,8 @@ export function StoredResultDrawer({ detail, onSave, onDelete }: { detail: Histo
     <aside aria-label="Stored result" className="card blueprint drawer">
       <Corners />
       <div className="drawer-head"><h6>Stored result</h6><span className="text-muted">{when} · {detail.requestId.slice(0, 10)}</span></div>
-      <div><span className="card-title">{detail.displayName}</span><br /><span className="drawer-sub text-muted">{beverageTypeLabel(detail.beverageType)} · {detail.panelCount} image{detail.panelCount === 1 ? "" : "s"} · reviewed by {AGENT_NAME}{comparedWithApplication(detail.reference) ? " · compared with application values" : ""}</span></div>
+      <div><span className="card-title">{detail.displayName}</span><br /><span className="drawer-sub text-muted">{beverageTypeLabel(detail.beverageType)} · {detail.panelCount} image{detail.panelCount === 1 ? "" : "s"} · revision {detail.revision ?? 1}{detail.revisionKind === "correction" ? " · reviewer correction" : detail.revisionKind === "panel_added" ? " · image added" : ""} · reviewed by {AGENT_NAME}{comparedWithApplication(detail.reference) ? " · compared with application values" : ""}</span></div>
+      {detail.revisions && detail.revisions.length > 1 ? <div className="row" aria-label="Revision history" style={{ flexWrap: "wrap", gap: 6 }}><span className="text-muted">Revisions:</span>{detail.revisions.map((revision) => <button aria-current={revision.id === detail.id ? "page" : undefined} className={`btn btn-ghost${revision.id === detail.id ? " active" : ""}`} key={revision.id} onClick={() => onOpenRevision(revision.id)} type="button">{revision.revision}{revision.revisionKind === "correction" ? " corrected" : revision.revisionKind === "panel_added" ? " image added" : " original"}</button>)}</div> : null}
       <div className="result-cells">
         <div><span className="dl-label text-muted">Machine result</span><br /><SummaryTag summary={summary} /></div>
         <div><span className="dl-label text-muted">Your disposition</span><br /><DispositionTag value={disposition} /></div>
@@ -92,7 +93,7 @@ export function StoredResultDrawer({ detail, onSave, onDelete }: { detail: Histo
           <li key={check.checkId}>
             <button aria-pressed={selectedId === check.checkId} className={check.applicable ? "" : "na"} onClick={() => select(check.checkId)} style={{ borderLeftColor: check.applicable ? stateColor(check.state) : "transparent" }} type="button">
               <Badge applicable={check.applicable} mini state={check.state} />
-              <span><strong>{displayLabel(check)}</strong> <span className="text-muted">· {reasonShort(check)}</span></span>
+              <span><strong>{displayLabel(check)}</strong>{check.observationProvenance === "reviewer_corrected" ? <span className="tag tag-outline" style={{ fontSize: 10, marginLeft: 6 }}>Reviewer-corrected</span> : null} <span className="text-muted">· {reasonShort(check)}</span></span>
             </button>
           </li>
         ))}

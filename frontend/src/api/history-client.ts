@@ -1,4 +1,7 @@
-import type { HistoryDetail, HistoryPage, MetaResponse } from "../contracts/types";
+import { parseVerificationResult } from "../contracts/runtime";
+import type { CorrectionRequest, HistoryDetail, HistoryPage, MetaResponse, VerificationResult } from "../contracts/types";
+
+export type CorrectionPayload = CorrectionRequest;
 
 export interface HistoryFilters {
   beverageType?: string;
@@ -12,6 +15,7 @@ export interface HistoryClient {
   list(options: HistoryFilters & { offset?: number; pageSize?: number }): Promise<HistoryPage>;
   get(id: string): Promise<HistoryDetail | null>;
   setDisposition(id: string, disposition: string | null, reviewerNote: string): Promise<boolean>;
+  correct?(id: string, payload: CorrectionPayload): Promise<VerificationResult>;
   remove(id: string): Promise<boolean>;
   clear(): Promise<number>;
 }
@@ -50,6 +54,19 @@ export function createHistoryClient(fetcher: typeof fetch = fetch): HistoryClien
         body: JSON.stringify({ disposition, reviewerNote }),
       });
       return response.ok;
+    },
+    async correct(id, payload) {
+      const response = await fetcher(`/api/v1/history/${encodeURIComponent(id)}/corrections`, {
+        method: "POST",
+        headers: { ...json, "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        const error = (await response.json().catch(() => null)) as { message?: string; nextAction?: string } | null;
+        throw new Error([error?.message, error?.nextAction].filter(Boolean).join(" ") || "The correction could not be saved.");
+      }
+      const envelope = (await response.json()) as { result?: unknown };
+      return parseVerificationResult(envelope.result);
     },
     async remove(id) {
       const response = await fetcher(`/api/v1/history/${encodeURIComponent(id)}`, { method: "DELETE", headers: json });

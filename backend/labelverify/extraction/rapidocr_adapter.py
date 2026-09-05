@@ -52,6 +52,18 @@ class ModelIntegrityError(RuntimeError):
     """Raised when bundled OCR assets do not satisfy readiness."""
 
 
+@dataclass(frozen=True)
+class RecognizerConfig:
+    """Evaluation-only recognizer override; production uses the governed default."""
+
+    filename: str
+    sha256: str
+    lang: str
+    ocr_version: str
+    keys_filename: str
+    keys_sha256: str
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -61,19 +73,42 @@ def _sha256(path: Path) -> str:
 
 
 class RapidOcrAdapter:
-    def __init__(self, model_root: Path, *, require_read_only: bool = True) -> None:
+    def __init__(
+        self,
+        model_root: Path,
+        *,
+        require_read_only: bool = True,
+        recognizer: RecognizerConfig | None = None,
+    ) -> None:
         self._model_root = model_root
         self._require_read_only = require_read_only
+        self._recognizer = recognizer
         self._engines: tuple[Any, ...] = ()
         self._output_cache: OrderedDict[tuple[object, ...], Any] = OrderedDict()
-        self._model_identity = "rapidocr-3.4.2:" + MODEL_ASSETS["en_PP-OCRv4_rec_infer.onnx"][:12]
+        recognition_hash = (
+            recognizer.sha256
+            if recognizer is not None
+            else MODEL_ASSETS["en_PP-OCRv4_rec_infer.onnx"]
+        )
+        self._model_identity = "rapidocr-3.4.2:" + recognition_hash[:12]
 
     @property
     def model_identity(self) -> str:
         return self._model_identity
 
     def verify_assets(self) -> None:
-        for filename, expected_hash in RUNTIME_ASSETS.items():
+        assets = RUNTIME_ASSETS
+        if self._recognizer is not None:
+            assets = {
+                "en_PP-OCRv3_det_infer.onnx": MODEL_ASSETS["en_PP-OCRv3_det_infer.onnx"],
+                "ch_ppocr_mobile_v2.0_cls_infer.onnx": MODEL_ASSETS[
+                    "ch_ppocr_mobile_v2.0_cls_infer.onnx"
+                ],
+                "DejaVuSans.ttf": FONT_ASSET["DejaVuSans.ttf"],
+                self._recognizer.filename: self._recognizer.sha256,
+                self._recognizer.keys_filename: self._recognizer.keys_sha256,
+            }
+        for filename, expected_hash in assets.items():
             path = self._model_root / filename
             if not path.is_file() or _sha256(path) != expected_hash:
                 raise ModelIntegrityError(f"OCR model asset failed integrity: {filename}")
@@ -84,10 +119,15 @@ class RapidOcrAdapter:
         self.verify_assets()
         self._output_cache.clear()
         from rapidocr import RapidOCR  # type: ignore[import-untyped]
-        from rapidocr.utils.typings import LangDet, LangRec  # type: ignore[import-untyped]
+        from rapidocr.utils.typings import (  # type: ignore[import-untyped]
+            LangDet,
+            LangRec,
+            OCRVersion,
+        )
 
+        recognizer = self._recognizer
         params = {
-            "Rec.lang_type": LangRec.EN,
+            "Rec.lang_type": LangRec(recognizer.lang) if recognizer else LangRec.EN,
             "Det.lang_type": LangDet.EN,
             "EngineConfig.onnxruntime.intra_op_num_threads": OCR_INTRA_OP_THREADS_PER_LANE,
             "EngineConfig.onnxruntime.inter_op_num_threads": 1,
@@ -98,9 +138,17 @@ class RapidOcrAdapter:
             "Global.use_cls": False,
             "Det.limit_side_len": 1280,
             "Det.model_path": str(self._model_root / "en_PP-OCRv3_det_infer.onnx"),
-            "Rec.model_path": str(self._model_root / "en_PP-OCRv4_rec_infer.onnx"),
+            "Rec.model_path": str(
+                self._model_root
+                / (recognizer.filename if recognizer else "en_PP-OCRv4_rec_infer.onnx")
+            ),
+            "Rec.ocr_version": OCRVersion(
+                recognizer.ocr_version if recognizer else "PP-OCRv4"
+            ),
             "Cls.model_path": str(self._model_root / "ch_ppocr_mobile_v2.0_cls_infer.onnx"),
         }
+        if recognizer is not None:
+            params["Rec.rec_keys_path"] = str(self._model_root / recognizer.keys_filename)
         # Warm a label-shaped tensor so the first reviewer request does not pay
         # the ONNX allocation and graph setup cost for a production-sized image.
         warmup = np.full((960, 720, 3), 255, dtype=np.uint8)
@@ -176,6 +224,46 @@ class RapidOcrAdapter:
                 lines.append(line)
                 reading_order += 1
         return deduplicate_ocr_lines(lines)
+
+    def recognize_regions(self, views: Sequence[ImageView]) -> list[OcrLine]:
+        """Recognize caller-supplied text regions without running detection again.
+
+        This bounded lane supports generic, geometry-derived proposals such as a prominent
+        numeric brand that the text detector did not box. It does not use product names,
+        filenames, upload order, or expected values.
+        """
+
+        if not self._engines:
+            raise RuntimeError("RapidOCR adapter is not initialized")
+        if not views:
+            return []
+        output = self._engines[0].recognize_txt([view.image for view in views])
+        texts = getattr(output, "txts", None) or []
+        scores = getattr(output, "scores", None)
+        lines: list[OcrLine] = []
+        for index, (view, text) in enumerate(zip(views, texts, strict=True)):
+            height, width = view.image.shape[:2]
+            box = np.asarray(
+                [[0, 0], [width - 1, 0], [width - 1, height - 1], [0, height - 1]],
+                dtype=np.float32,
+            )
+            try:
+                polygon = view.to_original_polygon(box)
+            except ValueError:
+                continue
+            confidence = float(scores[index]) if scores is not None else None
+            lines.append(
+                OcrLine(
+                    panelId=view.panel_id,
+                    text=str(text),
+                    polygon=polygon,
+                    confidence=confidence,
+                    readingOrder=index,
+                    sourceView="derived",
+                    transformId=view.transform_id,
+                )
+            )
+        return lines
 
     def _run_inference(self, views: Sequence[ImageView]) -> list[Any]:
         if not views:

@@ -76,8 +76,8 @@ def validate_contracts(project_root: Path) -> tuple[list[str], dict[str, Any]]:
     browser_errors = list(error_registry["browserOnly"])
     if len(checks) != 24 or len(set(checks)) != 24:
         errors.append("CG-001 selected-check registry is not 24 unique rows")
-    if len(server_errors) != 23 or len(set(server_errors)) != 23:
-        errors.append("CG-001 server error registry is not 23 unique rows")
+    if len(server_errors) != 27 or len(set(server_errors)) != 27:
+        errors.append("CG-001 server error registry is not 27 unique rows")
     if len(browser_errors) != 4 or len(set(browser_errors)) != 4:
         errors.append("CG-001 browser error registry is not 4 unique rows")
     limits = api["limits"]

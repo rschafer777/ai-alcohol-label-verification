@@ -22,7 +22,10 @@ GROUPING_PATH = "/api/v1/grouping-suggestions"
 EXPENSIVE_PATHS = frozenset({VERIFY_PATH, ANALYZE_PATH})
 HISTORY_PATH = "/api/v1/history"
 # POST /api/v1/history/{record_id}/panels re-runs OCR on a stored record plus one new image.
-HISTORY_PANEL_ADD_PATTERN = re.compile(r"/api/v1/history/hist_[0-9a-f]+/panels\Z")
+HISTORY_PANEL_ADD_PATTERN = re.compile(r"/api/v1/history/[^/]+/panels\Z")
+HISTORY_CORRECTION_PATTERN = re.compile(
+    r"/api/v1/history/[^/]+/corrections\Z"
+)
 HISTORY_SCOPE_COOKIE = "labelverify_scope"
 HISTORY_SCOPE_PATTERN = re.compile(r"[A-Za-z0-9_-]{43}\Z")
 HISTORY_SCOPE_MAX_AGE = 7 * 24 * 60 * 60
@@ -227,6 +230,7 @@ def _is_state_change(scope: dict[str, Any]) -> bool:
     return (
         _is_expensive(scope)
         or (method == "POST" and path == GROUPING_PATH)
+        or (method == "POST" and HISTORY_CORRECTION_PATTERN.fullmatch(path) is not None)
         or (
             method in {"PATCH", "DELETE"}
             and (path == HISTORY_PATH or path.startswith(f"{HISTORY_PATH}/"))

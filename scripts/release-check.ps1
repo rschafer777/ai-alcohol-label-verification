@@ -21,6 +21,12 @@ try {
     if ($testImageCount -ge 50) {
         uv run python scripts/validate_private_uat_corpus_e2e.py --output (Join-Path $validationRoot "private-uat-corpus-e2e.json") --report-output (Join-Path $validationRoot "private-uat-corpus-e2e.md")
         if ($LASTEXITCODE -ne 0) { throw "Private UAT API and batch corpus failed." }
+
+        uv run python scripts/score_ground_truth.py --output (Join-Path $validationRoot "ground-truth-scores.json")
+        if ($LASTEXITCODE -ne 0) { throw "Private ground-truth or disposition safety gate failed." }
+
+        uv run python scripts/score_product_holdout.py --output (Join-Path $validationRoot "product-holdout-results.json")
+        if ($LASTEXITCODE -ne 0) { throw "Sealed product-holdout safety gate failed." }
     }
     else {
         Write-Output "Governed raw-image validation skipped because public redistribution images are not installed."

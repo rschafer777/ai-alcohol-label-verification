@@ -11,8 +11,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 CONTRACT_ROOT = PROJECT_ROOT / "contracts"
 
 CONTRACT_HASHES = {
-    "api-contract-v1.json": "2753b5fd2a5e6f9e6c32f2d321079cac0bfdc1660fc1a245bc38036cb451dc30",
-    "error-registry-v1.json": "0e78225cbee9ae166e5d5154a231cf302051ffbb4ddc9dfc1b9a2624d9993b65",
+    "api-contract-v1.json": "c9226c8d2dbd602d161dd504d2ccf440c8435c9bc6c76e7b6c28a680c9ba6d46",
+    "error-registry-v1.json": "0ec607c6d32913be754a346f4221a0d158fa5914ef6fc555b0ca7f6fd8586daa",
     "selected-check-registry-v1.json": (
         "010476629434b5aaf1f1d0e522e124749cbfaaf3842116228464b34a5047f71d"
     ),
@@ -84,8 +84,8 @@ def contracts() -> ContractBundle:
         raise ContractIntegrityError("Selected-check registry must contain 24 unique checks")
     if not all(bool(item.get("aggregates")) for item in bundle.checks["checks"]):
         raise ContractIntegrityError("Every selected check must aggregate")
-    if len(error_codes) != 23 or len(set(error_codes)) != 23:
-        raise ContractIntegrityError("Error registry must contain 23 unique server errors")
+    if len(error_codes) != 27 or len(set(error_codes)) != 27:
+        raise ContractIntegrityError("Error registry must contain 27 unique server errors")
     if len(browser_codes) != 4 or len(set(browser_codes)) != 4:
         raise ContractIntegrityError("Error registry must contain 4 unique browser errors")
     return bundle

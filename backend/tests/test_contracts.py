@@ -10,7 +10,7 @@ from labelverify.contracts.loader import (
     contracts,
     sha256_file,
 )
-from labelverify.contracts.models import ReferenceRecord
+from labelverify.contracts.models import CorrectionRequest, ReferenceRecord
 
 
 def test_cg001_hashes_and_counts() -> None:
@@ -19,7 +19,7 @@ def test_cg001_hashes_and_counts() -> None:
         assert sha256_file(__import__("pathlib").Path("contracts") / name) == expected
     assert len(bundle.check_ids) == len(set(bundle.check_ids)) == 24
     assert sum(value.startswith("warning_") for value in bundle.check_ids) == 10
-    assert len(bundle.error_codes) == len(set(bundle.error_codes)) == 23
+    assert len(bundle.error_codes) == len(set(bundle.error_codes)) == 27
     assert len(bundle.errors["browserOnly"]) == 4
 
 
@@ -70,3 +70,74 @@ def test_unknown_contract_is_rejected() -> None:
 
     with pytest.raises(ContractIntegrityError):
         load_contract("not-governed.json")
+
+
+def test_correction_contract_is_field_specific_and_requires_one_locator() -> None:
+    beverage = CorrectionRequest.model_validate(
+        {
+            "expectedRevision": 1,
+            "reason": "Visible label correction",
+            "corrections": [
+                {
+                    "field": "beverage_type",
+                    "family": "wine",
+                    "evidenceRef": "ev_type_panel-1_01",
+                }
+            ],
+        }
+    )
+    assert beverage.corrections[0].field == "beverage_type"
+
+    producer = CorrectionRequest.model_validate(
+        {
+            "expectedRevision": 1,
+            "reason": "Visible label correction",
+            "corrections": [
+                {
+                    "field": "producer_name_address",
+                    "visibleText": "BOTTLED BY PRODUCER\nDENVER, COLORADO",
+                    "panelId": "panel-1",
+                    "polygon": [
+                        {"x": 1, "y": 1},
+                        {"x": 100, "y": 1},
+                        {"x": 100, "y": 50},
+                        {"x": 1, "y": 50},
+                    ],
+                }
+            ],
+        }
+    )
+    assert producer.corrections[0].field == "producer_name_address"
+
+    invalid_payloads = [
+        {
+            "field": "brand_name",
+            "visibleText": "BRAND",
+        },
+        {
+            "field": "brand_name",
+            "visibleText": "BRAND",
+            "evidenceRef": "ev_brand_panel-1_01",
+            "panelId": "panel-1",
+            "polygon": [{"x": 1, "y": 1}] * 4,
+        },
+        {
+            "field": "beverage_type",
+            "visibleText": "Wine",
+            "evidenceRef": "ev_type_panel-1_01",
+        },
+        {
+            "field": "producer_name_address",
+            "visibleText": "1\n2\n3\n4\n5\n6",
+            "evidenceRef": "ev_producer_panel-1_01",
+        },
+    ]
+    for correction in invalid_payloads:
+        with pytest.raises(ValueError):
+            CorrectionRequest.model_validate(
+                {
+                    "expectedRevision": 1,
+                    "reason": "Visible label correction",
+                    "corrections": [correction],
+                }
+            )

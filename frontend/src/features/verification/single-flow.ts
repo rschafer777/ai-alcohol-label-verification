@@ -65,3 +65,8 @@ export const CORRECTION_FIELDS: Record<string, string> = {
   beverage_type: "beverage_type", brand: "brand", class_type: "class_type", abv: "abv", proof: "proof",
   net_contents: "net_contents", producer: "producer", country: "country", wine_appellation: "wine_appellation",
 };
+
+export const CORRECTION_API_FIELDS: Record<string, "beverage_type" | "brand_name" | "class_type" | "alcohol_content" | "proof" | "net_contents" | "producer_name_address" | "country_of_origin" | "wine_appellation" | "wine_sulfite_declaration"> = {
+  beverage_type: "beverage_type", brand: "brand_name", class_type: "class_type", abv: "alcohol_content", proof: "proof",
+  net_contents: "net_contents", producer: "producer_name_address", country: "country_of_origin", wine_appellation: "wine_appellation", wine_sulfites: "wine_sulfite_declaration",
+};

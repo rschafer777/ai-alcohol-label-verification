@@ -8,6 +8,7 @@ from labelverify.api.errors import PublicApiError
 from labelverify.security.boundary import (
     HISTORY_SCOPE_COOKIE,
     _history_scope,
+    _is_state_change,
     _normalize_host,
     _scope_cookie,
     _security_headers,
@@ -206,3 +207,18 @@ def test_history_scope_cookie_is_opaque_strict_and_secure_in_production() -> Non
     )
     assert replacement != "predictable"
     assert should_replace
+
+
+def test_correction_post_is_a_protected_state_change() -> None:
+    assert _is_state_change(
+        {
+            "method": "POST",
+            "path": "/api/v1/history/hist_0123456789abcdef/corrections",
+        }
+    )
+    assert _is_state_change(
+        {
+            "method": "POST",
+            "path": "/api/v1/history/not-a-valid-history-id/corrections",
+        }
+    )

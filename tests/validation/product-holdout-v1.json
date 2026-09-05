@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0",
+  "documentId": "LV-HOLDOUT-001",
+  "sealedAtUtc": "2026-09-04T16:08:00Z",
+  "purpose": "Product-separated evaluation set selected before corrective-run outcomes were inspected. Runtime code does not read this file.",
+  "sourceGroundTruth": "tests/Test_Images/pixel-ground-truth-v1.json",
+  "sourceGroundTruthSha256": "54ac543221770041da2f775979cac11794c173905347aa6c7764cc0e5869a4b8",
+  "selectionRules": [
+    "Eight distinct products from each beverage family",
+    "Known corrective diagnostic products were excluded",
+    "One or more images per product are evaluated together",
+    "Only fields visibly available in submitted images are scored"
+  ],
+  "products": [
+    {"productId":"B01","beverageType":"malt_beverage","files":["Test_TTB_Image_0031.jpg"],"truthFilename":"Test_TTB_Image_0031.jpg"},
+    {"productId":"B02","beverageType":"malt_beverage","files":["J3YuX.jpg"],"truthFilename":"J3YuX.jpg"},
+    {"productId":"B03","beverageType":"malt_beverage","files":["jsP3W.jpg"],"truthFilename":"jsP3W.jpg"},
+    {"productId":"B04","beverageType":"malt_beverage","files":["MXteB.jpg"],"truthFilename":"MXteB.jpg"},
+    {"productId":"B05","beverageType":"malt_beverage","files":["25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg"],"truthFilename":"25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg"},
+    {"productId":"B06","beverageType":"malt_beverage","files":["NewBelgian_Front001.jpg"],"fileSha256":["41d6135b09f0b67e86f8ed2ed4c3e1f0f175be84c5a75bd207c67e2536523767"],"truth":{"brand_name":"NEW BELGIUM","class_type":"BELGIAN STYLE ALE","abv_percent":8.5,"net_contents":"12 fl oz","producer_name_address":null,"warning":{"present":false,"body_matches_statutory_text_exactly":null}}},
+    {"productId":"B07","beverageType":"malt_beverage","files":["Tank_Ale_Front.jpg","Tank_Ale_Back.jpg"],"fileSha256":["4bfbe708bf3fc38288c7805331b6bc27281e6b36fe69a041af617d7eddc403f6","0b9029abf7567c40dac6a3480b4cecbaFEF6EA0F78E4860F01DDEC33CD6058B8"],"truth":{"brand_name":"TANK 7","class_type":"AMERICAN SAISON ALE","abv_percent":8.5,"net_contents":"12 fl oz","producer_name_address":"BREWED & BOTTLED BY BOULEVARD BREWING CO. KANSAS CITY, MISSOURI","warning":{"present":true,"body_matches_statutory_text_exactly":true}}},
+    {"productId":"B08","beverageType":"malt_beverage","files":["AndyGator_0001.jpg"],"fileSha256":["04b5e9ea61753241b0bf1f5cc6b1aca0a10564ea4e523d72f8aee3239e1639cf"],"truth":{"brand_name":"ANDYGATOR","class_type":"HELLES DOPPELBOCK","abv_percent":null,"net_contents":null,"producer_name_address":null,"warning":{"present":true,"body_matches_statutory_text_exactly":true}}},
+
+    {"productId":"W01","beverageType":"wine","files":["Test_TTB_Image_0030.jpg"],"truthFilename":"Test_TTB_Image_0030.jpg"},
+    {"productId":"W02","beverageType":"wine","files":["3urY2.jpg"],"truthFilename":"3urY2.jpg"},
+    {"productId":"W03","beverageType":"wine","files":["DmK94.jpg"],"truthFilename":"DmK94.jpg"},
+    {"productId":"W04","beverageType":"wine","files":["leTeL.jpg"],"truthFilename":"leTeL.jpg"},
+    {"productId":"W05","beverageType":"wine","files":["Test_TTB_Image_0033.jpg"],"truthFilename":"Test_TTB_Image_0033.jpg"},
+    {"productId":"W06","beverageType":"wine","files":["bsxs4.jpg"],"truthFilename":"bsxs4.jpg"},
+    {"productId":"W07","beverageType":"wine","files":["BMgMY.jpg"],"truthFilename":"BMgMY.jpg"},
+    {"productId":"W08","beverageType":"wine","files":["222_Silverpine_Wine.png"],"truthFilename":"222_Silverpine_Wine.png"},
+
+    {"productId":"S01","beverageType":"distilled_spirits","files":["iFZ0Q.jpg"],"truthFilename":"iFZ0Q.jpg"},
+    {"productId":"S02","beverageType":"distilled_spirits","files":["London_Dry_Gin_Synthetic.jpg"],"truthFilename":"London_Dry_Gin_Synthetic.jpg"},
+    {"productId":"S03","beverageType":"distilled_spirits","files":["Test_TTB_Image_0036.jpg"],"truthFilename":"Test_TTB_Image_0036.jpg"},
+    {"productId":"S04","beverageType":"distilled_spirits","files":["AnMXl.jpg"],"truthFilename":"AnMXl.jpg"},
+    {"productId":"S05","beverageType":"distilled_spirits","files":["Cointeau_Front.jpg"],"truthFilename":"Cointeau_Front.jpg"},
+    {"productId":"S06","beverageType":"distilled_spirits","files":["8Gf8v.jpg"],"truthFilename":"8Gf8v.jpg"},
+    {"productId":"S07","beverageType":"distilled_spirits","files":["DDqT2.jpg"],"truthFilename":"DDqT2.jpg"},
+    {"productId":"S08","beverageType":"distilled_spirits","files":["GuCzO.jpg"],"truthFilename":"GuCzO.jpg"}
+  ]
+}

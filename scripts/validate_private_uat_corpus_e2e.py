@@ -54,6 +54,13 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def release_source_sha256(path: Path) -> str:
+    """Hash source as the LF-normalized bytes published by this repository."""
+
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def normalized_thumbnail(path: Path) -> tuple[np.ndarray, float] | None:
     image = cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
     if image is None or image.size == 0:
@@ -532,11 +539,11 @@ def main() -> int:
         "createdAtUtc": datetime.now(UTC).isoformat(),
         "environment": {"platform": platform.platform(), "python": platform.python_version()},
         "snapshot": {
-            "validatorSha256": sha256(Path(__file__)),
-            "pipelineSha256": sha256(
+            "validatorSha256": release_source_sha256(Path(__file__)),
+            "pipelineSha256": release_source_sha256(
                 PROJECT_ROOT / "backend" / "labelverify" / "orchestration" / "pipeline.py"
             ),
-            "supervisorSha256": sha256(
+            "supervisorSha256": release_source_sha256(
                 PROJECT_ROOT / "backend" / "labelverify" / "orchestration" / "supervisor.py"
             ),
         },

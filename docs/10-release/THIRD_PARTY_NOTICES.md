@@ -10,6 +10,8 @@ This notice applies only to third-party components and assets. It does not grant
 
 LabelVerify uses RapidOCR 3.4.2 and three converted PP-OCR model assets identified by exact URL and SHA-256 in `ops/model-manifest.json`.
 
+Two PP-OCRv5 recognizers and their dictionaries were downloaded only for the governed offline bakeoff. Their URLs and hashes are in `ops/model-candidate-manifest.json`. They were not promoted, are not copied into the release container, and are not loaded by the production runtime.
+
 - RapidOCR engineering source: Apache License 2.0
 - PaddleOCR engineering source: Apache License 2.0
 - OCR model copyright attribution: Baidu

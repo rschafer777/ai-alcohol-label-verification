@@ -129,7 +129,7 @@ export function createVerificationClient(fetcher: typeof fetch = fetch, transpor
       const body = new FormData();
       const [panel = request.panel] = await prepare([request.panel]);
       body.append("panels", panel, panel.name);
-      const response = await post(`/api/v1/history/${encodeURIComponent(request.historyId)}/panels`, body, request.signal, request.onUploadProgress);
+      const response = await post(`/api/v1/history/${encodeURIComponent(request.historyId)}/panels?expectedRevision=${request.expectedRevision}`, body, request.signal, request.onUploadProgress);
       if (!response.ok) throw new VerificationClientError(parsePublicError(response.payload) ?? internalError());
       try {
         return parseAnalysisResult(response.payload);

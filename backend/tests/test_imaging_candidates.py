@@ -171,6 +171,41 @@ def test_brand_joins_same_row_fragments_without_a_product_lookup() -> None:
     assert observed.field("brand").candidates[0].value == "JACK DANIEL'S"
 
 
+def test_prominent_numeric_mark_near_spirits_class_is_a_brand() -> None:
+    observed = locate_candidates(
+        [
+            line("1800", 0, y=100, height=100, width=260),
+            line("TEQUILA", 1, y=220, height=38, width=250),
+            line("40% ALC. BY VOL.", 2, y=700, height=24),
+            line("NET CONT. 750ML", 3, y=740, height=24),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").status == "Found"
+    assert observed.field("brand").candidates[0].value == "1800"
+
+
+@pytest.mark.parametrize(
+    "numeric_text",
+    [
+        "80 PROOF",
+        "750 ML",
+        "2023 RIESLING",
+        "LOT 10055419",
+    ],
+)
+def test_regulatory_dates_quantities_and_codes_are_not_numeric_brands(numeric_text: str) -> None:
+    observed = locate_candidates(
+        [
+            line(numeric_text, 0, y=100, height=80, width=260),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("brand").status == "Not found"
+
+
 def test_brand_prefers_product_name_near_class_over_vertical_location_copy() -> None:
     observed = locate_candidates(
         [
@@ -215,6 +250,42 @@ def test_producer_block_tolerates_duplicate_ocr_lines_before_the_address() -> No
     )
 
     assert observed.field("producer").status == "Found"
+
+
+def test_producer_block_uses_visual_column_when_reading_order_is_interleaved() -> None:
+    observed = locate_candidates(
+        [
+            line("Produced and bottled.by", 0, x=100, y=300),
+            line("GOVERNMENT WARNING:", 1, x=600, y=310),
+            line("MARITIME CELLARS", 2, x=100, y=340),
+            line("According to the Surgeon General", 3, x=600, y=350),
+            line("MENDOCINO, CALIFORNIA", 4, x=100, y=380),
+        ],
+        [panel()],
+    )
+
+    assert observed.field("producer").candidates[0].value == (
+        "Produced and bottled.by MARITIME CELLARS MENDOCINO, CALIFORNIA"
+    )
+
+
+def test_complete_role_producer_ranks_before_incidental_company_candidate() -> None:
+    observed = locate_candidates(
+        [
+            line("BREWING CO.", 0, x=600, y=100),
+            line("TANK 7", 1, x=600, y=140),
+            line("BREWED & BOTTLED BY", 2, x=100, y=300),
+            line("BOULEVARD BREWING CO.", 3, x=100, y=340),
+            line("KANSAS CITY, MISSOURI", 4, x=100, y=380),
+        ],
+        [panel()],
+    )
+
+    producer = observed.field("producer")
+    assert producer.status == "Found"
+    assert producer.candidates[0].value == (
+        "BREWED & BOTTLED BY BOULEVARD BREWING CO. KANSAS CITY, MISSOURI"
+    )
 
 
 def test_brand_industry_word_does_not_create_a_second_producer_candidate() -> None:
@@ -1202,6 +1273,29 @@ def test_tasting_copy_is_not_the_brand() -> None:
         [panel()],
     )
     assert observed.field("brand").candidates[0].value == "BLUE HARBOR"
+
+
+def test_standalone_volume_unit_and_winemaking_method_are_not_brand_text() -> None:
+    beer = locate_candidates(
+        [
+            line("NEW BELGIUM", 0, y=100, height=80),
+            line("TRIPPEL", 1, y=220, height=45),
+            line("FL.OZ", 2, y=265, height=45),
+            line("BELGIAN STYLE ALE", 3, y=340),
+        ],
+        [panel()],
+    )
+    wine = locate_candidates(
+        [
+            line("MARITIME", 0, y=100, height=80),
+            line("METHODE CHAMPENOISE", 1, y=165, height=50),
+            line("SPARKLING WINE", 2, y=280),
+        ],
+        [panel()],
+    )
+
+    assert "FL.OZ" not in beer.field("brand").candidates[0].value
+    assert "METHODE CHAMPENOISE" not in wine.field("brand").candidates[0].value
 
 
 def test_a_trademark_mark_read_as_letters_is_not_part_of_the_brand() -> None:

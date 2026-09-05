@@ -28,10 +28,12 @@ from labelverify.contracts.models import (
     VerificationResult,
     VolumeUnit,
 )
+from labelverify.domain.aggregation import review_causes
 from labelverify.domain.beverage import infer_beverage_type
 from labelverify.domain.engine import ComparisonInputs, compare_all, mark_unresolved_beverage
 from labelverify.domain.normalize import parse_abv, parse_proof, punctuation_folded
 from labelverify.domain.presentation import (
+    apply_observation_provenance,
     bad_image,
     beverage_inference,
     present_checks,
@@ -39,7 +41,7 @@ from labelverify.domain.presentation import (
     present_wording,
     warning_evidence,
 )
-from labelverify.domain.types import ObservedCandidates, WarningObservation
+from labelverify.domain.types import ObservedCandidates, WarningObservation, serialize_observed
 from labelverify.extraction.candidates import locate_candidates
 from labelverify.extraction.port import ExtractionPort
 from labelverify.extraction.rapidocr_adapter import deduplicate_ocr_lines
@@ -120,11 +122,20 @@ def execute_pipeline(job: PipelineJob, adapter: ExtractionPort) -> VerificationR
 
     stage_started = time.perf_counter()
     validate_result_integrity(public_panels, observed.evidence, checks)
-    checks = present_wording(
-        present_checks(checks, job.reference.beverage_type, job.reference.reference_provenance),
+    checks = apply_observation_provenance(
+        present_wording(
+            present_checks(
+                checks,
+                job.reference.beverage_type,
+                job.reference.reference_provenance,
+                job.reference,
+            ),
+            observed,
+        ),
         observed,
     )
     public_panels = present_panels(public_panels)
+    causes = review_causes(checks, summary)
     aggregate_ms = _elapsed_ms(stage_started)
     rules = contracts().rules
     return VerificationResult(
@@ -155,6 +166,9 @@ def execute_pipeline(job: PipelineJob, adapter: ExtractionPort) -> VerificationR
         summary=summary,
         warningEvidence=warning_evidence(observed),
         badImage=bad_image(public_panels),
+        blockingCheckIds=[cause.check_id for cause in causes],
+        reviewCauses=causes,
+        observationSnapshot=serialize_observed(observed),
     )
 
 
@@ -242,8 +256,11 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
     compare_ms = _elapsed_ms(compare_started)
     verify_started = time.perf_counter()
     validate_result_integrity(public_panels, observed.evidence, checks)
-    checks = present_wording(present_checks(checks, beverage_type), observed)
+    checks = apply_observation_provenance(
+        present_wording(present_checks(checks, beverage_type), observed), observed
+    )
     public_panels = present_panels(public_panels)
+    causes = review_causes(checks, summary)
     aggregate_ms = _elapsed_ms(verify_started)
     rules = contracts().rules
     verification = VerificationResult(
@@ -276,6 +293,9 @@ def execute_analysis(job: AnalysisJob, adapter: ExtractionPort) -> AnalysisResul
         beverageInference=inference,
         warningEvidence=warning_evidence(observed),
         badImage=bad_image(public_panels),
+        blockingCheckIds=[cause.check_id for cause in causes],
+        reviewCauses=causes,
+        observationSnapshot=serialize_observed(observed),
     )
     validate_result_integrity(public_panels, observed.evidence, [])
     return AnalysisResult(
@@ -367,6 +387,25 @@ def _extract_observed(
         lines = deduplicate_ocr_lines([*lines, *recovery_lines])
         observed = locate_candidates(lines, public_panels)
         candidates_ms += _elapsed_ms(candidates_started)
+    recognize_regions = getattr(adapter, "recognize_regions", None)
+    if callable(recognize_regions):
+        numeric_views = [
+            view
+            for panel in ocr_panels
+            if _brand_recovery_needed(observed.field("brand"), panel)
+            for view in _numeric_brand_views(panel)
+        ]
+        if numeric_views:
+            ocr_started = time.perf_counter()
+            try:
+                numeric_lines = recognize_regions(numeric_views)
+            except Exception as exc:
+                raise PipelineFailure("inference_failed") from exc
+            ocr_ms += _elapsed_ms(ocr_started)
+            candidates_started = time.perf_counter()
+            lines = deduplicate_ocr_lines([*lines, *numeric_lines])
+            observed = locate_candidates(lines, public_panels)
+            candidates_ms += _elapsed_ms(candidates_started)
     return public_panels, observed, preprocess_ms, ocr_ms, candidates_ms, recovery_skipped
 
 
@@ -555,13 +594,15 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
     warning = observed.warning
     missing_content = any(
         observed.field(field).status in {"Not found", "Unreadable"}
-        for field in ("abv", "net_contents")
+        for field in ("abv", "proof", "net_contents")
     )
     missing_brand = observed.field("brand").status in {"Not found", "Unreadable"}
     missing_producer = observed.field("producer").status in {"Not found", "Unreadable"}
 
     for panel in decoded:
         panel_views: list[ImageView] = []
+        panel_brand = observed.field("brand")
+        brand_suspect = missing_brand or _brand_recovery_needed(panel_brand, panel)
         panel_warning = _warning_for_panel(observed, panel.panel_id)
         warning_anchor = _warning_anchor(observed, panel.panel_id)
         heading_anchor = _warning_heading_anchor(observed, panel.panel_id)
@@ -584,9 +625,9 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
             )
         elif warning.heading is None:
             panel_views.extend(_warning_search_views(panel))
-        if missing_brand:
+        if brand_suspect:
             class_anchor = _field_anchor(observed, "class_type", panel.panel_id)
-            if class_anchor is not None:
+            if class_anchor is not None and not _brand_recovery_needed(panel_brand, panel):
                 left, top, right, bottom = class_anchor
                 center_x = (left + right) // 2
                 if panel.coverage_state == "Sufficient":
@@ -606,6 +647,23 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
                         ),
                         f"transform-{panel.panel_id}-brand-detail-v1",
                         max_side=1200,
+                    )
+                )
+            else:
+                # When OCR selected a footer fragment as the brand, its class anchor can
+                # also be a small neck line. Re-read the central upper label at higher
+                # resolution so a prominent numeric or stylized mark gets a fair read.
+                panel_views.append(
+                    create_crop_ocr_view(
+                        panel,
+                        (
+                            round(panel.width * 0.12),
+                            round(panel.height * 0.08),
+                            round(panel.width * 0.88),
+                            round(panel.height * 0.58),
+                        ),
+                        f"transform-{panel.panel_id}-brand-search-v1",
+                        max_side=1600,
                     )
                 )
         if missing_content and len(panel_views) < 3:
@@ -644,15 +702,32 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
                         panel,
                         (
                             center_x - half_width,
-                            top - round(panel.height * 0.03),
+                            top - round(panel.height * 0.20),
                             center_x + half_width,
-                            bottom + round(panel.height * 0.16),
+                            bottom + round(panel.height * 0.20),
                         ),
                         f"transform-{panel.panel_id}-producer-detail-v1",
                         max_side=1200,
                     )
                 )
+
         # At most two focused reads per panel keep the second pass inside the time budget.
+        # A missing producer outranks re-reading a brand already found and generic content
+        # recovery. This prevents a warning plus an unnecessary brand/content crop from
+        # consuming both lanes while the required producer block remains unread.
+        def panel_priority(view: ImageView) -> int:
+            transform = view.transform_id
+            if "warning-detail" in transform or "right-detail" in transform:
+                return 0
+            if missing_brand and "brand" in transform:
+                return 1
+            if missing_producer and "producer" in transform:
+                return 1
+            if "content" in transform:
+                return 2
+            return 3
+
+        panel_views.sort(key=panel_priority)
         recovery.extend(panel_views[:_MAX_PANEL_RECOVERY_VIEWS])
     # A sliver of a crop (an anchor on a vertical or misread line) carries no readable
     # region and costs seconds of recognition on stretched text.
@@ -661,6 +736,38 @@ def _recovery_views(decoded: list[DecodedPanel], observed: ObservedCandidates) -
     # inside three views so a two-panel request keeps its latency budget.
     recovery.sort(key=lambda view: 0 if "warning-detail" in view.transform_id else 1)
     return recovery[:_MAX_RECOVERY_VIEWS]
+
+
+def _brand_recovery_needed(candidates: CandidateSet, panel: DecodedPanel) -> bool:
+    if candidates.status not in {"Found", "Ambiguous"} or not candidates.candidates:
+        return True
+    primary = candidates.candidates[0]
+    evidence = primary.evidence
+    if evidence.panel_id != panel.panel_id:
+        return False
+    top = min(point.y for point in evidence.polygon_original_pixels)
+    text = primary.value.casefold()
+    footer_descriptor = bool(re.search(r"\b(?:numero|number|product|imported|bottled)\b", text))
+    return top > panel.height * 0.68 or footer_descriptor
+
+
+def _numeric_brand_views(panel: DecodedPanel) -> list[ImageView]:
+    """Propose three central, position-independent bands for numeric-mark recognition."""
+
+    return [
+        create_crop_ocr_view(
+            panel,
+            (
+                round(panel.width * 0.20),
+                round(panel.height * top),
+                round(panel.width * 0.80),
+                round(panel.height * bottom),
+            ),
+            f"transform-{panel.panel_id}-numeric-brand-{index}-v1",
+            max_side=1400,
+        )
+        for index, (top, bottom) in enumerate(((0.12, 0.29), (0.18, 0.35), (0.24, 0.41)), start=1)
+    ]
 
 
 # The narrowest side a second-read crop may have, and the most it may stretch.
@@ -914,7 +1021,7 @@ def validate_result_integrity(
         raise PipelineFailure("internal_error")
     for item in evidence:
         panel = panel_map.get(item.panel_id)
-        if panel is None or not _valid_polygon(
+        if panel is None or not valid_polygon(
             item,
             int(panel.original_dimensions.width),
             int(panel.original_dimensions.height),
@@ -943,7 +1050,7 @@ def validate_result_integrity(
                 raise PipelineFailure("internal_error")
 
 
-def _valid_polygon(evidence: Evidence, width: int, height: int) -> bool:
+def valid_polygon(evidence: Evidence, width: int, height: int) -> bool:
     points = evidence.polygon_original_pixels
     if len(points) != 4:
         return False

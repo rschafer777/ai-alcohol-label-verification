@@ -1,0 +1,2488 @@
+{
+  "createdAtUtc": "2026-09-05T01:44:43.181858+00:00",
+  "manifestSha256": "9fb850adfec0ff286405b42c0cc79d65402a680429b3d52fd07a534149cd1f2a",
+  "productCount": 24,
+  "familyProductCounts": {
+    "malt_beverage": 8,
+    "wine": 8,
+    "distilled_spirits": 8
+  },
+  "exactFieldCount": 137,
+  "eligibleFieldCount": 195,
+  "exactFieldRate": 0.7026,
+  "falseCleanCount": 0,
+  "utilityDisposition": "accepted-variance-LV-VAR-002",
+  "fieldTally": {
+    "abv": {
+      "exact": 23
+    },
+    "brand": {
+      "contain": 8,
+      "wrong": 4,
+      "exact": 12
+    },
+    "class": {
+      "exact": 16,
+      "wrong": 2,
+      "miss": 2,
+      "contain": 4
+    },
+    "country": {
+      "exact": 3,
+      "contain": 2,
+      "miss": 1
+    },
+    "net": {
+      "exact": 21,
+      "miss": 2
+    },
+    "producer": {
+      "exact": 8,
+      "wrong": 3,
+      "partial": 4,
+      "contain": 3,
+      "miss": 2
+    },
+    "proof": {
+      "exact": 7
+    },
+    "type": {
+      "exact": 22,
+      "miss": 2
+    },
+    "warning_found": {
+      "exact": 19,
+      "miss": 5
+    },
+    "wording": {
+      "exact": 6,
+      "review": 10,
+      "miss": 4
+    }
+  },
+  "familyTally": {
+    "distilled_spirits": {
+      "exact": 56,
+      "partial": 1,
+      "review": 3,
+      "contain": 8,
+      "miss": 4,
+      "wrong": 1
+    },
+    "malt_beverage": {
+      "exact": 34,
+      "contain": 4,
+      "wrong": 6,
+      "review": 2,
+      "miss": 12,
+      "partial": 1
+    },
+    "wine": {
+      "exact": 47,
+      "review": 5,
+      "partial": 2,
+      "contain": 5,
+      "wrong": 2,
+      "miss": 2
+    }
+  },
+  "reviewCauseCounts": {
+    "missing_evidence": 71,
+    "presentation_uncertainty": 49,
+    "policy_review": 26,
+    "ocr_uncertainty": 13,
+    "trusted_context_missing": 7,
+    "conflicting_evidence": 2
+  },
+  "blockingCheckCounts": {
+    "warning_body_not_bold": 21,
+    "warning_heading_emphasis": 20,
+    "warning_wording": 18,
+    "warning_legibility": 15,
+    "warning_separation": 12,
+    "warning_continuity": 12,
+    "warning_contrast": 11,
+    "warning_heading_uppercase": 9,
+    "wine_sulfites": 8,
+    "producer": 7,
+    "country": 6,
+    "panel_coverage": 5,
+    "image_quality": 4,
+    "class_type": 3,
+    "net_contents": 3,
+    "malt_class_designation": 3,
+    "beverage_type": 2,
+    "abv": 2,
+    "proof": 2,
+    "wine_appellation": 2,
+    "spirits_field_of_vision": 2,
+    "warning_applicability": 1
+  },
+  "timing": {
+    "meanSeconds": 4.628,
+    "medianSeconds": 4.671,
+    "p95Seconds": 5.868,
+    "maxSeconds": 7.831
+  },
+  "rows": [
+    {
+      "productId": "B01",
+      "beverageType": "malt_beverage",
+      "files": [
+        "Test_TTB_Image_0031.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 5.107,
+      "machineSummary": "No differences found in checked fields",
+      "blockingCheckIds": [],
+      "reviewCauses": [],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 7,
+      "exactFieldRate": 0.875,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "malt_beverage",
+        "brandName": "HARBOR LIGHTSE",
+        "classType": "PALE ALE",
+        "abvPercent": 5.2,
+        "proof": null,
+        "netContentsValue": 12.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": "Brewed and bottled by Harbor Lights. Brewing Co., Seattle, Washington",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": null,
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "B02",
+      "beverageType": "malt_beverage",
+      "files": [
+        "J3YuX.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 5.649,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "producer",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "producer",
+          "category": "conflicting_evidence",
+          "reasonCode": "ambiguous_candidates",
+          "evidenceRef": "ev_producer_panel-1_09"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_14"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_15"
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_15"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "wrong",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 7,
+      "exactFieldRate": 0.875,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "malt_beverage",
+        "brandName": "TRONANCHOR",
+        "classType": "INDIA PALE ALE",
+        "abvPercent": 7.2,
+        "proof": null,
+        "netContentsValue": 16.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": "BREWED AND BOTTLED BY IRON ANCHOR BREWING CO. PORTLAND, MAINE",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "Portland, Maine",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "B03",
+      "beverageType": "malt_beverage",
+      "files": [
+        "jsP3W.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 4.697,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "warning_wording",
+        "warning_separation"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 6,
+      "exactFieldRate": 0.75,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "malt_beverage",
+        "brandName": "MIDNIGHT",
+        "classType": "Imperial Oatmeal Stout",
+        "abvPercent": 9.5,
+        "proof": null,
+        "netContentsValue": 12.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": "Brewed and bottled by Midnight Forge Brewing, Milwaukee, Wisconsin",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "Milwaukee, Wisconsin",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "B04",
+      "beverageType": "malt_beverage",
+      "files": [
+        "MXteB.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 4.879,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "warning_wording",
+        "warning_heading_emphasis",
+        "warning_body_not_bold"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_07"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "wrong",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 6,
+      "exactFieldRate": 0.75,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "malt_beverage",
+        "brandName": "SUNDOCK",
+        "classType": "AMERICAN WHEAT ALE",
+        "abvPercent": 5.0,
+        "proof": null,
+        "netContentsValue": 16.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": "Brewed and canned by Sun Dock Brewing. San Diego, California",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "San Diego, California",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "B05",
+      "beverageType": "malt_beverage",
+      "files": [
+        "25e1c2bfd38a40e4ada08da07fcec9d4--modern-vintage-graphic-design-graphic-design-blogs-2987191357.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 5.343,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "warning_wording",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "category": "missing_evidence",
+          "reasonCode": "warning_heading_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "wrong",
+        "class": "wrong",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "wrong",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "miss"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 3,
+      "exactFieldRate": 0.375,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "malt_beverage",
+        "brandName": "PEAK FARM",
+        "classType": "DOUBLEPALE ALE",
+        "abvPercent": 7.2,
+        "proof": null,
+        "netContentsValue": 16.0,
+        "netContentsUnit": "fl oz",
+        "producerNameAddress": "SYCAMORE BREWING 2161HAWKINS STREET CHARLOTTE.NC 28203",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": null,
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "B06",
+      "beverageType": "malt_beverage",
+      "files": [
+        "NewBelgian_Front001.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 2.671,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "beverage_type",
+        "class_type",
+        "abv",
+        "proof",
+        "net_contents",
+        "producer",
+        "country",
+        "wine_appellation",
+        "wine_sulfites",
+        "spirits_field_of_vision",
+        "malt_class_designation",
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "beverage_type",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_uncertain",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "class_type",
+          "category": "missing_evidence",
+          "reasonCode": "observed_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "abv",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": "ev_abv_panel-1_01"
+        },
+        {
+          "checkId": "proof",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "net_contents",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "producer",
+          "category": "missing_evidence",
+          "reasonCode": "observed_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "country",
+          "category": "trusted_context_missing",
+          "reasonCode": "import_status_unknown",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "wine_appellation",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "wine_sulfites",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "spirits_field_of_vision",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "malt_class_designation",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "category": "missing_evidence",
+          "reasonCode": "warning_heading_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "miss",
+        "brand": "wrong",
+        "class": "miss",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "miss",
+        "producer": "n/a",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "n/a"
+      },
+      "eligibleFieldCount": 6,
+      "exactFieldCount": 2,
+      "exactFieldRate": 0.3333,
+      "annotatedDeterministicDefects": [
+        "warning_missing"
+      ],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": null,
+        "brandName": "TRIPPEL",
+        "classType": null,
+        "abvPercent": 8.5,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": null,
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": null,
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "B07",
+      "beverageType": "malt_beverage",
+      "files": [
+        "Tank_Ale_Front.jpg",
+        "Tank_Ale_Back.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 7.831,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "class_type",
+        "net_contents",
+        "malt_class_designation",
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "class_type",
+          "category": "conflicting_evidence",
+          "reasonCode": "ambiguous_candidates",
+          "evidenceRef": "ev_class_type_panel-1_02"
+        },
+        {
+          "checkId": "net_contents",
+          "category": "missing_evidence",
+          "reasonCode": "observed_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "malt_class_designation",
+          "category": "policy_review",
+          "reasonCode": "malt_specialty_designation_review",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "category": "missing_evidence",
+          "reasonCode": "warning_heading_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "contain",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "miss",
+        "producer": "partial",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "miss"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 2,
+      "exactFieldRate": 0.25,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "malt_beverage",
+        "brandName": "TANK",
+        "classType": "AMERICAN SAISON",
+        "abvPercent": 8.5,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": "BREWED&BOTTLED BY BOULEVARD BREWING CO. KANSAS CITYMISSOURI",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "AMERICAN SAISON",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "B08",
+      "beverageType": "malt_beverage",
+      "files": [
+        "AndyGator_0001.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 4.154,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "beverage_type",
+        "class_type",
+        "abv",
+        "proof",
+        "net_contents",
+        "producer",
+        "country",
+        "wine_appellation",
+        "wine_sulfites",
+        "spirits_field_of_vision",
+        "malt_class_designation",
+        "warning_applicability",
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "beverage_type",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_uncertain",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "class_type",
+          "category": "missing_evidence",
+          "reasonCode": "observed_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "abv",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "proof",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "net_contents",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "producer",
+          "category": "missing_evidence",
+          "reasonCode": "observed_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "country",
+          "category": "trusted_context_missing",
+          "reasonCode": "import_status_unknown",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "wine_appellation",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "wine_sulfites",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "spirits_field_of_vision",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "malt_class_designation",
+          "category": "policy_review",
+          "reasonCode": "beverage_type_required_for_rule",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_applicability",
+          "category": "trusted_context_missing",
+          "reasonCode": "warning_applicability_unknown",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "category": "missing_evidence",
+          "reasonCode": "warning_heading_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "miss",
+        "brand": "exact",
+        "class": "miss",
+        "abv": "n/a",
+        "proof": "n/a",
+        "net": "n/a",
+        "producer": "n/a",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "miss"
+      },
+      "eligibleFieldCount": 5,
+      "exactFieldCount": 1,
+      "exactFieldRate": 0.2,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": null,
+        "brandName": "ANDYGATOR.",
+        "classType": null,
+        "abvPercent": null,
+        "proof": null,
+        "netContentsValue": null,
+        "netContentsUnit": null,
+        "producerNameAddress": null,
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": null,
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "W01",
+      "beverageType": "wine",
+      "files": [
+        "Test_TTB_Image_0030.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 5.619,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "warning_wording",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_12"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_11"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_12"
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_12"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 7,
+      "exactFieldRate": 0.875,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "wine",
+        "brandName": "CEDAR BEND",
+        "classType": "Chardonnay",
+        "abvPercent": 13.5,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Produced and bottled by Cedar Bend Vineyards Oregon.",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "Willamette Valley",
+        "wineSulfiteStatus": "present",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "W02",
+      "beverageType": "wine",
+      "files": [
+        "3urY2.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 4.644,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "wine_sulfites",
+        "warning_body_not_bold"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "wine_sulfites",
+          "category": "missing_evidence",
+          "reasonCode": "sulfite_declaration_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "partial",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "exact"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 7,
+      "exactFieldRate": 0.875,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "wine",
+        "brandName": "FOX HOLLOW",
+        "classType": "RIESLING",
+        "abvPercent": 12.0,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Produced and bottled by Fox Hollow Vincyards, Hammondsport, New York.",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "Hammondsport, New York.",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "W03",
+      "beverageType": "wine",
+      "files": [
+        "DmK94.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 5.359,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "wine_sulfites",
+        "warning_wording",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_contrast",
+        "warning_legibility",
+        "panel_coverage",
+        "image_quality"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "wine_sulfites",
+          "category": "missing_evidence",
+          "reasonCode": "sulfite_declaration_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_07"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "panel_coverage",
+          "category": "policy_review",
+          "reasonCode": "panel_coverage_uncertain",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "image_quality",
+          "category": "policy_review",
+          "reasonCode": "image_quality_uncertain",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "contain",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "wrong",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 9,
+      "exactFieldCount": 6,
+      "exactFieldRate": 0.6667,
+      "annotatedDeterministicDefects": [
+        "warning_wording"
+      ],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "wine",
+        "brandName": "FROST RIDGE",
+        "classType": "Marlborough Sauvignon Blanc",
+        "abvPercent": 12.0,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Imported by Fros Ridge lparts Stattie, Washingion",
+        "isImported": true,
+        "countryOfOrigin": "New Zealand",
+        "wineAppellation": "Wine of New Zealand",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "W04",
+      "beverageType": "wine",
+      "files": [
+        "leTeL.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 6.191,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "country",
+        "wine_sulfites",
+        "warning_wording",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "country",
+          "category": "trusted_context_missing",
+          "reasonCode": "import_status_unknown",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "wine_sulfites",
+          "category": "missing_evidence",
+          "reasonCode": "sulfite_declaration_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_13"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_12"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_13"
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_13"
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_13"
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_13"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "contain",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "n/a"
+      },
+      "eligibleFieldCount": 7,
+      "exactFieldCount": 6,
+      "exactFieldRate": 0.8571,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "wine",
+        "brandName": "IRON CREEK",
+        "classType": "Pinot Noir",
+        "abvPercent": 13.8,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "PRODUCED AND BOTTLED BY IRON CREEK CELLARS",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "Willamette Valley",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "W05",
+      "beverageType": "wine",
+      "files": [
+        "Test_TTB_Image_0033.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 4.346,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "wine_sulfites",
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility",
+        "panel_coverage",
+        "image_quality"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "wine_sulfites",
+          "category": "missing_evidence",
+          "reasonCode": "sulfite_declaration_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "category": "missing_evidence",
+          "reasonCode": "warning_heading_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "panel_coverage",
+          "category": "policy_review",
+          "reasonCode": "panel_coverage_uncertain",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "image_quality",
+          "category": "policy_review",
+          "reasonCode": "image_quality_uncertain",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "wrong",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "n/a"
+      },
+      "eligibleFieldCount": 7,
+      "exactFieldCount": 4,
+      "exactFieldRate": 0.5714,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "wine",
+        "brandName": "LARK & LUMEN o:ustdticsug=",
+        "classType": "ROSE",
+        "abvPercent": 13.0,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Produced and bottled by Lark & Lumen Winery, Sonoma, California",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "SONOMA COAST",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "W06",
+      "beverageType": "wine",
+      "files": [
+        "bsxs4.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 5.868,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "wine_sulfites",
+        "warning_wording",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "wine_sulfites",
+          "category": "missing_evidence",
+          "reasonCode": "sulfite_declaration_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_11"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_10"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_11"
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_11"
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_11"
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_11"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "exact",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 6,
+      "exactFieldRate": 0.75,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "wine",
+        "brandName": "MARITIME Mithode Champenoise",
+        "classType": "SPARKLING WINE",
+        "abvPercent": 12.5,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Produced and bottled.by Maritime Cellars Mendocino,California",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "American",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "W07",
+      "beverageType": "wine",
+      "files": [
+        "BMgMY.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 5.21,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "wine_sulfites",
+        "warning_wording",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility",
+        "panel_coverage",
+        "image_quality"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "wine_sulfites",
+          "category": "missing_evidence",
+          "reasonCode": "sulfite_declaration_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_07"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        },
+        {
+          "checkId": "panel_coverage",
+          "category": "policy_review",
+          "reasonCode": "panel_coverage_uncertain",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "image_quality",
+          "category": "policy_review",
+          "reasonCode": "image_quality_uncertain",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "contain",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "partial",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 5,
+      "exactFieldRate": 0.625,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "wine",
+        "brandName": "MIRROR LAKE",
+        "classType": "WILLAMETTE VALLEY PINOT GRIS",
+        "abvPercent": 12.8,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Produced and bottled by Miror Lake VineyardsDundee.Oregon",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "WILLAMETTE VALLEY PINOT GRIS",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "W08",
+      "beverageType": "wine",
+      "files": [
+        "222_Silverpine_Wine.png"
+      ],
+      "resizedForUpload": [],
+      "seconds": 3.891,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "producer",
+        "country",
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_continuity",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "producer",
+          "category": "missing_evidence",
+          "reasonCode": "observed_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "country",
+          "category": "trusted_context_missing",
+          "reasonCode": "import_status_unknown",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_07"
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_heading_punctuation_uncertain",
+          "evidenceRef": "ev_warning_heading_panel-1_06"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_06"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_07"
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_07"
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_07"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "miss",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 6,
+      "exactFieldRate": 0.75,
+      "annotatedDeterministicDefects": [
+        "warning_wording"
+      ],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "wine",
+        "brandName": "SILVERPINE",
+        "classType": "PINOT NOIR",
+        "abvPercent": 13.2,
+        "proof": null,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": null,
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "OREGON",
+        "wineSulfiteStatus": "present",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "S01",
+      "beverageType": "distilled_spirits",
+      "files": [
+        "iFZ0Q.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 3.997,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "warning_wording",
+        "warning_heading_emphasis",
+        "warning_body_not_bold"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_09"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_08"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_09"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "partial",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 9,
+      "exactFieldCount": 7,
+      "exactFieldRate": 0.7778,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "distilled_spirits",
+        "brandName": "BLACKBIRD RESERVE",
+        "classType": "Kentucky Straight Bourbon Whiskey",
+        "abvPercent": 45.0,
+        "proof": 90.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Disilled and botted by Blackbird Dsuilling Co. Frankfort, Kentucky",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "Kentucky Straight Bourbon Whiskey",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "S02",
+      "beverageType": "distilled_spirits",
+      "files": [
+        "London_Dry_Gin_Synthetic.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 2.828,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "producer",
+        "country",
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility",
+        "panel_coverage"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "producer",
+          "category": "missing_evidence",
+          "reasonCode": "observed_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "country",
+          "category": "trusted_context_missing",
+          "reasonCode": "import_status_unknown",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "category": "missing_evidence",
+          "reasonCode": "warning_heading_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "panel_coverage",
+          "category": "policy_review",
+          "reasonCode": "panel_coverage_uncertain",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "n/a",
+        "country": "n/a",
+        "warning_found": "miss",
+        "wording": "miss"
+      },
+      "eligibleFieldCount": 8,
+      "exactFieldCount": 5,
+      "exactFieldRate": 0.625,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "distilled_spirits",
+        "brandName": "SECRET",
+        "classType": "London Dry Gin",
+        "abvPercent": 47.0,
+        "proof": 94.0,
+        "netContentsValue": 1.0,
+        "netContentsUnit": "L",
+        "producerNameAddress": null,
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": null,
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "S03",
+      "beverageType": "distilled_spirits",
+      "files": [
+        "Test_TTB_Image_0036.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 5.181,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "warning_separation"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "warning_separation",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_14"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "contain",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "contain",
+        "country": "contain",
+        "warning_found": "exact",
+        "wording": "exact"
+      },
+      "eligibleFieldCount": 10,
+      "exactFieldCount": 6,
+      "exactFieldRate": 0.6,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "distilled_spirits",
+        "brandName": "DE LUNA",
+        "classType": "REPOSADO TEQUILA",
+        "abvPercent": 40.0,
+        "proof": 80.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Imported by Casa de Luna Spirits, Houston, Texas Hecho en Mexico",
+        "isImported": true,
+        "countryOfOrigin": "Mexico",
+        "wineAppellation": "750 mL : 40% Alc./Vol. (80 Proof) - 100% Blue Agave Reposado Tequila - Product of Mexico",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "S04",
+      "beverageType": "distilled_spirits",
+      "files": [
+        "AnMXl.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 2.7,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_contrast",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_09"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_10"
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_10"
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_10"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "contain",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "exact"
+      },
+      "eligibleFieldCount": 10,
+      "exactFieldCount": 9,
+      "exactFieldRate": 0.9,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "distilled_spirits",
+        "brandName": "CLEARWATER",
+        "classType": "BLANCO TEQUILA",
+        "abvPercent": 40.0,
+        "proof": 80.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Imported by Clearwater Spirits, Austin, Texas Hecho en Mexico",
+        "isImported": true,
+        "countryOfOrigin": "Mexico",
+        "wineAppellation": "Product of Mexico",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "S05",
+      "beverageType": "distilled_spirits",
+      "files": [
+        "Cointeau_Front.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 3.514,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "producer",
+        "warning_wording",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_separation",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "producer",
+          "category": "missing_evidence",
+          "reasonCode": "observed_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "category": "missing_evidence",
+          "reasonCode": "warning_heading_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_separation",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "missing_evidence",
+          "reasonCode": "warning_not_found",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "n/a",
+        "net": "exact",
+        "producer": "n/a",
+        "country": "contain",
+        "warning_found": "exact",
+        "wording": "n/a"
+      },
+      "eligibleFieldCount": 7,
+      "exactFieldCount": 6,
+      "exactFieldRate": 0.8571,
+      "annotatedDeterministicDefects": [
+        "warning_missing"
+      ],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "distilled_spirits",
+        "brandName": "COINTREAU",
+        "classType": "LIQUEUR",
+        "abvPercent": 40.0,
+        "proof": null,
+        "netContentsValue": 375.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": null,
+        "isImported": true,
+        "countryOfOrigin": "FRANCE",
+        "wineAppellation": null,
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "S06",
+      "beverageType": "distilled_spirits",
+      "files": [
+        "8Gf8v.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 4.108,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "warning_wording",
+        "warning_heading_emphasis",
+        "warning_body_not_bold"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_12"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_11"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_12"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "exact",
+        "country": "miss",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 10,
+      "exactFieldCount": 8,
+      "exactFieldRate": 0.8,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "distilled_spirits",
+        "brandName": "CRYSTAL TUNDRA",
+        "classType": "Distilled Vodka",
+        "abvPercent": 40.0,
+        "proof": 80.0,
+        "netContentsValue": 1.75,
+        "netContentsUnit": "L",
+        "producerNameAddress": "Distilled and bottled by Crystal Tundra Spirits, Anchorage, Alaska",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": "Crystal Tundra Spirits, Anchorage, Alaska",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "S07",
+      "beverageType": "distilled_spirits",
+      "files": [
+        "DDqT2.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 3.499,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "country",
+        "warning_wording",
+        "warning_heading_emphasis",
+        "warning_body_not_bold",
+        "warning_continuity",
+        "warning_contrast",
+        "warning_legibility",
+        "panel_coverage",
+        "image_quality"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "country",
+          "category": "trusted_context_missing",
+          "reasonCode": "import_status_unknown",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_wording",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_ocr_difference_uncertain",
+          "evidenceRef": "ev_warning_body_panel-1_07"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_06"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_07"
+        },
+        {
+          "checkId": "warning_continuity",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_07"
+        },
+        {
+          "checkId": "warning_contrast",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_07"
+        },
+        {
+          "checkId": "warning_legibility",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_07"
+        },
+        {
+          "checkId": "panel_coverage",
+          "category": "policy_review",
+          "reasonCode": "panel_coverage_uncertain",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "image_quality",
+          "category": "policy_review",
+          "reasonCode": "image_quality_uncertain",
+          "evidenceRef": null
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "exact",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "wrong",
+        "country": "n/a",
+        "warning_found": "exact",
+        "wording": "review"
+      },
+      "eligibleFieldCount": 9,
+      "exactFieldCount": 7,
+      "exactFieldRate": 0.7778,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "distilled_spirits",
+        "brandName": "NORTH LIGHT",
+        "classType": "DISTILLED VODKA",
+        "abvPercent": 40.0,
+        "proof": 80.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": "Disilled and bottled by Norh Light SpintPrandOon",
+        "isImported": false,
+        "countryOfOrigin": null,
+        "wineAppellation": null,
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    },
+    {
+      "productId": "S08",
+      "beverageType": "distilled_spirits",
+      "files": [
+        "GuCzO.jpg"
+      ],
+      "resizedForUpload": [],
+      "seconds": 3.797,
+      "machineSummary": "Review needed",
+      "blockingCheckIds": [
+        "producer",
+        "warning_heading_uppercase",
+        "warning_heading_emphasis",
+        "warning_body_not_bold"
+      ],
+      "reviewCauses": [
+        {
+          "checkId": "producer",
+          "category": "missing_evidence",
+          "reasonCode": "observed_not_found",
+          "evidenceRef": null
+        },
+        {
+          "checkId": "warning_heading_uppercase",
+          "category": "ocr_uncertainty",
+          "reasonCode": "warning_heading_punctuation_uncertain",
+          "evidenceRef": "ev_warning_heading_panel-1_07"
+        },
+        {
+          "checkId": "warning_heading_emphasis",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_heading_panel-1_07"
+        },
+        {
+          "checkId": "warning_body_not_bold",
+          "category": "presentation_uncertainty",
+          "reasonCode": "presentation_requires_review",
+          "evidenceRef": "ev_warning_body_panel-1_08"
+        }
+      ],
+      "fieldScores": {
+        "type": "exact",
+        "brand": "contain",
+        "class": "exact",
+        "abv": "exact",
+        "proof": "exact",
+        "net": "exact",
+        "producer": "miss",
+        "country": "exact",
+        "warning_found": "exact",
+        "wording": "exact"
+      },
+      "eligibleFieldCount": 10,
+      "exactFieldCount": 8,
+      "exactFieldRate": 0.8,
+      "annotatedDeterministicDefects": [],
+      "falseCleanAgainstAnnotatedFields": false,
+      "observed": {
+        "referenceProvenance": "label_ocr",
+        "fieldProvenance": {},
+        "caseLabel": null,
+        "beverageType": "distilled_spirits",
+        "brandName": "FERRY",
+        "classType": "GOLDEN RUM",
+        "abvPercent": 40.0,
+        "proof": 80.0,
+        "netContentsValue": 750.0,
+        "netContentsUnit": "mL",
+        "producerNameAddress": null,
+        "isImported": true,
+        "countryOfOrigin": "Barbados",
+        "wineAppellation": "Product of Barbados",
+        "wineSulfiteStatus": "unknown",
+        "maltAlcoholSource": "unknown"
+      }
+    }
+  ]
+}

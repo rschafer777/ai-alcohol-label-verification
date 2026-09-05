@@ -57,6 +57,7 @@ const checkSchema = z
       .optional(),
     matchedWords: z.number().int().nonnegative().nullable().optional(),
     totalWords: z.number().int().nonnegative().nullable().optional(),
+    observationProvenance: z.enum(["label_ocr", "reviewer_corrected", "trusted_application", "manifest", "sample"]).nullable().optional(),
   })
   .strict();
 
@@ -112,6 +113,17 @@ const resultSchema = z
     }).strict().nullable().optional(),
     badImage: z.boolean().optional(),
     supersedes: z.string().nullable().optional(),
+    blockingCheckIds: z.array(z.string()).optional(),
+    reviewCauses: z.array(z.object({
+      checkId: z.string(),
+      category: z.string(),
+      reasonCode: z.string(),
+      evidenceRef: z.string().nullable().optional(),
+    }).strict()).optional(),
+    rootId: z.string().nullable().optional(),
+    parentId: z.string().nullable().optional(),
+    revision: z.number().int().positive().optional(),
+    revisionKind: z.enum(["original", "correction", "panel_added"]).optional(),
   })
   .passthrough();
 
@@ -132,6 +144,9 @@ const analysisSchema = z.object({
   panels: resultSchema.shape.panels,
   evidence: z.array(evidenceSchema),
   draft: z.object({
+    referenceProvenance: z.enum(["label_ocr", "manual", "manifest", "sample"]),
+    fieldProvenance: z.record(z.string(), z.enum(["label_ocr", "reviewer_corrected", "trusted_application", "manifest", "sample"])),
+    caseLabel: z.string().max(80).nullable(),
     beverageType: z.enum(["malt_beverage", "wine", "distilled_spirits"]).nullable(),
     brandName: z.string().nullable(),
     classType: z.string().nullable(),

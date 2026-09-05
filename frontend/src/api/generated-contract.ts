@@ -29,6 +29,25 @@ export const groupingLimits = {
   panelCountMax: 3
 } as const;
 
+export const correctionTextFields = [
+  "brand_name",
+  "class_type",
+  "alcohol_content",
+  "proof",
+  "net_contents",
+  "country_of_origin",
+  "wine_appellation",
+  "wine_sulfite_declaration"
+] as const;
+
+export const correctionLimits = {
+  reasonLengthMax: 500,
+  actorLabelLengthMax: 80,
+  correctionCountMax: 10,
+  textLengthMax: 500,
+  producerLengthMax: 1_000
+} as const;
+
 export const checkIds = [
   "beverage_type",
   "brand",
@@ -71,6 +90,10 @@ export const serverErrorCodes = [
   "invalid_panel_count",
   "invalid_image",
   "decoded_pixel_limit",
+  "invalid_correction",
+  "revision_conflict",
+  "revision_limit",
+  "correction_unavailable",
   "client_rate_limited",
   "global_start_rate_limited",
   "verification_capacity_busy",
@@ -103,6 +126,7 @@ export interface ReferenceRecord {
   profileId: typeof profileId;
   beverageType: "malt_beverage" | "wine" | "distilled_spirits";
   referenceProvenance: "label_ocr" | "manual" | "manifest" | "sample";
+  fieldProvenance?: Record<string, "label_ocr" | "reviewer_corrected" | "trusted_application" | "manifest" | "sample">;
   caseLabel?: string | null;
   brandName: string;
   classType: string;
@@ -127,6 +151,9 @@ export interface DetectedValue {
 }
 
 export interface AnalysisDraft {
+  referenceProvenance: "label_ocr" | "manual" | "manifest" | "sample";
+  fieldProvenance: Record<string, "label_ocr" | "reviewer_corrected" | "trusted_application" | "manifest" | "sample">;
+  caseLabel: string | null;
   beverageType: ReferenceRecord["beverageType"] | null;
   brandName: string | null;
   classType: string | null;
@@ -238,6 +265,7 @@ export interface CheckResult {
   wordingDiff?: WordingToken[] | null;
   matchedWords?: number | null;
   totalWords?: number | null;
+  observationProvenance?: "label_ocr" | "reviewer_corrected" | "trusted_application" | "manifest" | "sample" | null;
 }
 
 export interface VerificationResult {
@@ -259,6 +287,39 @@ export interface VerificationResult {
   warningEvidence?: WarningEvidence | null;
   badImage?: boolean;
   supersedes?: string | null;
+  blockingCheckIds?: string[];
+  reviewCauses?: Array<{ checkId: string; category: string; reasonCode: string; evidenceRef?: string | null }>;
+  rootId?: string | null;
+  parentId?: string | null;
+  revision?: number;
+  revisionKind?: "original" | "correction" | "panel_added";
+}
+
+export type CorrectionLocator =
+  | { evidenceRef: string; panelId?: never; polygon?: never }
+  | { evidenceRef?: never; panelId: string; polygon: [Point, Point, Point, Point] };
+
+export type CorrectionItem =
+  | (CorrectionLocator & { field: "beverage_type"; family: ReferenceRecord["beverageType"] })
+  | (CorrectionLocator & {
+      field: (typeof correctionTextFields)[number];
+      visibleText: string;
+    })
+  | (CorrectionLocator & { field: "producer_name_address"; visibleText: string });
+
+export interface CorrectionRequest {
+  expectedRevision: number;
+  reason: string;
+  actorLabel?: string | null;
+  corrections: CorrectionItem[];
+}
+
+export interface CorrectionResponse {
+  historyId: string;
+  rootId: string;
+  parentId: string;
+  revision: number;
+  result: VerificationResult;
 }
 
 export interface GroupingImage {

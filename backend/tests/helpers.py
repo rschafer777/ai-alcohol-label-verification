@@ -17,7 +17,7 @@ from labelverify.contracts.models import (
     StageTimings,
     VerificationResult,
 )
-from labelverify.domain.types import ObservedCandidates, WarningObservation
+from labelverify.domain.types import ObservedCandidates, WarningObservation, serialize_observed
 from PIL import Image, ImageDraw
 
 
@@ -161,4 +161,5 @@ def fake_result(request_id: str = "request") -> VerificationResult:
         checks=checks,
         limitations=[],
         summary="No differences found in checked fields",
+        observationSnapshot=serialize_observed(clean_observed()),
     )

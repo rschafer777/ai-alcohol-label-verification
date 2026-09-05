@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
-import sys
 import tarfile
 import urllib.request
 from pathlib import Path, PurePosixPath
@@ -105,15 +105,33 @@ def make_read_only(path: Path) -> None:
         path.chmod(path.stat().st_mode & ~0o222)
 
 
-def main() -> int:
-    if len(sys.argv) != 2:
-        print("Usage: python ops/fetch_models.py TARGET_DIRECTORY", file=sys.stderr)
-        return 2
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("target_directory", type=Path)
+    parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=Path("ops/model-manifest.json"),
+        help="Governed manifest under ops (default: ops/model-manifest.json)",
+    )
+    return parser.parse_args()
 
+
+def _resolve_manifest(project_root: Path, requested: Path) -> Path:
+    candidate = requested if requested.is_absolute() else project_root / requested
+    resolved = candidate.resolve()
+    ops_root = (project_root / "ops").resolve()
+    if resolved.parent != ops_root:
+        raise ValueError("Model manifests must be stored directly under ops")
+    return resolved
+
+
+def main() -> int:
+    args = _parse_args()
     project_root = Path(__file__).resolve().parents[1]
-    manifest_path = project_root / "ops" / "model-manifest.json"
+    manifest_path = _resolve_manifest(project_root, args.manifest)
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    target_dir = Path(sys.argv[1]).resolve()
+    target_dir = args.target_directory.resolve()
     target_dir.mkdir(parents=True, exist_ok=True)
 
     for raw_artifact in manifest["artifacts"]:

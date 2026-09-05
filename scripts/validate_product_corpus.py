@@ -534,8 +534,8 @@ def main() -> int:
         },
         "snapshot": {
             **production_validator.report_hashes(root, [case["oraclePath"] for case in cases]),
-            "validatorSha256": production_validator.sha256_file(Path(__file__)),
-            "mutationPlanSha256": production_validator.sha256_file(
+            "validatorSha256": production_validator.release_source_sha256(Path(__file__)),
+            "mutationPlanSha256": production_validator.release_source_sha256(
                 root / "fixtures" / "mutations" / "mutation-plan-v1.json"
             ),
         },

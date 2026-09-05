@@ -9,7 +9,7 @@ import { beverageTypeLabel, evidenceFor, needsTypeConfirmation, panelIndexOf, pr
 import { CheckCards, CheckRail, CheckTable } from "./CheckTable";
 import { DecisionBar } from "./DecisionBar";
 import { EvidenceViewer } from "./EvidenceViewer";
-import type { ReviewImage, SlotUpload } from "./review-images";
+import type { ManualEvidenceSelection, ReviewImage, SlotUpload } from "./review-images";
 import { WarningInspect } from "./WarningInspect";
 
 export type Layout = "table" | "cards" | "image";
@@ -33,7 +33,7 @@ export interface ReviewWorkspaceProps {
   onBack: () => void;
   onAddImage?: ((file: File, slot: number) => void) | null;
   upload?: SlotUpload | null;
-  onCorrect?: ((check: CheckResult, value: string) => void) | null;
+  onCorrect?: ((check: CheckResult, value: string, locator?: ManualEvidenceSelection) => void) | null;
   correctedIds?: ReadonlySet<string>;
   onConfirmType?: ((type: BeverageType) => void) | null;
   /** Application fields the reviewer typed; the result compares the label with them. */
@@ -55,6 +55,7 @@ export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [warningExpanded, setWarningExpanded] = useState(false);
   const [inspecting, setInspecting] = useState(false);
+  const [manualSelection, setManualSelection] = useState<(ManualEvidenceSelection & { checkId: string }) | null>(null);
   const [typeChoice, setTypeChoice] = useState<BeverageType | null>(beverageType);
   const [typeDismissed, setTypeDismissed] = useState(false);
   const summaryRef = useRef<HTMLSpanElement>(null);
@@ -67,6 +68,7 @@ export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
   if (seenRequestId !== result.requestId) {
     setSeenRequestId(result.requestId);
     setSelectedId(null);
+    setManualSelection(null);
     if (panelIndex > images.length - 1) setPanelIndex(Math.max(0, images.length - 1));
   }
   useEffect(() => {
@@ -78,9 +80,11 @@ export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
     if (!check) return;
     if (selectedId === id) {
       setSelectedId(null);
+      setManualSelection(null);
       return;
     }
     setSelectedId(id);
+    setManualSelection((current) => current?.checkId === id ? current : null);
     const evidence = evidenceFor(result, check);
     if (evidence) setPanelIndex(panelIndexOf(result, evidence.panelId));
   }
@@ -126,7 +130,23 @@ export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
 
   const showTypeConfirm = !!onConfirmType && !typeDismissed && needsTypeConfirmation(result);
   const count = images.length;
-  const listProps = { result, checks, selectedId, correctedIds, onSelect: select, onInspectWarning: () => setInspecting(true), onCorrect };
+  const listProps = {
+    result,
+    checks,
+    selectedId,
+    correctedIds,
+    onSelect: select,
+    onInspectWarning: () => setInspecting(true),
+    onCorrect: onCorrect
+      ? (check: CheckResult, value: string) => onCorrect(
+          check,
+          value,
+          manualSelection?.checkId === check.checkId
+            ? { panelId: manualSelection.panelId, polygon: manualSelection.polygon }
+            : undefined,
+        )
+      : null,
+  };
   const summary = result.badImage ? "Bad image" as const : result.summary;
 
   return (
@@ -154,7 +174,19 @@ export function ReviewWorkspace(props: ReviewWorkspaceProps): ReactElement {
 
       <div className={`review-body layout-${layout}${inBatch ? " with-rail" : ""}`}>
         {inBatch ? rail : null}
-        <EvidenceViewer addedFrom={addedFrom} images={images} onAddImage={onAddImage} onClearSelection={() => setSelectedId(null)} onSelectPanel={(index) => { setPanelIndex(index); setSelectedId(null); }} panelIndex={panelIndex} result={result} selected={selected} upload={upload} />
+        <EvidenceViewer
+          addedFrom={addedFrom}
+          images={images}
+          manualSelection={manualSelection?.checkId === selectedId ? manualSelection : null}
+          onAddImage={onAddImage}
+          onClearSelection={() => { setSelectedId(null); setManualSelection(null); }}
+          onManualSelection={selected ? (selection) => setManualSelection({ ...selection, checkId: selected.checkId }) : null}
+          onSelectPanel={(index) => { setPanelIndex(index); setManualSelection(null); }}
+          panelIndex={panelIndex}
+          result={result}
+          selected={selected}
+          upload={upload}
+        />
         <section aria-labelledby="checks-h" className="checks" tabIndex={0}>
           <div className="checks-head">
             <h6 id="checks-h">24 checks · {profileLabel(result.beverageInference?.type ?? beverageType)}</h6>

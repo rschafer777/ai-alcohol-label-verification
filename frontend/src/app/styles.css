@@ -292,6 +292,7 @@ select.input { width: auto; }
 .stage { position: relative; overflow: auto; background: var(--lv-neutral-200); border: 1px solid var(--lv-divider); display: grid; place-items: start center; min-height: 200px; max-height: calc(100vh - 360px); padding: 12px 0; }
 .stage.zoomed { overflow: hidden; cursor: grab; touch-action: none; }
 .stage.zoomed.dragging { cursor: grabbing; }
+.stage.selecting, .stage.selecting.dragging { cursor: crosshair; touch-action: none; }
 .stage-inner { position: relative; width: 100%; transition: transform 120ms ease; transform-origin: center center; }
 .stage-inner img { display: block; width: 100%; height: auto; }
 .stage-inner svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }

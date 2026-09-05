@@ -96,7 +96,7 @@ _STRONG_CLASS = re.compile(
 # any short word is accepted there; "by" anchors the phrase.
 _PRODUCER_ROLE = re.compile(
     r"\b(?:bottled|distilled|produced|manufactured|blended|imported|packed|brewed|"
-    r"canned|filled|vinted|cellared)\s*(?:(?:and|&)\s*[a-z]{3,12}\s+)?by\b",
+    r"canned|filled|vinted|cellared)\s*(?:(?:and|&)\s*[a-z]{3,12})?[\s.,:]*by\b",
     re.I,
 )
 _PRODUCER_ENTITY = re.compile(
@@ -153,6 +153,12 @@ _COUNTRY_ALTERNATION = (
 )
 _COUNTRY_NAMES = re.compile(
     r"^(?:the\s+)?(?:" + _COUNTRY_ALTERNATION + r")\.?$",
+    re.I,
+)
+_COUNTRY_KNOWN_CONTEXT = re.compile(
+    r"\b(?:pro?d[a-z]{0,3}ct\s+of|produce\s+of|produit\s+de|wine\s+of|made\s+in|"
+    r"country\s+of\s+origin\s*:?|imported\s+from|hecho\s+en)\s*"
+    r"((?:the\s+)?(?:" + _COUNTRY_ALTERNATION + r"))\b",
     re.I,
 )
 # The heading with its last letter tolerated missing: a photograph of a curved label often
@@ -245,6 +251,7 @@ _NON_BRAND_CONTEXT = re.compile(
     r"\bdrink\b.{0,30}\bproud\b|\b[a-z]+\s+proud\b|"
     r"\bmore\s+flavou?r\b|\bmoref[a-z]{0,5}\b|"
     r"\bwithout\s+manners\b|"
+    r"\bm[eé]thode\s+champenoise\b|"
     r"\b(?:notes?|aromas?|hints?|flavou?rs?)\s+of\b|\bon\s+the\s+(?:palate|nose)\b|"
     r"\bbest\s+served\b|\bserved?\s+(?:chilled|cold|neat|warm|over\s+ice)\b|"
     r"\bkeep\s+(?:refrigerated|cold|frozen)\b|\bshake\s+well\b|"
@@ -257,6 +264,7 @@ _NON_BRAND_CONTEXT = re.compile(
     r"\bdeposit\b|\brefund\b|\brecycl[a-z]*\b|"
     r"^\s*usda\s*$|^\s*(?:usda\s+)?organic\s*$|"
     r"\b(?:est(?:ablished)?\.?|since|founded|anno)\s*(?:in\s+)?\d{4}\b|^\s*\d{4}\s*$|"
+    r"^\s*fl\.?\s*(?:oz|0z)\.?\s*$|"
     r"https?://|www\.|\.(?:com|org|net)\b)",
     re.I,
 )
@@ -1239,7 +1247,7 @@ def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Can
                 # The preceding split role owns this name line. Starting another block here
                 # would produce overlapping, ambiguous producer candidates.
                 continue
-        following = lines[index + 1 : index + 7]
+        following = _producer_following_lines(line, lines)
         industry_with_location = bool(
             _INDUSTRY_ORGANIZATION.search(line.text)
             and _industry_location_is_connected(line, following)
@@ -1284,13 +1292,71 @@ def _producer_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Can
         items.append(Candidate(value=text, evidence=factory.from_lines("producer", group, text)))
     items = [item for item in items if _producer_is_structured(item.value)]
     items = _drop_contained_candidates(items)
+    items.sort(key=lambda item: _producer_candidate_rank(item.value), reverse=True)
+    complete = [item for item in items if _producer_candidate_rank(item.value)[0] >= 18]
+    if complete:
+        # Once a complete role, entity, and location block exists, a bare organization
+        # elsewhere on the artwork is not a competing producer statement.
+        items = complete
     return _candidate_set(items)
+
+
+def _producer_following_lines(anchor: OcrLine, lines: list[OcrLine]) -> list[OcrLine]:
+    """Return nearby lines below an anchor in its visual column.
+
+    OCR reading order can interleave two label panels printed side by side in one image.
+    Producer blocks therefore follow pixel geometry, not list adjacency. The bounded gap
+    prevents an organization heading from absorbing unrelated copy farther down a panel.
+    """
+
+    anchor_top = min(point.y for point in anchor.polygon)
+    anchor_bottom = max(point.y for point in anchor.polygon)
+    anchor_height = max(1, anchor_bottom - anchor_top)
+    candidates = [
+        line
+        for line in lines
+        if line is not anchor
+        and line.panel_id == anchor.panel_id
+        and _same_column(anchor, line)
+        and min(point.y for point in line.polygon) >= anchor_top - anchor_height // 3
+    ]
+    candidates.sort(
+        key=lambda item: (
+            min(point.y for point in item.polygon),
+            min(point.x for point in item.polygon),
+        )
+    )
+    selected: list[OcrLine] = []
+    previous_bottom = anchor_bottom
+    for line in candidates:
+        top = min(point.y for point in line.polygon)
+        gap_limit = max(90, 3 * max(anchor_height, _line_height(line)))
+        if top - previous_bottom > gap_limit:
+            break
+        selected.append(line)
+        previous_bottom = max(previous_bottom, max(point.y for point in line.polygon))
+        if len(selected) >= 10:
+            break
+    return selected
+
+
+def _producer_candidate_rank(value: str) -> tuple[int, int]:
+    """Put a complete role, entity, and location block before incidental entities."""
+
+    score = 0
+    if _PRODUCER_ROLE.search(value):
+        score += 8
+    if _PRODUCER_ENTITY.search(value) or _INDUSTRY_ORGANIZATION.search(value):
+        score += 4
+    if _looks_like_domestic_location(value) or _COUNTRY_KNOWN_CONTEXT.search(value):
+        score += 6
+    return score, min(len(value), 500)
 
 
 def _country_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> CandidateSet:
     items: list[Candidate] = []
     for line in lines:
-        match = _COUNTRY.search(line.text)
+        match = _COUNTRY_KNOWN_CONTEXT.search(line.text) or _COUNTRY.search(line.text)
         if match:
             value = whitespace(match.group(1)).rstrip(" .,:;")
             if not value:
@@ -1308,6 +1374,7 @@ def _country_candidates(lines: list[OcrLine], factory: _EvidenceFactory) -> Cand
 def _brand_candidates(
     lines: list[OcrLine], excluded: set[int], factory: _EvidenceFactory
 ) -> CandidateSet:
+    numeric = _numeric_brand_candidate(lines, excluded, factory)
     eligible = [
         line
         for line in lines
@@ -1335,7 +1402,7 @@ def _brand_candidates(
         and not _looks_like_warning_body_text(line.text)
     ]
     if not eligible:
-        return _domain_brand_candidate(lines, factory)
+        return numeric or _domain_brand_candidate(lines, factory)
     horizontal = [line for line in eligible if _is_horizontal_text(line)]
     if horizontal:
         eligible = horizontal
@@ -1349,7 +1416,7 @@ def _brand_candidates(
         and not _looks_like_warning_body_text(" ".join(item.text for item in items))
     ]
     if not groups:
-        return _domain_brand_candidate(lines, factory)
+        return numeric or _domain_brand_candidate(lines, factory)
     tallest = max(_line_height(item) for items in groups for item in items)
 
     def prominence(items: list[OcrLine]) -> float:
@@ -1380,10 +1447,145 @@ def _brand_candidates(
         ),
     )
     value = _without_trailing_vintage(whitespace(" ".join(item.text for item in group)))
-    return CandidateSet(
+    text_result = CandidateSet(
         status="Found",
         candidates=[Candidate(value=value, evidence=factory.from_lines("brand", group, value))],
     )
+    if numeric is None:
+        return text_result
+    # A numeric mark reaches this point only after the strict context and prominence gate
+    # below. Prefer it to an unrelated text fragment such as a translated descriptor. The
+    # evidence remains visible, and no filename, upload order, or expected product value is
+    # used.
+    return numeric
+
+
+_NUMERIC_MARK = re.compile(r"^\s*(\d{2,5}(?:\s+[A-Z][A-Z0-9'&.-]{1,15})?)\s*[®™]?\s*$", re.I)
+_NUMERIC_NON_BRAND_CONTEXT = re.compile(
+    r"\b(?:alc|alcohol|vol|proof|ml|lit(?:er|re)?s?|fl\.?\s*oz|ounce|age|aged|years?|"
+    r"vintage|harvest|est(?:ablished)?|since|lot|batch|ref|upc|barcode|price|deposit|crv)\b|[$¢%]",
+    re.I,
+)
+
+
+def _numeric_brand_candidate(
+    lines: list[OcrLine], excluded: set[int], factory: _EvidenceFactory
+) -> CandidateSet | None:
+    """Return a strongly supported numeric or digit-led brand mark.
+
+    Numeric marks use a separate path so regulatory quantities and dates never enter the
+    ordinary text-brand ranker. Geometry, isolation, trademark context, cross-panel
+    repetition, and proximity to a class line are the only positive signals.
+    """
+
+    candidates: list[tuple[float, OcrLine, str]] = []
+    for line in lines:
+        text = whitespace(line.text)
+        match = _NUMERIC_MARK.fullmatch(text)
+        if (
+            match is None
+            or line.reading_order in excluded
+            or (line.confidence or 0.0) < 0.60
+            or _NUMERIC_NON_BRAND_CONTEXT.search(text)
+            or _ADMINISTRATIVE.search(text)
+            or _CODE_PREFIX.match(text)
+            or not _is_horizontal_text(line)
+            or _numeric_matches_regulatory_value(text, lines)
+        ):
+            continue
+        score = _numeric_brand_score(line, lines)
+        if score >= 4.0:
+            candidates.append((score, line, match.group(1).strip()))
+    if not candidates:
+        return None
+    candidates.sort(
+        key=lambda item: (
+            -round(item[0], 4),
+            item[1].panel_id,
+            min(point.y for point in item[1].polygon),
+            min(point.x for point in item[1].polygon),
+            item[2].casefold(),
+        )
+    )
+    best_score, best_line, value = candidates[0]
+    if len(candidates) > 1 and abs(best_score - candidates[1][0]) < 0.35:
+        return CandidateSet(
+            status="Ambiguous",
+            candidates=[
+                Candidate(value=item[2], evidence=factory.from_line("brand", item[1]))
+                for item in candidates[:3]
+            ],
+        )
+    return CandidateSet(
+        status="Found",
+        candidates=[Candidate(value=value, evidence=factory.from_line("brand", best_line))],
+    )
+
+
+def _numeric_brand_score(line: OcrLine, lines: list[OcrLine]) -> float:
+    panel_lines = [item for item in lines if item.panel_id == line.panel_id]
+    heights = sorted(
+        _line_height(item) for item in panel_lines if item is not line and _line_height(item) > 0
+    )
+    median_height = heights[len(heights) // 2] if heights else 1
+    relative_height = min(3.0, _line_height(line) / max(1, median_height))
+    class_lines = [item for item in panel_lines if _STRONG_CLASS.search(_class_text(item.text))]
+    non_wine_family = any(
+        _CLASS_FAMILIES[family].search(_class_text(item.text))
+        for family in ("distilled_spirits", "malt_beverage")
+        for item in panel_lines
+    )
+    associated = any(_near_class_designation(line, [item]) for item in class_lines)
+    same_value = re.sub(r"\W", "", line.text.casefold())
+    repeated = sum(
+        1
+        for item in lines
+        if item.panel_id != line.panel_id
+        and re.sub(r"\W", "", item.text.casefold()) == same_value
+    )
+    ordered = sorted(panel_lines, key=lambda item: item.reading_order)
+    position = next((index for index, item in enumerate(ordered) if item is line), -1)
+    neighbors = ordered[max(0, position - 1) : position + 2] if position >= 0 else [line]
+    trademark = any(_TRADEMARK_MARK.search(item.text) for item in neighbors)
+    digits = re.sub(r"\D", "", line.text)
+    looks_like_vintage = (
+        len(digits) == 4
+        and 1800 <= int(digits) <= 2099
+        and any(
+            _CLASS_FAMILIES["wine"].search(_class_text(item.text))
+            or re.search(r"\b(?:vintage|harvest)\b", item.text, re.I)
+            for item in panel_lines
+        )
+        and not trademark
+        and not repeated
+    )
+    year_penalty = 2.5 if looks_like_vintage else 0.0
+    return (
+        relative_height
+        + (1.25 if associated else 0.0)
+        + (0.75 if non_wine_family else 0.0)
+        + (1.0 if trademark else 0.0)
+        + min(1.0, repeated * 0.5)
+        + (0.5 if re.fullmatch(r"\s*\d{2,5}\s*[®™]?\s*", line.text) else 0.0)
+        - year_penalty
+    )
+
+
+def _numeric_matches_regulatory_value(value: str, lines: list[OcrLine]) -> bool:
+    digits = re.sub(r"\D", "", value)
+    if not digits:
+        return True
+    number = float(digits)
+    for line in lines:
+        for match in _PERCENT.finditer(_numeric_scan_text(line.text)):
+            percent = float(match.group(0).replace("%", "").strip())
+            if abs(number - percent) < 0.01 or abs(number - 2 * percent) < 0.01:
+                return True
+        for match in _NET.finditer(_numeric_scan_text(line.text)):
+            quantity = re.search(r"\d+(?:\.\d+)?", match.group(0))
+            if quantity is not None and abs(number - float(quantity.group(0))) < 0.01:
+                return True
+    return False
 
 
 _TRAILING_VINTAGE = re.compile(r"\s*\b(?:18|19|20)\d{2}\b\s*$")

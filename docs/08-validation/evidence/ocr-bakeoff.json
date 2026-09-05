@@ -1,0 +1,1709 @@
+{
+  "createdAtUtc": "2026-09-04T18:55:41.732315+00:00",
+  "manifestSha256": "9fb850adfec0ff286405b42c0cc79d65402a680429b3d52fd07a534149cd1f2a",
+  "candidateModelManifestSha256": "0be66bedefdd28f95ba74b19cdc49ed9fb2104eeda909e188b9305b4695522fe",
+  "detector": {
+    "name": "PP-OCRv3 English detector",
+    "sha256": "ea07c15d38ac40cd69da3c493444ec75b44ff23840553ff8ba102c1219ed39c2",
+    "sameWeightsAndConfigurationForEveryCandidate": true
+  },
+  "controlledVariables": [
+    "input products and image bytes",
+    "PP-OCRv3 detector weights and configuration",
+    "preprocessing and candidate extraction",
+    "deterministic rules",
+    "hardware and process settings"
+  ],
+  "methodologyLimitations": [
+    "Each recognizer was measured in a separate complete pipeline pass, so detector weights and configuration were identical but detector output boxes were not replayed.",
+    "An identical frozen-box replay is required before a future candidate can be promoted. It was not run here because both candidates already failed protected-field gates."
+  ],
+  "license": "Apache-2.0",
+  "modelSource": "RapidAI RapidOCR v3.4.0 model registry derived from PaddleOCR",
+  "promotionGate": {
+    "minimumNetWeakFieldGains": 5,
+    "minimumGainedFieldFamilies": 2,
+    "maximumLostCorrectWeakFields": 0,
+    "maximumNewFalseClean": 0,
+    "maximumProtectedFieldRegressions": 0
+  },
+  "comparisons": {
+    "ppocrv5-english-mobile": {
+      "weakFieldGains": [
+        {
+          "productId": "B01",
+          "field": "brand",
+          "before": "contain",
+          "after": "exact"
+        },
+        {
+          "productId": "B04",
+          "field": "brand",
+          "before": "wrong",
+          "after": "exact"
+        },
+        {
+          "productId": "B05",
+          "field": "class",
+          "before": "wrong",
+          "after": "exact"
+        },
+        {
+          "productId": "B07",
+          "field": "producer",
+          "before": "partial",
+          "after": "exact"
+        },
+        {
+          "productId": "W02",
+          "field": "producer",
+          "before": "partial",
+          "after": "exact"
+        },
+        {
+          "productId": "W05",
+          "field": "class",
+          "before": "wrong",
+          "after": "exact"
+        },
+        {
+          "productId": "W05",
+          "field": "brand",
+          "before": "contain",
+          "after": "exact"
+        },
+        {
+          "productId": "W07",
+          "field": "producer",
+          "before": "partial",
+          "after": "exact"
+        },
+        {
+          "productId": "S01",
+          "field": "producer",
+          "before": "partial",
+          "after": "exact"
+        }
+      ],
+      "weakFieldLosses": [
+        {
+          "productId": "B04",
+          "field": "producer",
+          "before": "exact",
+          "after": "miss"
+        },
+        {
+          "productId": "W01",
+          "field": "producer",
+          "before": "exact",
+          "after": "partial"
+        },
+        {
+          "productId": "W04",
+          "field": "brand",
+          "before": "exact",
+          "after": "contain"
+        }
+      ],
+      "netWeakFieldGains": 6,
+      "gainedFieldFamilies": [
+        "brand",
+        "class",
+        "producer"
+      ],
+      "protectedFieldRegressions": [
+        {
+          "productId": "B02",
+          "field": "wording",
+          "before": "exact",
+          "after": "review"
+        },
+        {
+          "productId": "B05",
+          "field": "abv",
+          "before": "exact",
+          "after": "miss"
+        },
+        {
+          "productId": "W02",
+          "field": "wording",
+          "before": "exact",
+          "after": "review"
+        }
+      ],
+      "newFalseCleanCount": 0,
+      "passesPromotionGate": false
+    },
+    "ppocrv5-latin-mobile": {
+      "weakFieldGains": [
+        {
+          "productId": "B01",
+          "field": "brand",
+          "before": "contain",
+          "after": "exact"
+        },
+        {
+          "productId": "B04",
+          "field": "brand",
+          "before": "wrong",
+          "after": "exact"
+        },
+        {
+          "productId": "B05",
+          "field": "class",
+          "before": "wrong",
+          "after": "exact"
+        },
+        {
+          "productId": "B07",
+          "field": "producer",
+          "before": "partial",
+          "after": "exact"
+        },
+        {
+          "productId": "W02",
+          "field": "producer",
+          "before": "partial",
+          "after": "exact"
+        },
+        {
+          "productId": "W05",
+          "field": "class",
+          "before": "wrong",
+          "after": "exact"
+        },
+        {
+          "productId": "W05",
+          "field": "brand",
+          "before": "contain",
+          "after": "exact"
+        },
+        {
+          "productId": "W06",
+          "field": "brand",
+          "before": "contain",
+          "after": "exact"
+        },
+        {
+          "productId": "W07",
+          "field": "producer",
+          "before": "partial",
+          "after": "exact"
+        },
+        {
+          "productId": "S01",
+          "field": "producer",
+          "before": "partial",
+          "after": "exact"
+        },
+        {
+          "productId": "S07",
+          "field": "producer",
+          "before": "wrong",
+          "after": "exact"
+        }
+      ],
+      "weakFieldLosses": [
+        {
+          "productId": "W04",
+          "field": "brand",
+          "before": "exact",
+          "after": "contain"
+        },
+        {
+          "productId": "S06",
+          "field": "producer",
+          "before": "exact",
+          "after": "partial"
+        }
+      ],
+      "netWeakFieldGains": 9,
+      "gainedFieldFamilies": [
+        "brand",
+        "class",
+        "producer"
+      ],
+      "protectedFieldRegressions": [
+        {
+          "productId": "B05",
+          "field": "abv",
+          "before": "exact",
+          "after": "miss"
+        },
+        {
+          "productId": "W03",
+          "field": "abv",
+          "before": "exact",
+          "after": "miss"
+        }
+      ],
+      "newFalseCleanCount": 0,
+      "passesPromotionGate": false
+    }
+  },
+  "decision": "retain-ppocrv4-english",
+  "models": {
+    "ppocrv4-english": {
+      "modelIdentity": "rapidocr-3.4.2:e8770c967605",
+      "recognizerSha256": "e8770c967605983d1570cdf5352041dfb68fa0c21664f49f47b155abd3e0e318",
+      "fieldTally": {
+        "abv": {
+          "exact": 23
+        },
+        "brand": {
+          "contain": 8,
+          "wrong": 4,
+          "exact": 12
+        },
+        "class": {
+          "exact": 16,
+          "wrong": 2,
+          "miss": 2,
+          "contain": 4
+        },
+        "country": {
+          "exact": 3,
+          "contain": 2,
+          "miss": 1
+        },
+        "net": {
+          "exact": 21,
+          "miss": 2
+        },
+        "producer": {
+          "exact": 8,
+          "wrong": 3,
+          "partial": 4,
+          "contain": 3,
+          "miss": 2
+        },
+        "proof": {
+          "exact": 7
+        },
+        "type": {
+          "exact": 22,
+          "miss": 2
+        },
+        "warning_found": {
+          "exact": 19,
+          "miss": 5
+        },
+        "wording": {
+          "exact": 6,
+          "review": 10,
+          "miss": 4
+        }
+      },
+      "falseCleanCount": 1,
+      "meanSeconds": 5.011,
+      "rows": [
+        {
+          "productId": "B01",
+          "seconds": 5.473,
+          "summary": "No differences found in checked fields",
+          "falseCleanAgainstAnnotatedFields": true,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "B02",
+          "seconds": 6.238,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "wrong",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "B03",
+          "seconds": 5.046,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "B04",
+          "seconds": 5.116,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "wrong",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "B05",
+          "seconds": 5.813,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "wrong",
+            "class": "wrong",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "wrong",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "B06",
+          "seconds": 2.789,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "miss",
+            "brand": "wrong",
+            "class": "miss",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "miss",
+            "producer": "n/a",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "B07",
+          "seconds": 8.229,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "miss",
+            "producer": "partial",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "B08",
+          "seconds": 4.427,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "miss",
+            "brand": "exact",
+            "class": "miss",
+            "abv": "n/a",
+            "proof": "n/a",
+            "net": "n/a",
+            "producer": "n/a",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "W01",
+          "seconds": 6.076,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W02",
+          "seconds": 5.147,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "partial",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "W03",
+          "seconds": 5.795,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "wrong",
+            "country": "exact",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W04",
+          "seconds": 6.704,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "contain",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "W05",
+          "seconds": 4.994,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "wrong",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "W06",
+          "seconds": 6.333,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W07",
+          "seconds": 5.703,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "partial",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W08",
+          "seconds": 4.291,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "miss",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S01",
+          "seconds": 4.286,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "partial",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S02",
+          "seconds": 2.878,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "n/a",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "S03",
+          "seconds": 5.564,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "contain",
+            "country": "contain",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "S04",
+          "seconds": 2.927,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "contain",
+            "country": "exact",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "S05",
+          "seconds": 3.912,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "n/a",
+            "country": "contain",
+            "warning_found": "exact",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "S06",
+          "seconds": 4.458,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "exact",
+            "country": "miss",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S07",
+          "seconds": 3.908,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "wrong",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S08",
+          "seconds": 4.167,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "miss",
+            "country": "exact",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        }
+      ]
+    },
+    "ppocrv5-english-mobile": {
+      "modelIdentity": "rapidocr-3.4.2:c3461add59bb",
+      "recognizerSha256": "c3461add59bb4323ecba96a492ab75e06dda42467c9e3d0c18db5d1d21924be8",
+      "fieldTally": {
+        "abv": {
+          "exact": 22,
+          "miss": 1
+        },
+        "brand": {
+          "exact": 14,
+          "wrong": 3,
+          "contain": 7
+        },
+        "class": {
+          "exact": 18,
+          "miss": 2,
+          "contain": 4
+        },
+        "country": {
+          "exact": 3,
+          "contain": 2,
+          "miss": 1
+        },
+        "net": {
+          "exact": 21,
+          "miss": 2
+        },
+        "producer": {
+          "exact": 10,
+          "miss": 2,
+          "contain": 4,
+          "partial": 4
+        },
+        "proof": {
+          "exact": 7
+        },
+        "type": {
+          "exact": 22,
+          "miss": 2
+        },
+        "warning_found": {
+          "exact": 19,
+          "miss": 5
+        },
+        "wording": {
+          "exact": 4,
+          "review": 12,
+          "miss": 4
+        }
+      },
+      "falseCleanCount": 0,
+      "meanSeconds": 3.541,
+      "rows": [
+        {
+          "productId": "B01",
+          "seconds": 3.612,
+          "summary": "No differences found in checked fields",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "B02",
+          "seconds": 4.42,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "wrong",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "B03",
+          "seconds": 4.168,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "B04",
+          "seconds": 4.402,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "miss",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "B05",
+          "seconds": 4.037,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "wrong",
+            "class": "exact",
+            "abv": "miss",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "contain",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "B06",
+          "seconds": 2.52,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "miss",
+            "brand": "wrong",
+            "class": "miss",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "miss",
+            "producer": "n/a",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "B07",
+          "seconds": 6.514,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "miss",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "B08",
+          "seconds": 2.865,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "miss",
+            "brand": "exact",
+            "class": "miss",
+            "abv": "n/a",
+            "proof": "n/a",
+            "net": "n/a",
+            "producer": "n/a",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "W01",
+          "seconds": 3.878,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "partial",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W02",
+          "seconds": 3.915,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W03",
+          "seconds": 4.288,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "partial",
+            "country": "exact",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W04",
+          "seconds": 4.573,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "contain",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "W05",
+          "seconds": 3.533,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "W06",
+          "seconds": 4.082,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W07",
+          "seconds": 4.388,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W08",
+          "seconds": 2.828,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "miss",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S01",
+          "seconds": 2.836,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S02",
+          "seconds": 2.248,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "n/a",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "S03",
+          "seconds": 3.395,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "contain",
+            "country": "contain",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "S04",
+          "seconds": 1.76,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "contain",
+            "country": "exact",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "S05",
+          "seconds": 2.909,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "n/a",
+            "country": "contain",
+            "warning_found": "exact",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "S06",
+          "seconds": 2.752,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "exact",
+            "country": "miss",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S07",
+          "seconds": 2.057,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "partial",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S08",
+          "seconds": 2.995,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "partial",
+            "country": "exact",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        }
+      ]
+    },
+    "ppocrv5-latin-mobile": {
+      "modelIdentity": "rapidocr-3.4.2:b20bd37c168a",
+      "recognizerSha256": "b20bd37c168a570f583afbc8cd7925603890efbcdc000a59e22c269d160b5f5a",
+      "fieldTally": {
+        "abv": {
+          "exact": 21,
+          "miss": 2
+        },
+        "brand": {
+          "exact": 15,
+          "wrong": 5,
+          "contain": 4
+        },
+        "class": {
+          "exact": 18,
+          "miss": 2,
+          "contain": 4
+        },
+        "country": {
+          "exact": 3,
+          "contain": 2,
+          "miss": 1
+        },
+        "net": {
+          "exact": 21,
+          "miss": 2
+        },
+        "producer": {
+          "exact": 12,
+          "contain": 4,
+          "partial": 3,
+          "miss": 1
+        },
+        "proof": {
+          "exact": 7
+        },
+        "type": {
+          "exact": 22,
+          "miss": 2
+        },
+        "warning_found": {
+          "exact": 19,
+          "miss": 5
+        },
+        "wording": {
+          "exact": 7,
+          "review": 9,
+          "miss": 4
+        }
+      },
+      "falseCleanCount": 0,
+      "meanSeconds": 3.395,
+      "rows": [
+        {
+          "productId": "B01",
+          "seconds": 3.602,
+          "summary": "No differences found in checked fields",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "B02",
+          "seconds": 4.163,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "wrong",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "B03",
+          "seconds": 3.761,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "B04",
+          "seconds": 3.784,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "B05",
+          "seconds": 3.834,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "wrong",
+            "class": "exact",
+            "abv": "miss",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "contain",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "B06",
+          "seconds": 2.326,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "miss",
+            "brand": "wrong",
+            "class": "miss",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "miss",
+            "producer": "n/a",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "B07",
+          "seconds": 6.005,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "wrong",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "miss",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "B08",
+          "seconds": 2.832,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "miss",
+            "brand": "exact",
+            "class": "miss",
+            "abv": "n/a",
+            "proof": "n/a",
+            "net": "n/a",
+            "producer": "n/a",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "W01",
+          "seconds": 3.847,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W02",
+          "seconds": 3.535,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "W03",
+          "seconds": 4.089,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "contain",
+            "abv": "miss",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "partial",
+            "country": "exact",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W04",
+          "seconds": 4.444,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "contain",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "W05",
+          "seconds": 3.537,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "W06",
+          "seconds": 4.418,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W07",
+          "seconds": 4.803,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "W08",
+          "seconds": 2.854,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "miss",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S01",
+          "seconds": 1.81,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S02",
+          "seconds": 2.412,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "n/a",
+            "country": "n/a",
+            "warning_found": "miss",
+            "wording": "miss"
+          }
+        },
+        {
+          "productId": "S03",
+          "seconds": 3.206,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "wrong",
+            "class": "contain",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "contain",
+            "country": "contain",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "S04",
+          "seconds": 1.829,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "contain",
+            "country": "exact",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        },
+        {
+          "productId": "S05",
+          "seconds": 3.178,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "n/a",
+            "net": "exact",
+            "producer": "n/a",
+            "country": "contain",
+            "warning_found": "exact",
+            "wording": "n/a"
+          }
+        },
+        {
+          "productId": "S06",
+          "seconds": 3.093,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "partial",
+            "country": "miss",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S07",
+          "seconds": 2.324,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "exact",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "exact",
+            "country": "n/a",
+            "warning_found": "exact",
+            "wording": "review"
+          }
+        },
+        {
+          "productId": "S08",
+          "seconds": 1.789,
+          "summary": "Review needed",
+          "falseCleanAgainstAnnotatedFields": false,
+          "fieldScores": {
+            "type": "exact",
+            "brand": "contain",
+            "class": "exact",
+            "abv": "exact",
+            "proof": "exact",
+            "net": "exact",
+            "producer": "partial",
+            "country": "exact",
+            "warning_found": "exact",
+            "wording": "exact"
+          }
+        }
+      ]
+    }
+  }
+}

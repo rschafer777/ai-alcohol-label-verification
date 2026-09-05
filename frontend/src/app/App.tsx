@@ -15,8 +15,8 @@ import { enteredFields, hasApplicationValues, referenceFromApplication, type App
 import { createSampleAdapter } from "../features/intake/sample-adapter";
 import { ProcessingStage, type ProcessingPhase } from "../features/verification/ProcessingStage";
 import { ReviewWorkspace } from "../features/verification/ReviewWorkspace";
-import type { ReviewImage, SlotUpload } from "../features/verification/review-images";
-import { CORRECTION_FIELDS, imagesForFiles, referenceFromAnalysis, revokeImages } from "../features/verification/single-flow";
+import type { ManualEvidenceSelection, ReviewImage, SlotUpload } from "../features/verification/review-images";
+import { CORRECTION_API_FIELDS, imagesForFiles, revokeImages } from "../features/verification/single-flow";
 import { AppShell } from "./AppShell";
 import type { TrayDestination } from "./LeftTray";
 
@@ -48,6 +48,11 @@ function readTrayOpen(): boolean {
 }
 
 const TIMEOUT_ERROR: PublicError = { requestId: "browser", code: "client_deadline_exceeded", message: `This took longer than ${limits.browserDeadlineSeconds} seconds.`, retryable: true, nextAction: "Try again or check the label by eye", fieldOrPanel: null };
+
+function correctedBeverageType(value: string): BeverageType | null {
+  if (value === "malt_beverage" || value === "wine" || value === "distilled_spirits") return value;
+  return null;
+}
 
 export function App({ verificationClient, sampleAdapter, historyClient }: AppProps) {
   const client = useMemo(() => verificationClient ?? createVerificationClient(), [verificationClient]);
@@ -265,6 +270,7 @@ export function App({ verificationClient, sampleAdapter, historyClient }: AppPro
       if (historyId && client.addPanel) {
         nextAnalysis = await client.addPanel({
           historyId,
+          expectedRevision: result.revision ?? 1,
           panel: file,
           signal: nextController.signal,
           onUploadProgress: (progress) => {
@@ -295,43 +301,55 @@ export function App({ verificationClient, sampleAdapter, historyClient }: AppPro
     }
   }
 
-  async function correct(check: CheckResult, value: string) {
-    if (!analysis) return;
-    const field = CORRECTION_FIELDS[check.checkId];
+  async function correct(check: CheckResult, value: string, locator?: ManualEvidenceSelection) {
+    if (!analysis || !result?.historyId || !history.correct) return;
+    const field = CORRECTION_API_FIELDS[check.checkId];
     if (!field) return;
-    const overrides: Record<string, string> = {};
-    let type: BeverageType | null | undefined;
-    if (field === "beverage_type") {
-      const normalized = value.toLowerCase();
-      type = normalized.includes("wine") ? "wine" : normalized.includes("beer") || normalized.includes("malt") ? "malt_beverage" : "distilled_spirits";
-    } else overrides[field] = value;
-    const reference = referenceFromAnalysis(analysis, overrides, type);
-    if (!reference) return;
-    await reverify(reference, new Set([...correctedIds, check.checkId]));
-    if (field === "brand") setCorrectedBrand(value);
-  }
-
-  async function confirmType(type: BeverageType) {
-    if (!analysis) return;
-    const reference = referenceFromAnalysis(analysis, {}, type);
-    if (!reference) return;
-    await reverify(reference, correctedIds);
-  }
-
-  async function reverify(reference: Parameters<VerificationClient["verify"]>[0]["reference"], nextCorrected: Set<string>) {
-    const nextController = new AbortController();
-    controller.current = nextController;
-    setSaveState("Re-checking…");
+    const evidenceRef = check.evidenceRef ?? (check.checkId === "beverage_type"
+      ? result.checks.find((item) => item.checkId === "class_type")?.evidenceRef
+      : null);
+    if (!evidenceRef && !locator) {
+      setSaveState("Select area, then drag a rectangle around the visible label text before saving.");
+      return;
+    }
+    const family = field === "beverage_type" ? correctedBeverageType(value) : null;
+    if (field === "beverage_type" && !family) {
+      setSaveState("Choose Beer / malt, Wine, or Distilled spirits.");
+      return;
+    }
+    const sourceLocator = evidenceRef ? { evidenceRef } : locator;
+    if (!sourceLocator) return;
+    setSaveState("Saving correction...");
     try {
-      const nextResult = await client.verify({ reference, panels: files, signal: nextController.signal });
-      if (nextController.signal.aborted) return;
+      const correction = field === "beverage_type"
+        ? {
+            field: "beverage_type" as const,
+            family: family as BeverageType,
+            ...sourceLocator,
+          }
+        : { field, visibleText: value, ...sourceLocator };
+      const nextResult = await history.correct(result.historyId, {
+        expectedRevision: result.revision ?? 1,
+        reason: "Reviewer corrected the field from visible retained label evidence",
+        corrections: [correction],
+      });
       setResult(nextResult);
-      setCorrectedIds(nextCorrected);
+      setCorrectedIds(new Set([...correctedIds, check.checkId]));
+      if (field === "brand_name") setCorrectedBrand(value);
+      if (field === "beverage_type") {
+        setAnalysis({ ...analysis, draft: { ...analysis.draft, beverageType: family } });
+      }
       setSaveState("");
       void refreshRecent();
     } catch (caught) {
-      if (!nextController.signal.aborted) setSaveState(caught instanceof VerificationClientError ? caught.detail.message : "The re-check could not be completed.");
+      setSaveState(caught instanceof Error ? caught.message : "The correction could not be saved.");
     }
+  }
+
+  async function confirmType(type: BeverageType) {
+    const check = result?.checks.find((item) => item.checkId === "beverage_type");
+    if (!check) return;
+    await correct(check, type);
   }
 
   async function saveAndNext() {

@@ -2,7 +2,13 @@
 
 LabelVerify is a local-first, AI-assisted alcohol label evidence application built for the TTB take-home assignment. A reviewer supplies one to three images of a product. The application reads the images, infers beer or malt beverage, wine, or distilled spirits, extracts required label information, applies 24 deterministic common and beverage-specific checks, and shows what it found and where it found it. A human records the final disposition.
 
-The application also groups and processes batches of up to 300 products and retains the latest 500 results with their source images and reopenable evidence.
+The application also groups and processes batches of up to 300 products and retains the latest 500 product results with their source images and reopenable evidence. Each product lineage is bounded to 10 independently reopenable revisions.
+
+## Release status
+
+CR-002 is implemented and has passed its corrected local source, governed-corpus, private-corpus, and accuracy gates. It adds observation-correction provenance, immutable revisions, neutral image roles, numeric-brand support, blocking-review attribution, producer extraction improvements, and controlled OCR model evaluation. The candidate still requires one frozen-manifest review cycle, commit-bound deployment verification, and requester UAT. Earlier results remain in the repository as historical baselines rather than being rewritten as corrective-release evidence.
+
+Material decisions and their evidence are recorded in [`docs/00-governance/CHANGE_CONTROL_REGISTER.md`](docs/00-governance/CHANGE_CONTROL_REGISTER.md), with a concise chronology in [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Live application and source
 
@@ -28,7 +34,7 @@ The application also groups and processes batches of up to 300 products and reta
 - Brings phone photographs within the server's 12 megapixel and 4 MB per-image limits in the browser before upload, so a 24 or 48 megapixel photo needs no manual resizing.
 - Lets the reviewer zoom the label with the mouse wheel, drag the enlarged image, use the keyboard for both, and switch between table, card, and image-first views from the head of the checks.
 - Guides the grouping step: shows how many products are confirmed, filters to the cards that still need a decision, confirms the remaining suggestions in one step, and states why the run is locked until every product is confirmed.
-- Stores the latest 500 results and images with filtering, paging, evidence reopening, disposition editing, deletion, and FIFO eviction. An opaque HttpOnly browser-scope cookie isolates history access in the public demo.
+- Stores the latest 500 product results and images with filtering, paging, evidence reopening, disposition editing, whole-lineage deletion, and FIFO eviction. Correction and add-panel updates share one atomic lineage head and 10-revision cap without resetting FIFO age. An opaque HttpOnly browser-scope cookie isolates history access in the public demo.
 - Includes a complete built-in synthetic sample.
 - Ships an evaluation harness (`scripts/score_ground_truth.py`) that processes every private test image, scores the 70 images with pixel-level field ground truth, and compares the 42 images covered by the disposition oracle; the runtime never reads either file.
 
@@ -139,11 +145,13 @@ npm run test:e2e
 Pop-Location
 ```
 
-The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 221 accepted images plus 2 skipped JSON files (the disposition oracle and the pixel ground truth). The production multipart API processed all 221 images and all 152 server-suggested product groups. Individual-image mean latency was 3.997 seconds on the development workstation, p95 was 6.748 seconds, and the maximum was 7.874 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
+The user-supplied validation folder is expected at `tests/Test_Images/`. The current private corpus contains 221 accepted images plus 2 skipped JSON files (the disposition oracle and the pixel ground truth). The corrected production multipart path processed all 221 images and all 155 server-suggested product groups. Individual-image mean latency was 3.840 seconds on the development workstation, p95 was 6.138 seconds, and the maximum was 7.237 seconds. Grouped-product mean latency was 0.935 seconds, p95 was 2.830 seconds, and the maximum was 5.764 seconds. Raw images remain excluded from the public repository because public redistribution rights were not established.
 
-The disposition oracle covers 42 images and the pixel-level ground truth covers 70 current filenames; `scripts/score_ground_truth.py` scores the production path against both. The current result is 0 false rejects, 1 disputed false clean (an oracle row contradicted by the pixels), 65 of 65 alcohol contents, 64 of 64 net contents, 68 of 70 beverage types, and 61 of 70 brand names read exactly or within a longer line; the full table is in `docs/08-validation/VALIDATION_RESULTS.md`. The ground truth was read by people from the pixels and is not an independent COLA record.
+The disposition oracle covers 42 images and the pixel-level ground truth covers 70 current filenames; `scripts/score_ground_truth.py` scores the production path against both. Six oracle rows directly conflict with the pixel annotations and are reported separately rather than counted in either direction. Across the 36 non-conflicting oracle cases, the corrective result is 0 false clean, 0 false reject, and 5 exact dispositions, with 28 expected passes and 3 expected failures conservatively routed to Review. Field results include 65 of 65 alcohol contents, 28 of 28 proof statements, 64 of 64 net contents, 68 of 70 beverage types, 59 of 70 brand names read exactly or within a longer line, and 35 exact producer blocks. The full table and the sealed 24-product holdout are in `docs/08-validation/VALIDATION_RESULTS.md`. The ground truth was read from the pixels and is not an independent COLA record.
 
 ## API
+
+The source contract below is implemented locally. The public URL serves it only after the commit-bound CR-002 deployment gate passes.
 
 | Method and path | Purpose |
 | --- | --- |
@@ -151,15 +159,16 @@ The disposition oracle covers 42 images and the pixel-level ground truth covers 
 | `GET /health/ready` | OCR readiness |
 | `GET /api/v1/meta` | Build, contract, limits, and rule identity |
 | `POST /api/v1/analyses` | Label-first OCR, checks, and persistence (`?persist=false` reads without storing, used by batch grouping) |
-| `POST /api/v1/verifications` | Optional trusted-reference comparison, also used for reviewer corrections |
+| `POST /api/v1/verifications` | Optional independent-reference comparison; entered values remain trusted application data and are never overwritten by label corrections or add-panel processing |
 | `POST /api/v1/grouping-suggestions` | Conservative product grouping from per-image label facts |
 | `GET /api/v1/history` | Filtered and paged history |
 | `GET /api/v1/history/{id}` | Stored result |
 | `GET /api/v1/history/{id}/panels/{panelId}` | Retained evidence image |
-| `POST /api/v1/history/{id}/panels` | Add one image to a stored record and re-read the enlarged panel set (new record, `supersedes` the old) |
+| `POST /api/v1/history/{id}/panels` | Add one panel plus expected revision to the atomic current lineage head, re-read the complete panel set, reapply valid corrections, and create a Pending child revision |
+| `POST /api/v1/history/{id}/corrections` | Apply 1 to 10 typed, bounded label-observation corrections using existing evidence or a reviewer-selected panel polygon; return the governed revision envelope, recompute dependencies without OCR, preserve any trusted application reference, and create a Pending child revision |
 | `PATCH /api/v1/history/{id}/disposition` | Human disposition and note |
-| `DELETE /api/v1/history/{id}` | Delete one record and images |
-| `DELETE /api/v1/history` | Clear history |
+| `DELETE /api/v1/history/{id}` | Delete the addressed product's complete lineage and unreferenced image blobs |
+| `DELETE /api/v1/history` | Clear every lineage in the browser scope |
 
 Every check row also carries display-only presentation fields (`group`, `shortLabel`, `ruleExpectation`, `reasonShort`, and for the warning wording check `wordingDiff`, `matchedWords`, `totalWords`), every panel carries `qualitySummary`, and every result carries `beverageInference`, `warningEvidence`, and `badImage`. They render governed states in plain language; they never change a state.
 
@@ -194,6 +203,7 @@ The UI label `Approve` records a reviewer's prototype disposition. It does not a
 ## Trade-offs
 
 - Local CPU OCR avoids blocked cloud endpoints and data egress, but throughput depends on host hardware.
+- A governed PP-OCRv5 English and Latin bakeoff improved some weak text fields and ran faster, but both candidates regressed protected ABV or warning evidence. The release therefore retains PP-OCRv4 rather than adding a second runtime recognizer or hiding those regressions behind selective routing.
 - Sequential batch processing prioritizes predictable resources and fault isolation over maximum parallel speed.
 - A modular monolith is simpler to build, run, test, and deploy for this scope. Typed boundaries preserve a path to separate services later.
 - SQLite plus local files makes the 500-record workflow easy to evaluate. A production Azure deployment should select durable managed storage.
@@ -223,17 +233,18 @@ The UI label `Approve` records a reviewer's prototype disposition. It does not a
 
 The governed development path is in [`docs/`](docs/README.md):
 
-1. Discovery
-2. Intake
-3. BAIRD
-4. I2R architecture and engineering
-5. FRD and traceability
-6. Build Instructions and Definition of Done
-7. Implementation record
-8. Validation Protocol and evidence
-9. QA, QC, and UAT
-10. Release and operations
-11. Federal authorization starter package
+1. Governance and change control
+2. Discovery
+3. Intake
+4. BAIRD
+5. I2R architecture and engineering
+6. FRD and traceability
+7. Build Instructions and Definition of Done
+8. Implementation record
+9. Validation Protocol and evidence
+10. QA, QC, and UAT
+11. Release and operations
+12. Federal authorization starter package
 
 Machine-enforced API limits and rules are in [`contracts/`](contracts/README.md).
 

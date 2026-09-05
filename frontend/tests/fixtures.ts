@@ -43,7 +43,7 @@ export const analysis: AnalysisResult = {
   serverDurationMs: 1800,
   panels: result.panels,
   evidence: result.evidence,
-  draft: { beverageType: "distilled_spirits", brandName: "OLD TOM DISTILLERY", classType: "Kentucky Straight Bourbon Whiskey", abvPercent: 45, proof: 90, netContentsValue: 750, netContentsUnit: "mL", producerNameAddress: "Old Tom Distillery, Frankfort, Kentucky", isImported: false, countryOfOrigin: null, wineAppellation: null, wineSulfiteStatus: "unknown", maltAlcoholSource: "unknown" },
+  draft: { referenceProvenance: "label_ocr", fieldProvenance: {}, caseLabel: null, beverageType: "distilled_spirits", brandName: "OLD TOM DISTILLERY", classType: "Kentucky Straight Bourbon Whiskey", abvPercent: 45, proof: 90, netContentsValue: 750, netContentsUnit: "mL", producerNameAddress: "Old Tom Distillery, Frankfort, Kentucky", isImported: false, countryOfOrigin: null, wineAppellation: null, wineSulfiteStatus: "unknown", maltAlcoholSource: "unknown" },
   detected: {},
   beverageTypeConfidence: .96,
   beverageTypeReason: "Class terms support distilled spirits.",

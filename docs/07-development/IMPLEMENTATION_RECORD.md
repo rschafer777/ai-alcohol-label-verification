@@ -2,7 +2,39 @@
 
 Document ID: LV-DEV-001  
 Build baseline: LV-BI-001  
-Status: Implementation complete; local and protected Azure validation passed; requester UAT pending
+Status: CR-002 corrective implementation and local validation complete; final frozen review, deployment, and requester UAT pending
+
+## Revision history
+
+| Revision | Date | Change | Authority |
+| --- | --- | --- | --- |
+| 1.0 | 2026-09-03 | Recorded the initial integrated implementation | Initial release candidate |
+| 1.1 | 2026-09-04 | Preserved initial implementation as baseline and opened corrective work packages | CR-002 |
+| 1.2 | 2026-09-04 | Recorded implemented corrective contracts, revisions, extraction, review telemetry, UI integration, and model decision | CR-002 |
+| 1.3 | 2026-09-04 | Closed final-review integrity defects before refreezing the corrective candidate | CR-002 |
+| 1.4 | 2026-09-05 | Reconciled mixed-source add-panel responses with the persisted revision reference | CR-002 |
+
+## CR-002 implementation status
+
+WP-13 through WP-17 are implemented. The corrective release adds review-cause attribution, immutable observation-correction and add-panel revisions, field-level provenance, neutral image roles, constrained numeric-brand extraction, producer-block improvements, and controlled OCR evaluation. The source, local UI, representative-corpus, ground-truth, and sealed-holdout gates pass; final frozen-candidate reviews, commit-bound public deployment, and requester UAT remain open release gates. The earlier candidate remains documented as the baseline that exposed the corrective need.
+
+| Corrective package | Implementation result | Verification |
+| --- | --- | --- |
+| WP-13 Measurement | Added sealed 24-product holdout, review-cause and blocking-check reporting, per-field score evidence, and explicit oracle-conflict exclusions | Holdout seal and scoring tests; 221-image and 24-product reports |
+| WP-14 Revisions | Added field provenance, self-contained observation snapshots, atomic lineage heads, content-addressed images, 10-revision cap, evidence-linked corrections, add-panel correction replay, and response-to-history source reconciliation | History, API, security, concurrency, correction, zero-OCR, FIFO, deletion, resolved and unresolved mixed-provenance, and provenance tests |
+| WP-15 OCR evaluation | Evaluated PP-OCRv4 English against PP-OCRv5 English and Latin using governed assets and the same full-pipeline controls | Both candidates rejected for protected-field regression; PP-OCRv4 retained |
+| WP-16 Deterministic logic | Added numeric-brand recovery, neutral image labels, producer role and spatial block assembly, review causes, domestic-origin handling, proof and ABV recovery, and recovery-view prioritization | Candidate, pipeline, profile, presentation, real-worker, order, and private-image tests |
+| WP-17 Release | Local source, UI, representative-corpus, ground-truth, and sealed-holdout gates complete; documentation and manifest reconciliation in progress | Public deployment, representative Azure performance, final reviews, and requester UAT remain open |
+
+### Final-review integrity corrections
+
+The first final-review candidate was held rather than published. Corrections now protect every history mutation before identifier validation; preserve unresolved beverage type across correction and add-panel revisions; select presentation wording from each field's actual reference provenance; replay reviewer corrections from immutable source image hash, panel, polygon, and snippet; persist raw and server-derived correction forms including producer components; retain fresh OCR timing, limitations, and model identity on add-panel revisions; commit history metadata deletion before unlinking blobs and reconcile orphaned files at startup; use the registered public error names; and hash governed source evidence in Git's canonical LF form. Regression coverage targets each failure mode, including injected rollback during lineage deletion.
+
+A subsequent final architecture review found six remaining correction-integrity gaps before release. The implementation now refreshes label-derived references from the complete add-panel result while preserving independent and reviewer-corrected values; replays the latest value and latest locator for a repeatedly corrected field; reruns beverage-family inference after a class correction and fails safely when still ambiguous; accepts sulfite correction only for a visibly transcribed Contains Sulfites statement; retains printed numeric forms, precision, ranges, units, and proof wording in the audit; and gives the browser a closed beverage-family selector plus an original-pixel rectangle tool when OCR did not create evidence. Focused backend and frontend regressions and the corrected-candidate corpus regeneration pass; the release manifest, complete gate, and three final identical-snapshot reviews are the remaining local release controls.
+
+The next architecture challenge found four narrower state-transition defects. Mixed add-panel results could omit explicit field provenance, including `malt_alcohol_source`; class inference could replace an existing reviewer-corrected family; fresh conflicting evidence could leave a formerly label-derived family resolved; and a browser-drawn rectangle could emit a vertex at the image width or height even though those coordinates are outside the source-pixel domain. The implementation now carries provenance with unresolved drafts, enumerates every merged field, honors reviewer-corrected family authority, allows the fresh complete label read to resolve or unresolve a label-derived family, and shares one positive-area half-open polygon validator between OCR and manual evidence.
+
+A fourth frozen-candidate review found that add-panel response assembly could combine a fresh OCR value with retained trusted-application provenance, and the unresolved response could differ from the revision reference written to history. Response assembly now overlays every non-OCR authoritative value, returns the persisted unresolved draft directly, and preserves fresh OCR values only with `label_ocr` provenance. Resolved and unresolved mixed-source integration regressions prove returned values, field sources, and stored reference values agree. The complete 411-test source gate and corpus evidence were then rerun before refreezing.
 
 ## Implemented components
 

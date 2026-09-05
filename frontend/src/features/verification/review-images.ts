@@ -1,8 +1,15 @@
+import type { Point } from "../../contracts/types";
+
 export interface ReviewImage {
   src: string;
   name: string;
   alt: string;
   title: string;
+}
+
+export interface ManualEvidenceSelection {
+  panelId: string;
+  polygon: [Point, Point, Point, Point];
 }
 
 export interface SlotUpload {
@@ -13,7 +20,7 @@ export interface SlotUpload {
 }
 
 export function slotTitle(index: number, count: number, added = false): string {
-  if (added) return "Added evidence";
-  if (count === 1) return "Front";
-  return index === 0 ? "Front" : index === 1 ? "Back" : "Added evidence";
+  void count;
+  void added;
+  return `Image ${index + 1}`;
 }

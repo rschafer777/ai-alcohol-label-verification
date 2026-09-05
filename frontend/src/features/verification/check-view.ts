@@ -30,7 +30,7 @@ const DEFAULT_SHORT_LABELS: Record<CheckId, string> = {
 };
 
 export const WARNING_IDS: ReadonlySet<string> = new Set(Object.entries(DEFAULT_GROUPS).filter(([, group]) => group === "warning").map(([id]) => id));
-export const EDITABLE_IDS: ReadonlySet<string> = new Set(["beverage_type", "brand", "class_type", "abv", "proof", "net_contents", "producer", "country", "wine_appellation"]);
+export const EDITABLE_IDS: ReadonlySet<string> = new Set(["beverage_type", "brand", "class_type", "abv", "proof", "net_contents", "producer", "country", "wine_appellation", "wine_sulfites"]);
 
 export function checkGroup(check: CheckResult): CheckGroup {
   return check.group ?? DEFAULT_GROUPS[check.checkId];

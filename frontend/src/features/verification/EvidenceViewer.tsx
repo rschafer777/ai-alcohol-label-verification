@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent, type
 
 import { icons } from "../../components/icons";
 import { evidenceColors, stateColor } from "../../components/status";
-import type { CheckResult, Evidence, VerificationResult } from "../../contracts/types";
+import type { CheckResult, Evidence, Point, VerificationResult } from "../../contracts/types";
 import { coverageText, displayLabel, evidenceFor, polygonPoints, provenanceLabel, qualityText } from "./check-view";
-import type { ReviewImage, SlotUpload } from "./review-images";
+import { boundedOriginalCoordinate } from "./evidence-coordinates";
+import type { ManualEvidenceSelection, ReviewImage, SlotUpload } from "./review-images";
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 4;
@@ -20,7 +21,7 @@ interface View {
   y: number;
 }
 
-export function EvidencePolygons({ result, panelIndex, selected }: { result: VerificationResult; panelIndex: number; selected: CheckResult | null }): ReactElement | null {
+export function EvidencePolygons({ result, panelIndex, selected, manualSelection = null }: { result: VerificationResult; panelIndex: number; selected: CheckResult | null; manualSelection?: ManualEvidenceSelection | null }): ReactElement | null {
   const panel = result.panels[panelIndex];
   if (!panel) return null;
   const { width, height } = panel.originalDimensions;
@@ -31,6 +32,8 @@ export function EvidencePolygons({ result, panelIndex, selected }: { result: Ver
       const color = selected.applicable ? stateColor(selected.state) : evidenceColors.none;
       polygons.push({ key: selectedEvidence.evidenceId, points: polygonPoints(selectedEvidence), stroke: color === "transparent" ? evidenceColors.none : color, width: 4, dash: selected.state === "Not verified" ? "6 5" : "none", fill: `color-mix(in srgb, ${color === "transparent" ? evidenceColors.none : color} 18%, transparent)` });
     }
+  } else if (selected && manualSelection?.panelId === panel.panelId) {
+    polygons.push({ key: "manual-selection", points: manualSelection.polygon.map((point) => `${point.x},${point.y}`).join(" "), stroke: "var(--lv-accent-500)", width: 4, dash: "6 5", fill: "color-mix(in srgb, var(--lv-accent-400) 18%, transparent)" });
   } else if (!selected) {
     for (const evidence of result.evidence) {
       if (evidence.panelId !== panel.panelId) continue;
@@ -48,7 +51,7 @@ function clampZoom(value: number): number {
   return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, +value.toFixed(3)));
 }
 
-export function EvidenceViewer({ result, images, panelIndex, selected, upload, onSelectPanel, onClearSelection, onAddImage, addedFrom = Number.POSITIVE_INFINITY }: {
+export function EvidenceViewer({ result, images, panelIndex, selected, upload, onSelectPanel, onClearSelection, onAddImage, onManualSelection, manualSelection = null, addedFrom = Number.POSITIVE_INFINITY }: {
   result: VerificationResult;
   images: ReviewImage[];
   panelIndex: number;
@@ -57,12 +60,17 @@ export function EvidenceViewer({ result, images, panelIndex, selected, upload, o
   onSelectPanel: (index: number) => void;
   onClearSelection: () => void;
   onAddImage: ((file: File, slot: number) => void) | null;
+  onManualSelection?: ((selection: ManualEvidenceSelection) => void) | null;
+  manualSelection?: ManualEvidenceSelection | null;
   addedFrom?: number;
 }): ReactElement {
   const [view, setView] = useState<View>({ zoom: 1, x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [enhanced, setEnhanced] = useState(false);
   const [dragging, setDragging] = useState(false);
+  const [selecting, setSelecting] = useState(false);
+  const [selectionPreview, setSelectionPreview] = useState<ManualEvidenceSelection | null>(null);
+  const [selectionKey, setSelectionKey] = useState<string | null>(selected?.checkId ?? null);
   const [dragSlot, setDragSlot] = useState<number | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const pendingSlot = useRef<number>(0);
@@ -70,11 +78,17 @@ export function EvidenceViewer({ result, images, panelIndex, selected, upload, o
   const stage = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
   const drag = useRef<{ pointerId: number; startX: number; startY: number; panX: number; panY: number } | null>(null);
+  const selectionDrag = useRef<{ pointerId: number; start: Point } | null>(null);
   const image = images[Math.min(panelIndex, images.length - 1)];
   const panel = result.panels[panelIndex];
   const regionsOnPanel = useMemo(() => result.evidence.filter((item) => item.panelId === panel?.panelId).length, [result, panel]);
   const selectedEvidence: Evidence | null = evidenceFor(result, selected);
+  const selectionEnabled = !!selected && !selectedEvidence && !!onManualSelection && !!panel;
   const zoomed = view.zoom > 1;
+  if (selectionKey !== (selected?.checkId ?? null)) {
+    setSelectionKey(selected?.checkId ?? null);
+    setSelectionPreview(null);
+  }
 
   useEffect(() => {
     if (selected) caption.current?.focus();
@@ -123,7 +137,18 @@ export function EvidenceViewer({ result, images, panelIndex, selected, upload, o
   }
 
   function onPointerDown(event: PointerEvent<HTMLDivElement>) {
-    if (event.button !== 0 || !zoomed) return;
+    if (event.button !== 0) return;
+    if (selectionEnabled) {
+      const point = originalPoint(event);
+      if (!point || !panel) return;
+      selectionDrag.current = { pointerId: event.pointerId, start: point };
+      setSelectionPreview({ panelId: panel.panelId, polygon: rectangle(point, point) });
+      if (typeof event.currentTarget.setPointerCapture === "function") event.currentTarget.setPointerCapture(event.pointerId);
+      setSelecting(true);
+      event.preventDefault();
+      return;
+    }
+    if (!zoomed) return;
     drag.current = { pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, panX: view.x, panY: view.y };
     if (typeof event.currentTarget.setPointerCapture === "function") event.currentTarget.setPointerCapture(event.pointerId);
     setDragging(true);
@@ -131,6 +156,12 @@ export function EvidenceViewer({ result, images, panelIndex, selected, upload, o
   }
 
   function onPointerMove(event: PointerEvent<HTMLDivElement>) {
+    const selection = selectionDrag.current;
+    if (selection && selection.pointerId === event.pointerId && panel) {
+      const point = originalPoint(event);
+      if (point) setSelectionPreview({ panelId: panel.panelId, polygon: rectangle(selection.start, point) });
+      return;
+    }
     const state = drag.current;
     if (!state || state.pointerId !== event.pointerId) return;
     const dx = event.clientX - state.startX;
@@ -139,9 +170,38 @@ export function EvidenceViewer({ result, images, panelIndex, selected, upload, o
   }
 
   function endDrag(event: PointerEvent<HTMLDivElement>) {
+    const selection = selectionDrag.current;
+    if (selection?.pointerId === event.pointerId) {
+      const point = originalPoint(event);
+      selectionDrag.current = null;
+      setSelecting(false);
+      if (point && panel && (Math.abs(point.x - selection.start.x) >= 2 || Math.abs(point.y - selection.start.y) >= 2)) {
+        const next = { panelId: panel.panelId, polygon: rectangle(selection.start, point) };
+        setSelectionPreview(next);
+        onManualSelection?.(next);
+      }
+      return;
+    }
     if (drag.current?.pointerId !== event.pointerId) return;
     drag.current = null;
     setDragging(false);
+  }
+
+  function originalPoint(event: PointerEvent<HTMLDivElement>): Point | null {
+    const rect = inner.current?.getBoundingClientRect();
+    if (!rect || !panel || rect.width <= 0 || rect.height <= 0) return null;
+    return {
+      x: boundedOriginalCoordinate(event.clientX, rect.left, rect.width, panel.originalDimensions.width),
+      y: boundedOriginalCoordinate(event.clientY, rect.top, rect.height, panel.originalDimensions.height),
+    };
+  }
+
+  function rectangle(start: Point, end: Point): [Point, Point, Point, Point] {
+    const left = Math.min(start.x, end.x);
+    const right = Math.max(start.x, end.x);
+    const top = Math.min(start.y, end.y);
+    const bottom = Math.max(start.y, end.y);
+    return [{ x: left, y: top }, { x: right, y: top }, { x: right, y: bottom }, { x: left, y: bottom }];
   }
 
   function onStageKey(event: KeyboardEvent<HTMLDivElement>) {
@@ -172,11 +232,12 @@ export function EvidenceViewer({ result, images, panelIndex, selected, upload, o
   }
 
   const captionLabel = selected ? displayLabel(selected) : "All evidence regions";
+  const activeManualSelection = selectionPreview ?? manualSelection;
   const captionSnippet = selected
-    ? (selectedEvidence ? `“${selectedEvidence.textSnippet ?? selected.observedDisplay ?? "Region read on the label"}”` : "No visual evidence for this check")
+    ? (selectedEvidence ? `“${selectedEvidence.textSnippet ?? selected.observedDisplay ?? "Region read on the label"}”` : activeManualSelection ? "Reviewer-selected visible text area" : "Drag a rectangle around the visible text for this correction")
     : `${regionsOnPanel} region${regionsOnPanel === 1 ? "" : "s"} read on this image: dotted outlines`;
   const captionMeta = selected
-    ? (selectedEvidence ? `Panel ${selectedEvidence.panelId.replace("panel-", "")} · original-pixel polygon · ${provenanceLabel(selected)}` : selected.reasonText)
+    ? (selectedEvidence ? `Panel ${selectedEvidence.panelId.replace("panel-", "")} · original-pixel polygon · ${provenanceLabel(selected)}` : activeManualSelection ? `Panel ${activeManualSelection.panelId.replace("panel-", "")} · reviewer-selected original-pixel polygon` : selected.reasonText)
     : "Select Show on any check to focus its region in its result color";
   const zoomLabel = `${Math.round(view.zoom * 100)}%`;
 
@@ -188,7 +249,7 @@ export function EvidenceViewer({ result, images, panelIndex, selected, upload, o
         <button aria-label="Zoom out" className="btn btn-icon btn-secondary" disabled={view.zoom <= MIN_ZOOM} onClick={() => applyZoom((current) => current - BUTTON_STEP)} title="Zoom out (or scroll down over the image)" type="button">{icons.zoomOut()}</button>
         <button aria-label="Reset zoom to 100%" className="btn btn-ghost zoom" onClick={resetView} title="Back to 100% and centred" type="button">{zoomLabel}</button>
         <button aria-label="Zoom in" className="btn btn-icon btn-secondary" disabled={view.zoom >= MAX_ZOOM} onClick={() => applyZoom((current) => current + BUTTON_STEP)} title="Zoom in (or scroll up over the image)" type="button">{icons.zoomIn()}</button>
-        <button aria-label="Rotate 90 degrees" className="btn btn-icon btn-secondary" onClick={() => setRotation((value) => (value + 90) % 360)} title="Rotate the image a quarter turn" type="button">{icons.rotate()}</button>
+        <button aria-label="Rotate 90 degrees" className="btn btn-icon btn-secondary" disabled={selectionEnabled} onClick={() => setRotation((value) => (value + 90) % 360)} title={selectionEnabled ? "Finish selecting the visible text area first" : "Rotate the image a quarter turn"} type="button">{icons.rotate()}</button>
         <button aria-pressed={enhanced} className="btn btn-secondary" onClick={() => setEnhanced((value) => !value)} title="Boost contrast and brightness to read faint print" type="button">{icons.sun()} Enhance</button>
       </div>
 
@@ -236,7 +297,7 @@ export function EvidenceViewer({ result, images, panelIndex, selected, upload, o
 
       <div
         aria-label="Label image with evidence regions"
-        className={`stage${zoomed ? " zoomed" : ""}${dragging ? " dragging" : ""}`}
+        className={`stage${zoomed ? " zoomed" : ""}${dragging ? " dragging" : ""}${selectionEnabled ? " selecting" : ""}${selecting ? " dragging" : ""}`}
         onKeyDown={onStageKey}
         onPointerCancel={endDrag}
         onPointerDown={onPointerDown}
@@ -245,9 +306,9 @@ export function EvidenceViewer({ result, images, panelIndex, selected, upload, o
         ref={stage}
         tabIndex={0}
       >
-        <div className="stage-inner" ref={inner} style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.zoom}) rotate(${rotation}deg)`, transition: dragging ? "none" : undefined, filter: enhanced ? "contrast(1.25) brightness(1.08) saturate(0.8)" : "none" }}>
+        <div className="stage-inner" ref={inner} style={{ transform: `translate(${view.x}px, ${view.y}px) scale(${view.zoom}) rotate(${selectionEnabled ? 0 : rotation}deg)`, transition: dragging ? "none" : undefined, filter: enhanced ? "contrast(1.25) brightness(1.08) saturate(0.8)" : "none" }}>
           {image ? <img alt={image.alt} draggable={false} src={image.src} /> : null}
-          <EvidencePolygons panelIndex={panelIndex} result={result} selected={selected} />
+          <EvidencePolygons manualSelection={activeManualSelection} panelIndex={panelIndex} result={result} selected={selected} />
         </div>
       </div>
 

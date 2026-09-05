@@ -6,6 +6,7 @@ import shutil
 import tempfile
 import time
 from contextlib import suppress
+from datetime import UTC, datetime
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -20,12 +21,23 @@ from labelverify.api.errors import PublicApiError
 from labelverify.api.multipart import ControlledMultiPartParser
 from labelverify.contracts.loader import CONTRACT_HASHES, contracts
 from labelverify.contracts.models import (
+    AnalysisDraft,
     AnalysisResult,
+    BeverageType,
+    CorrectionRequest,
+    CorrectionResponse,
     GroupingRequest,
     ReferenceRecord,
     VerificationResult,
 )
 from labelverify.domain.grouping import suggest_groups
+from labelverify.domain.types import deserialize_observed
+from labelverify.orchestration.revisions import (
+    InvalidCorrection,
+    apply_corrections,
+    correction_items_for_replay,
+    recompute_revision,
+)
 from labelverify.orchestration.supervisor import (
     WorkerExecutionFailed,
     WorkerNotReady,
@@ -33,7 +45,13 @@ from labelverify.orchestration.supervisor import (
     WorkerSupervisor,
     WorkerTimedOut,
 )
-from labelverify.persistence.history import HISTORY_LIMIT, HistoryRepository
+from labelverify.persistence.history import (
+    HISTORY_LIMIT,
+    REVISION_LIMIT,
+    HistoryRepository,
+    RevisionConflict,
+    RevisionLimit,
+)
 from labelverify.security.signatures import image_media_type
 from labelverify.settings.config import Settings
 
@@ -73,7 +91,11 @@ async def meta(request: Request) -> dict[str, Any]:
         "limits": bundle.api["limits"],
         "ready": supervisor.ready,
         "contractHashes": CONTRACT_HASHES,
-        "history": {"cap": HISTORY_LIMIT, "retainsImages": True},
+        "history": {
+            "cap": HISTORY_LIMIT,
+            "revisionCap": REVISION_LIMIT,
+            "retainsImages": True,
+        },
     }
 
 
@@ -164,11 +186,7 @@ def _sample_panel_path(settings: Settings, panel: dict[str, Any]) -> Path:
 
 
 def _sample_panel_label(index: int) -> str:
-    if index == 1:
-        return "Front label"
-    if index == 2:
-        return "Back label"
-    return f"Label panel {index}"
+    return f"Image {index}"
 
 
 @router.post("/api/v1/verifications")
@@ -274,11 +292,7 @@ async def grouping_suggestions(request: Request) -> JSONResponse:
 
 @router.post("/api/v1/history/{record_id}/panels")
 async def add_history_panel(request: Request, record_id: str) -> JSONResponse:
-    """Add one image to a stored record and re-read the enlarged panel set (handoff REQ-21).
-
-    The earlier record and its disposition are kept; the new result links back through
-    ``supersedes`` so the reviewer can see both attempts in History.
-    """
+    """Add one image as a new immutable revision after a concurrency preflight."""
 
     request_id = request.state.request_id
     settings: Settings = request.app.state.settings
@@ -290,6 +304,14 @@ async def add_history_panel(request: Request, record_id: str) -> JSONResponse:
     detail = await asyncio.to_thread(history.get, record_id, scope_id=scope_id)
     if detail is None:
         return JSONResponse({"detail": "Not Found"}, status_code=404)
+    try:
+        expected_revision = int(request.query_params.get("expectedRevision", ""))
+    except ValueError as exc:
+        raise PublicApiError("invalid_reference", request_id, "expectedRevision") from exc
+    if expected_revision < 1 or detail.get("revision") != expected_revision:
+        raise PublicApiError("revision_conflict", request_id)
+    if not bool(detail.get("isLatest")):
+        raise PublicApiError("revision_conflict", request_id)
     stored_panels = detail.get("panels")
     if not isinstance(stored_panels, list):
         raise PublicApiError("internal_error", request_id)
@@ -326,21 +348,114 @@ async def add_history_panel(request: Request, record_id: str) -> JSONResponse:
             raise PublicApiError("request_deadline_exceeded", request_id)
         result = result.model_copy(update={"server_duration_ms": total_ms})
         if result.verification is not None:
-            reference = (
-                _reference_from_analysis(result)
-                if result.draft.beverage_type is not None
-                else result.draft
-            )
+            previous = VerificationResult.model_validate(detail.get("result"))
+            correction_log = detail.get("corrections")
+            try:
+                prior_reference: ReferenceRecord | AnalysisDraft = ReferenceRecord.model_validate(
+                    detail.get("reference")
+                )
+            except ValidationError:
+                prior_reference = AnalysisDraft.model_validate(detail.get("reference"))
             verification = result.verification.model_copy(update={"supersedes": record_id})
-            history_id = await asyncio.to_thread(
-                history.add,
-                reference,
-                verification,
-                panel_paths,
-                scope_id=scope_id,
+            observed = deserialize_observed(result.verification.observation_snapshot or {})
+            pending: AnalysisDraft | None = None
+            force_unresolved = False
+            if result.draft.beverage_type is not None:
+                fresh_reference = _reference_from_analysis(result)
+                if isinstance(prior_reference, ReferenceRecord):
+                    comparison_reference = _merge_reference_after_panel(
+                        prior_reference, fresh_reference
+                    )
+                else:
+                    prior_resolved = _reference_from_draft(
+                        prior_reference, result.draft.beverage_type
+                    )
+                    comparison_reference = _merge_reference_after_panel(
+                        prior_resolved, fresh_reference
+                    )
+            else:
+                pending = _merge_unresolved_draft_after_panel(prior_reference, result.draft)
+                if (
+                    pending.beverage_type is not None
+                    and _draft_source_for(pending, "beverage_type") != "label_ocr"
+                ):
+                    comparison_reference = _reference_from_draft(pending)
+                else:
+                    fallback_type = (
+                        prior_reference.beverage_type
+                        if isinstance(prior_reference, ReferenceRecord)
+                        else "malt_beverage"
+                    )
+                    comparison_reference = _reference_from_draft(pending, fallback_type)
+                    force_unresolved = True
+            if correction_log:
+                try:
+                    panel_hashes = _stored_panel_hashes(stored_panels)
+                    replay_items = correction_items_for_replay(
+                        correction_log if isinstance(correction_log, list) else [],
+                        panel_hashes=panel_hashes,
+                    )
+                    comparison_reference, observed, _ = apply_corrections(
+                        comparison_reference,
+                        observed,
+                        replay_items,
+                        panel_hashes=panel_hashes,
+                    )
+                except (InvalidCorrection, ValidationError, ValueError, TypeError) as exc:
+                    raise PublicApiError("correction_unavailable", request_id) from exc
+            verification = recompute_revision(
+                result.verification,
+                comparison_reference,
+                observed,
+                request_id=request_id,
+                build_id=settings.build_id,
+                revision_kind="panel_added",
+                prior_beverage_inference=previous.beverage_inference,
+                force_unresolved_type=force_unresolved,
+            ).model_copy(update={"supersedes": record_id})
+            reference: ReferenceRecord | AnalysisDraft
+            if force_unresolved:
+                assert pending is not None
+                reference = _draft_with_retained_sources(
+                    pending, comparison_reference
+                ).model_copy(update={"beverage_type": None})
+            else:
+                reference = comparison_reference
+            try:
+                history_id, revision, root_id = await asyncio.to_thread(
+                    history.add_revision,
+                    reference,
+                    verification,
+                    panel_paths,
+                    record_id=record_id,
+                    expected_revision=expected_revision,
+                    revision_kind="panel_added",
+                    scope_id=scope_id,
+                    corrections=(correction_log if isinstance(correction_log, list) else []),
+                )
+            except RevisionConflict as exc:
+                raise PublicApiError("revision_conflict", request_id) from exc
+            except RevisionLimit as exc:
+                raise PublicApiError("revision_limit", request_id) from exc
+            verification = verification.model_copy(
+                update={
+                    "history_id": history_id,
+                    "root_id": root_id,
+                    "parent_id": record_id,
+                    "revision": revision,
+                    "revision_kind": "panel_added",
+                }
             )
-            verification = verification.model_copy(update={"history_id": history_id})
-            result = result.model_copy(update={"verification": verification})
+            result = result.model_copy(
+                update={
+                    "verification": verification,
+                    "draft": (
+                        _draft_with_retained_sources(result.draft, reference)
+                        if isinstance(reference, ReferenceRecord)
+                        else reference
+                    ),
+                }
+            )
         return JSONResponse(result.model_dump(by_alias=True, mode="json"))
     finally:
         for upload in uploads:
@@ -378,6 +493,123 @@ async def history_detail(request: Request, record_id: str) -> JSONResponse:
     if value is None:
         return JSONResponse({"detail": "Not Found"}, status_code=404)
     return JSONResponse(value)
+
+
+@router.post("/api/v1/history/{record_id}/corrections")
+async def correct_history_record(request: Request, record_id: str) -> JSONResponse:
+    """Create a correction revision from retained evidence with no image processing."""
+
+    request_id = request.state.request_id
+    try:
+        payload = CorrectionRequest.model_validate(await request.json())
+    except (ValidationError, ValueError, TypeError) as exc:
+        raise PublicApiError("invalid_correction", request_id) from exc
+    history: HistoryRepository = request.app.state.history
+    settings: Settings = request.app.state.settings
+    scope_id = _history_scope(request)
+    detail = await asyncio.to_thread(
+        history.get, record_id, scope_id=scope_id, include_internal=True
+    )
+    if detail is None:
+        return JSONResponse({"detail": "Not Found"}, status_code=404)
+    snapshot = detail.get("observationSnapshot")
+    if not isinstance(snapshot, dict):
+        raise PublicApiError("correction_unavailable", request_id)
+    if not bool(detail.get("isLatest")) or detail.get("revision") != payload.expected_revision:
+        raise PublicApiError("revision_conflict", request_id)
+    try:
+        resolved_type = next(
+            (item.family for item in payload.corrections if item.field == "beverage_type"),
+            None,
+        )
+        reference = _reference_from_stored(detail.get("reference"), resolved_type)
+        previous = VerificationResult.model_validate(detail.get("result"))
+        observed = deserialize_observed(snapshot)
+        panel_hashes = _stored_panel_hashes(detail.get("panels"))
+        reference, observed, events = apply_corrections(
+            reference,
+            observed,
+            payload.corrections,
+            panel_hashes=panel_hashes,
+        )
+        revised = recompute_revision(
+            previous,
+            reference,
+            observed,
+            request_id=request_id,
+            build_id=settings.build_id,
+        )
+    except (InvalidCorrection, ValidationError, ValueError, TypeError) as exc:
+        raise PublicApiError("invalid_correction", request_id) from exc
+    panel_paths: list[Path] = []
+    stored_panels = detail.get("panels")
+    if not isinstance(stored_panels, list):
+        raise PublicApiError("internal_error", request_id)
+    for panel in stored_panels:
+        if not isinstance(panel, dict):
+            raise PublicApiError("internal_error", request_id)
+        path = await asyncio.to_thread(
+            history.panel_path,
+            record_id,
+            str(panel.get("panelId")),
+            scope_id=scope_id,
+        )
+        if path is None:
+            raise PublicApiError("internal_error", request_id)
+        panel_paths.append(path)
+    event_time = datetime.now(UTC).isoformat()
+    events = [
+        {
+            **item,
+            "reason": payload.reason,
+            "actorLabel": payload.actor_label,
+            "createdAt": event_time,
+        }
+        for item in events
+    ]
+    prior = detail.get("corrections")
+    correction_log = [*prior, *events] if isinstance(prior, list) else events
+    event: dict[str, object] = {
+        "reason": payload.reason,
+        "actorLabel": payload.actor_label,
+        "sourceRevision": payload.expected_revision,
+        "correctionCount": len(events),
+        "createdAt": event_time,
+    }
+    try:
+        history_id, revision, root_id = await asyncio.to_thread(
+            history.add_revision,
+            reference,
+            revised,
+            tuple(panel_paths),
+            record_id=record_id,
+            expected_revision=payload.expected_revision,
+            revision_kind="correction",
+            scope_id=scope_id,
+            corrections=correction_log,
+            correction_event=event,
+        )
+    except RevisionConflict as exc:
+        raise PublicApiError("revision_conflict", request_id) from exc
+    except RevisionLimit as exc:
+        raise PublicApiError("revision_limit", request_id) from exc
+    revised = revised.model_copy(
+        update={
+            "history_id": history_id,
+            "root_id": root_id,
+            "parent_id": record_id,
+            "revision": revision,
+            "revision_kind": "correction",
+        }
+    )
+    response = CorrectionResponse(
+        historyId=history_id,
+        rootId=root_id,
+        parentId=record_id,
+        revision=revision,
+        result=revised,
+    )
+    return JSONResponse(response.model_dump(by_alias=True, mode="json"))
 
 
 @router.get("/api/v1/history/{record_id}/panels/{panel_id}")
@@ -444,14 +676,155 @@ def _history_scope(request: Request) -> str:
     return value
 
 
+def _stored_panel_hashes(value: object) -> dict[str, str]:
+    if not isinstance(value, list):
+        raise ValueError("Stored panel metadata is invalid")
+    hashes: dict[str, str] = {}
+    for panel in value:
+        if not isinstance(panel, dict):
+            raise ValueError("Stored panel metadata is invalid")
+        panel_id = panel.get("panelId")
+        digest = panel.get("imageSha256")
+        if not isinstance(panel_id, str) or not isinstance(digest, str):
+            raise ValueError("Stored panel integrity metadata is unavailable")
+        hashes[panel_id] = digest
+    return hashes
+
+
 def _reference_from_analysis(result: AnalysisResult) -> ReferenceRecord:
-    draft = result.draft
-    if draft.beverage_type is None:
-        raise ValueError("Analysis does not contain a beverage type")
+    return _reference_from_draft(result.draft, result.draft.beverage_type)
+
+
+_REFERENCE_FIELD_ATTRIBUTES: dict[str, tuple[str, ...]] = {
+    "beverage_type": ("beverage_type",),
+    "brand_name": ("brand_name",),
+    "class_type": ("class_type",),
+    "alcohol_content": ("abv_percent",),
+    "proof": ("proof",),
+    "net_contents": ("net_contents_value", "net_contents_unit"),
+    "producer_name_address": ("producer_name_address",),
+    "country_of_origin": ("is_imported", "country_of_origin"),
+    "wine_appellation": ("wine_appellation",),
+    "wine_sulfite_declaration": ("wine_sulfite_status",),
+    "malt_alcohol_source": ("malt_alcohol_source",),
+}
+
+
+def _merge_reference_after_panel(
+    previous: ReferenceRecord, fresh: ReferenceRecord
+) -> ReferenceRecord:
+    """Refresh label-derived fields while retaining independent and corrected values."""
+
+    values = fresh.model_dump()
+    previous_values = previous.model_dump()
+    provenance = {field: fresh.source_for(field) for field in _REFERENCE_FIELD_ATTRIBUTES}
+    for field, attributes in _REFERENCE_FIELD_ATTRIBUTES.items():
+        source = previous.source_for(field)
+        if source == "label_ocr":
+            continue
+        for attribute in attributes:
+            values[attribute] = previous_values[attribute]
+        provenance[field] = source
+    values["reference_provenance"] = previous.reference_provenance
+    values["case_label"] = previous.case_label
+    values["field_provenance"] = provenance
+    return ReferenceRecord.model_validate(values)
+
+
+def _draft_source_for(draft: AnalysisDraft, field: str) -> str:
+    explicit = draft.field_provenance.get(field)
+    if explicit is not None:
+        return explicit
+    if draft.reference_provenance == "manual":
+        return "trusted_application"
+    return draft.reference_provenance
+
+
+def _merge_unresolved_draft_after_panel(
+    previous: ReferenceRecord | AnalysisDraft, fresh: AnalysisDraft
+) -> AnalysisDraft:
+    """Keep trusted values while replacing stale label reads with unresolved fresh evidence."""
+
+    values = fresh.model_dump()
+    previous_values = previous.model_dump()
+    provenance = {field: "label_ocr" for field in _REFERENCE_FIELD_ATTRIBUTES}
+    for field, attributes in _REFERENCE_FIELD_ATTRIBUTES.items():
+        source = (
+            previous.source_for(field)
+            if isinstance(previous, ReferenceRecord)
+            else _draft_source_for(previous, field)
+        )
+        if source == "label_ocr":
+            continue
+        for attribute in attributes:
+            values[attribute] = previous_values[attribute]
+        provenance[field] = source
+    values["reference_provenance"] = previous.reference_provenance
+    values["case_label"] = previous.case_label
+    values["field_provenance"] = provenance
+    return AnalysisDraft.model_validate(values)
+
+
+def _draft_from_reference(reference: ReferenceRecord) -> AnalysisDraft:
+    return AnalysisDraft(
+        referenceProvenance=reference.reference_provenance,
+        fieldProvenance=reference.field_provenance,
+        caseLabel=reference.case_label,
+        beverageType=reference.beverage_type,
+        brandName=reference.brand_name,
+        classType=reference.class_type,
+        abvPercent=float(reference.abv_percent) if reference.abv_percent is not None else None,
+        proof=float(reference.proof) if reference.proof is not None else None,
+        netContentsValue=float(reference.net_contents_value),
+        netContentsUnit=reference.net_contents_unit,
+        producerNameAddress=reference.producer_name_address,
+        isImported=reference.is_imported,
+        countryOfOrigin=reference.country_of_origin,
+        wineAppellation=reference.wine_appellation,
+        wineSulfiteStatus=reference.wine_sulfite_status,
+        maltAlcoholSource=reference.malt_alcohol_source,
+    )
+
+
+def _draft_with_retained_sources(
+    draft: AnalysisDraft, reference: ReferenceRecord
+) -> AnalysisDraft:
+    """Return fresh OCR fields plus every authoritative retained source value."""
+
+    values = draft.model_dump()
+    reference_values = reference.model_dump()
+    for field, attributes in _REFERENCE_FIELD_ATTRIBUTES.items():
+        if reference.source_for(field) == "label_ocr":
+            continue
+        for attribute in attributes:
+            values[attribute] = reference_values[attribute]
+    values["reference_provenance"] = reference.reference_provenance
+    values["field_provenance"] = reference.field_provenance
+    values["case_label"] = reference.case_label
+    return AnalysisDraft.model_validate(values)
+
+
+def _reference_from_stored(
+    value: object, resolved_type: BeverageType | None = None
+) -> ReferenceRecord:
+    try:
+        return ReferenceRecord.model_validate(value)
+    except ValidationError:
+        return _reference_from_draft(AnalysisDraft.model_validate(value), resolved_type)
+
+
+def _reference_from_draft(
+    draft: AnalysisDraft, resolved_type: BeverageType | None = None
+) -> ReferenceRecord:
+    beverage_type = draft.beverage_type or resolved_type
+    if beverage_type is None:
+        raise ValueError("Resolve the beverage type before applying a correction")
     return ReferenceRecord(
         profileId="all_beverages_demo_v2",
-        beverageType=draft.beverage_type,
-        referenceProvenance="label_ocr",
+        beverageType=beverage_type,
+        referenceProvenance=draft.reference_provenance,
+        fieldProvenance=draft.field_provenance,
+        caseLabel=draft.case_label,
         brandName=draft.brand_name or "Brand not detected",
         classType=draft.class_type or "Class or type not detected",
         abvPercent=(Decimal(str(draft.abv_percent)) if draft.abv_percent is not None else None),

@@ -111,7 +111,7 @@ def test_health_meta_sample_static_and_spa_same_origin(tmp_path: Path) -> None:
                 "panelId": "panel-1",
                 "mimeType": "image/jpeg",
                 "sha256": "accepted-panel-hash",
-                "label": "Front label",
+                    "label": "Image 1",
                 "fileName": "panel-1.jpg",
                 "url": "/api/v1/samples/distilled-spirits-v1/panels/panel-1",
             }
@@ -180,6 +180,20 @@ def test_history_is_private_to_the_browser_scope_and_patch_is_bounded(tmp_path: 
         client.cookies.clear()
         assert client.get("/api/v1/history").json()["total"] == 0
         assert client.get(f"/api/v1/history/{history_id}").status_code == 404
+
+
+def test_invalid_history_id_correction_still_receives_bounded_body_controls(
+    tmp_path: Path,
+) -> None:
+    app = create_app(settings=runtime(tmp_path), supervisor=FakeSupervisor())  # type: ignore[arg-type]
+    with TestClient(app, client=("127.0.0.1", 50000)) as client:
+        oversized = client.post(
+            "/api/v1/history/not-a-valid-history-id/corrections",
+            content=b"{" + b'"reason":"' + (b"x" * 9000) + b'"}',
+            headers={"Content-Type": "application/json"},
+        )
+    assert oversized.status_code == 413
+    assert oversized.json()["code"] == "request_too_large"
 
 
 def test_invalid_reference_is_result_free_and_does_not_run_worker(tmp_path: Path) -> None:

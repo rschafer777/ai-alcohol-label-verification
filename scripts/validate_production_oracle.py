@@ -60,6 +60,13 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def release_source_sha256(path: Path) -> str:
+    """Hash governed text as the canonical LF bytes published by Git."""
+
+    payload = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def governed_path(root: Path, relative: str) -> Path:
     candidate = (root / relative).resolve()
     fixtures_root = (root / "fixtures").resolve()
@@ -529,21 +536,27 @@ def report_hashes(root: Path, oracle_paths: list[str]) -> dict[str, Any]:
         )
     )
     return {
-        "validatorSha256": sha256_file(Path(__file__)),
-        "supervisorSha256": sha256_file(
+        "validatorSha256": release_source_sha256(Path(__file__)),
+        "supervisorSha256": release_source_sha256(
             root / "backend" / "labelverify" / "orchestration" / "supervisor.py"
         ),
-        "pipelineSha256": sha256_file(
+        "pipelineSha256": release_source_sha256(
             root / "backend" / "labelverify" / "orchestration" / "pipeline.py"
         ),
-        "corpusManifestSha256": sha256_file(root / "fixtures" / "corpus-manifest-v1.json"),
-        "holdoutSealSha256": sha256_file(root / "fixtures" / "holdout" / "SEAL.sha256"),
-        "modelManifestSha256": sha256_file(root / "ops" / "model-manifest.json"),
-        "contracts": {path.name: sha256_file(path) for path in contract_paths},
+        "corpusManifestSha256": release_source_sha256(
+            root / "fixtures" / "corpus-manifest-v1.json"
+        ),
+        "holdoutSealSha256": release_source_sha256(root / "fixtures" / "holdout" / "SEAL.sha256"),
+        "modelManifestSha256": release_source_sha256(root / "ops" / "model-manifest.json"),
+        "contracts": {path.name: release_source_sha256(path) for path in contract_paths},
         "productionSource": {
-            path.relative_to(root).as_posix(): sha256_file(path) for path in source_paths
+            path.relative_to(root).as_posix(): release_source_sha256(path)
+            for path in source_paths
         },
-        "oracles": {path: sha256_file(governed_path(root, path)) for path in sorted(oracle_paths)},
+        "oracles": {
+            path: release_source_sha256(governed_path(root, path))
+            for path in sorted(oracle_paths)
+        },
     }
 
 

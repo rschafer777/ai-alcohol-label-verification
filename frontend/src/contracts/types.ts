@@ -1,6 +1,8 @@
 export {
   browserErrorCodes,
   checkIds,
+  correctionLimits,
+  correctionTextFields,
   contractVersion,
   groupingLimits,
   limits,
@@ -19,6 +21,10 @@ export type {
   CheckResult,
   CheckState,
   ConfidenceProvenance,
+  CorrectionItem,
+  CorrectionLocator,
+  CorrectionRequest,
+  CorrectionResponse,
   ErrorCode,
   ErrorComparison,
   Evidence,
@@ -57,6 +63,7 @@ export interface AnalysisRequest {
 
 export interface AddPanelRequest {
   historyId: string;
+  expectedRevision: number;
   panel: File;
   signal: AbortSignal;
   onUploadProgress?: (progress: UploadProgress) => void;
@@ -120,11 +127,19 @@ export interface HistorySummary {
   reviewerNote: string;
   panelCount: number;
   panels: HistoryPanel[];
+  rootId?: string;
+  revision?: number;
+  revisionKind?: "original" | "correction" | "panel_added";
 }
 
 export interface HistoryDetail extends HistorySummary {
   reference: unknown;
   result: VerificationResult;
+  parentId?: string | null;
+  isLatest?: boolean;
+  latestRevision?: number;
+  correctionAvailable?: boolean;
+  revisions?: Array<{ id: string; revision: number; revisionKind: string; createdAt: string; isLatest: boolean }>;
 }
 
 export interface HistoryPage {
@@ -139,5 +154,5 @@ export interface HistoryPage {
 export interface MetaResponse {
   buildId: string;
   limits: { browserDeadlineSeconds: number; fileBytes: number; panelCountMax: number };
-  history: { cap: number; retainsImages: boolean };
+  history: { cap: number; revisionCap?: number; retainsImages: boolean };
 }

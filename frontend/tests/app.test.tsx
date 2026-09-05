@@ -1,8 +1,9 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { App } from "../src/app/App";
+import { boundedOriginalCoordinate } from "../src/features/verification/evidence-coordinates";
 import { analysis, result } from "./fixtures";
 
 const emptyPage = { items: [], total: 0, cap: 500, offset: 0, pageSize: 3, hasMore: false };
@@ -50,6 +51,30 @@ describe("LabelVerify application", () => {
     expect(await screen.findByRole("heading", { name: "What are we checking today?" })).toBeInTheDocument();
   });
 
+  it("uses a controlled beverage choice and supports bounded sulfite corrections", async () => {
+    const user = userEvent.setup();
+    const analyze = vi.fn(async () => analysis);
+    render(<App historyClient={historyClient} sampleAdapter={{ load: vi.fn(async () => ({ reference: {} as never, panels: [new File(["image"], "sample.jpg", { type: "image/jpeg" })] })) }} verificationClient={{ analyze, verify: vi.fn() }} />);
+    await user.click(screen.getByRole("button", { name: "Use the built-in sample" }));
+    await screen.findByRole("heading", { name: "OLD TOM DISTILLERY" });
+
+    await user.click(screen.getByRole("button", { name: "Correct the read value for beverage type" }));
+    const typeChoice = screen.getByLabelText("Corrected value");
+    expect(typeChoice).toHaveRole("combobox");
+    expect(within(typeChoice).getAllByRole("option").map((option) => option.textContent)).toEqual([
+      "Choose type",
+      "Beer / malt",
+      "Wine",
+      "Distilled spirits",
+    ]);
+    await user.click(screen.getByRole("button", { name: "Cancel" }));
+
+    const sulfiteRow = screen.getByRole("row", { name: /wine sulfites/i });
+    expect(within(sulfiteRow).getByRole("button", { name: "Correct the read value for wine sulfites" })).toBeInTheDocument();
+    await user.click(within(sulfiteRow).getByRole("button", { name: "Select area" }));
+    expect(screen.getByText("Drag a rectangle around the visible text for this correction")).toBeInTheDocument();
+  });
+
   it("compares the label with entered application values through the verification endpoint", async () => {
     const user = userEvent.setup();
     const analyze = vi.fn(async () => analysis);
@@ -61,12 +86,14 @@ describe("LabelVerify application", () => {
     await user.upload(screen.getByLabelText("Choose label images"), new File(["front"], "front.jpg", { type: "image/jpeg" }));
     await user.click(screen.getByRole("button", { name: "Read & check label" }));
     await waitFor(() => expect(verify).toHaveBeenCalledTimes(1));
-    const calls = verify.mock.calls as unknown as Array<[{ reference: { referenceProvenance: string; brandName: string; abvPercent: number | null; classType: string } }]>;
+    const calls = verify.mock.calls as unknown as Array<[{ reference: { referenceProvenance: string; fieldProvenance: Record<string, string>; brandName: string; abvPercent: number | null; classType: string } }]>;
     const request = calls[0]![0];
     expect(request.reference.referenceProvenance).toBe("manual");
     expect(request.reference.brandName).toBe("OLD TOM DISTILLERY");
     expect(request.reference.abvPercent).toBe(45);
     expect(request.reference.classType).toBe("Kentucky Straight Bourbon Whiskey");
+    expect(request.reference.fieldProvenance.brand_name).toBe("trusted_application");
+    expect(request.reference.fieldProvenance.class_type).toBe("label_ocr");
     expect(await screen.findByText(/Compared with application: brand, alcohol content/)).toBeInTheDocument();
     expect(screen.getByText("Differences detected")).toBeInTheDocument();
   });
@@ -134,5 +161,13 @@ describe("LabelVerify application", () => {
     await user.click(screen.getByRole("button", { name: /^History/ }));
     expect(await screen.findByRole("heading", { name: "Completed checks" })).toBeInTheDocument();
     expect(screen.getByText("Select a result")).toBeInTheDocument();
+  });
+});
+
+describe("manual evidence coordinates", () => {
+  it("keeps edge selections within original-pixel bounds", () => {
+    expect(boundedOriginalCoordinate(100, 0, 100, 1200)).toBe(1199);
+    expect(boundedOriginalCoordinate(120, 0, 100, 1600)).toBe(1599);
+    expect(boundedOriginalCoordinate(-10, 0, 100, 1200)).toBe(0);
   });
 });
